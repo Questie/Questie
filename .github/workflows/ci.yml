@@ -240,7 +240,7 @@ jobs:
       - name: Validate Localized database
         run: |
           luarocks install bit32
-          lua cli/validate-cata.lua
+          lua cli/validate-localization.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0

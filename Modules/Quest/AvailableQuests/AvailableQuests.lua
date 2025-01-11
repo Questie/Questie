@@ -41,13 +41,14 @@ local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete
 
 local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
+function AvailableQuests.Initialize()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
+    dungeons = ZoneDB:GetDungeons()
+end
+
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
     Questie:Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
-
-    if (not dungeons) then
-        dungeons = ZoneDB:GetDungeons()
-    end
 
     --? Cancel the previously running timer to not have multiple running at the same time
     if timer then

@@ -1501,7 +1501,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [12007] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 400047}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 420033}}}},
             [questKeys.requiredSourceItems] = {35797,35836},
         },
         [12014] = {
@@ -1617,7 +1617,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{26762},nil,{36756}},
         },
         [12068] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400066}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 420049}}}},
             [questKeys.requiredSourceItems] = {35797,36758},
         },
         [12069] = {
@@ -3162,7 +3162,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {41506},
         },
         [12916] = {
-            [questKeys.objectives] = {nil,{{400065,"Scourge Enclosure Blown Up"}}},
+            [questKeys.objectives] = {nil,{{420048,"Scourge Enclosure Blown Up"}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12919] = {
@@ -3227,13 +3227,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12940] = {
-            [questKeys.startedBy] = {nil,{400017}},
-            [questKeys.finishedBy] = {nil,{400017}},
+            [questKeys.startedBy] = {nil,{420003}},
+            [questKeys.finishedBy] = {nil,{420003}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12941] = {
-            [questKeys.startedBy] = {nil,{400016}},
-            [questKeys.finishedBy] = {nil,{400016}},
+            [questKeys.startedBy] = {nil,{420002}},
+            [questKeys.finishedBy] = {nil,{420002}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12942] = {
@@ -3243,31 +3243,31 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12944] = {
-            [questKeys.startedBy] = {nil,{400038}},
-            [questKeys.finishedBy] = {nil,{400038}},
+            [questKeys.startedBy] = {nil,{420024}},
+            [questKeys.finishedBy] = {nil,{420024}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [12945] = {
-            [questKeys.startedBy] = {nil,{400039}},
-            [questKeys.finishedBy] = {nil,{400039}},
+            [questKeys.startedBy] = {nil,{420025}},
+            [questKeys.finishedBy] = {nil,{420025}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [12946] = {
-            [questKeys.startedBy] = {nil,{400019}},
-            [questKeys.finishedBy] = {nil,{400019}},
+            [questKeys.startedBy] = {nil,{420005}},
+            [questKeys.finishedBy] = {nil,{420005}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12947] = {
-            [questKeys.startedBy] = {nil,{400018}},
-            [questKeys.finishedBy] = {nil,{400018}},
+            [questKeys.startedBy] = {nil,{420004}},
+            [questKeys.finishedBy] = {nil,{420004}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12948] = {
             [questKeys.objectives] = {{{30022,"Vladof the Butcher Defeated"}}},
         },
         [12950] = {
-            [questKeys.startedBy] = {nil,{400032}},
-            [questKeys.finishedBy] = {nil,{400032}},
+            [questKeys.startedBy] = {nil,{420018}},
+            [questKeys.finishedBy] = {nil,{420018}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12953] = {
@@ -4321,7 +4321,7 @@ function QuestieWotlkQuestFixes:Load()
         [13342] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13318},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 420001}}}},
             [questKeys.requiredSourceItems] = {44434},
         },
         [13343] = {
@@ -4331,7 +4331,7 @@ function QuestieWotlkQuestFixes:Load()
         [13344] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13342},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 420001}}}},
             [questKeys.requiredSourceItems] = {44434},
         },
         [13345] = {
@@ -4376,7 +4376,7 @@ function QuestieWotlkQuestFixes:Load()
         [13358] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13352},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 420001}}}},
             [questKeys.requiredSourceItems] = {44434},
         },
         [13359] = {
@@ -4399,7 +4399,7 @@ function QuestieWotlkQuestFixes:Load()
         [13365] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13358},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 420001}}}},
             [questKeys.requiredSourceItems] = {44434},
         },
         [13366] = {
@@ -4614,38 +4614,38 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {10445},
         },
         [13433] = {
-            [questKeys.startedBy] = {nil,{400041}},
-            [questKeys.finishedBy] = {nil,{400041}},
+            [questKeys.startedBy] = {nil,{420027}},
+            [questKeys.finishedBy] = {nil,{420027}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13434] = {
-            [questKeys.startedBy] = {nil,{400042}},
-            [questKeys.finishedBy] = {nil,{400042}},
+            [questKeys.startedBy] = {nil,{420028}},
+            [questKeys.finishedBy] = {nil,{420028}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13435] = {
-            [questKeys.startedBy] = {nil,{400040}},
-            [questKeys.finishedBy] = {nil,{400040}},
+            [questKeys.startedBy] = {nil,{420026}},
+            [questKeys.finishedBy] = {nil,{420026}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13436] = {
-            [questKeys.startedBy] = {nil,{400046}},
-            [questKeys.finishedBy] = {nil,{400046}},
+            [questKeys.startedBy] = {nil,{420032}},
+            [questKeys.finishedBy] = {nil,{420032}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13437] = {
-            [questKeys.startedBy] = {nil,{400045}},
-            [questKeys.finishedBy] = {nil,{400045}},
+            [questKeys.startedBy] = {nil,{420031}},
+            [questKeys.finishedBy] = {nil,{420031}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13438] = {
-            [questKeys.startedBy] = {nil,{400043}},
-            [questKeys.finishedBy] = {nil,{400043}},
+            [questKeys.startedBy] = {nil,{420029}},
+            [questKeys.finishedBy] = {nil,{420029}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13439] = {
-            [questKeys.startedBy] = {nil,{400044}},
-            [questKeys.finishedBy] = {nil,{400044}},
+            [questKeys.startedBy] = {nil,{420030}},
+            [questKeys.finishedBy] = {nil,{420030}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13440] = {
@@ -4689,8 +4689,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13448] = {
-            [questKeys.startedBy] = {nil,{400037}},
-            [questKeys.finishedBy] = {nil,{400037}},
+            [questKeys.startedBy] = {nil,{420023}},
+            [questKeys.finishedBy] = {nil,{420023}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13449] = {
@@ -4709,8 +4709,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13452] = {
-            [questKeys.startedBy] = {nil,{400023}},
-            [questKeys.finishedBy] = {nil,{400023}},
+            [questKeys.startedBy] = {nil,{420009}},
+            [questKeys.finishedBy] = {nil,{420009}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13453] = {
@@ -4729,8 +4729,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13456] = {
-            [questKeys.startedBy] = {nil,{400025}},
-            [questKeys.finishedBy] = {nil,{400025}},
+            [questKeys.startedBy] = {nil,{420011}},
+            [questKeys.finishedBy] = {nil,{420011}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13457] = {
@@ -4744,63 +4744,63 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13459] = {
-            [questKeys.startedBy] = {nil,{400026}},
-            [questKeys.finishedBy] = {nil,{400026}},
+            [questKeys.startedBy] = {nil,{420012}},
+            [questKeys.finishedBy] = {nil,{420012}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13460] = {
-            [questKeys.startedBy] = {nil,{400028}},
-            [questKeys.finishedBy] = {nil,{400028}},
+            [questKeys.startedBy] = {nil,{420014}},
+            [questKeys.finishedBy] = {nil,{420014}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13461] = {
-            [questKeys.startedBy] = {nil,{400033}},
-            [questKeys.finishedBy] = {nil,{400033}},
+            [questKeys.startedBy] = {nil,{420019}},
+            [questKeys.finishedBy] = {nil,{420019}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13462] = {
-            [questKeys.startedBy] = {nil,{400034}},
-            [questKeys.finishedBy] = {nil,{400034}},
+            [questKeys.startedBy] = {nil,{420020}},
+            [questKeys.finishedBy] = {nil,{420020}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13464] = {
-            [questKeys.startedBy] = {nil,{400020}},
-            [questKeys.finishedBy] = {nil,{400020}},
+            [questKeys.startedBy] = {nil,{420006}},
+            [questKeys.finishedBy] = {nil,{420006}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13465] = {
-            [questKeys.startedBy] = {nil,{400022}},
-            [questKeys.finishedBy] = {nil,{400022}},
+            [questKeys.startedBy] = {nil,{420008}},
+            [questKeys.finishedBy] = {nil,{420008}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13466] = {
-            [questKeys.startedBy] = {nil,{400021}},
-            [questKeys.finishedBy] = {nil,{400021}},
+            [questKeys.startedBy] = {nil,{420007}},
+            [questKeys.finishedBy] = {nil,{420007}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13467] = {
-            [questKeys.startedBy] = {nil,{400029}},
-            [questKeys.finishedBy] = {nil,{400029}},
+            [questKeys.startedBy] = {nil,{420015}},
+            [questKeys.finishedBy] = {nil,{420015}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13468] = {
-            [questKeys.startedBy] = {nil,{400030}},
-            [questKeys.finishedBy] = {nil,{400030}},
+            [questKeys.startedBy] = {nil,{420016}},
+            [questKeys.finishedBy] = {nil,{420016}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13469] = {
-            [questKeys.startedBy] = {nil,{400027}},
-            [questKeys.finishedBy] = {nil,{400027}},
+            [questKeys.startedBy] = {nil,{420013}},
+            [questKeys.finishedBy] = {nil,{420013}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13470] = {
-            [questKeys.startedBy] = {nil,{400024}},
-            [questKeys.finishedBy] = {nil,{400024}},
+            [questKeys.startedBy] = {nil,{420010}},
+            [questKeys.finishedBy] = {nil,{420010}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13471] = {
-            [questKeys.startedBy] = {nil,{400035}},
-            [questKeys.finishedBy] = {nil,{400035}},
+            [questKeys.startedBy] = {nil,{420021}},
+            [questKeys.finishedBy] = {nil,{420021}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13473] = {
@@ -4898,13 +4898,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13501] = {
-            [questKeys.startedBy] = {nil,{400031}},
-            [questKeys.finishedBy] = {nil,{400031}},
+            [questKeys.startedBy] = {nil,{420017}},
+            [questKeys.finishedBy] = {nil,{420017}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13548] = {
-            [questKeys.startedBy] = {nil,{400036}},
-            [questKeys.finishedBy] = {nil,{400036}},
+            [questKeys.startedBy] = {nil,{420022}},
+            [questKeys.finishedBy] = {nil,{420022}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13549] = {
@@ -6597,7 +6597,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24645, 24647, 24648, 24649, 24650, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400048,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
+            [questKeys.objectives] = {nil,{{420034,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
             [questKeys.requiredMaxLevel] = 13,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6607,7 +6607,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24647, 24648, 24649, 24650, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400049,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
+            [questKeys.objectives] = {nil,{{420035,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
             [questKeys.requiredMaxLevel] = 22,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6617,7 +6617,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24648, 24649, 24650, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
+            [questKeys.objectives] = {nil,{{420038,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
             [questKeys.requiredMaxLevel] = 31,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6627,7 +6627,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24649, 24650, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
+            [questKeys.objectives] = {nil,{{420039,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
             [questKeys.requiredMaxLevel] = 40,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6637,7 +6637,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24650, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
+            [questKeys.objectives] = {nil,{{420040,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
             [questKeys.requiredMaxLevel] = 50,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6647,7 +6647,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24651, 24652},
-            [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
+            [questKeys.objectives] = {nil,{{420041,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
             [questKeys.requiredMaxLevel] = 60,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6657,7 +6657,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24652},
-            [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
+            [questKeys.objectives] = {nil,{{420042,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6667,7 +6667,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24651},
-            [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.objectives] = {nil,{{420043,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
             [questKeys.requiredSourceItems] = {},
         },
         [24655] = {
@@ -6685,7 +6685,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24659, 24660, 24662, 24663, 24664, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400050,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
+            [questKeys.objectives] = {nil,{{420036,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
             [questKeys.requiredMaxLevel] = 13,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6695,7 +6695,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24660, 24662, 24663, 24664, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400051,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
+            [questKeys.objectives] = {nil,{{420037,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
             [questKeys.requiredMaxLevel] = 22,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6705,7 +6705,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24662, 24663, 24664, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
+            [questKeys.objectives] = {nil,{{420038,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
             [questKeys.requiredMaxLevel] = 31,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6715,7 +6715,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24663, 24664, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
+            [questKeys.objectives] = {nil,{{420039,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
             [questKeys.requiredMaxLevel] = 40,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6725,7 +6725,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24664, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
+            [questKeys.objectives] = {nil,{{420040,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
             [questKeys.requiredMaxLevel] = 50,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6735,7 +6735,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24665, 24666},
-            [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
+            [questKeys.objectives] = {nil,{{420041,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
             [questKeys.requiredMaxLevel] = 60,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6745,7 +6745,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24666},
-            [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
+            [questKeys.objectives] = {nil,{{420042,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.requiredSourceItems] = {},
         },
@@ -6755,7 +6755,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
-            [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.objectives] = {nil,{{420043,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
             [questKeys.requiredSourceItems] = {},
         },
         [24683] = {
@@ -7296,7 +7296,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410010, "Open the Survival Kit"}, {410011, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [70398] = {
@@ -7307,7 +7307,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410012, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [70401] = {
@@ -7318,7 +7318,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410013, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [70411] = {
@@ -7340,7 +7340,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410002, "Open the Survival Kit"}, {410003, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [70735] = {
@@ -7351,7 +7351,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400005, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410006, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [70736] = {
@@ -7362,7 +7362,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410008, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [70737] = {
@@ -7385,7 +7385,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400003, "Open the Survival Kit"}, {400004, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410004, "Open the Survival Kit"}, {410005, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1638,
         },
         [70762] = {
@@ -7408,7 +7408,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410007, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1638,
         },
         [70765] = {
@@ -7420,7 +7420,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400008, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410009, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1638,
         },
         [70865] = {
@@ -7442,7 +7442,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410008, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [70870] = {
@@ -7453,7 +7453,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410013, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [78136] = {
@@ -7495,7 +7495,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410010, "Open the Survival Kit"}, {410011, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [78151] = {
@@ -7506,7 +7506,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410004, "Open the Survival Kit"}, {410005, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [78157] = {
@@ -7517,7 +7517,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410012, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [78158] = {
@@ -7529,7 +7529,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410007, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1638,
         },
         [78164] = {
@@ -7540,7 +7540,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410013, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
         [78166] = {
@@ -7562,7 +7562,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{410008, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1637,
         },
         [78168] = {
@@ -7594,7 +7594,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
-            [questKeys.objectives] = {nil,{{400062, "Open the Survival Kit"}, {400063, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{420045, "Open the Survival Kit"}, {420046, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 4281,
         },
         [78221] = {
@@ -7605,7 +7605,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
-            [questKeys.objectives] = {nil,{{400064, "Train a Spell"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{420047, "Train a Spell"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 4281,
         },
         [78222] = {
@@ -7617,7 +7617,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400061, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{420044, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 4281,
         },
         [78223] = {
@@ -7641,7 +7641,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
-            [questKeys.objectives] = {nil,{{400061, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,{{420044, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 4281,
         },
         [78225] = {

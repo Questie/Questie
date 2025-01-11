@@ -163,6 +163,18 @@ function CataItemFixes.Load()
         [24026] = { -- Elder Brown Bear Flank
             [itemKeys.npcDrops] = {17348},
         },
+        [24040] = { -- Blood Mushroom
+            [itemKeys.npcDrops] = {},
+        },
+        [24041] = { -- Aquatic Stinkhorn
+            [itemKeys.npcDrops] = {17673},
+        },
+        [24042] = { -- Ruinous Polyspore
+            [itemKeys.npcDrops] = {},
+        },
+        [24043] = { -- Fel Cone Fungus
+            [itemKeys.npcDrops] = {},
+        },
         [24049] = { -- Ysera's Tear
             [itemKeys.npcDrops] = {},
         },
@@ -824,7 +836,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [62820] = { -- Deadwood Honey Glob
-            [itemKeys.objectDrops] = {460015},
+            [itemKeys.objectDrops] = {430016},
         },
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
@@ -944,7 +956,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [69238] = { -- Timeless Eye
-            [itemKeys.objectDrops] = {460024},
+            [itemKeys.objectDrops] = {430024},
         },
         [69765] = { -- Lucifern
             [itemKeys.npcDrops] = {},
