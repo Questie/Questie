@@ -218,7 +218,7 @@ local autoOptionsLocales = {
         ["esES"] = "Rechazar misiones compartidas por no amigos",
         ["frFR"] = "Rejeter les quêtes partagées par des non-amis",
     },
-    ["Automatically reject quests shared by players that aren\'t on your friends list. This feature overrides autoaccept behavior."] = {
+    ["Automatically reject quests shared by players that aren't on your friends list. This feature overrides autoaccept behavior."] = {
         ["ptBR"] = "Rejeitar automaticamente missões compartilhadas por jogadores que não estão na sua lista de amigos. Esta funcionalidade substitui o comportamento de aceitação automática.",
         ["ruRU"] = "Автоматически отклонять задания, предлагаемые другими игроками, которые не в списке ваших друзей. Эта настройка отменяет поведение автопринятия",
         ["deDE"] = "Quests, die von Nicht-Freunden geteilt werden, automatisch ablehnen.",
