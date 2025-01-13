@@ -151,6 +151,23 @@ function QuestieMap:RescaleIcons()
     end
 end
 
+-- Rescale all Townsfolk icons
+function QuestieMap:RescaleTownsfolkIcons()
+    local mapScale = QuestieMap.GetScaleValue()
+    for _, framelist in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(framelist) do
+            QuestieMap.utils:RescaleIcon(frameName, mapScale)
+        end
+    end
+    for _, frameTypeList in pairs(QuestieMap.manualFrames) do
+        for _, framelist in pairs(frameTypeList) do
+            for _, frameName in ipairs(framelist) do
+                QuestieMap.utils:RescaleIcon(frameName, mapScale)
+            end
+        end
+    end
+end
+
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
 
