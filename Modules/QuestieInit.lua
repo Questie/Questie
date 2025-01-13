@@ -231,6 +231,8 @@ end
 QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
 
+    AvailableQuests.Initialize()
+
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 
@@ -372,8 +374,6 @@ function QuestieInit.OnAddonLoaded()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
         QuestieOptions.Initialize()
-
-        ZoneDB.Initialize()
     end, 0,"Error during AddonLoaded initialization!")
 
     MinimapIcon:Init()
@@ -382,6 +382,7 @@ function QuestieInit.OnAddonLoaded()
 
     Migration:Migrate()
 
+    ZoneDB.Initialize()
     QuestieProfessions:Init()
     QuestXP.Init()
     Phasing.Initialize()

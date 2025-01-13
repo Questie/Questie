@@ -241,7 +241,6 @@ function TrackerLinePool.HideUnusedButtons()
         if button then
             button:FakeHide()
             button.itemId = nil
-            button.itemName = nil
             button.lineID = nil
             button.fontSize = nil
             button:ClearAllPoints()

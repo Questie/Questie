@@ -140,17 +140,13 @@ function TrackerItemButton.New(buttonName)
         end
 
         if UnitExists("target") then
-            if not self.itemName then
-                self.itemName = GetItemInfo(self.itemId)
-            end
-
             local rangeTimer = self.rangeTimer
             if (rangeTimer) then
                 rangeTimer = rangeTimer - elapsed
 
                 -- IsItemInRange is restricted to only be used either on hostile targets or friendly ones while NOT in combat
                 if (rangeTimer <= 0) and (not UnitIsFriend("player", "target") or (not InCombatLockdown())) then
-                    local isInRange = IsItemInRange(self.itemName, "target")
+                    local isInRange = IsItemInRange(self.itemId, "target")
 
                     if isInRange == false then
                         self.range:SetVertexColor(1.0, 0.1, 0.1)

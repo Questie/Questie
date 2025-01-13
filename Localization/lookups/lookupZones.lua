@@ -1,6 +1,9 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- This file contains all zones which are used in Era, TBC and WotLK.
+-- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
+
 -- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
@@ -30,7 +33,7 @@ l10n.zoneLookup = {
         [12]="Elwynn Forest",
         [13]="The World Tree",
         [18]="Crystal Lake",
-        [19]="Zul'Gurub",
+        --[19]="Zul'Gurub",
         [20]="Moonbrook",
         [21]="Kul Tiras",
         [23]="Northshire River",
@@ -894,7 +897,7 @@ l10n.zoneLookup = {
         [986]="Zalashji's Den",
         [987]="Land's End Beach",
         [988]="Wavestrider Beach",
-        [989]="Uldum",
+        [989]="Ruins of Uldum",
         [990]="Valley of the Watchers",
         [991]="Gunstan's Post",
         [992]="Southmoon Ruins",
@@ -1060,8 +1063,8 @@ l10n.zoneLookup = {
         [2361]="Nighthaven",
         [2362]="Shrine of Remulos",
         [2363]="Stormrage Barrow Dens",
-        [2366]="The Black Morass",
-        [2367]="Old Hillsbrad Foothills",
+        --[2366]="The Black Morass",
+        --[2367]="Old Hillsbrad Foothills",
         [2368]="Tarren Mill",
         [2369]="Southshore",
         [2370]="Durnholde Keep",

@@ -177,6 +177,12 @@ local phases = {
     BERRIN_EMERINE_OSBORN_RESCUED = 1105,
     BOOTY_BAY_REGULAR = 1106,
     BOOTY_BAY_ATTACK = 1107,
+    HOLLEE_RUINS = 1108,
+    HOLLEE_CAMP = 1109,
+    SERENDIA_FP = 1110,
+    SERENDIA_INN = 1111,
+    GRIMCLAW_THICKET = 1112,
+    GRIMCLAW_INN = 1113,
 }
 Phasing.phases = phases
 
@@ -691,6 +697,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BOOTY_BAY_ATTACK then
         return complete[26678] and (not complete[26703]) or false
+    end
+
+    if phase == phases.HOLLEE_RUINS then
+        return not complete[13605]
+    end
+
+    if phase == phases.HOLLEE_CAMP then
+        return complete[13605] or false
+    end
+
+    if phase == phases.SERENDIA_FP then
+        return not complete[13520]
+    end
+
+    if phase == phases.SERENDIA_INN then
+        return complete[13520] or false
+    end
+
+    if phase == phases.GRIMCLAW_THICKET then
+        return not complete[13599]
+    end
+
+    if phase == phases.GRIMCLAW_INN then
+        return complete[13599] or false
     end
 
     return false
