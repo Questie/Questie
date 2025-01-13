@@ -2249,6 +2249,7 @@ function QuestieQuestBlacklist:Load()
         [856] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [857] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [859] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [860] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [864] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [868] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [873] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2259,6 +2260,7 @@ function QuestieQuestBlacklist:Load()
         [883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [885] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [886] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [888] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [889] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [890] = QuestieCorrections.CATA_HIDE, -- Removed with cata
