@@ -6753,6 +6753,10 @@ function CataQuestFixes.Load()
         [26701] = { -- Flight to Brackenwall
             [questKeys.nextQuestInChain] = 26682,
         },
+        [26702] = { -- Flight to Theramore
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Theramore"), 0, {{"monster", 16227}}}},
+            [questKeys.nextQuestInChain] = 27210,
+        },
         [26703] = { -- Bloodsail's End
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26697,26699,26700},
@@ -7673,6 +7677,9 @@ function CataQuestFixes.Load()
         },
         [27205] = { -- The Depravity of the Forsaken
             [questKeys.preQuestGroup] = {27198,27199},
+        },
+        [27210] = { -- Traitors Among Us
+            [questKeys.preQuestSingle] = {},
         },
         [27222] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
@@ -10675,6 +10682,7 @@ function CataQuestFixes.Load()
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.nextQuestInChain] = 27210,
         },
         [28553] = { -- Okrilla and the Blasted Lands
             [questKeys.preQuestSingle] = {},
