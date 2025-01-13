@@ -302,6 +302,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{73.49,82.39}}},
             [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE] = {{{73.49,82.39},{73.45,82.23},{73.41,82.08},{73.37,81.92},{73.33,81.76},{73.27,81.49},{73.14,81.02},{73.01,80.54},{72.90,80.07},{72.78,79.59},{72.68,79.11},{72.73,78.61},{72.80,78.27},{72.83,78.13},{72.87,77.97},{72.92,77.81},{72.96,77.65},{73.00,77.50},{73.04,77.34},{73.08,77.19},{73.12,77.03},{73.16,76.87},{73.20,76.71},{73.23,76.55},{73.25,76.39},{73.26,76.22},{73.27,76.05},{73.28,75.89},{73.28,75.72},{73.28,75.55},{73.28,75.38},{73.28,75.21},{73.27,75.04},{73.28,74.87},{73.28,74.78},{73.28,74.69},{73.29,74.52},{73.29,74.35},{73.28,74.19},{73.26,74.02},{73.19,73.90},{73.09,73.83},{72.98,73.79},{72.83,73.74},{72.49,73.64},{72.32,73.60},{72.21,73.56},{72.10,73.53},{71.99,73.50},{71.88,73.46},{71.77,73.42},{71.66,73.39},{71.55,73.35},{71.44,73.31},{71.33,73.28},{71.22,73.24},{71.11,73.21},{71.00,73.17},{70.89,73.14},{70.78,73.08},{70.68,73.02},{70.57,72.96},{70.47,72.89},{70.37,72.82},{70.27,72.75},{70.16,72.68},{70.06,72.61},{69.96,72.54},{69.86,72.47},{69.75,72.40},{69.65,72.33},{69.55,72.26},{69.45,72.19},{69.35,72.12},{69.25,72.04},{69.15,71.96},{69.11,71.94}}}},
         },
+        [6072] = { -- Diathorus the Seeker
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.47,83.9}}},
+        },
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
@@ -412,6 +415,21 @@ function CataNpcFixes.Load()
         },
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{75.87,51.96}}},
+        },
+        [11517] = { -- Oggleflint
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{70.1,64.2},{-1,-1}}},
+        },
+        [11518] = { -- Jergosh the Invoker
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{32.9,84.4},{-1,-1}}},
+        },
+        [11519] = { -- Bazzalan
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{41.4,86.1},{-1,-1}}},
+        },
+        [11520] = { -- Taragaman the Hungerer
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{40.7,57.4},{-1,-1}}},
+        },
+        [11682] = { -- Warsong Grunt
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{88.29,55.41},{88.62,50.76},{85.15,64.91},{85.4,64.95},{88.95,51.39},{89.46,62.52},{88.22,67.32},{89.8,59.45},{89.18,49.78},{92.14,54.32},{89.52,49.51},{90.04,62.89},{91.84,53.9},{91.9,54.05},{89.89,54.13},{89.9,51.91},{88.71,67.37},{88.37,55.89},{89.28,61.71},{90.62,54.13},{89.38,56.49},{89.22,65.45},{88.59,55.21},{88.12,61.92},{89.02,62.59},{87.07,60.55},{88.51,58.11},{89.57,57.69},{88.6,57.66},{89.44,62.61},{88.86,52.44},{87.79,64.62},{87.22,64.51},{89.8,57.75},{88.93,60.08},{90.73,58.92},{91.1,57.87},{89.55,58.67},{90.78,58.36},{89.78,58.34},{90.53,58.74},{88.65,59.23},{87.54,59.42},{88.01,59.31},{88.54,58.67},{88.2,53.14},{85.91,60.85}}},
         },
         [11711] = { -- Sentinel Aynasha
             [npcKeys.waypoints] = {},
@@ -1225,6 +1243,9 @@ function CataNpcFixes.Load()
                     {42.57,45.25,phases.HOLLEE_CAMP},
                 },
             },
+        },
+        [33444] = { -- Harbinger Aphotic
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{20.34,42.47}}},
         },
         [37759] = { -- Omusa's Spirit
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{43.6,52.2}}},
@@ -2536,6 +2557,13 @@ function CataNpcFixes.Load()
         [44148] = { -- Stonescale Matriarch
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{50.92,85.28}}},
         },
+        [44216] = { -- Bovaal Whitehorn
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{70.4,11.1},{-1,-1}}},
+        },
+        [44217] = { -- Stone Guard Kurjack
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{68.6,11.5},{-1,-1}}},
+            [npcKeys.questEnds] = {26856,26858,26865,26866,26867},
+        },
         [44247] = { -- Wulf Hansreim
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{79.15,71.23}}},
         },
@@ -3481,18 +3509,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{42.25,17.96}}}
         },
         -- Fake NPCs for Auto Accept and Auto Turn in
-        [100000] = { -- "Burn, Baby, Burn!", "Bombs Away: Windshear Mine!"
+        --[[[100000] = { -- REUSE
             [npcKeys.name] = "!",
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{73.23,46.61}}},
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.questStarts] = {25622,25640},
         },
-        [100001] = { -- Burn, Baby, Burn!
+        [100001] = { -- REUSE
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{73.23,46.61}}},
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.questEnds] = {25622},
-        },
+        },]]
         [100002] = { -- A Personal Summons - Stormwind
             [npcKeys.name] = "!",
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.5,72.6}}},
@@ -3804,6 +3832,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{82.1,35.37}}},
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.questStarts] = {26555,26814},
+        },
+        [100054] = { -- A Trip to the Moonwell
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{53.72,46.02}}},
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
+            [npcKeys.questEnds] = {13919},
+        },
+        [100055] = { -- He Who Would Be Forgiven
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{53.72,46.02}}},
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
+            [npcKeys.questStarts] = {13921},
         },
     }
 end
