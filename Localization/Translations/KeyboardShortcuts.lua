@@ -24,7 +24,7 @@ local keyboardShortcutLocales = {
         ["zhCN"] = "左键",
         ["zhTW"] = "左鍵",
         ["esES"] = "Clic izq.",
-        ["frFR"] = "Clic Gauche",
+        ["frFR"] = "Clic Gauche ",
     },
     ["Alt"] = {
         ["ptBR"] = true,
