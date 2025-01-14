@@ -784,6 +784,16 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{56.40,20.29}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
+        [430027] = {
+            [objectKeys.name] = "Horde Cage",
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{67.63,51.45},{67.25,53.3},{64.56,49.23},{68.35,53.69},{65.3,56.49},{64.95,52.27},{66.57,53.9},{66.5,55.83},{67.25,55.27},{65.28,53.48},{64.5,51.04},{65.13,54.72},{64.09,55.68},{66.18,50.51},{66.11,52.09}}},
+            [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+        },
+        [430028] = {
+            [objectKeys.name] = "Huntress Illiona's Cage",
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{66.2,54.52}}},
+            [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+        },
     }
 end
 
