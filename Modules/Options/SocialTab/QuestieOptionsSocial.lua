@@ -30,13 +30,13 @@ function QuestieOptions.tabs.social:Initialize()
                 type = "group",
                 order = 2,
                 inline = true,
-                name = function() return l10n('Announce quest updates via chat') end,
+                name = function() return l10n("Announce quest updates via chat") end,
                 args = {
                     filterQuestieAnnounce = {
                         type = "toggle",
                         order = 1,
-                        name = function() return l10n('Questie ShutUp!'); end,
-                        desc = function() return l10n('Remove all Questie chat messages coming from other players and disable sending your own.'); end,
+                        name = function() return l10n("Questie ShutUp!"); end,
+                        desc = function() return l10n("Remove all Questie chat messages coming from other players and disable sending your own."); end,
                         disabled = function() return false end,
                         width = 1.7,
                         get = function () return Questie.db.profile.questieShutUp end,
@@ -49,10 +49,10 @@ function QuestieOptions.tabs.social:Initialize()
                         type = "select",
                         order = 2,
                         values = _GetAnnounceChannels(),
-                        style = 'dropdown',
+                        style = "dropdown",
                         disabled = function() return Questie.db.profile.questieShutUp end,
-                        name = function() return l10n('Channels to announce in') end,
-                        desc = function() return l10n('Announce quest updates to other players in your group'); end,
+                        name = function() return l10n("Channels to announce in") end,
+                        desc = function() return l10n("Announce quest updates to other players in your group"); end,
                         get = function() return Questie.db.profile.questAnnounceChannel; end,
                         set = function(_, key)
                             Questie.db.profile.questAnnounceChannel = key
@@ -63,13 +63,13 @@ function QuestieOptions.tabs.social:Initialize()
                         type = "group",
                         order = 3,
                         inline = true,
-                        name = function() return l10n('Types of updates to announce in chat'); end,
+                        name = function() return l10n("Types of updates to announce in chat"); end,
                         args = {
                             questAnnounceItems = {
                                 type = "toggle",
                                 order = 1,
-                                name = function() return l10n('Items starting a quest'); end,
-                                desc = function() return l10n('Announce looted items that start a quest to other players'); end,
+                                name = function() return l10n("Items starting a quest"); end,
+                                desc = function() return l10n("Announce looted items that start a quest to other players"); end,
                                 width = 1.5,
                                 disabled = function() return _IsAnnounceDisabled(); end,
                                 get = function () return Questie.db.profile.questAnnounceItems; end,
@@ -81,8 +81,8 @@ function QuestieOptions.tabs.social:Initialize()
                             questAnnounceAccepted = {
                                 type = "toggle",
                                 order = 2,
-                                name = function() return l10n('Quest accepted'); end,
-                                desc = function() return l10n('Announce quest acceptance to other players'); end,
+                                name = function() return l10n("Quest accepted"); end,
+                                desc = function() return l10n("Announce quest acceptance to other players"); end,
                                 width = 1.5,
                                 disabled = function() return _IsAnnounceDisabled() or Questie.db.profile.questieShutUp; end,
                                 get = function () return Questie.db.profile.questAnnounceAccepted; end,
@@ -94,8 +94,8 @@ function QuestieOptions.tabs.social:Initialize()
                             questAnnounceAbandoned = {
                                 type = "toggle",
                                 order = 3,
-                                name = function() return l10n('Quest abandoned'); end,
-                                desc = function() return l10n('Announce quest abortion to other players'); end,
+                                name = function() return l10n("Quest abandoned"); end,
+                                desc = function() return l10n("Announce quest abortion to other players"); end,
                                 width = 1.5,
                                 disabled = function() return _IsAnnounceDisabled() or Questie.db.profile.questieShutUp; end,
                                 get = function () return Questie.db.profile.questAnnounceAbandoned; end,
@@ -107,8 +107,8 @@ function QuestieOptions.tabs.social:Initialize()
                             questAnnounceObjectives = {
                                 type = "toggle",
                                 order = 4,
-                                name = function() return l10n('Objective completed'); end,
-                                desc = function() return l10n('Announce completed objectives to other players'); end,
+                                name = function() return l10n("Objective completed"); end,
+                                desc = function() return l10n("Announce completed objectives to other players"); end,
                                 width = 1.5,
                                 disabled = function() return _IsAnnounceDisabled() or Questie.db.profile.questieShutUp; end,
                                 get = function () return Questie.db.profile.questAnnounceObjectives; end,
@@ -120,8 +120,8 @@ function QuestieOptions.tabs.social:Initialize()
                             questAnnounceCompleted = {
                                 type = "toggle",
                                 order = 5,
-                                name = function() return l10n('Quest completed'); end,
-                                desc = function() return l10n('Announce quest completion to other players'); end,
+                                name = function() return l10n("Quest completed"); end,
+                                desc = function() return l10n("Announce quest completion to other players"); end,
                                 width = 1.5,
                                 disabled = function() return _IsAnnounceDisabled() or Questie.db.profile.questieShutUp; end,
                                 get = function () return Questie.db.profile.questAnnounceCompleted; end,
@@ -135,7 +135,7 @@ function QuestieOptions.tabs.social:Initialize()
                     shareQuestsNearby = {
                         type = "toggle",
                         order = 4,
-                        name = function() return l10n('Share quest progress with nearby players'); end,
+                        name = function() return l10n("Share quest progress with nearby players"); end,
                         desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
                         disabled = function() return false end,
                         width = 1.7,
@@ -150,7 +150,7 @@ function QuestieOptions.tabs.social:Initialize()
                     printLocalMessages = {
                         type = "toggle",
                         order = 5,
-                        name = function() return l10n('Display announcements locally when outside of a group'); end,
+                        name = function() return l10n("Display announcements locally when outside of a group"); end,
                         desc = function() return l10n("Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."); end,
                         disabled = function() return Questie.db.profile.questieShutUp end,
                         width = 2.5,
@@ -168,10 +168,10 @@ end
 
 _GetAnnounceChannels = function()
     return {
-        ['disabled'] = l10n('Disabled'),
-        ['party'] = l10n('Party'),
-        ['raid'] = l10n('Raid'),
-        ['both'] = l10n('Both'),
+        ["disabled"] = l10n("Disabled"),
+        ["party"] = l10n("Party"),
+        ["raid"] = l10n("Raid"),
+        ["both"] = l10n("Both"),
     }
 end
 
