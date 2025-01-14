@@ -26,18 +26,6 @@ local socialOptionsLocales = {
         ["esES"] = "Opciones sociales",
         ["frFR"] = "Options sociales",
     },
-    ["Announce quest updates via chat"] = {
-        ["ptBR"] = "Anunciar atualizações de missões pelo bate-papo",
-        ["ruRU"] = "Оповещения о заданиях",
-        ["deDE"] = "Quest Ereignisse im Chat mitteilen",
-        ["koKR"] = "퀘스트 알림",
-        ["esMX"] = "Anunciar actualizaciones de misiones a través del chat",
-        ["enUS"] = true,
-        ["zhCN"] = "任务进度通报",
-        ["zhTW"] = "任務進度通報",
-        ["esES"] = "Anunciar actualizaciones de misiones a través del chat",
-        ["frFR"] = "Annoncer les mises à jour des quêtes via la discussion",
-    },
     ["Announce quest updates to other players in your group"] = {
         ["ptBR"] = "Anuncia atualizações de missão para outros jogadores do seu grupo.",
         ["ruRU"] = "Включает оповещения об обновлениях заданий в чате группы",

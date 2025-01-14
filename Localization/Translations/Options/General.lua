@@ -590,6 +590,18 @@ local generalOptionsLocales = {
         ["esES"] = "Mostrar nivel de misión en tooltips",
         ["frFR"] = "Niveau des quêtes dans les infobulles",
     },
+    ["When this is checked, the level of quests will show in the tooltips."] = {
+        ["ptBR"] = "Se ativado, o nível das missões será mostrado nas dicas de ferramentas.",
+        ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
+        ["deDE"] = "Aktiviert/Deaktiviert, ob das Questlevel in den Tooltips angezeigt wird.",
+        ["koKR"] = "툴팁에 퀘스트의 레벨을 표시합니다.",
+        ["esMX"] = "Si está activado, el nivel de misiones mostrará en los tooltips.",
+        ["enUS"] = true,
+        ["zhCN"] = "启用后，任务等级将显示在悬浮窗提示中",
+        ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級。",
+        ["esES"] = "Si está activado, el nivel de misiones mostrará en los tooltips.",
+        ["frFR"] = "Active l'affichage du niveau des quêtes dans les infobulles.",
+    },
     ["Enable World Tooltips"] = {
         ["ptBR"] = "Ativar dicas de ferramentas do mundo",
         ["ruRU"] = "Информация о заданиях",
@@ -601,6 +613,18 @@ local generalOptionsLocales = {
         ["zhTW"] = "啟用世界浮動提示資訊",
         ["esES"] = "Activar tooltips del mundo",
         ["frFR"] = "Activer les infobulles mondiales",
+    },
+    ["When this is enabled, quest info will be added to relevant mob/item tooltips."] = {
+        ["ptBR"] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob/item.",
+        ["ruRU"] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
+        ["deDE"] = "Aktiviert/Deaktiviert zusätzliche Informationen zu Gegnern und Gegenständen als Tooltip.",
+        ["koKR"] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
+        ["esMX"] = "Si está activado, la información de la mision aparecera en el tooltip de los monstruos/objetos relevantes.",
+        ["enUS"] = true,
+        ["zhCN"] = "启用后，在目标或物品的悬浮窗提示中显示任务信息",
+        ["zhTW"] = "啟用時，會在相關的怪物/物品浮動提示中加入任務資訊。",
+        ["esES"] = "Si está activado, la información de la mision aparecera en el tooltip de los monstruos/objetos relevantes.",
+        ["frFR"] = "Active l'affichage des informations de quête dans les infobulles des monstres et des objets.",
     },
 }
 
