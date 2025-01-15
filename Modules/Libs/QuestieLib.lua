@@ -419,32 +419,6 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     return sortedQuestsByLevel
 end
 
-local randomSeed = 0
-function QuestieLib:MathRandomSeed(seed)
-    randomSeed = seed
-end
-
-function QuestieLib:MathRandom(low_or_high_arg, high_arg)
-    local low
-    local high
-    if low_or_high_arg ~= nil then
-        if high_arg ~= nil then
-            low = low_or_high_arg
-            high = high_arg
-        else
-            low = 1
-            high = low_or_high_arg
-        end
-    end
-
-    randomSeed = (randomSeed * 214013 + 2531011) % 2 ^ 32
-    local rand = (math.floor(randomSeed / 2 ^ 16) % 2 ^ 15) / 0x7fff
-    if not high then
-        return rand
-    end
-    return low + math.floor(rand * high)
-end
-
 function QuestieLib:UnpackBinary(val)
     local ret = {}
     for q = 0, 16 do

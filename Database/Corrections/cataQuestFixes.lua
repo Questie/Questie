@@ -1750,7 +1750,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13590},
         },
         [13594] = { -- Don't Forget the Horde
-            [questKeys.preQuestSingle] = {26408},
+            [questKeys.preQuestSingle] = {},
         },
         [13595] = { -- Of Their Own Design
             [questKeys.requiredSourceItems] = {44967},
@@ -1800,7 +1800,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13623},
         },
         [13646] = { -- Astranaar Bound
-            [questKeys.preQuestSingle] = {26464},
+            [questKeys.preQuestSingle] = {13642},
         },
         [13647] = { -- Joining the Hunt
             [questKeys.preQuestSingle] = {},
@@ -1980,10 +1980,12 @@ function CataQuestFixes.Load()
         [13886] = { -- Vortex [Alliance]
             [questKeys.preQuestGroup] = {13880,13884},
             [questKeys.objectives] = {{{34295}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",34289}}}},
         },
         [13888] = { -- Vortex [Horde]
             [questKeys.preQuestGroup] = {13880,13884},
             [questKeys.objectives] = {{{34295}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",34289}}}},
         },
         [13891] = { -- The Devourer of Darkshore
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Destroy the Devouring Artifact"),0,{{"object",195057}}}},
@@ -2026,9 +2028,15 @@ function CataQuestFixes.Load()
         [13919] = { -- A Trip to the Moonwell
             [questKeys.preQuestSingle] = {26475},
             [questKeys.objectives] = {nil,{{301015,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100054}},
+        },
+        [13921] = { -- He Who Would Be Forgiven
+            [questKeys.startedBy] = {{100055}},
+            [questKeys.exclusiveTo] = {14018},
+            [questKeys.preQuestSingle] = {13919},
         },
         [13922] = { -- In the Hands of the Perverse
-            [questKeys.preQuestSingle] = {13921},
+            [questKeys.preQuestSingle] = {13921,14018},
         },
         [13924] = { -- All's Well
             [questKeys.preQuestSingle] = {13922},
@@ -2174,6 +2182,11 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{100}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 34697}}}},
+        },
+        [14018] = { -- He Who Would Be Forgiven
+            [questKeys.startedBy] = {{3894}},
+            [questKeys.exclusiveTo] = {13921},
+            [questKeys.preQuestSingle] = {13919},
         },
         [14019] = { -- Monkey Business
             [questKeys.objectives] = {{{34699,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4639,7 +4652,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40934}}}},
         },
         [25613] = { -- Do Yourself a Favor
-            [questKeys.preQuestSingle] = {13913},
+            [questKeys.preQuestGroup] = {13913,13979,25607},
         },
         [25614] = { -- The Only Way Down is in a Body Bag
             [questKeys.extraObjectives] = {
@@ -4660,11 +4673,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25615},
         },
         [25622] = { -- Burn, Baby, Burn!
-            [questKeys.startedBy] = {{40895,100000}},
-            [questKeys.finishedBy] = {{40895,100001}},
+            [questKeys.startedBy] = {{40895}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25615,25621},
             [questKeys.requiredSourceItems] = {55152},
+            [questKeys.objectives] = {{{40957,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25623] = { -- Into the Maw!
             [questKeys.preQuestSingle] = {25353},
@@ -4685,9 +4698,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25381},
         },
-        [25640] = { -- Bombs Away: Windshear Mine!
-            [questKeys.startedBy] = {{40895,100000}},
-        },
         [25644] = { -- The Twilight Egg
             [questKeys.nextQuestInChain] = 25552,
         },
@@ -4699,6 +4709,7 @@ function CataQuestFixes.Load()
         },
         [25647] = { -- Illegible Orc Letter
             [questKeys.startedBy] = {{40905},nil,{55181}},
+            [questKeys.preQuestSingle] = {25640},
         },
         [25648] = { -- Beyond Durotar
             [questKeys.preQuestSingle] = {25206},
@@ -4729,6 +4740,9 @@ function CataQuestFixes.Load()
         },
         [25660] = { -- Haunted
             [questKeys.preQuestSingle] = {25627,25628},
+        },
+        [25662] = { -- Free Our Sisters
+            [questKeys.preQuestSingle] = {25652},
         },
         [25663] = { -- An Offering for Aviana
             [questKeys.preQuestSingle] = {25578},
@@ -4843,6 +4857,10 @@ function CataQuestFixes.Load()
         },
         [25727] = { -- Drungeld Glowerglare
             [questKeys.nextQuestInChain] = 25733,
+        },
+        [25729] = { -- Gerenzo the Traitor
+            [questKeys.preQuestSingle] = {25652},
+            [questKeys.startedBy] = {{40895}},
         },
         [25731] = { -- A Bird in Hand
             [questKeys.objectives] = {{{41112,nil,Questie.ICON_TYPE_EVENT},{41112,nil,Questie.ICON_TYPE_TALK}}},
@@ -6161,6 +6179,8 @@ function CataQuestFixes.Load()
         },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
+            [questKeys.nextQuestInChain] = 13594,
+            [questKeys.exclusiveTo] = {28492},
         },
         [26409] = { -- Where's Goldmine?
             [questKeys.preQuestSingle] = {},
@@ -6183,9 +6203,7 @@ function CataQuestFixes.Load()
         },
         [26420] = { -- Diggin' For Worms
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26442,26488,26536},
-            [questKeys.extraObjectives] = {
-                {{[zoneIDs.STORMWIND_CITY]={{59.92,15.33}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Crystal Bass")},
-            },
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{59.92,15.33}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Crystal Bass")}},
             [questKeys.requiredSourceItems] = {58788},
         },
         [26421] = { -- Meet the High Tinker
@@ -6236,10 +6254,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
         },
         [26443] = { -- Diabolical Plans [Alliance]
-            [questKeys.startedBy] = {{6073,6115,11697}},
+            [questKeys.startedBy] = {{6073,6115,11697},nil,{23777}},
         },
         [26447] = { -- Diabolical Plans [Horde]
-            [questKeys.startedBy] = {{6073,6115,11697}},
+            [questKeys.startedBy] = {{6073,6115,11697},nil,{23778}},
         },
         [26451] = { -- Gurubashi Challenge: Free-For-All Arena Combat
             [questKeys.objectives] = {{{43110}}},
@@ -6247,6 +6265,9 @@ function CataQuestFixes.Load()
         [26452] = { -- Gurubashi Challenge
             [questKeys.preQuestSingle] = {26451},
             [questKeys.objectives] = {{{43110}}},
+        },
+        [26453] = { -- A Helping Hand
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Forest Song"),0,{{"monster",17106}}}},
         },
         [26454] = { -- A Shameful Waste
             [questKeys.preQuestSingle] = {},
@@ -6275,8 +6296,11 @@ function CataQuestFixes.Load()
         [26476] = { -- Dryad Delivery
             [questKeys.preQuestSingle] = {26475},
         },
+        [26477] = { -- Search the Bole
+            [questKeys.requiredSourceItems] = {5475},
+        },
         [26482] = { -- True Power of the Rod
-            [questKeys.objectives] = {{{34618,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{34618,nil,Questie.ICON_TYPE_TALK}}},
         },
         [26488] = { -- Big Gulp
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26536},
@@ -6728,6 +6752,10 @@ function CataQuestFixes.Load()
         },
         [26701] = { -- Flight to Brackenwall
             [questKeys.nextQuestInChain] = 26682,
+        },
+        [26702] = { -- Flight to Theramore
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Theramore"), 0, {{"monster", 16227}}}},
+            [questKeys.nextQuestInChain] = 27210,
         },
         [26703] = { -- Bloodsail's End
             [questKeys.preQuestSingle] = {},
@@ -7649,6 +7677,9 @@ function CataQuestFixes.Load()
         },
         [27205] = { -- The Depravity of the Forsaken
             [questKeys.preQuestGroup] = {27198,27199},
+        },
+        [27210] = { -- Traitors Among Us
+            [questKeys.preQuestSingle] = {},
         },
         [27222] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
@@ -10490,6 +10521,8 @@ function CataQuestFixes.Load()
         },
         [28492] = { -- Hero's Call: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
+            [questKeys.nextQuestInChain] = 13594,
+            [questKeys.exclusiveTo] = {26408},
         },
         [28493] = { -- Warchief's Command: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
@@ -10649,6 +10682,7 @@ function CataQuestFixes.Load()
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.nextQuestInChain] = 27210,
         },
         [28553] = { -- Okrilla and the Blasted Lands
             [questKeys.preQuestSingle] = {},

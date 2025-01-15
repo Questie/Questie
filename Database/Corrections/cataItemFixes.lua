@@ -48,6 +48,13 @@ function CataItemFixes.Load()
         [5382] = { -- Anaya's Pendant
             [itemKeys.npcDrops] = {33181},
         },
+        [5464] = { -- Iron Shaft
+            [itemKeys.relatedQuests] = {26477},
+            [itemKeys.npcDrops] = {},
+        },
+        [5475] = { -- Wooden Key
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [5508] = { -- Fallen Moonstone
             [itemKeys.npcDrops] = {3758,3759,3762,3763},
         },
@@ -154,8 +161,11 @@ function CataItemFixes.Load()
         [22978] = { -- Emitter Spare Part
             [itemKeys.npcDrops] = {},
         },
+        [23777] = { -- Diabolical Plans
+            [itemKeys.startQuest] = 26443,
+        },
         [23798] = { -- Diabolical Plans
-            [itemKeys.npcDrops] = {6073},
+            [itemKeys.startQuest] = 26447,
         },
         [24025] = { -- Deathclaw's Paw
             [itemKeys.npcDrops] = {17661},
@@ -176,6 +186,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {},
         },
         [24049] = { -- Ysera's Tear
+            [itemKeys.npcDrops] = {},
+        },
+        [24081] = { -- Satyrnaar Fel Wood
             [itemKeys.npcDrops] = {},
         },
         [24416] = { -- Corrupted Flower
