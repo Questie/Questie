@@ -286,7 +286,7 @@ local generalOptionsLocales = {
         ["esMX"] = "Cuantos niveles por debajo de tu personaje. (Predeterminado: %s)",
         ["enUS"] = true,
         ["zhCN"] = "显示比你低了多少级的任务（默认：%s）",
-        ["zhTW"] = "要顯示低於你的角色多少等級以內的任務。(預設值: %s )",
+        ["zhTW"] = "要顯示低於你的角色多少等級以內的任務。(預設值: %s)",
         ["esES"] = "Cuantos niveles por debajo de tu personaje. (Predeterminado: %s)",
         ["frFR"] = "Définis l'écart maximal entre le niveau des quêtes et celui du joueur. (Par défaut : %s)",
     },
