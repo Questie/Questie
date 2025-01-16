@@ -5,9 +5,6 @@ local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-local _QuestieJourney = QuestieJourney.private
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieSearch
@@ -348,8 +345,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
             frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
 
             startQuests[counter] = {
@@ -388,8 +385,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
             frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
 
             endQuests[counter] = {
                 frame = frame,

@@ -102,7 +102,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                         local obj = AceGUI:Create("Label");
                         obj:SetFullWidth(true);
-                        obj:SetText(_QuestieJourney:CreateObjectiveText(quest.Description));
+                        obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description));
                         f:AddChild(obj);
                     end
 
