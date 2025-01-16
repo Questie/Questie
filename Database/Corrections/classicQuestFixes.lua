@@ -3119,6 +3119,9 @@ function QuestieQuestFixes:Load()
         [8467] = {
             [questKeys.objectivesText] = nil,
         },
+        [8469] = {
+            [questKeys.objectivesText] = nil,
+        },
         [8470] = {
             [questKeys.startedBy] = {{7156,7157,7158},nil,{20741}},
         },
