@@ -12817,6 +12817,8 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Set the fuse on a barrel"),0,{{"object",430017}}}},
             [questKeys.zoneOrSort] = 2300,
             [questKeys.nextQuestInChain] = 29599,
+            [questKeys.requiredSourceItems] = {25853},
+            [questKeys.preQuestSingle] = {},
         },
         [29599] = { -- Escape from Durnholde
             [questKeys.zoneOrSort] = 2300,
