@@ -1552,56 +1552,56 @@ function QuestieQuestFixes:Load()
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting repeatable quests
         -- Alliance
-        [4103] = {
-            [questKeys.preQuestSingle] = {5882,5883,5884,5885,5886},
+        [4103] = { -- Salve via Hunting
+            [questKeys.preQuestSingle] = {5882},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [4104] = {
-            [questKeys.preQuestSingle] = {5882,5883,5884,5885,5886},
+        [4104] = { -- Salve via Mining
+            [questKeys.preQuestSingle] = {5883},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [4105] = {
-            [questKeys.preQuestSingle] = {5882,5883,5884,5885,5886},
+        [4105] = { -- Salve via Gathering
+            [questKeys.preQuestSingle] = {5884},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [4106] = {
-            [questKeys.preQuestSingle] = {5882,5883,5884,5885,5886},
+        [4106] = { -- Salve via Skinning
+            [questKeys.preQuestSingle] = {5885},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [4107] = {
-            [questKeys.preQuestSingle] = {5882,5883,5884,5885,5886},
+        [4107] = { -- Salve via Disenchanting
+            [questKeys.preQuestSingle] = {5886},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         -- Horde
-        [4108] = {
+        [4108] = { -- Salve via Hunting
             [questKeys.startedBy] = {{9529},nil,nil},
             [questKeys.finishedBy] = {{9529},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891},
+            [questKeys.preQuestSingle] = {5887},
         },
-        [4109] = {
+        [4109] = { -- Salve via Mining
             [questKeys.startedBy] = {{9529},nil,nil},
             [questKeys.finishedBy] = {{9529},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891},
+            [questKeys.preQuestSingle] = {5888},
         },
-        [4110] = {
+        [4110] = { -- Salve via Gathering
             [questKeys.startedBy] = {{9529},nil,nil},
             [questKeys.finishedBy] = {{9529},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891},
+            [questKeys.preQuestSingle] = {5889},
         },
-        [4111] = {
+        [4111] = { -- Salve via Skinning
             [questKeys.startedBy] = {{9529},nil,nil},
             [questKeys.finishedBy] = {{9529},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891},
+            [questKeys.preQuestSingle] = {5890},
         },
-        [4112] = {
+        [4112] = { -- Salve via Disenchanting
             [questKeys.startedBy] = {{9529},nil,nil},
             [questKeys.finishedBy] = {{9529},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891},
+            [questKeys.preQuestSingle] = {5891},
         },
         -----------------------
         [4121] = {
@@ -2151,65 +2151,55 @@ function QuestieQuestFixes:Load()
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
         },
-        [5882] = {
+        [5882] = { -- Salve via Hunting
             [questKeys.startedBy] = {{9528},nil,nil},
             [questKeys.finishedBy] = {{9528},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
-            [questKeys.exclusiveTo] = {5883,5884,5885,5886},
         },
-        [5883] = {
+        [5883] = { -- Salve via Mining
             [questKeys.startedBy] = {{9528},nil,nil},
             [questKeys.finishedBy] = {{9528},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
-            [questKeys.exclusiveTo] = {5882,5884,5885,5886},
         },
-        [5884] = {
+        [5884] = { -- Salve via Gathering
             [questKeys.startedBy] = {{9528},nil,nil},
             [questKeys.finishedBy] = {{9528},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
-            [questKeys.exclusiveTo] = {5882,5883,5885,5886},
         },
-        [5885] = {
+        [5885] = { -- Salve via Skinning
             [questKeys.startedBy] = {{9528},nil,nil},
             [questKeys.finishedBy] = {{9528},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
-            [questKeys.exclusiveTo] = {5882,5883,5884,5886},
         },
-        [5886] = {
+        [5886] = { -- Salve via Disenchanting
             [questKeys.startedBy] = {{9528},nil,nil},
             [questKeys.finishedBy] = {{9528},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
-            [questKeys.exclusiveTo] = {5882,5883,5884,5885},
         },
         -- Horde
-        [5887] = {
+        [5887] = { -- Salve via Hunting
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.exclusiveTo] = {5888,5889,5890,5891},
             [questKeys.specialFlags] = 0,
         },
-        [5888] = {
+        [5888] = { -- Salve via Mining
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.exclusiveTo] = {5887,5889,5890,5891},
             [questKeys.specialFlags] = 0,
         },
-        [5889] = {
+        [5889] = { -- Salve via Gathering
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.exclusiveTo] = {5887,5888,5890,5891},
             [questKeys.specialFlags] = 0,
         },
-        [5890] = {
+        [5890] = { -- Salve via Skinning
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.exclusiveTo] = {5887,5888,5889,5891},
             [questKeys.specialFlags] = 0,
         },
-        [5891] = {
+        [5891] = { -- Salve via Disenchanting
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.exclusiveTo] = {5887,5888,5889,5890},
             [questKeys.specialFlags] = 0,
         },
         [5892] = {
