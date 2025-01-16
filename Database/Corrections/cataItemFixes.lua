@@ -203,6 +203,9 @@ function CataItemFixes.Load()
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
         },
+        [34130] = { -- Recovery Diver's Potion
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [38567] = { -- Maraudine Prisoner Manifest
             [itemKeys.startQuest] = 14330,
         },

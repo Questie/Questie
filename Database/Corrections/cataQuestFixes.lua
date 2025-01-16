@@ -228,6 +228,10 @@ function CataQuestFixes.Load()
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
+        [1454] = { -- The Karnitol Shipwreck
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1453,14354},
+        },
         [1468] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
             [questKeys.startedBy] = {{51988}},
@@ -2446,10 +2450,10 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Narimar"),0,{{"monster",35315}}}},
         },
         [14191] = { -- Furien's Footsteps
-            [questKeys.objectives] = {{{35363,nil,Questie.ICON_TYPE_EVENT},{35367,nil,Questie.ICON_TYPE_EVENT},{35366,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT},{195497,nil,Questie.ICON_TYPE_EVENT},{195438,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14193] = { -- Nothing a Couple of Melons Won't Fix [Alliance]
-            [questKeys.objectives] = {nil,{{195438}}},
+            [questKeys.objectives] = {nil,{{195438,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48106},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -2487,7 +2491,7 @@ function CataQuestFixes.Load()
         },
         [14213] = { -- Ten Pounds of Flesh [Horde]
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
-            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.objectives] = {nil,{{195497,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.preQuestSingle] = {14189},
         },
@@ -2497,7 +2501,7 @@ function CataQuestFixes.Load()
         },
         [14217] = { -- Satyrical Offerings
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
-            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.objectives] = {nil,{{195497,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.preQuestSingle] = {14213},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2508,7 +2512,7 @@ function CataQuestFixes.Load()
         },
         [14219] = { -- To the Hilt! [Horde]
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
-            [questKeys.objectives] = {nil,{{195517}}},
+            [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48943},
             [questKeys.preQuestSingle] = {14189},
         },
@@ -2568,6 +2572,7 @@ function CataQuestFixes.Load()
         },
         [14256] = { -- The Emerging Threat
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Korrah"), 2, {{"monster", 35773}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [14261] = { -- Ice Cold
             [questKeys.preQuestSingle] = {14391},
@@ -2720,24 +2725,27 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
         },
+        [14354] = { -- Elune's Gifts
+            [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT},{195497,nil,Questie.ICON_TYPE_EVENT},{195438,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [14357] = { -- To the Hilt! [Alliance]
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
-            [questKeys.objectives] = {nil,{{195517}}},
+            [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48943},
         },
         [14358] = { -- Ten Pounds of Flesh [Alliance]
-            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.objectives] = {nil,{{195497,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [14359] = { -- Blessings From Above
-            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.objectives] = {nil,{{195497,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {14358},
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [14360] = { -- Nothing a Couple of Melons Won't Fix [Horde]
-            [questKeys.objectives] = {nil,{{195438}}},
+            [questKeys.objectives] = {nil,{{195438,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {48106},
         },
         [14361] = { -- Peace of Mind
@@ -2753,6 +2761,7 @@ function CataQuestFixes.Load()
         [14365] = { -- Ethel Rethor
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {14354},
+            [questKeys.nextQuestInChain] = 14256,
         },
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
@@ -2795,6 +2804,10 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_SLAY,l10n("Take out the Forsaken Machinist"),0,{{"monster",36292}}},
             },
         },
+        [14384] = { -- Rerouted!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",36416}}}},
+        },
         [14383] = { -- The Terrible Tinkers of the Ruined Reaches
             [questKeys.preQuestSingle] = {14377},
         },
@@ -2804,6 +2817,9 @@ function CataQuestFixes.Load()
         [14386] = { -- Leader of the Pack
             [questKeys.preQuestGroup] = {14368,14369,14382},
             [questKeys.preQuestSingle] = {},
+        },
+        [14387] = { -- Lay of the Land
+            [questKeys.preQuestSingle] = {14384},
         },
         [14388] = { -- Azsharite Experiment Number Two
             [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
@@ -5271,6 +5287,8 @@ function CataQuestFixes.Load()
         },
         [25938] = { -- Help for Desolace
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
+            [questKeys.exclusiveTo] = {28531},
+            [questKeys.nextQuestInChain] = 14384,
         },
         [25939] = { -- For Peat's Sake
             [questKeys.preQuestSingle] = {25926},
@@ -10725,6 +10743,8 @@ function CataQuestFixes.Load()
         },
         [28531] = { -- Hero's Call: Desolace!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.exclusiveTo] = {25938},
+            [questKeys.nextQuestInChain] = 14384,
         },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28291},

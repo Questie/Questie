@@ -1505,6 +1505,12 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36410] = { -- Officer Jankie
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{54.24,9.27}}},
+        },
+        [36416] = { -- Jankie's Mount
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{54.27,9.37}}},
+        },
         [36452] = { -- Gwen Armstead
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
