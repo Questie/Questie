@@ -726,6 +726,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [174848] = "Equipamento de Teste",
 [175084] = "A Brastematic 5200",
 [175085] = "A Brastematic 5200",
+[175124] = "Ovo de Viveiro",
 [175165] = "Baú do Aurora de Prata",
 [175166] = "Baú do Véu das Brumas",
 [175207] = "Criatura Marinha Encalhada",

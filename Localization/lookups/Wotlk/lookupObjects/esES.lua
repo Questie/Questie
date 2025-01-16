@@ -733,6 +733,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [174848] = "Equipo de pruebas",
 [175084] = "La Chispamática 5200",
 [175085] = "La Chispamática 5200",
+[175124] = "Huevo de El Grajero",
 [175165] = "Arcón de Amanecer de plata",
 [175166] = "Arcón del Halo de bruma",
 [175207] = "Criatura marina varada",

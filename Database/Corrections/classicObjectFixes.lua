@@ -167,6 +167,11 @@ function QuestieObjectFixes:Load()
         [174848] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.85,73.48}}}, -- #1520
         },
+        [175124] = {
+            [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
+            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+        },
         [175265] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.74,73.57}}}, -- #1520
         },
@@ -284,11 +289,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
-        [400004] = {
+        --[[[400004] = { -- REUSE
             [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-        },
+        },]]
         [400005] = {
             [objectKeys.name] = "Challenge to Urok",
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},

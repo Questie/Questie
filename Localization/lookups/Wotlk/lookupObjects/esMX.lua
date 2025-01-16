@@ -3406,6 +3406,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [175084] = "El Destellamatic 5200",
 [175085] = "El Destellamatic 5200",
 [175104] = "Hoguera",
+[175124] = "Huevo de El Grajero",
 [175144] = "Forja",
 [175145] = "Yunque",
 [175146] = "Brasero para cocinar",

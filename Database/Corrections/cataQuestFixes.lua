@@ -12191,7 +12191,7 @@ function CataQuestFixes.Load()
         },
         [29235] = { -- Defend Grom'gol
             [questKeys.parentQuest] = 29219,
-            [questKeys.triggerEnd] = {"	Help Defend Grom'gol Base Camp", {[zoneIDs.STRANGLETHORN_VALE]={{38.1,50.3}}}},
+            [questKeys.triggerEnd] = {"Help Defend Grom'gol Base Camp", {[zoneIDs.STRANGLETHORN_VALE]={{38.1,50.3}}}},
             [questKeys.nextQuestInChain] = 29236,
         },
         [29236] = { -- To Hardwrench Hideaway

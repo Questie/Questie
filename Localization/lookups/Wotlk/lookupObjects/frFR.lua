@@ -735,6 +735,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [174848] = "Equipement de test",
 [175084] = "Le Brille-o-Matic 5200",
 [175085] = "Le Brille-o-Matic 5200",
+[175124] = "Œuf de la colonie",
 [175165] = "Coffret de l'Aube argentée",
 [175166] = "Coffret du Voile de brume",
 [175207] = "Créature marine échouée",
