@@ -269,6 +269,9 @@ function CataObjectFixes.Load()
         [195622] = { -- Kaja'mite Ore
             [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{31.76,73.52}}},
         },
+        [196393] = { -- Broken Relic
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{27.22,63.35}}},
+        },
         [196472] = { -- Grandma's Good Clothes
             [objectKeys.spawns] = {[zoneIDs.GILNEAS]={{32.03,75.45}}},
         },

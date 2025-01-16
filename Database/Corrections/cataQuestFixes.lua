@@ -372,7 +372,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{51989}},
         },
         [5561] = { -- Kodo Roundup
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4702},4700,"Kodos Tamed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4702},4700,"Kodos Tamed",Questie.ICON_TYPE_INTERACT}}},
         },
         [5581] = { -- Portals of the Legion [Horde]
             [questKeys.preQuestSingle] = {},
@@ -2573,6 +2573,8 @@ function CataQuestFixes.Load()
         [14256] = { -- The Emerging Threat
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Korrah"), 2, {{"monster", 35773}}}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Naga Forces Scouted",{[zoneIDs.DESOLACE] = {{39.07,27.43}}}},
         },
         [14261] = { -- Ice Cold
             [questKeys.preQuestSingle] = {14391},
@@ -2585,6 +2587,7 @@ function CataQuestFixes.Load()
         },
         [14264] = { -- Wetter Than Wet
             [questKeys.objectives] = {{{35842,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {49064},
         },
         [14266] = { -- Charge
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{100}}},
@@ -2595,7 +2598,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14258},
         },
         [14268] = { -- Deep Impact
-            [questKeys.requiredSourceItems] = {49102},
+            [questKeys.requiredSourceItems] = {49064,49102},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Shatter the rubble"), 0, {{"object", 195652}}}},
         },
         [14272] = { -- Eviscerate
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{2098}}},
@@ -2621,6 +2625,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 35872}}}},
             [questKeys.requiredRaces] = raceKeys.WORGEN,
+        },
+        [14282] = { -- Mystery Solved
+            [questKeys.requiredSourceItems] = {49064},
         },
         [14283] = { -- A Rejuvenating Touch
             [questKeys.objectives] = {{{47091,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
@@ -2686,7 +2693,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14312},
         },
         [14318] = { -- Delicate Negotiations
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Khan Leh'prah"), 0, {{"monster", 36056}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Khan Leh'prah"), 0, {{"monster", 36056}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the spear"), 0, {{"object", 195693}}},
+            },
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14314,14316},
         },
         [14323] = { -- Absorbent
             [questKeys.preQuestSingle] = {14130},
@@ -2781,9 +2793,15 @@ function CataQuestFixes.Load()
         },
         [14372] = { -- Thargad's Camp
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {14325},
+            [questKeys.nextQuestInChain] = 14373,
+        },
+        [14374] = { -- Portals of the Legion
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Close the portal"), 0, {{"object", 177243},{"object", 177365},{"object", 177366},{"object", 177367},{"object", 177368},{"object", 177369},{"object", 177397},{"object", 177398},{"object", 177399},{"object", 177400}}}},
         },
         [14376] = { -- Jugkar's Undoing
-            [questKeys.startedBy] = {{4676,35591},nil,{49220}},
+            [questKeys.startedBy] = {{35591},nil,{49220}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Control Lord Azrethoc"),0,{{"monster",5760}}}},
         },
         [14377] = { -- Befriending Giants
             [questKeys.preQuestGroup] = {14370,14371},

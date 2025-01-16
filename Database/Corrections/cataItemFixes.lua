@@ -314,6 +314,12 @@ function CataItemFixes.Load()
         [48766] = { -- Kaja'mite Chunk
             [itemKeys.npcDrops] = {},
         },
+        [48953] = { -- Bleached Skull
+            [itemKeys.npcDrops] = {},
+        },
+        [49136] = { -- Blood-Filled Leech
+            [itemKeys.npcDrops] = {36059},
+        },
         [49164] = { -- Cenarion Supply Crate
             [itemKeys.npcDrops] = {},
         },
