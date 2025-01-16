@@ -50,3 +50,43 @@ function QuestieJourneyUtils:GetZoneName(id)
     end
     return name
 end
+
+---@param itemId ItemId
+---@return AceIcon
+function QuestieJourneyUtils.GetItemIcon(itemId)
+    local itemLink = select(2, GetItemInfo(itemId))
+
+    ---@class AceIcon
+    local itemIcon = AceGUI:Create("Icon")
+    itemIcon:SetWidth(25)
+    itemIcon:SetHeight(25)
+    itemIcon:SetImage(GetItemIcon(itemId))
+    itemIcon:SetImageSize(25, 25)
+    itemIcon:SetCallback("OnEnter", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Show()
+    end)
+    itemIcon:SetCallback("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    itemIcon:SetCallback("OnClick", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        if IsShiftKeyDown() then
+            if (not ChatFrame1EditBox:IsVisible()) then
+                ChatFrame_OpenChat(itemLink)
+            else
+                ChatEdit_InsertLink(itemLink)
+            end
+        elseif IsControlKeyDown() then
+            DressUpItemLink(itemLink)
+        end
+    end)
+
+    return itemIcon
+end
