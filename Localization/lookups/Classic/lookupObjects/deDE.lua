@@ -1191,4 +1191,5 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [182106] = "Turmbanner",
 [190483] = "Dokumententruhe",
 [190484] = "Dokumententruhe",
+[375544] = "Holzstatuette",
 }]])

@@ -19837,4 +19837,5 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [209347] = "Vorräte der Höllenfeuerhalbinsel",
 [209348] = "Vorräte der Höllenfeuerhalbinsel",
 [210216] = "Schiffswracktrümmer",
+[375544] = "Holzstatuette",
 }]])
