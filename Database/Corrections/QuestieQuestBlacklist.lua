@@ -1512,8 +1512,12 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         --- Chinese servers wotlk only
-        [78752] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
-        [78753] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
+        [78752] = QuestieCorrections.WOTLK_HIDE, -- Proof of Demise: Titan Rune Protocol Gamma (might become available again later on)
+        [78753] = QuestieCorrections.WOTLK_HIDE, -- Proof of Demise: Threats to Azeroth (might become available again later on)
+        [83713] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
+        [83714] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
+        [83717] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [87379] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -5093,8 +5097,6 @@ function QuestieQuestBlacklist:Load()
         [65603] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [65604] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [65610] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [83713] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [83714] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         --- Daily quests
         [28905] = true, -- Daily Heroic Random (1st) (Cataclysm)
