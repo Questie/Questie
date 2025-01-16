@@ -4129,6 +4129,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [177669] = "Plaguewood Fire (Small)",
 [177670] = "Plaguewood Fire (Large)",
 [177671] = "Plaguewood Smoke",
+[177673] = "Estatua de la Serpiente",
 [177675] = "Túmulo de barro",
 [177681] = "Túmulo de Gordunni",
 [177683] = "Gordunni Cobalt Visual (DND)",

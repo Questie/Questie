@@ -910,6 +910,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [177544] = "Coffre de Joseph",
 [177624] = "Sac des démons de Xabraxxis",
 [177667] = "Parchemin déchiré",
+[177673] = "Statue de serpent",
 [177675] = "Monticule de poussière",
 [177681] = "Monticule de poussière de Gordunni",
 [177725] = "Outils d'alchimie de Dredan",

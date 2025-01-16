@@ -906,6 +906,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [177544] = "Josephs Truhe",
 [177624] = "Xabraxxis Dämonentasche",
 [177667] = "Zerrissene Rolle",
+[177673] = "Schlangenstatue",
 [177675] = "Erdhaufen",
 [177681] = "Gordunnierdhügel",
 [177725] = "Dredans Alchimie-Werkzeuge",

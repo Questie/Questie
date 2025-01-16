@@ -889,6 +889,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [177544] = "Baú do Josefo",
 [177624] = "Bolsa de Demônios de Zabraxxis",
 [177667] = "Pergaminho Rasgado",
+[177673] = "Estátua de Serpente",
 [177675] = "Monturo de Terra",
 [177725] = "Apetrechos de Alquimia do Dredan",
 [177726] = "Balde de Ferramentas",

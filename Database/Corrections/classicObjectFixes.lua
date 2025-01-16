@@ -274,6 +274,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.79,22.43}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
+        --[[[400002] = { -- REUSE
+            [objectKeys.name] = "Serpent Statue", -- Desolace for quest 6027
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+        },]]
         [400003] = {
             [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
