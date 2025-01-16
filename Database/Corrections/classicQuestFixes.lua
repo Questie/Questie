@@ -3113,6 +3113,12 @@ function QuestieQuestFixes:Load()
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
         },
+        [8466] = {
+            [questKeys.objectivesText] = nil,
+        },
+        [8467] = {
+            [questKeys.objectivesText] = nil,
+        },
         [8470] = {
             [questKeys.startedBy] = {{7156,7157,7158},nil,{20741}},
         },
