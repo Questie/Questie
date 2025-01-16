@@ -766,6 +766,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [175565] = "Oeuf étrange",
 [175566] = "Herbe des ténèbres",
 [175571] = "Cercle d'invocation du coup ogre",
+[175584] = "Défi à Urok",
 [175586] = "Chariot de Jaron",
 [175587] = "Caisse endommagée",
 [175588] = "Oeuf d'araignée du pic",

@@ -757,6 +757,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [175565] = "Ovo Alienígena",
 [175566] = "Erva-do-emo",
 [175571] = "Círculo de Evocação de Golpe do Ogro",
+[175584] = "Desafio a Urok",
 [175586] = "Carroça de Jaron",
 [175587] = "Caixote Danificado",
 [175588] = "Ovo de Aranha do Pináculo",

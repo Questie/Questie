@@ -766,6 +766,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [175565] = "Fremdartiges Ei",
 [175566] = "Düsterkraut",
 [175571] = "Beschwörungskreis der Ogerumsturzbewegung",
+[175584] = "Herausforderung an Urok",
 [175586] = "Jarons Wagen",
 [175587] = "Beschädigte Kiste",
 [175588] = "Spitzenspinnenei",

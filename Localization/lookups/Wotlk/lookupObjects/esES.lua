@@ -764,6 +764,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [175565] = "Huevo extraño",
 [175566] = "Hierba luminiscente",
 [175571] = "Círculo de Invocación de Golpe Orco",
+[175584] = "Reto a Urok",
 [175586] = "Carro de Jaron",
 [175587] = "Cajón dañado",
 [175588] = "Huevo de araña de la cumbre",
