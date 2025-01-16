@@ -168,7 +168,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "隐藏未探测区域中的图标",
         ["zhTW"] = "隱藏在尚未探索的區域內的圖示。",
         ["esES"] = "Oculta iconos en áreas inexploradas.",
-        ["frFR"] = "Cache l'affichage des icônes dans les zones inexplorées.",
+        ["frFR"] = "Désactive l'affichage des icônes dans les zones inexplorées.",
     },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = "Ocultar ícones de missões não rastreadas",
