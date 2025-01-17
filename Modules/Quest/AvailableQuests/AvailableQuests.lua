@@ -280,7 +280,7 @@ end
 
 ---@param quest Quest
 _GetQuestIcon = function(quest)
-    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
+    if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
         return Questie.ICON_TYPE_SODRUNE
     elseif QuestieDB.IsActiveEventQuest(quest.Id) then
         return Questie.ICON_TYPE_EVENTQUEST
@@ -294,7 +294,7 @@ _GetQuestIcon = function(quest)
     if quest.IsRepeatable then
         return Questie.ICON_TYPE_REPEATABLE
     end
-    if (QuestieDB.IsTrivial(quest.level)) then
+    if QuestieDB.IsTrivial(quest.level) then
         return Questie.ICON_TYPE_AVAILABLE_GRAY
     end
     return Questie.ICON_TYPE_AVAILABLE
