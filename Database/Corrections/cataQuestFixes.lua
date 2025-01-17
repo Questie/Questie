@@ -3621,6 +3621,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 215,
             [questKeys.objectives] = {{{38438,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [24862] = { -- Running the Gauntlet
+            [questKeys.preQuestSingle] = {},
+        },
         [24864] = { -- Irresistible Pool Pony
             [questKeys.objectives] = {nil,nil,nil,nil,{{{38412,44578,44579,44580},38412,"Naga Hatchling lured",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
@@ -5120,6 +5123,10 @@ function CataQuestFixes.Load()
         [25849] = { -- When Archaeology Attacks
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 26189,
+        },
+        [25852] = { -- All's Clear
+            [questKeys.nextQuestInChain] = 24862,
+            [questKeys.exclusiveTo] = {28550},
         },
         [25854] = { -- I'll Call Him Bitey
             [questKeys.nextQuestInChain] = 25855,
@@ -10801,6 +10808,8 @@ function CataQuestFixes.Load()
         },
         [28550] = { -- Hero's Call: Southern Barrens!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 24862,
+            [questKeys.exclusiveTo] = {25852},
         },
         [28551] = { -- Hero's Call: Southern Barrens!
             [questKeys.requiredMaxLevel] = 33,
