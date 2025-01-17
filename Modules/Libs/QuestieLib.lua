@@ -664,4 +664,27 @@ function QuestieLib.GetSpawnDistance(spawnA, spawnB)
     return math_sqrt(distanceX * distanceX + distanceY * distanceY)
 end
 
+---@param quest Quest
+---@return number -- Questie.ICON_TYPE_X
+function QuestieLib.GetQuestIcon(quest)
+    if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
+        return Questie.ICON_TYPE_SODRUNE
+    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
+        return Questie.ICON_TYPE_EVENTQUEST
+    end
+    if QuestieDB.IsPvPQuest(quest.Id) then
+        return Questie.ICON_TYPE_PVPQUEST
+    end
+    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    if quest.IsRepeatable then
+        return Questie.ICON_TYPE_REPEATABLE
+    end
+    if QuestieDB.IsTrivial(quest.level) then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    return Questie.ICON_TYPE_AVAILABLE
+end
+
 return QuestieLib
