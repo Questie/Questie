@@ -1829,7 +1829,7 @@ function QuestieQuestFixes:Load()
         [4867] = {
             [questKeys.requiredSourceItems] = {12533,12534},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshod Pike."),0,{{"object", 175621}}},
-                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400005}}},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 175584}}},
             },
         },
         [4881] = {
