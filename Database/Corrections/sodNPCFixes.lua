@@ -740,6 +740,9 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50,28}}},
         },
+        [232398] = { -- Primordial Flame
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.6,56.6}}},
+        },
         [232429] = { -- Magical Stone
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{14.8,56.7}}},
         },
