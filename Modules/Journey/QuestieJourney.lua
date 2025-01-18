@@ -1,5 +1,5 @@
 ---@class QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 QuestieJourneyFrame = nil
 -------------------------
@@ -89,15 +89,15 @@ function QuestieJourney:BuildMainFrame()
         tabGroup:SetLayout("Flow")
         tabGroup:SetTabs({
             {
-                text = l10n('My Journey'),
+                text = l10n("My Journey"),
                 value="journey"
             },
             {
-                text = l10n('Quests by Zone'),
+                text = l10n("Quests by Zone"),
                 value="zone"
             },
             {
-                text = l10n('Advanced Search'),
+                text = l10n("Advanced Search"),
                 value="search"
             }
         })
@@ -110,7 +110,7 @@ function QuestieJourney:BuildMainFrame()
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(l10n('Questie Options'))
+        settingsButton:SetText(l10n("Questie Options"))
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()
                 QuestieJourney:ToggleJourneyWindow()

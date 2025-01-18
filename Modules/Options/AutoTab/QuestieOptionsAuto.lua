@@ -23,7 +23,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 0,
                 values = _GetShortcuts,
                 style = 'dropdown',
-                name = function() return l10n("Auto Modifie") end,
+                name = function() return l10n("Auto Modifier") end,
                 desc = function() return l10n("The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC."); end,
                 width = 0.65,
                 --disabled = function() return (not Questie.db.profile.autocomplete) and (not Questie.db.profile.autoaccept) end,
