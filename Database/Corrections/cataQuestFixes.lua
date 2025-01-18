@@ -3656,6 +3656,10 @@ function CataQuestFixes.Load()
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
+        [24921] = { -- Report to Aubrey
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 24934,
+        },
         [24925] = { -- Free the Captives
             [questKeys.objectives] = {{{38643,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Oomlot Shaman"),0,{{"monster",38644}}}},
@@ -3676,13 +3680,30 @@ function CataQuestFixes.Load()
         [24932] = { -- Cutting Losses
             [questKeys.preQuestSingle] = {25103},
         },
+        [24934] = { -- Repel Boarders!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Get a ride to the Blackpool"),0,{{"monster",38619}}}},
+        },
         [24937] = { -- Oomlot Dealt With
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24925,24929},
         },
+        [24938] = { -- The Guns of Northwatch
+            [questKeys.preQuestSingle] = {24934},
+        },
+        [24939] = { -- Run Out the Guns
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Use the cannon"),0,{{"monster",38754}}}},
+        },
         [24942] = { -- Zombies vs. Super Booster Rocket Boots
             [questKeys.objectives] = {nil,nil,nil,nil,{{{38753,38813,38815,38816},38813,"Goblin Zombies slain"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_LOST_ISLES] = {{51.8,47.11}}},Questie.ICON_TYPE_EVENT,l10n("Use Super Booster Rocket Boots in the vicinity of Coach Crosscheck")}},
+        },
+        [24943] = { -- Re-Take the Courtyard
+            [questKeys.preQuestSingle] = {24941},
+            [questKeys.objectives] = {{{38805,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [24944] = { -- Back in the Fight
+            [questKeys.preQuestSingle] = {24941},
         },
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
@@ -3812,6 +3833,10 @@ function CataQuestFixes.Load()
         [25035] = { -- Breaking the Line
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jornun"), 0, {{"monster", 38989}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25036] = { -- Teegan's Troubles
+            [questKeys.preQuestGroup] = {24948,24956},
+            [questKeys.nextQuestInChain] = 25015,
         },
         [25038] = { -- Gordo's Task
             [questKeys.preQuestSingle] = {24976},
@@ -3997,6 +4022,9 @@ function CataQuestFixes.Load()
         [25184] = { -- Wild Mine Cart Ride
             [questKeys.objectives] = {{{39335,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25186] = { -- Futile Resistance
+            [questKeys.preQuestGroup] = {24862,24863},
+        },
         [25187] = { -- Lost in the Floods
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{39357,nil,Questie.ICON_TYPE_EVENT},{39358,nil,Questie.ICON_TYPE_EVENT},{39359,nil,Questie.ICON_TYPE_EVENT},{39360,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4027,6 +4055,9 @@ function CataQuestFixes.Load()
         },
         [25195] = { -- That's the End of That Raptor
             [questKeys.parentQuest] = 25188,
+        },
+        [25197] = { -- The Admiral Won't Back Down
+            [questKeys.nextQuestInChain] = 24934,
         },
         [25202] = { -- The Fastest Way to His Heart
             [questKeys.preQuestGroup] = {25200,25201},
@@ -10813,6 +10844,7 @@ function CataQuestFixes.Load()
         },
         [28551] = { -- Hero's Call: Southern Barrens!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 24921,
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,

@@ -1803,6 +1803,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38661] = { -- Rageroar Sea Dog
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{72.6,47.2},{72.9,47.3},{73.1,47.4},{73.3,47.5},{73,47.6},{73.2,47.75},{73.1,47.7}}},
+        },
         [38696] = { -- Yngwie
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{62.91,68.56}}},
         },
@@ -1842,6 +1845,9 @@ function CataNpcFixes.Load()
                     {57.05,32.15,phases.LOST_ISLES_CHAPTER_8},
                 },
             },
+        },
+        [38805] = { -- Wounded Defender
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{67.66,44.68},{68.02,45.41},{68.02,45.67},{67.77,45.32},{67.07,44.72},{67.06,44.44},{67.07,45.35},{66.5,44.67},{66.32,45.17},{67.37,45.21},{66.34,44.96},{66.61,45.34}}},
         },
         [38842] = { -- Rocket Boot Boost Kill Credit
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{51.8,47.1}}},
