@@ -1,5 +1,7 @@
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
@@ -8,6 +10,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+
+QuestieCorrections.eventObjectiveFirst[85304] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -3250,6 +3254,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85304] = { -- Essence of Fire
             [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES]={{14.8,56.7}}}},
+            [questKeys.objectives] = {{{232429},{232429},{232398}},nil,{{230908}}},
             [questKeys.nextQuestInChain] = 85385,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
