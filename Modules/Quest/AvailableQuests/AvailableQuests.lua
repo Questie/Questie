@@ -39,7 +39,7 @@ local availableQuests = {}
 local dungeons
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
@@ -199,7 +199,7 @@ _CalculateAndDrawAvailableQuests = function()
             -- We already drew this quest so we might need to update the icon (config changed/level up)
             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
                 if frame and frame.data and frame.data.QuestData then
-                    local newIcon = _GetQuestIcon(frame.data.QuestData)
+                    local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
 
                     if newIcon ~= frame.data.Icon then
                         frame:UpdateTexture(Questie.usedIcons[newIcon])
@@ -278,28 +278,6 @@ _DrawAvailableQuest = function(questId)
     end, 0)
 end
 
----@param quest Quest
-_GetQuestIcon = function(quest)
-    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
-        return Questie.ICON_TYPE_SODRUNE
-    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
-        return Questie.ICON_TYPE_EVENTQUEST
-    end
-    if QuestieDB.IsPvPQuest(quest.Id) then
-        return Questie.ICON_TYPE_PVPQUEST
-    end
-    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        return Questie.ICON_TYPE_AVAILABLE_GRAY
-    end
-    if quest.IsRepeatable then
-        return Questie.ICON_TYPE_REPEATABLE
-    end
-    if (QuestieDB.IsTrivial(quest.level)) then
-        return Questie.ICON_TYPE_AVAILABLE_GRAY
-    end
-    return Questie.ICON_TYPE_AVAILABLE
-end
-
 ---@param starter table Either an object or an NPC
 ---@param quest Quest
 ---@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
@@ -321,7 +299,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                 if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
                     local data = {
                         Id = quest.Id,
-                        Icon = _GetQuestIcon(quest),
+                        Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
@@ -362,7 +340,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                 if not starterIcons[zone] then
                     local data = {
                         Id = quest.Id,
-                        Icon = _GetQuestIcon(quest),
+                        Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",

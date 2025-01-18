@@ -203,6 +203,9 @@ function CataItemFixes.Load()
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
         },
+        [34130] = { -- Recovery Diver's Potion
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [38567] = { -- Maraudine Prisoner Manifest
             [itemKeys.startQuest] = 14330,
         },
@@ -310,6 +313,12 @@ function CataItemFixes.Load()
         },
         [48766] = { -- Kaja'mite Chunk
             [itemKeys.npcDrops] = {},
+        },
+        [48953] = { -- Bleached Skull
+            [itemKeys.npcDrops] = {},
+        },
+        [49136] = { -- Blood-Filled Leech
+            [itemKeys.npcDrops] = {36059},
         },
         [49164] = { -- Cenarion Supply Crate
             [itemKeys.npcDrops] = {},

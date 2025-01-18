@@ -167,6 +167,11 @@ function QuestieObjectFixes:Load()
         [174848] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.85,73.48}}}, -- #1520
         },
+        [175124] = {
+            [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
+            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+        },
         [175265] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.74,73.57}}}, -- #1520
         },
@@ -177,6 +182,11 @@ function QuestieObjectFixes:Load()
         [175322] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{56.37,87.83}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [175584] = {
+            [objectKeys.name] = "Challenge to Urok",
+            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
         },
         [176150] = {
             [objectKeys.spawns] = {
@@ -207,6 +217,11 @@ function QuestieObjectFixes:Load()
         [177241] = {
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{45.27,69.21}}},
             [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [177673] = { -- Desolace for quest 6027
+            [objectKeys.name] = "Serpent Statue",
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
         [177784] = {
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{24.6,44.1},{25.4,47.8},{25.7,38.9},{26.2,36.7},{28.2,34.1},{29.7,36.7},{30,26.1},{30.1,29.1},{30.6,31.9},{30.6,34.3},{30.8,24.4},{32,30.5},{32.7,25.4},{32.8,35.2},{33,28.6},{33.9,33.2},{34.1,27.5},{34.1,30.6},{34.2,27.4},{34.3,23.2},{35.2,34.7},{35.4,25},{35.5,25},{34.11,30.7},{35.26,34.72},{32.8,35.3},{30.54,34.21},{34.15,27.46},{31.93,30.58},{32.94,28.58},{35.37,25.02},{32.69,25.26},{30.84,24.33},{34.32,23.12},{33.88,33.29}}},
@@ -269,26 +284,26 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.79,22.43}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
-        [400002] = {
+        --[[[400002] = { -- REUSE
             [objectKeys.name] = "Serpent Statue", -- Desolace for quest 6027
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
-        },
+        },]]
         [400003] = {
             [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
-        [400004] = {
+        --[[[400004] = { -- REUSE
             [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-        },
-        [400005] = {
+        },]]
+        --[[[400005] = { -- REUSE
             [objectKeys.name] = "Challenge to Urok",
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-        },
+        },]]
         [400006] = {
             [objectKeys.name] = "Feralas Ahi Fishing Location",
             [objectKeys.questStarts] = {},

@@ -110,22 +110,12 @@ end
 _CreateOptionsTable = function()
     local general_tab = QuestieOptions.tabs.general:Initialize()
     coroutine.yield()
-    --local social_tab = QuestieOptions.tabs.social:Initialize()
-    --coroutine.yield()
-    --local minimap_tab = QuestieOptions.tabs.minimap:Initialize()
-    --coroutine.yield()
-    --local map_tab = QuestieOptions.tabs.map:Initialize()
-    --coroutine.yield()
     local icons_tab = QuestieOptions.tabs.icons:Initialize()
     coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
     coroutine.yield()
     local auto_tab = QuestieOptions.tabs.auto:Initialize()
     coroutine.yield()
-    --local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
-    --coroutine.yield()
-    --local sounds_tab = QuestieOptions.tabs.sounds:Initialize()
-    --coroutine.yield()
     local nameplate_tab = QuestieOptions.tabs.nameplate:Initialize()
     coroutine.yield()
     local dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize()
@@ -139,14 +129,9 @@ _CreateOptionsTable = function()
         childGroups = "tab",
         args = {
             general_tab = general_tab,
-            --social_tab = social_tab,
-            --minimap_tab = minimap_tab,
-            --map_tab = map_tab,
             icons_tab = icons_tab,
             tracker_tab = tracker_tab,
             auto_tab = auto_tab,
-            --tooltip_tab = tooltip_tab,
-            --sounds_tab = sounds_tab,
             nameplate_tab = nameplate_tab,
             dbm_hud_tab = dbm_hud_tab,
             advanced_tab = advanced_tab,

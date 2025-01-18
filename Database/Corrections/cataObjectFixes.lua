@@ -254,6 +254,9 @@ function CataObjectFixes.Load()
         [194102] = { -- Shatterspear Armaments
             [objectKeys.spawns] = {[141]={{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148]={{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},
         },
+        [194238] = { -- Blade of Drak'Mar
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{93.19,25.98}}},
+        },
         [195365] = { -- Energy Conduit
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{55.74,14.76},{56.28,13.52},{56.89,14.35},{57.57,11.7},{55.5,10.53},{56.17,11.07}}},
         },
@@ -265,6 +268,9 @@ function CataObjectFixes.Load()
         },
         [195622] = { -- Kaja'mite Ore
             [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{31.76,73.52}}},
+        },
+        [196393] = { -- Broken Relic
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{27.22,63.35}}},
         },
         [196472] = { -- Grandma's Good Clothes
             [objectKeys.spawns] = {[zoneIDs.GILNEAS]={{32.03,75.45}}},
@@ -783,6 +789,16 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Kurzen Cage",
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{56.40,20.29}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [430027] = {
+            [objectKeys.name] = "Horde Cage",
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{67.63,51.45},{67.25,53.3},{64.56,49.23},{68.35,53.69},{65.3,56.49},{64.95,52.27},{66.57,53.9},{66.5,55.83},{67.25,55.27},{65.28,53.48},{64.5,51.04},{65.13,54.72},{64.09,55.68},{66.18,50.51},{66.11,52.09}}},
+            [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+        },
+        [430028] = {
+            [objectKeys.name] = "Huntress Illiona's Cage",
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{66.2,54.52}}},
+            [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
         },
     }
 end

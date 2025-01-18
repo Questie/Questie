@@ -5,9 +5,6 @@ local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-local _QuestieJourney = QuestieJourney.private
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieSearch
@@ -348,8 +345,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
             frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
 
             startQuests[counter] = {
@@ -388,8 +385,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
             frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
 
             endQuests[counter] = {
                 frame = frame,
@@ -430,37 +427,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     header:SetText(query(itemId, "name"))
     f:AddChild(header)
 
-    local itemLink = select(2, GetItemInfo(itemId))
-    local itemIcon = AceGUI:Create("Icon")
-    itemIcon:SetWidth(25)
-    itemIcon:SetHeight(25)
-    itemIcon:SetImage(GetItemIcon(itemId))
-    itemIcon:SetImageSize(25, 25)
-    itemIcon:SetCallback("OnEnter", function()
-        if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
-        end
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-        GameTooltip:SetHyperlink(itemLink)
-        GameTooltip:Show()
-    end)
-    itemIcon:SetCallback("OnLeave", function()
-        GameTooltip:Hide()
-    end)
-    itemIcon:SetCallback("OnClick", function()
-        if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
-        end
-        if IsShiftKeyDown() then
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(itemLink)
-            else
-                ChatEdit_InsertLink(itemLink)
-            end
-        elseif IsControlKeyDown() then
-            DressUpItemLink(itemLink)
-        end
-    end)
+    local itemIcon = QuestieJourneyUtils.GetItemIcon(itemId)
     f:AddChild(itemIcon)
 
     local spawnIdLabel = AceGUI:Create("Label")
