@@ -740,6 +740,9 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50,28}}},
         },
+        [232429] = { -- Magical Stone
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{14.8,56.7}}},
+        },
         [232529] = { -- Nandieb
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
