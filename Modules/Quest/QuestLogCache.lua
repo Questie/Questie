@@ -115,7 +115,9 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         Sounds.PlayObjectiveProgress()
                     end
 
-                    allObjectivesFinished = allObjectivesFinished and newObj.finished -- if any objective is not finished, whole quest is not complete
+                    -- if any objective is not finished, whole quest is not complete.
+                    -- we also check numRequired == numFulfilled as some quests return finished=false while numRequired == numFulfilled is true (example: 85304 in SoD).
+                    allObjectivesFinished = allObjectivesFinished and (newObj.finished or newObj.numRequired == newObj.numFulfilled)
 
                     newObjectives[objIndex] = {
                         raw_text = newObj.text,
