@@ -197,15 +197,7 @@ _CalculateAndDrawAvailableQuests = function()
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
-            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if frame and frame.data and frame.data.QuestData then
-                    local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
-
-                    if newIcon ~= frame.data.Icon then
-                        frame:UpdateTexture(Questie.usedIcons[newIcon])
-                    end
-                end
-            end
+            QuestieMap.UpdateDrawnIcons(questId)
         else
             _DrawAvailableQuest(questId)
         end
