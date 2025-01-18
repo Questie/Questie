@@ -615,7 +615,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Activer les infobulles mondiales",
     },
     ["When this is enabled, quest info will be added to relevant mob/item tooltips."] = {
-        ["ptBR"] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob/item.",
+        ["ptBR"] = "Se ativado, as informações da missão serão adicionadas às dicas relevantes de mob/item.",
         ["ruRU"] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
         ["deDE"] = "Aktiviert/Deaktiviert zusätzliche Informationen zu Gegnern und Gegenständen als Tooltip.",
         ["koKR"] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
