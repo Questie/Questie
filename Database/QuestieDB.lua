@@ -1460,6 +1460,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
+        if QuestieCorrections.eventObjectiveFirst[questId] then
+            tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
+            tremove(QO.ObjectiveData)
+        end
     end
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
