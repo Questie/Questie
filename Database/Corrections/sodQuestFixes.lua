@@ -4067,6 +4067,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
         },
+        [87361] = { -- Laid to Rest
+            [questKeys.startedBy] = {nil,nil,{236750}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
         [87362] = { -- Hope Begins in the Dark
             [questKeys.startedBy] = {{238382}},
             [questKeys.finishedBy] = {{238382}},
