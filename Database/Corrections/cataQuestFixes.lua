@@ -4067,7 +4067,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {},
         },
         [25171] = { -- Riding On
-            [questKeys.preQuestSingle] = {25169},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25168,25169},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 0, {{"monster", 10676}}}},
         },
         [25178] = { -- Shipwreck Searching
