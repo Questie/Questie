@@ -1367,6 +1367,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [15843] = "Muestrario de Cima Calígine lleno",
 [15845] = "Muestrario del Salto de Fonroca lleno",
 [15847] = "Registro de Quel'Thalas",
+[15848] = "Cajón de imanes fantasmales",
 [15849] = "Ectoplasma",
 [15850] = "Parche de pelaje de Alaocaso",
 [15851] = "Hongo lunar",
