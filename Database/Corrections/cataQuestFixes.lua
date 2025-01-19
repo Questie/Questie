@@ -12462,6 +12462,9 @@ function CataQuestFixes.Load()
         [29284] = { -- Aid of the Ancients
             [questKeys.preQuestSingle] = {29283},
         },
+        [29285] = { -- Alignment
+            [questKeys.objectives] = {{{53215,nil,Questie.ICON_TYPE_TALK}},nil,{{71084}},nil,},
+        },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
             [questKeys.preQuestSingle] = {},
