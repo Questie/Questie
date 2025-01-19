@@ -29178,6 +29178,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [229057] = {
+            [itemKeys.name] = "Impounded Goods",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = {224849},
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [229352] = {
             [itemKeys.name] = "Intelligence Findings",
             [itemKeys.npcDrops] = {12435},
