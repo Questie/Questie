@@ -3413,7 +3413,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{30.93,24.01}}},
         },
         [53215] = { -- Kalecgos
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.2,30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.17,30.79}}},
         },
         [53234] = { -- Anren Shadowseeker
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.62,59.91}}},
