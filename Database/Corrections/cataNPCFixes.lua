@@ -3412,6 +3412,9 @@ function CataNpcFixes.Load()
         [53149] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{30.93,24.01}}},
         },
+        [53215] = { -- Kalecgos
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.2,30.8}}},
+        },
         [53234] = { -- Anren Shadowseeker
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.62,59.91}}},
         },
@@ -3420,6 +3423,9 @@ function CataNpcFixes.Load()
         },
         [53296] = { -- Locket A Event Controller
             [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{51.67,44.62}}},
+        },
+        [53349] = { -- Kalecgos
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.3,23}}},
         },
         [53385] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.16,90.58}}},
