@@ -12532,6 +12532,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29283,29287,29293,-29206}, -- 29287 or 29288 or 29290, 29293 or 29296.
         },
+        [29307] = { -- Heart of Flame
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [29308] = { -- Heart of Flame
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
             [questKeys.startedBy] = {{100025}},
