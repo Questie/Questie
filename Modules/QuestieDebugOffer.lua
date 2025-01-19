@@ -3,6 +3,8 @@ local QuestieDebugOffer = QuestieLoader:CreateModule("QuestieDebugOffer")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestLogCache
@@ -394,10 +396,16 @@ local function _AppendUniversalText(input)
     text = text .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel(player) .. " " .. string.upper(playerRace) .. " " .. playerClass
 
     local mapID = GetBestMapForUnit(player)
-    local pos = GetPlayerMapPosition(mapID, player);
-    PosX = pos.x * 100
-    PosY = pos.y * 100
-    text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+
+    if mapID then
+        local pos = GetPlayerMapPosition(mapID, player);
+        PosX = pos.x * 100
+        PosY = pos.y * 100
+        text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+    else
+        local zoneId = ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
+        text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. zoneId .. "]  -1, -1"
+    end
 
     local questLog = ""
     for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
