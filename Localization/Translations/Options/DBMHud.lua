@@ -228,7 +228,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示任务需要击杀图标",
         ["zhTW"] = "顯示殺怪圖示",
         ["esES"] = "Mostrar iconos de matanza",
-        ["frFR"] = "Afficher les icônes de meurtre",
+        ["frFR"] = "Afficher les icônes de tuerie",
     },
     ["Toggles whether or not slay icons appear on the DBM HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de matança aparecem no DBM HUD. (Padrão: %s)",
@@ -240,7 +240,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "切换是否在HUD上显示击杀目标的图标。 （默认：%s）",
         ["zhTW"] = "切換 HUD 上是否要顯示殺怪的圖示。(預設值: %s)",
         ["esES"] = "Activa o desactiva si los iconos de matanza aparecen en el DBM HUD. (Predeterminado: %s)",
-        ["frFR"] = "Indique si les icônes de meurtre apparaissent sur le DBM HUD. (Par défaut : %s)",
+        ["frFR"] = "Indique si les icônes de tuerie apparaissent sur le DBM HUD. (Par défaut : %s)",
     },
     ["Global radius/size for HUD Icons"] = {
         ["ptBR"] = "Raio/tamanho global para ícones de HUD",
