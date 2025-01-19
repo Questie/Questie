@@ -12465,6 +12465,7 @@ function CataQuestFixes.Load()
         },
         [29285] = { -- Alignment
             [questKeys.objectives] = {{{53215,nil,Questie.ICON_TYPE_TALK}},nil,{{71084}},nil,},
+            [questKeys.zoneOrSort] = 4024,
         },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
@@ -12535,9 +12536,11 @@ function CataQuestFixes.Load()
         },
         [29307] = { -- Heart of Flame
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = 4024,
         },
         [29308] = { -- Heart of Flame
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 4024,
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
