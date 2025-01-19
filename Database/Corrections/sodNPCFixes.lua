@@ -790,6 +790,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{31.3,66.4}},
             },
         },
+        [238382] = { -- Kug Softjaw
+            [npcKeys.minLevel] = 58,
+            [npcKeys.maxLevel] = 58,
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.questStarts] = {87362},
+            [npcKeys.questEnds] = {87362},
+        },
 
         -- fake NPCs
         [900000] = {

@@ -15585,5 +15585,15 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
         },
+        [238382] = {
+            [npcKeys.name] = "Kug Softjaw",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
+        },
     }
 end

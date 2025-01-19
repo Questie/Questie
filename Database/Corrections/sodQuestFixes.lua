@@ -4067,6 +4067,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
         },
+        [87362] = { -- Hope Begins in the Dark
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
 
         --- Fake rune quests
         [90000] = {
