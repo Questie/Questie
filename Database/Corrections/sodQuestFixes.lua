@@ -1,5 +1,7 @@
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
@@ -8,6 +10,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+
+QuestieCorrections.eventObjectiveFirst[85304] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -3250,6 +3254,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85304] = { -- Essence of Fire
             [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES]={{14.8,56.7}}}},
+            [questKeys.objectives] = {{{232429},{232429},{232398}},nil,{{230908}}},
             [questKeys.nextQuestInChain] = 85385,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
@@ -4060,6 +4066,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{235275}}},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [87360] = { -- The Fall of Kel'Thuzad
+            [questKeys.startedBy] = {{15990},nil,{236350}},
+            [questKeys.finishedBy] = {{16113}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
+        [87361] = { -- Laid to Rest
+            [questKeys.startedBy] = {nil,nil,{236750}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
+        [87362] = { -- Hope Begins in the Dark
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87364] = { -- Seal the Deal
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
 
         --- Fake rune quests

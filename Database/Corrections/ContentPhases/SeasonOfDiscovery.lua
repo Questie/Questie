@@ -623,6 +623,9 @@ local questsToBlacklistByPhase = {
         [8764] = true, -- The Changing of Paths - Protector No More
         [8765] = true, -- The Changing of Paths - Invoker No More
         [8766] = true, -- The Changing of Paths - Conqueror No More
+
+        -- Original Naxxramas quests
+        [9120] = true, -- The Fall of Kel'Thuzad
     },
 }
 

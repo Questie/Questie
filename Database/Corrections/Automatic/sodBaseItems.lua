@@ -29178,6 +29178,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [229057] = {
+            [itemKeys.name] = "Impounded Goods",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = {224849},
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [229352] = {
             [itemKeys.name] = "Intelligence Findings",
             [itemKeys.npcDrops] = {12435},
@@ -43569,6 +43577,30 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
+        },
+        [236350] = {
+            [itemKeys.name] = "The Phylactery of Kel'Thuzad",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 87360,
+        },
+        [236397] = {
+            [itemKeys.name] = "Remnants of Valor",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [236750] = {
+            [itemKeys.name] = "Heart of Doom",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 87361,
         },
     }
 end

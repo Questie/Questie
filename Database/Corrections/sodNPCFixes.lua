@@ -740,6 +740,12 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50,28}}},
         },
+        [232398] = { -- Primordial Flame
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.6,56.6}}},
+        },
+        [232429] = { -- Magical Stone
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{14.8,56.7}}},
+        },
         [232529] = { -- Nandieb
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
@@ -783,6 +789,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{44.3,76.7}},
                 [zoneIDs.TIRISFAL_GLADES] = {{31.3,66.4}},
             },
+        },
+        [238382] = { -- Kug Softjaw
+            [npcKeys.minLevel] = 58,
+            [npcKeys.maxLevel] = 58,
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.questStarts] = {87362,87364},
+            [npcKeys.questEnds] = {87362,87364},
         },
 
         -- fake NPCs

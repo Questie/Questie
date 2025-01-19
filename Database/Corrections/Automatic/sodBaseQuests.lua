@@ -8625,5 +8625,49 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return the Portals Deck to the Darkmoon Faire when it comes to town. A Darkmoon Faire quest. +150 reputation with Darkmoon Faire. Added in Classic World of Warcraft."},
             [questKeys.objectives] = {nil,nil,{{19277},{235275}}},
         },
+        [87360] = {
+            [questKeys.name] = "The Fall of Kel'Thuzad",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Phylactery of Kel'Thuzad to Light's Hope Chapel in the Eastern Plaguelands."},
+            [questKeys.objectives] = nil
+        },
+        [87361] = {
+            [questKeys.name] = "Laid to Rest",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"See if anyone can assist you at Light's Hope Chapel in Eastern Plaguelands."},
+            [questKeys.objectives] = nil
+        },
+        [87362] = {
+            [questKeys.name] = "Hope Begins in the Dark",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Receive the Seal of the Dawn."},
+            [questKeys.objectives] = nil
+        },
+        [87364] = {
+            [questKeys.name] = "Seal the Deal",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Collect Remnants of Valor within Naxxramas."},
+            [questKeys.objectives] = {nil,nil,{{236397}}}
+        },
     }
 end
