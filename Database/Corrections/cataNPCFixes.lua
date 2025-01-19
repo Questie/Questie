@@ -1611,15 +1611,15 @@ function CataNpcFixes.Load()
         [37165] = { -- Henry Zykes
             [npcKeys.waypoints] = {[4709] = {{{42.57,22.30},{41.87,22.25},{41.64,21.56},{41.59,21.28},{41.41,20.36},{41.33,19.33},{40.63,18.26},{40.52,17.90},{40.43,17.31},{40.58,16.28},{40.62,15.49},{40.67,15.07}}}},
         },
+        [37513] = { -- Sabersnout
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{42.99,41.6}}},
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
                     {59.6,76.48,phases.KEZAN_CHAPTER_6},
                 },
             },
-        },
-        [37667] = { -- Capture Point Kill Credit Horde
-            [npcKeys.spawns] = {[4709] = {{46.37,47.25},{49.40,54.03},{46.30,56.74}}},
         },
         [37733] = { -- Lord Walden
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{78.11,66.11}}},
@@ -1852,6 +1852,9 @@ function CataNpcFixes.Load()
         [38842] = { -- Rocket Boot Boost Kill Credit
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{51.8,47.1}}},
         },
+        [38872] = { -- Ambassador Gaines
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{53.12,46.67}}},
+        },
         [38935] = { -- Thrall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -1894,6 +1897,9 @@ function CataNpcFixes.Load()
         },
         [39199] = { -- Assistant Greely
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{53.16,36.55}}},
+        },
+        [39218] = { -- Bael'dun Survivor
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS]={{49.42,86.88}}},
         },
         [39325] = { -- Grandmatron Tekla
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.49,35.36}}},

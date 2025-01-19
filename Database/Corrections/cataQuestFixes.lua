@@ -3236,12 +3236,14 @@ function CataQuestFixes.Load()
         },
         [24546] = { -- A Line in the Dirt
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,{{201743},{201744,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24550] = { -- Journey into Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
         [24566] = { -- Sowing a Solution
             [questKeys.preQuestGroup] = {24570,24571},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{37090,37091},37090,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24567] = { -- Report for Tryouts
             [questKeys.sourceItemId] = 46856,
@@ -3264,6 +3266,9 @@ function CataQuestFixes.Load()
         [24597] = { -- A Gift for the King of Stormwind
             [questKeys.finishedBy] = {{29611}},
         },
+        [24601] = { -- The Nightmare Scar
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",37570}}}},
+        },
         [24606] = { -- Blood of the Barrens
             [questKeys.startedBy] = {{37560,37660,37661},nil,{49932}},
         },
@@ -3272,7 +3277,7 @@ function CataQuestFixes.Load()
         },
         [24618] = { -- Claim the Battle Scar
             [questKeys.preQuestSingle] = {24591},
-            [questKeys.objectives] = {{{37923}},{{201879,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{37923}},{{201876,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24622] = { -- A Troll's Truest Companion
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3820,6 +3825,17 @@ function CataQuestFixes.Load()
         [25012] = { -- Take to the Skies
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Brill"), 0, {{"monster", 37915}}}},
         },
+        [25022] = { -- A Failure to Communicate
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Break the restraints"), 0, {{"object", 202418},{"object", 202419}}}},
+            [questKeys.objectives] = {{{38872,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25027] = { -- You Flicked a Fine Vine to Leaf Me
+            [questKeys.preQuestGroup] = {25015,25022},
+            [questKeys.objectives] = {{{38941,nil,Questie.ICON_TYPE_INTERACT},{38940}}},
+        },
+        [25028] = { -- Trouble From the Ground Up
+            [questKeys.preQuestGroup] = {25015,25022},
+        },
         [25029] = { -- Deaths in the Family
             [questKeys.preQuestSingle] = {25003},
         },
@@ -3830,6 +3846,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25003},
             [questKeys.preQuestGroup] = {24995,24999},
         },
+        [25034] = { -- To the Front!
+            [questKeys.preQuestSingle] = {25027},
+        },
         [25035] = { -- Breaking the Line
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jornun"), 0, {{"monster", 38989}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3838,15 +3857,21 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {24948,24956},
             [questKeys.nextQuestInChain] = 25015,
         },
-        [25038] = { -- Gordo's Task
-            [questKeys.preQuestSingle] = {24976},
-        },
-        [25046] = { -- A Daughter's Embrace
-            [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
-        },
         [25037] = { -- Crab Fishin'
             [questKeys.preQuestSingle] = {24643,24755,24763,24769,24775,24781,24787,26277},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25038] = { -- Gordo's Task
+            [questKeys.preQuestSingle] = {24976},
+        },
+        [25044] = { -- Diplomacy By Another Means
+            [questKeys.preQuestSingle] = {25027},
+        },
+        [25045] = { -- A Line in the Dirt
+            [questKeys.objectives] = {nil,{{201743},{202460,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25046] = { -- A Daughter's Embrace
+            [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25050] = { -- Rocket Rescue
             [questKeys.objectives] = {{{38571},{40583}}},
@@ -3858,6 +3883,13 @@ function CataQuestFixes.Load()
         },
         [25053] = { -- To The Ground! [Alliance]
             [questKeys.preQuestSingle] = {25121},
+        },
+        [25057] = { -- Clap 'Em In Irons
+            [questKeys.preQuestGroup] = {25043,25044,25045},
+            [questKeys.objectives] = {{{37743,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [25059] = { -- The Taurajo Briefs
+            [questKeys.preQuestGroup] = {25043,25044,25045},
         },
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3882,8 +3914,17 @@ function CataQuestFixes.Load()
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [25074] = { -- Meet Me at Triumph
+            [questKeys.preQuestSingle] = {25057},
+        },
         [25081] = { -- Claim the Battlescar
-            [questKeys.objectives] = {{{37922}},{{201878,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{37922}},{{201876,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25086] = { -- Firestone Point
+            [questKeys.preQuestSingle] = {25082},
+        },
+        [25087] = { -- Report to Twinbraid
+            [questKeys.preQuestSingle] = {25081},
         },
         [25094] = { -- Thunderdrome: Zumonga!
             [questKeys.objectives] = {{{39148}}},
@@ -3897,8 +3938,14 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25154,25155,25156,25157},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
+        [25106] = { -- Hands Off Me Dig!
+            [questKeys.preQuestSingle] = {25104},
+        },
         [25107] = { -- The Grand Tablet
             [questKeys.preQuestSingle] = {25070},
+        },
+        [25108] = { -- Feegly the Exiled
+            [questKeys.preQuestSingle] = {25104},
         },
         [25111] = { -- Scavengers Scavenged
             [questKeys.objectives] = {{{5429}}},
@@ -3908,6 +3955,10 @@ function CataQuestFixes.Load()
         },
         [25115] = { -- Blisterpaw Butchery
             [questKeys.objectives] = {{{5426}}},
+        },
+        [25120] = { -- Marley's Final Flight
+            [questKeys.preQuestGroup] = {25106,25108},
+            [questKeys.objectives] = {{{39155,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25122] = { -- Morale Boost
             [questKeys.requiredSourceItems] = {52484},
@@ -3957,6 +4008,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 39206}}}},
         },
+        [25153] = { -- Bael'dun Rescue
+            [questKeys.preQuestGroup] = {25106,25108},
+            [questKeys.objectives] = {{{39238,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25154] = { -- A Present for Lila
             [questKeys.exclusiveTo] = {25105,25155,25156,25157},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
@@ -3995,6 +4050,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25158,25159,25160,25161},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
+        [25163] = { -- Who Did This?
+            [questKeys.preQuestGroup] = {25106,25108},
+        },
         [25164] = { -- Backed Into a Corner
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39397,40162,40372},39397},{{40161},40161}}},
         },
@@ -4019,8 +4077,15 @@ function CataQuestFixes.Load()
         [25179] = { -- Loss Reduction
             [questKeys.objectives] = {{{39270,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [25183] = { -- ...And Bury the Rest
+            [questKeys.preQuestSingle] = {25174},
+            [questKeys.objectives] = {nil,{{202596}}},
+        },
         [25184] = { -- Wild Mine Cart Ride
             [questKeys.objectives] = {{{39335,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25185] = { -- The Deed Is Done
+            [questKeys.preQuestSingle] = {25183},
         },
         [25186] = { -- Futile Resistance
             [questKeys.preQuestGroup] = {24862,24863},
@@ -6876,6 +6941,9 @@ function CataQuestFixes.Load()
         },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26618},
+        },
+        [26687] = { -- Reinforcements From Theramore
+            [questKeys.preQuestGroup] = {25182,25185},
         },
         [26692] = { -- Shadowhide Extinction
             [questKeys.preQuestSingle] = {26668},
