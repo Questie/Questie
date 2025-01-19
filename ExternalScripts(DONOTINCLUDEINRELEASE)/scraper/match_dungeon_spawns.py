@@ -7,6 +7,10 @@ dungeons = [
     ["Gnomeregan", "721"],
     ["The Temple of Atal'Hakkar", "1477"],
     ["Molten Core", "2717"],
+    ["Blackwing Lair", "2677"],
+    ["Ruins of Ahn'Qiraj", "3429"],
+    ["Ahn'Qiraj Temple", "3428"],
+    ["Naxxramas", "3456"],
     ["Demon Fall Canyon", "15475"],
     ["The Burning of Andorhal", "15828"]
 ]
