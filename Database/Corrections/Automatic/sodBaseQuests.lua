@@ -8636,5 +8636,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Receive the Seal of the Dawn."},
             [questKeys.objectives] = nil
         },
+        [87364] = {
+            [questKeys.name] = "Seal the Deal",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Collect Remnants of Valor within Naxxramas."},
+            [questKeys.objectives] = {nil,nil,{{236397}}}
+        },
     }
 end

@@ -4072,6 +4072,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{238382}},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
+        [87364] = { -- Seal the Deal
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
 
         --- Fake rune quests
         [90000] = {

@@ -795,8 +795,8 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.maxLevel] = 58,
             [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
             [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
-            [npcKeys.questStarts] = {87362},
-            [npcKeys.questEnds] = {87362},
+            [npcKeys.questStarts] = {87362,87364},
+            [npcKeys.questEnds] = {87362,87364},
         },
 
         -- fake NPCs
