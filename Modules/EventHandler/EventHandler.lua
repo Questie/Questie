@@ -342,16 +342,10 @@ function _EventHandler:PlayerLevelUp(level)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
-
-    -- deferred update (possible desync fix?)
-    C_Timer.After(3, function()
-        QuestiePlayer:SetPlayerLevel(level)
-
-        AvailableQuests.ResetLevelRequirementCache()
-        AvailableQuests.CalculateAndDrawAll()
-    end)
-
     QuestieJourney:PlayerLevelUp(level)
+
+    AvailableQuests.ResetLevelRequirementCache()
+    AvailableQuests.CalculateAndDrawAll()
 end
 
 --- Fires when a modifier key changed
