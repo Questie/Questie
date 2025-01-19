@@ -8625,6 +8625,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return the Portals Deck to the Darkmoon Faire when it comes to town. A Darkmoon Faire quest. +150 reputation with Darkmoon Faire. Added in Classic World of Warcraft."},
             [questKeys.objectives] = {nil,nil,{{19277},{235275}}},
         },
+        [87360] = {
+            [questKeys.name] = "The Fall of Kel'Thuzad",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Phylactery of Kel'Thuzad to Light's Hope Chapel in the Eastern Plaguelands."},
+            [questKeys.objectives] = nil
+        },
         [87361] = {
             [questKeys.name] = "Laid to Rest",
             [questKeys.startedBy] = nil,

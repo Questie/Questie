@@ -233,5 +233,8 @@ function SeasonOfDiscovery:LoadItems()
         [235046] = { -- Imperial Qiraji Armaments
             [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
         },
+        [236350] = { -- The Phylactery of Kel'Thuzad
+            [itemKeys.npcDrops] = {15990},
+        },
     }
 end

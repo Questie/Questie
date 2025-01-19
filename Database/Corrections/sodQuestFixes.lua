@@ -4067,6 +4067,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
         },
+        [87360] = { -- The Fall of Kel'Thuzad
+            [questKeys.startedBy] = {{15990},nil,{236350}},
+            [questKeys.finishedBy] = {{16113}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
         [87361] = { -- Laid to Rest
             [questKeys.startedBy] = {nil,nil,{236750}},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,

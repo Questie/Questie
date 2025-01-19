@@ -43570,6 +43570,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [236350] = {
+            [itemKeys.name] = "The Phylactery of Kel'Thuzad",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 87360,
+        },
         [236397] = {
             [itemKeys.name] = "Remnants of Valor",
             [itemKeys.npcDrops] = nil,
