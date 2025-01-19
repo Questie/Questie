@@ -3425,7 +3425,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{51.67,44.62}}},
         },
         [53349] = { -- Kalecgos
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.3,23}}},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.29,22.97}}},
         },
         [53385] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.16,90.58}}},
