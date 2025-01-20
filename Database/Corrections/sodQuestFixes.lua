@@ -12,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 QuestieCorrections.eventObjectiveFirst[85304] = true
+QuestieCorrections.eventObjectiveFirst[85386] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -3266,16 +3267,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85386] = { -- Essence of Frost
-            [questKeys.requiredSourceItems] = {230946},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.WINTERSPRING]={{63.3,68.4}}}},
+            [questKeys.objectives] = {{{232466},{232466},{232399}},nil,{{230948}}},
             [questKeys.preQuestSingle] = {85385},
             [questKeys.nextQuestInChain] = 85388,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85388] = { -- A Foul Interference
             [questKeys.startedBy] = {{232381}},
+            [questKeys.objectives] = {{{232534},{232532},{10929}}},
             [questKeys.preQuestSingle] = {85386},
-            [questKeys.requiredSourceItems] = {231304},
+            [questKeys.requiredSourceItems] = {231304,231298},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Scroll of Lesser Spatial Mending"), 0, {{"monster", 232538}}}},
         },
         [85401] = { -- The Frigid Barrow
             [questKeys.zoneOrSort] = sortKeys.DRUID,

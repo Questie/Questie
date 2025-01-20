@@ -39,17 +39,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Rastrear misiones automáticamente",
         ["frFR"] = "Suivi auto des quêtes",
     },
-    ["This is the same as 'Enable Automatic Quest Tracking' in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: 'Show Complete Quests' is disabled while this option is not being used."] = {
-        ["ptBR"] = "É o mesmo que 'Ativar rastreamento automático de missões' nas opções da interface. Se ativado, o Questie Rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
-        ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и 'Отслеживание заданий' в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка 'Выполненные задания' будет отключена при отключении данной настройки",
-        ["deDE"] = "Dies ist dasselbe wie 'Automatische Questverfolgung aktivieren' in den Schnittstellenoptionen. Wenn aktiviert, verfolgt der Questie-Tracker automatisch alle Quests im Questlog. Dies verhindert die manuelle Verfolgung durch 'Umschalten + Linksklick'.",
-        ["koKR"] = "인터페이스 옵션의 '자동 퀘스트 추적 사용 '과 동일합니다. 활성화하면 Questie Tracker가 로그의 모든 퀘스트를 자동으로 추적합니다. 이렇게하면 Shift- 클릭 수동 추적이 방지됩니다.",
-        ["esMX"] = "Esto es lo mismo que 'Activar el seguimiento automático de misiones' en las opciones de la interfaz. Si está activado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
+    ["This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used."] = {
+        ["ptBR"] = "É o mesmo que \"Ativar rastreamento automático de missões\" nas opções da interface. Se ativado, o Questie Rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
+        ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и \"Отслеживание заданий\" в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка \"Выполненные задания\" будет отключена при отключении данной настройки",
+        ["deDE"] = "Dies ist dasselbe wie \"Automatische Questverfolgung aktivieren\" in den Schnittstellenoptionen. Wenn aktiviert, verfolgt der Questie-Tracker automatisch alle Quests im Questlog. Dies verhindert die manuelle Verfolgung durch \"Umschalten + Linksklick\".",
+        ["koKR"] = "인터페이스 옵션의 \"자동 퀘스트 추적 사용 \"과 동일합니다. 활성화하면 Questie Tracker가 로그의 모든 퀘스트를 자동으로 추적합니다. 이렇게하면 Shift- 클릭 수동 추적이 방지됩니다.",
+        ["esMX"] = "Esto es lo mismo que \"Activar el seguimiento automático de misiones\" en las opciones de la interfaz. Si está activado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
         ["enUS"] = true,
         ["zhCN"] = "这与界面选项中的“启用自动任务跟踪”相同。 启用后，Questie 追踪将自动追踪日志中的所有任务。 关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用“显示已完成的任务”",
-        ["zhTW"] = "和遊戲內建的選項 '啟用自動追蹤任務' 相同。啟用時，Questie 任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意: 停用此選項時也會停用 '顯示已完成的任務'。",
-        ["esES"] = "Esto es lo mismo que 'Activar el seguimiento automático de misiones' en las opciones de la interfaz. Si está activado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
-        ["frFR"] = "Cela revient à utiliser 'Activer le suivi automatique des quêtes' dans les options d'interface. Le suivi des quêtes suivra alors automatiquement toutes les quêtes de votre journal et cela empêchera le suivi manuel Maj-clic.",
+        ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie 任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意: 停用此選項時也會停用 \"顯示已完成的任務\"。",
+        ["esES"] = "Esto es lo mismo que \"Activar el seguimiento automático de misiones\" en las opciones de la interfaz. Si está activado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
+        ["frFR"] = "Cela revient à utiliser \"Activer le suivi automatique des quêtes\" dans les options d'interface. Le suivi des quêtes suivra alors automatiquement toutes les quêtes de votre journal et cela empêchera le suivi manuel Maj-clic.",
     },
     ---------------------------------------------------------
     ["Show Completed Quests"] = {
@@ -64,17 +64,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Mostrar misiones completadas",
         ["frFR"] = "Afficher quêtes terminées",
     },
-    ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled."] = {
-        ["ptBR"] = "Se ativado, as missões concluída serão exibidas no rastreador de missões de Questie.\n\nNOTA: Esta configuração só funciona quando 'Rastrear missões automaticamente' está ativado.",
-        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка работает только при включенной настройке 'Автоотслеживание'",
-        ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Quests im Questie-Tracker angezeigt.\n\nHINWEIS: Diese Einstellung funktioniert nur, wenn 'Quests automatisch verfolgen' aktiviert ist.",
-        ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트가 Questie 추적기에 표시됩니다.\n\n참고: 이 설정은 '자동 퀘스트 추적'이 활성화된 경우에만 작동합니다.",
-        ["esMX"] = "Si está activado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: esta configuración solo funciona cuando el 'Rastrear misiones automáticamente' está activado.",
+    ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when \"Auto Track Quests\" is enabled."] = {
+        ["ptBR"] = "Se ativado, as missões concluída serão exibidas no rastreador de missões de Questie.\n\nNOTA: Esta configuração só funciona quando \"Rastrear missões automaticamente\" está ativado.",
+        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка работает только при включенной настройке \"Автоотслеживание\"",
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Quests im Questie-Tracker angezeigt.\n\nHINWEIS: Diese Einstellung funktioniert nur, wenn \"Quests automatisch verfolgen\" aktiviert ist.",
+        ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트가 Questie 추적기에 표시됩니다.\n\n참고: 이 설정은 \"자동 퀘스트 추적\"이 활성화된 경우에만 작동합니다.",
+        ["esMX"] = "Si está activado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: esta configuración solo funciona cuando el \"Rastrear misiones automáticamente\" está activado.",
         ["enUS"] = true,
-        ["zhCN"] = "启用时，任务列表中会显示已完成的任务\n\n注意: 必须先启用 '自动追踪所有任务'，此设置才有用。",
-        ["zhTW"] = "啟用時，任務清單中會顯示已完成的任務。\n\n注意: 必須先啟用 '自動追蹤所有任務'，此設定才有效果。",
-        ["esES"] = "Si está activado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: esta configuración solo funciona cuando el 'Rastrear misiones automáticamente' está activado.",
-        ["frFR"] = "Si cette option est activée, les quêtes terminées s'afficheront dans le suivi de quêtes de Questie.\n\nNOTE : Ce paramètre ne fonctionne que lorsque l'option 'Suivi automatique des quêtes' est activée.",
+        ["zhCN"] = "启用时，任务列表中会显示已完成的任务\n\n注意: 必须先启用 \"自动追踪所有任务\"，此设置才有用。",
+        ["zhTW"] = "啟用時，任務清單中會顯示已完成的任務。\n\n注意: 必須先啟用 \"自動追蹤所有任務\"，此設定才有效果。",
+        ["esES"] = "Si está activado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: esta configuración solo funciona cuando el \"Rastrear misiones automáticamente\" está activado.",
+        ["frFR"] = "Si cette option est activée, les quêtes terminées s'afficheront dans le suivi de quêtes de Questie.\n\nREMARQUE : Ce paramètre ne fonctionne que lorsque l'option \"Suivi automatique des quêtes\" est activée."
     },
     ---------------------------------------------------------
     ["Show Quest Level"] = {
@@ -153,16 +153,16 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Hide Blizzard Completion Text"] = {
-        ["ptBR"] = "Ocultar texto de conclusão da Blizzard",
+        ["ptBR"] = "Ocultar texto de conclusão",
         ["ruRU"] = "Скрыть текст Blizzard",
         ["deDE"] = "Blizzards Quest-Abgeschlossen-Text ausblenden",
         ["koKR"] = "블리자드 완료 텍스트 숨기기",
-        ["esMX"] = "Ocultar texto de completa de Blizzard",
+        ["esMX"] = "Ocultar texto de completación",
         ["enUS"] = true,
         ["zhCN"] = "隐藏内建的完成信息",
         ["zhTW"] = "隱藏內建的完成訊息",
-        ["esES"] = "Ocultar texto de completa de Blizzard",
-        ["frFR"] = "Cacher le texte de terminaison de Blizzard",
+        ["esES"] = "Ocultar texto de completación",
+        ["frFR"] = "Cacher le texte de terminaison",
     },
     ["When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\""] = {
         ["ptBR"] = "Se ativado, o texto de conclusão da Blizzard será ocultado para as missões concluídas e, em vez disso, mostrará as antigas etiquetas de Questie: \"Missão concluída!\" ou \"Missão falhou!\"",
@@ -266,7 +266,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Afficher l'en-tête du suivi en bas",
     },
     ["When this is enabled the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top."] = {
-        ["ptBR"] = "Se ativado, o cabeçalho do rastreador e/ou o ícone de Questie serão movidos para a parte inferior do rastreador de Questie e o redimensionador para o topo.",
+        ["ptBR"] = "Se ativado, o cabeçalho do rastreador e/ou o ícone de Questie serão movidos para a parte inferior do rastreador de Questie e o medidor para o topo.",
         ["ruRU"] = "Когда включено, заголовок трекера и/или значок Questie будут перемещены в низ трекера, а сайзер будет перемещен наверх",
         ["deDE"] = "Wenn dies aktiviert ist wird die Tracker-Kopfzeile und/oder das Questie-Icon an den unteren und der Sizer an den oberen Rand des Questie-Tracker verschoben",
         ["koKR"] = "이 옵션을 활성화하면 추적기 헤더와 Questie 아이콘이 Questie 추적기 하단으로 이동하고 크기 조정기가 상단으로 이동합니다.",
@@ -275,7 +275,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用后，任务清单标题列和/或 Questie 图标会移动到清单的最下方，缩放大小的拖曳点会在最上方。",
         ["zhTW"] = "啟用時，任務清單標題列和 Questie 圖示會移動到清單的最下方，縮放大小的拖曳點會在最上方。",
         ["esES"] = "Si está activado, el encabezado del rastreador y/o el icono de Questie se moverán a la parte inferior del rastreador y el medidor a la parte superior.",
-        ["frFR"] = "Si cette option est activée, l'en-tête du suivi et/ou l'icône de Questie seront déplacés en bas du suivi de quêtes et le redimensionneur en haut.",
+        ["frFR"] = "Si cette option est activée, l'en-tête du suivi et/ou l'icône de Questie seront déplacés en bas du suivi de quêtes et le calibreur en haut.",
     },
     ---------------------------------------------------------
     ["Sticky Durability Frame"] = {
@@ -479,7 +479,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Hide Tracker Sizer"] = {
-        ["ptBR"] = "Ocultar redimensionador do rastreador",
+        ["ptBR"] = "Ocultar medidor do rastreador",
         ["ruRU"] = "Скрыть сайзер трекера",
         ["deDE"] = "Tracker-Sizer ausblenden",
         ["koKR"] = "추적기 크기 조정기 숨기기",
@@ -488,10 +488,10 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏列表大小调整点",
         ["zhTW"] = "隱藏清單大小調整點",
         ["esES"] = "Ocultar medidor del rastreador",
-        ["frFR"] = "Cacher le redimensionneur du suivi",
+        ["frFR"] = "Cacher le calibreur du suivi",
     },
     ["When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden."] = {
-        ["ptBR"] = "Se ativado, o redimensionador do rastreador de Questie que aparece no canto inferior ou superior direito será ocultado.",
+        ["ptBR"] = "Se ativado, o redimensionador do rastreador que aparece no canto inferior ou superior direito será ocultado.",
         ["ruRU"] = "Когда включено, скрывается сайзер (изменитель размера трекера), который отображается в правом нижнем или в правом верхнем углу",
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Tracker-Sizer, der in der unteren oder oberen rechten Ecke angezeigt wird, ausgeblendet.",
         ["koKR"] = "이 옵션을 선택하면 오른쪽 하단 또는 상단에 나타나는 Questie 추적기 크기 조정기가 숨겨집니다.",
@@ -500,7 +500,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用时，任务列表下方或右上角调整点不会显示。",
         ["zhTW"] = "啟用時，任務清單下方或右上角調整點不會顯示出來。",
         ["esES"] = "Si está activado, el medidor del rastreador que aparece en la esquina inferior o superior derecha estará oculto.",
-        ["frFR"] = "Si cette option est activée, le redimensionneur du suivi de quêtes de Questie qui apparaît dans le coin inférieur ou supérieur droit sera caché.",
+        ["frFR"] = "Si cette option est activée, le calibreur du suivi de quêtes qui apparaît dans le coin inférieur ou supérieur droit sera caché.",
     },
     ---------------------------------------------------------
     ["Show Header For Empty Tracker"] = {
@@ -627,7 +627,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用跟踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。 \n\n注意：更改后会重新载入介面。",
         ["zhTW"] = "啟用任務位置提示插件的任務清單來取代遊戲內建的。\n\n更改後會重新載入介面。",
         ["esES"] = "Al activar el rastreador se reemplazará el rastreador Blizzard predeterminado por el rastreador.\n\nNOTA: al cambiar esta configuración se recargará la interfaz de usuario",
-        ["frFR"] = "Activer le suivi remplacera le suivi de quête par défaut de Blizzard par le suivi de Questie.\n\nNOTE : Modifier ce paramètre rechargera l'interface utilisateur.",
+        ["frFR"] = "Activer le suivi remplacera le suivi de quête par défaut de Blizzard par le suivi de Questie.\n\nREMARQUE : Modifier ce paramètre rechargera l'interface utilisateur.",
     },
     ---------------------------------------------------------
     ["Reset Tracker"] = {
@@ -656,28 +656,28 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Objective Color"] = {
-        ["ptBR"] = "Cor do objectivo",
+        ["ptBR"] = "Cor do objetivo",
         ["ruRU"] = "Цвет целей",
         ["deDE"] = "Quest-Zielfarbe",
         ["koKR"] = "퀘스트 목표 색상",
-        ["esMX"] = "Color de objectivo",
+        ["esMX"] = "Color del objetivo",
         ["enUS"] = true,
         ["zhCN"] = "目标着色",
         ["zhTW"] = "任務目標顏色",
-        ["esES"] = "Color de objectivo",
-        ["frFR"] = "Couleur des objectifs :",
+        ["esES"] = "Color del objetivo",
+        ["frFR"] = "Couleur du objectif",
     },
     ["Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the \"Blizzard Completion Text\" and just label the Quest as either \"Quest Complete!\" or \"Quest Failed!\"."] = {
-        ["ptBR"] = "Mude a cor dos objetivos no rastreador de Questie conforme estiverem completos.\n\nNOTA: A opção Minimalista não exibirá o \"Texto de conclusão da Blizzard\" e apenas rotulará a missão como \"Missão concluída!\" ou \"Missão Falhou!\".",
+        ["ptBR"] = "Mude a cor dos objetivos no rastreador de Questie conforme estiverem completos.\n\nNOTA: A opção Minimalista não exibirá o \"Texto de conclusão de Blizzard\" e apenas rotulará a missão como \"Missão concluída!\" ou \"Missão Falhou!\".",
         ["ruRU"] = "Изменение цвета целей заданий в трекере в зависимости от прогресса выполнения.\n\nПРИМЕЧАНИЕ: Настройка 'Минимализм' не будет отображать Blizzard-ский текст об окончании задания, вместо этого будут отображаться или 'Задание выполнено!', или 'Задание провалено!'",
         ["deDE"] = "Ändert die Farbe der Quest-Ziele im Questie-Tracker je nach Fortschritt.\n\nHINWEIS: Die minimalistische Option zeigt \"Blizzards Quest-Abgeschlossen-Text\" nicht an und kennzeichnet Quests nur mit \"Quest abgeschlossen!\" oder \"Quest fehlgeschlagen!\".",
         ["koKR"] = "Questie 추적기에서 목표의 색을 완료도에 따라 변경합니다.\n\n참고: Minimalistic 옵션은 \"블리자드 완료 텍스트\"를 표시하지 않고 퀘스트를 \"퀘스트 완료!\" 또는 \"퀘스트 실패!\"로 표시합니다.",
-        ["esMX"] = "Cambia el color de los objetivos en el rastreador de misiones según lo completos que estén.\n\nNOTA: La opción Minimalista no mostrará el \"Texto de completo de Blizzard\" y solo etiquetará la misión como \"¡Misión completada!\" o \"¡Misión fracasada!\".",
+        ["esMX"] = "Cambia el color de los objetivos en el rastreador de misiones según lo completos que estén.\n\nNOTA: La opción Minimalista no mostrará el \"Texto de completación de Blizzard\" y solo etiquetará la misión como \"¡Misión completada!\" o \"¡Misión fracasada!\".",
         ["enUS"] = true,
         ["zhCN"] = "列表中的任务目标会根据完成度变换颜色。\n\n极简的选项不会显示游戏内建任务完成信息，只会显示 \"任务完成！\" 或 \"任务失败！\"。",
         ["zhTW"] = "清單中的任務目標會依據完成度變換顏色。\n\n極簡的選項將不會顯示遊戲內建的任務完成訊息，只會顯示 \"任務完成！\" 或 \"任務失敗！\"。",
-        ["esES"] = "Cambia el color de los objetivos en el rastreador de misiones según lo completos que estén.\n\nNOTA: La opción Minimalista no mostrará el \"Texto de completo de Blizzard\" y solo etiquetará la misión como \"¡Misión completada!\" o \"¡Misión fracasada!\".",
-        ["frFR"] = "Modifiez la couleur des objectifs dans le suivi de Questie en fonction de leur état de terminaison.\n\nNOTE : L'option Minimaliste n'affichera pas le \"Texte de terminaison de Blizzard\" et se contentera d'étiqueter la quête comme \"Quête terminée !\" ou \"Quête échouée !\".",
+        ["esES"] = "Cambia el color de los objetivos en el rastreador de misiones según lo completos que estén.\n\nNOTA: La opción Minimalista no mostrará el \"Texto de completación de Blizzard\" y solo etiquetará la misión como \"¡Misión completada!\" o \"¡Misión fracasada!\".",
+        ["frFR"] = "Modifiez la couleur des objectifs dans le suivi de Questie en fonction de leur état de terminaison.\n\nREMARQUE : L'option Minimaliste n'affichera pas le \"Texte de terminaison de Blizzard\" et se contentera d'étiqueter la quête comme \"Quête terminée !\" ou \"Quête échouée !\".",
     },
     ---------------------------------------------------------
     ["Red to Green"] = {
@@ -742,42 +742,42 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Objective Sorting"] = {
-        ["ptBR"] = "Classificando objetivos",
+        ["ptBR"] = "Ordenaçao dos objetivos",
         ["ruRU"] = "Сортировка целей",
         ["deDE"] = "Quest-Zielsortierung",
         ["koKR"] = "퀘스트 목표 정렬",
-        ["esMX"] = "Orden de objetivos",
+        ["esMX"] = "Ordenación de los objetivos",
         ["enUS"] = true,
         ["zhCN"] = "目标排序",
         ["zhTW"] = "任務目標排序",
-        ["esES"] = "Orden de objetivos",
-        ["frFR"] = "Méthode de tri des objectifs :",
+        ["esES"] = "Ordenación de los objetivos",
+        ["frFR"] = "Méthode de tri des objectifs",
     },
     -- Classic and TBC only --
     ["How Objectives are sorted in the Questie Tracker."] = {
-        ["ptBR"] = "Como os objetivos são classificados no rastreador de Questie.",
+        ["ptBR"] = "Como os objetivos são ordenados no rastreador.",
         ["ruRU"] = "Выбор типа сортировки целей заданий в трекере",
         ["deDE"] = "Wie Quest-Ziele im Tracker sortiert werden.",
         ["koKR"] = "Questie 추적기에서 목표가 정렬되는 방식.",
-        ["esMX"] = "La manera que se ordena los objetivos en el rastreador.",
+        ["esMX"] = "La manera en que se ordenan los objetivos en el rastreador.",
         ["enUS"] = true,
         ["zhCN"] = "任务目标在列表中如何排序。",
         ["zhTW"] = "任務目標在清單中如何排序。",
-        ["esES"] = "La manera que se ordena los objetivos en el rastreador.",
-        ["frFR"] = "Comment les objectifs sont triés dans le suivi de Questie.",
+        ["esES"] = "La manera en que se ordenan los objetivos en el rastreador.",
+        ["frFR"] = "Comment les objectifs sont triés dans le suivi.",
     },
     -- Wrath of the Lich King only --
     ["How Objectives are sorted in the Questie Tracker.\n\nNOTE: This will not sort Achievements."] = {
-        ["ptBR"] = "Como os objectivos são classificadas no Rastreador",
+        ["ptBR"] = "Como os objetivos são ordenados no rastreador.\n\nNOTA: Isso não ordenará as conquistas.",
         ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Это не сортирует достижения",
         ["deDE"] = "Wie Quest-Ziele im Tracker sortiert werden.\n\nHINWEIS: Dies sortiert keine Erfolge.",
         ["koKR"] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
-        ["esMX"] = "La manera que se ordena los objetivos en el rastreador.",
+        ["esMX"] = "La manera en que se ordenan los objetivos en el rastreador.\n\nNOTA: Esto no ordenará los logros.",
         ["enUS"] = true,
         ["zhCN"] = "追踪列表中的任务要如何排序",
         ["zhTW"] = "任務目標在清單中如何排序。\n\n注意: 不會影響成就。",
-        ["esES"] = "La manera que se ordena los objetivos en el rastreador.",
-        ["frFR"] = "Comment les objectifs sont triés dans le Traqueur",
+        ["esES"] = "La manera en que se ordenan los objetivos en el rastreador.\n\nNOTA: Esto no ordenará los logros.",
+        ["frFR"] = "Comment les objectifs sont triés dans le suivi.\n\nREMARQUE : Cela ne triera pas les hauts faits.",
     },
     ---------------------------------------------------------
     ["By %% Complete"] = {
@@ -997,16 +997,16 @@ local trackerOptionsLocales = {
     },
     -- Classic and TBC only --
     ["This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat."] = {
-        ["ptBR"] = "Este atalho remove uma missão do rastreador de Questie quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.",
+        ["ptBR"] = "Este atalho remove uma missão do rastreador quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.",
         ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание",
         ["deDE"] = "Dieser Shortcut entfernt eine Quest aus dem Questie-Tracker, wenn das Chat-Eingabefeld nicht sichtbar ist, andernfalls wird die Quest verlinkt.",
         ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 Questie 추적기에서 퀘스트를 제거하며, 그렇지 않으면 퀘스트를 채팅에 링크합니다.",
-        ["esMX"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de ​​lo contrario, vinculará una misión al chat.",
+        ["esMX"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "正在聊天視窗打字時，此功能會產生可以貼到聊天視窗的任務連結。不是正在打字時會從任務清單中移除任務。",
-        ["esES"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de ​​lo contrario, vinculará una misión al chat.",
-        ["frFR"] = "Ce raccourci retire une quête du suivi de Questie lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête au discussion.",
+        ["esES"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.",
+        ["frFR"] = "Ce raccourci retire une quête du suivi lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête au discussion.",
     },
     ---------------------------------------------------------
     -- Wrath of the Lich King only --
@@ -1049,7 +1049,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Direction de croissance du suivi",
     },
     ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI."] = {
-        ["ptBR"] = "Isso determina a direção na qual o rastreador de Questie cresce quando você adiciona ou remove missões. Por exemplo, se você usar a opção 'Para Cima e Para a Direita', então o local ideal para o rastreador deve ser no canto inferior esquerdo da tela. Isso permite que o 'Modo Redimensionador: Automático' empurre a Altura e a Largura do rastreador 'Para Cima e Para a Direita' para que o rastreador não cubra inadvertidamente elementos da sua interface de usuário.",
+        ["ptBR"] = "Isso determina a direção na qual o rastreador de Questie cresce quando você adiciona ou remove missões. Por exemplo, se você usar a opção 'Para Cima e Para a Direita', então o local ideal para o rastreador deve ser no canto inferior esquerdo da tela. Isso permite que o 'Modo de medição: Automático' empurre a Altura e a Largura do rastreador 'Para Cima e Para a Direita' para que o rastreador não cubra inadvertidamente elementos da sua interface de usuário.",
         ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Например, при использовании значения 'Вверх и вправо' идеальным расположением для трекера будет нижний левый угол вашего экрана. Это позволяет сайзеру (изменитель размера трекера) в режиме 'Авто' выставлять высоту и ширину трекера 'Вверх и вправо' так, чтобы трекер случайно не скрыл элементы вашего интерфейса.",
         ["deDE"] = "Dies bestimmt die Richtung, in der der Questie Tracker wächst, wenn Quests hinzugefügt oder entfernt werden. Wenn du beispielsweise die Option 'Oben & Rechts' verwendest, sollte sich der Tracker idealerweise in der unteren linken Ecke deines Bildschirms befinden. Dies ermöglicht es dem 'Sizer-Modus: Auto', die Tracker-Höhe und -Breite 'Oben & Rechts' zu verschieben, damit der Tracker nicht versehentlich Elemente deiner UI verdeckt.",
         ["koKR"] = "이 설정은 퀘스트를 추가하거나 제거할 때 Questie 추적기가 성장하는 방향을 결정합니다. 예를 들어, '위쪽 & 오른쪽' 옵션을 사용하면 추적기의 이상적인 위치는 화면의 왼쪽 하단이어야 합니다. 이를 통해 '크기 조정 모드: 자동'이 추적기의 높이와 너비를 '위쪽 & 오른쪽'으로 밀어 UI 요소를 덮지 않도록 합니다.",
@@ -1058,7 +1058,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "新增或移除任务时，任务列表的增长方向。例如：列表在界面的左下方时，可以使用 '上 & 右'，让 '调整大小模式：自动 ' 往 '上 & 右' 调整列表的高度和宽度，列表便不会挡住其他界面清。",
         ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 '上 & 右'，讓 '調整大小模式: 自動' 往 '上 & 右' 調整清單的高度和寬度，清單便不會擋住其他介面。",
         ["esES"] = "Esto determina la dirección en la que crece el rastreador cuando agregas o eliminas misiones. Por ejemplo, si usas la opción 'Arriba y derecha', el lugar ideal para el rastreador debe ser en la esquina inferior izquierda de la pantalla. Esto permite que el 'Modo de medición: Automático' empuje la altura y el ancho del rastreador hacia arriba y hacia la derecha para que el rastreador no cubra inadvertidamente elementos de su interfaz de usuario.",
-        ["frFR"] = "Cela détermine la direction dans laquelle le suivi de Questie se développe lorsque vous ajoutez ou supprimez des quêtes. Par exemple, si vous utilisez l'option 'Haut et Droite', alors l'endroit idéal pour le suivi devrait être dans le coin inférieur gauche de votre écran. Cela permet au 'Mode Redimensionneur : Auto' de pousser la hauteur et la largeur du suivi 'Haut et Droite' afin que le suivi ne recouvre pas involontairement des éléments de votre interface utilisateur.",
+        ["frFR"] = "Cela détermine la direction dans laquelle le suivi de Questie se développe lorsque vous ajoutez ou supprimez des quêtes. Par exemple, si vous utilisez l'option 'Haut et Droite', alors l'endroit idéal pour le suivi devrait être dans le coin inférieur gauche de votre écran. Cela permet au 'Mode de calibrage : Automatique' de pousser la hauteur et la largeur du suivi 'Haut et Droite' afin que le suivi ne recouvre pas involontairement des éléments de votre interface utilisateur.",
     },
     ---------------------------------------------------------
     ["Up & Right"] = {
@@ -1232,7 +1232,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "任务标题文字的字体大小。\n\n注意: 任务目标文字大小会自动调整为小于或等于任务文字大小大小，这是为了避免任务文字冲突和格式异常而必需的设定。",
         ["zhTW"] = "任務標題文字的字體大小。\n\n注意: 任務目標文字大小會自動調整為小於或等於任務文字大小，這是為了避免任何文字衝突和格式異常而必須的。",
         ["esES"] = "El tamaño de fuente utilizado para los títulos de misión.\n\nNOTA: El tamaño de la fuente de los objetivos se ajustará automáticamente a un tamaño menor o igual al del título de la misión. Esto es necesario para evitar colisiones de texto y anormalidades en el formato.",
-        ["frFR"] = "La taille de police utilisée pour les titres de quête.\n\nNOTE : La taille de police des objectifs s'ajustera automatiquement à moins ou égale à la taille de police des quêtes. Cela est nécessaire pour éviter toute collision de texte et toute anomalie de formatage.",
+        ["frFR"] = "La taille de police utilisée pour les titres de quête.\n\nREMARQUE : La taille de police des objectifs s'ajustera automatiquement à moins ou égale à la taille de police des quêtes. Cela est nécessaire pour éviter toute collision de texte et toute anomalie de formatage.",
     },
     ---------------------------------------------------------
     ["Font for Quest Titles"] = {
@@ -1311,7 +1311,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Padding Between Quests"] = {
-        ["ptBR"] = "Preenchimento entre missões",
+        ["ptBR"] = "Espaçamento entre missões",
         ["ruRU"] = "Отступ между заданиями",
         ["deDE"] = "Abstand zwischen Quests",
         ["koKR"] = "퀘스트간 간격 설정",
@@ -1323,16 +1323,16 @@ local trackerOptionsLocales = {
         ["frFR"] = "Espacement entre les quêtes",
     },
     ["The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode"] = {
-        ["ptBR"] = "A quantidade de preenchimento entre missões no Questie Tracker.\n\nOBSERVAÇÃO: Alterar esta configuração no modo Manual do Medidor irá redefinir o Medidor de volta para o Modo Automático",
+        ["ptBR"] = "A quantidade de espaço entre missões no rastreador.\n\nNOTA: Alterar esta configuração no modo manual de medição irá redefinir o medidor de volta para o modo automático.",
         ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
         ["deDE"] = "Der Abstand zwischen Quests im Questie-Tracker.\n\nHINWEIS: Wenn Sie diese Einstellung im manuellen Sizer-Modus ändern, wird der Sizer wieder in den automatischen Modus zurückgesetzt",
         ["koKR"] = "Questie Tracker에서 퀘스트 사이의 패딩 양입니다.\n\n참고: Sizer 수동 모드에서 이 설정을 변경하면 Sizer가 다시 자동 모드로 재설정됩니다.",
-        ["esMX"] = "La cantidad de relleno entre Quests en Questie Tracker.\n\nNOTA: Cambiar esta configuración mientras está en el modo manual de Sizer restablecerá el Sizer nuevamente al modo automático",
+        ["esMX"] = "La cantidad de espacio entre misiones en el rastreador.\n\nNOTA: Cambiar esta configuración mientras está en el modo manual de medición restablecerá el medidor nuevamente al modo automático.",
         ["enUS"] = true,
         ["zhCN"] = "Questie Tracker 中任务之间的填充量。\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
         ["zhTW"] = "清單中每個任務之間的距離。\n\n注意: 在手動調整大小的模式下更改此設定會重置為自動模式。",
-        ["esES"] = "La cantidad de relleno entre Quests en Questie Tracker.\n\nNOTA: Cambiar esta configuración mientras está en el modo manual de Sizer restablecerá el Sizer nuevamente al modo automático",
-        ["frFR"] = "La quantité de rembourrage entre les quêtes dans le suivi des quêtes.\n\nREMARQUE : La modification de ce paramètre en mode manuel du calibreur réinitialisera le calibreur en mode automatique.",
+        ["esES"] = "La cantidad de espacio entre misiones en el rastreador.\n\nNOTA: Cambiar esta configuración mientras está en el modo manual de medición restablecerá el medidor nuevamente al modo automático.",
+        ["frFR"] = "La quantité d'espace entre les quêtes dans le suivi des quêtes.\n\nREMARQUE : Modifier ce paramètre en mode manuel de calibrage réinitialisera le calibreur en mode automatique.",
     },
     ---------------------------------------------------------
     ["Outline for Zones, Titles, and Objectives"] = {
@@ -1398,16 +1398,16 @@ local trackerOptionsLocales = {
         ["frFR"] = "Ratio de hauteur du suivi",
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
-        ["ptBR"] = "A altura do rastreador de Questie baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de Redimensionamento: Automático.",
+        ["ptBR"] = "A altura do rastreador baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
         ["deDE"] = "Die Höhe des Questie-Trackers basierend auf dem Prozentsatz der nutzbaren Bildschirmhöhe. Eine Einstellung von 100 Prozent würde den Tracker die gesamte Bildschirmhöhe des Spielers ausfüllen lassen.\n\nHINWEIS: Diese Einstellung gilt nur im Sizer-Modus: Auto",
         ["koKR"] = "Questie 추적기의 높이는 실행 가능한 화면 높이의 백분율을 기준으로 설정됩니다. 100%로 설정하면 추적기가 화면 전체 높이를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
-        ["esMX"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración del 100 por ciento haría que el rastreador llenara toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el modo Tamaño: Auto",
+        ["esMX"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración del 100 por ciento haría que el rastreador llenara toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el Modo de medición: Automático.",
         ["enUS"] = true,
         ["zhCN"] = "列表高度依据可用的界面高度百分比，100%会让列表和界面一样高。\n\n注意：此设定只在调整大小模式为自动时有效。",
         ["zhTW"] = "清單高度依據可用的畫面高度百分比，100% 會讓清單和畫面一樣高。\n\n注意: 此設定只在調整大小模式為自動時有效。",
-        ["esES"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración del 100 por ciento haría que el rastreador llenara toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el modo Tamaño: Auto",
-        ["frFR"] = "La hauteur du suivi de Questie en pourcentage de la hauteur d'écran utilisable. Un réglage de 100 pour cent ferait remplir la hauteur de l'écran du joueur.\n\nNOTE : Ce réglage ne s'applique que lors du mode Redimensionneur : Automatique.",
+        ["esES"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración del 100 por ciento haría que el rastreador llenara toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el Modo de medición: Automático.",
+        ["frFR"] = "La hauteur du suivi en pourcentage de la hauteur d'écran utilisable. Un réglage de 100 pour cent ferait remplir la hauteur de l'écran du joueur.\n\nREMARQUE : Ce réglage ne s'applique que lors du Mode de calibrage : Automatique.",
     },
     ["Font Options"] = {
         ["ptBR"] = "Opções de fonte",

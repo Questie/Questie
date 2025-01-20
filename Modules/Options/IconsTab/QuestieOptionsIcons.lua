@@ -963,7 +963,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         style = "dropdown",
                         width = 0.796,
                         name = function() return l10n("Unavailable and trivial quests") end,
-                        desc = function() return l10n("The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don\"t reward experience"); end,
+                        desc = function() return l10n("The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don't reward experience"); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_AVAILABLE_GRAY) or "available_gray"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)

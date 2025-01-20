@@ -11,7 +11,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez Dagun le Vorace en utilisant un Varech Énchanté",
         ["esES"] = "Invoca a Dagun el Voraz usando un Kelp marino encantado",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用附魔海藻召喚貪婪的達古恩",
         ["zhCN"] = false,
     },
     ["Use a Fresh Carcass at the Flame of Uzel"] = { -- 1136
@@ -23,7 +23,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Placez la Carcasse fraîche sur la Flamme d'Uzel",
         ["esES"] = "Deja el Cadáver fresco sobre la Llama de Uzel",
-        ["zhTW"] = false,
+        ["zhTW"] = "在尤基爾之焰使用新鮮的屍體",
         ["zhCN"] = false,
     },
     ["Fish for Darkshore Groupers"] = { -- 1141
@@ -35,7 +35,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Pêchez des Mérous de Sombrerivage",
         ["esES"] = "Pesca Meros de Costa Oscura",
-        ["zhTW"] = false,
+        ["zhTW"] = "釣魚取得黑海岸石斑魚",
         ["zhCN"] = false,
     },
     ["Slay Gelkis centaur to increase your reputation with the Magram Clan"] = { -- 1367
@@ -47,7 +47,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tuez des centaures Gelkis pour augmenter votre réputation auprès du Clan Magram",
         ["esES"] = "Mata al centauro Gelkis para aumentar tu reputación con el clan Magram",
-        ["zhTW"] = false,
+        ["zhTW"] = "殺死吉爾吉斯半人馬來提高你在瑪格拉姆氏族中的聲望",
         ["zhCN"] = false,
     },
     ["Slay Magram centaur to increase your reputation with the Gelkis Clan"] = { -- 1368
@@ -59,7 +59,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tuez des centaures Magram pour augmenter votre réputation auprès du Clan Gelkis",
         ["esES"] = "Mata al centauro Magram para aumentar tu reputación con el Clan Gelkis",
-        ["zhTW"] = false,
+        ["zhTW"] = "殺死瑪格拉姆半人馬來提高你在吉爾吉斯氏族中的聲望",
         ["zhCN"] = false,
     },
     ["Use the War Horn Mouthpiece to summon Khan Hratha"] = { -- 1380 1381
@@ -71,7 +71,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez l'Embouchure de Cor de Guerre pour invoquer Khan Hratha",
         ["esES"] = "Usa la Boquilla del cuerno de guerra para invocar a Khan Hratha",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用半人馬號角哨嘴召喚赫蘭薩可汗",
         ["zhCN"] = false,
     },
     ["Fish for Gaffer Jacks"] = { -- 1579
@@ -83,7 +83,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Pêchez des Rouages Électriques",
         ["esES"] = "Pesca Mecanismos eléctricos",
-        ["zhTW"] = false,
+        ["zhTW"] = "釣魚取得小齒輪",
         ["zhCN"] = false,
     },
     ["Fish for Electropellers"] = { -- 1580
@@ -95,7 +95,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Pêchez des Électropellers",
         ["esES"] = "Pesca electromuelles",
-        ["zhTW"] = false,
+        ["zhTW"] = "釣魚取得導電器",
         ["zhCN"] = false,
     },
     ["Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"] = { -- 1920 & 1960
@@ -107,43 +107,43 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez un Chant de Manifestation pour révéler le Rejeton de la Faille. Utilisez une Caisse de coffres de stockage sur le Rejeton de la Faille",
         ["esES"] = "Usa el Canto de Manifestación para revelar Cría del risco. Crea un arca de contención sobre una cría del risco aturdida",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用顯形卷軸讓裂隙怒靈顯示出來，對暈住的裂隙怒靈使用封靈箱。",
         ["zhCN"] = false,
     },
     ["Step 1: obtain the Yellow Punch Card. You need the White Punch Card."] = { -- 2930
         ["ptBR"] = "Passo 1: Obtenha o Cartão Perfurado Amarelo. Você precisa do Cartão Perfurado Branco.",
         ["ruRU"] = "Шаг 1: получите Желтую перфокарту. Вам нужна Белая перфокарта.",
         ["deDE"] = "Schritt 1: Erhalte die gelbe Lochkarte. Weiße Lochkarte wird benötigt.",
-        ["koKR"] = "1 단계 : 황색 천공 카드를 획득하세요. 백색 천공 카드가 필요합니다",
+        ["koKR"] = "1 단계: 황색 천공 카드를 획득하세요. 백색 천공 카드가 필요합니다",
         ["esMX"] = "Paso 1: Obtén la tarjeta perforada amarilla. Necesitas la tarjeta perforada blanca.",
         ["enUS"] = true,
         ["frFR"] = "Étape 1 : Obtenez la Carte Perforée Jaune. Vous aurez besoin de la Carte Perforée Blanche.",
         ["esES"] = "Paso 1: Obtén la tarjeta perforada amarilla. Necesitas la tarjeta perforada blanca.",
-        ["zhTW"] = false,
+        ["zhTW"] = "步驟 1: 取得黃色穿孔卡片，需要白色穿孔卡片。",
         ["zhCN"] = false,
     },
     ["Step 2: obtain the Blue Punch Card. You need the Yellow Punch Card."] = { -- 2930
         ["ptBR"] = "Passo 2: Obtenha o Cartão Perfurado Azul. Você precisa do Cartão Perfurado Amarelo.",
         ["ruRU"] = "Шаг 2: получите Синюю перфокарту. Вам нужна Желтая перфокарта.",
         ["deDE"] = "Schritt 2: Erhalte die blaue Lochkarte. Gelbe Lochkarte wird benötigt.",
-        ["koKR"] = "2 단계 : 청색 천공 카드를 획득하세요. 황색 천공 카드가 필요합니다",
+        ["koKR"] = "2 단계: 청색 천공 카드를 획득하세요. 황색 천공 카드가 필요합니다",
         ["esMX"] = "Paso 2: Obtén la tarjeta perforada azul. Necesitas la tarjeta perforada amarilla.",
         ["enUS"] = true,
         ["frFR"] = "Étape 2 : Obtenez la Carte Perforée Bleue. Vous aurez besoin de la Carte Perforée Jaune.",
         ["esES"] = "Paso 2: Obtén la tarjeta perforada azul. Necesitas la tarjeta perforada amarilla.",
-        ["zhTW"] = false,
+        ["zhTW"] = "步驟 2: 取得藍色穿孔卡片，需要黃色穿孔卡片。",
         ["zhCN"] = false,
     },
     ["Step 3: obtain the Red Punch Card. You need the Blue Punch Card."] = { -- 2930
         ["ptBR"] = "Passo 3: Obtenha o Cartão Perfurado Vermelho. Você precisa do Cartão Perfurado Azul.",
         ["ruRU"] = "Шаг 3: получите Красную перфокарту. Вам нужна Синяя перфокарта.",
         ["deDE"] = "Schritt 3: Erhalte die rote Stempelkarte. Blaue Lochkarte wird benötigt.",
-        ["koKR"] = "3 단계 : 적색 천공 카드를 획득하세요. 청색 천공 카드가 필요합니다",
+        ["koKR"] = "3 단계: 적색 천공 카드를 획득하세요. 청색 천공 카드가 필요합니다",
         ["esMX"] = "Paso 3: Obtén la tarjeta perforada roja. Necesitas la tarjeta perforada azul.",
         ["enUS"] = true,
         ["frFR"] = "Étape 3 : Obtenez la Carte Perforée Rouge. Vous aurez besoin de la Carte de Carte Perforée Bleue.",
         ["esES"] = "Paso 3: Obtén la tarjeta perforada roja. Necesitas la tarjeta perforada azul.",
-        ["zhTW"] = false,
+        ["zhTW"] = "步驟 3: 取得紅色穿孔卡片，需要藍色穿孔卡片。",
         ["zhCN"] = false,
     },
     ["Step 4: obtain the Prismatic Punch Card. You need the Red Punch Card."] = { -- 2930
@@ -155,7 +155,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Étape 4 : Obtenez la Carte Perforée Prismatique. Vous aurez besoin de la Carte Perforée Rouge.",
         ["esES"] = "Paso 4: Obtén la tarjeta perforada prismática. Necesitas la tarjeta perforada roja.",
-        ["zhTW"] = false,
+        ["zhTW"] = "步驟 4: 取得稜彩穿孔卡片，需要紅色穿孔卡片。",
         ["zhCN"] = false,
     },
     ["Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."] = { -- 3520
@@ -167,7 +167,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tuez les Hurleurs des Vallées et utilisez la Ronce de Yeh'kinya sur leurs corps.",
         ["esES"] = "Mata a Estridadores del valle y usa la Zarza de Yeh'kinya en su cadáver.",
-        ["zhTW"] = false,
+        ["zhTW"] = "殺死山谷尖嘯者，對屍體使用葉基亞的樹枝。",
         ["zhCN"] = false,
     },
     ["Use the Ward of the Defiler to summon Razelikh."] = { -- 3628
@@ -177,9 +177,9 @@ local classicObjectiveLocales = {
         ["koKR"] = "파멸자의 수호물을 사용하여 파멸자 라젤리크를 소환하세요",
         ["esMX"] = "Usa el Amuleto del Rapiñador para invocar a Razelikh el Rapiñador.",
         ["enUS"] = true,
-        ["frFR"] = "Utilisez l'Amulette du Souilleur pour invoquer Razelikh.",
+        ["frFR"] = "Utilisez l'Amulette du Souilleur pour invoquer Razelikh le Souilleur.",
         ["esES"] = "Usa el Amuleto del Rapiñador para invocar a Razelikh el Rapiñador.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用污染者防護結界召喚拉瑟萊克。",
         ["zhCN"] = false,
     },
     ["Teleport to the top of the mountain."] = { -- 3628
@@ -191,7 +191,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Téléportez-vous en haut de la montagne.",
         ["esES"] = "Teletransportarse a la cima de la montaña.",
-        ["zhTW"] = false,
+        ["zhTW"] = "傳送到山頂。",
         ["zhCN"] = false,
     },
     ["Place the Bait in front of Miblon Snarltooth."] = { -- 3909
@@ -203,7 +203,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Placez l'appât devant Miblon Grondequenotte.",
         ["esES"] = "Deja el cebo cerca de Miblon Gruñidiente",
-        ["zhTW"] = false,
+        ["zhTW"] = "將誘餌放在米布隆·亂齒面前。",
         ["zhCN"] = false,
     },
     ["Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."] = { -- 4021
@@ -215,7 +215,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tuez les envahisseurs Kolkar jusqu'à ce que le Chef de guerre Krom'zar apparaisse, puis récupérez la bannière qui apparaît sur son cadavre.",
         ["esES"] = "Mata a los invasores Kolkar hasta que aparezca el Señor de la Guerra Krom'zar, y luego recoge el estandarte que aparece en su cadáver.",
-        ["zhTW"] = false,
+        ["zhTW"] = "阻擋科卡爾入侵者直到督軍克羅姆札出現，然後拾取他屍體上生成的旗幟。",
         ["zhCN"] = false,
     },
     ["Use the Altered Black Dragonflight Molt on Bael'gar's corpse."] = { -- 4024
@@ -227,7 +227,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez le Cuir de dragon noir altéré sur le corps de Bael'gar.",
         ["esES"] = "Usa la Muda de piel de vuelo negro alterada en los restos de Bael'Gar.",
-        ["zhTW"] = false,
+        ["zhTW"] = "對貝爾加的屍體使用變化後的黑龍軍團之皮。",
         ["zhCN"] = false,
     },
     ["Use the Gorishi Queen Lure."] = { -- 4507
@@ -239,7 +239,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez l'Appât de Reine Gorish.",
         ["esES"] = "Usa el Cebo de reina Gorishi",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用格里什皇后誘引劑。",
         ["zhCN"] = false,
     },
     ["Collect eggs using the Collectronic Module."] = { -- 4735
@@ -251,7 +251,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Collectez les œufs en utilisant le Module Collectronique.",
         ["esES"] = "Recoge huevos con el Módulo colectrónico",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用電動採集模組收集蛋",
         ["zhCN"] = false,
     },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
@@ -263,7 +263,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez Xabraxxis une fois que vous aurez les objets nécessaires des Réserves des Noirbois.",
         ["esES"] = "Invoca a Xabraxxis una vez que tengas los objetos necesarios de las Provisiones del Bosque Negro.",
-        ["zhTW"] = false,
+        ["zhTW"] = "從黑木商店獲得所需物品後，即可召喚薩巴克希斯。",
         ["zhCN"] = false,
     },
     ["Use the Flames of the Black Flight over it to create the Seal."] = { -- 4743
@@ -275,7 +275,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez dessus les Flammes des Dragons Noirs pour créer le Sceau.",
         ["esES"] = "Usa las Llamas del Vuelo Negro sobre él para crear el Sello.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用黑龍之焰來建立封印。",
         ["zhCN"] = false,
     },
     ["Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."] = { -- 4743
@@ -287,7 +287,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Combattez Brandeguerre jusqu'à ce que sa volonté soit brisée, puis placez le Sceau d'Ascension Brut avant lui et utilisez l'Orbe d'Énergie Draconique.",
         ["esES"] = "Encuentra al anciano draco Brasaliza y derrótalo sin contemplaciones hasta doblegar su voluntad, entonces coloca el Sello de ascensión sin forjar ante la colosal bestia y usa el orbe de energía dracónica.",
-        ["zhTW"] = false,
+        ["zhTW"] = "擊敗艾博斯塔夫直到他失去意志，然後將未鑄造的晉升徽印放在他面前並使用龍力寶珠。",
         ["zhCN"] = false,
     },
     ["Lure the Kodos to Smeed Scrabblescrew."] = { -- 5561
@@ -299,7 +299,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Attirez les kodos vers Smeed Scrabblescrew.",
         ["esES"] = "Atrae a los kodos hacia Smeed Mezclatornillos.",
-        ["zhTW"] = false,
+        ["zhTW"] = "將科多獸引誘至斯米德·瑟卡布斯庫。",
         ["zhCN"] = false,
     },
     ["Summon Lord Kragaru"] = { -- 6027
@@ -311,7 +311,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez Seigneur Kragaru",
         ["esES"] = "Invoca a Lord Kragaru",
-        ["zhTW"] = false,
+        ["zhTW"] = "召喚柯拉加魯領主",
         ["zhCN"] = false,
     },
     ["Place the Crate of Ghost Magnets"] = { -- 6134
@@ -323,7 +323,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Placez la Caisse d'Aimants Fantômes",
         ["esES"] = "Deja el Cajón de imanes fantasmales",
-        ["zhTW"] = false,
+        ["zhTW"] = "放置鬼魂磁鐵木箱",
         ["zhCN"] = false,
     },
     ["Use the Lovers' Hearts to summon an Incubus and slay it."] = { -- 65597
@@ -335,7 +335,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utlisez les Cœurs des Amants pour invoquer un Incubus et tuez-le.",
         ["esES"] = "Usa los Corazones de amantes a invocar un íncubo y mátalo.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用戀人的心召喚夢魔並殺死它。",
         ["zhCN"] = false,
     },
     ["Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."] = { -- 65602
@@ -347,7 +347,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Allumez la Torche Éteinte près d'un feu et utilisez la Torche Ardente pour mettre le feu à la Carte de l'Archéologue.",
         ["esES"] = "Enciende la Antorcha apagada cerca del fuego y usa la Antorcha encendida para prender fuego al carretón del arqueólogo.",
-        ["zhTW"] = false,
+        ["zhTW"] = "靠近火點燃未點燃的火把，然後使用燃燒的火把點燃考古學家的車。",
         ["zhCN"] = false,
     },
     ["Use the Withered Scarf to summon an Incubus and slay it."] = { -- 65603 & 65604
@@ -359,7 +359,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez l'Écharpe Flétrie pour invoquer un Incubus et combattez-le.",
         ["esES"] = "Usa un Pañuelo deshilachado para invocar a un íncubo y mátalo.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用乾癟的圍巾召喚夢魔並殺死它。",
         ["zhCN"] = false,
     },
     ["Slay ghouls to free Darrowshire spirits"] = { -- 5211
@@ -371,7 +371,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Combattez les goules pour libérer les Esprits de Darrowshire.",
         ["esES"] = "Mata necrófagos para liberar a los Espíritus de Villa Darrow.",
-        ["zhTW"] = false,
+        ["zhTW"] = "殺死食屍鬼以釋放達隆郡居民的靈魂",
         ["zhCN"] = false,
     },
     ["Exorcise the spirits"] = { -- 7640
@@ -383,7 +383,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Servez-vous de l’Encensoir d’exorcisme pour chasser les esprits",
         ["esES"] = "Utiliza el incensario de exorcismos para expulsar los espíritus",
-        ["zhTW"] = false,
+        ["zhTW"] = "驅除靈魂",
         ["zhCN"] = false,
     },
     ["Plant the Demon Summoning Torch"] = { -- 8481
@@ -395,7 +395,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Plantez la Torche d'Invocation de Démon",
         ["esES"] = "Deja la Antorcha para invocar demonios",
-        ["zhTW"] = false,
+        ["zhTW"] = "放置惡魔召喚火炬",
         ["zhCN"] = false,
     },
     ["Use Arcanite Buoy"] = { -- 8729
@@ -407,7 +407,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez la Bouée en Arcanite",
         ["esES"] = "Deja la Boya de arcanita",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用奧金浮標",
         ["zhCN"] = false,
     },
     ["Talk to Silva Fil'naveth to fly back to Darnassus"] = { -- 5931
@@ -419,7 +419,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Parlez à Silva Fil'naveth pour revenir à Darnassus",
         ["esES"] = "Habla con Silva Fil'naveth para volar de regreso a Darnassus.",
-        ["zhTW"] = false,
+        ["zhTW"] = "與希爾瓦·菲納雯斯交談，飛回達納蘇斯。",
         ["zhCN"] = false,
     },
     ["Talk to Bunthen Plainswind to fly back to Thunder Bluff"] = { -- 5932
@@ -431,7 +431,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Parlez à Bunthen Plainswind pour revenir à Thunder Bluff",
         ["esES"] = "Habla con Bunthen Ventollano para volar de regreso a Cima del Trueno.",
-        ["zhTW"] = false,
+        ["zhTW"] = "與布瑟恩·草風交談，飛回雷霆崖。",
         ["zhCN"] = false,
     },
     ["Release the kitten near the Jadefire Satyrs' corrupted moonwell."] = { -- quest 4506, text from item 12565
@@ -443,7 +443,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Libérez le chaton au Puits de lune corrompu des satyres Jadefeu.",
         ["esES"] = "Libera al gatito cerca de la poza de la luna corrupta de los sátiros Fuego de Jade.",
-        ["zhTW"] = false,
+        ["zhTW"] = "在碧火薩特被腐化的月井旁釋放小貓。",
         ["zhCN"] = "在碧火萨特的被腐化的月亮井旁释放普通猫。",
     },
     ["Summon a Templar using a full Twilight set."] = { -- 8332 8361
@@ -455,7 +455,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez un Templier en utilisant un ensemble complet de Sectateur du crépuscule.",
         ["esES"] = "Invoca a un Templario usando un conjunto Crepuscular.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用全套暮光套裝召喚一名聖殿騎士。",
         ["zhCN"] = false,
     },
     ["Summon a Duke using a full Twilight set and neck."] = { -- 8341 8348
@@ -467,7 +467,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez un Duc en utilisant un ensemble complet et un équipement de cou de Sectateur du crépuscule.",
         ["esES"] = "Invoca a un Duque usando un conjunto Crepuscular y el Medallón.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用全套暮光套裝和項鍊召喚一位公爵。",
         ["zhCN"] = false,
     },
     ["Summon a Lord using a full Twilight set, neck and ring."] = { -- 8352 9248
@@ -479,7 +479,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Invoquez un Seigneur en utilisant un ensemble complet, un équipement de cou et une bague de Sectateur du crépuscule.",
         ["esES"] = "Invoca a un Señor usando un conjunto Crepuscular, Medallón y Anillo.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用全套暮光套裝、項鍊和戒指召喚領主。",
         ["zhCN"] = false,
     },
     ["Ask to see the Captain."] = { -- 8507
@@ -491,7 +491,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Demandez à voir le Capitaine.",
         ["esES"] = "Pide ver al capitán.",
-        ["zhTW"] = false,
+        ["zhTW"] = "要求見船長。",
         ["zhCN"] = false,
     },
     ["Draw the glyphs into the sand to summon the Qiraji Emissary."] = { -- 8315
@@ -503,7 +503,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Dessinez les glyphes dans le sol pour invoquer un Émissaire des Qiraji.",
         ["esES"] = "Dibuja los glifos en la arena para invocar al emisario Qiraji.",
-        ["zhTW"] = false,
+        ["zhTW"] = "將雕文放到沙中來召喚其拉蟲人使者。",
         ["zhCN"] = false,
     },
     ["Place the Relic Bundle in the Town Square."] = { -- 5721
@@ -515,7 +515,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = " À mettre l'Ensemble de Reliques sur la place centrale de Darrowshire.",
         ["esES"] = "Coloca el Fardo de reliquias en la plaza de Villa Darrow.",
-        ["zhTW"] = false,
+        ["zhTW"] = "將聖物包裹放在城鎮廣場中。",
         ["zhCN"] = false,
     },
     ["Search the false grave for the Taelan's Hammer."] = { -- 5781
@@ -527,7 +527,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cherchez le Marteau de Taelan dans la fausse tombe.",
         ["esES"] = "Busca en el Túmulo de porquería el Martillo de Taelan.",
-        ["zhTW"] = false,
+        ["zhTW"] = "在假墳墓中尋找泰蘭之錘。",
         ["zhCN"] = false,
     },
     ["Plant the bomb!"] = { -- 6041
@@ -539,7 +539,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Posez la bombe !",
         ["esES"] = "¡Planta la bomba!",
-        ["zhTW"] = false,
+        ["zhTW"] = "安置炸彈!",
         ["zhCN"] = false,
     },
     ["Use the Empty Worg Pup Cage to capture it."] = { -- 4729
@@ -551,7 +551,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez la Cage de Jeune Worg Vide pour le capturer.",
         ["esES"] = "Usa la Jaula de Mascolupo vacía para capturarlo.",
-        ["zhTW"] = false,
+        ["zhTW"] = "使用空的小座狼籠來捕捉它。",
         ["zhCN"] = false,
     },
     ["Combine Omokk's Head with the Roughshod Pike."] = { -- 4867
@@ -563,7 +563,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Combinez la Tête d'Omokk avec la Pique de fortune.",
         ["esES"] = "Combina la Cabeza de Omokk con la Pica despiadada.",
-        ["zhTW"] = false,
+        ["zhTW"] = "將歐莫克的頭顱與尖銳長矛結合。",
         ["zhCN"] = false,
     },
     ["Use it to instantly kill one nearby ogre."] = { -- 4867
@@ -575,7 +575,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez-le pour instantanément tuer un ogre proche.",
         ["esES"] = "Úsalo para matar instantáneamente a un ogro cercano.",
-        ["zhTW"] = false,
+        ["zhTW"] = "用它立即殺死附近的一個巨魔。",
         ["zhCN"] = false,
     },
     ["Place a tribute at Uther's Tomb"] = { -- 8149
@@ -587,7 +587,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Fait une offrande sur la tombe d'Uther",
         ["esES"] = "Ofrece un tributo en la tumba de Uther",
-        ["zhTW"] = false,
+        ["zhTW"] = "在烏瑟之墓前獻上一份敬意",
         ["zhCN"] = false,
     },
     ["Place a tribute at Grom's Monument"] = { -- 8150
@@ -599,7 +599,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Fait une offrande au monument de Grom",
         ["esES"] = "Ofrece un tributo en el monumento de Grom",
-        ["zhTW"] = false,
+        ["zhTW"] = "在葛羅的紀念碑前致敬",
         ["zhCN"] = false,
     },
     ["Combine the Pendant halves at the Shrine of Remulos."] = { -- 30 & 272
@@ -611,7 +611,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Combinez les Demi-pendentifs à proximité du sanctuaire de Remulos.",
         ["esES"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos.",
-        ["zhTW"] = false,
+        ["zhTW"] = "在雷姆洛斯神殿附近將墜飾的兩部分合而為一。",
         ["zhCN"] = false,
     },
     ["Use the Draco-Incarcinatrix 900 and defeat the dragonkin."] = {
@@ -623,19 +623,7 @@ local classicObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = "Utilisez le Draco-Incarcinatrix 900 et tire sur un Rejeton draconien dans les Steppes ardentes.",
         ["esES"] = "Usa el Draco-Incarcinatrix 900 y dispara a una cría de dragonante en Las Estepas Ardientes.",
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Close the portal"] = {
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "使用龍靈採集器900型並擊敗龍人。",
         ["zhCN"] = false,
     },
 }

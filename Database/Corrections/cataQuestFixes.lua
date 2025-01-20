@@ -600,6 +600,105 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
             [questKeys.startedBy] = {{55382}},
         },
+        [8053] = { -- Paragons of Power: The Freethinker's Armguards
+            [questKeys.objectives] = {nil,nil,{{19716}},{270,3000}},
+        },
+        [8054] = { -- Paragons of Power: The Freethinker's Belt
+            [questKeys.objectives] = {nil,nil,{{19721}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8055] = { -- Paragons of Power: The Freethinker's Breastplate
+            [questKeys.objectives] = {nil,nil,{{19722}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8056] = { -- Paragons of Power: The Augur's Bracers
+            [questKeys.objectives] = {nil,nil,{{19717}},{270,3000}},
+        },
+        [8057] = { -- Paragons of Power: The Haruspex's Bracers
+            [questKeys.objectives] = {nil,nil,{{19718}},{270,3000}},
+        },
+        [8058] = { -- Paragons of Power: The Vindicator's Armguards
+            [questKeys.objectives] = {nil,nil,{{19717}},{270,3000}},
+        },
+        [8059] = { -- Paragons of Power: The Demoniac's Wraps
+            [questKeys.objectives] = {nil,nil,{{19718}},{270,3000}},
+        },
+        [8060] = { -- Paragons of Power: The Illusionist's Wraps
+            [questKeys.objectives] = {nil,nil,{{19716}},{270,3000}},
+        },
+        [8061] = { -- Paragons of Power: The Confessor's Wraps
+            [questKeys.objectives] = {nil,nil,{{19718}},{270,3000}},
+        },
+        [8062] = { -- Paragons of Power: The Predator's Bracers
+            [questKeys.objectives] = {nil,nil,{{19716}},{270,3000}},
+        },
+        [8063] = { -- Paragons of Power: The Madcap's Bracers
+            [questKeys.objectives] = {nil,nil,{{19717}},{270,3000}},
+        },
+        [8064] = { -- Paragons of Power: The Haruspex's Belt
+            [questKeys.objectives] = {nil,nil,{{19720}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8065] = { -- Paragons of Power: The Haruspex's Tunic
+            [questKeys.objectives] = {nil,nil,{{19722}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8066] = { -- Paragons of Power: The Predator's Belt
+            [questKeys.objectives] = {nil,nil,{{19721}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8067] = { -- Paragons of Power: The Predator's Mantle
+            [questKeys.objectives] = {nil,nil,{{19724}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8068] = { -- Paragons of Power: The Illusionist's Mantle
+            [questKeys.objectives] = {nil,nil,{{19721}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8069] = { -- Paragons of Power: The Illusionist's Robes
+            [questKeys.objectives] = {nil,nil,{{19723}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8070] = { -- Paragons of Power: The Confessor's Bindings
+            [questKeys.objectives] = {nil,nil,{{19720}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8071] = { -- Paragons of Power: The Confessor's Mantle
+            [questKeys.objectives] = {nil,nil,{{19724}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8072] = { -- Paragons of Power: The Madcap's Mantle
+            [questKeys.objectives] = {nil,nil,{{19719}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8073] = { -- Paragons of Power: The Madcap's Tunic
+            [questKeys.objectives] = {nil,nil,{{19724}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8074] = { -- Paragons of Power: The Augur's Belt
+            [questKeys.objectives] = {nil,nil,{{19719}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8075] = { -- Paragons of Power: The Augur's Hauberk
+            [questKeys.objectives] = {nil,nil,{{19722}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8076] = { -- Paragons of Power: The Demoniac's Mantle
+            [questKeys.objectives] = {nil,nil,{{19720}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8077] = { -- Paragons of Power: The Demoniac's Robes
+            [questKeys.objectives] = {nil,nil,{{19723}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8078] = { -- Paragons of Power: The Vindicator's Belt
+            [questKeys.objectives] = {nil,nil,{{19719}},{270,9000}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [8079] = { -- Paragons of Power: The Vindicator's Belt
+            [questKeys.objectives] = {nil,nil,{{19723}},{270,21000}},
+            [questKeys.preQuestSingle] = {},
+        },
         [8280] = { -- Securing the Supply Lines
             [questKeys.preQuestSingle] = {},
         },
@@ -4067,7 +4166,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {},
         },
         [25171] = { -- Riding On
-            [questKeys.preQuestSingle] = {25169},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25168,25169},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 0, {{"monster", 10676}}}},
         },
         [25178] = { -- Shipwreck Searching
@@ -7861,6 +7961,12 @@ function CataQuestFixes.Load()
         },
         [27181] = { -- Excising the Taint
             [questKeys.preQuestSingle] = {27098},
+        },
+        [27182] = { -- The Hermit of Witch Hill
+            [questKeys.nextQuestInChain] = 27183,
+        },
+        [27183] = { -- Marsh Frog Legs
+            [questKeys.preQuestSingle] = {},
         },
         [27186] = { -- Jarl Needs a Blade
             [questKeys.preQuestSingle] = {27184},
@@ -12462,6 +12568,10 @@ function CataQuestFixes.Load()
         [29284] = { -- Aid of the Ancients
             [questKeys.preQuestSingle] = {29283},
         },
+        [29285] = { -- Alignment
+            [questKeys.objectives] = {{{53215,nil,Questie.ICON_TYPE_TALK}},nil,{{71084}},nil,},
+            [questKeys.zoneOrSort] = 4024,
+        },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
             [questKeys.preQuestSingle] = {},
@@ -12528,6 +12638,14 @@ function CataQuestFixes.Load()
         [29305] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29283,29287,29293,-29206}, -- 29287 or 29288 or 29290, 29293 or 29296.
+        },
+        [29307] = { -- Heart of Flame
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = 4024,
+        },
+        [29308] = { -- Heart of Flame
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 4024,
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
