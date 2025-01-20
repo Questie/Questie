@@ -4348,6 +4348,7 @@ function CataQuestFixes.Load()
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
             [questKeys.nextQuestInChain] = 14129,
+            [questKeys.exclusiveTo] = {28496,25648},
         },
         [25277] = { -- Cleaning House
             [questKeys.preQuestSingle] = {25272},
@@ -4947,6 +4948,7 @@ function CataQuestFixes.Load()
         [25648] = { -- Beyond Durotar
             [questKeys.preQuestSingle] = {25206},
             [questKeys.zoneOrSort] = 14,
+            [questKeys.exclusiveTo] = {28496,25275},
         },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
@@ -10872,6 +10874,7 @@ function CataQuestFixes.Load()
         [28496] = { -- Warchief's Command: Azshara!
             [questKeys.requiredMaxLevel] = 18,
             [questKeys.nextQuestInChain] = 14129,
+            [questKeys.exclusiveTo] = {25275,25648},
         },
         [28497] = { -- Fire From the Sky
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48699}}}},
