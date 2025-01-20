@@ -15,6 +15,8 @@ describe("QuestEventHandler", function()
     local QuestieQuest
     ---@type QuestieJourney
     local QuestieJourney
+    ---@type AutoQuesting
+    local AutoQuesting
     ---@type QuestieAnnounce
     local QuestieAnnounce
     ---@type QuestieTracker
@@ -31,11 +33,13 @@ describe("QuestEventHandler", function()
     local QuestEventHandler
 
     before_each(function()
+        Questie.db.profile.autoaccept = false
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         QuestLogCache = require("Modules.Quest.QuestLogCache")
         QuestieQuest = require("Modules.Quest.QuestieQuest")
+        AutoQuesting = require("Modules.Auto.AutoQuesting")
         QuestieJourney = require("Modules.Journey.QuestieJourney")
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
@@ -98,6 +102,38 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestieQuest.AcceptQuest).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieTracker.Update).was.called()
+    end)
+
+    it("should hide Immersion frame when quest was auto accepted and modifier is not held", function()
+        Questie.db.profile.autoaccept = true
+        AutoQuesting.IsModifierHeld = function() return false end
+        local ImmersionFrameHideMock = spy.new(function() end)
+        _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler:QuestAccepted(2, QUEST_ID)
+
+        assert.spy(ImmersionFrameHideMock).was.called()
+    end)
+
+    it("should not hide Immersion frame when quest was auto accepted and modifier is held", function()
+        Questie.db.profile.autoaccept = true
+        AutoQuesting.IsModifierHeld = function() return true end
+        local ImmersionFrameHideMock = spy.new(function() end)
+        _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler:QuestAccepted(2, QUEST_ID)
+
+        assert.spy(ImmersionFrameHideMock).was_not_called()
     end)
 
     it("should mark quest as abandoned on quest accept after QUEST_REMOVED", function()

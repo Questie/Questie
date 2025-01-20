@@ -20,6 +20,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type AutoQuesting
+local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type IsleOfQuelDanas
@@ -232,7 +234,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     else
         QuestieQuest:AcceptQuest(questId)
 
-        if Questie.db.profile.autoaccept and ImmersionFrame and ImmersionFrame:IsShown() then
+        if Questie.db.profile.autoaccept and (not AutoQuesting.IsModifierHeld()) and ImmersionFrame and ImmersionFrame:IsShown() then
             ImmersionFrame:Hide()
         end
     end
