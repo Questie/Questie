@@ -39,16 +39,16 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Active ou désactive la superposition du Heads Up Display (HUD) de DBM pour afficher les objets de la carte.",
     },
     ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
-        ["ptBR"] = "O Questie ativou a sobreposição de HUD do DBM. Para mais opções, acesse a aba HUD do DBM nas opções de Questie.",
+        ["ptBR"] = "O Questie ativou a sobreposição de DBM HUD. Para mais opções, acesse a aba DBM HUD nas opções de Questie.",
         ["ruRU"] = "В Questie активировано наложение DBM HUD. Для расширенных настроек посетите вкладку DBM HUD в параметрах Questie",
         ["deDE"] = "Questie hat das DBM HUD aktiviert. Einstellungen dazu findest du in den Questie-Einstellungen im \"DBM HUD\"-Reiter.",
         ["koKR"] = "Questie가 DBM HUD 오버레이를 활성화했습니다. 더 많은 옵션을 보려면 Questie 설정의 DBM HUD 탭을 방문하세요.",
-        ["esMX"] = "Questie ha activado la superposición DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
+        ["esMX"] = "Questie ha activado la superposición de DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中。",
-        ["esES"] = "Questie ha activado la superposición DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
-        ["frFR"] = "Questie a activé la superposition DBM HUD. Pour plus d'options, rendez-vous dans l'onglet DBM HUD dans les options de Questie.",
+        ["esES"] = "Questie ha activado la superposición de DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
+        ["frFR"] = "Questie a activé la superposition de DBM HUD. Pour plus d'options, rendez-vous dans l'onglet DBM HUD dans les options de Questie.",
     },
     ["Filter Options"] = {
         ["ptBR"] = "Opções de filtro",
@@ -91,11 +91,11 @@ local dbmHudOptionsLocales = {
         ["ruRU"] = "Значки объектов",
         ["deDE"] = "Objekt-Interaktions-Icons anzeigen",
         ["koKR"] = "오브젝트 상호작용 아이콘 표시",
-        ["esMX"] = "Mostrar iconos de interacción de objetos",
+        ["esMX"] = "Mostrar iconos de interacción con objetos",
         ["enUS"] = true,
         ["zhCN"] = "显示目标交互图标",
         ["zhTW"] = "顯示物件互動圖示",
-        ["esES"] = "Mostrar iconos de interacción de objetos",
+        ["esES"] = "Mostrar iconos de interacción con objetos",
         ["frFR"] = "Afficher les icônes d'interaction avec les objets",
     },
     ["Refresh rate for HUD (Requires turning HUD off/on)"] = {
@@ -276,7 +276,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "DBM HUD使用了DBM HUD功能来显示目标图标。启动此功能通常需要重新载入插件。",
         ["zhTW"] = "DBM HUD 會整合 DeadlyBossMods 插件，顯示全螢幕的目標圖示雷達。啟用此功能需要重新載入介面 /reload 才能生效。",
         ["esES"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Al activar esta función generalmente requiere /recargar para tener efecto.",
-        ["frFR"] = "L'interface utilisateur de DBM s'intègre avec l'addon DeadlyBossMods pour afficher un radar d'icônes d'objectifs sur l'ensemble de votre écran. Activer cette fonctionnalité nécessite généralement un /reload pour prendre effet.",
+        ["frFR"] = "Le DBM HUD s'intègre avec l'add-on DeadlyBossMods pour afficher un radar d'icônes d'objectifs sur l'ensemble de votre écran. Activer cette fonctionnalité nécessite généralement un /reload pour prendre effet.",
     },
 }
 
