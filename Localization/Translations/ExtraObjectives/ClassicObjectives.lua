@@ -626,7 +626,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = "使用龍靈採集器900型並擊敗龍人。",
         ["zhCN"] = false,
     },
-	 ["Close the portal"] = {
+    ["Close the portal"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
