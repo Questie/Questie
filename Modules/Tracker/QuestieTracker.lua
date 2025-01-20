@@ -577,6 +577,7 @@ function QuestieTracker:Update()
         for _, questId in pairs(sortedQuestIds) do
             if not questId then break end
 
+            ---@type Quest
             local quest = questDetails[questId].quest
             local complete = quest:IsComplete()
             local zoneName = questDetails[questId].zoneName
@@ -898,7 +899,9 @@ function QuestieTracker:Update()
                                     -- Set Objective based on states
                                     local objDesc = objective.Description:gsub("%.", "")
 
-                                    if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1)) then
+                                    -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
+                                    local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
+                                    if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1) or questIsIncompleteButObjectiveIsComplete) then
                                         local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
                                         -- Set Objective text

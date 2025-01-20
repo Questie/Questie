@@ -967,6 +967,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [23843] = { -- Mordant Grimsby
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{55.58,26.14}}},
+        },
         [23973] = { -- Masked Orphan Matron
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{60.92,53.58}},
@@ -1611,15 +1614,15 @@ function CataNpcFixes.Load()
         [37165] = { -- Henry Zykes
             [npcKeys.waypoints] = {[4709] = {{{42.57,22.30},{41.87,22.25},{41.64,21.56},{41.59,21.28},{41.41,20.36},{41.33,19.33},{40.63,18.26},{40.52,17.90},{40.43,17.31},{40.58,16.28},{40.62,15.49},{40.67,15.07}}}},
         },
+        [37513] = { -- Sabersnout
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{42.99,41.6}}},
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
                     {59.6,76.48,phases.KEZAN_CHAPTER_6},
                 },
             },
-        },
-        [37667] = { -- Capture Point Kill Credit Horde
-            [npcKeys.spawns] = {[4709] = {{46.37,47.25},{49.40,54.03},{46.30,56.74}}},
         },
         [37733] = { -- Lord Walden
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{78.11,66.11}}},
@@ -1803,6 +1806,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38661] = { -- Rageroar Sea Dog
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{72.6,47.2},{72.9,47.3},{73.1,47.4},{73.3,47.5},{73,47.6},{73.2,47.75},{73.1,47.7}}},
+        },
         [38696] = { -- Yngwie
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{62.91,68.56}}},
         },
@@ -1843,8 +1849,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38805] = { -- Wounded Defender
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{67.66,44.68},{68.02,45.41},{68.02,45.67},{67.77,45.32},{67.07,44.72},{67.06,44.44},{67.07,45.35},{66.5,44.67},{66.32,45.17},{67.37,45.21},{66.34,44.96},{66.61,45.34}}},
+        },
         [38842] = { -- Rocket Boot Boost Kill Credit
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{51.8,47.1}}},
+        },
+        [38872] = { -- Ambassador Gaines
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{53.12,46.67}}},
         },
         [38935] = { -- Thrall
             [npcKeys.spawns] = {
@@ -1888,6 +1900,9 @@ function CataNpcFixes.Load()
         },
         [39199] = { -- Assistant Greely
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{53.16,36.55}}},
+        },
+        [39218] = { -- Bael'dun Survivor
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS]={{49.42,86.88}}},
         },
         [39325] = { -- Grandmatron Tekla
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.49,35.36}}},
@@ -3400,6 +3415,9 @@ function CataNpcFixes.Load()
         [53149] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{30.93,24.01}}},
         },
+        [53215] = { -- Kalecgos
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.17,30.79}}},
+        },
         [53234] = { -- Anren Shadowseeker
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.62,59.91}}},
         },
@@ -3408,6 +3426,9 @@ function CataNpcFixes.Load()
         },
         [53296] = { -- Locket A Event Controller
             [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{51.67,44.62}}},
+        },
+        [53349] = { -- Kalecgos
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.29,22.97}}},
         },
         [53385] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.16,90.58}}},

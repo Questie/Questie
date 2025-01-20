@@ -281,14 +281,38 @@ function CataObjectFixes.Load()
                 [zoneIDs.ORGRIMMAR] = {{50.9,37.9}},
             }
         },
+        [201743] = { -- Field Banner
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.42,54.04},{46.37,47.23},{46.29,56.75}}},
+        },
+        [201744] = { -- Horde Field Banner
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.42,54.04},{46.37,47.23},{46.29,56.75}}},
+        },
         [201974] = { -- Raptor Egg
             [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{47.32,74.75},{53.56,72.47},{50.67,74.99},{48.78,75.77},{50.19,73.17},{47.74,72.83},{49.24,73.88},{46.7,71.89},{52.34,69.56},{52.9,68.11},{53.43,70.49},{50.64,68.34},{50.46,69.96},{49.07,62.85},{50.19,63.86},{50.25,65.79},{49.33,64.54},{51.54,65.54},{51.7,67.45},{49.67,69.15},{47.63,68.45},{45.93,69.88},{48.47,67.66},{47.67,70.16}}},
+        },
+        [201977] = { -- The Biggest Egg Ever
+            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
+        },
+        [202418] = { -- Quilboar Restraint -- needs locale translations
+            [objectKeys.name] = "Quilboar Restraint",
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS]={{53.15,46.63}}},
+            [objectKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
+        },
+        [202419] = { -- Quilboar Restraint -- needs locale translations
+            [objectKeys.name] = "Quilboar Restraint",
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS]={{53.1,46.7}}},
+            [objectKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
+        },
+        [202460] = { -- Alliance Field Banner
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.42,54.04},{46.37,47.23},{46.29,56.75}}},
         },
         [202574] = { -- Blastshadow's Soulstone
             [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{55.36,31.64},{55.52,31.87},{55.23,33.08},{53.69,37.14}}},
         },
-        [201977] = { -- The Biggest Egg Ever
-            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
+        [202596] = { -- Frazzlecraz Explosives -- needs locale translations
+            [objectKeys.name] = "Frazzlecraz Explosives",
+            [objectKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{39.84,73.85},{40.03,73.9},{39.97,74.29},{40.28,74.07},{40.28,74.52},{40.02,74.54},{39.67,74.54},{39.89,74.87},{40.05,75.16},{39.55,75.71},{39.99,75.89},{39.7,76.16},{39.37,76.58},{39.64,76.57},{39.9,76.47},{40.27,76.59},{40.22,76.95}}},
+            [objectKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
         },
         [203092] = { -- Portal Rune - Fully added here, because we don't scrape "objectType = button" objects
             [objectKeys.name] = "Portal Rune",
