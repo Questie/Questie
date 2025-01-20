@@ -1895,6 +1895,12 @@ function QuestieTracker:AQW_Insert(index, expire)
         return
     end
 
+    local questId = select(8, GetQuestLogTitle(index))
+    if (not QuestiePlayer.currentQuestlog[questId]) then
+        -- AQW_Insert is called before QUEST_ACCEPTED
+        return
+    end
+
     -- This prevents double calling this function
     local now = GetTime()
     if index and index == QuestieTracker.last_aqw and (now - lastAQW) < 0.1 then
@@ -1908,8 +1914,8 @@ function QuestieTracker:AQW_Insert(index, expire)
     -- that is all the player will see. This also prevents hitting the Blizzard Quest Watch Limit.
     RemoveQuestWatch(index, true)
 
-    local questId = select(8, GetQuestLogTitle(index))
     if questId == 0 then
+        -- TODO: Is this still needed?
         -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
         -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
         questId = index
