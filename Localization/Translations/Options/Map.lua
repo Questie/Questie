@@ -24,7 +24,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "大地图选项",
         ["zhTW"] = "大地圖選項",
         ["esES"] = "Opciones del mapa",
-        ["frFR"] = "Options de la carte du monde",
+        ["frFR"] = "Options de la carte",
     },
     ["Show Questie Map Button"] = {
         ["ptBR"] = "Mostrar o botão de Questie no mapa",
