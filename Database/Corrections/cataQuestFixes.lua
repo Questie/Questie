@@ -7962,6 +7962,12 @@ function CataQuestFixes.Load()
         [27181] = { -- Excising the Taint
             [questKeys.preQuestSingle] = {27098},
         },
+        [27182] = { -- The Hermit of Witch Hill
+            [questKeys.nextQuestInChain] = 27183,
+        },
+        [27183] = { -- Marsh Frog Legs
+            [questKeys.preQuestSingle] = {},
+        },
         [27186] = { -- Jarl Needs a Blade
             [questKeys.preQuestSingle] = {27184},
         },
