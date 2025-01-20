@@ -27,7 +27,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Afficher DBM HUD",
     },
     ["Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects."] = {
-        ["ptBR"] = "Ativa ou desativa a sobreposição de DBM Heads Up Display (HUD) para mostrar objetos do mapa.",
+        ["ptBR"] = "Ativa ou desativa a sobreposição do DBM Heads Up Display (HUD) para mostrar objetos do mapa.",
         ["ruRU"] = "Включить/отключить DBM HUD - оверлей для отображения объектов карты",
         ["deDE"] = "Aktiviert/Deaktiviert das DBM-HUD zur Anzeige von Kartenobjekten.",
         ["koKR"] = "DBM 애드온의 HUD 오버레이 기능을 사용해서 지도상의 오브젝트를 화면에 표시합니다.",
@@ -39,16 +39,16 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Active ou désactive la superposition du DBM Heads Up Display (HUD) pour afficher les objets de la carte.",
     },
     ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
-        ["ptBR"] = "O Questie ativou a sobreposição de DBM HUD. Para mais opções, acesse a aba DBM HUD nas opções de Questie.",
+        ["ptBR"] = "O Questie ativou a sobreposição do DBM HUD. Para mais opções, acesse a aba DBM HUD nas opções de Questie.",
         ["ruRU"] = "В Questie активировано наложение DBM HUD. Для расширенных настроек посетите вкладку DBM HUD в параметрах Questie",
         ["deDE"] = "Questie hat das DBM HUD aktiviert. Einstellungen dazu findest du in den Questie-Einstellungen im \"DBM HUD\"-Reiter.",
         ["koKR"] = "Questie가 DBM HUD 오버레이를 활성화했습니다. 더 많은 옵션을 보려면 Questie 설정의 DBM HUD 탭을 방문하세요.",
-        ["esMX"] = "Questie ha activado la superposición de DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
+        ["esMX"] = "Questie ha activado la superposición del DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中。",
-        ["esES"] = "Questie ha activado la superposición de DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
-        ["frFR"] = "Questie a activé la superposition de DBM HUD. Pour plus d'options, rendez-vous dans l'onglet DBM HUD dans les options de Questie.",
+        ["esES"] = "Questie ha activado la superposición del DBM HUD. Para más opciones, visita la pestaña DBM HUD en las opciones de Questie.",
+        ["frFR"] = "Questie a activé la superposition du DBM HUD. Pour plus d'options, rendez-vous dans l'onglet DBM HUD dans les options de Questie.",
     },
     ["Filter Options"] = {
         ["ptBR"] = "Opções de filtro",
@@ -120,7 +120,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "调整HUD图标的刷新率，这会影响UI更新其位置的频率。（默认：%s）",
         ["zhTW"] = "調整 HUD 圖示的更新頻率，會影響介面有多頻繁更新位置。(預設值: %s)",
         ["esES"] = "Ajusta la frecuencia de actualización de los iconos del HUD que afecta la frecuencia con la que la interfaz de usuario actualiza su posición. (Predeterminado: %s)",
-        ["frFR"] = "Ajuste le taux de rafraîchissement des icônes HUD qui affecte la fréquence à laquelle l'interface utilisateur actualise leur position. (Par défaut : %s)",
+        ["frFR"] = "Ajuste le taux de rafraîchissement des icônes du HUD qui affecte la fréquence à laquelle l'interface utilisateur actualise leur position. (Par défaut : %s)",
     },
     ["Enable proximity visual for HUD icons"] = {
         ["ptBR"] = "Ativar visual de proximidade para ícones do HUD",
@@ -132,7 +132,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "启用近距离视野的 HUD 图标",
         ["zhTW"] = "啟用 HUD 圖示的接近提示",
         ["esES"] = "Activar visual de proximidad para los iconos del HUD",
-        ["frFR"] = "Activer le visuel de proximité pour les icônes HUD",
+        ["frFR"] = "Activer le visuel de proximité pour les icônes du HUD",
     },
     ["Adjusts the size of the icons that appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Padrão: %s)",
@@ -204,7 +204,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "HUD图标的全局缩放等级",
         ["zhTW"] = "HUD 圖示的整體檢視大小",
         ["esES"] = "Nivel de zoom global para iconos del HUD",
-        ["frFR"] = "Niveau de zoom global pour les icônes HUD",
+        ["frFR"] = "Niveau de zoom global pour les icônes du HUD",
     },
     ["Changes the color of a HUD icon to red when you are near it."] = {
         ["ptBR"] = "Muda a cor de um ícone HUD para vermelho quando você está perto dele.",
@@ -216,7 +216,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "靠近HUD图标时，将其颜色更改为红色。",
         ["zhTW"] = "靠近時將 HUD 圖示變成紅色。",
         ["esES"] = "Cambia el color de un icono del HUD a rojo cuando estás cerca de él.",
-        ["frFR"] = "Change la couleur d'une icône HUD en rouge lorsque vous vous en approchez.",
+        ["frFR"] = "Change la couleur d'une icône du HUD en rouge lorsque vous vous en approchez.",
     },
     ["Show slay icons"] = {
         ["ptBR"] = "Mostrar ícones de matança",
@@ -252,7 +252,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "HUD图标的全局半径/大小",
         ["zhTW"] = "HUD 圖示的整體半徑/大小",
         ["esES"] = "Radio/tamaño global para iconos del HUD",
-        ["frFR"] = "Rayon / taille global pour les icônes HUD",
+        ["frFR"] = "Rayon / taille global pour les icônes du HUD",
     },
     ["Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. (Default: %s)"] = {
         ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Padrão: %s)",
@@ -264,7 +264,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "调整HUD图标的缩放级别，这会影响您看到它们的接近程度或远近程度。（默认：%s）",
         ["zhTW"] = "調整 HUD 圖示的檢視大小，會影響你看到它們的遠近程度。(預設值: %s)",
         ["esES"] = "Ajusta el nivel de zoom para los iconos del HUD, lo que afecta la proximidad o la distancia a la que los ves. (Predeterminado: %s)",
-        ["frFR"] = "Ajuste le niveau de zoom des icônes HUD qui affecte la distance à laquelle vous les voyez. (Par défaut : %s)",
+        ["frFR"] = "Ajuste le niveau de zoom des icônes du HUD qui affecte la distance à laquelle vous les voyez. (Par défaut : %s)",
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
         ["ptBR"] = "O DBM HUD se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a sua tela. Ativar esse recurso geralmente requer um /reload para ter efeito.",
