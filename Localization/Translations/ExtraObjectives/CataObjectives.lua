@@ -3647,7 +3647,7 @@ local cataObjectiveLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "關閉傳送門",
         ["zhCN"] = false,
     },
 }
