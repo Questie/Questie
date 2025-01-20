@@ -247,7 +247,7 @@ _MeetingStones.levelRanges = {
         range = "(80-85)"
     },
     [207308] = {
-        name = "The Throne of the Four Winds",
+        name = "Throne of the Four Winds",
         range = "(85)"
     },
     [208225] = {
