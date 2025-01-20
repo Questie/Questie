@@ -12,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 QuestieCorrections.eventObjectiveFirst[85304] = true
+QuestieCorrections.eventObjectiveFirst[85386] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -3266,7 +3267,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85386] = { -- Essence of Frost
-            [questKeys.requiredSourceItems] = {230946},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.WINTERSPRING]={{63.3,68.4}}}},
+            [questKeys.objectives] = {{{232466},{232466},{232399}},nil,{{230948}}},
             [questKeys.preQuestSingle] = {85385},
             [questKeys.nextQuestInChain] = 85388,
             [questKeys.zoneOrSort] = sortKeys.MAGE,

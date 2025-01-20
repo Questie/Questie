@@ -743,8 +743,14 @@ function SeasonOfDiscovery:LoadNPCs()
         [232398] = { -- Primordial Flame
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.6,56.6}}},
         },
+        [232399] = { -- Outcast Cryomancer
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{63.2,68.9}}},
+        },
         [232429] = { -- Magical Stone
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{14.8,56.7}}},
+        },
+        [232466] = { -- Magical Stone
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{63.2,68.4}}},
         },
         [232529] = { -- Nandieb
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
