@@ -2833,6 +2833,7 @@ globals = {
     "ICON_TYPE_AVAILABLE_GRAY",
     "ICON_TYPE_REPEATABLE",
     "ICON_TYPE_TALK",
+    "ICON_TYPE_INTERACT",
     "TrackedQuestsScrollFrame",
     "QuestieProfilerScrollFrame",
     "Questie_BaseFrame",
