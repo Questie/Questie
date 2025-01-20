@@ -143,11 +143,41 @@ function CataItemFixes.Load()
         [18950] = { -- Chambermaid Pillaclencher's Pillow
             [itemKeys.startQuest] = 0,
         },
+        [18960] = { -- Lookout's Spyglass
+            [itemKeys.npcDrops] = {5840},
+        },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
         },
-        [18960] = { -- Lookout's Spyglass
-            [itemKeys.npcDrops] = {5840},
+        [19716] = { -- Primal Hakkari Bindings
+            [itemKeys.npcDrops] = {},
+        },
+        [19717] = { -- Primal Hakkari Armsplint
+            [itemKeys.npcDrops] = {},
+        },
+        [19718] = { -- Primal Hakkari Stanchion
+            [itemKeys.npcDrops] = {},
+        },
+        [19719] = { -- Primal Hakkari Girdle
+            [itemKeys.npcDrops] = {},
+        },
+        [19720] = { -- Primal Hakkari Sash
+            [itemKeys.npcDrops] = {},
+        },
+        [19721] = { -- Primal Hakkari Shawl
+            [itemKeys.npcDrops] = {},
+        },
+        [19722] = { -- Primal Hakkari Tabard
+            [itemKeys.npcDrops] = {},
+        },
+        [19723] = { -- Primal Hakkari Kossack
+            [itemKeys.npcDrops] = {},
+        },
+        [19724] = { -- Primal Hakkari Aegis
+            [itemKeys.npcDrops] = {},
+        },
+        [19802] = { -- Heart of Hakkar
+            [itemKeys.npcDrops] = {},
         },
         [20743] = { -- Unstable Mana Crystal
             [itemKeys.npcDrops] = {},
