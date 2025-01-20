@@ -967,6 +967,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [23843] = { -- Mordant Grimsby
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{55.58,26.14}}},
+        },
         [23973] = { -- Masked Orphan Matron
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{60.92,53.58}},
