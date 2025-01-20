@@ -627,6 +627,41 @@ describe("AutoQuesting", function()
         end)
     end)
 
+    describe("IsModifierHeld", function()
+        it("should return true when auto modifier is shift and held", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            assert.is_true(AutoQuesting.IsModifierHeld())
+        end)
+
+        it("should return true when auto modifier is ctrl and held", function()
+            Questie.db.profile.autoModifier = "ctrl"
+            _G.IsControlKeyDown = function() return true end
+
+            assert.is_true(AutoQuesting.IsModifierHeld())
+        end)
+
+        it("should return true when auto modifier is alt and held", function()
+            Questie.db.profile.autoModifier = "alt"
+            _G.IsAltKeyDown = function() return true end
+
+            assert.is_true(AutoQuesting.IsModifierHeld())
+        end)
+
+        it("should return false when auto modifier is disabled", function()
+            Questie.db.profile.autoModifier = "disabled"
+
+            assert.is_false(AutoQuesting.IsModifierHeld())
+        end)
+
+        it("should return false when auto modifier is nil", function()
+            Questie.db.profile.autoModifier = nil
+
+            assert.is_false(AutoQuesting.IsModifierHeld())
+        end)
+    end)
+
     describe("Accept Flow", function()
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end

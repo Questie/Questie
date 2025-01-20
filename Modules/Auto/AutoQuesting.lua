@@ -3,7 +3,7 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local _IsBindTrue, _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
 
@@ -12,7 +12,7 @@ local INDIZES_COMPLETE = 6
 
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -30,7 +30,7 @@ end
 
 function AutoQuesting.OnQuestGreetings()
     print("AutoQuesting.OnQuestGreetings", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
         shouldRunAuto = false
         return
     end
@@ -57,7 +57,7 @@ end
 
 function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
         shouldRunAuto = false
         return
     end
@@ -139,7 +139,7 @@ end
 
 function AutoQuesting.OnQuestComplete()
     print("AutoQuesting.OnQuestComplete", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or _IsBindTrue(Questie.db.profile.autoModifier) or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or AutoQuesting.IsModifierHeld() or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
         return
     end
 
@@ -174,8 +174,14 @@ local bindTruthTable = {
     ['disabled'] = function() return false; end,
 }
 
-_IsBindTrue = function(bind)
-    return bind and bindTruthTable[bind]()
+---@return boolean @True if the modifier key is held down, false otherwise
+function AutoQuesting.IsModifierHeld()
+    local bind = Questie.db.profile.autoModifier
+    if (not bind) then
+        return false
+    end
+
+    return bindTruthTable[bind]()
 end
 
 _IsAllowedNPC = function()
