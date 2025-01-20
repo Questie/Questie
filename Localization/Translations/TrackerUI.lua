@@ -17,16 +17,16 @@ local trackerUILocales = {
     ---------------------------------------------------------
     -- Sizer
     ["Sizer Mode"] = {
-        ["ptBR"] = "Modo do medidor",
+        ["ptBR"] = "Modo de medição",
         ["ruRU"] = "Режим сайзера",
         ["deDE"] = "Sizer-Modus",
         ["koKR"] = "사이저 모드",
-        ["esMX"] = "Modo de calibrador",
+        ["esMX"] = "Modo de medición",
         ["enUS"] = true,
         ["zhCN"] = "分级器模式",
         ["zhTW"] = "調整模式",
-        ["esES"] = "Modo de calibrador",
-        ["frFR"] = "Mode du calibreur",
+        ["esES"] = "Modo de medición",
+        ["frFR"] = "Mode de calibrage",
     },
     ["Resize Tracker"] = {
         ["ptBR"] = "Redimensionar rastreador",
@@ -41,15 +41,15 @@ local trackerUILocales = {
         ["frFR"] = "Redimensionner le suivi",
     },
     ["Reset Sizer"] = {
-        ["ptBR"] = "Redefinir dimensionador",
+        ["ptBR"] = "Redefinir medidor",
         ["ruRU"] = "Сбросить сайзер",
         ["deDE"] = "Sizer zurücksetzen",
         ["koKR"] = "Sizer 재설정",
-        ["esMX"] = "Restablecer calibrador",
+        ["esMX"] = "Restablecer medidor",
         ["enUS"] = true,
         ["zhCN"] = "重置 Sizer",
         ["zhTW"] = "重置大小",
-        ["esES"] = "Restablecer calibrador",
+        ["esES"] = "Restablecer medidor",
         ["frFR"] = "Réinitialiser le calibreur",
     },
     ["NOTE"] = {
@@ -62,7 +62,7 @@ local trackerUILocales = {
         ["zhCN"] = "笔记",
         ["zhTW"] = "筆記",
         ["esES"] = "NOTA",
-        ["frFR"] = "NOTE",
+        ["frFR"] = "REMARQUE",
     },
     ["The Tracker Height Ratio\nis ignored while in Manual mode"] = {
         ["ptBR"] = "A relação de altura do\nrastreador é ignorada no modo manual",
