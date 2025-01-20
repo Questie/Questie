@@ -756,6 +756,9 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
         },
+        [232532] = { -- Fel Interloper
+            [npcKeys.spawns] = {}, -- Spawned when closing a Growing Fel Rift (232538)
+        },
         [232755] = { -- Van Amburgh
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {

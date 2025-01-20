@@ -3275,9 +3275,11 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85388] = { -- A Foul Interference
             [questKeys.startedBy] = {{232381}},
+            [questKeys.objectives] = {{{232534},{232532},{10929}}},
             [questKeys.preQuestSingle] = {85386},
-            [questKeys.requiredSourceItems] = {231304},
+            [questKeys.requiredSourceItems] = {231304,231298},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Scroll of Lesser Spatial Mending"), 0, {{"monster", 232538}}}},
         },
         [85401] = { -- The Frigid Barrow
             [questKeys.zoneOrSort] = sortKeys.DRUID,
