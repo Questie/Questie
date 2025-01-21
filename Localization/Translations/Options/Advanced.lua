@@ -96,7 +96,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用时，任务提示插件会热修经典的界面错误。",
         ["zhTW"] = "啟用時，任務位置提示插件會熱修經典的介面錯誤。",
         ["esES"] = "Si está activado, Questie corregirá los errores de la interfaz de usuario.",
-        ["frFR"] = "Si activé, Questie corrigera les bugs de l'interface utilisateur.",
+        ["frFR"] = "Si cette option est activée, Questie corrigera les bugs de l'interface utilisateur.",
     },
     ["Developer Options"] = {
         ["ptBR"] = "Opções do desenvolvedor",

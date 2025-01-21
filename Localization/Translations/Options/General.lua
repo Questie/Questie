@@ -603,7 +603,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Active l'affichage du niveau des quêtes dans les infobulles.",
     },
     ["Enable World Tooltips"] = {
-        ["ptBR"] = "Ativar dicas de ferramentas do mundo",
+        ["ptBR"] = "Ativar dicas do mundo",
         ["ruRU"] = "Информация о заданиях",
         ["deDE"] = "Welt-Tooltips aktivieren",
         ["koKR"] = "세계 툴팁 활성화",

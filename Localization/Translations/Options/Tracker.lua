@@ -1132,7 +1132,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "当前任务使用的字体大小。",
         ["zhTW"] = "標題列文字的字體大小。",
         ["esES"] = "El tamaño de fuente que utiliza misiones activas.",
-        ["frFR"] = "Taille de police utilisée par Active Quests.",
+        ["frFR"] = "Taille de police utilisée par quêtes actives.",
     },
     ---------------------------------------------------------
     ["Font for Active Quests Header"] = {
@@ -1211,7 +1211,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Font Size for Quest Titles"] = {
-        ["ptBR"] = "Tamanho da fonte dos títulos das missões",
+        ["ptBR"] = "Tamanho da fonte para títulos de missões",
         ["ruRU"] = "Размер шрифта названий заданий",
         ["deDE"] = "Schriftgröße für Quest-Titel",
         ["koKR"] = "퀘스트 제목의 글꼴 크기",
@@ -1295,7 +1295,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "目标字体",
         ["zhTW"] = "任務目標字體",
         ["esES"] = "Fuente para objetivos",
-        ["frFR"] = "Police pour objectifs",
+        ["frFR"] = "Police pour les objectifs",
     },
     ["The font used for Objectives."] = {
         ["ptBR"] = "A fonte usada para objetivos.",
