@@ -252,7 +252,7 @@ describe("QuestEventHandler", function()
         QuestEventHandler:QuestWatchUpdate(QUEST_ID)
         QuestEventHandler.QuestLogUpdate()
 
-        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true}, true)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieNameplate.UpdateNameplate).was.called()
         assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, QUEST_ID)
@@ -284,7 +284,7 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler:PlayerInteractionManagerFrameHide(bankframeClosedEvent)
 
-        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true}, true)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieNameplate.UpdateNameplate).was.called()
         assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, QUEST_ID)
