@@ -19,6 +19,8 @@ describe("QuestEventHandler", function()
     local AutoQuesting
     ---@type QuestieAnnounce
     local QuestieAnnounce
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieDB
@@ -42,6 +44,8 @@ describe("QuestEventHandler", function()
         AutoQuesting = require("Modules.Auto.AutoQuesting")
         QuestieJourney = require("Modules.Journey.QuestieJourney")
         QuestieAnnounce = require("Modules.QuestieAnnounce")
+        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieDB = require("Database.QuestieDB")
         QuestieNameplate = require("Modules.QuestieNameplate")
@@ -57,7 +61,9 @@ describe("QuestEventHandler", function()
     it("should handle quest accept", function()
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
-        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function(_, questId)
+            QuestiePlayer.currentQuestlog[questId] = {} -- Mimic the important part of QuestieQuest:AcceptQuest
+        end)
         QuestieJourney.AcceptQuest = spy.new(function() end)
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
 
@@ -235,6 +241,7 @@ describe("QuestEventHandler", function()
     it("should do full quest log scan after QUEST_WATCH_UPDATE", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestiePlayer.currentQuestlog[QUEST_ID] = {}
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
@@ -267,6 +274,7 @@ describe("QuestEventHandler", function()
     it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestiePlayer.currentQuestlog[QUEST_ID] = {}
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
