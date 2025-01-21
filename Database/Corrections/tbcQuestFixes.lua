@@ -1000,7 +1000,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [9339] = {
-            [questKeys.objectivesText] = nil,
+            [questKeys.objectivesText] = {},
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -1012,7 +1012,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{15407},nil,{23249}},
         },
         [9365] = {
-            [questKeys.objectivesText] = nil,
+            [questKeys.objectivesText] = {},
         },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},

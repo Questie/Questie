@@ -278,25 +278,25 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [3100] = { -- Simple Letter -- Human Warrior
-            [questKeys.nextQuestInChain] = 26913,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.startedBy] = {{197}},
         },
         [3101] = { -- Consecrated Letter -- Human Paladin
-            [questKeys.nextQuestInChain] = 26918,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.startedBy] = {{197}},
         },
         [3102] = { -- Encrypted Letter -- Human Rogue
-            [questKeys.nextQuestInChain] = 26915,
+            [questKeys.nextQuestInChain] = 0,
         },
         [3103] = { -- Hallowed Letter -- Human Priest
-            [questKeys.nextQuestInChain] = 26919,
+            [questKeys.nextQuestInChain] = 0,
         },
         [3104] = { -- Glyphic Letter -- Human Mage
-            [questKeys.nextQuestInChain] = 26916,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.startedBy] = {{197}},
         },
         [3105] = { -- Tainted Letter -- Human Warlock
-            [questKeys.nextQuestInChain] = 26914,
+            [questKeys.nextQuestInChain] = 0,
         },
         [3106] = { -- Simple Rune -- Dwarf Warrior
             [questKeys.requiredRaces] = raceKeys.DWARF,
