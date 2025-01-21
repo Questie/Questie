@@ -166,7 +166,7 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Called only from QuestEventHandler.
 ---@param questIdsToCheck table? @keys are the questIds
 ---@return boolean cacheMiss, table changes @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
-function QuestLogCache.CheckForChanges(questIdsToCheck)
+function QuestLogCache.CheckForChanges(questIdsToCheck, shouldExistInQuestLog)
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
@@ -181,7 +181,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
             questIdsChecked[questId] = true
 
-            if Questie.started and (not QuestiePlayer.currentQuestlog[questId]) then
+            if shouldExistInQuestLog and (not QuestiePlayer.currentQuestlog[questId]) then
                 Questie:Error("Please report this error on Discord or GitHub. GetQuestLogTitle returned data for a quest that is not in the players quest log.", questId)
             end
 

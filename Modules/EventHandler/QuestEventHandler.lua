@@ -426,7 +426,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
     end
 
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck, true)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
