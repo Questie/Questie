@@ -22,6 +22,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieCombatQueue
@@ -417,6 +419,10 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
+        end
+
+        if (not QuestiePlayer.currentQuestlog[questId]) then
+            Questie:Error("Please report this error on Discord or GitHub. questLog of QuestEventHandler contains a quest that is not in the players quest log.", questId)
         end
     end
 
