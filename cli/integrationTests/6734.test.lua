@@ -143,10 +143,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         }, cachedQuest.objectives[1])
         assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
 
+        QuestEventHandler:QuestTurnedIn(2822, 4050, 0)
+        QuestEventHandler.QuestLogUpdate()
         QuestEventHandler:QuestRemoved(2822)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
-        QuestEventHandler:QuestTurnedIn(2822, 4050, 0)
 
         assert.equals(0, QuestLogCache.GetQuestCount())
 
@@ -213,6 +214,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             finished = false,
             numFulfilled = 1,
         }}
+        QuestEventHandler:QuestWatchUpdate(2863)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
