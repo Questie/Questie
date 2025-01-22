@@ -87,7 +87,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Couleurs uniques des icônes de la carte",
     },
     ["Show map icons with colors that are randomly generated based on quest ID."] = {
-        ["ptBR"] = "Mostra ícones do mapa com cores geradas de maneira aleatoriamente com base na ID da missão",
+        ["ptBR"] = "Mostra ícones do mapa com cores geradas de maneira aleatoriamente com base na ID da missão.",
         ["ruRU"] = "Для каждого задания генерируется свой цвет значков на карте мира и миникарте",
         ["deDE"] = "Zeigt Karten-Icons mit zufälligen Farben für jede Quest.",
         ["koKR"] = "각 퀘스트별로 각각 다른 아이콘 색상을 사용할지 설정합니다.",
