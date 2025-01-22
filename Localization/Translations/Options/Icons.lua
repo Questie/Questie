@@ -88,7 +88,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the quest turn-in locations will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais de ativação da missão serão exibidos no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения выполненных заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения выполненных заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der abgeschlossenen Quests auf der Karte/Minimap.",
         ["koKR"] = "퀘스트 완료 아이콘을 지도와 미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, los iconos de misión completada apareceran en el mapa y minimapa.",
@@ -100,7 +100,7 @@ local iconOptionsLocales = {
     },
     ["Enable Map Icons"] = {
         ["ptBR"] = "Ativar ícones no mapa",
-        ["ruRU"] = "Значки на карте мира",
+        ["ruRU"] = "Значки на карте",
         ["deDE"] = "Karten-Icons anzeigen",
         ["koKR"] = "지도 아이콘 활성화",
         ["esMX"] = "Activar iconos en el mapa",
@@ -112,7 +112,7 @@ local iconOptionsLocales = {
     },
     ["Show/hide all icons from the main map."] = {
         ["ptBR"] = "Ativa ou desativa todos os ícones no mapa.",
-        ["ruRU"] = "Показать/скрыть все значки на карте мира",
+        ["ruRU"] = "Показать/скрыть все значки на карте",
         ["deDE"] = "Aktiviert/Deaktiviert alle Icons auf der Karte",
         ["koKR"] = "세계 지도에 퀘스트 아이콘을 표시합니다.",
         ["esMX"] = "Activa o desactiva todos los iconos en el mapa.",
@@ -232,7 +232,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of available quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais de ativação da missão serão mostrados no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения доступных заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения доступных заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der verfügbaren Quests auf der Karte/Minimap.",
         ["koKR"] = "수행 가능한 퀘스트 아이콘을 지도와 미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, los iconos de misión disponible apareceran en el mapa y minimapa.",
@@ -256,7 +256,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of active event quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, a busca de locais de eventos será mostrada no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения заданий игровых событий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения заданий игровых событий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Event-Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, 이벤트 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, la ubicación de misiones de evento mostrará en el mapa y minimapa.",
@@ -280,7 +280,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, quest objective icons will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os ícones do objectivo da missão serão exibidos no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть значки целей заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть значки целей заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der Questziele auf der Karte/Minimap.",
         ["koKR"] = "퀘스트 목표 아이콘을 지도와 미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, los iconos de objetivo apareceran en el mapa y minimapa.",
@@ -304,7 +304,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of repeatable quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Escolha se missões repetíveis devem estar visíveis no mapa e no minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения повторяемых заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения повторяемых заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von wiederholbaren Quests auf der Karte/Minimap.",
         ["koKR"] = "지도나 미니맵에 반복 퀘스트를 표시할지 말지 선택합니다.",
         ["esMX"] = "Muestra las misiones repetibles en el mapa y minimapa.",
@@ -328,7 +328,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of raid quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais da missão de raide serão mostrados no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения рейдовых заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения рейдовых заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Raid-Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, 레이드 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, la ubicación de misiones de banda mostrará en el mapa y minimapa.",
@@ -352,7 +352,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of dungeon quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais da missão da masmorra serão mostrados no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения заданий подземелий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения заданий подземелий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Dungeon-Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, 던전 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, la ubicación de misiones de calabozo mostrará en el mapa y minimapa.",
@@ -388,7 +388,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of PvP quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais da missão de JxJ serão mostrados no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения PvP-заданий на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения PvP-заданий на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von PvP-Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, PVP 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, la ubicación de misiones de JcJ mostrará en el mapa y minimapa.",
@@ -412,7 +412,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, os locais da missão do Esforço de Guerra de Ahn'Qiraj serão mostrados no mapa e minimapa.",
-        ["ruRU"] = "Показать/скрыть местоположения заданий военной кампании Ан'Киража на карте мира и миникарте",
+        ["ruRU"] = "Показать/скрыть местоположения заданий военной кампании Ан'Киража на карте и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der AQ Kriegsanstrengungen Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, 안퀴라즈 반납 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["esMX"] = "Si está activado, la ubicación de las misiones de la campaña de guerra de Ahn'Qiraj mostrarán en el mapa y minimapa.",
@@ -964,7 +964,7 @@ local iconOptionsLocales = {
     },
     ["Map Icons"] = {
         ["ptBR"] = "Ícones do mapa",
-        ["ruRU"] = "На карте мира",
+        ["ruRU"] = "На карте",
         ["deDE"] = "Karten-Icons",
         ["koKR"] = "지도 아이콘",
         ["esMX"] = "Iconos del mapa",
@@ -1120,7 +1120,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
         ["ptBR"] = "Se ativado, as localizações das runas da Temporada de Descoberta e das missões de runas serão mostradas no mapa e minimapa.",
-        ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте мира и миникарте",
+        ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте и миникарте",
         ["deDE"] = "Wenn aktiv, werden die Positionen der Runen der Saison der Entdeckung und Runen-Quests auf der Karte/Minikarte angezeigt.",
         ["koKR"] = "이 옵션이 활성화되면 발견의 시즌 룬과 룬 퀘스트의 위치가 지도/미니맵에 표시됩니다.",
         ["esMX"] = "Si está activado, la ubicación de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa y minimapa.",

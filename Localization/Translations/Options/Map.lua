@@ -40,7 +40,7 @@ local mapOptionsLocales = {
     },
     ["Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)."] = {
         ["ptBR"] = "Ativa ou desativa o botão de Questie no mapa (pode corrigir algumas interações com os addons de mapas).",
-        ["ruRU"] = "Показать/скрыть кнопку Questie на карте мира (может исправить некоторые проблемы с аддонами карт)",
+        ["ruRU"] = "Показать/скрыть кнопку Questie на карте (может исправить некоторые проблемы с аддонами карт)",
         ["deDE"] = "Aktiviert/Deaktiviert den Zeigen/Verstecken-Button an der Weltkarte (repariert möglicherweise Karten-Addon Interaktionen).",
         ["koKR"] = "지도에 Questie 버튼을 표시합니다 (따로 지도 애드온을 사용할 경우 충돌할 수 있습니다)",
         ["esMX"] = "Activa o desactiva el botón de Questie en el mapa (puede solucionar algunas interacciones con los addons de mapas).",
@@ -64,7 +64,7 @@ local mapOptionsLocales = {
     },
     ["Draw a glow texture behind map icons, colored unique to each quest."] = {
         ["ptBR"] = "Ilumina os ícones mínimos no mapa, com cores exclusivas para cada missão.",
-        ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на карте мира",
+        ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на карте",
         ["deDE"] = "Zeichnet eine leuchtende Textur hinter die Weltkarten-Icons. Farblich einzigartig für jede Quest.",
         ["koKR"] = "지도 아이콘에 반짝이는 효과를 표시합니다. 퀘스트마다 각각 다른 색상을 지닙니다.",
         ["esMX"] = "Resplandece los iconos en el mapa con colores únicos para cada misión.",
@@ -112,7 +112,7 @@ local mapOptionsLocales = {
     },
     ["How large the map icons are.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones do mapa.\n(Padrão: %s)",
-        ["ruRU"] = "Одновременная регулировка размера всех значков на карте мира\n(по умолчанию: %s)",
+        ["ruRU"] = "Одновременная регулировка размера всех значков на карте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert die Größe aller Weltkarten-Icons.\n(Standard: %s)",
         ["koKR"] = "지도 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["esMX"] = "Define la escala de los iconos del mapa\n(Predeterminado: %s)",
@@ -136,7 +136,7 @@ local mapOptionsLocales = {
     },
     ["How large the available/complete icons are. Affects both map and minimap icons.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones disponíveis / completos\n(Padrão: %s)",
-        ["ruRU"] = "Регулировка размера значков доступных/выполненных заданий на карте мира и миникарте\n(по умолчанию: %s)",
+        ["ruRU"] = "Регулировка размера значков доступных/выполненных заданий на карте и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert die Icons der verfügbaren/abgeschlossenen Quests.\n(Standard: %s)",
         ["koKR"] = "수행가능/완료 퀘스트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["esMX"] = "Define la escala de los iconos de misión disponible y completada.\n(Predeterminado: %s)",
@@ -160,7 +160,7 @@ local mapOptionsLocales = {
     },
     ["How large the event icons are.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones do evento.\n(Padrão: %s)",
-        ["ruRU"] = "Регулировка размера значков событий на карте мира и миникарте\n(по умолчанию: %s)",
+        ["ruRU"] = "Регулировка размера значков событий на карте и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Event-Icons sind.\n(Standard: %s)",
         ["koKR"] = "이벤트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["esMX"] = "Define la escala de los iconos evento.\n(Predeterminado: %s)",
@@ -184,7 +184,7 @@ local mapOptionsLocales = {
     },
     ["How large the loot icons are.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones de saque\n(Padrão: %s)",
-        ["ruRU"] = "Регулировка размера значков добычи на карте мира и миникарте\n(по умолчанию: %s)",
+        ["ruRU"] = "Регулировка размера значков добычи на карте и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Beute-Icons sind.\n(Standard: %s)",
         ["koKR"] = "수집 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["esMX"] = "Define la escala de los iconos de botín.\n(Predeterminado: %s)",
@@ -208,7 +208,7 @@ local mapOptionsLocales = {
     },
     ["How large the slay icons are.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones de matança\n(Padrão: %s)",
-        ["ruRU"] = "Регулировка размера значков убийств на карте мира и миникарте\n(по умолчанию: %s)",
+        ["ruRU"] = "Регулировка размера значков убийств на карте и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Töten-Icons sind.\n(Standard: %s)",
         ["koKR"] = "처치 아이콘의 크기를 설정합니다.\n( 기본값: %s)",
         ["esMX"] = "Define la escala de los iconos de matanza.\n(Predeterminado: %s)",
@@ -232,7 +232,7 @@ local mapOptionsLocales = {
     },
     ["How large the object icons are.\n(Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones de objeto.\n(Padrão: %s)",
-        ["ruRU"] = "Регулировка размера значков объектов на карте мира и миникарте\n(по умолчанию: %s)",
+        ["ruRU"] = "Регулировка размера значков объектов на карте и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Objekt-Icons sind.\n(Standard: %s)",
         ["koKR"] = "오브젝트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["esMX"] = "Define la escala de los iconos de objeto.\n(Predeterminado: %s)",
