@@ -387,8 +387,8 @@ local debugMessagesLocales = {
         ["esMX"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
     },
     ["Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"] = {
-        ["ptBR"] = "O addon de coordenadas está ativado e causará comportamento defeituoso. Desativando coordenadas do mapa global e do minimapa. Estas podem ser reativadas nas configurações.",
-        ["ruRU"] = "Включен другой аддон с координатами, это может вызвать ошибки. Во избежание этого Questie сейчас отключает координаты на карте и миникарте. Это может быть переопределено в настройках",
+        ["ptBR"] = "O addon de coordenadas está ativado e causará comportamento defeituoso. Desativando coordenadas do mapa-múndi e do minimapa. Estas podem ser reativadas nas configurações.",
+        ["ruRU"] = "Включен другой аддон с координатами, это может вызвать ошибки. Во избежание этого Questie сейчас отключает координаты на карте мира и миникарте. Это может быть переопределено в настройках",
         ["deDE"] = "Koordinaten-AddOn aktiviert und verursacht fehlerhaftes Verhalten. Deaktiviere globale Karten- und Minikarten-Koordinaten. Diese können in den Einstellungen wieder aktiviert werden.",
         ["koKR"] = "좌표 애드온이 활성화 되어 버그가 발생할 수 있습니다. 세계 지도 및 미니맵 좌표를 해제하였습니다. 해당 옵션은 퀘스티 옵션에서 다시 켤 수 있습니다.",
         ["esMX"] = "El addon de coordenadas está activado y provocará un comportamiento con errores. Está desactivando las coordenadas del mapa del mundo y del minimapa. Estos se pueden volver a activar en la configuración.",
