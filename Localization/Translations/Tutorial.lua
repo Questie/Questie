@@ -99,16 +99,16 @@ local tutorialLocals = {
         ["frFR"] = "Choisissez si vous voulez les voir ou non\n",
     },
     ["(This can always be changed in the Icons tab of the settings)"] = {
-        ["ptBR"] = "(Isso sempre pode ser alterado na guia de Ícones nas configurações)",
+        ["ptBR"] = "(Isso sempre pode ser alterado na guia de Ícones nas opções)",
         ["ruRU"] = "(это всегда может быть изменено в настройках на вкладке Значки)",
         ["deDE"] = "(Dies kann immer im Reiter Icons der Einstellungen geändert werden)",
         ["koKR"] = "(이 설정은 항상 아이콘 탭에서 변경할 수 있습니다)",
-        ["esMX"] = "(Esto siempre se puede cambiar en la pestaña de Iconos de la configuración)",
+        ["esMX"] = "(Esto siempre se puede cambiar en la pestaña de Iconos de las opciones)",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "(隨時都可以在設定選項的圖示標籤頁面中更改)",
-        ["esES"] = "(Esto siempre se puede cambiar en la pestaña de Iconos de la configuración)",
-        ["frFR"] = "(Ce choix peut être changé à nouveau dans l'onglet Icones des réglages)",
+        ["esES"] = "(Esto siempre se puede cambiar en la pestaña de Iconos de las opciones)",
+        ["frFR"] = "(Ce choix peut être changé à nouveau dans l'onglet Icones des options)",
     },
 }
 
