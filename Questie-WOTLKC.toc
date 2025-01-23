@@ -1,6 +1,6 @@
 ## Interface: 30403
 ## Title: Questie|cFF00FF00 v10.13.2|r
-## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
+## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
