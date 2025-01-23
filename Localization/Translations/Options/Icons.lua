@@ -991,11 +991,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Задания",
         ["deDE"] = "Quest-Icons",
         ["koKR"] = "퀘스트 아이콘",
-        ["esMX"] = "Objetivos de objeto",
+        ["esMX"] = "Iconos de misión",
         ["enUS"] = true,
         ["zhCN"] = "任务图标",
         ["zhTW"] = "任務圖示",
-        ["esES"] = "Objetivos de objeto",
+        ["esES"] = "Iconos de misión",
         ["frFR"] = "Icônes de quête",
     },
     ["Icon Overrides"] = {
