@@ -51,7 +51,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Illumine les icônes sur la minicarte, colorié différemment pour chaque quête.",
     },
     ["Unique Minimap Icon Colors"] = {
-            ["ptBR"] = "Cores únicas dos ícones do minimapa",
+            ["ptBR"] = "Cores únicas de ícones do minimapa",
             ["ruRU"] = "Различные цвета значков",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
             ["koKR"] = "고유 미니맵 아이콘 색상",
@@ -99,7 +99,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis la taille des icônes sur la minicarte.\n(Par défaut : %s)",
     },
     ["Fade Icons over Player"] = {
-        ["ptBR"] = "Desvanecimento dos ícones do jogador",
+        ["ptBR"] = "Transparência em relação ao jogador",
         ["ruRU"] = "Блеклость значков рядом с игроком",
         ["deDE"] = "Icons nahe des Spielers verblassen",
         ["koKR"] = "플레이어 주변 아이콘 흐릿하게 표시",
@@ -111,7 +111,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Disparition à proximité du joueur",
     },
     ["Minimap Icon Fade Distance"] = {
-        ["ptBR"] = "Distância de desvanecimento dos ícones do minimapa",
+        ["ptBR"] = "Distância de desvanecimento de ícones do minimapa",
         ["ruRU"] = "Дистанция блеклости",
         ["deDE"] = "Distanz der verblassenden Ziele",
         ["koKR"] = "퀘스트 아이콘 사라짐 거리 설정",
@@ -135,7 +135,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis la distance à partir de laquelle les icônes des objectifs commencent à apparaître.\n(Par défaut : %s)",
     },
     ["Fades icons on the minimap when your player walks near them."] = {
-        ["ptBR"] = "Desfoca os ícones no minimapa quando o jogador passa por perto.",
+        ["ptBR"] = "Desvanece os ícones no minimapa quando o jogador passa por perto.",
         ["ruRU"] = "Значки на миникарте блекнут, если игрок находится рядом с ними",
         ["deDE"] = "Lässt Icons auf der Minimap verblassen, wenn der Spieler ihnen zu nahe kommt.",
         ["koKR"] = "플레이어 주변의 퀘스트 아이콘을 흐릿하게 표시합니다.",
@@ -159,7 +159,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Distance avant réapparition",
     },
     ["Fade over Player Amount"] = {
-        ["ptBR"] = "Diminuir a quantidade do jogador",
+        ["ptBR"] = "Transparência sobre o jogador",
         ["ruRU"] = "Степень блеклости",
         ["deDE"] = "Stärke des Verblassens",
         ["koKR"] = "흐릿하게 표시하는 개수 설정",
@@ -195,7 +195,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis l'opacité des icônes proches du joueur.\n(Par défaut : %s)",
     },
     ["Show Minimap Coordinates"] = {
-        ["ptBR"] = "Coordenadas do minimapa",
+        ["ptBR"] = "Coordenadas de minimapa",
         ["ruRU"] = "Координаты",
         ["deDE"] = "Minimap-Koordinanten",
         ["koKR"] = "미니맵 좌표",
@@ -207,7 +207,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Coordonnées",
     },
     ["Player coordinates on the Minimap"] = {
-        ["ptBR"] = "Detalhes de contato do jogador no minimapa",
+        ["ptBR"] = "Coordenadas do jogador no minimapa",
         ["ruRU"] = "Координаты игрока",
         ["deDE"] = "Spieler-Koordinaten auf der Minimap",
         ["koKR"] = "미니맵에 좌표 표시",
