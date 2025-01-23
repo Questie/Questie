@@ -87,7 +87,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis la taille des icônes sur la minicarte.\n(Par défaut : %s)",
     },
     ["Fade Icons over Player"] = {
-        ["ptBR"] = "Desvanecimento dos ícones do jogador",
+        ["ptBR"] = "Transparência em relação ao jogador",
         ["ruRU"] = "Блеклость значков рядом с игроком",
         ["deDE"] = "Icons nahe des Spielers verblassen",
         ["koKR"] = "플레이어 주변 아이콘 흐릿하게 표시",
