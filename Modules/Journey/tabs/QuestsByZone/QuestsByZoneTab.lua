@@ -18,6 +18,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local AceGUI = LibStub("AceGUI-3.0")
 
 local RESET = -1000
+local _, playerClass, _ = UnitClass("player")
 
 local _CreateContinentDropdown, _CreateZoneDropdown
 local _HandleContinentSelection, _HandleZoneSelection
@@ -57,6 +58,14 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     treegroup:SetFullWidth(true)
     treegroup:SetLayout("fill")
     container:AddChild(treegroup)
+
+    -- This needs to happen after all children are added, otherwise it will be shown again
+    if selectedContinentId == QuestieJourney.questCategoryKeys.CLASS then
+        local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
+    end
 end
 
 _CreateContinentDropdown = function()
@@ -119,8 +128,7 @@ end
 
 _HandleContinentSelection = function(key, _)
     if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
-        local _, class, _ = UnitClass("player")
-        local classKey = QuestieDB:GetZoneOrSortForClass(class)
+        local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()

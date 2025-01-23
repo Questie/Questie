@@ -15,6 +15,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieNameplate
     ---@type QuestieQuest
     local QuestieQuest
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieLib
@@ -74,8 +76,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
-        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function(_, questId)
+            QuestiePlayer.currentQuestlog[questId] = {}
+        end)
         QuestieQuest.CompleteQuest = spy.new(function() end)
+        QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
         QuestieLib = require("Modules.Libs.QuestieLib")
@@ -143,10 +148,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         }, cachedQuest.objectives[1])
         assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
 
+        QuestEventHandler:QuestTurnedIn(2822, 4050, 0)
+        QuestEventHandler.QuestLogUpdate()
         QuestEventHandler:QuestRemoved(2822)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
-        QuestEventHandler:QuestTurnedIn(2822, 4050, 0)
 
         assert.equals(0, QuestLogCache.GetQuestCount())
 
@@ -213,6 +219,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             finished = false,
             numFulfilled = 1,
         }}
+        QuestEventHandler:QuestWatchUpdate(2863)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 

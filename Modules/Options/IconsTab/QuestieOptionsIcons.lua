@@ -503,7 +503,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 4.3,
                         name = function() return l10n("Unique Minimap Icon Colors"); end,
-                        desc = function() return l10n("Draw a glow texture behind minimap icons, colored unique to each quest."); end,
+                        desc = function() return l10n("Show minimap icons with colors that are randomly generated based on quest ID."); end,
                         width = 1.595,
                         disabled = function() return ((not Questie.db.profile.enabled) or (not Questie.db.profile.enableMiniMapIcons)); end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
