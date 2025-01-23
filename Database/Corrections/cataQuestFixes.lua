@@ -1664,6 +1664,9 @@ function CataQuestFixes.Load()
         [12869] = { -- Pushed Too Far
             [questKeys.preQuestSingle] = {},
         },
+        [13078] = { -- Dahlia's Tears
+            [questKeys.zoneOrSort] = zoneIDs.DRAGONBLIGHT,
+        },
         [13095] = { -- Have They No Shame?
             [questKeys.startedBy] = {{55537}},
             [questKeys.objectivesText] = {"Image of Warmage Kaitlyn wants you to recover Berinand's Research."},
@@ -6925,7 +6928,7 @@ function CataQuestFixes.Load()
         },
         [26628] = { -- Death from Below
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{24.76,86.2}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Fire the cannon"), 0, {{"object", 113531}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the cannon"), 0, {{"object", 113531}}}},
         },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
@@ -7976,6 +7979,9 @@ function CataQuestFixes.Load()
         [27187] = { -- Do the World a Favor
             [questKeys.finishedBy] = {{100012}},
         },
+        [27188] = { -- What's Haunting Witch Hill?
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861,"Information Gathered"}}},
+        },
         [27191] = { -- Hungry as an Ogre!
             [questKeys.preQuestSingle] = {27184},
         },
@@ -8016,9 +8022,21 @@ function CataQuestFixes.Load()
         },
         [27210] = { -- Traitors Among Us
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{23602,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [27212] = { -- Discrediting the Deserters
+            [questKeys.preQuestSingle] = {27211},
+            [questKeys.objectives] = {{{4979,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [27214] = { -- A Disturbing Development
+            [questKeys.preQuestSingle] = {27213},
+        },
+        [27215] = { -- The Hermit of Swamplight Manor
+            [questKeys.preQuestSingle] = {27222},
         },
         [27222] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"object",186432}}}},
         },
         [27225] = { -- A Summons from Ander Germaine
             [questKeys.nextQuestInChain] = 27337,
@@ -8034,18 +8052,57 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26999,
             [questKeys.preQuestSingle] = {27174},
         },
+        [27234] = { -- Defias in Dustwallow?
+            [questKeys.preQuestSingle] = {},
+        },
+        [27237] = { -- Recover the Cargo!
+            [questKeys.requiredSourceItems] = {33040,33044},
+        },
+        [27238] = { -- Jaina Must Know
+            [questKeys.preQuestSingle] = {27237},
+        },
         [27239] = { -- Survey Alcaz Island
-            [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}}},
+            [questKeys.objectives] = {{{23704,nil,Questie.ICON_TYPE_TALK}}},
         },
         [27240] = { -- Proof of Treachery
             [questKeys.finishedBy] = {{29611}},
+            [questKeys.preQuestSingle] = {27239},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Jaina"),0,{{"monster",4968}}}},
+        },
+        [27241] = { -- Return to Jaina
+            [questKeys.startedBy] = {{29611}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Archmage Malin"),0,{{"monster",2708}}}},
+        },
+        [27242] = { -- Raptor Captor
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [27243] = { -- Unleash the Raptors
+            [questKeys.preQuestSingle] = {27242},
+            [questKeys.objectives] = {{{23727,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27245] = { -- Prisoners of the Grimtotems
+            [questKeys.preQuestSingle] = {27242},
+            [questKeys.requiredSourceItems] = {33061},
+            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
+        },
+        [27251] = { -- They Call Him Smiling Jim
+            [questKeys.nextQuestInChain] = 27249,
+        },
+        [27252] = { -- The Black Shield
+            [questKeys.preQuestSingle] = {27249},
         },
         [27258] = { -- The Black Shield
             [questKeys.preQuestGroup] = {27257,27259,27261},
         },
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
+        },
+        [27262] = { -- Suspicious Hoofprints
+            [questKeys.preQuestSingle] = {27249},
+        },
+        [27263] = { -- Lieutenant Paval Reethe
+            [questKeys.preQuestSingle] = {27249},
         },
         [27265] = { -- Lord Grayson Shadowbreaker
             [questKeys.nextQuestInChain] = 27343,
@@ -8105,8 +8162,14 @@ function CataQuestFixes.Load()
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
         },
+        [27284] = { -- The Black Shield
+            [questKeys.preQuestSingle] = {27252},
+        },
         [27290] = { -- To Forsaken Forward Command
             [questKeys.preQuestSingle] = {27195}, -- Might also be The Waters Run Red... which turns in at the same time (27232)
+        },
+        [27291] = { -- Peace at Last
+            [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27293] = { -- The Grimtotem Plot
             [questKeys.preQuestSingle] = {27292},
@@ -8117,6 +8180,9 @@ function CataQuestFixes.Load()
         },
         [27295] = { -- Seek Out Tabetha
             [questKeys.preQuestGroup] = {27293,27294},
+        },
+        [27296] = { -- Raze Direhorn Post!
+            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_EVENT},{23752,nil,Questie.ICON_TYPE_EVENT},{23753,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27298] = { -- Seek Out Master Pyreanor
             [questKeys.nextQuestInChain] = 27434,
@@ -8213,10 +8279,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27290},
         },
         [27346] = { -- The Zeppelin Crash
-            [questKeys.exclusiveTo] = {27348},
+            [questKeys.nextQuestInChain] = 27348,
         },
         [27347] = { -- Corrosion Prevention
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{4393,4394},4393,"Oozes Dissolved"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4393,4394},4393,"Oozes Dissolved",Questie.ICON_TYPE_INTERACT}}},
         },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
@@ -8388,9 +8454,16 @@ function CataQuestFixes.Load()
         },
         [27408] = { -- Banner of the Stonemaul
             [questKeys.preQuestSingle] = {27407},
+            [questKeys.exclusiveTo] = {},
         },
         [27409] = { -- The Essence of Enmity
             [questKeys.preQuestSingle] = {27407},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27410] = { -- Spirits of Stonemaul Hold
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27408,27409},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Redeem Remains"), 0, {{"object", 186332}}}},
         },
         [27416] = { -- The Brood of Onyxia
             [questKeys.preQuestSingle] = {27414},
@@ -8408,6 +8481,22 @@ function CataQuestFixes.Load()
         },
         [27423] = { -- Resistance is Futile
             [questKeys.preQuestSingle] = {27405},
+        },
+        [27425] = { -- A Grim Connection
+            [questKeys.preQuestGroup] = {27262,27285,27288},
+        },
+        [27426] = { -- Confirming the Suspicion
+            [questKeys.preQuestSingle] = {27425},
+            [questKeys.requiredSourceItems] = {33050},
+        },
+        [27427] = { -- A Grim Connection
+            [questKeys.preQuestSingle] = {27425},
+        },
+        [27428] = { -- Tabetha's Assistance
+            [questKeys.preQuestGroup] = {27426,27427},
+        },
+        [27429] = { -- Raze Direhorn Post!
+            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_EVENT},{23752,nil,Questie.ICON_TYPE_EVENT},{23753,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27431] = { -- Tipping the Balance
             [questKeys.objectives] = {{{45296,nil,Questie.ICON_TYPE_TALK}}},
