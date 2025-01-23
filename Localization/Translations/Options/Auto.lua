@@ -161,7 +161,7 @@ local autoOptionsLocales = {
     ["Automatically accept trivial (low-level) quests from players."] = {
         ["ptBR"] = "Aceitar automaticamente missões triviais (de baixo nível) dos jogadores",
         ["ruRU"] = "Автопринятие простых (низкоуровневых) заданий от игроков",
-        ["deDE"] = "Triviale (niedrigstufige) Quests automatisch annehmen.",
+        ["deDE"] = "Triviale (niedrigstufige) Quests automatisch von Spielern annehmen.",
         ["koKR"] = "플레이어로부터 저레벨 퀘스트를 자동으로 수락합니다.",
         ["esMX"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los jugadores.",
         ["enUS"] = true,
@@ -169,6 +169,18 @@ local autoOptionsLocales = {
         ["zhTW"] = "自動接受來自玩家的低等級任務。",
         ["esES"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los jugadores.",
         ["frFR"] = "Accepter automatiquement les quêtes triviales (de bas niveau) des joueurs",
+    },
+    ["Automatically accept trivial (low-level) quests from NPCs."] = {
+        ["ptBR"] = "Aceita automaticamente missões triviais (de baixo nível) dos NPCs.",
+        ["ruRU"] = "Автопринятие простых (низкоуровневых) заданий от NPC",
+        ["deDE"] = "Triviale (niedrigstufige) Quests automatisch von NPCs annehmen.",
+        ["koKR"] = "NPC로부터 저레벨 퀘스트를 자동으로 수락합니다.",
+        ["esMX"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los PNJs.",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los PNJs.",
+        ["frFR"] = "Accepte automatiquement les quêtes triviales (de bas niveau) des PNJs.",
     },
     ["Auto Reject"] = {
         ["ptBR"] = "Rejeitar automaticamente",
