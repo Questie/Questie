@@ -219,16 +219,16 @@ local minimapOptionsLocales = {
         ["frFR"] = "Coordonnées du joueur sur la minicarte",
     },
     ["Place the Player's coordinates on the Minimap title."] = {
-        ["ptBR"] = "Coloque as coordenadas do jogador no título do minimapa.",
+        ["ptBR"] = "Mostra as coordenadas do jogador no título do minimapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока в заголовке миникарты",
         ["deDE"] = "Zeigt die Spieler-Koordinanten an der Minimap.",
         ["koKR"] = "미니맵 제목 영역에 플레이어의 좌표를 표시합니다.",
-        ["esMX"] = "Posiciona las coordenadas del jugador en el título del minimapa.",
+        ["esMX"] = "Muestra las coordenadas del jugador en el título del minimapa.",
         ["enUS"] = true,
         ["zhCN"] = "在小地图标题上显示玩家座标。",
         ["zhTW"] = "在小地圖的標題中顯示玩家坐標。",
-        ["esES"] = "Posiciona las coordenadas del jugador en el título del minimapa.",
-        ["frFR"] = "Indique les coordonnées du joueur dans le titre de la minicarte.",
+        ["esES"] = "Muestra las coordenadas del jugador en el título del minimapa.",
+        ["frFR"] = "Affiche les coordonnées du joueur dans le titre de la minicarte.",
     },
 }
 
