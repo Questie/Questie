@@ -12,7 +12,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "大地图",
         ["zhTW"] = "大地圖",
         ["esES"] = "Mapa",
-        ["frFR"] = "Carte du monde",
+        ["frFR"] = "Carte",
     },
     ["Map Options"] = {
         ["ptBR"] = "Opções do mapa",
@@ -27,7 +27,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Options de la carte",
     },
     ["Show Questie Map Button"] = {
-        ["ptBR"] = "Mostrar o botão de Questie no mapa",
+        ["ptBR"] = "Mostrar botão de Questie no mapa",
         ["ruRU"] = "Кнопка Questie",
         ["deDE"] = "Zeige Questie-Button an der Weltkarte",
         ["koKR"] = "Questie 지도 버튼 표시",
