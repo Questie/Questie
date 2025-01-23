@@ -63,7 +63,7 @@ local minimapOptionsLocales = {
             ["frFR"] = "Couleurs uniques des icônes de la minicarte",
     },
     ["Show minimap icons with colors that are randomly generated based on quest ID."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Mostra ícones do minimapa com cores geradas de maneira aleatoriamente com base na ID da missão.",
         ["ruRU"] = "Для каждого задания генерируется свой цвет значков на миникарте",
         ["deDE"] = "Zeigt Minimap-Icons mit zufälligen Farben für jede Quest.",
         ["koKR"] = "미니맵에서 각 퀘스트별로 각각 다른 아이콘 색상을 사용할지 설정합니다.",
