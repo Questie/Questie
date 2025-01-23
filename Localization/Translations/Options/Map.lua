@@ -75,7 +75,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Illumine les icônes sur la carte, colorié différemment pour chaque quête.",
     },
     ["Unique Map Icon Colors"] = {
-        ["ptBR"] = "Cores únicas dos ícones do mapa",
+        ["ptBR"] = "Cores únicas de ícones do mapa",
         ["ruRU"] = "Различные цветa значков",
         ["deDE"] = "Karten-Icons für jede Quest unterschiedlich färben",
         ["koKR"] = "각 퀘스트별 다른 아이콘 색상 사용",
@@ -171,7 +171,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Définis la taille des icônes d'évènement.\n(Par défaut : %s)",
     },
     ["Scale for Loot Icons"] = {
-        ["ptBR"] = "Saldo para ícones de saque",
+        ["ptBR"] = "Escala para ícones de saque",
         ["ruRU"] = "Размер значков добычи",
         ["deDE"] = "Skalierung der Beute-Icons",
         ["koKR"] = "수집 아이콘 크기",

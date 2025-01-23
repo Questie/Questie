@@ -39,7 +39,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Illuminer les icônes sur la minicarte",
     },
     ["Unique Minimap Icon Colors"] = {
-            ["ptBR"] = "Cores únicas dos ícones do minimapa",
+            ["ptBR"] = "Cores únicas de ícones do minimapa",
             ["ruRU"] = "Различные цвета значков",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
             ["koKR"] = "고유 미니맵 아이콘 색상",
@@ -123,7 +123,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis la distance à partir de laquelle les icônes des objectifs commencent à apparaître.\n(Par défaut : %s)",
     },
     ["Fades icons on the minimap when your player walks near them."] = {
-        ["ptBR"] = "Desfoca os ícones no minimapa quando o jogador passa por perto.",
+        ["ptBR"] = "Desvanece os ícones no minimapa quando o jogador passa por perto.",
         ["ruRU"] = "Значки на миникарте блекнут, если игрок находится рядом с ними",
         ["deDE"] = "Lässt Icons auf der Minimap verblassen, wenn der Spieler ihnen zu nahe kommt.",
         ["koKR"] = "플레이어 주변의 퀘스트 아이콘을 흐릿하게 표시합니다.",
@@ -147,7 +147,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Distance avant réapparition",
     },
     ["Fade over Player Amount"] = {
-        ["ptBR"] = "Diminuir a quantidade do jogador",
+        ["ptBR"] = "Transparência sobre o jogador",
         ["ruRU"] = "Степень блеклости",
         ["deDE"] = "Stärke des Verblassens",
         ["koKR"] = "흐릿하게 표시하는 개수 설정",
@@ -183,7 +183,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Définis l'opacité des icônes proches du joueur.\n(Par défaut : %s)",
     },
     ["Show Minimap Coordinates"] = {
-        ["ptBR"] = "Coordenadas do minimapa",
+        ["ptBR"] = "Coordenadas de minimapa",
         ["ruRU"] = "Координаты",
         ["deDE"] = "Minimap-Koordinanten",
         ["koKR"] = "미니맵 좌표",
@@ -207,16 +207,16 @@ local minimapOptionsLocales = {
         ["frFR"] = "Coordonnées du joueur sur la minicarte",
     },
     ["Place the Player's coordinates on the Minimap title."] = {
-        ["ptBR"] = "Coloque as coordenadas do jogador no título do minimapa.",
+        ["ptBR"] = "Mostra as coordenadas do jogador no título do minimapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока в заголовке миникарты",
         ["deDE"] = "Zeigt die Spieler-Koordinanten an der Minimap.",
         ["koKR"] = "미니맵 제목 영역에 플레이어의 좌표를 표시합니다.",
-        ["esMX"] = "Posiciona las coordenadas del jugador en el título del minimapa.",
+        ["esMX"] = "Muestra las coordenadas del jugador en el título del minimapa.",
         ["enUS"] = true,
         ["zhCN"] = "在小地图标题上显示玩家座标。",
         ["zhTW"] = "在小地圖的標題中顯示玩家坐標。",
-        ["esES"] = "Posiciona las coordenadas del jugador en el título del minimapa.",
-        ["frFR"] = "Indique les coordonnées du joueur dans le titre de la minicarte.",
+        ["esES"] = "Muestra las coordenadas del jugador en el título del minimapa.",
+        ["frFR"] = "Affiche les coordonnées du joueur dans le titre de la minicarte.",
     },
 }
 
