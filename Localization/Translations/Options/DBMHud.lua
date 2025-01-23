@@ -63,15 +63,15 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Options de filtre",
     },
     ["Show quest giver icons"] = {
-        ["ptBR"] = "Mostrar ícones de atribuidores de missões",
+        ["ptBR"] = "Mostrar ícones de recrutadores de missões",
         ["ruRU"] = "Значки заданий",
         ["deDE"] = "Questgeber-Icons anzeigen",
         ["koKR"] = "수행가능/완료 퀘스트 아이콘 표시",
-        ["esMX"] = "Mostrar iconos de proveedores de misiones",
+        ["esMX"] = "Mostrar iconos de asignadores de misiones",
         ["enUS"] = true,
         ["zhCN"] = "显示起始任务图标",
         ["zhTW"] = "顯示任務 NPC 圖示",
-        ["esES"] = "Mostrar iconos de proveedores de misiones",
+        ["esES"] = "Mostrar iconos de asignadores de misiones",
         ["frFR"] = "Afficher les icônes des donneurs de quêtes",
     },
     ["Toggles whether or not available/complete quest icons appear on HUD. (Default: %s)"] = {
