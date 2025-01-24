@@ -2506,7 +2506,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12631] = {
-            [questKeys.startedBy] = {nil,nil,{38660}},
+            [questKeys.startedBy] = {{28519},nil,{38660}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12633},
@@ -2518,7 +2518,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12633] = {
-            [questKeys.startedBy] = {nil,nil,{38673}},
+            [questKeys.startedBy] = {{28519},nil,{38673}},
             [questKeys.preQuestSingle] = {12238},
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12631},
