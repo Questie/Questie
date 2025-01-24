@@ -77,6 +77,9 @@ function CataItemFixes.Load()
         [8705] = { -- OOX-22/FE Distress Beacon
             [itemKeys.startQuest] = 25475,
         },
+        [8973] = { -- Thick Yeti Hide
+            [itemKeys.npcDrops] = {40224},
+        },
         [9597] = { -- Mountain Giant Muisek
             [itemKeys.npcDrops] = {40026},
         },

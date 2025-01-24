@@ -2995,7 +2995,8 @@ function CataQuestFixes.Load()
         },
         [14410] = { -- The Wilds of Feralas [Alliance]
             [questKeys.preQuestGroup] = {14381,14394},
-            [questKeys.exclusiveTo] = {25447,28511},
+            [questKeys.exclusiveTo] = {28511},
+            [questKeys.nextQuestInChain] = 25447,
         },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
@@ -4458,7 +4459,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {9530},
         },
         [25344] = { -- Ogre Abduction [Horde]
-            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25352] = { -- Sweeping the Shelf
             [questKeys.preQuestSingle] = {25278},
@@ -4491,6 +4492,10 @@ function CataQuestFixes.Load()
         },
         [25367] = { -- Zukk'ash Infestation
             [questKeys.preQuestSingle] = {25366},
+        },
+        [25368] = { -- Verinias the Twisted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25422,25423},
         },
         [25369] = { -- Stinglasher (Horde)
             [questKeys.preQuestSingle] = {25427},
@@ -4540,15 +4545,19 @@ function CataQuestFixes.Load()
         },
         [25396] = { -- Tears of Stone
             [questKeys.preQuestSingle] = {25394},
+            [questKeys.exclusiveTo] = {},
         },
         [25397] = { -- The Land, Corrupted
             [questKeys.preQuestSingle] = {25394},
+            [questKeys.exclusiveTo] = {},
         },
         [25398] = { -- Sealing the Dream [Alliance]
             [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25396,25397},
         },
         [25403] = { -- Ogre Abduction [Alliance]
-            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
@@ -4578,9 +4587,14 @@ function CataQuestFixes.Load()
         },
         [25422] = { -- The Darkmist Legacy
             [questKeys.preQuestSingle] = {25350},
+            [questKeys.exclusiveTo] = {},
         },
         [25423] = { -- Ancient Suffering
             [questKeys.preQuestSingle] = {25350},
+            [questKeys.exclusiveTo] = {},
+        },
+        [25429] = { -- Zukk'ash Infestation
+            [questKeys.preQuestSingle] = {25427},
         },
         [25431] = { -- Stinglasher
             [questKeys.preQuestSingle] = {25427},
@@ -4615,6 +4629,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25411},
             [questKeys.exclusiveTo] = {25412},
         },
+        [25447] = { -- Signs of Change
+            [questKeys.preQuestSingle] = {},
+        },
         [25451] = { -- Pristine Yeti Hide
             [questKeys.startedBy] = {{39896},nil,{55166}},
             [questKeys.preQuestSingle] = {25449},
@@ -4641,9 +4658,11 @@ function CataQuestFixes.Load()
         },
         [25468] = { -- Forces of Nature: Faerie Dragons
             [questKeys.objectives] = {nil,nil,nil,nil,{{{5276,5278},5276,"Faerie Dragons Rallied",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {25410},
         },
         [25469] = { -- Forces of Nature: Mountain Giants
             [questKeys.objectives] = {{{40026,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {25410},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
@@ -4662,11 +4681,18 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{40358,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
         },
+        [25479] = { -- To New Thalanaar
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40358,40367},40358,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 25486,
+        },
         [25481] = { -- To New Thalanaar
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40358,40367},40358,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 25486,
         },
         [25486] = { -- The Grimtotem are Coming
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+            [questKeys.preQuestSingle] = {},
         },
         [25496] = { -- Grudge Match
             [questKeys.preQuestSingle] = {25494},
@@ -4963,6 +4989,7 @@ function CataQuestFixes.Load()
         },
         [25654] = { -- Dark Heart [Alliance]
             [questKeys.requiredSourceItems] = {9530},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Edana Hatetalon"),0,{{"object",207948},{"object",207949}}}},
         },
         [25655] = { -- The Wormwing Problem
             [questKeys.exclusiveTo] = {},
@@ -6500,6 +6527,9 @@ function CataQuestFixes.Load()
         },
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
+        },
+        [26402] = { -- General Shandris Feathermoon
+            [questKeys.nextQuestInChain] = 25304,
         },
         [26403] = { -- Venture Company Mining
             [questKeys.preQuestSingle] = {26399},
@@ -10981,6 +11011,7 @@ function CataQuestFixes.Load()
         },
         [28503] = { -- Hero's Call: Thousand Needles!
             [questKeys.requiredMaxLevel] = 43,
+            [questKeys.nextQuestInChain] = 25486,
         },
         [28504] = { -- Warchief's Command: Thousand Needles!
             [questKeys.objectives] = {},
@@ -11005,6 +11036,8 @@ function CataQuestFixes.Load()
         },
         [28511] = { -- Hero's Call: Feralas!
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.exclusiveTo] = {14410},
+            [questKeys.nextQuestInChain] = 25447,
         },
         [28514] = { -- Mouton Flamestar
             [questKeys.nextQuestInChain] = 28172,
