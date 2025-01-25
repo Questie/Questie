@@ -2091,6 +2091,9 @@ function CataNpcFixes.Load()
         [40564] = { -- Fiery Instructor
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{84.29,59.03},{84.77,59.15},{84.51,58.66},{84.94,58.02},{85.14,59},{85.61,57.82},{84.41,59.75},{85.04,63.81},{84.34,63.58},{81.39,65.28},{78.49,64.28},{80.6,63.09},{83.12,64.84},{81.95,64.75},{81.57,64.15},{78.98,63.44},{82.05,64.1},{83.18,63.84},{83.77,63.28},{83.68,63.83},{80.89,65.51},{82.7,62.54},{85.05,60.51},{84.55,63.17},{81,63.32},{82.91,63.91},{81.3,63.78},{84.55,62.92},{81.23,65.49},{81.17,65.44},{81.89,64.42},{77.77,63.8},{84.27,63.05},{81.28,63.62},{83.26,63.04},{79.34,62.82},{84.33,62.99},{83.08,62.65},{80.23,62.6},{80.97,62.9},{84.34,60.78},{79.33,62.77},{83.8,62.75},{84.23,61.27},{78.24,63.83},{79.97,62.27},{79.6,64.56},{79.98,62.73},{79.26,62.58},{80.98,63.36},{80.56,63.13},{81.24,63.03},{79.94,62.35},{81.31,64.43},{81.51,64.73},{81.21,64.9},{81.14,63.53},{81.21,65.71},{82.05,64.44},{80.86,66.76},{81.87,65.37},{80.9,66.75},{80.49,65.63},{82.71,64.25},{78.81,64.13},{81.02,63.2},{83.74,63.84},{82.91,63.96},{83.18,63.84},{83.08,64.97}}},
         },
+        [40591] = { -- Drag Master Miglen
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{78.07,73.09}}},
+        },
         [40639] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
@@ -2125,6 +2128,18 @@ function CataNpcFixes.Load()
         },
         [40714] = { -- All or Nothing Kill Credit
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.27,46.56}}},
+        },
+        [40726] = { -- Mazzer Stripscrew
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={
+                {78.12,73.08,phases.BARGE_AT_PEACE},
+                {78.94,75.73,phases.BARGE_UNDER_ATTACK},
+            }},
+        },
+        [40727] = { -- Griznak
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={
+                {78.26,73.6,phases.BARGE_AT_PEACE},
+                {78.72,76.03,phases.BARGE_UNDER_ATTACK},
+            }},
         },
         [40772] = { -- Commander Jarod Shadowsong
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
@@ -2207,6 +2222,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{40.35,44.32}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [41081] = { -- Seadog Fajardo
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{88.48,72.85}}},
+        },
         [41084] = { -- Blaithe
             [npcKeys.spawns] = {[616]={{36.72,33.68},{39.22,37.15},{35.67,42.33},{40.24,37.24},{44.54,38.16},{47.13,40.08},{49.55,41.54}}},
         },
@@ -2251,6 +2269,9 @@ function CataNpcFixes.Load()
         },
         [41455] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
+        },
+        [41463] = { -- Captured Feralas Sentinel
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{45.24,50.17}}},
         },
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
@@ -2726,8 +2747,11 @@ function CataNpcFixes.Load()
         [45238] = { -- Harrison Jones
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
         },
+        [45277] = { -- Feralas Sentinel
+            [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES]={{42.2,48.3}}},
+        },
         [45278] = { -- Freewind Brave
-            [npcKeys.spawns] ={[400]={{42.20,46.47}}},
+            [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES]={{42.2,48.3}}},
         },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
@@ -3921,6 +3945,32 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{53.72,46.02}}},
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.questStarts] = {13921},
+        },
+        [100056] = { -- Pirate Accuracy Increasing
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{79.63,75.82}}},
+            [npcKeys.waypoints] = {[zoneIDs.THOUSAND_NEEDLES] = {{{79.63,75.82},{79.98,75.18},{80.36,74.36},{80.59,73.50},{80.74,72.60},{80.80,71.66},{80.67,70.85},{80.34,70.17},{79.86,69.54},{79.31,69.09},{78.78,68.91},{78.20,69.00},{77.59,69.25},{76.99,69.56},{76.41,69.88},{75.85,70.22},{75.32,70.66},{74.88,71.24},{74.52,71.95},{74.20,72.80},{73.99,73.67},{73.95,74.48},{74.11,75.29},{74.44,76.09},{74.86,76.78},{75.33,77.26},{75.90,77.58},{76.54,77.79},{77.16,77.88},{77.72,77.80},{78.32,77.41},{78.85,76.85},{79.30,76.37},{79.63,75.82}}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questEnds] = {25532,25533},
+        },
+        [100057] = { -- Circle the Wagons... er, Boats
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{79.63,75.82}}},
+            [npcKeys.waypoints] = {[zoneIDs.THOUSAND_NEEDLES] = {{{79.63,75.82},{79.98,75.18},{80.36,74.36},{80.59,73.50},{80.74,72.60},{80.80,71.66},{80.67,70.85},{80.34,70.17},{79.86,69.54},{79.31,69.09},{78.78,68.91},{78.20,69.00},{77.59,69.25},{76.99,69.56},{76.41,69.88},{75.85,70.22},{75.32,70.66},{74.88,71.24},{74.52,71.95},{74.20,72.80},{73.99,73.67},{73.95,74.48},{74.11,75.29},{74.44,76.09},{74.86,76.78},{75.33,77.26},{75.90,77.58},{76.54,77.79},{77.16,77.88},{77.72,77.80},{78.32,77.41},{78.85,76.85},{79.30,76.37},{79.63,75.82}}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questStarts] = {25542,25543},
+        },
+        [100058] = { -- The Elder Crone
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{35.87,60.66}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questEnds] = {28140},
+        },
+        [100059] = { -- To the Withering
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{35.87,60.66}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questStarts] = {28142},
         },
     }
 end

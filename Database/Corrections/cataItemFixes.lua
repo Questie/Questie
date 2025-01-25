@@ -920,6 +920,9 @@ function CataItemFixes.Load()
         [63034] = { -- Dusty Prison Journal
             [itemKeys.npcDrops] = {},
         },
+        [63053] = { -- Codemaster's Code
+            [itemKeys.npcDrops] = {},
+        },
         [63090] = { -- Muckgill's Flipper
             [itemKeys.startQuest] = 28154,
         },
