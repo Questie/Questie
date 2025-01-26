@@ -314,6 +314,9 @@ function CataNpcFixes.Load()
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
+        [7149] = { -- Withered Protector
+            [npcKeys.waypoints] = {},
+        },
         [7267] = { -- Chief Ukorz Sandscalp
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20},{-1,-1}}},
         },
@@ -1026,6 +1029,9 @@ function CataNpcFixes.Load()
         },
         [24711] = { -- Tapper Swindlekeg
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
+        },
+        [24727] = { -- Caylee Dak
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{31.29,27.89}}},
         },
         [24886] = { -- Exorcist Vaisha
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
@@ -3199,8 +3205,20 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
         },
+        [48032] = { -- Seedling Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{48.7,25.07}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
         [48039] = { -- Commander Stevens
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.37,45.63}}},
+        },
+        [48042] = { -- Sapling Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{48.34,28.73}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
+        [48044] = { -- Flourishing Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{49.48,21.79}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
         },
         [48051] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.THE_MAELSTROM]={{33.35,50.39}}},
@@ -3971,6 +3989,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{35.87,60.66}}},
             [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
             [npcKeys.questStarts] = {28142},
+        },
+        [100060] = { -- Nature and Nurture
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{48.66,25.16}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.questEnds] = {28229,28228},
         },
     }
 end
