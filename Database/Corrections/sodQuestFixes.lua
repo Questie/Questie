@@ -30,9 +30,6 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
-        [5167] = { -- Legplates of the Chromatic Flight
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-        },
         [7636] = { -- An Introduction
             [questKeys.nextQuestInChain] = 84546,
         },
