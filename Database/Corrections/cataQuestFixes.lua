@@ -459,6 +459,11 @@ function CataQuestFixes.Load()
         },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
+            [questKeys.zoneOrSort] = 1769,
+        },
+        [6032] = { -- Sacred Cloth
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
+            [questKeys.zoneOrSort] = 1769,
         },
         [6261] = { -- Dungar Longdrink
             [questKeys.requiredRaces] = raceKeys.HUMAN,
@@ -9994,7 +9999,7 @@ function CataQuestFixes.Load()
         },
         [28000] = { -- Do the Imp-Possible
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{47339}}},
+            [questKeys.objectives] = {{{47339,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28001] = { -- A Coward's Due
             [questKeys.preQuestSingle] = {27817},
@@ -10216,7 +10221,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [28119] = { -- Purity From Corruption
-            [questKeys.preQuestGroup] = {28116,28121},
+            [questKeys.preQuestSingle] = {28116},
         },
         [28125] = { -- Something to Wear
             [questKeys.preQuestSingle] = {28124},
@@ -10486,16 +10491,28 @@ function CataQuestFixes.Load()
         },
         [28219] = { -- Buzzers for Baby
             [questKeys.preQuestSingle] = {28229},
+            [questKeys.exclusiveTo] = {},
         },
         [28220] = { -- Seeking Soil
             [questKeys.objectives] = {nil,{{430018,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {},
         },
         [28221] = { -- These Roots Were Made For Stompin'
             [questKeys.preQuestGroup] = {28219,28220},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{48042}},
+        },
+        [28222] = { -- Singin' in the Sun
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28219,28220},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{48042}},
+            [questKeys.objectives] = {{{48200,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28224] = { -- The Last Protector
+            [questKeys.startedBy] = {{48044}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestSingle] = {28221,28222},
+            [questKeys.preQuestGroup] = {28221,28222},
         },
         [28225] = { -- Prove Yer Allegiance
             [questKeys.exclusiveTo] = {},
@@ -10512,10 +10529,14 @@ function CataQuestFixes.Load()
         },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
+            [questKeys.finishedBy] = {{100060}},
         },
         [28229] = { -- Nature and Nurture
             [questKeys.preQuestSingle] = {28374},
             [questKeys.requiredSourceItems] = {63387},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Fill the vial"),0,{{"object",301095}}}},
+            [questKeys.objectives] = {{{48077,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100060}},
         },
         [28230] = { -- Protocol
             [questKeys.preQuestSingle] = {28209},
@@ -10669,7 +10690,7 @@ function CataQuestFixes.Load()
         },
         [28288] = { -- Open Their Eyes
             [questKeys.preQuestSingle] = {28113},
-            [questKeys.objectives] = {{{47369}}},
+            [questKeys.objectives] = {{{47369,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28289] = { -- Moonglade Calls
             [questKeys.nextQuestInChain] = 28343,
@@ -10721,9 +10742,11 @@ function CataQuestFixes.Load()
         },
         [28305] = { -- The Fate of Bloodvenom Post
             [questKeys.preQuestGroup] = {28126,28128,28155},
+            [questKeys.nextQuestInChain] = 28207,
         },
         [28306] = { -- Whisperwind Grove
             [questKeys.preQuestGroup] = {28213,28214},
+            [questKeys.nextQuestInChain] = 28360,
         },
         [28307] = { -- Meet with Tyelis
             [questKeys.nextQuestInChain] = 28475,
@@ -10811,6 +10834,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28357,28370},
             [questKeys.objectives] = {{{48331,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [28337] = { -- The Shredders of Irontree
+            [questKeys.preQuestSingle] = {28384},
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
@@ -10856,8 +10882,12 @@ function CataQuestFixes.Load()
         [28357] = { -- Take it to the Tree
             [questKeys.preQuestGroup] = {28333,28334},
         },
+        [28360] = { -- Running Their Course
+            [questKeys.exclusiveTo] = {},
+        },
         [28361] = { -- Squirrely Clean
-            [questKeys.objectives] = {{{48457,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{48457,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {},
         },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
@@ -10882,7 +10912,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28264},
         },
         [28374] = { -- Weeding the Lawn
-            [questKeys.preQuestGroup] = {28360.28361},
+            [questKeys.preQuestGroup] = {28360,28361},
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{47747,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -10910,6 +10940,42 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28336,28339},
         },
+        [28381] = { -- The Denmother
+            [questKeys.nextQuestInChain] = 28382,
+            [questKeys.preQuestGroup] = {28228,28264},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Fly to Talonbranch Glade"), 0, {{"monster", 43073}}}},
+        },
+        [28382] = { -- Enemy at our Roots
+            [questKeys.preQuestSingle] = {},
+        },
+        [28383] = { -- Wisps of the Woods
+            [questKeys.objectives] = {{{48454,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [28384] = { -- Into the Clearing
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28382,28383},
+        },
+        [28385] = { -- Oil and Irony
+            [questKeys.preQuestSingle] = {28337},
+        },
+        [28386] = { -- Borrowed Bombs
+            [questKeys.preQuestSingle] = {28337},
+        },
+        [28387] = { -- Borrowed Bombs
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28385,28386},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{48317,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [28388] = { -- Bloody Wages
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28385,28386},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28389] = { -- Report to the Denmother
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28387,28388},
+        },
         [28390] = { -- Glop, Son of Glop
             [questKeys.exclusiveTo] = {28391},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the chase"), 0, {{"monster", 43503}}}},
@@ -10919,6 +10985,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43641}},{{204837}}},
             [questKeys.exclusiveTo] = {28390},
             [questKeys.requiredMinRep] = {1171,21000},
+        },
+        [28392] = { -- The Timbermaw Tribe
+            [questKeys.preQuestSingle] = {28389},
+            [questKeys.nextQuestInChain] = 28338,
         },
         [28393] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
@@ -11158,7 +11228,7 @@ function CataQuestFixes.Load()
         },
         [28521] = { -- Speak to Salfa
             [questKeys.preQuestGroup] = {28362,28364,28338,28366},
-            [questKeys.exclusiveTo] = {28522,28524},
+            [questKeys.nextQuestInChain] = 28524,
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
         [28523] = { -- More Beads for Salfa
@@ -11222,6 +11292,7 @@ function CataQuestFixes.Load()
         },
         [28543] = { -- Hero's Call: Felwood!
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.nextQuestInChain] = 27997,
         },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28768},
