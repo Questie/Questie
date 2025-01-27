@@ -859,7 +859,7 @@ function QuestieQuestFixes:Load()
         },
         [1436] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {1434,1480},
+            [questKeys.preQuestGroup] = {1434,1435},
         },
         [1440] = {
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
