@@ -110,9 +110,6 @@ function AutoQuesting.OnQuestFinished()
     _StartStoppedTalkingTimer()
 end
 
-function AutoQuesting.OnQuestAccepted()
-end
-
 function AutoQuesting.OnQuestProgress()
     if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
         return

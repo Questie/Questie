@@ -114,7 +114,6 @@ function EventHandler:RegisterLateEvents()
     --end)
     Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
         QuestEventHandler:QuestAccepted(questLogIndex, questId)
-        AutoQuesting.OnQuestAccepted()
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         --QuestieAuto.QUEST_DETAIL(...)
