@@ -20,6 +20,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type AutoQuesting
+local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestiePlayer
@@ -173,7 +175,7 @@ end
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
-function QuestEventHandler:QuestAccepted(questLogIndex, questId)
+function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -230,6 +232,10 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
+
+        if Questie.db.profile.autoaccept and (not AutoQuesting.IsModifierHeld()) and ImmersionFrame and ImmersionFrame:IsShown() then
+            ImmersionFrame:Hide()
+        end
     end
 end
 
@@ -237,7 +243,7 @@ end
 ---@param questId number
 ---@param xpReward number
 ---@param moneyReward number
-function QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
+function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -283,7 +289,7 @@ end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
-function QuestEventHandler:QuestRemoved(questId)
+function QuestEventHandler.QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 
@@ -354,7 +360,7 @@ end
 
 --- Fires whenever a quest objective progressed
 ---@param questId number
-function QuestEventHandler:QuestWatchUpdate(questId)
+function QuestEventHandler.QuestWatchUpdate(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_WATCH_UPDATE", questId)
 
     -- We do a full scan even though we have the questId because many QUEST_WATCH_UPDATE can fire before
@@ -379,7 +385,7 @@ end
 ---Some Quests are not turned in at an NPC or object. QUEST_AUTOCOMPLETE is fired for these quests.
 ---Good quest to test this: https://www.wowhead.com/quest=24502/necessary-roughness
 ---@param questId number
-function QuestEventHandler:QuestAutoComplete(questId)
+function QuestEventHandler.QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
     if Questie.db.profile.trackerEnabled then
@@ -390,7 +396,7 @@ end
 
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
-function QuestEventHandler:UnitQuestLogChanged(unitTarget)
+function QuestEventHandler.UnitQuestLogChanged(unitTarget)
     if unitTarget ~= "player" then
         return
     end
@@ -467,7 +473,7 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
     end
 end
 
-function QuestEventHandler:ReputationChange()
+function QuestEventHandler.ReputationChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
@@ -492,7 +498,7 @@ function QuestEventHandler.CurrencyDisplayUpdate()
     end)
 end
 
-function QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
+function QuestEventHandler.PlayerInteractionManagerFrameHide(eventType)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
 
     local eventName

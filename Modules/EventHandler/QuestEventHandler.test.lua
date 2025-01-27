@@ -15,6 +15,8 @@ describe("QuestEventHandler", function()
     local QuestieQuest
     ---@type QuestieJourney
     local QuestieJourney
+    ---@type AutoQuesting
+    local AutoQuesting
     ---@type QuestieAnnounce
     local QuestieAnnounce
     ---@type QuestiePlayer
@@ -33,11 +35,13 @@ describe("QuestEventHandler", function()
     local QuestEventHandler
 
     before_each(function()
+        Questie.db.profile.autoaccept = false
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         QuestLogCache = require("Modules.Quest.QuestLogCache")
         QuestieQuest = require("Modules.Quest.QuestieQuest")
+        AutoQuesting = require("Modules.Auto.AutoQuesting")
         QuestieJourney = require("Modules.Journey.QuestieJourney")
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestiePlayer = require("Modules.QuestiePlayer")
@@ -63,7 +67,7 @@ describe("QuestEventHandler", function()
         QuestieJourney.AcceptQuest = spy.new(function() end)
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
 
-        QuestEventHandler:QuestAccepted(2, QUEST_ID)
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
         assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
@@ -83,7 +87,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieTracker.Update = spy.new(function() end)
 
-        QuestEventHandler:QuestAccepted(2, QUEST_ID)
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
         assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
@@ -106,6 +110,38 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was.called()
     end)
 
+    it("should hide Immersion frame when quest was auto accepted and modifier is not held", function()
+        Questie.db.profile.autoaccept = true
+        AutoQuesting.IsModifierHeld = function() return false end
+        local ImmersionFrameHideMock = spy.new(function() end)
+        _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
+
+        assert.spy(ImmersionFrameHideMock).was.called()
+    end)
+
+    it("should not hide Immersion frame when quest was auto accepted and modifier is held", function()
+        Questie.db.profile.autoaccept = true
+        AutoQuesting.IsModifierHeld = function() return true end
+        local ImmersionFrameHideMock = spy.new(function() end)
+        _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
+
+        assert.spy(ImmersionFrameHideMock).was_not_called()
+    end)
+
     it("should mark quest as abandoned on quest accept after QUEST_REMOVED", function()
         QuestLogCache.RemoveQuest = spy.new(function() end)
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
@@ -118,10 +154,10 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.AbandonedQuest = spy.new(function() end)
         _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end} -- This ignores the ticker set on QUEST_REMOVED
 
-        QuestEventHandler:QuestRemoved(QUEST_ID)
+        QuestEventHandler.QuestRemoved(QUEST_ID)
 
         _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
-        QuestEventHandler:QuestAccepted(2, QUEST_ID)
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
@@ -147,7 +183,7 @@ describe("QuestEventHandler", function()
         local callbacks = {}
         _G.C_Timer = {NewTicker = function(_, callback) table.insert(callbacks, callback) return {} end}
 
-        QuestEventHandler:QuestRemoved(QUEST_ID)
+        QuestEventHandler.QuestRemoved(QUEST_ID)
         callbacks[1]()
 
         assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
@@ -162,7 +198,7 @@ describe("QuestEventHandler", function()
         local cancelSpy = spy.new(function() end)
         _G.C_Timer = {NewTicker = function() return {Cancel = cancelSpy} end}
 
-        QuestEventHandler:QuestRemoved(QUEST_ID)
+        QuestEventHandler.QuestRemoved(QUEST_ID)
 
         _G.GetNumQuestLogRewards = function() return 1 end
         _G.GetQuestLogRewardInfo = function() return nil, nil, nil, 0, nil, 5 end
@@ -173,7 +209,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
         QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
 
-        QuestEventHandler:QuestTurnedIn(QUEST_ID, 1000, 2000)
+        QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
 
         assert.spy(cancelSpy).was.called()
         assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
@@ -193,7 +229,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
         QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
 
-        QuestEventHandler:QuestTurnedIn(QUEST_ID, 1000, 2000)
+        QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
 
         assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
@@ -211,8 +247,9 @@ describe("QuestEventHandler", function()
         QuestieQuest.UpdateQuest = spy.new(function() end)
         QuestieTracker.Update = spy.new(function() end)
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
+        QuestieTracker.UpdateQuestLines = spy.new()
 
-        QuestEventHandler:QuestWatchUpdate(QUEST_ID)
+        QuestEventHandler.QuestWatchUpdate(QUEST_ID)
         QuestEventHandler.QuestLogUpdate()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true}, true)
@@ -228,7 +265,7 @@ describe("QuestEventHandler", function()
         WatchFrameHook.Hide = spy.new(function() end)
         AutoCompleteFrame.ShowAutoComplete = spy.new(function() end)
 
-        QuestEventHandler:QuestAutoComplete(QUEST_ID)
+        QuestEventHandler.QuestAutoComplete(QUEST_ID)
 
         assert.spy(WatchFrameHook.Hide).was.called()
         assert.spy(AutoCompleteFrame.ShowAutoComplete).was.called_with(QUEST_ID)
@@ -245,7 +282,7 @@ describe("QuestEventHandler", function()
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
         local bankframeClosedEvent = 8
 
-        QuestEventHandler:PlayerInteractionManagerFrameHide(bankframeClosedEvent)
+        QuestEventHandler.PlayerInteractionManagerFrameHide(bankframeClosedEvent)
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true}, true)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)

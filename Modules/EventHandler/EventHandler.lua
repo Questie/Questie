@@ -31,8 +31,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieAuto
-local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@type AutoQuesting
+local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
@@ -83,7 +83,7 @@ function EventHandler:RegisterLateEvents()
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
-        QuestEventHandler:ReputationChange()
+        QuestEventHandler.ReputationChange()
         _EventHandler:ChatMsgCompatFactionChange()
     end)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
@@ -98,7 +98,7 @@ function EventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
-        QuestieAuto.QUEST_FINISHED()
+        AutoQuesting.OnQuestFinished()
         if Questie.IsCata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
             -- This is easier, than actually figuring out which events are fired in which order for this logic.
@@ -107,41 +107,40 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
-    Questie:RegisterEvent("QUEST_ACCEPTED", function(_, ...)
-        QuestEventHandler:QuestAccepted(...)
-        QuestieAuto:QUEST_ACCEPTED(...)
+    Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
+        QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
-    Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
-        QuestieAuto.QUEST_DETAIL(...)
-        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-            QuestieDebugOffer.QuestDialog(...)
-        end
-    end)
-    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", function(...)
-        QuestieAuto.GOSSIP_SHOW(...)
-        QuestgiverFrame.GossipMark(...)
-    end)
-    Questie:RegisterEvent("QUEST_GREETING", function(...)
-        QuestieAuto.QUEST_GREETING(...)
-        QuestgiverFrame.GreetingMark(...)
-    end)
-    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
-        QuestieAuto.QUEST_COMPLETE(...)
+    Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
+        AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
         end
     end)
-    Questie:RegisterEvent("QUEST_REMOVED", QuestEventHandler.QuestRemoved)
-    Questie:RegisterEvent("QUEST_TURNED_IN", QuestEventHandler.QuestTurnedIn)
+    Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
+    Questie:RegisterEvent("GOSSIP_SHOW", function()
+        AutoQuesting.OnGossipShow()
+        QuestgiverFrame.GossipMark()
+    end)
+    Questie:RegisterEvent("QUEST_GREETING", function()
+        AutoQuesting.OnQuestGreeting()
+        QuestgiverFrame.GreetingMark()
+    end)
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
+    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)              -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("QUEST_COMPLETE", function()                               -- When complete window shows
+        AutoQuesting.OnQuestComplete()
+        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
+            QuestieDebugOffer.QuestDialog()
+        end
+    end)
+    Questie:RegisterEvent("QUEST_REMOVED", function(_, questId) QuestEventHandler.QuestRemoved(questId) end)
+    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId) QuestEventHandler.QuestTurnedIn(questId) end)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestEventHandler.QuestLogUpdate)
-    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestEventHandler.QuestWatchUpdate)
-    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", QuestEventHandler.QuestAutoComplete)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", QuestEventHandler.UnitQuestLogChanged)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
+    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
+    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
-    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", QuestEventHandler.PlayerInteractionManagerFrameHide)
+    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
