@@ -291,16 +291,16 @@ local townsfolkLocales = {
         ["frFR"] = "Maître d'armes",
     },
     ["Townsfolk"] = {
-        ["ptBR"] = "Cidadãos",
+        ["ptBR"] = "Aldeões",
         ["ruRU"] = "Городские",
         ["deDE"] = "Stadtbewohner",
         ["koKR"] = "마을 NPC",
-        ["esMX"] = "Ciudadanos",
+        ["esMX"] = "Pueblerinos",
         ["enUS"] = true,
         ["zhCN"] = "村民",
         ["zhTW"] = "村民",
-        ["esES"] = "Ciudadanos",
-        ["frFR"] = "Citadins",
+        ["esES"] = "Pueblerinos",
+        ["frFR"] = "Villageois",
     },
 }
 

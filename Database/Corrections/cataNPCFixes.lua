@@ -298,6 +298,12 @@ function CataNpcFixes.Load()
         [4260] = { -- Venture Co. Shredder
             [npcKeys.waypoints] = {},
         },
+        [4329] = { -- Firemane Scout
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.02,77.44},{44.62,67.29},{48.96,67.34},{45.36,67.2},{38.95,64.54},{38.96,67.08},{38.76,65.81},{38.81,65.85},{37.95,68.24},{44.03,65.3},{51.94,70.68},{43.24,65.08},{42.82,66.37},{44.55,64.76},{45.67,65.85},{45.21,65.28},{49.49,68.38}}},
+        },
+        [4331] = { -- Firemane Ash Tail
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.04,77.19},{48.88,67.29},{36.66,69.42},{39.36,65.32},{39.42,64.46},{40.02,65.31},{42.17,67.18},{39.49,66.15},{38.75,65.71},{38.83,65.65},{38.99,65.82},{44.61,66.35},{45.15,66.21},{43.91,66.08},{44.7,65.45},{51.93,70.63},{43.13,65.89},{49.72,67.98},{37.84,68.22}}},
+        },
         [5833] = { -- Margol the Rager
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{73.49,82.39}}},
             [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE] = {{{73.49,82.39},{73.45,82.23},{73.41,82.08},{73.37,81.92},{73.33,81.76},{73.27,81.49},{73.14,81.02},{73.01,80.54},{72.90,80.07},{72.78,79.59},{72.68,79.11},{72.73,78.61},{72.80,78.27},{72.83,78.13},{72.87,77.97},{72.92,77.81},{72.96,77.65},{73.00,77.50},{73.04,77.34},{73.08,77.19},{73.12,77.03},{73.16,76.87},{73.20,76.71},{73.23,76.55},{73.25,76.39},{73.26,76.22},{73.27,76.05},{73.28,75.89},{73.28,75.72},{73.28,75.55},{73.28,75.38},{73.28,75.21},{73.27,75.04},{73.28,74.87},{73.28,74.78},{73.28,74.69},{73.29,74.52},{73.29,74.35},{73.28,74.19},{73.26,74.02},{73.19,73.90},{73.09,73.83},{72.98,73.79},{72.83,73.74},{72.49,73.64},{72.32,73.60},{72.21,73.56},{72.10,73.53},{71.99,73.50},{71.88,73.46},{71.77,73.42},{71.66,73.39},{71.55,73.35},{71.44,73.31},{71.33,73.28},{71.22,73.24},{71.11,73.21},{71.00,73.17},{70.89,73.14},{70.78,73.08},{70.68,73.02},{70.57,72.96},{70.47,72.89},{70.37,72.82},{70.27,72.75},{70.16,72.68},{70.06,72.61},{69.96,72.54},{69.86,72.47},{69.75,72.40},{69.65,72.33},{69.55,72.26},{69.45,72.19},{69.35,72.12},{69.25,72.04},{69.15,71.96},{69.11,71.94}}}},
@@ -306,6 +312,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.47,83.9}}},
         },
         [6577] = { -- Bingles Blastenheimer
+            [npcKeys.waypoints] = {},
+        },
+        [7149] = { -- Withered Protector
             [npcKeys.waypoints] = {},
         },
         [7267] = { -- Chief Ukorz Sandscalp
@@ -472,6 +481,10 @@ function CataNpcFixes.Load()
         },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
+        },
+        [14661] = { -- Stinglasher
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{75.58,60.85}}},
+            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{73.81,63.45},{73.78,63.74},{73.71,63.86},{73.60,63.98},{73.55,64.00},{73.37,63.93},{73.29,63.80},{73.24,63.55},{73.28,63.40},{73.36,63.22},{73.43,63.16},{73.50,63.13},{73.61,63.10},{73.64,63.10},{73.81,63.15},{73.93,63.19},{74.05,63.08},{74.05,63.07},{74.11,62.97},{74.17,62.88},{74.25,62.76},{74.30,62.68},{74.37,62.59},{74.53,62.42},{74.63,62.35},{74.76,62.26},{74.85,62.19},{74.88,62.17},{74.98,62.09},{75.08,61.98},{75.15,61.84},{75.23,61.69},{75.33,61.48},{75.36,61.36},{75.39,61.19},{75.41,61.03},{75.46,60.85},{75.58,60.85},{75.68,60.87},{75.77,60.90},{75.89,60.94},{75.97,60.98},{76.11,61.07},{76.12,61.08},{76.25,61.17},{76.28,61.19},{76.40,61.26},{76.55,61.34},{76.62,61.38},{76.66,61.40},{76.84,61.49},{76.92,61.53},{77.00,61.56},{77.09,61.60},{77.15,61.65},{77.16,61.66},{77.25,61.77},{77.32,61.89},{77.42,62.04},{77.43,62.05},{77.54,62.02},{77.74,62.07},{77.88,62.21},{78.03,62.44},{78.14,62.48},{78.15,62.47},{78.32,62.38},{78.42,62.48},{78.49,62.72},{78.47,62.87},{78.46,62.89},{78.42,62.95},{78.19,63.07},{78.09,63.01},{78.02,62.84},{78.06,62.53},{77.97,62.35}}}},
         },
         [14508] = { -- Short John Mithril
             [npcKeys.spawns] = {[5287]={{45,25.38}}},
@@ -964,6 +977,9 @@ function CataNpcFixes.Load()
         [23253] = { -- Kronk
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.9,57.92}}},
         },
+        [23841] = { -- Razorspine
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{57.78,19.74}}},
+        },
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
@@ -1013,6 +1029,9 @@ function CataNpcFixes.Load()
         },
         [24711] = { -- Tapper Swindlekeg
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
+        },
+        [24727] = { -- Caylee Dak
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{31.29,27.89}}},
         },
         [24886] = { -- Exorcist Vaisha
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
@@ -1996,6 +2015,9 @@ function CataNpcFixes.Load()
         [39664] = { -- Glimmerdeep Tidehunter
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.53,49.49},{45.63,48.12},{45.12,48.43},{45.48,48.94},{45.91,47.45},{43.48,46.69},{45.37,47.18},{44.53,47.94},{43.84,47.55},{44.16,46.96},{44.61,45.91},{43.65,46},{43.48,45.6},{42.86,45.83},{40.93,44.39},{41.36,45.34},{42.05,45.91},{42.3,47.49},{41.96,46.97},{41.28,46},{40.95,47.16},{41.44,47.14},{41.76,47.94},{43.33,48.1},{42.41,48.77},{42.87,48.39},{43.41,49.2},{44.42,50.26},{44.93,49.8},{45.2,51.86},{44.86,50.9},{45.42,50.39},{46,51.04},{46.17,51.79},{46.68,52.48},{45.46,47.1},{42.76,44.57},{42.26,45.19},{42.02,44.28},{49.81,48.45}}},
         },
+        [39853] = { -- Taerar
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{81.37,42.53}}},
+        },
         [39858] = { -- Arch Druid Hamuul Runetotem
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
                 {27.12,62.64,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
@@ -2028,6 +2050,9 @@ function CataNpcFixes.Load()
         },
         [40065] = { -- Unbound Flame Spirit
             [npcKeys.spawns] = {},
+        },
+        [40131] = { -- Sensiria
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{65.95,62.84}}},
         },
         [40178] = { -- Alysra
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{52.12,17.42}}},
@@ -2072,6 +2097,9 @@ function CataNpcFixes.Load()
         [40564] = { -- Fiery Instructor
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{84.29,59.03},{84.77,59.15},{84.51,58.66},{84.94,58.02},{85.14,59},{85.61,57.82},{84.41,59.75},{85.04,63.81},{84.34,63.58},{81.39,65.28},{78.49,64.28},{80.6,63.09},{83.12,64.84},{81.95,64.75},{81.57,64.15},{78.98,63.44},{82.05,64.1},{83.18,63.84},{83.77,63.28},{83.68,63.83},{80.89,65.51},{82.7,62.54},{85.05,60.51},{84.55,63.17},{81,63.32},{82.91,63.91},{81.3,63.78},{84.55,62.92},{81.23,65.49},{81.17,65.44},{81.89,64.42},{77.77,63.8},{84.27,63.05},{81.28,63.62},{83.26,63.04},{79.34,62.82},{84.33,62.99},{83.08,62.65},{80.23,62.6},{80.97,62.9},{84.34,60.78},{79.33,62.77},{83.8,62.75},{84.23,61.27},{78.24,63.83},{79.97,62.27},{79.6,64.56},{79.98,62.73},{79.26,62.58},{80.98,63.36},{80.56,63.13},{81.24,63.03},{79.94,62.35},{81.31,64.43},{81.51,64.73},{81.21,64.9},{81.14,63.53},{81.21,65.71},{82.05,64.44},{80.86,66.76},{81.87,65.37},{80.9,66.75},{80.49,65.63},{82.71,64.25},{78.81,64.13},{81.02,63.2},{83.74,63.84},{82.91,63.96},{83.18,63.84},{83.08,64.97}}},
         },
+        [40591] = { -- Drag Master Miglen
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{78.07,73.09}}},
+        },
         [40639] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
@@ -2106,6 +2134,18 @@ function CataNpcFixes.Load()
         },
         [40714] = { -- All or Nothing Kill Credit
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.27,46.56}}},
+        },
+        [40726] = { -- Mazzer Stripscrew
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={
+                {78.12,73.08,phases.BARGE_AT_PEACE},
+                {78.94,75.73,phases.BARGE_UNDER_ATTACK},
+            }},
+        },
+        [40727] = { -- Griznak
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={
+                {78.26,73.6,phases.BARGE_AT_PEACE},
+                {78.72,76.03,phases.BARGE_UNDER_ATTACK},
+            }},
         },
         [40772] = { -- Commander Jarod Shadowsong
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
@@ -2188,6 +2228,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{40.35,44.32}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [41081] = { -- Seadog Fajardo
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{88.48,72.85}}},
+        },
         [41084] = { -- Blaithe
             [npcKeys.spawns] = {[616]={{36.72,33.68},{39.22,37.15},{35.67,42.33},{40.24,37.24},{44.54,38.16},{47.13,40.08},{49.55,41.54}}},
         },
@@ -2232,6 +2275,9 @@ function CataNpcFixes.Load()
         },
         [41455] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
+        },
+        [41463] = { -- Captured Feralas Sentinel
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{45.24,50.17}}},
         },
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
@@ -2682,7 +2728,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
         [45115] = { -- Twilight Sermon Completion Credit
-            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{61.45,30.01}}},
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{62.56,30.01}}},
         },
         [45165] = { -- Thurman Grant
             [npcKeys.spawns] = {
@@ -2707,8 +2753,11 @@ function CataNpcFixes.Load()
         [45238] = { -- Harrison Jones
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
         },
+        [45277] = { -- Feralas Sentinel
+            [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES]={{42.2,48.3}}},
+        },
         [45278] = { -- Freewind Brave
-            [npcKeys.spawns] ={[400]={{42.20,46.47}}},
+            [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES]={{42.2,48.3}}},
         },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
@@ -3156,8 +3205,20 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
         },
+        [48032] = { -- Seedling Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{48.7,25.07}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
         [48039] = { -- Commander Stevens
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.37,45.63}}},
+        },
+        [48042] = { -- Sapling Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{48.34,28.73}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
+        [48044] = { -- Flourishing Protector
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{49.48,21.79}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
         },
         [48051] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.THE_MAELSTROM]={{33.35,50.39}}},
@@ -3902,6 +3963,38 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{53.72,46.02}}},
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.questStarts] = {13921},
+        },
+        [100056] = { -- Pirate Accuracy Increasing
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{79.63,75.82}}},
+            [npcKeys.waypoints] = {[zoneIDs.THOUSAND_NEEDLES] = {{{79.63,75.82},{79.98,75.18},{80.36,74.36},{80.59,73.50},{80.74,72.60},{80.80,71.66},{80.67,70.85},{80.34,70.17},{79.86,69.54},{79.31,69.09},{78.78,68.91},{78.20,69.00},{77.59,69.25},{76.99,69.56},{76.41,69.88},{75.85,70.22},{75.32,70.66},{74.88,71.24},{74.52,71.95},{74.20,72.80},{73.99,73.67},{73.95,74.48},{74.11,75.29},{74.44,76.09},{74.86,76.78},{75.33,77.26},{75.90,77.58},{76.54,77.79},{77.16,77.88},{77.72,77.80},{78.32,77.41},{78.85,76.85},{79.30,76.37},{79.63,75.82}}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questEnds] = {25532,25533},
+        },
+        [100057] = { -- Circle the Wagons... er, Boats
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{79.63,75.82}}},
+            [npcKeys.waypoints] = {[zoneIDs.THOUSAND_NEEDLES] = {{{79.63,75.82},{79.98,75.18},{80.36,74.36},{80.59,73.50},{80.74,72.60},{80.80,71.66},{80.67,70.85},{80.34,70.17},{79.86,69.54},{79.31,69.09},{78.78,68.91},{78.20,69.00},{77.59,69.25},{76.99,69.56},{76.41,69.88},{75.85,70.22},{75.32,70.66},{74.88,71.24},{74.52,71.95},{74.20,72.80},{73.99,73.67},{73.95,74.48},{74.11,75.29},{74.44,76.09},{74.86,76.78},{75.33,77.26},{75.90,77.58},{76.54,77.79},{77.16,77.88},{77.72,77.80},{78.32,77.41},{78.85,76.85},{79.30,76.37},{79.63,75.82}}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questStarts] = {25542,25543},
+        },
+        [100058] = { -- The Elder Crone
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{35.87,60.66}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questEnds] = {28140},
+        },
+        [100059] = { -- To the Withering
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{35.87,60.66}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.questStarts] = {28142},
+        },
+        [100060] = { -- Nature and Nurture
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{48.66,25.16}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.questEnds] = {28229,28228},
         },
     }
 end

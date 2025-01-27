@@ -161,6 +161,7 @@ _AutoQuesting.disallowedQuests = {
         [13301] = true, -- Assault by Ground
         [13481] = true, -- Let's Get Out of Here!
         [13482] = true, -- Let's Get Out of Here
+        [25476] = true, -- Rescue OOX-22/FE!
         ---
         [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
         [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
@@ -224,5 +225,5 @@ _AutoQuesting.disallowedQuests = {
         [12656] = true, -- Blessing of Zim'Rhuk repeatable
         [82062] = true, -- Ever After SoD
         [83934] = true, -- Show Me The Money! - Costs one Tarnished Undermine Real
-    },
+    }
 }

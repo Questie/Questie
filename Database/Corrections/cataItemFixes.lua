@@ -65,6 +65,9 @@ function CataItemFixes.Load()
         [5533] = { -- Ilkrud Magthrull's Tome
             [itemKeys.npcDrops] = {},
         },
+        [5847] = { -- Mirefin Head
+            [itemKeys.npcDrops] = {4358,4359,4360,4361,4362,4363,23841},
+        },
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },
@@ -73,6 +76,9 @@ function CataItemFixes.Load()
         },
         [8705] = { -- OOX-22/FE Distress Beacon
             [itemKeys.startQuest] = 25475,
+        },
+        [8973] = { -- Thick Yeti Hide
+            [itemKeys.npcDrops] = {40224},
         },
         [9597] = { -- Mountain Giant Muisek
             [itemKeys.npcDrops] = {40026},
@@ -912,6 +918,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {47203},
         },
         [63034] = { -- Dusty Prison Journal
+            [itemKeys.npcDrops] = {},
+        },
+        [63053] = { -- Codemaster's Code
             [itemKeys.npcDrops] = {},
         },
         [63090] = { -- Muckgill's Flipper

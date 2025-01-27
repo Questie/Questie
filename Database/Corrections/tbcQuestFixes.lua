@@ -3089,14 +3089,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {33040},
         },
         [11142] = {
-            [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}}},
+            [questKeys.objectives] = {{{23704,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [11145] = {
+            [questKeys.requiredSourceItems] = {33061},
+            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,"Raptors Captured"}}},
         },
         [11152] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lay the Wreath at the Hyal Family Monument"), 0, {{"object", 186322}}}},
+            [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"object",186432}}}},
         },
         [11159] = {
             [questKeys.preQuestSingle] = {11161},
