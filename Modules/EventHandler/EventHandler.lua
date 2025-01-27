@@ -126,8 +126,8 @@ function EventHandler:RegisterLateEvents()
         QuestgiverFrame.GreetingMark(...)
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)               -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
+    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)              -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                            -- When complete window shows
         AutoQuesting.OnQuestComplete()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
