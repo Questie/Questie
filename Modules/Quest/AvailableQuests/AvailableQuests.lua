@@ -101,7 +101,6 @@ function AvailableQuests.UnloadUndoable()
 end
 
 _CalculateAndDrawAvailableQuests = function()
-    print("Running _CalculateAndDrawAvailableQuests")
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -195,7 +194,6 @@ _CalculateAndDrawAvailableQuests = function()
     end
 
     local questCount = 0
-    local availableQuestsCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
@@ -203,7 +201,6 @@ _CalculateAndDrawAvailableQuests = function()
         else
             _DrawAvailableQuest(questId)
         end
-        availableQuestsCount = availableQuestsCount + 1
 
         -- Reset the questCount
         questCount = questCount + 1
@@ -212,7 +209,6 @@ _CalculateAndDrawAvailableQuests = function()
             yield()
         end
     end
-    print("Finished _CalculateAndDrawAvailableQuests. Available quests:", availableQuestsCount)
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
