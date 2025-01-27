@@ -8757,5 +8757,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"For 27 Insignias of the Dawn and 27 Insignias of the Crusade you may choose an item from the Argent Dawn's treasure cache."},
             [questKeys.objectives] = {nil,nil,{{22523},{22524}}},
         },
+        [88730] = {
+            [questKeys.name] = "The Only Song I Know...",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants you to bring him 2 Frozen Runes, 2 Essence of Water, 2 Blue Sapphires and 30 gold pieces."},
+            [questKeys.objectives] = {nil,nil,{{7080},{12361},{236656}}},
+        },
     }
 end

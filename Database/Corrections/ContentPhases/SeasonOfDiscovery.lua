@@ -290,7 +290,6 @@ local questsToBlacklistByPhase = {
         [9213] = true,
         [9229] = true,
         [9230] = true,
-        [9232] = true,
         [9233] = true,
         [9234] = true,
         [9235] = true,
@@ -317,6 +316,7 @@ local questsToBlacklistByPhase = {
         [88726] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
         [88727] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
         [88728] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
+        [88730] = true, -- The Only Song I Know...
     },
     [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
@@ -626,6 +626,7 @@ local questsToBlacklistByPhase = {
 
         -- Original Naxxramas quests
         [9120] = true, -- The Fall of Kel'Thuzad
+        [9232] = true,
 
         [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
         [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn

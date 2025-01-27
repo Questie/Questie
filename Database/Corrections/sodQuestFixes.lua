@@ -4156,6 +4156,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
         },
+        [88730] = { -- The Only Song I Know...
+            [questKeys.startedBy] = {{16376}},
+            [questKeys.finishedBy] = {{16376}},
+            [questKeys.objectives] = {nil,nil,{{236656},{7080},{12361}}},
+            [questKeys.preQuestSingle] = {9233},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
 
         --- Fake rune quests
         [90000] = {
