@@ -194,7 +194,6 @@ local questsToBlacklistByPhase = {
         [8801] = true, -- C'Thun's Legacy
     },
     [7] = { -- SoD Phase 7 == Era Phase 6: Naxxramas
-        [9085] = true,
         [9142] = true,
         [9165] = true,
         [9141] = true,
@@ -285,7 +284,6 @@ local questsToBlacklistByPhase = {
         [9132] = true,
         [9136] = true,
         [9137] = true,
-        [9153] = true,
         [9211] = true,
         [9213] = true,
         [9229] = true,
@@ -317,6 +315,9 @@ local questsToBlacklistByPhase = {
         [88727] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
         [88728] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
         [88730] = true, -- The Only Song I Know...
+        [88744] = true, -- Under the Shadow
+        [88745] = true, -- Shadows of Doom
+        [88748] = true, -- Cracked Necrotic Crystal
     },
     [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
@@ -626,7 +627,12 @@ local questsToBlacklistByPhase = {
 
         -- Original Naxxramas quests
         [9120] = true, -- The Fall of Kel'Thuzad
-        [9232] = true,
+        [9232] = true, -- The Only Song I Know...
+
+        -- Invasion quests
+        [9085] = true, -- Shadows of Doom
+        [9153] = true, -- Under the Shadow
+        [9292] = true, -- Cracked Necrotic Crystal
 
         [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
         [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn

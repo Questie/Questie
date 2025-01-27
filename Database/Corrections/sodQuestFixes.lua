@@ -4164,6 +4164,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
         },
+        [88744] = { -- Under the Shadow
+            [questKeys.startedBy] = {{16361}},
+            [questKeys.finishedBy] = {{16361}},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
+        },
+        [88745] = { -- Shadows of Doom
+            [questKeys.startedBy] = {{16361}},
+            [questKeys.finishedBy] = {{16361}},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
+        },
+        [88748] = { -- Cracked Necrotic Crystal
+            [questKeys.startedBy] = {{16431}},
+            [questKeys.finishedBy] = {{16478}},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
 
         --- Fake rune quests
         [90000] = {
