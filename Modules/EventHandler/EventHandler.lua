@@ -98,7 +98,6 @@ function EventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
-        --QuestieAuto.QUEST_FINISHED()
         AutoQuesting.OnQuestFinished()
         if Questie.IsCata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
@@ -108,38 +107,27 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
-    --Questie:RegisterEvent("QUEST_ACCEPTED", function(_, ...)
-    --    QuestEventHandler:QuestAccepted(...)
-    --    QuestieAuto:QUEST_ACCEPTED(...)
-    --end)
     Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
         QuestEventHandler:QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
-        --QuestieAuto.QUEST_DETAIL(...)
         AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog(...)
         end
     end)
-    --Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
     Questie:RegisterEvent("GOSSIP_SHOW", function(...)
-        --QuestieAuto.GOSSIP_SHOW(...)
         AutoQuesting.OnGossipShow()
         QuestgiverFrame.GossipMark(...)
     end)
     Questie:RegisterEvent("QUEST_GREETING", function(...)
-        --QuestieAuto.QUEST_GREETING(...)
         AutoQuesting.OnQuestGreetings()
         QuestgiverFrame.GreetingMark(...)
     end)
-    --Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
-    --Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)               -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
-        --QuestieAuto.QUEST_COMPLETE(...)
         AutoQuesting.OnQuestComplete()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
