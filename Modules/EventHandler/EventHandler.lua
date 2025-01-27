@@ -122,7 +122,7 @@ function EventHandler:RegisterLateEvents()
         QuestgiverFrame.GossipMark()
     end)
     Questie:RegisterEvent("QUEST_GREETING", function()
-        AutoQuesting.OnQuestGreetings()
+        AutoQuesting.OnQuestGreeting()
         QuestgiverFrame.GreetingMark()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by

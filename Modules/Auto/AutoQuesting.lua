@@ -27,7 +27,7 @@ function AutoQuesting.OnQuestDetail()
     end
 end
 
-function AutoQuesting.OnQuestGreetings()
+function AutoQuesting.OnQuestGreeting()
     if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
         shouldRunAuto = false
         return

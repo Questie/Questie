@@ -121,12 +121,12 @@ describe("AutoQuesting", function()
         end)
     end)
 
-    describe("OnQuestGreetings", function()
+    describe("OnQuestGreeting", function()
         it("should accept quests", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autocomplete = false
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
@@ -136,7 +136,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoaccept = false
             Questie.db.profile.autocomplete = false
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
@@ -146,7 +146,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
@@ -158,7 +158,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoaccept = true
             Questie.db.profile.autocomplete = false
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
@@ -169,7 +169,7 @@ describe("AutoQuesting", function()
             _G.SelectActiveQuest = spy.new()
             _G.GetNumAvailableQuests = spy.new()
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectActiveQuest).was.called_with(1)
             assert.spy(_G.GetNumAvailableQuests).was_not.called()
@@ -187,7 +187,7 @@ describe("AutoQuesting", function()
             end
             _G.SelectActiveQuest = spy.new()
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectActiveQuest).was.called_with(2)
         end)
@@ -198,7 +198,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoaccept = false
             Questie.db.profile.autocomplete = false
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectActiveQuest).was_not.called()
         end)
@@ -210,7 +210,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoaccept = false
             Questie.db.profile.autocomplete = true
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectActiveQuest).was_not.called()
         end)
@@ -668,7 +668,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             _G.IsShiftKeyDown = function() return false end
@@ -683,14 +683,14 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
             AutoQuesting.OnQuestFinished()
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
@@ -700,7 +700,7 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             _G.IsShiftKeyDown = function() return false end
@@ -708,7 +708,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was_not.called()
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
@@ -718,13 +718,13 @@ describe("AutoQuesting", function()
             Questie.db.profile.autocomplete = false
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             AutoQuesting.OnQuestFinished()
 
             _G.IsShiftKeyDown = function() return false end
-            AutoQuesting.OnQuestGreetings()
+            AutoQuesting.OnQuestGreeting()
             assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
 
