@@ -21,7 +21,7 @@ class ItemSpider(scrapy.Spider):
         for script in response.xpath('//script/text()').extract():
             result["itemId"] = response.url.split("/")[-2][5:]
             if script.startswith('\nWH.Gatherer.addData'):
-                result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
+                result["name"] = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script).group(1)
 
             if script.startswith('\n    var tabsRelated ='):
                 list_views_pattern = re.compile(r'new Listview\((.*?)}\)', re.DOTALL)
