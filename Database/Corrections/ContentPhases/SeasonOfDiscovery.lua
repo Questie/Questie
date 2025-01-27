@@ -288,14 +288,6 @@ local questsToBlacklistByPhase = {
         [9153] = true,
         [9211] = true,
         [9213] = true,
-        [9221] = true,
-        [9222] = true,
-        [9223] = true,
-        [9224] = true,
-        [9225] = true,
-        [9226] = true,
-        [9227] = true,
-        [9228] = true,
         [9229] = true,
         [9230] = true,
         [9232] = true,
@@ -317,6 +309,14 @@ local questsToBlacklistByPhase = {
         [9251] = true,
         -- Silithus/EPL PvP
         [9248] = true,
+        [88721] = true, -- Superior Armaments of Battle - Friend of the Dawn
+        [88722] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+        [88723] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+        [88724] = true, -- Superior Armaments of Battle - Exalted Amongst the Dawn
+        [88725] = true, -- Epic Armaments of Battle - Friend of the Dawn
+        [88726] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+        [88727] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+        [88728] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
     },
     [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
@@ -626,6 +626,15 @@ local questsToBlacklistByPhase = {
 
         -- Original Naxxramas quests
         [9120] = true, -- The Fall of Kel'Thuzad
+
+        [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
+        [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn
+        [9223] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+        [9224] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+        [9225] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+        [9226] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+        [9227] = true, -- Superior Armaments of Battle - Exalted Amongst the Dawn
+        [9228] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
     },
 }
 
