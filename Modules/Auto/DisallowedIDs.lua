@@ -171,6 +171,9 @@ _AutoQuesting.disallowedQuests = {
         [13926] = true, -- Little Orphan Roo of the Oracles (exclusive to the Wolvar)
         [13927] = true, -- Little Orphan Kekek of the Wolvar (exclusive to the Oracles)
         [27022] = true, -- Extinguishing the Idol
+        ---
+        [29205] = true, -- The Forlorn Spire
+        [29206] = true, -- Into the Fire
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)
