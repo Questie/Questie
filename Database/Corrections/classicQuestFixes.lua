@@ -3808,9 +3808,6 @@ function QuestieQuestFixes:Load()
         [9084] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9085] = {
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-        },
         [9086] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
