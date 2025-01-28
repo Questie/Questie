@@ -8097,6 +8097,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"I accept commendation signets from adventurers who have received them in the line of duty. &nbsp;For each set of ten that you hand to me, I'll make sure that you receive a significant acknowledgement of your deeds with the Argent Dawn. &nbsp;I also accept single tokens, but at a much reduced rate of recognition. &nbsp;We are much more interested in greater feats of duty, though no feat will be ignored.With that said, I'll gladly take your signets if you are ready to hand in a set."},
             [questKeys.objectives] = {nil,nil,{{21436}}},
         },
+        [85965] = {
+            [questKeys.name] = "One Commendation Signet",
+            [questKeys.startedBy] = {{11039}},
+            [questKeys.finishedBy] = {{11039}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"For those adventurers who have but a single commendation signet, I'll exchange it for a small amount of recognition with the Argent Dawn.Please bear in mind that it is better to hand over a stack of ten signets at once; your efforts will receive greater recognition in doing so. &nbsp;We offer a single signet exchange as a service for those who don't have enough for a full stack of ten.With that being said, I stand ready to assist you if you still wish to hand in a single signet."},
+            [questKeys.objectives] = {nil,nil,{{21438}}},
+        },
         [85966] = {
             [questKeys.name] = "Ten Commendation Signets",
             [questKeys.startedBy] = {{11039}},

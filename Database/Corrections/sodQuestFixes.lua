@@ -3791,6 +3791,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
+        [85965] = { -- One Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
+        },
         [85966] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
