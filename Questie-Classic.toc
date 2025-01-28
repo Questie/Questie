@@ -254,5 +254,7 @@ Modules\QuestieCleanup.lua
 # Profiler
 Modules\QuestieProfiler.lua
 
+Modules\Map\QuestieMapNotes.lua
+
 # Main
 Questie.lua

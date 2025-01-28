@@ -34,7 +34,7 @@ local QUESTS_PER_YIELD = 24
 local timer
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
-local availableQuests = {}
+availableQuests = {}
 
 local dungeons
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
