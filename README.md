@@ -20,7 +20,7 @@ If you have problems, please read the [Frequently Asked Questions](https://githu
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
 - Come chat with us on [our Discord server](https://discord.gg/s33MAYKeZd).
-- You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a Github account).
+- You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a GitHub account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
     - You need to enter `/console scriptErrors 1` once in the ingame chat for Lua error messages to be shown. You can later disable them again with `/console scriptErrors 0`.
@@ -42,7 +42,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 ## Contribution
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-- We are happy about every help and contribution we get, so feel free to submit a Pull Request on Github
+- We are happy about every help and contribution we get, so feel free to submit a Pull Request on GitHub
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
 ### Installing lua
