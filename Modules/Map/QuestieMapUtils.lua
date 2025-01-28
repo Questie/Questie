@@ -141,11 +141,7 @@ end
 function QuestieMap.utils:IsExplored(uiMapId, x, y)
     local IsExplored = false
     if uiMapId then
-        local exploredAreaIDs =
-            C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId,
-                                                              CreateVector2D(
-                                                                  x / 100,
-                                                                  y / 100))
+        local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
         if exploredAreaIDs then
             IsExplored = true -- Explored
         elseif (uiMapId == 1453) then
