@@ -46,22 +46,17 @@ function QuestieJourneyUtils:AddLine(frame, text)
 end
 
 function QuestieJourneyUtils:GetZoneName(id)
-    local name = l10n("Unknown Zone")
     for category, data in pairs(l10n.zoneLookup) do
         if data[id] then
-            name = l10n.zoneLookup[category][id]
-            break
+            return l10n.zoneLookup[category][id]
         end
     end
-    if name == l10n("Unknown Zone") then
-        for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[6]) do
-            if dungeonZoneId == id then
-                name = dungeonName
-                break
-            end
+    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[6]) do
+        if dungeonZoneId == id then
+            return dungeonName
         end
     end
-    return name
+    return l10n("Unknown Zone")
 end
 
 ---@param desc table | string
