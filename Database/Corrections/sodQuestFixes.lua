@@ -3785,34 +3785,42 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85963] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,5}},
         },
         [85964] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
         [85965] = { -- One Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
         [85966] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
         [85967] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
         },
         [85968] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
         },
         [85969] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
         },
         [85970] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
         },
         [85971] = { -- One Commendation Signet
@@ -3820,18 +3828,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{13278}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,5}},
         },
         [85972] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,5}},
         },
         [85973] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
         },
         [85974] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
         },
         [85975] = { -- One Commendation Signet
@@ -3839,6 +3851,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,5}},
         },
         [85976] = { -- Ten Commendation Signets
@@ -3846,6 +3859,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,75}},
         },
         [85977] = { -- One Commendation Signet
@@ -3853,10 +3867,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,5}},
         },
         [85978] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,75}},
         },
         [85979] = { -- One Commendation Signet
@@ -3864,6 +3880,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,5}},
         },
         [85980] = { -- One Commendation Signet
@@ -3871,10 +3888,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,5}},
         },
         [85981] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [85982] = { -- Ten Commendation Signets
@@ -3882,6 +3901,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [85983] = { -- One Commendation Signet
@@ -3889,22 +3909,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14910}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
         },
         [85984] = { -- One Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
         },
         [85985] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
         },
         [85986] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
         },
         [85987] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,5}},
         },
         [85988] = { -- Ten Commendation Signets
@@ -3912,14 +3937,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{15395}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,5}},
         },
         [86160] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
         },
         [86161] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
         },
         [86326] = { -- Desert Power
