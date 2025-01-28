@@ -305,6 +305,10 @@ local questsToBlacklistByPhase = {
         [9251] = true,
         -- Silithus/EPL PvP
         [9248] = true,
+        [87360] = true, -- The Fall of Kel'Thuzad
+        [87361] = true, -- Laid to Rest
+        [87362] = true, -- Hope Begins in the Dark
+        [87364] = true, -- Seal the Deal
         [88721] = true, -- Superior Armaments of Battle - Friend of the Dawn
         [88722] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
         [88723] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
