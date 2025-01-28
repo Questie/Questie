@@ -53,6 +53,9 @@ local _townsfolk_texturemap = {
     ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
     ["Pet Food"] = 132165,--select(3, GetSpellInfo(6991)) -- feed pet
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
+    ["Barber"] = QuestieLib.AddonPath.."Icons\\barber.png",
+    ["Arcane Reforger"] = QuestieLib.AddonPath.."Icons\\reforge.png",
+    ["Transmogrifier"] = QuestieLib.AddonPath.."Icons\\transmogrify.png",
     ["Reagents"] = (function()
         if playerClass == "ROGUE" then
             return "Interface\\Minimap\\tracking\\poisons"

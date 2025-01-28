@@ -302,6 +302,42 @@ local townsfolkLocales = {
         ["esES"] = "Pueblerinos",
         ["frFR"] = "Villageois",
     },
+    ["Transmogrifier"] = {
+        ["ptBR"] = "Transmogrificador",
+        ["ruRU"] = "Трансмогрификатор",
+        ["deDE"] = "Transmogrifizierer",
+        ["koKR"] = "형상변환사",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = "幻化师", -- not sure if this is zhCN or zhTW
+        ["zhTW"] = false,
+        ["esES"] = "Transfigurador",
+        ["frFR"] = "Transmogrifieur",
+    },
+    ["Arcane Reforger"] = {
+        ["ptBR"] = "Reforjador Arcano",
+        ["ruRU"] = "Чародей-кузнец",
+        ["deDE"] = "Arkaner Umschmieder",
+        ["koKR"] = "마법 재연마사",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = "奥术重铸师", -- not sure if this is zhCN or zhTW
+        ["zhTW"] = false,
+        ["esES"] = "Reforjador Arcano",
+        ["frFR"] = "Retoucheur arcanique",
+    },
+    ["Barber"] = { -- male barber
+        ["ptBR"] = "Barbeiro",
+        ["ruRU"] = "Парикмахер",
+        ["deDE"] = "Barbier",
+        ["koKR"] = "미용사",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = "理发师", -- not sure if this is zhCN or zhTW
+        ["zhTW"] = false,
+        ["esES"] = "Peluquero",
+        ["frFR"] = "Barbier",
+    },
 }
 
 for k, v in pairs(townsfolkLocales) do

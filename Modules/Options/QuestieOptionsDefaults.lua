@@ -173,6 +173,9 @@ function QuestieOptionsDefaults:Load()
                 ["Auctioneer"] = false,
                 ["Meeting Stones"] = true,
                 ["Reagents"] = false,
+                ["Transmogrifier"] = false,
+                ["Arcane Reforger"] = false,
+                ["Barber"] = false,
             },
 
             hideStartupWarnings = false,

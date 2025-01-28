@@ -94,6 +94,21 @@ function Townsfolk.Initialize()
             mask = QuestieDB.npcFlags.SPIRIT_HEALER,
             requireSubname = false,
             data = {}
+        },
+        ["Barber"] = {
+            mask = QuestieDB.npcFlags.BARBER,
+            requireSubname = false,
+            data = {}
+        },
+        ["Transmogrifier"] = {
+            mask = QuestieDB.npcFlags.TRANSMOGRIFIER,
+            requireSubname = false,
+            data = {}
+        },
+        ["Arcane Reforger"] = {
+            mask = QuestieDB.npcFlags.ARCANE_REFORGER,
+            requireSubname = false,
+            data = {}
         }
     }
     _PopulateTownsfolkTypes(townsfolkData)
@@ -105,6 +120,9 @@ function Townsfolk.Initialize()
         ["Battlemaster"] = townsfolkData["Battlemaster"].data,
         ["Flight Master"] = townsfolkData["Flight Master"].data,
         ["Innkeeper"] = townsfolkData["Innkeeper"].data,
+        ["Barber"] = townsfolkData["Barber"].data,
+        ["Arcane Reforger"] = townsfolkData["Arcane Reforger"].data,
+        ["Transmogrifier"] = townsfolkData["Transmogrifier"].data,
         ["Weapon Master"] = {}, -- populated below
     }
 
