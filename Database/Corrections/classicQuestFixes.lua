@@ -3647,6 +3647,9 @@ function QuestieQuestFixes:Load()
         [8882] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8883] = {
+            [questKeys.requiredSourceItems] = {21711},
+        },
         [8897] = {
             [questKeys.exclusiveTo] = {8898,8899,8903},
         },

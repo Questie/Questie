@@ -642,6 +642,36 @@ function CataNpcFixes.Load()
         [15502] = { -- Andorgos
             [npcKeys.spawns] = {[3428]={{-1,-1}}},
         },
+        [15556] = { -- Elder Splitrock
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON]={{51.4,93.7},{-1,-1}}}, -- need to fix dungeon maps, this is "Zaetar's Grave" map
+        },
+        [15557] = { -- Elder Rumblerock
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{70.11,45.39}}},
+        },
+        [15563] = { -- Elder Bellowrage
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{54.28,49.49}}},
+        },
+        [15570] = { -- Elder Primestone
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{30.8,13.32}}},
+        },
+        [15573] = { -- Elder Ragetotem
+            [npcKeys.spawns] = {[zoneIDs.TANARIS]={{37.24,79.06}}},
+        },
+        [15576] = { -- Elder Winterhoof
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{39.96,72.51}}},
+        },
+        [15578] = { -- Elder Wildmane
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{34.5,39.2},{-1,-1}}},
+        },
+        [15585] = { -- Elder Dawnstrider
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{52.38,23.93}}},
+        },
+        [15586] = { -- Elder Dreamseer
+            [npcKeys.spawns] = {[zoneIDs.TANARIS]={{51.4,28.81}}},
+        },
+        [15604] = { -- Elder Morningdew
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{77.09,75.61}}},
+        },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
         },
