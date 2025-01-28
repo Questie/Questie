@@ -53,6 +53,14 @@ function QuestieJourneyUtils:GetZoneName(id)
             break
         end
     end
+    if name == l10n("Unknown Zone") then
+        for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[6]) do
+            if dungeonZoneId == id then
+                name = dungeonName
+                break
+            end
+        end
+    end
     return name
 end
 
