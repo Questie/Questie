@@ -709,6 +709,34 @@ function CataNpcFixes.Load()
                 -- [zoneIDs.SHATTRATH_CITY]={{79.83,58.97}}, -- correct coords, but commented out because it's not offering the quest here
             },
         },
+        [15891] = { -- Lunar Festival Herald
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{49.88,81.2}},
+                [zoneIDs.UNDERCITY]={{66.74,43.39}},
+                [zoneIDs.THUNDER_BLUFF]={{38.37,63.42}},
+            },
+        },
+        [15892] = { -- Lunar Festival Emissary
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{61.73,75.73}},
+                [zoneIDs.IRONFORGE]={{30.92,61.59}},
+                [zoneIDs.DARNASSUS]={{45.16,52.24}},
+            },
+        },
+        [15895] = { -- Lunar Festival Harbinger
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS]={{38.59,30.28}},
+                [zoneIDs.UNDERCITY]={{65.62,36.0}},
+                [zoneIDs.ORGRIMMAR]={{52.39,58.49}},
+                [zoneIDs.THUNDER_BLUFF]={{71.12,28.2}},
+                [zoneIDs.IRONFORGE]={{28.85,16.23}},
+                [zoneIDs.ELWYNN_FOREST]={{34.24,50.56}},
+                [zoneIDs.THE_EXODAR]={{74.02,57.47}},
+                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
+                [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}},
+                [zoneIDs.DALARAN]={{47.65,43.76}},
+            },
+        },
         [15951] = { -- Magister Duskwither
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{60.32,61.38}}},
         },
@@ -4012,9 +4040,8 @@ function CataNpcFixes:LoadFactionFixes()
         [7783] = { -- Loramus Thalipedes
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.36,35.78}}},
         },
-        --[[[15898] = { -- Lunar Festival Vendor
+        [15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
-                [zoneIDs.ORGRIMMAR]={{41.27,32.36}},
                 [zoneIDs.THUNDER_BLUFF]={{70.56,27.83}},
                 [zoneIDs.UNDERCITY]={{66.45,36.02}},
                 [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
@@ -4022,7 +4049,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.SILVERMOON_CITY]={{73.41,82.17}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
-        },]]
+        },
         [23537] = { -- Headless Horseman - Fire (DND)
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{56.98,53.02},{56.84,53.36},{56.67,53.21},{56.44,53.33},{56.32,53.05}},
@@ -4171,17 +4198,17 @@ function CataNpcFixes:LoadFactionFixes()
         [7783] = { -- Loramus Thalipedes
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{62.31,26.09}}},
         },
-        --[[[15898] = { -- Lunar Festival Vendor
+        [15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},
+                [zoneIDs.ELWYNN_FOREST]={{34.81,50.33}},
                 [zoneIDs.IRONFORGE]={{29.92,14.21}},
-                [zoneIDs.DARNASSUS]={{34.57,12.8}},
+                [zoneIDs.DARNASSUS]={{39.93,30.82}},
                 [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
                 [zoneIDs.SHATTRATH_CITY]={{52.63,33.25},{48.64,36.29}},
                 [zoneIDs.THE_EXODAR]={{74.02,58.23}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
-        },]]
+        },
         [23537] = { -- Headless Horseman - Fire (DND)
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST]={{42.63,60},{42.39,59.71},{42.55,59.3},{42.74,59.34},{42.9,59.36}},

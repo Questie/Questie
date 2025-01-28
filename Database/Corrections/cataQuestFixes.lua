@@ -954,6 +954,34 @@ function CataQuestFixes.Load()
         [8766] = { -- The Changing of Paths - Conqueror No More
             [questKeys.preQuestSingle] = {8751,8756,8761},
         },
+        [8867] = { -- Lunar Fireworks
+            [questKeys.preQuestSingle] = {},
+        },
+        [8870] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8871,8872},
+        },
+        [8871] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8870,8872},
+        },
+        [8872] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8870,8871},
+        },
+        [8873] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8874,8875},
+            [questKeys.startedBy] = {{15891}},
+        },
+        [8874] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8873,8875},
+        },
+        [8875] = { -- The Lunar Festival
+            [questKeys.nextQuestInChain] = 8867,
+            [questKeys.exclusiveTo] = {8873,8874},
+        },
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},
         },
@@ -4922,7 +4950,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25543,25562},
         },
         [25598] = { -- Ain't Too Proud to Beg
-            [questKeys.objectives] = {{{39669,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{39669,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25599] = { -- Cindermaul, the Portal Master
             [questKeys.preQuestSingle] = {},
@@ -5591,13 +5619,16 @@ function CataQuestFixes.Load()
         },
         [25942] = { -- Buy Us Some Time
             [questKeys.preQuestSingle] = {25941},
+            [questKeys.exclusiveTo] = {},
         },
         [25943] = { -- Traveling on Our Stomachs
             [questKeys.preQuestSingle] = {25941},
+            [questKeys.exclusiveTo] = {},
         },
         [25944] = { -- Girding Our Loins
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25942,25943},
+            [questKeys.exclusiveTo] = {},
         },
         [25945] = { -- We're Here to Do One Thing, Maybe Two...
             [questKeys.preQuestSingle] = {},
@@ -12018,6 +12049,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 81,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.nextQuestInChain] = 25924,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [28817] = { -- The Rear is Clear -- Human Hunter
             [questKeys.requiredRaces] = raceKeys.HUMAN,
