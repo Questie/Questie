@@ -4651,10 +4651,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25379},
         },
         [25439] = { -- Vengeful Heart
-            [questKeys.preQuestSingle] = {25222},
+            [questKeys.preQuestSingle] = {},
         },
         [25441] = { -- Vortex
             [questKeys.objectives] = {{{40280,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
         },
         [25442] = { -- A Pearl of Wisdom
             [questKeys.startedBy] = {{40510},nil,{54614}},
