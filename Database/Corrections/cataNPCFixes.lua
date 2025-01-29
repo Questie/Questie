@@ -1212,9 +1212,6 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{40.28,66.1}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
-        [28708] = { -- Kizi Copperclip
-            [npcKeys.npcFlags] = npcFlags.BARBER,
-        },
         [28742] = { -- Marcia Chase
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{53.05,64.94}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
@@ -1233,21 +1230,6 @@ function CataNpcFixes.Load()
         },
         [29006] = { -- Oracle Soo-nee
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{53.34,56.43}}},
-        },
-        [29139] = { -- Naznik Sureshave
-            [npcKeys.npcFlags] = npcFlags.BARBER,
-        },
-        [29141] = { -- Pella Brassbrush
-            [npcKeys.npcFlags] = npcFlags.BARBER,
-        },
-        [29142] = { -- Jelinek Sharpshear
-            [npcKeys.npcFlags] = npcFlags.BARBER,
-        },
-        [29143] = { -- Bebri Coifcurl
-            [npcKeys.npcFlags] = npcFlags.BARBER,
-        },
-        [29145] = { -- Pulik Swiftsnip
-            [npcKeys.npcFlags] = npcFlags.BARBER,
         },
         [29631] = { -- Awilo Lon'gomba
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.96,39.01}}},

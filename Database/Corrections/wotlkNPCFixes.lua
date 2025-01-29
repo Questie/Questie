@@ -13,6 +13,7 @@ function QuestieWotlkNpcFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local waypointPresets = QuestieDB.waypointPresets
     local phases = Phasing.phases
+    local npcFlags = QuestieDB.npcFlags
 
     return {
         [658] = {
@@ -1099,6 +1100,9 @@ function QuestieWotlkNpcFixes:Load()
         [28684] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{50.2,44.6}},[4277]={{-1,-1}}},
         },
+        [28708] = { -- Kizi Copperclip
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
         [28729] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
         },
@@ -1179,6 +1183,21 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29128] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{63.2,48.1}},[4277]={{-1,-1}}},
+        },
+        [29139] = { -- Naznik Sureshave
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29141] = { -- Pella Brassbrush
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29142] = { -- Jelinek Sharpshear
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29143] = { -- Bebri Coifcurl
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29145] = { -- Pulik Swiftsnip
+            [npcKeys.npcFlags] = npcFlags.BARBER,
         },
         [29173] = {
             [npcKeys.waypoints] = {},
