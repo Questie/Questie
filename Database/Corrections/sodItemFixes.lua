@@ -239,6 +239,15 @@ function SeasonOfDiscovery:LoadItems()
         [235785] = { -- Deadwind Cage "Key"
             [itemKeys.npcDrops] = {7369},
         },
+        [235787] = { -- Ancient Ironwood Branch
+            [itemKeys.npcDrops] = {226923},
+        },
+        [235788] = { -- Enthusiastic Wisp
+            [itemKeys.npcDrops] = {238431},
+        },
+        [235789] = { -- Flame of Life
+            [itemKeys.npcDrops] = {1045,1046,1047,1048,1049,1050},
+        },
         [236350] = { -- The Phylactery of Kel'Thuzad
             [itemKeys.npcDrops] = {15990},
         },

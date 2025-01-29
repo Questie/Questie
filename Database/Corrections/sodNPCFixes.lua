@@ -813,6 +813,12 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {87362,87364},
             [npcKeys.questEnds] = {87362,87364},
         },
+        [238431] = { -- Enthusiastic Wisp
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{52.19,90.51}}},
+        },
         [237818] = { -- Harrison Jones
             [npcKeys.minLevel] = 60,
             [npcKeys.maxLevel] = 60,

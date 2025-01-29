@@ -8691,6 +8691,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Listen to Harrison Jones while he tells you what happened in Karazhan Crypts."},
             [questKeys.objectives] = {{{237823}}},
         },
+        [86969] = {
+            [questKeys.name] = "The Hypothesis",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Consult the list of materials needed and bring Agent Keanna the components requested."},
+            [questKeys.objectives] = {nil,nil,{{235789},{235787},{235788},{236002}}},
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,
