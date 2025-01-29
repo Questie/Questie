@@ -4102,6 +4102,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{237820}},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86965] = { -- No Ordinary Shadows
+            [questKeys.startedBy] = {{237820}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.preQuestSingle] = {86964},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},

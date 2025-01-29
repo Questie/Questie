@@ -586,6 +586,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.FERALAS] = {{84.2,43.8}},
             },
         },
+        [218920] = {
+            [npcKeys.name] = "Agent Keanna",
+            [npcKeys.spawns] = {
+                [zoneIDs.DEADWIND_PASS] = {{52.1,34.12}},
+            },
+        },
         [218931] = { -- Dark Rider Deadwind Pass
             [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
             [npcKeys.spawns] = {

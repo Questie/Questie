@@ -8647,6 +8647,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"It appears as if someone was looking to hire adventurers to recover something valuable from the Karazhan Crypts in Deadwind Pass. You can't be sure who posted this flyer or where to find them, but the idea of a considerable reward from a well-established and deep-pocketed organization such as the Kirin Tor, as well as a cache of hidden treasure up for the taking is an admittedly interesting prospect.","","Travel to Deadwind Pass and investigate the Crypts behind Karazhan tower."},
             [questKeys.objectives] = nil,
         },
+        [86965] = {
+            [questKeys.name] = "No Ordinary Shadows",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"The gloom seeping from the entrance of the crypt seems to defy all normal logic and reason. No light enters or deters the darkness, and no light inside seems to escape it. You strongly suspect that venturing into the crypt as you are now could be the end of you.","","You'll need to somehow find a way to get past this darkness if you wish to proceed. You seem to recall that there is an Agent of Dalaran at a camp to the north. Perhaps she knows more about the dead adventurer and this strange darkness?"},
+            [questKeys.objectives] = nil,
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,
