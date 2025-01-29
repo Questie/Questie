@@ -8680,6 +8680,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find the key to the cage in the Deadwind ogre cave and free the injured adventurer inside."},
             [questKeys.objectives] = {{{237821}}},
         },
+        [86968] = {
+            [questKeys.name] = "Are You Afraid of the Dark?",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Listen to Harrison Jones while he tells you what happened in Karazhan Crypts."},
+            [questKeys.objectives] = {{{237823}}},
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,

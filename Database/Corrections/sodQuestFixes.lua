@@ -4123,6 +4123,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSourceItems] = {235785},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86968] = { -- Are You Afraid of the Dark?
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.objectives] = {{{237818,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {86967},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},
