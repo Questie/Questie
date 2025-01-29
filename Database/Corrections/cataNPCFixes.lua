@@ -4230,6 +4230,9 @@ function CataNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{35.13,29.33}}},
             [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
+        [53422] = { -- Dragonwrath, Tarecgosa's Rest
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{48.27,71.74}}},
+        },
         [54114] = { -- Unleashed Void
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{65.77,74.8}}},
         },
@@ -4391,6 +4394,9 @@ function CataNpcFixes:LoadFactionFixes()
         [52762] = { -- [DND] At the Digsite
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{55.5,41.26}}},
             [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
+        [53422] = { -- Dragonwrath, Tarecgosa's Rest
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{57.21,59.26}}},
         },
         [54114] = { -- Unleashed Void
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{55.39,43.41}}},
