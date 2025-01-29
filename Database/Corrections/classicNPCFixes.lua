@@ -184,6 +184,9 @@ function QuestieNPCFixes:Load()
         [1983] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{44,21},{45,20},{45,21}}},
         },
+        [2041] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [2044] = {
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             [npcKeys.spawns] = {
@@ -383,6 +386,9 @@ function QuestieNPCFixes:Load()
         },
         [3257] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{59.8,30.6}}},
+        },
+        [3297] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [3352] = {
             [npcKeys.questStarts] = {8151},
@@ -753,6 +759,9 @@ function QuestieNPCFixes:Load()
         [5895] = {
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58}}},
+        },
+        [5952] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [5955] = {
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{29.48,60.51},{30,65},{30,70},{31.8,74.15}}}, -- #1462
@@ -1290,6 +1299,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
+        [10682] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [10683] = {
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
@@ -1421,6 +1433,9 @@ function QuestieNPCFixes:Load()
         [11143] = {
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+        },
+        [11190] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [11284] = {
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
@@ -1910,12 +1925,24 @@ function QuestieNPCFixes:Load()
         [14233] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{37.8,50.29},{49.06,57.33},{44.08,50.17},{42.35,55},{47.26,54.65}}},
         },
+        [14304] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [14305] = {
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}}}, -- only SW for consistency
         },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
+        },
+        [14375] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14376] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14377] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [14387] = { -- Lothos Riftwaker
             [npcKeys.spawns] = {
