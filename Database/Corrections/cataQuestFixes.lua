@@ -5543,6 +5543,10 @@ function CataQuestFixes.Load()
         },
         [25907] = { -- Slave Labor
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41494,41495},41494,"Pearl Miners rescued",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [25908] = { -- Stick it to Them
+            [questKeys.exclusiveTo] = {},
         },
         [25909] = { -- Capture the Crab
             [questKeys.objectives] = {{{41520,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6028,6 +6032,12 @@ function CataQuestFixes.Load()
         },
         [26139] = { -- Into Arathi
             [questKeys.nextQuestInChain] = 26093,
+        },
+        [26141] = { -- Runestones of Binding
+            [questKeys.exclusiveTo] = {},
+        },
+        [26142] = { -- Ascend No More!
+            [questKeys.exclusiveTo] = {},
         },
         [26143] = { -- All That Rises
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Control the Bound Torrent"),0,{{"monster",47969}}}},
