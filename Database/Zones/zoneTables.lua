@@ -3046,6 +3046,7 @@ ZoneDB.zoneIDs = {
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
     THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
+    KARAZHAN_CRYPTS = 16074, -- SoD Dungeon
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

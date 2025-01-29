@@ -43740,7 +43740,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [235786] = {
             [itemKeys.name] = "Karazhan Curio",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {238213,238508,238561,238628,238630,238639,238641,238643,238644,238645,238647},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,

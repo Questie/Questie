@@ -8713,6 +8713,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the entrance to the Karazhan Crypts, use the Faerie Flame Torch, and see what happens."},
             [questKeys.objectives] = {{{238512}}},
         },
+        [86971] = {
+            [questKeys.name] = "Curious Karazhan Curios!",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring a Karazhan Curio to Harrison Jones in Deadwind Pass."},
+            [questKeys.objectives] = {nil,nil,{{235786}}},
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,

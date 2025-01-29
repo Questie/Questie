@@ -4147,6 +4147,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86969},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86970] = { -- Curious Karazhan Curios!
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.preQuestSingle] = {86970},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},
