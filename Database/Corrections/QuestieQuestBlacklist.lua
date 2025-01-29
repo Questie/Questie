@@ -22,7 +22,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.CATA_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.CATA_HIDE, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -37,7 +37,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [936] = QuestieCorrections.CLASSIC_HIDE,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -806,16 +806,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6862] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6864] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6901] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6861] = QuestieCorrections.CLASSIC_HIDE,
+        [6862] = QuestieCorrections.CLASSIC_HIDE,
+        [6864] = QuestieCorrections.CLASSIC_HIDE,
+        [6901] = QuestieCorrections.CLASSIC_HIDE,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7282] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7301] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7302] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7281] = QuestieCorrections.CLASSIC_HIDE,
+        [7282] = QuestieCorrections.CLASSIC_HIDE,
+        [7301] = QuestieCorrections.CLASSIC_HIDE,
+        [7302] = QuestieCorrections.CLASSIC_HIDE,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -868,8 +868,8 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         --Darkmoon Faire
-        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
-        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
@@ -3010,7 +3010,7 @@ function QuestieQuestBlacklist:Load()
         [2943] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2944] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2950] = QuestieCorrections.CATA_HIDE + QuestieCorrections.SOD_HIDE, -- Removed with cata
+        [2950] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2954] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2963] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3113,7 +3113,7 @@ function QuestieQuestBlacklist:Load()
         [3443] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [3444] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [3445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3446] = QuestieCorrections.CATA_HIDE + QuestieCorrections.SOD_HIDE, -- Removed with cata
+        [3446] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [3447] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [3448] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [3449] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3259,7 +3259,7 @@ function QuestieQuestBlacklist:Load()
         [4143] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4144] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4145] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4146] = QuestieCorrections.CATA_HIDE + QuestieCorrections.SOD_HIDE, -- Removed with cata
+        [4146] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4147] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4148] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
