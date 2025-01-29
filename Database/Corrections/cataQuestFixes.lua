@@ -5730,7 +5730,7 @@ function CataQuestFixes.Load()
         },
         [25972] = { -- Honor and Privilege
             [questKeys.objectives] = {{{41572,nil,Questie.ICON_TYPE_EVENT},{40921,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.preQuestGroup] = {25968,25970,25971},
+            [questKeys.preQuestGroup] = {25969,25970,25971},
             [questKeys.requiredSourceItems] = {56188},
         },
         [25974] = { -- Sira'kess Slaying
@@ -9886,10 +9886,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27945] = { -- Paint it Black
-            [questKeys.preQuestGroup] = {27747,27750,27751,27929},
+            [questKeys.preQuestGroup] = {27750,27751,27929},
         },
         [27947] = { -- A Vision of Twilight
-            [questKeys.preQuestGroup] = {27747,27750,27751,27929},
+            [questKeys.preQuestGroup] = {27750,27751,27929},
         },
         [27948] = { -- A Sticky Task
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -11490,6 +11490,8 @@ function CataQuestFixes.Load()
         },
         [28589] = { -- Everything But the Kitchen Sink
             [questKeys.objectives] = {{{49680,nil,Questie.ICON_TYPE_MOUNT_UP},{49683}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28584,28586,28589},
         },
         [28591] = { -- Off the Wall
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 49135}}}},
