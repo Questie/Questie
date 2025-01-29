@@ -12995,6 +12995,14 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.zoneOrSort] = 4024,
         },
+        [29309] = { -- The Stuff of Legends
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",53371}}},
+                {nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Step on the disc"),0,{{"monster",53390}}},
+            },
+            [questKeys.finishedBy] = {{53422}},
+            [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
+        },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
             [questKeys.startedBy] = {{100025}},
@@ -13006,6 +13014,14 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Bring the Smoke-Stained Locket to Malfurion in the Molten Front."},
             [questKeys.startedBy] = {{100027}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Go through the portal"),0,{{"object",208900}}}},
+        },
+        [29312] = { -- The Stuff of Legends
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",53466}}},
+                {nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Step on the disc"),0,{{"monster",53468}}},
+            },
+            [questKeys.finishedBy] = {{53422}},
+            [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
         },
         [29317] = { -- Fish Head
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
