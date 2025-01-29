@@ -4138,6 +4138,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86968},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86970] = { -- Testing Our Hypothesis
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.triggerEnd] = {"Test the magical torch", {[zoneIDs.DEADWIND_PASS]={{39.99,74.16}}}},
+            [questKeys.objectives] = {},
+            [questKeys.sourceItemId] = 235790,
+            [questKeys.preQuestSingle] = {86969},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},
