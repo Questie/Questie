@@ -807,6 +807,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {87362,87364},
             [npcKeys.questEnds] = {87362,87364},
         },
+        [237820] = { -- Deceased Adventurer
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
+            [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{39.99,74.16}}},
+            [npcKeys.questStarts] = {86965},
+            [npcKeys.questEnds] = {86964},
+        },
 
         -- fake NPCs
         [900000] = {

@@ -4097,6 +4097,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
         },
+        [86964] = { -- For Gold and Glory!
+            [questKeys.startedBy] = {nil,{600001}},
+            [questKeys.finishedBy] = {{237820}},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},

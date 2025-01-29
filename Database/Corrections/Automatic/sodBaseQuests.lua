@@ -8636,6 +8636,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return the Portals Deck to the Darkmoon Faire when it comes to town. A Darkmoon Faire quest. +150 reputation with Darkmoon Faire. Added in Classic World of Warcraft."},
             [questKeys.objectives] = {nil,nil,{{19277},{235275}}},
         },
+        [86964] = {
+            [questKeys.name] = "For Gold and Glory!",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"It appears as if someone was looking to hire adventurers to recover something valuable from the Karazhan Crypts in Deadwind Pass. You can't be sure who posted this flyer or where to find them, but the idea of a considerable reward from a well-established and deep-pocketed organization such as the Kirin Tor, as well as a cache of hidden treasure up for the taking is an admittedly interesting prospect.","","Travel to Deadwind Pass and investigate the Crypts behind Karazhan tower."},
+            [questKeys.objectives] = nil,
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,
