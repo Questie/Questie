@@ -30,7 +30,7 @@ local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
         for name, folkType in pairs(folkTypes) do
-            if flags and bitband(flags, folkType.mask) == folkType.mask then
+            if flags and folkType.mask and bitband(flags, folkType.mask) == folkType.mask then
                 local npcName = npcData[QuestieDB.npcKeys.name]
                 local subName = npcData[QuestieDB.npcKeys.subName]
                 if npcName and sub(npcName, 1, 5) ~= "[DND]" then
@@ -120,9 +120,9 @@ function Townsfolk.Initialize()
         ["Battlemaster"] = townsfolkData["Battlemaster"].data,
         ["Flight Master"] = townsfolkData["Flight Master"].data,
         ["Innkeeper"] = townsfolkData["Innkeeper"].data,
-        ["Barber"] = townsfolkData["Barber"].data,
-        ["Arcane Reforger"] = townsfolkData["Arcane Reforger"].data,
-        ["Transmogrifier"] = townsfolkData["Transmogrifier"].data,
+        ["Barber"] = QuestieDB.npcFlags.BARBER and townsfolkData["Barber"].data or nil,
+        ["Arcane Reforger"] = QuestieDB.npcFlags.ARCANE_REFORGER and townsfolkData["Arcane Reforger"].data or nil,
+        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil,
         ["Weapon Master"] = {}, -- populated below
     }
 
