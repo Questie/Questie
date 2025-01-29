@@ -4108,6 +4108,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86964},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86966] = { -- Seeking Survivors
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{237819}},
+            [questKeys.triggerEnd] = {"Search for any survivor of the unfortunate adventuring party", {[zoneIDs.DEADWIND_PASS]={{65.43,78.64}}}},
+            [questKeys.preQuestSingle] = {86965},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},

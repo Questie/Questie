@@ -8658,6 +8658,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"The gloom seeping from the entrance of the crypt seems to defy all normal logic and reason. No light enters or deters the darkness, and no light inside seems to escape it. You strongly suspect that venturing into the crypt as you are now could be the end of you.","","You'll need to somehow find a way to get past this darkness if you wish to proceed. You seem to recall that there is an Agent of Dalaran at a camp to the north. Perhaps she knows more about the dead adventurer and this strange darkness?"},
             [questKeys.objectives] = nil,
         },
+        [86966] = {
+            [questKeys.name] = "Seeking Survivors",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Search for any survivors of the unfortunate adventuring party and try to learn what you can about what happened in the crypt."},
+            [questKeys.objectives] = nil,
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,
