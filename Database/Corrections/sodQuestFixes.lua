@@ -4148,8 +4148,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
         [86971] = { -- Curious Karazhan Curios!
-            [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920}},
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.finishedBy] = {{237818}},
             [questKeys.preQuestSingle] = {86970},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
         },
