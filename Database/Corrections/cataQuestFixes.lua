@@ -1688,6 +1688,9 @@ function CataQuestFixes.Load()
         [12774] = { -- Stormwind
             [questKeys.finishedBy] = {{29611}},
         },
+        [12790] = { -- Learning to Leave and Return: the Magical Way
+            [questKeys.preQuestSingle] = {},
+        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}},
         },
