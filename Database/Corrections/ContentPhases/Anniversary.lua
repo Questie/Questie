@@ -691,6 +691,7 @@ local questsToBlacklistByPhase = {
         [9136] = true,
         [9137] = true,
         [9153] = true,
+        [9154] = true,
         [9211] = true,
         [9213] = true,
         [9221] = true,

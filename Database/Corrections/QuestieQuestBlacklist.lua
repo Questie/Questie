@@ -884,7 +884,7 @@ function QuestieQuestBlacklist:Load()
         --
         [9085] = true,
         [9153] = true,
-        [9154] = true,
+        [9154] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
