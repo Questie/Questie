@@ -813,6 +813,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {87362,87364},
             [npcKeys.questEnds] = {87362,87364},
         },
+        [237818] = { -- Harrison Jones
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
+            [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{52.3,34.08}}},
+            [npcKeys.questStarts] = {86968},
+            [npcKeys.questEnds] = {86967},
+        },
         [237819] = { -- Injured Adventurer
             [npcKeys.minLevel] = 60,
             [npcKeys.maxLevel] = 60,

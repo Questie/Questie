@@ -4115,6 +4115,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86965},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [86967] = { -- To the Rescue
+            [questKeys.startedBy] = {{237819}},
+            [questKeys.finishedBy] = {{237818}},
+            [questKeys.objectives] = {nil,{{424003}}},
+            [questKeys.preQuestSingle] = {86966},
+            [questKeys.requiredSourceItems] = {235785},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},

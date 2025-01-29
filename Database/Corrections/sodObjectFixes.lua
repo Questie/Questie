@@ -273,6 +273,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{55,26.2}},
             },
         },
+        [424003] = { -- Cage
+            [objectKeys.zoneID] = zoneIDs.DEADWIND_PASS,
+            [objectKeys.spawns] = {
+                [zoneIDs.DEADWIND_PASS] = {{65.43,78.64}},
+            },
+        },
         [424074] = { -- Quadrangulation Beacon 001
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [objectKeys.spawns] = {
