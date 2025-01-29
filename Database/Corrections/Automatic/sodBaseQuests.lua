@@ -8724,6 +8724,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring a Karazhan Curio to Harrison Jones in Deadwind Pass."},
             [questKeys.objectives] = {nil,nil,{{235786}}},
         },
+        [87283] = {
+            [questKeys.name] = "The Violet Satchel",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find Archmage Tarsis Kir-Moldir and return the The Violet Satchel to him."},
+            [questKeys.objectives] = {{{237957}}},
+        },
         [87360] = {
             [questKeys.name] = "The Fall of Kel'Thuzad",
             [questKeys.startedBy] = nil,

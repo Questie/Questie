@@ -843,6 +843,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {86965},
             [npcKeys.questEnds] = {86964},
         },
+        [237957] = { -- Archmage Kir-Moldir
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.questEnds] = {87283},
+        },
         [238376] = { -- Brother Luctus
             [npcKeys.minLevel] = 58,
             [npcKeys.maxLevel] = 58,
