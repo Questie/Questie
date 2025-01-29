@@ -4161,6 +4161,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [87361] = { -- Laid to Rest
             [questKeys.startedBy] = {nil,nil,{236750}},
+            [questKeys.finishedBy] = {{238376}},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
         },
@@ -4173,6 +4174,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{238382}},
             [questKeys.finishedBy] = {{238382}},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87377] = { -- Never at Rest
+            [questKeys.startedBy] = {{238376}},
+            [questKeys.finishedBy] = {{238376}},
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},

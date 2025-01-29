@@ -843,6 +843,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {86965},
             [npcKeys.questEnds] = {86964},
         },
+        [238376] = { -- Brother Luctus
+            [npcKeys.minLevel] = 58,
+            [npcKeys.maxLevel] = 58,
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.56,65.46}}},
+            [npcKeys.questStarts] = {86965},
+            [npcKeys.questEnds] = {87361},
+        },
 
         -- fake NPCs
         [900000] = {

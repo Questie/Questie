@@ -8768,6 +8768,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect Remnants of Valor within Naxxramas."},
             [questKeys.objectives] = {nil,nil,{{236397}}}
         },
+        [87377] = {
+            [questKeys.name] = "Never at Rest",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring another Heart of Doom to Brother Luctus at Light's Hope Chapel in Eastern Plaguelands."},
+            [questKeys.objectives] = {nil,nil,{{236786}}},
+        },
         [88721] = {
             [questKeys.name] = "Superior Armaments of Battle - Friend of the Dawn",
             [questKeys.startedBy] = nil,
