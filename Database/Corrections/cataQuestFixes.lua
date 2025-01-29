@@ -5990,7 +5990,7 @@ function CataQuestFixes.Load()
         },
         [26121] = { -- Claim Korthun's End
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27443,26219},
+            [questKeys.preQuestGroup] = {26005,26219}, -- this should become active if you abandon 26105
             [questKeys.exclusiveTo] = {26105},
         },
         [26122] = { -- Environmental Awareness
@@ -6003,7 +6003,7 @@ function CataQuestFixes.Load()
         },
         [26125] = { -- Secure Seabrush
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26006,26221},
+            [questKeys.preQuestGroup] = {26006,26221}, -- this should become active if you abandon 26124
             [questKeys.exclusiveTo] = {26124},
         },
         [26126] = { -- The Perfect Fuel
