@@ -3,11 +3,13 @@ local BlacklistFilter = QuestieLoader:CreateModule("BlacklistFilter")
 
 -- TODO: Reuse these at all other places where QuestieCorrections.X are used
 -- Bitmask flags to blacklist DB entries in specific expansions
-BlacklistFilter.CLASSIC_HIDE = 1 -- Hide in Classic
+BlacklistFilter.CLASSIC_HIDE = 1 -- Hide in Classic (Vanilla, Era, SoD, ...)
 BlacklistFilter.TBC_HIDE = 2 -- Hide in TBC
 BlacklistFilter.WOTLK_HIDE = 4 -- Hide in Wotlk
 BlacklistFilter.CATA_HIDE = 8 -- Hide in Cata
-BlacklistFilter.SOD_HIDE = 16 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
+BlacklistFilter.SOD_HIDE = 16 -- Hide when Season of Discovery TODO: Move all to ContentPhases
+BlacklistFilter.ERA_HIDE = 32 -- Hide in Classic Era
+BlacklistFilter.ANNIVERSARY_HIDE = 64 -- Hide in Classic Anniversary TODO: Move all to ContentPhases
 
 local bitband = bit.band
 
@@ -46,6 +48,12 @@ function BlacklistFilter.IsFlagged(flag)
             return true
         end
         if Questie.IsSoD and bitband(flag, BlacklistFilter.SOD_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsEra and bitband(flag, BlacklistFilter.ERA_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsAnniversary and bitband(flag, BlacklistFilter.ANNIVERSARY_HIDE) ~= 0 then
             return true
         end
     end

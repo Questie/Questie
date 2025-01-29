@@ -85,11 +85,13 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 local filterExpansion = BlacklistFilter.filterExpansion
 
 -- Bitmask flags to blacklist DB entries in specific expansions
-QuestieCorrections.CLASSIC_HIDE = 1 -- Hide in Classic
+QuestieCorrections.CLASSIC_HIDE = 1 -- Hide in Classic (Vanilla, Era, SoD, ...)
 QuestieCorrections.TBC_HIDE = 2 -- Hide in TBC
 QuestieCorrections.WOTLK_HIDE = 4 -- Hide in Wotlk
 QuestieCorrections.CATA_HIDE = 8 -- Hide in Cata
-QuestieCorrections.SOD_HIDE = 16 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
+QuestieCorrections.SOD_HIDE = 16 -- Hide when Season of Discovery TODO: Move all to ContentPhases
+QuestieCorrections.ERA_HIDE = 32 -- Hide in Classic Era
+QuestieCorrections.ANNIVERSARY_HIDE = 64 -- Hide in Classic Anniversary TODO: Move all to ContentPhases
 
 QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
