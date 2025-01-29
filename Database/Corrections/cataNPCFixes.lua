@@ -13,6 +13,7 @@ function CataNpcFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
     local waypointPresets = QuestieDB.waypointPresets
     local phases = Phasing.phases
+    local npcFlags = QuestieDB.npcFlags
 
     return {
         [234] = { -- Marshal Gryan Stoutmantle
@@ -1211,6 +1212,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{40.28,66.1}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [28708] = { -- Kizi Copperclip
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
         [28742] = { -- Marcia Chase
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{53.05,64.94}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
@@ -1229,6 +1233,21 @@ function CataNpcFixes.Load()
         },
         [29006] = { -- Oracle Soo-nee
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{53.34,56.43}}},
+        },
+        [29139] = { -- Naznik Sureshave
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29141] = { -- Pella Brassbrush
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29142] = { -- Jelinek Sharpshear
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29143] = { -- Bebri Coifcurl
+            [npcKeys.npcFlags] = npcFlags.BARBER,
+        },
+        [29145] = { -- Pulik Swiftsnip
+            [npcKeys.npcFlags] = npcFlags.BARBER,
         },
         [29631] = { -- Awilo Lon'gomba
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.96,39.01}}},
@@ -2959,6 +2978,12 @@ function CataNpcFixes.Load()
         [46076] = { -- SI:7 Squad Commander
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{38.93,64.01}}},
         },
+        [46180] = { -- Ithurian Whitespire
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [46181] = { -- Enchanter Farendin
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [46283] = { -- Chamber of Stars Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
         },
@@ -3176,6 +3201,27 @@ function CataNpcFixes.Load()
         [47553] = { -- Rasha'krak
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{37.14,42.31}}},
             [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE]={{{30.75,43.55},{30.93,43.62},{30.95,43.63},{31.29,43.73},{31.62,43.82},{31.96,43.88},{32.30,43.94},{32.64,43.97},{32.98,43.96},{33.32,43.94},{33.66,43.92},{33.99,43.86},{34.03,43.85},{34.31,43.75},{34.55,43.61},{34.83,43.55},{35.16,43.46},{35.36,43.40},{35.70,43.31},{35.95,43.16},{36.10,42.98},{36.16,42.90},{36.42,42.61},{36.50,42.55},{36.82,42.36},{37.13,42.18},{37.43,42.01},{37.63,41.89},{37.79,41.80},{38.02,41.66},{38.10,41.61},{38.32,41.49},{38.44,41.42},{38.42,41.43},{38.56,41.35},{38.87,41.17},{39.19,40.99},{39.50,40.76},{39.80,40.52},{40.09,40.28},{40.38,40.02},{40.41,39.99},{40.45,39.94},{40.73,39.65},{40.93,39.42},{41.07,39.30},{41.15,39.23},{41.35,39.02},{41.63,38.74},{41.92,38.46},{42.01,38.40},{42.50,37.77},{42.57,37.52}}}},
+        },
+        [47581] = { -- Archmage Aranhir Starsinger
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47582] = { -- Erdunor Whitespire
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47584] = { -- Aladrel Whitespire
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47586] = { -- Karabrel Moonlance
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47587] = { -- Archmage Pratt
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47588] = { -- Enchantress Fira
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [47589] = { -- Enchantress Herim
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [47591] = { -- Baradin Crocolisk
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{44.78,55.45},{37.67,51.43},{39.25,47.63},{37.78,52.88},{43.23,50.08},{38.76,53.22},{43.35,44.55},{36.99,48.26},{36.89,42.55},{35.6,42.25},{34.66,46.94},{38.67,47.15},{34.98,51.4},{40.58,43.79},{39.3,40.69},{45,42.88},{37.32,49.52},{41.7,53.48},{40.63,48.52},{37.72,55.84},{39.04,45.1},{38.93,42.14},{38.03,42.54},{43.62,44.08},{38.3,43.78}}},
@@ -3643,6 +3689,18 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{52.02,29.16}},
                 [zoneIDs.DALARAN] = {{49.88,50.37}},
             },
+        },
+        [54441] = { -- Thaumaturge Vashreen
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [54442] = { -- Warpweaver Hashom
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [54471] = { -- Thaumaturge Zajir
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [54473] = { -- Warpweaver Dushar
+            [npcKeys.friendlyToFaction] = "H",
         },
         [54485] = { -- Jessica Rogers
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.65,77.84},{-1,-1}}},
