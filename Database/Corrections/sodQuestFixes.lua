@@ -4346,6 +4346,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{16478}},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
+        [88749] = { -- Faint Necrotic Crystal
+            [questKeys.startedBy] = {{16531}},
+            [questKeys.finishedBy] = {{16494}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
         [88882] = { -- Blessed Wizard Oil
             [questKeys.startedBy] = {{16787}},
             [questKeys.finishedBy] = {{16787}},

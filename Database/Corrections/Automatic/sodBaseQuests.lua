@@ -9043,6 +9043,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring the Cracked Necrotic Crystal to Lieutenant Orrin outside the gates of Stormwind."},
             [questKeys.objectives] = nil,
         },
+        [88749] = {
+            [questKeys.name] = "Faint Necrotic Crystal",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring the Faint Necrotic Crystal to Lieutenant Rukag in the courtyard of the Undercity."},
+            [questKeys.objectives] = nil,
+        },
         [88882] = {
             [questKeys.name] = "Blessed Wizard Oil",
             [questKeys.startedBy] = nil,

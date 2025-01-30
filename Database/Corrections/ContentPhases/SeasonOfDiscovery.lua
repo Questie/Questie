@@ -641,6 +641,7 @@ local questsToBlacklistByPhase = {
         [9085] = true, -- Shadows of Doom
         [9153] = true, -- Under the Shadow
         [9292] = true, -- Cracked Necrotic Crystal
+        [9310] = true, -- Faint Necrotic Crystal
         [9318] = true, -- Blessed Wizard Oil
         [9317] = true, -- Consecrated Sharpening Stones
         [9333] = true, -- Argent Dawn Gloves
