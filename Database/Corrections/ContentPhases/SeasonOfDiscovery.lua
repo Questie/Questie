@@ -642,8 +642,10 @@ local questsToBlacklistByPhase = {
         [9153] = true, -- Under the Shadow
         [9292] = true, -- Cracked Necrotic Crystal
         [9318] = true, -- Blessed Wizard Oil
+        [9317] = true, -- Consecrated Sharpening Stones
         [9333] = true, -- Argent Dawn Gloves
         [9334] = true, -- Blessed Wizard Oil
+        [9335] = true, -- Consecrated Sharpening Stones
 
         [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
         [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn

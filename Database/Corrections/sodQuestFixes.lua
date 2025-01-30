@@ -4329,6 +4329,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.INVASION,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
         },
+        [88746] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88747] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
         [88748] = { -- Cracked Necrotic Crystal
             [questKeys.startedBy] = {{16431}},
             [questKeys.finishedBy] = {{16478}},
