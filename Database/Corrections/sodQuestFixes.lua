@@ -4186,6 +4186,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87361},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
+        [87459] = { -- Scarlet Activities
+            [questKeys.finishedBy] = {{238376}},
+            [questKeys.preQuestSingle] = {9121,9122,9123},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},
             [questKeys.finishedBy] = {{11536}},

@@ -8790,6 +8790,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring another Heart of Doom to Brother Luctus at Light's Hope Chapel in Eastern Plaguelands."},
             [questKeys.objectives] = {nil,nil,{{236786}}},
         },
+        [87459] = {
+            [questKeys.name] = "Scarlet Activities",
+            [questKeys.startedBy] = {{11036}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Travel to the area near the Crusader Outpost northwest of The Bulwark in Tirisfal Glades and investigate for signs of recent Scarlet Crusade activity. Bring any information you recover back to Leonid Bartholomew the Revered."},
+            [questKeys.objectives] = {nil,nil,{{237143}}},
+        },
         [88721] = {
             [questKeys.name] = "Superior Armaments of Battle - Friend of the Dawn",
             [questKeys.startedBy] = nil,
