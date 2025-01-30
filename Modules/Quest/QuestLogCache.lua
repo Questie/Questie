@@ -9,6 +9,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local Sounds = QuestieLoader:ImportModule("Sounds")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
@@ -181,7 +183,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck, shouldExistInQuestLog)
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
             questIdsChecked[questId] = true
 
-            if shouldExistInQuestLog and (not QuestiePlayer.currentQuestlog[questId]) then
+            if shouldExistInQuestLog and (not QuestiePlayer.currentQuestlog[questId]) and QuestieDB.QuestPointers[questId] then
                 Questie:Error("Please report this error on Discord or GitHub. GetQuestLogTitle returned data for a quest that is not in the players quest log.", questId)
             end
 
