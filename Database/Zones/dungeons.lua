@@ -108,6 +108,7 @@ local dungeons = {
     [15475] = {"Demon Fall Canyon",nil,331,{{331, 84.7, 74.4}}},
     [15531] = {"The Tainted Scar",nil,4,{{4, 45.3,55.0}}},
     [15828] = {"The Burning of Andorhal",nil,22,{{22, 69.6,79.6}}},
+    [16074] = {"Karazhan Crypts",nil,41,{{41, 39.99, 74.16}}},
 }
 
 if Questie.IsCata then
