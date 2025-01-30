@@ -4376,7 +4376,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25233},
         },
         [25269] = { -- The Voice of Lo'Gosh
-            [questKeys.preQuestSingle] = {25233},
+            [questKeys.preQuestSingle] = {25255},
         },
         [25272] = { -- Lycanthoth the Corruptor
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Lycanthoth"),0,{{"object",202660}}}},
