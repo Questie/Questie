@@ -2761,6 +2761,7 @@
         "TomTom",
         "LibStub",
         "SUFUnittarget",
+        "XPerl_Target",
         "ElvUF_Target",
         "AzeriteUnitFrameTarget",
         "PitBull4_Frames_Target",
