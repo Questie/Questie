@@ -237,7 +237,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
         },
         [235785] = { -- Deadwind Cage "Key"
-            [itemKeys.npcDrops] = {7369},
+            [itemKeys.npcDrops] = {7369,7371,7372,7379},
         },
         [235787] = { -- Ancient Ironwood Branch
             [itemKeys.npcDrops] = {226923},
