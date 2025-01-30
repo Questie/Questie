@@ -4334,6 +4334,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{16478}},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
+        [88882] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88883] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
 
         --- Fake rune quests
         [90000] = {
