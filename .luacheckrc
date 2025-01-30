@@ -2812,6 +2812,7 @@ globals = {
     "TomTom",
     "LibStub",
     "SUFUnittarget",
+    "XPerl_Target",
     "ElvUF_Target",
     "AzeriteUnitFrameTarget",
     "GwTargetUnitFrame",
