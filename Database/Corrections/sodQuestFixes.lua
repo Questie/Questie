@@ -4153,6 +4153,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86970},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
         },
+        [86972] = { -- Curious Karazhan Curios!
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.preQuestSingle] = {86971},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [87283] = { -- The Violet Satchel
             [questKeys.startedBy] = {nil,nil,{235852}},
             [questKeys.finishedBy] = {{237957}},
