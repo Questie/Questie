@@ -637,9 +637,11 @@ local questsToBlacklistByPhase = {
         [9232] = true, -- The Only Song I Know...
 
         -- Invasion quests
+        [9094] = true, -- Argent Dawn Gloves
         [9085] = true, -- Shadows of Doom
         [9153] = true, -- Under the Shadow
         [9292] = true, -- Cracked Necrotic Crystal
+        [9333] = true, -- Argent Dawn Gloves
 
         [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
         [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn
