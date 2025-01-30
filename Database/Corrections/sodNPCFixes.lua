@@ -814,34 +814,19 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {87362,87364},
         },
         [238431] = { -- Enthusiastic Wisp
-            [npcKeys.minLevel] = 1,
-            [npcKeys.maxLevel] = 1,
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{52.19,90.51}}},
         },
         [237818] = { -- Harrison Jones
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{52.3,34.08}}},
             [npcKeys.questStarts] = {86968},
             [npcKeys.questEnds] = {86967},
         },
         [237819] = { -- Injured Adventurer
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{65.43,78.64}}},
-            [npcKeys.questStarts] = {86967},
-            [npcKeys.questEnds] = {86966},
         },
         [237820] = { -- Deceased Adventurer
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{39.99,74.16}}},
-            [npcKeys.questStarts] = {86965},
-            [npcKeys.questEnds] = {86964},
         },
         [237957] = { -- Archmage Kir-Moldir
             [npcKeys.minLevel] = 60,
@@ -851,12 +836,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {87283},
         },
         [238376] = { -- Brother Luctus
-            [npcKeys.minLevel] = 58,
-            [npcKeys.maxLevel] = 58,
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.56,65.46}}},
-            [npcKeys.questStarts] = {86965},
-            [npcKeys.questEnds] = {87361},
         },
 
         -- fake NPCs
