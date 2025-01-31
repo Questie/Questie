@@ -426,7 +426,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
 
-            if (not QuestiePlayer.currentQuestlog[questId]) then
+            if (not QuestiePlayer.currentQuestlog[questId]) and QuestieDB.QuestPointers[questId] then
                 Questie:Error("Please report this error on Discord or GitHub. questLog of QuestEventHandler contains an accepted quest that is not in the players quest log.", questId)
             end
         end
