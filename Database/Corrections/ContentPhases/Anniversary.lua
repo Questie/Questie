@@ -49,6 +49,10 @@ local questsToBlacklistByPhase = {
     [3] = { -- Phase 3 - BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command BWL pre quest
         [7787] = true,
+        [7781] = true, -- The Lord of Blackrock
+        [7782] = true, -- The Lord of Blackrock
+        [7783] = true, -- The Lord of Blackrock
+        [7784] = true, -- The Lord of Blackrock
         -- Darkmoon Faire quests
         [7902] = true,
         [7903] = true,
