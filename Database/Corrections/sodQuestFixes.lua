@@ -4245,6 +4245,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [88654] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},
             [questKeys.finishedBy] = {{11536}},
@@ -8811,6 +8814,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Oran Snakewrithe in Undercity."},
         },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
     }
 
     local questFixesAlliance = {
@@ -9049,6 +9056,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [84402] = { -- Necromancy 101
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Jennea Cannon in Stormwind."},
+        },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
         },
     }
 

@@ -8900,6 +8900,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the area near the Crusader Outpost northwest of The Bulwark in Tirisfal Glades and investigate for signs of recent Scarlet Crusade activity. Bring any information you recover back to Leonid Bartholomew the Revered."},
             [questKeys.objectives] = {nil,nil,{{237143}}},
         },
+        [88654] = {
+            [questKeys.name] = "A Full Shipment",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{237504}}},
+        },
         [88721] = {
             [questKeys.name] = "Superior Armaments of Battle - Friend of the Dawn",
             [questKeys.startedBy] = nil,
