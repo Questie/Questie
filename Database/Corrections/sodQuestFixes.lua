@@ -4374,6 +4374,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
+        [88968] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
+            [questKeys.finishedBy] = {{14720}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {7783},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [88969] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+            [questKeys.finishedBy] = {{14721}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {7781},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
 
         --- Fake rune quests
         [90000] = {

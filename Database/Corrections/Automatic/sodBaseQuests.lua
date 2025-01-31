@@ -9098,5 +9098,27 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
+        [88968] = {
+            [questKeys.name] = "The Lord of Blackrock",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with High Overlord Saurfang in Orgrimmar. He stands waiting for you in the Valley of Strength."},
+            [questKeys.objectives] = nil,
+        },
+        [88969] = {
+            [questKeys.name] = "The Lord of Blackrock",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Stonebridge."},
+            [questKeys.objectives] = nil,
+        },
     }
 end

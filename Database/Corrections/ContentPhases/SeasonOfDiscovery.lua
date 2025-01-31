@@ -370,6 +370,8 @@ local questsToBlacklistByPhase = {
         [8745] = true, -- Treasure of the Timeless One - Replaced by 86449
         [8791] = true, -- The Fall of Ossirian - Replaced by 86673
         [8802] = true, -- The Savior of Kalimdor - Replaced by 86670
+        [85643] = true, -- The Lord of Blackrock - Replaced by 88969
+        [85644] = true, -- The Lord of Blackrock - Replaced by 88968
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
