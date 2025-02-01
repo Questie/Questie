@@ -9886,10 +9886,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27945] = { -- Paint it Black
-            [questKeys.preQuestGroup] = {27750,27751,27929},
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [27947] = { -- A Vision of Twilight
-            [questKeys.preQuestGroup] = {27750,27751,27929},
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [27948] = { -- A Sticky Task
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -13642,6 +13642,24 @@ function CataQuestFixes:LoadFactionFixes()
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
         },
+        [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27865,
+        },
+        [27862] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27865,
+        },
+        [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27865,
+        },
+        [27865] = { -- The Crucible of Carnage: The Wayward Wildhammer!
+            [questKeys.nextQuestInChain] = 27866,
+        },
+        [27866] = { -- The Crucible of Carnage: Calder's Creation!
+            [questKeys.nextQuestInChain] = 27867,
+        },
+        [27867] = { -- The Crucible of Carnage: The Earl of Evisceration!
+            [questKeys.nextQuestInChain] = 27868,
+        },
         [27927] = { -- Down to the Scar
             [questKeys.startedBy] = {{46660}},
             [questKeys.nextQuestInChain] = 27713,
@@ -13722,6 +13740,24 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45226}},
+        },
+        [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27864,
+        },
+        [27862] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27864,
+        },
+        [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.nextQuestInChain] = 27864,
+        },
+        [27864] = { -- The Crucible of Carnage: The Deadly Dragonmaw!
+            [questKeys.nextQuestInChain] = 27866,
+        },
+        [27866] = { -- The Crucible of Carnage: Calder's Creation!
+            [questKeys.nextQuestInChain] = 27867,
+        },
+        [27867] = { -- The Crucible of Carnage: The Earl of Evisceration!
+            [questKeys.nextQuestInChain] = 27868,
         },
         [27927] = { -- Down to the Scar
             [questKeys.startedBy] = {{46930}},
