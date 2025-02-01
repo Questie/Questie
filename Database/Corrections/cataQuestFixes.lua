@@ -8725,7 +8725,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45695,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27468] = { -- Siege Tank Rescue
-            [questKeys.objectives] = {{{45524},{45526}}},
+            [questKeys.objectives] = {{{45524,nil,Questie.ICON_TYPE_TALK},{45526,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27472] = { -- Rise, Godfrey
             [questKeys.preQuestSingle] = {27438},
