@@ -6465,7 +6465,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26324},
         },
         [26337] = { -- Beating the Market
-            [questKeys.objectives] = {{{42777}}},
+            [questKeys.objectives] = {{{42777,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26338] = { -- Population Con-Troll
             [questKeys.preQuestSingle] = {26299},
@@ -6545,7 +6545,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25724,
         },
         [26374] = { -- Ready the Ground Troops
-            [questKeys.objectives] = {{{42646}}},
+            [questKeys.objectives] = {{{42646,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26375] = { -- Loose Stones
             [questKeys.preQuestSingle] = {26328},
