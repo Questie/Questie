@@ -11491,7 +11491,7 @@ function CataQuestFixes.Load()
         [28589] = { -- Everything But the Kitchen Sink
             [questKeys.objectives] = {{{49680,nil,Questie.ICON_TYPE_MOUNT_UP},{49683}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {28584,28586,28589},
+            [questKeys.preQuestGroup] = {28584,28586,28588},
         },
         [28591] = { -- Off the Wall
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 49135}}}},
