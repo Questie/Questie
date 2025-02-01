@@ -11150,11 +11150,8 @@ function CataQuestFixes.Load()
         },
         [28471] = { -- The Final Piece
             [questKeys.startedBy] = {{10738},nil,{12842}},
-            [questKeys.preQuestSingle] = {28470},
+            [questKeys.preQuestSingle] = {28469},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
-        },
-        [28472] = { -- Words of the High Chief
-            [questKeys.nextQuestInChain] = 28479,
         },
         [28473] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
@@ -11257,6 +11254,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 38,
             [questKeys.exclusiveTo] = {14410},
             [questKeys.nextQuestInChain] = 25447,
+        },
+        [28513] = { -- Pride of the Highborne
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{7524,7523,48727},7523}}},
         },
         [28514] = { -- Mouton Flamestar
             [questKeys.nextQuestInChain] = 28172,
@@ -11550,6 +11550,9 @@ function CataQuestFixes.Load()
         [28613] = { -- See You on the Other Side!
             [questKeys.zoneOrSort] = 989,
         },
+        [28615] = { -- Turning the Earth
+            [questKeys.objectives] = {{{49177,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [28616] = { -- Stormpike Apocalypse
             [questKeys.triggerEnd] = {"Witness the Stormpike Apocalypse", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.03,46.26}}}},
         },
@@ -11570,12 +11573,14 @@ function CataQuestFixes.Load()
         },
         [28629] = { -- Are We There, Yeti?
             [questKeys.preQuestSingle] = {28627},
+            [questKeys.exclusiveTo] = {},
         },
         [28630] = { -- Echo Three
             [questKeys.preQuestSingle] = {28627},
         },
         [28631] = { -- The Perfect Horns
             [questKeys.preQuestSingle] = {28627},
+            [questKeys.exclusiveTo] = {},
         },
         [28634] = { -- Extinction
             [questKeys.preQuestSingle] = {},
@@ -11583,8 +11588,17 @@ function CataQuestFixes.Load()
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
+        [28638] = { -- The Owls Have It
+            [questKeys.finishedBy] = {{100061}},
+        },
+        [28639] = { -- Ursius
+            [questKeys.startedBy] = {{49436}},
+        },
         [28640] = { -- Fresh Frostsabers
             [questKeys.preQuestSingle] = {},
+        },
+        [28641] = { -- Pride of the Dinner Table
+            [questKeys.startedBy] = {{49396}},
         },
         [28649] = { -- A Special Surprise (Worgen)
             [questKeys.preQuestSingle] = {12738},
@@ -11616,7 +11630,7 @@ function CataQuestFixes.Load()
                                     7443,7444,7446,10806,   -- bear
                                     7448,10807,   -- chimaera
                                     7430,7431,7432,7433,7434,10737,   -- frostsaber
-                                    7438,7439,7440,7441,7442,10738,10916,   -- furbolg
+                                    7438,7439,7440,7441,7442,10738,10916,49178,   -- furbolg
                                     7428,7429,50258,   -- giants
             }},
         },
@@ -11642,7 +11656,7 @@ function CataQuestFixes.Load()
         },
         [28674] = { -- Starfall Village
             [questKeys.preQuestGroup] = {28722,28628},
-            [questKeys.nextQuestInChain] = 28701,
+            [questKeys.nextQuestInChain] = 28676,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 52,
@@ -11779,8 +11793,16 @@ function CataQuestFixes.Load()
         [28718] = { -- Where There's Smoke, There's Delicious Meat
             [questKeys.nextQuestInChain] = 28640,
         },
+        [28719] = { -- A Little Gamy
+            [questKeys.startedBy] = {{49436}},
+        },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28722] = { -- Yetiphobia
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28629,28631},
+            [questKeys.objectives] = {{{10978,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28723] = { -- Priestess of the Moon
             [questKeys.requiredRaces] = raceKeys.NIGHT_ELF,
@@ -11848,8 +11870,13 @@ function CataQuestFixes.Load()
         [28741] = { -- Ascendant Lord Obsidius
             [questKeys.preQuestSingle] = {28738},
         },
+        [28742] = { -- Shy-Rotam
+            [questKeys.startedBy] = {{49396}},
+        },
         [28745] = { -- Screechy Keen
             [questKeys.preQuestSingle] = {28638},
+            [questKeys.startedBy] = {{49537}},
+            [questKeys.finishedBy] = {{100062}},
         },
         [28749] = { -- The Battle for Andorhal
             [questKeys.nextQuestInChain] = 27159,
@@ -11948,6 +11975,9 @@ function CataQuestFixes.Load()
         [28780] = { -- Join the Battle! -- Human Hunter
             [questKeys.requiredRaces] = raceKeys.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+        },
+        [28782] = { -- A Bird of Legend
+            [questKeys.startedBy] = {{49537}},
         },
         [28784] = { -- Join the Battle! -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
@@ -12129,11 +12159,15 @@ function CataQuestFixes.Load()
         [28832] = { -- Twilight Shores
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
+        [28837] = { -- Altered Beasts
+            [questKeys.preQuestSingle] = {28848},
+        },
         [28838] = { -- The Owlbeasts' Defense
             [questKeys.preQuestSingle] = {28837},
         },
         [28841] = { -- The Arcane Storm Within
             [questKeys.preQuestSingle] = {28840},
+            [questKeys.objectives] = {{{50291,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28842] = { -- Umbranse's Deliverance
             [questKeys.preQuestSingle] = {28840},
@@ -12144,7 +12178,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27520,27519,27706},
         },
         [28847] = { -- The Pursuit of Umbranse
-            [questKeys.preQuestGroup] = {28537,28628,28722},
+            [questKeys.preQuestGroup] = {28848,28628,28722},
+            [questKeys.nextQuestInChain] = 28837,
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
