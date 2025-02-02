@@ -3789,7 +3789,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {24955},
         },
         [24910] = { -- Rocket Rescue
-            [questKeys.objectives] = {{{38571},{40583}}},
+            [questKeys.objectives] = {{{38571,nil,Questie.ICON_TYPE_EVENT},{40583}}},
             [questKeys.preQuestGroup] = {24907,24906},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
@@ -3813,6 +3813,7 @@ function CataQuestFixes.Load()
         },
         [24928] = { -- To The Ground! [Horde]
             [questKeys.preQuestSingle] = {24947},
+            [questKeys.objectives] = {{{38660,nil,Questie.ICON_TYPE_EVENT},{38662,nil,Questie.ICON_TYPE_EVENT},{38665,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24930] = { -- While You're At It
             [questKeys.startedBy] = {{35115}},
@@ -3822,7 +3823,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24932},
         },
         [24932] = { -- Cutting Losses
-            [questKeys.preQuestSingle] = {25103},
+            [questKeys.preQuestSingle] = {25103,26889},
         },
         [24934] = { -- Repel Boarders!
             [questKeys.preQuestSingle] = {},
@@ -3857,10 +3858,11 @@ function CataQuestFixes.Load()
         },
         [24950] = { -- Captain Dreadbeard [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25534,25541},
+            [questKeys.preQuestGroup] = {24928,25534,25541},
         },
         [24951] = { -- A Great Idea
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Capture a Hazzali Swarmer"),0,{{"monster",5451}}}},
+            [questKeys.objectives] = {{{38742,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24952] = { -- Rocket Boot Boost
             [questKeys.preQuestSingle] = {},
@@ -3869,6 +3871,7 @@ function CataQuestFixes.Load()
         },
         [24953] = { -- Just Trying to Kill Some Bugs
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Narain to mount your bug"),0,{{"monster",11811}}}},
+            [questKeys.objectives] = {{{38996,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24955] = { -- Un-Chartered
             [questKeys.preQuestSingle] = {},
@@ -3985,6 +3988,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25003},
             [questKeys.preQuestGroup] = {24995,24999},
         },
+        [25032] = { -- Secrets in the Oasis
+            [questKeys.objectives] = {{{38968}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Inspect it"), 0, {{"object", 202441}}}},
+        },
         [25034] = { -- To the Front!
             [questKeys.preQuestSingle] = {25027},
         },
@@ -4013,15 +4020,22 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25050] = { -- Rocket Rescue
-            [questKeys.objectives] = {{{38571},{40583}}},
+            [questKeys.objectives] = {{{38571,nil,Questie.ICON_TYPE_EVENT},{40583}}},
             [questKeys.preQuestGroup] = {25048,25049},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
         [25052] = { -- Dead Man's Chest [Alliance]
-            [questKeys.preQuestSingle] = {25121},
+            [questKeys.preQuestSingle] = {25050},
+            [questKeys.exclusiveTo] = {},
         },
         [25053] = { -- To The Ground! [Alliance]
-            [questKeys.preQuestSingle] = {25121},
+            [questKeys.preQuestSingle] = {25050},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{38660,nil,Questie.ICON_TYPE_EVENT},{38662,nil,Questie.ICON_TYPE_EVENT},{38665,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25054] = { -- Lootin' Plunder
+            [questKeys.preQuestSingle] = {25050},
+            [questKeys.exclusiveTo] = {},
         },
         [25057] = { -- Clap 'Em In Irons
             [questKeys.preQuestGroup] = {25043,25044,25045},
@@ -4029,6 +4043,19 @@ function CataQuestFixes.Load()
         },
         [25059] = { -- The Taurajo Briefs
             [questKeys.preQuestGroup] = {25043,25044,25045},
+        },
+        [25060] = { -- Define "Crazy"
+            [questKeys.preQuestSingle] = {24953},
+        },
+        [25061] = { -- Land's End
+            [questKeys.preQuestSingle] = {24953},
+            [questKeys.nextQuestInChain] = 25060,
+        },
+        [25062] = { -- What We Came For
+            [questKeys.preQuestSingle] = {24953},
+        },
+        [25063] = { -- Terrapination
+            [questKeys.preQuestGroup] = {25060,25062},
         },
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -4040,6 +4067,7 @@ function CataQuestFixes.Load()
         },
         [25067] = { -- Thunderdrome: The Ginormus!
             [questKeys.objectives] = {{{39075}}},
+            [questKeys.nextQuestInChain] = 25094,
         },
         [25068] = { -- The Crumbling Past
             [questKeys.preQuestSingle] = {25017},
@@ -4048,7 +4076,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25017},
         },
         [25072] = { -- A Few Good Goblins
-            [questKeys.preQuestSingle] = {25103},
+            [questKeys.preQuestSingle] = {25103,26889},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39081,39082},39081}}},
         },
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -4068,6 +4097,7 @@ function CataQuestFixes.Load()
         [25094] = { -- Thunderdrome: Zumonga!
             [questKeys.objectives] = {{{39148}}},
             [questKeys.preQuestSingle] = {25067},
+            [questKeys.nextQuestInChain] = 25095,
         },
         [25095] = { -- Thunderdrome: Sarinexx!
             [questKeys.objectives] = {{{39149}}},
@@ -4087,13 +4117,13 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25104},
         },
         [25111] = { -- Scavengers Scavenged
-            [questKeys.objectives] = {{{5429}}},
+            [questKeys.objectives] = {{{5429,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25112] = { -- Butcherbot
-            [questKeys.objectives] = {{{5419}}},
+            [questKeys.objectives] = {{{5419,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25115] = { -- Blisterpaw Butchery
-            [questKeys.objectives] = {{{5426}}},
+            [questKeys.objectives] = {{{5426,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25120] = { -- Marley's Final Flight
             [questKeys.preQuestGroup] = {25106,25108},
@@ -4200,7 +4230,7 @@ function CataQuestFixes.Load()
         },
         [25166] = { -- Captain Dreadbeard [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26886,26887},
+            [questKeys.preQuestGroup] = {25053,26886,26887},
         },
         [25167] = { -- Breaking the chain
             [questKeys.preQuestGroup] = {},
@@ -4621,6 +4651,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
         },
+        [25420] = { -- Ancient Obstacles
+            [questKeys.preQuestSingle] = {},
+        },
         [25422] = { -- The Darkmist Legacy
             [questKeys.preQuestSingle] = {25350},
             [questKeys.exclusiveTo] = {},
@@ -4864,7 +4897,7 @@ function CataQuestFixes.Load()
             },
         },
         [25556] = { -- Into Zul'Farrak
-            [questKeys.exclusiveTo] = {27068},
+            [questKeys.nextQuestInChain] = 27068,
         },
         [25558] = { -- All or Nothing
             [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST] = {{44.59,25.37}}},Questie.ICON_TYPE_EVENT,l10n("Defend The Briny Cutter")}},
@@ -4886,6 +4919,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25357,25546},
             [questKeys.exclusiveTo] = {},
+        },
+        [25566] = { -- The Secrets of Uldum
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25420,25565},
         },
         [25574] = { -- Flames from Above
             [questKeys.objectives] = {{{40856,nil,Questie.ICON_TYPE_EVENT}}},
@@ -7519,6 +7556,9 @@ function CataQuestFixes.Load()
         [26886] = { -- Going Off-Task [Alliance]
             [questKeys.exclusiveTo] = {},
         },
+        [26887] = { -- Filling Our Pockets
+            [questKeys.exclusiveTo] = {},
+        },
         [26892] = { -- Deep in the Deeps
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -8684,6 +8724,10 @@ function CataQuestFixes.Load()
         },
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27203,27398},
+        },
+        [27446] = { -- Tanaris is Calling
+            [questKeys.nextQuestInChain] = 25048,
+            [questKeys.exclusiveTo] = {28507},
         },
         [27448] = { -- The Trek Continues
             [questKeys.preQuestGroup] = {27381,27382},
@@ -11242,6 +11286,7 @@ function CataQuestFixes.Load()
         },
         [28507] = { -- Hero's Call: Tanaris!
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.nextQuestInChain] = 25048,
         },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
@@ -12249,6 +12294,9 @@ function CataQuestFixes.Load()
         },
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},
+        },
+        [28881] = { -- Prospector Gunstan
+            [questKeys.nextQuestInChain] = 25420,
         },
         [28882] = { -- Victory in Tol Barad
             [questKeys.triggerEnd] = {"Victory in Tol Barad",{[zoneIDs.TOL_BARAD]={{51.1,49.9}}}},
@@ -13616,6 +13664,9 @@ function CataQuestFixes:LoadFactionFixes()
         [24911] = { -- Tropical Paradise Beckons
             [questKeys.startedBy] = {{44374}},
             [questKeys.nextQuestInChain] = 24740,
+        },
+        [25095] = { -- Thunderdrome: Sarinexx!
+            [questKeys.nextQuestInChain] = 25591,
         },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},

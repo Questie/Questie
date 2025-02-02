@@ -185,6 +185,7 @@ local phases = {
     GRIMCLAW_INN = 1113,
     BARGE_AT_PEACE = 1114,
     BARGE_UNDER_ATTACK = 1115,
+    KELSEY_AT_COVE = 1116,
 }
 Phasing.phases = phases
 
@@ -731,6 +732,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BARGE_UNDER_ATTACK then
         return (complete[25515] and complete[25517] and complete[25524] and (not complete[25542]) and (not complete[25561])) or (complete[25516] and complete[25518] and complete[25526] and (not complete[25543]) and (not complete[25562])) or false
+    end
+
+    if phase == phases.KELSEY_AT_COVE then
+        return (not complete[26889])
     end
 
     return false

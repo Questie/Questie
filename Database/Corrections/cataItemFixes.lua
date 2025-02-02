@@ -456,6 +456,9 @@ function CataItemFixes.Load()
         [50746] = { -- Tara's Tar Scraper
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [51549] = { -- Pirate Booty
+            [itemKeys.npcDrops] = {},
+        },
         [51956] = { -- Blessed Offerings
             [itemKeys.class] = itemClasses.QUEST,
         },
