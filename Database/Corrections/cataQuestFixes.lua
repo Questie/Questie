@@ -3367,8 +3367,15 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
+        [24536] = { -- Something Stinks
+            [questKeys.preQuestSingle] = {},
+        },
         [24540] = { -- War Dance
             [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
+        [24541] = { -- Pilfering Perfume
+            [questKeys.triggerEnd] = nil,
+            [questKeys.objectives] = {{{37172,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24543] = { -- A Family Divided
             [questKeys.preQuestSingle] = {24529},
@@ -3451,6 +3458,9 @@ function CataQuestFixes.Load()
         [24637] = { -- The Butcher of Taurajo
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Karthog to lure out General Hawthorne"),0,{{"monster",38015}}}},
         },
+        [24638] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24645,24647,24648,24649,24650,24651,24652,28935},
+        },
         [24639] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -3469,6 +3479,59 @@ function CataQuestFixes.Load()
         },
         [24643] = { -- More Than Expected
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24645] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24647,24648,24649,24650,24651,24652,28935},
+        },
+        [24647] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24648,24649,24650,24651,24652,28935},
+        },
+        [24648] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24647,24649,24650,24651,24652,28935},
+        },
+        [24649] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24647,24648,24650,24651,24652,28935},
+        },
+        [24650] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24647,24648,24649,24651,24652,28935},
+        },
+        [24651] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24647,24648,24649,24650,24652,28935},
+        },
+        [24652] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24638,24645,24647,24648,24649,24650,24651,28935},
+        },
+        [24655] = { -- Something Stinks
+            [questKeys.preQuestSingle] = {},
+        },
+        [24656] = { -- Pilfering Perfume
+            [questKeys.triggerEnd] = nil,
+            [questKeys.objectives] = {{{38066,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [24658] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24659,24660,24662,24663,24664,24665,24666,28934},
+        },
+        [24659] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24660,24662,24663,24664,24665,24666,28934},
+        },
+        [24660] = { -- Crushing the Crown
+            [questKeys.objectives] = {nil,{{430030,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
+            [questKeys.exclusiveTo] = {24658,24659,24662,24663,24664,24665,24666,28934},
+        },
+        [24662] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24659,24660,24663,24664,24665,24666,28934},
+        },
+        [24663] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24659,24660,24662,24664,24665,24666,28934},
+        },
+        [24664] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24659,24660,24662,24663,24665,24666,28934},
+        },
+        [24665] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24659,24660,24662,24663,24664,24666,28934},
+        },
+        [24666] = { -- Crushing the Crown
+            [questKeys.exclusiveTo] = {24658,24659,24660,24662,24663,24664,24665,28934},
         },
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
@@ -3752,6 +3815,9 @@ function CataQuestFixes.Load()
         },
         [24817] = { -- A Goblin in Shark's Clothing
             [questKeys.objectives] = {{{36682}},{{202108}}},
+        },
+        [24849] = { -- Hot On The Trail
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [24852] = { -- Our Tribe, Imprisoned
             [questKeys.zoneOrSort] = 215,
@@ -12313,6 +12379,16 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestSingle] = {26294},
             [questKeys.nextQuestInChain] = 26311,
+        },
+        [28934] = { -- Crushing the Crown
+            [questKeys.preQuestSingle] = {24576},
+            [questKeys.exclusiveTo] = {24658,24659,24660,24662,24663,24664,24665,24666},
+            [questKeys.objectives] = {nil,{{430029,"Chemical Wagon Destroyed"}},nil,nil,{{{51613},51613}}},
+        },
+        [28935] = { -- Crushing the Crown
+            [questKeys.preQuestSingle] = {24657},
+            [questKeys.exclusiveTo] = {24638,24645,24647,24648,24649,24650,24651,24652},
+            [questKeys.objectives] = {nil,{{430029,"Chemical Wagon Destroyed"}},nil,nil,{{{51613},51613}}},
         },
         [29030] = { -- Honor the Flame
             [questKeys.objectives] = {nil,{{208184}}},

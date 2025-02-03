@@ -2279,9 +2279,6 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{52.93,80.24}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
         },
-        [37214] = {
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
-        },
         [37221] = {
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{45,76.2},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
@@ -2330,9 +2327,6 @@ function QuestieWotlkNpcFixes:Load()
         [37675] = {
             [npcKeys.spawns] = {[1657]={{41.95,51.96}},[1537]={{34.15,66.42}},[1519]={{62.41,75.38}},[3557]={{73.73,56.06}}, -- original data
                                [zoneIDs.THUNDER_BLUFF]={{43.6,52.9}},[zoneIDs.ORGRIMMAR]={{53.8,66.4}},[zoneIDs.UNDERCITY]={{65.9,38.7}},[zoneIDs.SILVERMOON_CITY]={{64.6,67.3}}}, -- corrections
-        },
-        [37715] = {
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
         },
         [37776] = {
             [npcKeys.waypoints] = {[zoneIDs.DALARAN]={{{45.96,76.74},{45.19,76.29},{44.96,75.11},{45.14,73.88},{45.35,72.66},{45.60,71.45},{45.97,70.31},{46.35,69.18},{46.72,68.05},{47.10,66.92},{47.47,65.78},{47.67,64.55},{47.77,63.30},{47.75,62.04},{47.28,61.02},{46.49,60.94},{46.32,61.13}}}},
@@ -3267,6 +3261,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
         },
+        [37715] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{50.63,13.13}}},
+        },
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}}},
         },
@@ -3370,6 +3367,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         },
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}}},
+        },
+        [37715] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}}},
         },
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}},

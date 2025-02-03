@@ -1698,6 +1698,9 @@ function CataNpcFixes.Load()
         [37165] = { -- Henry Zykes
             [npcKeys.waypoints] = {[4709] = {{{42.57,22.30},{41.87,22.25},{41.64,21.56},{41.59,21.28},{41.41,20.36},{41.33,19.33},{40.63,18.26},{40.52,17.90},{40.43,17.31},{40.58,16.28},{40.62,15.49},{40.67,15.07}}}},
         },
+        [37172] = { -- Detective Snap Snagglebolt
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{50.8,75.24}}},
+        },
         [37513] = { -- Sabersnout
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{42.99,41.6}}},
         },
@@ -1707,6 +1710,10 @@ function CataNpcFixes.Load()
                     {59.6,76.48,phases.KEZAN_CHAPTER_6},
                 },
             },
+        },
+        [37675] = { -- Public Relations Agent
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS]={{45.02,57.73}},[zoneIDs.IRONFORGE]={{34.15,66.42}},[zoneIDs.STORMWIND_CITY]={{62.41,75.38}},[zoneIDs.THE_EXODAR]={{73.73,56.06}}, -- original data
+                               [zoneIDs.THUNDER_BLUFF]={{43.6,52.9}},[zoneIDs.ORGRIMMAR]={{53.05,77.15}},[zoneIDs.UNDERCITY]={{65.9,38.7}},[zoneIDs.SILVERMOON_CITY]={{64.6,67.3}}}, -- corrections
         },
         [37733] = { -- Lord Walden
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{78.11,66.11}}},
@@ -1739,6 +1746,21 @@ function CataNpcFixes.Load()
         },
         [38002] = { -- Swiftclaw
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{66.04,88.08}}},
+        },
+        [38006] = { -- Crown Hoodlum
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{61.57,37.9},{61.27,38.12},{60.99,38.46},{61.38,38.75},{61.68,39.43},{61.28,39.69},{60.94,39.22},{60.79,38.35},{60.22,37.13},{60.09,37.68},{59.98,38.06},{60.43,38.39},{60.62,38.78},{60.84,38}}},
+        },
+        [38016] = { -- Crown Agent
+            [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{23.05,54.37},{22.46,54.33},{22.73,53.71},{22.83,52.76},{23.52,52.51},{24.25,52.46},{23.88,53.29},{23.49,53.49},{23.43,53.91},{23.77,54.5},{24.2,53.79},{24.36,54.82}}},
+        },
+        [38023] = { -- Crown Sprinkler
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{62.57,49.42},{62.92,48.28},{63.27,48.6},{63.5,48.94},{63.32,49.09},{63.1,50.57},{63.09,50.16},{63.2,49.85},{63.4,50.05},{63.54,50.31},{63.82,50.27},{64.2,49.67},{63.62,49.26},{63.62,49.61},{63.81,49.59}}},
+        },
+        [38032] = { -- Crown Sprayer
+            [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST] = {{49.38,46.45},{48.54,51.77},{49.16,48.34},{49.49,49.34},{48.23,49.97},{48.34,50.69},{49.56,46.46},{49.93,48.89},{49.75,49.79},{46.65,49.22},{47.17,50.03},{48.76,49.57},{46.56,48.69},{49.23,50.58},{49.54,51.31},{50.09,51.05},{49.64,51.06},{50.96,49.41},{47.93,51.18},{46.67,50.66},{46.46,52.62},{46.9,53.11},{45.76,50.77},{47.24,51.51},{45.2,50.39},{46.87,51.66},{51.56,50.14},{51.48,50.64},{45.35,52.4},{48.88,47.39},{51.48,50.36},{46.12,51.99},{48.2,47.28},{51.42,49.74},{48.33,48.48},{44.88,50.9},{45.55,50.52},{50.98,50.12},{46.25,51.04},{50.31,49.87},{51.48,50.76},{51.0,51.33},{51.38,49.8},{51.2,49.01},{50.68,50.4},{50.31,49.87},{45.72,51.77},{51.48,50.76},{50.19,51.12},{45.55,50.52},{49.95,48.84},{46.25,51.04},{50.6,52.17},{46.23,52.12}}},
+        },
+        [38042] = { -- Kwee Q. Peddlefeet
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{53,76.83}},},
         },
         [38120] = { -- Hobart Grapplehammer
             [npcKeys.spawns] = {
@@ -1796,6 +1818,9 @@ function CataNpcFixes.Load()
         },
         [38307] = { -- Gormashh
             [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{59.97,29.88},{59.73,29.41},{59.47,29.25},{59.21,29.64},{58.97,30.41},{59.10,30.58},{59.32,31.02},{59.68,31.29},{59.99,31.45},{60.32,31.65},{60.62,31.90},{60.86,32.16},{60.82,32.31},{60.76,32.63},{60.89,32.87},{60.81,33.11},{60.72,33.33},{60.60,33.70},{60.70,33.88}}}},
+        },
+        [38328] = { -- Roka
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{57.59,60.81}}}
         },
         [38329] = { -- Durrin Direshovel
             [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{38.36,82.99},{38.34,81.55},{38.63,80.45},{38.58,79.01},{38.60,78.27},{38.32,77.50},{37.63,76.69},{36.73,76.25},{36.33,76.73},{36.19,77.75},{36.56,79.01},{37.02,80.16},{37.36,81.31},{37.57,82.47},{38.35,82.70},{38.36,82.99}}}},
@@ -4235,20 +4260,11 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DESOLACE]={{25.41,72.09}},
             },
         },
-        [38340] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49,68.96}}}
-        },
-        [38341] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.26,63.77}}}
-        },
-        [38342] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
+        [37214] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
         },
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}}},
-        },
-        [37214] = {
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
         },]]
         [29579] = { -- Brann Bronzebeard
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{36.62,49.27}}},
@@ -4270,6 +4286,21 @@ function CataNpcFixes:LoadFactionFixes()
         [35071] = { -- North Sea Mako
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [37715] = { -- Snivel Rustrocket
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{51.66,56.75}}},
+        },
+        [37984] = { -- Crown Duster
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{33.33,58.2},{33.78,57.52},{34.02,57.36},{34.09,58.03},{34.39,57.9},{34.89,58.18},{34.63,58.19},{34.26,58.86},{33.72,58.19},{33.5,58.69},{33.58,59.36},{34.24,59.29},{34.52,59.58},{34.89,58.98},{35.1,58.43}}},
+        },
+        [38340] = { -- [DND] Holiday - Love - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49.3,81.99}}},
+        },
+        [38341] = { -- [DND] Holiday - AH - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.91,74.82}}},
+        },
+        [38342] = { -- [DND] Holiday - Barber - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40.61,60.74}}},
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
@@ -4402,18 +4433,6 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}}},
-        },
-        [37917] = {
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}},
-        },
-        [38340] = {
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{63.08,78.86}}},
-        },
-        [38341] = {
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{60.81,70.03}}},
-        },
-        [38342] = {
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.33,65.64}}},
         },]]
         [29579] = { -- Brann Bronzebeard
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
@@ -4435,6 +4454,24 @@ function CataNpcFixes:LoadFactionFixes()
         [35071] = { -- North Sea Mako
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [37715] = { -- Snivel Rustrocket
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}}},
+        },
+        [37917] = { -- Crown Thug
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{44.14,78.16},{44.25,77.89},{44.05,76.85},{44.45,77.31},{44.24,77.52},{44.08,77.41},{43.82,77.39},{43.97,77.78},{43.82,78.18},{44.01,78.57},{44.32,78.54},{44.7,78.26},{44.49,78.09},{44.68,77.6}}},
+        },
+        [37984] = { -- Crown Duster
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{76.82,57.21},{77.56,55.72},{78.01,54.3},{77.98,53.45},{77.43,52.17},{77.02,52.95},{76.67,53.68},{76.2,52.75},{75.82,51.86},{75.46,52.83},{75.61,53.77},{75.63,54.5},{75.76,55.79},{75.37,56.55}}},
+        },
+        [38340] = { -- [DND] Holiday - Love - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{63.02,78.73}}},
+        },
+        [38341] = { -- [DND] Holiday - AH - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.39,71.61}}},
+        },
+        [38342] = { -- [DND] Holiday - Barber - Bank Bunny
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.32,65.57}}},
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {

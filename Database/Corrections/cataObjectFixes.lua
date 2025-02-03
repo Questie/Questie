@@ -725,6 +725,18 @@ function CataObjectFixes.Load()
         },
 
         -- Below are fake objects
+        -- These items are from previous expansions and they need updated coords
+        [420037] = { -- Chemical Wagon
+            [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{44.17,77.99}}},
+        },
+        [420038] = { -- Chemical Wagon
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{34.7,58.2}}},
+        },
+        [420041] = { -- Chemical Wagon
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING]={{63.65,49.47}}},
+        },
+
+        -- Below are fake objects
         -- For Cata fixes 430001-439999
         [430001] = {
             [objectKeys.name] = "Harpy Signal Fire",
@@ -861,6 +873,16 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Huntress Illiona's Cage",
             [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{66.2,54.52}}},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+        },
+        [430029] = {
+            [objectKeys.name] = "Chemical Wagon", -- Uldum
+            [objectKeys.spawns] = {[zoneIDs.ULDUM]={{67.81,19.76},{67.28,18.36},{66.66,19.08},{67.33,20.77},{66.65,20.63}}},
+            [objectKeys.zoneID] = zoneIDs.ULDUM,
+        },
+        [430030] = {
+            [objectKeys.name] = "Chemical Wagon", -- Duskwood
+            [objectKeys.spawns] = {[zoneIDs.DUSKWOOD]={{75.84,55.61}}},
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
         },
     }
 end
