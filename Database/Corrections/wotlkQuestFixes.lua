@@ -6668,6 +6668,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24651},
             [questKeys.objectives] = {nil,{{420043,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.requiredMaxLevel] = 80,
             [questKeys.requiredSourceItems] = {},
         },
         [24655] = {
@@ -6756,6 +6757,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
             [questKeys.objectives] = {nil,{{420043,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.requiredMaxLevel] = 80,
             [questKeys.requiredSourceItems] = {},
         },
         [24683] = {
