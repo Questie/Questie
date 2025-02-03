@@ -257,11 +257,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     local cacheMiss, _, questIdsChecked = QuestLogCache.CheckForChanges(nil, false)
 
     if cacheMiss then
-        -- We really want to wait for the cache to be filled before we continue.
-        -- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.
-        coYield()
-        local _, _, newQuestIdsChecked = QuestLogCache.CheckForChanges(nil, false)
-        questIdsChecked = newQuestIdsChecked
+        Questie:Debug(Questie.DEBUG_CRITICAL, "QuestieInit: Game Cache did not fill in time, waiting for valid cache.")
+        questIdsChecked = QuestieInit.WaitForValidGameCache()
     end
 
     QuestEventHandler.InitQuestLogStates(questIdsChecked)
@@ -412,4 +409,34 @@ function QuestieInit:Init()
             end)
         end
     end
+end
+
+
+--- We really want to wait for the cache to be filled before we continue.
+--- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.
+---@return table<number>
+function QuestieInit.WaitForValidGameCache()
+    local doWait = true
+    local retries = 0
+    local questIdsChecked
+
+    local timer
+    timer = C_Timer.NewTicker(1, function()
+        local cacheMiss, _, newQuestIdsChecked = QuestLogCache.CheckForChanges(nil, false)
+        if (not cacheMiss) or retries >= 3 then
+            if retries == 3 then
+                Questie:Error("QuestieInit: Game Cache did become valid in 3 seconds, continuing with initialization.")
+            end
+            doWait = false
+            timer:Cancel()
+        end
+        questIdsChecked = newQuestIdsChecked
+        retries = retries + 1
+    end)
+
+    while doWait do
+        coYield()
+    end
+
+    return questIdsChecked
 end
