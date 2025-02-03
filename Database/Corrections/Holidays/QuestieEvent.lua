@@ -316,7 +316,10 @@ local isChinaRegion = GetCurrentRegion() == 5
 
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
-    ["Love is in the Air"] = {startDate = "05/2", endDate = "19/2"},
+    ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+        startDate = "03/2",
+        endDate = "16/2"
+    },
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "31/3",
         endDate = "6/4"
