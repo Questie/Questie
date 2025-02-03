@@ -4190,6 +4190,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
             [questKeys.preQuestSingle] = {87361},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87433] = { -- Argent Dawn Gloves
