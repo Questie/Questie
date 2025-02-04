@@ -37,7 +37,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE,
+        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.CATA_HIDE,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -2290,7 +2290,6 @@ function QuestieQuestBlacklist:Load()
         [906] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [907] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [908] = QuestieCorrections.CATA_HIDE, -- Removed with cata (replaced with 26891)
-        [910] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [912] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [913] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [914] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2301,7 +2300,6 @@ function QuestieQuestBlacklist:Load()
         [924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [928] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [936] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [940] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [942] = QuestieCorrections.CATA_HIDE, -- Removed with cata
