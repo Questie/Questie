@@ -4352,7 +4352,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [88748] = { -- Cracked Necrotic Crystal
-            [questKeys.startedBy] = {{16431}},
+            [questKeys.startedBy] = {{16531}},
             [questKeys.finishedBy] = {{16478}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
