@@ -3075,8 +3075,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14423},
             [questKeys.exclusiveTo] = {14308},
         },
+        [14428] = { -- Amberwind's Journal
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [14429] = { -- Arcane De-Construction
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [14430] = { -- Hacking the Construct
             [questKeys.objectives] = {{{36599,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [14432] = { -- A Pale Brew
             [questKeys.preQuestSingle] = {14431},
@@ -13211,6 +13218,7 @@ function CataQuestFixes.Load()
             },
             [questKeys.finishedBy] = {{53422}},
             [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
@@ -13231,6 +13239,7 @@ function CataQuestFixes.Load()
             },
             [questKeys.finishedBy] = {{53422}},
             [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [29317] = { -- Fish Head
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
