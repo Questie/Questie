@@ -2534,8 +2534,15 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [16143] = {
-            [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{73.9,55.2},{77.9,67.8},{67.1,68.3},{24.7,72.5},{15.3,75.3},{20.4,79.8}},
+                [zoneIDs.BURNING_STEPPES]={{77.2,30.5},{67.4,34},{71.7,49.2},{36.2,70.6},{23.6,70.6},{23.5,48.7}},
+                [zoneIDs.BLASTED_LANDS]={{60.1,43.4},{63,28.3},{56.9,29.2},{47.2,35.6},{51.2,26.5},{45.9,19}},
+                [zoneIDs.WINTERSPRING]={{50.9,14.3},{45.3,37.8},{64.1,50.5}},
+                [zoneIDs.AZSHARA]={{46.3,56.6},{22.1,60.5},{16.9,68.5},{17.1,52.5}},
+                [zoneIDs.TANARIS]={{48.1,29.8},{54.2,29.9},{50.6,34.2},{51.9,50.3},{55.9,52},{53.8,54.4},{35.3,56.8},{33.5,66.6},{29.7,57.5}},
+            },
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,57.8}}},

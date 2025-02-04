@@ -248,5 +248,8 @@ function SeasonOfDiscovery:LoadItems()
         [236350] = { -- The Phylactery of Kel'Thuzad
             [itemKeys.npcDrops] = {15990},
         },
+        [236786] = { -- Heart of Doom
+            [itemKeys.objectDrops] = {525416},
+        },
     }
 end
