@@ -461,7 +461,7 @@ function QuestieWotlkObjectFixes:Load()
         },
 
         -- Below are fake objects
-        -- These items are from previous expansions and they need updated coords
+        -- These objects are from previous expansions and they need updated coords
         [410002] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.98,45.93},{43.9,54.63},{38.8,36.37},{79.79,31.42},{67.24,20.2},{38.45,86.13},{35.72,86.9},{32.28,35.73}}},

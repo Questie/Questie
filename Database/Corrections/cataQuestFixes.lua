@@ -1643,6 +1643,9 @@ function CataQuestFixes.Load()
         [12539] = { -- Hoofing It
             [questKeys.preQuestGroup] = {},
         },
+        [12547] = { -- The Activation Rune
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
         },
@@ -2162,6 +2165,18 @@ function CataQuestFixes.Load()
         },
         [13913] = { -- They Took Our Gnomes
             [questKeys.objectives] = {{{39096}}},
+        },
+        [13914] = { -- Searing Roc Feathers
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [13915] = { -- Hungry, Hungry Hatchling
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [13916] = { -- Poached, Scrambled, Or Raw?
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [13917] = { -- Gorishi Grub
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [13918] = { -- The Titans' Terminal
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE] = {{37.1,80.4},{35.4,83.8},{35.2,86.5}}},Questie.ICON_TYPE_EVENT,l10n("Use the Buried Artifact Detector to collect 5 Ancient Device Fragment")}},
@@ -3553,6 +3568,9 @@ function CataQuestFixes.Load()
         [24684] = { -- A Weezil in the Henhouse
             [questKeys.preQuestSingle] = {},
         },
+        [24687] = { -- Bouquets of Death
+            [questKeys.objectives] = {{{38213}}},
+        },
         [24691] = { -- Peculiar Delicacies
             [questKeys.preQuestSingle] = {24690},
         },
@@ -3565,14 +3583,15 @@ function CataQuestFixes.Load()
         },
         [24695] = { -- Ever Watching From Above
             [questKeys.extraObjectives] = {
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202187}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202195}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202196}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202197}}}
+                {nil,Questie.ICON_TYPE_SLAY,l10n("Defeat another Bloodpetal"),1,{{"monster",6509},{"monster",6510},{"monster",6511},{"monster",6512}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Use Bite"),2,{{"monster",3000},{"monster",9117},{"monster",9270},{"monster",9271},{"monster",9997},{"monster",10302},{"monster",10977},{"monster",12959}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Speak with Gorilla, Stomper and Thunderer"),3,{{"monster",6513},{"monster",6514},{"monster",6516}}},
+                {{[zoneIDs.UN_GORO_CRATER] = {{37.82,33.47}}},Questie.ICON_TYPE_EVENT,l10n("Fly above the canopy"),4},
             },
+            [questKeys.objectives] = {nil,{{202187},{202197},{202196},{202195}}},
         },
         [24697] = { -- How to Make Meat Fresh Again
-            [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{9162,9163,38354},9162,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24698] = { -- Adventures in Archaeology
             [questKeys.preQuestSingle] = {24693},
@@ -3596,11 +3615,12 @@ function CataQuestFixes.Load()
         [24705] = { -- Town Dwellers Were Made to be Saved
             [questKeys.name] = 'Town Dwellers Were Made to be Saved',
             [questKeys.preQuestSingle] = {24703},
-            [questKeys.objectives] = {{{38238,nil,Questie.ICON_TYPE_EVENT},{38239,nil,Questie.ICON_TYPE_EVENT},{38240,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.objectives] = {{{38238,nil,Questie.ICON_TYPE_EVENT},{38239,nil,Questie.ICON_TYPE_EVENT},{38240,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredSourceItems] = {50288},
         },
         [24706] = { -- The Spirits of Golakka Hot Springs
             [questKeys.preQuestGroup] = {24704,24705},
-            [questKeys.objectives] = {{{38254,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.objectives] = {{{38254,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24707] = { -- The Ballad of Maximillian
             [questKeys.preQuestSingle] = {24706},
@@ -3611,9 +3631,13 @@ function CataQuestFixes.Load()
         },
         [24715] = { -- Repairing A-Me 01
             [questKeys.requiredSourceItems] = {50237,50238},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Break open the coconut"),0,{{"object",201978}}}},
         },
         [24717] = { -- The Apes of Un'Goro
             [questKeys.preQuestSingle] = {24701},
+        },
+        [24718] = { -- The Mighty U'cha
+            [questKeys.startedBy] = {{100063}},
         },
         [24719] = { -- Claws of White
             [questKeys.preQuestSingle] = {},
@@ -3658,10 +3682,18 @@ function CataQuestFixes.Load()
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
             [questKeys.sourceItemId] = 11568,
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Place the meat"),0,{{"object",300246}}},
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Apply the pheromones"),0,{{"object",169216}}},
+            },
+        },
+        [24734] = { -- Lost!
+            [questKeys.exclusiveTo] = {24736}, -- not available if you take 24736, Blizzard spaghetti
         },
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
             [questKeys.triggerEnd] = {"Escort Ringo to Marshal's Stand", {[zoneIDs.UN_GORO_CRATER]={{54.88,62.07}}}},
+            [questKeys.exclusiveTo] = {24736}, -- not available if you take 24736, Blizzard spaghetti
         },
         [24737] = { -- Super Sticky
             [questKeys.preQuestSingle] = {24693},
@@ -3673,7 +3705,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
         },
         [24742] = { -- Finding the Source
-            [questKeys.objectives] = {{{10541,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.objectives] = {nil,{{148503,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [24744] = { -- The Biggest Egg Ever
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mechachicken"),0,{{"monster",38224}}}},
@@ -3858,6 +3890,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38571,nil,Questie.ICON_TYPE_EVENT},{40583}}},
             [questKeys.preQuestGroup] = {24907,24906},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
+        },
+        [24911] = { -- Tropical Paradise Beckons
+            [questKeys.nextQuestInChain] = 24740,
         },
         [24913] = { -- Remember the Light
             [questKeys.preQuestSingle] = {27902},
@@ -13739,7 +13774,6 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [24911] = { -- Tropical Paradise Beckons
             [questKeys.startedBy] = {{44374}},
-            [questKeys.nextQuestInChain] = 24740,
         },
         [25095] = { -- Thunderdrome: Sarinexx!
             [questKeys.nextQuestInChain] = 25591,

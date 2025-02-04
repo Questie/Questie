@@ -1816,13 +1816,18 @@ function CataNpcFixes.Load()
         [38240] = { -- Dweller of the North
             [npcKeys.name] = "Dweller of the North"
         },
+        [38255] = { -- Maximillian of Northshire
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{30.62,51.14}}},
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+        },
         [38307] = { -- Gormashh
             [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{59.97,29.88},{59.73,29.41},{59.47,29.25},{59.21,29.64},{58.97,30.41},{59.10,30.58},{59.32,31.02},{59.68,31.29},{59.99,31.45},{60.32,31.65},{60.62,31.90},{60.86,32.16},{60.82,32.31},{60.76,32.63},{60.89,32.87},{60.81,33.11},{60.72,33.33},{60.60,33.70},{60.70,33.88}}}},
         },
         [38328] = { -- Roka
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{57.59,60.81}}}
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{57.59,60.81}}},
         },
         [38329] = { -- Durrin Direshovel
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{37.81,82.81}}},
             [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{38.36,82.99},{38.34,81.55},{38.63,80.45},{38.58,79.01},{38.60,78.27},{38.32,77.50},{37.63,76.69},{36.73,76.25},{36.33,76.73},{36.19,77.75},{36.56,79.01},{37.02,80.16},{37.36,81.31},{37.57,82.47},{38.35,82.70},{38.36,82.99}}}},
         },
         [38381] = { -- Brett "Coins" McQuid
@@ -4160,6 +4165,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{55.03,32.98}}},
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.questEnds] = {28745},
+        },
+        [100063] = { -- The Mighty U'cha
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{64.89,16.64}}},
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.questStarts] = {24718},
         },
     }
 end

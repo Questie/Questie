@@ -113,6 +113,9 @@ function CataItemFixes.Load()
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.startQuest] = 0,
         },
+        [11829] = { -- Un'Goro Ash
+            [itemKeys.npcDrops] = {6520,6521,9376},
+        },
         [11949] = { -- Filled Tainted Ooze Jar
             [itemKeys.npcDrops] = {7092,14345},
         },
