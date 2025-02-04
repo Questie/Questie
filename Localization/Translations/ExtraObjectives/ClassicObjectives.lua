@@ -626,6 +626,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = "使用龍靈採集器900型並擊敗龍人。",
         ["zhCN"] = false,
     },
+    ["Silithyst"] = {
+        ["ptBR"] = "Silitista",
+        ["ruRU"] = "Силитист",
+        ["deDE"] = "Silithyst",
+        ["koKR"] = "실리시스트",
+        ["esMX"] = "Silitista",
+        ["enUS"] = true,
+        ["frFR"] = "Silithyste",
+        ["esES"] = "Silitista",
+        ["zhTW"] = false,
+        ["zhCN"] = "水晶尘",
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do

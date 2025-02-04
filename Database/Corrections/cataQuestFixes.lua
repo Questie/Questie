@@ -710,8 +710,12 @@ function CataQuestFixes.Load()
         [8284] = { -- The Twilight Mystery
             [questKeys.preQuestSingle] = {8321},
         },
+        [8304] = { -- Dearest Natalia
+            [questKeys.requiredLevel] = 54,
+            [questKeys.preQuestSingle] = {8321},
+        },
         [8308] = { -- Brann Bronzebeard's Lost Letter
-            [questKeys.startedBy] = {nil,nil,{20460,20461}},
+            [questKeys.startedBy] = {{11698,11721,11722,11723,11724,11725,11726,11727,11728,11729,11730,11731,11732,11733,11734,13136},nil,{20461}},
         },
         [8318] = { -- Secret Communication
             [questKeys.preQuestSingle] = {},
@@ -3605,6 +3609,7 @@ function CataQuestFixes.Load()
         },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectivesText] = {},
         },
         [24703] = { -- An Important Lesson
             [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
