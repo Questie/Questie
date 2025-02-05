@@ -178,7 +178,7 @@ local autoOptionsLocales = {
         ["esMX"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los PNJs.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "自動接受來自 NPC 的低等級任務。",
         ["esES"] = "Acepta automáticamente misiones triviales (de bajo nivel) de los PNJs.",
         ["frFR"] = "Accepte automatiquement les quêtes triviales (de bas niveau) des PNJs.",
     },
