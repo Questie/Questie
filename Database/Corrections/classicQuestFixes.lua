@@ -1431,6 +1431,7 @@ function QuestieQuestFixes:Load()
         },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
+            [questKeys.finishedBy] = {nil,{152097}},
         },
         [3526] = {
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
