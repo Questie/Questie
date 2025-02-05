@@ -3593,6 +3593,14 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{15700},nil},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8860] = { -- New Year Celebrations!
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+        },
+        [8861] = { -- New Year Celebrations!
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+        },
         [8863] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

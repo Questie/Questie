@@ -832,6 +832,12 @@ function QuestieTBCQuestFixes:Load()
         [8727] = {
             [questKeys.questLevel] = -1,
         },
+        [8860] = { -- New Year Celebrations!
+            [questKeys.questLevel] = -1,
+        },
+        [8861] = { -- New Year Celebrations!
+            [questKeys.questLevel] = -1,
+        },
         [8862] = {
             [questKeys.requiredLevel] = 10,
         },
