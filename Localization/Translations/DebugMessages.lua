@@ -417,7 +417,7 @@ local debugMessagesLocales = {
         ["koKR"] = "해당 퀘스트를 수행하기 적절한지 표시합니다",
         ["esMX"] = "Indica si eres elegible para hacer una misión",
         ["enUS"] = true,
-        ["zhCN"] = false,
+        ["zhCN"] = "显示你是否有资格接取任务",
         ["zhTW"] = "顯示你是否符合做任務的條件",
         ["esES"] = "Indica si eres elegible para hacer una misión",
         ["frFR"] = "Indique si vous êtes éligible pour faire une quête",
@@ -429,7 +429,7 @@ local debugMessagesLocales = {
         ["koKR"] = "퀘스티와 클라이언트 버전 정보를 표시합니다",
         ["esMX"] = "Muestra la información de la versión del cliente y Questie",
         ["enUS"] = true,
-        ["zhCN"] = false,
+        ["zhCN"] = "打印 Questie 和客户端的版本信息",
         ["zhTW"] = "顯示 Questie 和遊戲版本資訊",
         ["esES"] = "Muestra la información de la versión del cliente y Questie",
         ["frFR"] = "Affiche des informations sur la version de Questie et du client",
@@ -445,7 +445,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Informations de débogage de Questie",
         ["esES"] = "Información de depuración de Questie",
         ["zhTW"] = "Questie 除錯資訊",
-        ["zhCN"] = false,
+        ["zhCN"] = "Questie 调试信息",
     },
     ["Please share this info with us on"] = {
         ["ptBR"] = "Por favor, compartilhe essas informações conosco",
@@ -457,7 +457,7 @@ local debugMessagesLocales = {
         ["frFR"] = "S'il vous plaît, partagez ces informations avec nous",
         ["esES"] = "Por favor comparte esta información con nosotros en",
         ["zhTW"] = "請將此資訊分享給我們，在",
-        ["zhCN"] = false,
+        ["zhCN"] = "请在以下平台上与我们分享此信息：",
     },
     ["You can copy the data above"] = {
         ["ptBR"] = "Você pode copiar os dados acima",
@@ -469,7 +469,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Vous pouvez copier les données ci-dessus",
         ["esES"] = "Puedes copiar los datos de arriba",
         ["zhTW"] = "你可以複製上方的資料",
-        ["zhCN"] = false,
+        ["zhCN"] = "你可以复制上面的数据",
     },
     ["Would you like to help us fix it?"] = {
         ["ptBR"] = "Gostaria de nos ajudar a consertar isso?",
@@ -481,7 +481,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Souhaitez-vous nous aider à le réparer ?",
         ["esES"] = "¿Quieres ayudarnos a solucionarlo?",
         ["zhTW"] = "是否願意協助我們修正?",
-        ["zhCN"] = false,
+        ["zhCN"] = "你愿意帮我们修复它吗？",
     },
     ["More Info"] = {
         ["ptBR"] = "Mais informações",
@@ -493,7 +493,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Plus d'informations",
         ["esES"] = "Más información",
         ["zhTW"] = "更多資訊",
-        ["zhCN"] = false,
+        ["zhCN"] = "更多信息",
     },
     ["An item you just encountered has data missing from the Questie database."] = {
         ["ptBR"] = "Um item que você acabou de encontrar está com dados faltando no banco de dados de Questie.",
@@ -505,7 +505,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Un objet que vous venez de rencontrer présente des données manquantes dans la base de données de Questie.",
         ["esES"] = "Un objeto que acabas de encontrar tiene datos faltantes en la base de datos de Questie.",
         ["zhTW"] = "Questie 資料庫中缺少你剛才遇到的物品的資料。",
-        ["zhCN"] = false,
+        ["zhCN"] = "你刚刚遇到的一个物品在 Questie 数据库中缺失数据。",
     },
     ["A quest you just encountered is missing from the Questie database."] = {
         ["ptBR"] = "Uma missão que você acabou de encontrar está faltando no banco de dados de Questie.",
@@ -517,7 +517,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Une quête que vous venez de rencontrer est manquante dans la base de données de Questie.",
         ["esES"] = "Una misión que acabas de encontrar no se encuentra en la base de datos de Questie.",
         ["zhTW"] = "你剛才遇到的任務是 Questie 資料庫中所缺少的。",
-        ["zhCN"] = false,
+        ["zhCN"] = "你刚刚遇到的任务在 Questie 数据库中缺失数据。",
     },
     ["A quest in your quest log is missing from the Questie database and can't be tracked."] = {
         ["ptBR"] = "Uma missão no seu registro de missões está faltando no banco de dados de Questie e não pode ser rastreada.",
@@ -529,7 +529,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Une quête dans votre journal de quêtes est manquante dans la base de données de Questie et ne peut pas être suivie.",
         ["esES"] = "Falta una misión en tu registro de misiones en la base de datos de Questie y no se puede rastrear.",
         ["zhTW"] = "任務日誌中的任務是 Questie 資料庫中所缺少的，無法追蹤任務。",
-        ["zhCN"] = false,
+        ["zhCN"] = "你的任务日志中的一个任务在 Questie 数据库中缺失，因此无法被追踪。",
     },
     ["The NPC you just targeted is missing from the Questie database."] = {
         ["ptBR"] = "O NPC que você acabou de mirar está faltando no banco de dados de Questie.",
@@ -541,7 +541,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Le PNJ que vous venez de cibler est manquant dans la base de données de Questie.",
         ["esES"] = "El PNJ al que acabas de apuntar no se encuentra en la base de datos de Questie.",
         ["zhTW"] = "你剛才選為目標的 NPC 是 Questie 資料庫中所缺少的。",
-        ["zhCN"] = false,
+        ["zhCN"] = "你刚刚选中的 NPC 在 Questie 数据库中缺失数据。",
     },
 }
 
