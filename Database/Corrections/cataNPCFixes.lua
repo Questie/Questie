@@ -2734,6 +2734,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [43778] = { -- Foe Reaper 5000
+            [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {{10.2,82.6}},[zoneIDs.THE_DEADMINES] = {{-1,-1}}},
+        },
         [43787] = { -- Blackrock Drake Rider
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{70.12,45.33}}},
         },
@@ -3096,6 +3099,14 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.4,52.56}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [46612] = { -- Lieutenant Horatio Laine
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_DEADMINES] = {{30.2,28.5},{-1,-1}},
+                [zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {
+                    {60.3,38.8,phases.HORATIO_IRONCLAD_COVE},
+                },
+            },
+        },
         [46654] = { -- Rhea
             [npcKeys.spawns] = {
                 [zoneIDs.BADLANDS] = {
@@ -3207,6 +3218,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.43,62.5}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
         },
+        [47162] = { -- Glubtok
+            [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES]={{38,61},{-1,-1}}},
+        },
         [47178] = { -- TDDC 3 Canyon Credit
             [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{41.56,44.15}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
@@ -3220,6 +3234,9 @@ function CataNpcFixes.Load()
         [47280] = { -- Lunk
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{59.09,57.98}}},
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+        },
+        [47296] = { -- Helix Gearbreaker
+            [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES]={{49.8,90.6},{-1,-1}}},
         },
         [47332] = { -- Lunk
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{41.12,39.5}}},
@@ -3331,6 +3348,12 @@ function CataNpcFixes.Load()
                     {29.31,52.39,phases.GRIM_BATOL_ATTACK_ALLIANCE},
                 },
             },
+        },
+        [47626] = { -- Admiral Ripsnarl
+            [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {{64.2,39.7}},[zoneIDs.THE_DEADMINES] = {{-1,-1}}},
+        },
+        [47739] = { -- "Captain" Cookie
+            [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {{60.7,38.8}},[zoneIDs.THE_DEADMINES] = {{-1,-1}}},
         },
         [47789] = { -- Clerk Horrace Whitesteed
             [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{39.88,62.34},{38.93,62.10},{37.88,64.01},{37.05,63.22}}}},

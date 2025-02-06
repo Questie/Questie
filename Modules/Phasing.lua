@@ -186,6 +186,7 @@ local phases = {
     BARGE_AT_PEACE = 1114,
     BARGE_UNDER_ATTACK = 1115,
     KELSEY_AT_COVE = 1116,
+    HORATIO_IRONCLAD_COVE = 1117,
 }
 Phasing.phases = phases
 
@@ -735,7 +736,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.KELSEY_AT_COVE then
-        return (not complete[26889])
+        return not complete[26889]
+    end
+
+    if phase == phases.HORATIO_IRONCLAD_COVE then
+        return complete[27790] or (questLog[27790] and questLog[27790].isComplete == 1) or false
     end
 
     return false
