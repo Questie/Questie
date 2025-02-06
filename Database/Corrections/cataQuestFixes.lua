@@ -7230,7 +7230,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27625,27626},
         },
         [26642] = { -- Preserving the Barrens
-            [questKeys.exclusiveTo] = {28494},
+            [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 871,
         },
         [26644] = { -- Attracting Attention
