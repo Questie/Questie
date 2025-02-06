@@ -679,11 +679,17 @@ function CataNpcFixes.Load()
         [15541] = { -- Twilight Marauder Morna
             [npcKeys.waypoints] = {},
         },
+        [15549] = { -- Elder Morndeep
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS]={{50.5,62.7},{-1,-1}}},
+        },
         [15556] = { -- Elder Splitrock
-            [npcKeys.spawns] = {[zoneIDs.MARAUDON]={{51.4,93.7},{-1,-1}}}, -- need to fix dungeon maps, this is "Zaetar's Grave" map
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE]={{51.4,93.7}},[zoneIDs.MARAUDON]={{-1,-1}}},
         },
         [15557] = { -- Elder Rumblerock
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{70.11,45.39}}},
+        },
+        [15560] = { -- Elder Stonefort
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_TAZZ_ALOR]={{61.7,39.9}},[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
         },
         [15563] = { -- Elder Bellowrage
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{54.28,49.49}}},
@@ -706,8 +712,14 @@ function CataNpcFixes.Load()
         [15586] = { -- Elder Dreamseer
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{51.4,28.81}}},
         },
+        [15593] = { -- Elder Starsong
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{62.8,34.2},{-1,-1}}},
+        },
         [15604] = { -- Elder Morningdew
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{77.09,75.61}}},
+        },
+        [15607] = { -- Elder Farwhisper
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME]={{78.5,22},{-1,-1}}},
         },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},

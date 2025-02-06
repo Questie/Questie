@@ -69,7 +69,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [1519] = 1453, -- Stormwind City
     [1537] = 1455, -- Ironforge
     [1581] = 291, -- The Deadmines - Dungeon
-    [1583] = 250, -- Blackrock Spire - Dungeon
+    [1583] = 253, -- Blackrock Spire - Dungeon
     [1584] = 242, -- Blackrock Depths - Dungeon
     [1637] = 1454, -- Orgrimmar
     [1638] = 1456, -- Thunder Bluff
@@ -191,6 +191,14 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [4841] = 165, -- Naxxramas - Plague Quarter (fake ID for Naxxramas)
     [4842] = 167, -- Naxxramas - Frostwyrm Lair (fake ID for Naxxramas)
     [4987] = 200, -- The Ruby Sanctum - Raid
+    [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
+    [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
+    [10002] = 243, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
+    [10003] = 250, -- Blackrock Spire - Tazz'Alor (fake ID for Blackrock Spire)
+    [10004] = 251, -- Blackrock Spire - Skitterweb Tunnels (fake ID for Blackrock Spire)
+    [10005] = 252, -- Blackrock Spire - Hordemar City (fake ID for Blackrock Spire)
+    [10006] = 254, -- Blackrock Spire - Halycon's Lair (fake ID for Blackrock Spire)
+    [10007] = 255, -- Blackrock Spire - Chamber of Battle (fake ID for Blackrock Spire)
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -365,14 +373,8 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [1455] = 1537, -- Ironforge
     [291]  = 1581, -- The Deadmines - Dungeon
     [292]  = 1581, -- The Deadmines - Dungeon
-    [250]  = 1583, -- Blackrock Spire - Dungeon
-    [251]  = 1583, -- Blackrock Spire - Dungeon
-    [252]  = 1583, -- Blackrock Spire - Dungeon
-    [253]  = 1583, -- Blackrock Spire - Dungeon
-    [254]  = 1583, -- Blackrock Spire - Dungeon
-    [255]  = 1583, -- Blackrock Spire - Dungeon
+    [253]  = 1583, -- Blackrock Spire - Dungeon -- Hall of Blackhand
     [242]  = 1584, -- Blackrock Depths - Dungeon
-    [243]  = 1584, -- Blackrock Depths - Dungeon
     [1454] = 1637, -- Orgrimmar
     [1456] = 1638, -- Thunder Bluff
     [1457] = 1657, -- Darnassus
@@ -527,11 +529,19 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [187] = 4835, -- Icecrown Citadel - Rampart of Skulls (fake ID for ICC)
     [188] = 4836, -- Icecrown Citadel - Deathbringer's Rise (fake ID for ICC)
     [189] = 4834, -- Icecrown Citadel - Sindragosa (fake ID for ICC)
-    [190] = 4830, -- Icecrown Citadel - Uppe Spire (fake ID for ICC)
+    [190] = 4830, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
     [191] = 4831, -- Icecrown Citadel - Queen Lana'thel (fake ID for ICC)
     [192] = 4837, -- Icecrown Citadel - The Frozen Throne (fake ID for ICC)
     [193] = 4812, -- Icecrown Citadel - Raid
     [200] = 4987, -- The Ruby Sanctum - Raid
+    [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
+    [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
+    [243] = 10002, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
+    [250]  = 10003, -- Blackrock Spire - Tazz'Alor (fake ID for Blackrock Spire)
+    [251]  = 10004, -- Blackrock Spire - Skitterweb Tunnels (fake ID for Blackrock Spire)
+    [252]  = 10005, -- Blackrock Spire - Hordemar City (fake ID for Blackrock Spire)
+    [254]  = 10006, -- Blackrock Spire - Halycon's Lair (fake ID for Blackrock Spire)
+    [255]  = 10007, -- Blackrock Spire - Chamber of Battle (fake ID for Blackrock Spire)
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2879,13 +2889,13 @@ ZoneDB.zoneIDs = {
     STORMWIND_CITY = 1519,
     IRONFORGE = 1537,
     THE_DEADMINES = 1581,
-    LOWER_BLACKROCK_SPIRE = 1583,
-    BLACKROCK_DEPTHS = 1584,
+    LOWER_BLACKROCK_SPIRE = 1583, -- this is also Hall of Blackhand map for Blackrock Spire in Cata
+    BLACKROCK_DEPTHS = 1584, -- this is also Detention Block map for Blackrock Depths in Cata
     ORGRIMMAR = 1637,
     THUNDER_BLUFF = 1638,
     DARNASSUS = 1657,
     ZUL_GURUB = 1977,
-    STRATHOLME = 2017,
+    STRATHOLME = 2017, -- this is also Crusader's Square map for Stratholme in Cata
     SCHOLOMANCE = 2057,
     MARAUDON = 2100,
     ONYXIAS_LAIR = 2159,
@@ -3018,8 +3028,8 @@ ZoneDB.zoneIDs = {
     DRAKTHARON_KEEP_LOWER_LEVEL = 4822,
     DRAKTHARON_KEEP_UPPER_LEVEL = 4823,
     -- Fake IDs for Gundrak
-    GUNDRAK_UPPER_LEVEL = 4824, --154
-    GUNDRAK_LOWER_LEVEL = 4825, --153
+    GUNDRAK_UPPER_LEVEL = 4824, -- 154
+    GUNDRAK_LOWER_LEVEL = 4825, -- 153
 
     -- new cata zones
     MOUNT_HYJAL = 616,
@@ -3047,6 +3057,15 @@ ZoneDB.zoneIDs = {
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
     THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
     KARAZHAN_CRYPTS = 16074, -- SoD Dungeon
+    -- Fake IDs for dungeons
+    MARAUDON_ZAETARS_GRAVE = 10000, -- 281
+    STRATHOLME_CRUSADERS_SQUARE = 10001, -- 318
+    BLACKROCK_DEPTHS_SHADOWFORGE_CITY = 10002, -- 243
+    BLACKROCK_SPIRE_TAZZ_ALOR = 10003, -- 250
+    BLACKROCK_SPIRE_SKITTERWEB_TUNNELS = 10004, -- 251
+    BLACKROCK_SPIRE_HORDEMAR_CITY = 10005, -- 252
+    BLACKROCK_SPIRE_HALYCONS_LAIR = 10006, -- 254
+    BLACKROCK_SPIRE_CHAMBER_OF_BATTLE = 10007, -- 255
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
