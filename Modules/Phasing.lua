@@ -187,6 +187,8 @@ local phases = {
     BARGE_UNDER_ATTACK = 1115,
     KELSEY_AT_COVE = 1116,
     HORATIO_IRONCLAD_COVE = 1117,
+    DEADMINES_HOGGER_ALIVE = 1118,
+    DEADMINES_HOGGER_DEAD = 1119,
 }
 Phasing.phases = phases
 
@@ -741,6 +743,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HORATIO_IRONCLAD_COVE then
         return complete[27790] or (questLog[27790] and questLog[27790].isComplete == 1) or false
+    end
+
+    if phase == phases.DEADMINES_HOGGER_ALIVE then
+        return not questLog[27739]
+    end
+
+    if phase == phases.DEADMINES_HOGGER_DEAD then
+        return (questLog[27739] and questLog[27739].isComplete == 1) or false
     end
 
     return false

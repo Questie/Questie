@@ -225,6 +225,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10030] = 227, -- Gnomeregan - Dungeon - The Dormitory
     [10031] = 228, -- Gnomeregan - Dungeon - Launch Bay
     [10032] = 229, -- Gnomeregan - Dungeon - Tinkers' Court
+    [10033] = 231, -- Uldaman - Dungeon - Khaz'Goroth's Seat
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -376,8 +377,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [219]  = 1176, -- Zul'Farrak - Dungeon
     [136]  = 4816, -- Utgarde Pinnacle - Lower Level (fake ID for Utgarde Pinnacle)
     [137]  = 4817, -- Utgarde Pinnacle - Upper Level (fake ID for Utgarde Pinnacle)
-    [230]  = 1337, -- Uldaman - Dungeon
-    [231]  = 1337, -- Uldaman - Dungeon
+    [230]  = 1337, -- Uldaman - Dungeon - Hall of the Explorers
     [1451] = 1377, -- Silithus
     [220]  = 1477, -- The Temple of Atal'Hakkar - Dungeon
     [1458] = 1497, -- Undercity
@@ -570,6 +570,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [227] = 10030, -- Gnomeregan - Dungeon - The Dormitory
     [228] = 10031, -- Gnomeregan - Dungeon - Launch Bay
     [229] = 10032, -- Gnomeregan - Dungeon - Tinkers' Court
+    [231] = 10033, -- Uldaman - Dungeon - Khaz'Goroth's Seat
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2905,7 +2906,7 @@ ZoneDB.zoneIDs = {
     SCARLET_MONASTERY = 796, -- this is also Graveyard map for Scarlet Monastery in Cata
     CHILL_BREEZE_VALLEY = 801,
     ZUL_FARRAK = 1176,
-    ULDAMAN = 1337,
+    ULDAMAN = 1337, -- this is also Hall of the Keepers map for Uldaman in Cata
     SILITHUS = 1377,
     SUNKEN_TEMPLE = 1417,
     THE_TEMPLE_OF_ATAL_HAKKAR = 1477,
@@ -3115,6 +3116,7 @@ ZoneDB.zoneIDs = {
     GNOMEREGAN_THE_DORMITORY = 10030, -- 227
     GNOMEREGAN_LAUNCH_BAY = 10031, -- 228
     GNOMEREGAN_TINKERS_COURT = 10032, -- 229
+    ULDAMAN_KHAZ_GOROTHS_SEAT = 10033, -- 231
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

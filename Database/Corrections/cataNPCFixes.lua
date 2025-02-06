@@ -3054,6 +3054,12 @@ function CataNpcFixes.Load()
         [46181] = { -- Enchanter Farendin
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
+        [46254] = { -- Hogger
+            [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE]={{19.4,24.9},{-1,-1}}},
+        },
+        [46264] = { -- Lord Overheat
+            [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE]={{81.1,48},{-1,-1}}},
+        },
         [46283] = { -- Chamber of Stars Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
         },
@@ -3065,10 +3071,28 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.questEnds] = {},
         },
+        [46383] = { -- Randolph Moloch
+            [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE]={{50.8,19.1},{-1,-1}}},
+        },
         [46398] = { -- Sentinel's Pawn
             [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{47.88,53.22}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.questEnds] = {},
+        },
+        [46409] = { -- Warden Thelwater
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_STOCKADE] = {
+                    {42.3,54,phases.DEADMINES_HOGGER_ALIVE},
+                    {22.1,27.2,phases.DEADMINES_HOGGER_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [46410] = { -- Nurse Lillian
+            [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE]={{56.6,53.8},{-1,-1}}},
+        },
+        [46417] = { -- Rifle Commander Coe
+            [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE]={{50,58.2},{-1,-1}}},
         },
         [46459] = { -- "Mr. Goldmine's Wild Ride" Kill Credit
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{38.35,93.88}}},
