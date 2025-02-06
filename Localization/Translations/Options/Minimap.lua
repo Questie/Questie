@@ -70,7 +70,7 @@ local minimapOptionsLocales = {
         ["esMX"] = "Muestra iconos del minimapa con colores que se generan aleatoriamente en función de la ID de la misión.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "依據任務 ID 隨機產生不同的顏色來顯示小地圖圖示。",
         ["esES"] = "Muestra iconos del minimapa con colores que se generan aleatoriamente en función de la ID de la misión.",
         ["frFR"] = "Affiche les icônes de la minicarte avec couleurs aléatoires en fonction de l'ID des quêtes.",
     },
