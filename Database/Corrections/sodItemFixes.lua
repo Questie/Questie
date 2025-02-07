@@ -251,5 +251,8 @@ function SeasonOfDiscovery:LoadItems()
         [236786] = { -- Heart of Doom
             [itemKeys.objectDrops] = {525416},
         },
+        [237143] = { -- Orders from the High General
+            [itemKeys.npcDrops] = {238745}
+        },
     }
 end
