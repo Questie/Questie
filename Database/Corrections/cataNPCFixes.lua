@@ -292,6 +292,21 @@ function CataNpcFixes.Load()
         [3943] = { -- Ruuzel
             [npcKeys.waypoints] = {},
         },
+        [3974] = { -- Interrogator Vishas
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{30.9,87.6}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [3975] = { -- Herod
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{78.6,10.7}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [3976] = { -- Scarlet Commander Mograine
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{49.1,27}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [3977] = { -- High Inquisitor Whitemane
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{49.1,16.9}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [3983] = { -- Interrogator Vishas
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{71.5,58.9},{-1,-1}}},
+        },
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
@@ -299,11 +314,30 @@ function CataNpcFixes.Load()
         [4260] = { -- Venture Co. Shredder
             [npcKeys.waypoints] = {},
         },
+        [4289] = { -- Scarlet Evoker
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{69.25,63.05},{71.08,26.12},{78.1,47.6},{78.1,41.5}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{{78.36,20.34},{67.72,20.46},{67.48,26.37},{74.45,26.56}},{{67.37,72.56},{67.57,63.23},{67.67,63.09},{74.58,62.86}},{{78.1,47.6},{77.32,49.88},{74.68,50.85},{74.38,56.6},{71.1,56.67}},{{78.1,41.5},{77.54,39.24},{71.07,38.78},{71.09,33.01},{74.08,32.5}}}},
+        },
+        [4290] = { -- Scarlet Guardsman
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{75.27,33.31},{74.91,64.31},{79.55,19.9},{77.03,21.53},{67.47,18.92},{67.36,27.63},{67.3,26.58},{67.85,27.05},{75.45,62.94},{71.15,63.5},{71.43,64.13},{70.88,64.13},{75.39,57.69},{75.32,56.36},{73.67,50.63},{74.29,49.57},{67.74,61.7},{67.24,62.52},{70.48,55.6},{70.28,56.99},{74.83,56.96},{74.75,25.52},{75.22,31.92},{70.55,32.96},{73.81,39.18},{79.68,20.76},{80.06,20.05},{72.03,18.99},{74.8,39.3},{74.2,37.6},{71.5,31.6},{70.74,31.48},{75.53,26.79}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [4292] = { -- Scarlet Protector
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{75.27,33.31},{74.91,64.31},{79.55,19.9},{77.03,21.53},{67.47,18.92},{67.36,27.63},{67.3,26.58},{67.85,27.05},{75.45,62.94},{71.15,63.5},{71.43,64.13},{70.88,64.13},{75.39,57.69},{75.32,56.36},{73.67,50.63},{74.29,49.57},{67.74,61.7},{67.24,62.52},{70.48,55.6},{70.28,56.99},{74.83,56.96},{74.75,25.52},{75.22,31.92},{70.55,32.96},{73.81,39.18},{79.68,20.76},{80.06,20.05},{72.03,18.99},{74.8,39.3},{74.2,37.6},{71.5,31.6},{70.74,31.48},{75.53,26.79}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [4295] = { -- Scarlet Myrmidon
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{75.27,33.31},{79.55,19.9},{77.03,21.53},{67.47,18.92},{67.36,27.63},{67.3,26.58},{67.85,27.05},{74.75,25.52},{75.22,31.92},{70.55,32.96},{73.81,39.18},{79.68,20.76},{80.06,20.05},{72.03,18.99},{74.8,39.3},{74.2,37.6},{71.5,31.6},{70.74,31.48},{75.53,26.79}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
         [4329] = { -- Firemane Scout
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.02,77.44},{44.62,67.29},{48.96,67.34},{45.36,67.2},{38.95,64.54},{38.96,67.08},{38.76,65.81},{38.81,65.85},{37.95,68.24},{44.03,65.3},{51.94,70.68},{43.24,65.08},{42.82,66.37},{44.55,64.76},{45.67,65.85},{45.21,65.28},{49.49,68.38}}},
         },
         [4331] = { -- Firemane Ash Tail
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.04,77.19},{48.88,67.29},{36.66,69.42},{39.36,65.32},{39.42,64.46},{40.02,65.31},{42.17,67.18},{39.49,66.15},{38.75,65.71},{38.83,65.65},{38.99,65.82},{44.61,66.35},{45.15,66.21},{43.91,66.08},{44.7,65.45},{51.93,70.63},{43.13,65.89},{49.72,67.98},{37.84,68.22}}},
+        },
+        [4542] = { -- High Inquisitor Fairbanks
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{55.4,26.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [4543] = { -- Bloodmage Thalnos
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{24.4,50.8},{-1,-1}}},
         },
         [5833] = { -- Margol the Rager
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{73.49,82.39}}},
@@ -311,6 +345,9 @@ function CataNpcFixes.Load()
         },
         [6072] = { -- Diathorus the Seeker
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.47,83.9}}},
+        },
+        [6487] = { -- Arcanist Doan
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{83.4,74.4}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
@@ -2849,6 +2886,39 @@ function CataNpcFixes.Load()
         },
         [44633] = { -- Stormcaller Jalara
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{51.39,52.21}}},
+        },
+        [44637] = { -- Dark Ranger Velonara
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{75.8,81.1},{-1,-1}}},
+        },
+        [44660] = { -- Dark Ranger Velonara
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{20.5,15}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44690] = { -- Dark Ranger Velonara
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{59.7,94.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44706] = { -- Dark Ranger Velonara
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{48.8,87.5}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44728] = { -- Joseph the Awakened
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{75.8,81.1},{-1,-1}}},
+        },
+        [44738] = { -- Joseph the Awakened
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{20.5,15}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44741] = { -- Joseph the Crazed
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{63.4,94.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44746] = { -- Joseph the Insane
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{48.8,74.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44800] = { -- Dominic
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{45.1,68.2}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44804] = { -- Dominic
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{66.9,83.7}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [44805] = { -- Dominic
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{49,66}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
         [44806] = { -- Fargo Flintlocke
             [npcKeys.spawns] = {

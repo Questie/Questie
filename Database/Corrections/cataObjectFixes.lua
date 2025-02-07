@@ -19,6 +19,9 @@ function CataObjectFixes.Load()
         [7510] = { -- Sprouted Frond
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
         },
+        [19283] = { -- Compendium of the Fallen
+            [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{66.1,52}},
