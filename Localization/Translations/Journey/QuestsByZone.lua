@@ -70,7 +70,7 @@ local questsByZoneLocales = {
         ["esMX"] = "Esta misión se completa automáticamente y no contiene objetivos.",
         ["enUS"] = true,
         ["zhCN"] = "这个任务自动完成，所以没有目标。",
-        ["zhTW"] = "這是個會自動完成的任務，而且沒有包含任務目標。",
+        ["zhTW"] = "這是個會自動完成的任務，而且沒有包含目標。",
         ["esES"] = "Esta misión se completa automaticamente y no contiene objetivos.",
         ["frFR"] = "Cette quête est une quête d'achèvement automatique et ne contient pas d'objectif.",
     },
