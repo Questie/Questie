@@ -199,7 +199,7 @@ local trackerUILocales = {
         ["esMX"] = "Enfocar objetivo",
         ["enUS"] = true,
         ["zhCN"] = "关注目标",
-        ["zhTW"] = "關注任務目標",
+        ["zhTW"] = "關注目標",
         ["esES"] = "Enfocar objetivo",
         ["frFR"] = "Objectif prioritaire",
     },
