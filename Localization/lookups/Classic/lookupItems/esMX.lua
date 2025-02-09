@@ -367,6 +367,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4435] = "Mota de Myzrael",
 [4440] = "Sigilo de Strom",
 [4450] = "Trozo de sigilo",
+[4453] = "Sigilo de Thoradin",
 [4458] = "Sigilo de Arathor",
 [4466] = "Sigilo de Aterratrols",
 [4469] = "Vara del Orden",
