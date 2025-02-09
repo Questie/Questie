@@ -402,6 +402,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4525] = "Varita de invocación de Trelane",
 [4526] = "Amuleto de garfa de raptor",
 [4527] = "Ágata azur",
+[4528] = "Orbe de Tor'gan",
 [4530] = "Filacteria de Trelane",
 [4531] = "Orbe de Trelane",
 [4532] = "Ágata de ascuas de Trelane",
