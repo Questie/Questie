@@ -407,8 +407,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = "Données d'objectif manquantes pour la quête ",
         ["esES"] = "Faltan datos de objetivos para la misión ",
-        ["zhTW"] = "缺少任務目標資料: ",
-        ["zhCN"] = "缺少任务目标资料：",
+        ["zhTW"] = "缺少目標資料，任務：",
+        ["zhCN"] = "缺少目标数据，任务：",
     },
     ["Prints whether you are eligibile to do a quest"] = {
         ["ptBR"] = "Indica se você é elegível para fazer uma missão",
