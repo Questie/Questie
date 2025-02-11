@@ -9175,12 +9175,13 @@ function CataQuestFixes.Load()
         },
         [27574] = { -- I Never Forget a Face
             [questKeys.preQuestSingle] = {27542},
-            [questKeys.exclusiveTo] = {27594}, -- Not breadcrumb, but unavailable after this point in the main zone quest chain
+            [questKeys.exclusiveTo] = {27594}, -- unavailable after this point in the main zone quest chain
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.startedBy] = {{45896},nil,{61505}},
         },
         [27575] = { -- From the Belly of the Beast
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.exclusiveTo] = {27594}, -- unavailable after this point in the main zone quest chain
         },
         [27576] = { -- Patchwork Command
             [questKeys.preQuestSingle] = {},
