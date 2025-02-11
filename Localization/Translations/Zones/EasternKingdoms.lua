@@ -518,6 +518,18 @@ local easternKingdomsLocales = {
         ["zhTW"] = "新地精區",
         ["zhCN"] = "新工匠镇",
     },
+    ["Hillsbrad"] = {
+        ["ptBR"] = "Eira dos Montes",
+        ["ruRU"] = "Хилсбрад",
+        ["deDE"] = "Hügellandhof",
+        ["koKR"] = "언덕마루",
+        ["esMX"] = "Trabalomas",
+        ["enUS"] = true,
+        ["frFR"] = "Hautebrande",
+        ["esES"] = "Trabalomas",
+        ["zhTW"] = "希爾斯布萊德",
+        ["zhCN"] = "希尔斯布莱德",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do
