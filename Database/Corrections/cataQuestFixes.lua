@@ -7838,10 +7838,11 @@ function CataQuestFixes.Load()
         },
         [26964] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {26965,28568},
+            [questKeys.nextQuestInChain] = 26965,
         },
         [26965] = { -- The Warchief Cometh
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{44629,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26966] = { -- The Light's Power
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20271},{20154}}},
@@ -7910,6 +7911,9 @@ function CataQuestFixes.Load()
         },
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [26998] = { -- Iterating Upon Success
+            [questKeys.objectives] = {{{44825,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{1768,1908,46574},1908}}},
         },
         [26999] = { -- A New Era for the Plaguelands
             [questKeys.preQuestSingle] = {},
@@ -8078,6 +8082,9 @@ function CataQuestFixes.Load()
         [27068] = { -- Chief Ukorz Sandscalp
             [questKeys.preQuestSingle] = {},
         },
+        [27069] = { -- Steel Thunder
+            [questKeys.objectives] = {nil,{{205165}}},
+        },
         [27073] = { -- Give 'em Hell!
             [questKeys.preQuestSingle] = {27065},
         },
@@ -8102,17 +8109,27 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 6455,
         },
         [27093] = { -- Lost in the Darkness
-            [questKeys.objectives] = {{{44941}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27069,27073},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{44941,44942},44941}}},
+        },
+        [27094] = { -- Deeper into Darkness
+            [questKeys.startedBy] = {{100064}},
         },
         [27095] = { -- Skitterweb Menace
             [questKeys.preQuestSingle] = {27073},
         },
+        [27096] = { -- Orcs are in Order
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27093,27088,27095},
+        },
         [27097] = { -- Rise, Forsaken
             [questKeys.preQuestSingle] = {27096},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{44954,44966},44954},},}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{44954,44966},44954}}},
         },
         [27099] = { -- No Escape
-            [questKeys.objectives] = {{{44951,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.objectives] = {{{44996,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.startedBy] = {{44365}},
         },
         [27100] = { -- Twilight Research
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
@@ -8313,6 +8330,9 @@ function CataQuestFixes.Load()
         [27231] = { -- Reinforcements from Fenris
             [questKeys.preQuestSingle] = {27098},
         },
+        [27232] = { -- The Waters Run Red...
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"monster",45263}}}},
+        },
         [27233] = { -- The Menders' Stead
             [questKeys.nextQuestInChain] = 26999,
             [questKeys.preQuestSingle] = {27174},
@@ -8431,7 +8451,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27252},
         },
         [27290] = { -- To Forsaken Forward Command
-            [questKeys.preQuestSingle] = {27195}, -- Might also be The Waters Run Red... which turns in at the same time (27232)
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27180,27195,27226,27232},
         },
         [27291] = { -- Peace at Last
             [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
@@ -8512,6 +8533,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27317},
             [questKeys.exclusiveTo] = {},
         },
+        [27322] = { -- Korok the Colossus
+            [questKeys.startedBy] = {{46657},nil,{60956}},
+        },
         [27323] = { -- Grimtotem Chiefs: Grundig Darkcloud [Alliance]
             [questKeys.exclusiveTo] = {},
         },
@@ -8588,6 +8612,8 @@ function CataQuestFixes.Load()
         },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27333,27345},
         },
         [27351] = { -- A Royal Reward
             [questKeys.preQuestSingle] = {},
@@ -8740,7 +8766,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27401] = { -- What Tomorrow Brings
-            [questKeys.objectives] = {nil,{{205417,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,{{205417,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27402] = { -- Token of Power
             [questKeys.preQuestSingle] = {},
@@ -8753,6 +8779,7 @@ function CataQuestFixes.Load()
         },
         [27406] = { -- A Man Named Godfrey
             [questKeys.objectives] = {{{44369,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.startedBy] = {{45312}},
         },
         [27408] = { -- Banner of the Stonemaul
             [questKeys.preQuestSingle] = {27407},
@@ -8783,6 +8810,7 @@ function CataQuestFixes.Load()
         },
         [27423] = { -- Resistance is Futile
             [questKeys.preQuestSingle] = {27405},
+            [questKeys.startedBy] = {{100065}},
         },
         [27425] = { -- A Grim Connection
             [questKeys.preQuestGroup] = {27262,27285,27288},
@@ -8822,8 +8850,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27438] = { -- The Great Escape
-            [questKeys.preQuestSingle] = {27406},
+            [questKeys.preQuestGroup] = {27406,27423},
             [questKeys.triggerEnd] = {"Escape the Ruins of Gilneas",{[zoneIDs.SILVERPINE_FOREST]={{51.82,66.59}}}},
+            [questKeys.startedBy] = {{45312}},
         },
         [27439] = { -- Staff of the Light
             [questKeys.preQuestSingle] = {},
@@ -8893,10 +8922,20 @@ function CataQuestFixes.Load()
         [27475] = { -- Unyielding Servitors
             [questKeys.preQuestSingle] = {27472},
         },
+        [27476] = { -- Dalar Dawnweaver
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27474,27475},
+        },
+        [27478] = { -- Relios the Relic Keeper
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Take the portal"), 0, {{"monster", 45731},{"monster", 45732}}}},
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_MOUNTAINS,
+        },
         [27480] = { -- Ley Energies
             [questKeys.preQuestSingle] = {27476},
             [questKeys.objectives] = {nil,nil,{{61311}}},
+            [questKeys.startedBy] = {{45728},nil,{61310}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_MOUNTAINS,
         },
         [27481] = { -- Out of the Ziggurat
             [questKeys.preQuestGroup] = {27449,27465},
@@ -8909,6 +8948,7 @@ function CataQuestFixes.Load()
         },
         [27483] = { -- Practical Vengeance
             [questKeys.preQuestSingle] = {27476},
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_MOUNTAINS,
         },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
@@ -9000,6 +9040,10 @@ function CataQuestFixes.Load()
         [27511] = { -- The Thrill of Discovery
             [questKeys.objectives] = {{{45757,nil,Questie.ICON_TYPE_EVENT},{45760,nil,Questie.ICON_TYPE_EVENT},{45759,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [27513] = { -- Transdimensional Warfare: Chapter II
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Take the portal"), 0, {{"monster", 45752}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{1888,1889,1912,1913,1914,1915,1920,3577,3578},1888}}},
+        },
         [27514] = { -- Bird Down! Bird Down!
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27341,27366},
@@ -9011,6 +9055,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,{{61321}}},
             [questKeys.preQuestSingle] = {27196},
             [questKeys.startedBy] = {{45765},{205540},{61322}},
+        },
+        [27518] = { -- Transdimensional Warfare: Chapter III
+            [questKeys.objectives] = {{{2120,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27519] = { -- Under the Choking Sands
             [questKeys.preQuestSingle] = {28135},
@@ -9074,7 +9121,7 @@ function CataQuestFixes.Load()
         },
         [27547] = { -- Of No Consequence
             [questKeys.preQuestSingle] = {27542},
-            [questKeys.objectives] = {{{45910,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{45910,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27548] = { -- Lessons in Fear
             [questKeys.preQuestSingle] = {27542},
@@ -9084,7 +9131,7 @@ function CataQuestFixes.Load()
         },
         [27550] = { -- Pyrewood's Fall
             [questKeys.preQuestSingle] = {27542},
-            [questKeys.objectives] = {{{45937,nil,Questie.ICON_TYPE_INTERACT},{45938,nil,Questie.ICON_TYPE_INTERACT},{45939,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{45937,nil,Questie.ICON_TYPE_EVENT},{45938,nil,Questie.ICON_TYPE_EVENT},{45939,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27551] = { -- The Baroness' Missive
             [questKeys.preQuestSingle] = {27524},
@@ -9129,8 +9176,8 @@ function CataQuestFixes.Load()
         [27574] = { -- I Never Forget a Face
             [questKeys.preQuestSingle] = {27542},
             [questKeys.exclusiveTo] = {27594}, -- Not breadcrumb, but unavailable after this point in the main zone quest chain
-            [questKeys.objectives] = {nil,nil,{{61505}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.startedBy] = {{45896},nil,{61505}},
         },
         [27575] = { -- From the Belly of the Beast
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -9138,6 +9185,14 @@ function CataQuestFixes.Load()
         [27576] = { -- Patchwork Command
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27507,27508,27509},
+        },
+        [27577] = { -- 7th Legion Battle Plans
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27547,27548,27550},
+        },
+        [27580] = { -- Sowing Discord
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27547,27548,27550},
         },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
@@ -11578,8 +11633,8 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26854,
         },
         [28568] = { -- Warchief's Command: Silverpine Forest!
-            [questKeys.exclusiveTo] = {26964,26965},
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 26965,
         },
         [28569] = { -- The Bogpaddle Bullet
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
@@ -12964,6 +13019,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29228},
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29230,
+            [questKeys.preQuestSingle] = {29227},
         },
         [29230] = { -- Mauti
             [questKeys.parentQuest] = 29219,

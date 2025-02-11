@@ -189,6 +189,14 @@ local phases = {
     HORATIO_IRONCLAD_COVE = 1117,
     DEADMINES_HOGGER_ALIVE = 1118,
     DEADMINES_HOGGER_DEAD = 1119,
+    SILVERPINE_FOREST_HIGH_COMMAND = 1120,
+    SILVERPINE_FOREST_SEPULCHER = 1121,
+    SILVERPINE_FOREST_FORSAKEN_FRONT = 1122,
+    SILVERPINE_FOREST_FORSAKEN_FRONT_2 = 1123,
+    SILVERPINE_FOREST_BATTLEFRONT = 1124,
+    RUINS_OF_GILNEAS_FFC = 1125,
+    RUINS_OF_GILNEAS_EMBERSTONE = 1126,
+    RUINS_OF_GILNEAS_TEMPESTS_REACH = 1127,
 }
 Phasing.phases = phases
 
@@ -751,6 +759,38 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.DEADMINES_HOGGER_DEAD then
         return (questLog[27739] and questLog[27739].isComplete == 1) or false
+    end
+
+    if phase == phases.SILVERPINE_FOREST_HIGH_COMMAND then
+        return not complete[27098]
+    end
+
+    if phase == phases.SILVERPINE_FOREST_SEPULCHER then
+        return complete[27098] and (not complete[27438]) or false
+    end
+
+    if phase == phases.SILVERPINE_FOREST_FORSAKEN_FRONT then
+        return complete[27438] and (not complete[27472] and (not questLog[27472] or (questLog[27472] and questLog[27472].isComplete == 0))) or false
+    end
+
+    if phase == phases.SILVERPINE_FOREST_FORSAKEN_FRONT_2 then
+        return (complete[27472] or (questLog[27472] and questLog[27472].isComplete == 1)) and (not complete[27601] and (not questLog[27601] or (questLog[27601] and questLog[27601].isComplete == 0))) or false
+    end
+
+    if phase == phases.SILVERPINE_FOREST_BATTLEFRONT then
+        return complete[27601] or (questLog[27601] and questLog[27601].isComplete == 1) or false
+    end
+
+    if phase == phases.RUINS_OF_GILNEAS_FFC then
+        return not complete[27401]
+    end
+
+    if phase == phases.RUINS_OF_GILNEAS_EMBERSTONE then
+        return complete[27401] and (not complete[27406]) and (not complete[27423]) or false
+    end
+
+    if phase == phases.RUINS_OF_GILNEAS_TEMPESTS_REACH then
+        return complete[27406] and complete[27423] and (not complete[27438]) or false
     end
 
     return false
