@@ -1722,6 +1722,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [21592] = "Cohete rojo grande",
 [21593] = "Cohete blanco grande",
 [21595] = "Cohete amarillo grande",
+[21711] = "Invitación al Festival Lunar",
 [21714] = "Traca de cohetes azules grandes",
 [21716] = "Traca de cohetes verdes grandes",
 [21718] = "Traca de cohetes rojos grandes",
