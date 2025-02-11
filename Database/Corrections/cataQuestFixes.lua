@@ -9650,6 +9650,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27742,27743,27744},
             [questKeys.preQuestSingle] = {},
         },
+        [27746] = { -- Empire of Dirt
+            [questKeys.zoneOrSort] = 287,
+        },
         [27747] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
             [questKeys.preQuestSingle] = {27690},
@@ -10403,7 +10406,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47486,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
-            [questKeys.exclusiveTo] = {28096},
+            [questKeys.nextQuestInChain] = 28096,
             [questKeys.preQuestSingle] = {26965},
         },
         [28090] = { -- Precious Goods
@@ -10461,6 +10464,9 @@ function CataQuestFixes.Load()
         },
         [28109] = { -- Pressing Forward
             [questKeys.objectives] = {{{47566,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [28111] = { -- Trouble at Azurelode
+            [questKeys.nextQuestInChain] = 28138,
         },
         [28112] = { -- Escape From the Lost City
             [questKeys.preQuestSingle] = {},
@@ -10524,6 +10530,9 @@ function CataQuestFixes.Load()
         [28137] = { -- Teach A Man To Fish.... Or Steal
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28138] = { -- Human Infestation
+            [questKeys.preQuestSingle] = {},
+        },
         [28139] = { -- Codemaster's Code
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28125,28127},
@@ -10569,6 +10578,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28116,
         },
         [28154] = { -- Muckgill's Flipper or Something...
+            [questKeys.startedBy] = {{47759},nil,{63090}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [28156] = { -- Deep Mine Rescue
@@ -11646,7 +11656,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27587,
         },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
-            [questKeys.exclusiveTo] = {28096},
+            [questKeys.nextQuestInChain] = 28096,
             [questKeys.requiredMaxLevel] = 23,
         },
         [28572] = { -- Warchief's Command: Arathi Highlands!
