@@ -425,7 +425,7 @@ function QuestieInit.WaitForValidGameCache()
         local cacheMiss, _, newQuestIdsChecked = QuestLogCache.CheckForChanges(nil, false)
         if (not cacheMiss) or retries >= 3 then
             if retries == 3 then
-                Questie:Error("QuestieInit: Game Cache did become valid in 3 seconds, continuing with initialization.")
+                Questie:Error("QuestieInit: Game Cache did not become valid in 3 seconds, continuing with initialization.")
             end
             doWait = false
             timer:Cancel()
