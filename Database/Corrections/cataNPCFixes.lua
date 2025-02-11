@@ -342,6 +342,36 @@ function CataNpcFixes.Load()
         [4787] = { -- Scout Thaelrid
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{20.81,75.24},{-1,-1}}},
         },
+        [4798] = { -- Fallenroot Shadowstalker
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{38.09,48.3},{38.47,40.96},{38.99,35.33},{38.91,30.84}},[zoneIDs.BLACKFATHOM_DEEPS] = {{54.71,71.17},{56.97,82.12},{51.18,85.22},{46.9,92.22},{30.89,88.02},{29.3,90.52},{-1,-1}}},
+        },
+        [4799] = { -- Fallenroot Hellcaller
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{39.33,40.02},{39.33,33.52},{40.86,29.14},{38.68,24.28}},[zoneIDs.BLACKFATHOM_DEEPS] = {{37.85,88.66},{35.7,89.99},{-1,-1}}},
+        },
+        [4805] = { -- Blackfathom Sea Witch
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{29.71,63.13},{33.82,55.69},{38.99,48.39},{40.24,28.4},{38.03,29.23}},[zoneIDs.BLACKFATHOM_DEEPS] = {{53.4,72.22},{57.38,76},{57.26,80.6},{54.25,87.41},{53.05,88.76},{40.49,93.66},{40.56,92.07},{29.31,86.33},{41.79,67.75},{40.55,67.75},{34.84,75.47},{32.69,68.46},{24.87,65.12},{16.28,44},{18.35,41.15},{18.08,37.11},{29.41,46.91},{26.23,49.67},{30.7,47.66},{-1,-1}}},
+        },
+        [4807] = { -- Blackfathom Myrmidon
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{29.4,62.16},{33.59,56.7},{39.86,35.35},{38.79,21.91}},[zoneIDs.BLACKFATHOM_DEEPS] = {{51.69,84.29},{35.94,88.39},{28.76,89.35},{40.84,62.99},{39.43,68.06},{38.7,71.25},{30.9,78.72},{32.21,74.12},{24.44,59.09},{22.95,44.35},{29.59,49.08},{33.64,40.05},{32.74,43.03},{35.43,49.23},{-1,-1}}},
+        },
+        [4809] = { -- Twilight Acolyte
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{40.99,78.75},{41.12,77.18},{41.11,72.18},{46.17,68.55},{39.42,60.2}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [4810] = { -- Twilight Reaver
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{43.22,82.34},{40.44,78.18},{37.54,62.82},{38.82,60.46},{37.61,60.53}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [4811] = { -- Twilight Aquamancer
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{42.66,81.42},{40.41,72.14},{40.78,70.32},{37.34,65}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [4812] = { -- Twilight Loreseeker
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{42.63,82.2},{46.18,65.21},{37.64,64.63},{33.42,70.83},{33.62,71.47}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [4813] = { -- Twilight Shadowmage
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{48.69,79.8},{46.52,78.28}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [4814] = { -- Twilight Elementalist
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{50.45,77.88},{48.7,76.67},{51.79,87.5},{48.72,86.35},{49.22,84},{46.49,84.83},{45.59,80.67}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
         [4829] = { -- Aku'mai
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{85.55,86.59}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },
