@@ -19,6 +19,9 @@ function CataObjectFixes.Load()
         [7510] = { -- Sprouted Frond
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
         },
+        [13949] = { -- Pitted Iron Chest
+            [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{32.87,41.17},{-1,-1}}},
+        },
         [19283] = { -- Compendium of the Fallen
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
@@ -68,6 +71,9 @@ function CataObjectFixes.Load()
         },
         [169216] = { -- Preserved Threshadon Carcass
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},
+        },
+        [177964] = { -- Fathom Stone
+            [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{41.41,75.37}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },
         [179832] = { -- Pillaclencher's Ornate Pillow
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
