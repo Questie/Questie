@@ -1754,6 +1754,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [22227] = "Reliquia de Aldea Brisaestelar",
 [22228] = "Espada luminosa de zelote",
 [22229] = "Cenizas de alma del Desterrado",
+[22264] = "Carta escrita con cuidado",
 [22338] = "Ceniza volcánica",
 [22373] = "Restos de cuero",
 [22374] = "Restos de malla",
