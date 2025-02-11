@@ -286,6 +286,12 @@ function CataNpcFixes.Load()
         [3694] = { -- Sentinel Selarin
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{42.51,45.15}}},
         },
+        [3887] = { -- Baron Silverlaine
+            [npcKeys.spawns] = {
+                [zoneIDs.SHADOWFANG_KEEP] = {{-1,-1}},
+                [zoneIDs.SHADOWFANG_KEEP_DINING_HALL] = {{31.14,74.22}},
+            },
+        },
         [3901] = { -- Illiyana
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{87.1,43.49}}},
         },
@@ -313,6 +319,10 @@ function CataNpcFixes.Load()
         },
         [4260] = { -- Venture Co. Shredder
             [npcKeys.waypoints] = {},
+        },
+        [4278] = { -- Commander Springvale
+            [npcKeys.spawns] = {
+                [zoneIDs.SHADOWFANG_KEEP] = {{27.6,58.59},{-1,-1}}},
         },
         [4289] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_ARMORY] = {{69.25,63.05},{71.08,26.12},{78.1,47.6},{78.1,41.5}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
@@ -3456,6 +3466,15 @@ function CataNpcFixes.Load()
         [46939] = { -- Mullan Gryphon
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{58.22,62.52},{62.13,61.74},{56,65.2},{56.2,68.4},{57,74.2},{57.4,68.4},{57.6,68.4},{60,64}}},
         },
+        [46962] = { -- Baron Ashbury
+            [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP]={{67.66,72.68},{-1,-1}}},
+        },
+        [46963] = { -- Lord Walden
+            [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP_LOWER_OBSERVATORY]={{47.32,49.56}},[zoneIDs.SHADOWFANG_KEEP]={{-1,-1}}},
+        },
+        [46964] = { -- Lord Godfrey
+            [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP_LORD_GOFREYS_CHAMBER]={{61.35,24.59}},[zoneIDs.SHADOWFANG_KEEP]={{-1,-1}}},
+        },
         [46968] = { -- Mullan Gryphon
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{59.82,62.08},{61.45,62.85},{53.8,68.8},{54,65.6},{54.8,63.2},{56.8,64},{56.8,71.8}}},
         },
@@ -3525,6 +3544,22 @@ function CataNpcFixes.Load()
         [47280] = { -- Lunk
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{59.09,57.98}}},
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+        },
+        [47293] = { -- Deathstalker Commander Belmont
+            [npcKeys.spawns] = {
+                [zoneIDs.SHADOWFANG_KEEP] = {
+                    {-1,-1},
+                    {64.3,57.82,phases.SHADOWFANG_KEEP_ENTRANCE},
+                    {60.36,57.19,phases.SHADOWFANG_KEEP_ASHBURY_DEAD},
+                    {27.94,60.61,phases.SHADOWFANG_KEEP_SPRINGVALE_DEAD},
+                },
+                [zoneIDs.SHADOWFANG_KEEP_LOWER_OBSERVATORY] = {
+                    {60.19,40.99,phases.SHADOWFANG_KEEP_WALDEN_DEAD},
+                },
+                [zoneIDs.SHADOWFANG_KEEP_LORD_GOFREYS_CHAMBER] = {
+                    {58.84,52.46,phases.SHADOWFANG_KEEP_GODFREY_DEAD},
+                },
+            },
         },
         [47296] = { -- Helix Gearbreaker
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES]={{49.8,90.6},{-1,-1}}},

@@ -197,6 +197,11 @@ local phases = {
     RUINS_OF_GILNEAS_FFC = 1125,
     RUINS_OF_GILNEAS_EMBERSTONE = 1126,
     RUINS_OF_GILNEAS_TEMPESTS_REACH = 1127,
+    SHADOWFANG_KEEP_ENTRANCE = 1128,
+    SHADOWFANG_KEEP_ASHBURY_DEAD = 1129,
+    SHADOWFANG_KEEP_SPRINGVALE_DEAD = 1130,
+    SHADOWFANG_KEEP_WALDEN_DEAD = 1131,
+    SHADOWFANG_KEEP_GODFREY_DEAD = 1132,
 }
 Phasing.phases = phases
 
@@ -791,6 +796,26 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RUINS_OF_GILNEAS_TEMPESTS_REACH then
         return complete[27406] and complete[27423] and (not complete[27438]) or false
+    end
+
+    if phase == phases.SHADOWFANG_KEEP_ENTRANCE then
+        return (not complete[27974]) and (not questLog[27974] or (questLog[27974] and questLog[27974].isComplete == 0)) or false
+    end
+
+    if phase == phases.SHADOWFANG_KEEP_ASHBURY_DEAD then
+        return (complete[27974] or (questLog[27974] and questLog[27974].isComplete == 1)) and ((not complete[27988]) and (not questLog[27988] or (questLog[27988] and questLog[27988].isComplete == 0))) or false
+    end
+
+    if phase == phases.SHADOWFANG_KEEP_SPRINGVALE_DEAD then
+        return (complete[27988] or (questLog[27988] and questLog[27988].isComplete == 1)) and ((not complete[27996]) and (not questLog[27996] or (questLog[27996] and questLog[27996].isComplete == 0))) or false
+    end
+
+    if phase == phases.SHADOWFANG_KEEP_WALDEN_DEAD then
+        return (complete[27996] or (questLog[27996] and questLog[27996].isComplete == 1)) and ((not complete[27998]) and (not questLog[27998] or (questLog[27998] and questLog[27998].isComplete == 0))) or false
+    end
+
+    if phase == phases.SHADOWFANG_KEEP_GODFREY_DEAD then
+        return (complete[27998] or (questLog[27998] and questLog[27998].isComplete == 1)) or false
     end
 
     return false

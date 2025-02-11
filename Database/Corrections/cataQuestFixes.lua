@@ -10186,6 +10186,9 @@ function CataQuestFixes.Load()
         [27973] = { -- Watch Out For Splinters!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [27974] = { -- This Land is Our Land
+            [questKeys.nextQuestInChain] = 27988,
+        },
         [27975] = { -- WANTED: Foreman Wellson
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -10228,6 +10231,9 @@ function CataQuestFixes.Load()
         [27987] = { -- Cannonball!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [27988] = { -- Plague...Plague Everywhere!
+            [questKeys.nextQuestInChain] = 27996,
+        },
         [27989] = { -- Ruumbo Demands Honey
             [questKeys.preQuestSingle] = {28100},
             [questKeys.reputationReward] = {},
@@ -10257,6 +10263,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
             [questKeys.reputationReward] = {},
+        },
+        [27996] = { -- Orders Are For the Living
+            [questKeys.nextQuestInChain] = 27998,
         },
         [27997] = { -- The Corruption of the Jadefire
             [questKeys.preQuestSingle] = {},
