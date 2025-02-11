@@ -750,7 +750,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.HORATIO_IRONCLAD_COVE then
-        return complete[27790] or (questLog[27790] and questLog[27790].isComplete == 1) or false
+        return complete[27790] or complete[27850] or (questLog[27790] and questLog[27790].isComplete == 1) or (questLog[27850] and questLog[27850].isComplete == 1) or false
     end
 
     if phase == phases.DEADMINES_HOGGER_ALIVE then

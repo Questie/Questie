@@ -3390,8 +3390,32 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {},
             [npcKeys.waypoints] = {[zoneIDs.BADLANDS]={{{9.48,40.11},{9.69,39.81},{9.83,39.58},{9.89,39.37},{10.01,39.03},{10.01,38.75},{9.95,38.31},{9.85,38.01},{9.71,37.75},{9.48,37.52},{9.29,37.42},{9.08,37.39},{8.85,37.43},{8.68,37.56},{8.40,37.75},{8.24,38.05},{8.15,38.31},{8.12,38.61},{8.11,39.05},{8.22,39.48},{8.32,39.72},{8.50,40.00},{8.76,40.20},{9.05,40.31},{9.24,40.29},{9.48,40.11}}}},
         },
+        [46889] = { -- Kagtha
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_DEADMINES] = {{29.29,27.21},{-1,-1}},
+                [zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {
+                    {64.24,39.86,phases.HORATIO_IRONCLAD_COVE},
+                },
+            },
+        },
         [46901] = { -- Cheerful Goblin Spirit
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.34,18.02}}},
+        },
+        [46902] = { -- Miss Mayhem
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_DEADMINES] = {{29.62,24.72},{-1,-1}},
+                [zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {
+                    {61.73,37.61,phases.HORATIO_IRONCLAD_COVE},
+                },
+            },
+        },
+        [46906] = { -- Slinky Sharpshiv
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_DEADMINES] = {{28.81,27.3},{-1,-1}},
+                [zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {
+                    {57.56,39.66,phases.HORATIO_IRONCLAD_COVE},
+                },
+            },
         },
         [46920] = { -- Cursed Expedition Member
             [npcKeys.name] = "Cursed Expedition Member",

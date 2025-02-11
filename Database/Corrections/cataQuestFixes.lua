@@ -9872,6 +9872,9 @@ function CataQuestFixes.Load()
         [27841] = { -- The Grateful Dead
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27846},
         },
+        [27842] = { -- Only the Beginning
+            [questKeys.nextQuestInChain] = 27848,
+        },
         [27843] = { -- Reinforcements Denied
             [questKeys.preQuestGroup] = {27821,27822},
         },
@@ -9881,6 +9884,9 @@ function CataQuestFixes.Load()
         },
         [27846] = { -- The Grateful Dead
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841},
+        },
+        [27848] = { -- Good Intentions...Poor Execution
+            [questKeys.nextQuestInChain] = 27850,
         },
         [27849] = { -- Assault on Stonard
             [questKeys.preQuestGroup] = {27795,27843,27845},
