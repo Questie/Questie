@@ -4201,6 +4201,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87364},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
+        [87366] = { -- Knight Time
+            [questKeys.name] = "Knight Time",
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectives] = {nil,nil,{{236397}}},
+            [questKeys.preQuestSingle] = {87365},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
         [87377] = { -- Never at Rest
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
