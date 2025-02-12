@@ -4043,7 +4043,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38999,nil,Questie.ICON_TYPE_TALK}}},
         },
         [24982] = { -- The New Forsaken
-            [questKeys.exclusiveTo] = {24983},
+            [questKeys.nextQuestInChain] = 24983,
         },
         [24983] = { -- Forsaken Duties
             [questKeys.preQuestSingle] = {},
@@ -4059,9 +4059,9 @@ function CataQuestFixes.Load()
         },
         [24991] = { -- Garren's Haunt
             [questKeys.preQuestSingle] = {24996},
-            [questKeys.exclusiveTo] = {24994},
+            [questKeys.nextQuestInChain] = 24994,
         },
-        [24999] = { -- Garren's Haunt
+        [24999] = { -- Planting the Seed of Fear
             [questKeys.preQuestSingle] = {24994},
             [questKeys.objectives] = {{{38937,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -10629,6 +10629,9 @@ function CataQuestFixes.Load()
         },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+        },
+        [28168] = { -- Trouble at the Sludge Fields
+            [questKeys.nextQuestInChain] = 28192,
         },
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
