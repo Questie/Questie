@@ -3505,6 +3505,24 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{26.94,33.57}}},
             [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
         },
+        [47006] = { -- Packleader Ivar Bloodfang
+            [npcKeys.spawns] = {
+                [zoneIDs.SHADOWFANG_KEEP] = {
+                    {-1,-1},
+                    {62.16,57.2,phases.SHADOWFANG_KEEP_ENTRANCE_A},
+                    {59.35,61.13,phases.SHADOWFANG_KEEP_ASHBURY_DEAD_A},
+                },
+                [zoneIDs.SHADOWFANG_KEEP_THE_WALL_WALK] = {
+                    {48.79,82.54,phases.SHADOWFANG_KEEP_SPRINGVALE_DEAD_A},
+                },
+                [zoneIDs.SHADOWFANG_KEEP_LOWER_OBSERVATORY] = {
+                    {60.31,40.93,phases.SHADOWFANG_KEEP_WALDEN_DEAD_A},
+                },
+                [zoneIDs.SHADOWFANG_KEEP_LORD_GOFREYS_CHAMBER] = {
+                    {58.61,53.29,phases.SHADOWFANG_KEEP_GODFREY_DEAD_A},
+                },
+            },
+        },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.49,62.3}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
@@ -3549,15 +3567,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.SHADOWFANG_KEEP] = {
                     {-1,-1},
-                    {64.3,57.82,phases.SHADOWFANG_KEEP_ENTRANCE},
-                    {60.36,57.19,phases.SHADOWFANG_KEEP_ASHBURY_DEAD},
-                    {27.94,60.61,phases.SHADOWFANG_KEEP_SPRINGVALE_DEAD},
+                    {64.3,57.82,phases.SHADOWFANG_KEEP_ENTRANCE_H},
+                    {60.36,57.19,phases.SHADOWFANG_KEEP_ASHBURY_DEAD_H},
+                    {27.94,60.61,phases.SHADOWFANG_KEEP_SPRINGVALE_DEAD_H},
                 },
                 [zoneIDs.SHADOWFANG_KEEP_LOWER_OBSERVATORY] = {
-                    {60.19,40.99,phases.SHADOWFANG_KEEP_WALDEN_DEAD},
+                    {60.19,40.99,phases.SHADOWFANG_KEEP_WALDEN_DEAD_H},
                 },
                 [zoneIDs.SHADOWFANG_KEEP_LORD_GOFREYS_CHAMBER] = {
-                    {58.84,52.46,phases.SHADOWFANG_KEEP_GODFREY_DEAD},
+                    {58.84,52.46,phases.SHADOWFANG_KEEP_GODFREY_DEAD_H},
                 },
             },
         },
