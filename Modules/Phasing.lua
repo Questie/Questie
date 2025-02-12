@@ -772,11 +772,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SILVERPINE_FOREST_HIGH_COMMAND then
-        return not complete[27098]
+        return not complete[27098] and (not questLog[27098] or (questLog[27098] and questLog[27098].isComplete == 0)) or false
     end
 
     if phase == phases.SILVERPINE_FOREST_SEPULCHER then
-        return complete[27098] and (not complete[27438]) or false
+        return (complete[27098] or (questLog[27098] and questLog[27098].isComplete == 1)) and (not complete[27438]) or false
     end
 
     if phase == phases.SILVERPINE_FOREST_FORSAKEN_FRONT then

@@ -8536,7 +8536,8 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [27322] = { -- Korok the Colossus
-            [questKeys.startedBy] = {{46657},nil,{60956}},
+            [questKeys.startedBy] = {{45301,46657},nil,{60956}},
+            [questKeys.preQuestSingle] = {27290},
         },
         [27323] = { -- Grimtotem Chiefs: Grundig Darkcloud [Alliance]
             [questKeys.exclusiveTo] = {},
@@ -8917,6 +8918,7 @@ function CataQuestFixes.Load()
         },
         [27472] = { -- Rise, Godfrey
             [questKeys.preQuestSingle] = {27438},
+            [questKeys.objectives] = {{{45606,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27474] = { -- Breaking the Barrier
             [questKeys.preQuestSingle] = {27472},
@@ -9248,7 +9250,7 @@ function CataQuestFixes.Load()
         },
         [27601] = { -- Cities in Dust
             [questKeys.preQuestSingle] = {27594},
-            [questKeys.triggerEnd] = {"Victory: Final and Absolute", {[zoneIDs.SILVERPINE_FOREST]={{45.32,84.45}}}},
+            [questKeys.objectives] = {{{46019,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27604] = { -- Jammal'an the Prophet
             [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,

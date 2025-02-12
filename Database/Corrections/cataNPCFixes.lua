@@ -3105,6 +3105,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45195] = { -- Bloodfang Stalker
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.35,47.7},{48.26,55.84},{49.72,53.08},{47.58,55.65},{49.48,54.98},{48.94,52.19},{45.6,53.64},{46.3,55.76},{48.72,53.72},{47.96,54.45},{44.89,47.25},{47.27,53.98},{44.65,50.28},{44.95,51.35},{47.71,51.8},{48.63,50.31},{47.64,50.68},{47.04,49.83},{47.25,48.29},{45.03,49.19},{45.97,49.55},{46.3,51.28},{46.8,52.11}}},
+        },
         [45212] = { -- Gory
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{54.07,65.78}}},
         },
@@ -3116,6 +3119,9 @@ function CataNpcFixes.Load()
         },
         [45278] = { -- Freewind Brave
             [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES]={{42.2,48.3}}},
+        },
+        [45301] = { -- Korok the Colossus
+            [npcKeys.spawns] ={[zoneIDs.RUINS_OF_GILNEAS]={{50.65,18.03}}},
         },
         [45312] = { -- Deathstalker Commander Belmont
             [npcKeys.spawns] = {
@@ -3220,6 +3226,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45606] = { -- Lord Godfrey
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.36,64.96}}},
+        },
         [45631] = { -- High Warlord Cromush
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {
@@ -3290,6 +3299,10 @@ function CataNpcFixes.Load()
         },
         [45880] = { -- Baron Ashbury
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{47.91,72.22}}},
+        },
+        [46019] = { -- Cities in Dust Quest Credit
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.32,84.45}}},
+            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
         },
         [46076] = { -- SI:7 Squad Commander
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{38.93,64.01}}},
