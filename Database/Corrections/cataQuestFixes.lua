@@ -7914,6 +7914,8 @@ function CataQuestFixes.Load()
         },
         [26998] = { -- Iterating Upon Success
             [questKeys.objectives] = {{{44825,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{1768,1908,46574},1908}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26992,26995},
         },
         [26999] = { -- A New Era for the Plaguelands
             [questKeys.preQuestSingle] = {},
