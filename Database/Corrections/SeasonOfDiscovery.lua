@@ -177,6 +177,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84330] = 4, -- Paladin Shield of Righteousness
     [84332] = 4, -- Paladin Shield of Righteousness
     [84414] = 4, -- Paladin Shield of Righteousness
+    [84418] = 4, -- Paladin Divine Steed
 
     -- fake IDs
     --- Mage runes

@@ -3051,6 +3051,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84418] = { -- The Missing Knight
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [84495] = { -- Fiery Plate Gauntlets
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,275},
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,

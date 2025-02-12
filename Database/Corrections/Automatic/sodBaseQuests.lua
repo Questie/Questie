@@ -6557,6 +6557,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Observe Orthas as he moves on from this world."},
             [questKeys.objectives] = {{{229037}}},
         },
+        [84418] = {
+            [questKeys.name] = "The Missing Knight",
+            [questKeys.startedBy] = {{5492}},
+            [questKeys.finishedBy] = {{5492}},
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"A mutual friend of ours recently reached out to ask for aid in locating a missing knight by the name of Dalton. He and his young squire were last seen in the plaguelands and have not been heard from in quite some time. If your travels take you that way, please keep an eye out for them.Not much to go on, but you have a knack for finding yourself in all sorts of interesting situations. If anyone could stumble upon a missing knight and his pup squire in the middle of those hellish plaguelands, it's you."},
+            [questKeys.objectives] = nil,
+        },
         [84495] = {
             [questKeys.name] = "Fiery Plate Gauntlets",
             [questKeys.startedBy] = {{10637}},
