@@ -7998,7 +7998,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27016},
         },
         [27039] = { -- Dangerous Intentions
-            [questKeys.preQuestSingle] = {26998},
+            [questKeys.preQuestGroup] = {26989,26998},
         },
         [27040] = { -- Decryption Made Easy
             [questKeys.finishedBy] = {{100008}},
