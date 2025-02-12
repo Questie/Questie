@@ -3294,6 +3294,9 @@ function CataNpcFixes.Load()
         [46076] = { -- SI:7 Squad Commander
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{38.93,64.01}}},
         },
+        [46077] = { -- Lord Itharius
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{49.96,17.21},{-1,-1}}},
+        },
         [46125] = { -- High Warlord Cromush
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {
