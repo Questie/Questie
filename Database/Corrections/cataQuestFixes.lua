@@ -8119,11 +8119,11 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100064}},
         },
         [27095] = { -- Skitterweb Menace
-            [questKeys.preQuestSingle] = {27073},
+            [questKeys.preQuestGroup] = {27069,27073},
         },
         [27096] = { -- Orcs are in Order
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27093,27088,27095},
+            [questKeys.preQuestGroup] = {27088,27093,27094,27095},
         },
         [27097] = { -- Rise, Forsaken
             [questKeys.preQuestSingle] = {27096},
