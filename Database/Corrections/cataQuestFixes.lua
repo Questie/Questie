@@ -4055,7 +4055,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24988},
         },
         [24990] = { -- Darkhound Pounding
-            [questKeys.preQuestSingle] = {24989},
+            [questKeys.preQuestSingle] = {24977},
         },
         [24991] = { -- Garren's Haunt
             [questKeys.preQuestSingle] = {24996},
