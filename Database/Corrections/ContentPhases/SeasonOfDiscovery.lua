@@ -664,6 +664,13 @@ local questsToBlacklistByPhase = {
         [9226] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
         [9227] = true, -- Superior Armaments of Battle - Exalted Amongst the Dawn
         [9228] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
+
+        [88713] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88714] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88715] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88716] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88717] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88718] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
     },
 }
 

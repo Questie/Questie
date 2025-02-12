@@ -4190,6 +4190,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
             [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {88713,88714,88715,88716,88717,88718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
@@ -4248,6 +4249,42 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [88713] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88714,88715,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88714] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88715,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88715] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88716] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88717] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88716,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88718] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88716,88717},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},
