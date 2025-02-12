@@ -4189,6 +4189,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{238382}},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
+        [87365] = { -- Valor Grows by Daring
+            [questKeys.name] = "Valor Grows by Daring",
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectives] = {nil,nil,{{236397}}},
+            [questKeys.preQuestSingle] = {87364},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
         [87377] = { -- Never at Rest
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
