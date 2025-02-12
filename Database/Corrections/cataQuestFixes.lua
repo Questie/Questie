@@ -10703,6 +10703,7 @@ function CataQuestFixes.Load()
         },
         [28192] = { -- No One Here Gets Out Alive
             [questKeys.triggerEnd] = {"Assess the situation at the Sludge Fields", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{36.30,61.15}}}},
+            [questKeys.preQuestSingle] = {28096},
         },
         [28193] = { -- Lockdown!
             [questKeys.objectives] = {{{47970,nil,Questie.ICON_TYPE_EVENT}}},
