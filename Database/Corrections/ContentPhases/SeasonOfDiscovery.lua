@@ -641,8 +641,9 @@ local questsToBlacklistByPhase = {
         [8766] = true, -- The Changing of Paths - Conqueror No More
 
         -- Original Naxxramas quests
-        [9120] = true, -- The Fall of Kel'Thuzad
-        [9232] = true, -- The Only Song I Know...
+        [9120] = true, -- The Fall of Kel'Thuzad - Replaced by 87360
+        [9230] = true, -- Ramaladni's Icy Grasp - Replaced by 88729
+        [9232] = true, -- The Only Song I Know... - Replaced by 88730
 
         -- Invasion quests
         [9094] = true, -- Argent Dawn Gloves
