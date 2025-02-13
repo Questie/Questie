@@ -13032,12 +13032,14 @@ function CataQuestFixes.Load()
         [29193] = { -- On a Wing and a Prayer
             [questKeys.requiredSourceItems] = {69238},
             [questKeys.objectives] = {{{52835,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
-        [29194] = { -- On a Wing and a Prayer
+        [29194] = { -- Through a Glass, Darkly
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",52439}}}},
             [questKeys.objectives] = {nil,{{430025,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = 4024,
             [questKeys.finishedBy] = {{53567}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
@@ -13116,6 +13118,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29226,
         },
+        [29225] = { -- Actionable Intelligence
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+        },
         [29226] = { -- Track the Tracker
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29227,
@@ -13160,6 +13165,7 @@ function CataQuestFixes.Load()
         },
         [29234] = { -- Delegation
             [questKeys.requiredSourceItems] = {70994,70995,70996,70997,70998,70999,71000,71001,71008,71015,71016,71017},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29235] = { -- Defend Grom'gol
             [questKeys.parentQuest] = 29219,
@@ -13182,8 +13188,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{430013}}},
             [questKeys.nextQuestInChain] = 29250,
         },
+        [29239] = { -- Nordrassil's Bough
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+        },
         [29240] = { -- Emergency Extraction
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kalecgos"),0,{{"monster",53149}}}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
@@ -13249,9 +13259,11 @@ function CataQuestFixes.Load()
         [29269] = { -- At One
             [questKeys.objectives] = {{{53182,nil,Questie.ICON_TYPE_EVENT},{53149,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = 4024,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29270] = { -- Time Grows Short
             [questKeys.zoneOrSort] = 4024,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29272] = { -- Need... Water... Badly...
             [questKeys.preQuestSingle] = {29206},
@@ -13310,6 +13322,7 @@ function CataQuestFixes.Load()
         [29285] = { -- Alignment
             [questKeys.objectives] = {{{53215,nil,Questie.ICON_TYPE_TALK}},nil,{{71084}},nil,},
             [questKeys.zoneOrSort] = 4024,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
@@ -13381,10 +13394,12 @@ function CataQuestFixes.Load()
         [29307] = { -- Heart of Flame
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = 4024,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29308] = { -- Heart of Flame
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.zoneOrSort] = 4024,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29309] = { -- The Stuff of Legends
             [questKeys.extraObjectives] = {
@@ -13394,6 +13409,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{53422}},
             [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
@@ -13415,6 +13431,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{53422}},
             [questKeys.objectives] = {{{53422,nil,Questie.ICON_TYPE_EVENT}},nil,{{71085}}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29317] = { -- Fish Head
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
