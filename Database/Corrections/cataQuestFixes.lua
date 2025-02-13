@@ -11849,6 +11849,18 @@ function CataQuestFixes.Load()
         [28641] = { -- Pride of the Dinner Table
             [questKeys.startedBy] = {{49396}},
         },
+        [28643] = { -- The Durnholde Challenge: Zephyrus
+            [questKeys.nextQuestInChain] = 28644,
+        },
+        [28644] = { -- The Durnholde Challenge: Teracula
+            [questKeys.nextQuestInChain] = 28645,
+        },
+        [28645] = { -- The Durnholde Challenge: Bloodvenom
+            [questKeys.nextQuestInChain] = 28646,
+        },
+        [28646] = { -- The Durnholde Challenge: Infernus
+            [questKeys.nextQuestInChain] = 28647,
+        },
         [28649] = { -- A Special Surprise (Worgen)
             [questKeys.preQuestSingle] = {12738},
             [questKeys.nextQuestInChain] = 12751,
