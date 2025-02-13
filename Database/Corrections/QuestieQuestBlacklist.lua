@@ -5241,6 +5241,7 @@ function QuestieQuestBlacklist:Load()
         [26104] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [26109] = true, -- Not in the game
         [26119] = true, -- Hidden quest
+        [26123] = true, -- Not in the game
         [26136] = true, -- Hidden quest
         [26138] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [26151] = QuestieCorrections.CATA_HIDE, -- Not in the game
