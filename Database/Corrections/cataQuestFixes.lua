@@ -11843,6 +11843,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredRaces] = raceKeys.GOBLIN,
         },
         [28607] = { -- The Keys to the Hot Rod
             [questKeys.parentQuest] = 14121,
