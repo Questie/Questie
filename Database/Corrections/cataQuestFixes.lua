@@ -8616,7 +8616,7 @@ function CataQuestFixes.Load()
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27333,27345},
+            [questKeys.preQuestGroup] = {27333,27342,27345},
         },
         [27351] = { -- A Royal Reward
             [questKeys.preQuestSingle] = {},
@@ -9224,6 +9224,8 @@ function CataQuestFixes.Load()
         },
         [27594] = { -- On Her Majesty's Secret Service
             [questKeys.objectives] = {{{45997}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27577,27580},
         },
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
