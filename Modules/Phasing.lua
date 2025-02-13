@@ -207,6 +207,10 @@ local phases = {
     SHADOWFANG_KEEP_SPRINGVALE_DEAD_H = 1135,
     SHADOWFANG_KEEP_WALDEN_DEAD_H = 1136,
     SHADOWFANG_KEEP_GODFREY_DEAD_H = 1137,
+    LYDON_AWESOME_CAGE = 1138,
+    LYDON_AWESOME_MAIN_BUILDING = 1139,
+    ORKUS_IN_WATER = 1140,
+    ORKUS_ON_LAND = 1141,
 }
 Phasing.phases = phases
 
@@ -841,6 +845,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SHADOWFANG_KEEP_GODFREY_DEAD_H then
         return (complete[27998] or (questLog[27998] and questLog[27998].isComplete == 1)) or false
+    end
+
+    if phase == phases.LYDON_AWESOME_CAGE then
+        return not complete[28235]
+    end
+
+    if phase == phases.LYDON_AWESOME_MAIN_BUILDING then
+        return complete[28235] or false
+    end
+
+    if phase == phases.ORKUS_IN_WATER then
+        return (not complete[28345]) and (not questLog[28345] or (questLog[28345] and questLog[28345].isComplete == 0)) or false
+    end
+
+    if phase == phases.ORKUS_ON_LAND then
+        return (complete[28345] or (questLog[28345] and questLog[28345].isComplete == 1)) or false
     end
 
     return false

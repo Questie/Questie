@@ -1087,8 +1087,14 @@ function CataQuestFixes.Load()
         [9455] = { -- Strange Findings
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [9514] = { -- Rune Covered Tablet
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
+        },
+        [9564] = { -- Gurf's Dignity
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [9604] = { -- On the Wings of a Hippogryph
             [questKeys.requiredRaces] = raceKeys.DRAENEI,
@@ -6428,6 +6434,7 @@ function CataQuestFixes.Load()
         [26252] = { -- Heart of the Watcher
             [questKeys.preQuestSingle] = {26236},
             [questKeys.startedBy] = {{114},nil,{57935}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [26254] = { -- Some Spraining to Do
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 42716}}}},
@@ -8072,6 +8079,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27038,26997},
             [questKeys.objectives] = {nil,{{205190,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27066] = { -- Healing in a Flash
             [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
@@ -8142,6 +8150,7 @@ function CataQuestFixes.Load()
         },
         [27106] = { -- A Villain Unmasked
             [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27111] = { -- The Treasure of the Shen'dralar
             [questKeys.preQuestSingle] = {27110},
@@ -10553,6 +10562,7 @@ function CataQuestFixes.Load()
         },
         [28138] = { -- Human Infestation
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2269,2270,2503,47689,47693,47694,47695},47689,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28139] = { -- Codemaster's Code
             [questKeys.preQuestSingle] = {},
@@ -10636,6 +10646,8 @@ function CataQuestFixes.Load()
         },
         [28168] = { -- Trouble at the Sludge Fields
             [questKeys.nextQuestInChain] = 28192,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28138,28144,28146},
         },
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
@@ -10700,6 +10712,8 @@ function CataQuestFixes.Load()
         [28189] = { -- Do the Right Thing
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {28192},
+            [questKeys.objectives] = {{{47872,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.finishedBy] = {{100066}},
         },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
@@ -10717,7 +10731,7 @@ function CataQuestFixes.Load()
         },
         [28196] = { -- The Battle for Hillsbrad
             [questKeys.preQuestSingle] = {28192},
-            [questKeys.startedBy] = {nil,nil,{63250}},
+            [questKeys.startedBy] = {{47789},nil,{63250}},
         },
         [28199] = { -- For Science!
             [questKeys.preQuestSingle] = {28192},
@@ -10751,7 +10765,8 @@ function CataQuestFixes.Load()
         },
         [28206] = { -- A Lost Lad
             [questKeys.name] = "A Lost Lad", -- Called Little Girl Lost in original Cata
-            [questKeys.preQuestSingle] = {28196},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28189,28196,28197,28199},
         },
         [28208] = { -- Winna's Kitten
             [questKeys.preQuestGroup] = {28190,28207},
@@ -11098,6 +11113,7 @@ function CataQuestFixes.Load()
         },
         [28324] = { -- Studies in Lethality
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{48136,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28326] = { -- Placing the Pawns
             [questKeys.preQuestGroup] = {28314,28315,28316},
@@ -11113,8 +11129,15 @@ function CataQuestFixes.Load()
         [28329] = { -- Angry Scrubbing Bubbles
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28330] = { -- Trail of Filth
+            [questKeys.startedBy] = {{2391}},
+        },
         [28331] = { -- Helcular's Rod Giveth...
             [questKeys.objectives] = {{{48269,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28332] = { -- Helcular's Command
+            [questKeys.exclusiveTo] = {},
         },
         [28333] = { -- It's Time to Oil Up
             [questKeys.requiredSourceItems] = {63515},
@@ -11147,6 +11170,8 @@ function CataQuestFixes.Load()
         },
         [28344] = { -- Can You Smell What the Lok'tar is Cooking?
             [questKeys.nextQuestInChain] = 28345,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28331,28332},
         },
         [28345] = { -- *Gurgle* HELP! *Gurgle*
             [questKeys.preQuestSingle] = {28096},
@@ -11168,9 +11193,12 @@ function CataQuestFixes.Load()
         },
         [28355] = { -- Terrible Little Creatures
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.startedBy] = {{2372,2373}},
+            [questKeys.finishedBy] = {{100067}},
         },
         [28356] = { -- Preemptive Strike
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.startedBy] = {{2368,2369,2370,2371},nil,{63686}},
         },
         [28357] = { -- Take it to the Tree
             [questKeys.preQuestGroup] = {28333,28334},
@@ -11301,7 +11329,7 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
         },
         [28397] = { -- They Will Never Expect This...
-            [questKeys.objectives] = {{{48482},{48484}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{48482,48483},48482},{{48484},48484}}},
         },
         [28398] = { -- The Pyromancer's Grimoire
             [questKeys.startedBy] = {{331}},
@@ -11310,6 +11338,10 @@ function CataQuestFixes.Load()
         },
         [28399] = { -- Stones of Binding
             [questKeys.preQuestSingle] = {},
+        },
+        [28400] = { -- Heroes of the Horde!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 48503}}}},
+            [questKeys.triggerEnd] = {"Become Heroes of the Horde",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.47,46.87}}}},
         },
         [28401] = { -- Slaves of the Firelord
             [questKeys.preQuestSingle] = {},
@@ -11575,7 +11607,7 @@ function CataQuestFixes.Load()
         },
         [28538] = { -- Cry of the Banshee
             [questKeys.preQuestSingle] = {28506},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{48741,48742},48742,"SI:7 Agent captured"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{48741,48742},48742,"SI:7 Agent captured",Questie.ICON_TYPE_INTERACT}}},
         },
         [28539] = { -- Hero's Call: Stonetalon Mountains!
             [questKeys.requiredMaxLevel] = 28,
@@ -11626,6 +11658,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 38,
         },
+        [28556] = { -- Breaking the Hand
+            [questKeys.objectives] = {{{48862,nil,Questie.ICON_TYPE_EVENT},{48864,nil,Questie.ICON_TYPE_EVENT},{48865,nil,Questie.ICON_TYPE_EVENT},{48867,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [28557] = { -- Warchief's Command: Uldum!
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
             [questKeys.zoneOrSort] = 989,
@@ -11662,6 +11697,9 @@ function CataQuestFixes.Load()
         [28565] = { -- Hero's Call: Wetlands!
             [questKeys.nextQuestInChain] = 25395,
             [questKeys.requiredMaxLevel] = 23,
+        },
+        [28566] = { -- Decimation
+            [questKeys.startedBy] = {{2278}},
         },
         [28567] = { -- Hero's Call: Loch Modan!
             [questKeys.requiredMaxLevel] = 18,
@@ -11775,8 +11813,19 @@ function CataQuestFixes.Load()
         [28602] = { -- Be Prepared
             [questKeys.preQuestSingle] = {27541},
         },
+        [28603] = { -- Infiltration
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{2278}},
+        },
         [28604] = { -- Deception and Trickery
-            [questKeys.objectives] = {{{48912,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{48912,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {28566},
+        },
+        [28605] = { -- Domination
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28603,28604},
+            [questKeys.startedBy] = {{2278}},
         },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
@@ -11804,6 +11853,8 @@ function CataQuestFixes.Load()
         },
         [28616] = { -- Stormpike Apocalypse
             [questKeys.triggerEnd] = {"Witness the Stormpike Apocalypse", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.03,46.26}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28556,28605},
         },
         [28619] = { -- Warchief's Command: Arathi Highlands!
             [questKeys.nextQuestInChain] = 26022,
@@ -11854,12 +11905,18 @@ function CataQuestFixes.Load()
         },
         [28644] = { -- The Durnholde Challenge: Teracula
             [questKeys.nextQuestInChain] = 28645,
+            [questKeys.startedBy] = {{49243}},
         },
         [28645] = { -- The Durnholde Challenge: Bloodvenom
             [questKeys.nextQuestInChain] = 28646,
+            [questKeys.startedBy] = {{49243}},
         },
         [28646] = { -- The Durnholde Challenge: Infernus
             [questKeys.nextQuestInChain] = 28647,
+            [questKeys.startedBy] = {{49243}},
+        },
+        [28647] = { -- The Durnholde Challenge: D-1000
+            [questKeys.startedBy] = {{49243}},
         },
         [28649] = { -- A Special Surprise (Worgen)
             [questKeys.preQuestSingle] = {12738},
@@ -12328,6 +12385,7 @@ function CataQuestFixes.Load()
         [28807] = { -- Expert Opinion
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27060,27064},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28808] = { -- Fear No Evil -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
