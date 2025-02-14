@@ -10,12 +10,13 @@ l10n.continentLookup = {
     [2] = "Kalimdor",
     [3] = "Outland",
     [4] = "Northrend",
-    [5] = "The Maelstrom",
-    [6] = "Dungeons",
-    [7] = "Battlegrounds",
-    [8] = "Class",
-    [9] = "Professions",
-    [10] = "Events",
+    [5] = "Cataclysm",
+    [6] = "The Maelstrom",
+    [7] = "Dungeons",
+    [8] = "Battlegrounds",
+    [9] = "Class",
+    [10] = "Professions",
+    [11] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2777,8 +2778,14 @@ l10n.zoneCategoryLookup = {
     [2] = l10n.zoneLookup[1],
     [3] = l10n.zoneLookup[530],
     [4] = l10n.zoneLookup[571],
-    [5] = maelstromZones,
-    [6] = {
+    [5] = {
+        [-381] = "Elemental Bonds",
+        [-379] = "Firelands Invasion",
+        [-380] = "The Zandalari",
+        [5733] = "Molten Front",
+    },
+    [6] = maelstromZones,
+    [7] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2863,7 +2870,7 @@ l10n.zoneCategoryLookup = {
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
     },
-    [7] = {
+    [8] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2877,7 +2884,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [8] = {
+    [9] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2889,7 +2896,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [9] = {
+    [10] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2905,7 +2912,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [10] = {
+    [11] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",

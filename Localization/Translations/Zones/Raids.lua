@@ -255,6 +255,18 @@ local raidLocales = {
         ["zhTW"] = "冰冠城塞",
         ["zhCN"] = "冰冠堡垒",
     },
+    ["The Ruby Sanctum"] = {
+        ["ptBR"] = "Santuário Rubi",
+        ["ruRU"] = "Рубиновое святилище",
+        ["deDE"] = "Das Rubinsanktum",
+        ["koKR"] = "루비 성소",
+        ["esMX"] = "El Sagrario Rubí",
+        ["enUS"] = true,
+        ["frFR"] = "Le sanctum Rubis",
+        ["esES"] = "El Sagrario Rubí",
+        ["zhTW"] = "晶紅聖所",
+        ["zhCN"] = "红玉圣殿",
+    },
     ["Baradin Hold"] = {
         ["ptBR"] = "Guarnição Baradin",
         ["ruRU"] = "Крепость Барадин",
