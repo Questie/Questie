@@ -603,6 +603,14 @@ local questsToBlacklistByPhase = {
         [8819] = true,
     },
     [6] = { --Phase 6 - Naxxramas
+        -- Investigate the Scourge of X - Blacklist with QuestieCorrections.ANNIVERSARY_HIDE after the event is over
+        [9260] = true,
+        [9261] = true,
+        [9262] = true,
+        [9263] = true,
+        [9264] = true,
+        [9265] = true,
+        ---
         [9085] = true,
         [9142] = true,
         [9165] = true,
