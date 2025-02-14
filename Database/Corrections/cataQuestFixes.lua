@@ -11354,6 +11354,7 @@ function CataQuestFixes.Load()
         [28400] = { -- Heroes of the Horde!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 48503}}}},
             [questKeys.triggerEnd] = {"Become Heroes of the Horde",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.47,46.87}}}},
+            [questKeys.preQuestSingle] = {28397},
         },
         [28401] = { -- Slaves of the Firelord
             [questKeys.preQuestSingle] = {},
