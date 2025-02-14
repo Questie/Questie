@@ -62,6 +62,18 @@ local zoneSectionLocales = {
         ["zhTW"] = "北裂境",
         ["zhCN"] = "诺森德",
     },
+    ["Cataclysm"] = {
+        ["ptBR"] = "Cataclismo",
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = "대격변",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = "Cataclysme",
+        ["esES"] = false,
+        ["zhTW"] = "浩劫與重生",
+        ["zhCN"] = "大地的裂变",
+    },
     ["The Maelstrom"] = {
         ["ptBR"] = "Voragem",
         ["ruRU"] = "Водоворот",

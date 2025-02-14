@@ -39,12 +39,13 @@ local questCategoryKeys = {
     KALIMDOR = 2,
     OUTLAND = 3,
     NORTHREND = 4,
-    THE_MAELSTROM = 5,
-    DUNGEONS = 6,
-    BATTLEGROUNDS = 7,
-    CLASS = 8,
-    PROFESSIONS = 9,
-    EVENTS = 10,
+    CATACLYSM = 5,
+    THE_MAELSTROM = 6,
+    DUNGEONS = 7,
+    BATTLEGROUNDS = 8,
+    CLASS = 9,
+    PROFESSIONS = 10,
+    EVENTS = 11,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -54,6 +55,7 @@ function QuestieJourney:Initialize()
     for id, name in pairs(l10n.continentLookup) do
         if not (questCategoryKeys.OUTLAND == id and Questie.IsClassic) and
             not (questCategoryKeys.NORTHREND == id and (Questie.IsClassic or Questie.IsTBC)) and
+            not (questCategoryKeys.CATACLYSM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) and
             not (questCategoryKeys.THE_MAELSTROM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) then
             continents[id] = l10n(name)
         end
