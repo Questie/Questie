@@ -3865,7 +3865,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{73.55,67.24}}},
         },
         [48470] = { -- Kingslayer Orkus
-            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{26.88,86.58}}},
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{29.22,83.98}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [48490] = { -- Greater Colossus
