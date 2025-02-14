@@ -51,15 +51,15 @@ local debugMessagesLocales = {
         ["frFR"] = "Active ou désactive l'affichage de la fenêtre 'Mon voyage'.",
     },
     ["Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"] = {
-        ["ptBR"] = "Mostra/oculta o rastreador de missões. Utilizar 'mostrar', 'ocultar', 'redefinir' para respectivamente mostrar, ocultar ou redefinir o rastreador.",
+        ["ptBR"] = "Mostra/oculta o rastreador de missões. Utilizar 'mostrar', 'ocultar', 'redefinir' para respectivamente mostrar/ocultar ou redefinir o rastreador.",
         ["ruRU"] = "состояние трекера Questie. Добавьте 'show', 'hide', 'reset', чтобы показать, скрыть или сбросить трекер.",
         ["deDE"] = "Zeigen/Verstecken des Questie Trackers. Bei 'show', 'hide' oder 'reset' wird der Tracker explizit gezeigt, versteckt oder zurückgesetzt",
         ["koKR"] = "추적기를 표시합니다. 'show','hide','reset'을 설정하여 추적기를 설정합니다.",
-        ["esMX"] = "Muestra/oculta el rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar y restablecer el rastreador",
+        ["esMX"] = "Muestra/oculta el rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar o restablecer el rastreador",
         ["enUS"] = true,
         ["zhCN"] = "切换任务追踪窗口，输入  'show', 'hide', 'reset' 选项以显示、隐藏、重设追踪窗口",
         ["zhTW"] = "切換顯示追蹤清單。加上 'show', 'hide', 'reset' 選項來顯示、隱藏、重置追蹤清單",
-        ["esES"] = "Muestra/oculta el rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar y restablecer el rastreador",
+        ["esES"] = "Muestra/oculta el rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar o restablecer el rastreador",
         ["frFR"] = "Active ou désactive le suivi. Ajouter 'afficher', 'cacher', 'réinitialiser' pour afficher / cacher ou réinitialiser explicitement le suivi",
     },
     ["Flex the amount of quests you have completed so far"] = {
