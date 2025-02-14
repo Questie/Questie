@@ -4222,26 +4222,32 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87433] = { -- Argent Dawn Plate Gloves
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87434] = { -- Argent Dawn Plate Gloves
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87435] = { -- Argent Dawn Mail Gloves
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87436] = { -- Argent Dawn Mail Gloves
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87437] = { -- Argent Dawn Leather Gloves
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID + classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87438] = { -- Argent Dawn Leather Gloves
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID + classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
