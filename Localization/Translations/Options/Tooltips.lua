@@ -79,11 +79,11 @@ local tooltipOptionsLocales = {
         ["ruRU"] = "Опыт на макс. уровне",
         ["deDE"] = "Zeige XP auf Max-Level",
         ["koKR"] = "최대 레벨에서 퀘스트 경험치 표시",
-        ["esMX"] = "Mostrar PE al nivel máximo",
+        ["esMX"] = "Mostrar EXP al nivel máximo",
         ["enUS"] = true,
         ["zhCN"] = "显示高等级的任务经验值",
         ["zhTW"] = "滿等時顯示任務經驗值",
-        ["esES"] = "Mostrar PE al nivel máximo",
+        ["esES"] = "Mostrar EXP al nivel máximo",
         ["frFR"] = "Afficher le PX au niveau maximum",
     },
     ["Shows the quest XP values on quests even at max level."] = {
