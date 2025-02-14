@@ -4028,7 +4028,10 @@ function QuestieQuestFixes:Load()
         [9319] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [9321] = {
+        [9320] = { -- Major Mana Potion
+            [questKeys.questLevel] = -1,
+        },
+        [9321] = { -- Major Healing Potion
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [9322] = {
@@ -4036,6 +4039,18 @@ function QuestieQuestFixes:Load()
         },
         [9323] = {
             [questKeys.requiredLevel] = 1,
+        },
+        [9336] = { -- Major Healing Potion
+            [questKeys.questLevel] = -1,
+        },
+        [9337] = { -- Major Mana Potion
+            [questKeys.questLevel] = -1,
+        },
+        [9341] = { -- Tabard of the Argent Dawn
+            [questKeys.questLevel] = -1,
+        },
+        [9343] = { -- Tabard of the Argent Dawn
+            [questKeys.questLevel] = -1,
         },
         [9386] = {
             [questKeys.preQuestSingle] = {9319},

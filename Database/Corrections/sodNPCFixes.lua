@@ -17,6 +17,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STRANGLETHORN_VALE] = {{27.2, 77.0},{39.5, 5.0}},
             },
         },
+        [16786] = { -- Argent Quartermaster
+            [npcKeys.questStarts] = {9321,9337,9341,87434,87436,87438,87440,88746,88883},
+            [npcKeys.questEnds] = {9321,9337,9341,87434,87436,87438,87440,88746,88883},
+        },
+        [16787] = { -- Argent Outfitter
+            [npcKeys.questStarts] = {9320,9336,9343,87433,87435,87437,87439,88747,88882},
+            [npcKeys.questEnds] = {9320,9336,9343,87433,87435,87437,87439,88747,88882},
+        },
         [202060] = { -- Frozen Murloc
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{76.8, 51.4}},
