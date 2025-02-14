@@ -91,11 +91,11 @@ local minimapIconLocales = {
         ["ruRU"] = "Questie откроется по завершении боя.",
         ["deDE"] = "Questie öffnet sich nach dem Kampf.",
         ["koKR"] = "전투 종료 후 퀘스티가 열립니다",
-        ["esMX"] = "Questie abrirá cuando estés fuera de combate.",
+        ["esMX"] = "Questie se abrirá cuando estés fuera de combate.",
         ["enUS"] = true,
         ["zhCN"] = "Questie 会在战斗结束后打开。",
         ["zhTW"] = "Questie 會在戰鬥結束後開啟。",
-        ["esES"] = "Questie abrirá cuando estés fuera de combate.",
+        ["esES"] = "Questie se abrirá cuando estés fuera de combate.",
         ["frFR"] = "La quête s'ouvrira après la fin du combat.",
     },
 }
