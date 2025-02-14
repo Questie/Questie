@@ -87,7 +87,7 @@ local debugMessagesLocales = {
         ["frFR"] = "a terminé un total de %d quêtes",
     },
     ["Toggles the Minimap Button for Questie"] = {
-        ["ptBR"] = "Mostra/oculta o botão de Questie no minimapa",
+        ["ptBR"] = "Mostra/oculta o botão do minimapa para Questie",
         ["ruRU"] = "показать/скрыть кнопку у миникарты.",
         ["deDE"] = "Zeigen/Verstecken des Minimap-Buttons für Questie",
         ["koKR"] = "Questie 미니맵 아이콘을 표시합니다",
@@ -96,7 +96,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换显示或隐藏Questie小地图图标",
         ["zhTW"] = "顯示小地圖按鈕",
         ["esES"] = "Muestra/oculta el botón del minimapa para Questie",
-        ["frFR"] = "Affiche ou désactive le bouton Questie autour de la minicarte.",
+        ["frFR"] = "Affiche ou désactive le bouton de la minicarte pour Questie.",
     },
     ["Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"] = {
         ["ptBR"] = "Adiciona notas manuais ao mapa para um determinado NPC ID ou nome. Se o nome for ambíguo, podem ser adicionadas notas multipe. Sem um segundo comando, o alvo será adicionado ao mapa. O comando 'redefinir' remove todas as notas",
