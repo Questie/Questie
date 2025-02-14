@@ -4221,51 +4221,35 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87433] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16787}},
-            [questKeys.finishedBy] = {{16787}},
+        [87433] = { -- Argent Dawn Plate Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87434] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16786}},
-            [questKeys.finishedBy] = {{16786}},
+        [87434] = { -- Argent Dawn Plate Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87435] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16787}},
-            [questKeys.finishedBy] = {{16787}},
+        [87435] = { -- Argent Dawn Mail Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87436] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16786}},
-            [questKeys.finishedBy] = {{16786}},
+        [87436] = { -- Argent Dawn Mail Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87437] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16787}},
-            [questKeys.finishedBy] = {{16787}},
+        [87437] = { -- Argent Dawn Leather Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87438] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16786}},
-            [questKeys.finishedBy] = {{16786}},
+        [87438] = { -- Argent Dawn Leather Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87439] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16787}},
-            [questKeys.finishedBy] = {{16787}},
+        [87439] = { -- Argent Dawn Cloth Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [87440] = { -- Argent Dawn Gloves
-            [questKeys.startedBy] = {{16786}},
-            [questKeys.finishedBy] = {{16786}},
+        [87440] = { -- Argent Dawn Cloth Gloves
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
