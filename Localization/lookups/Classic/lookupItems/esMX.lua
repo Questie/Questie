@@ -704,6 +704,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5860] = "Legado de los Aspectos",
 [5861] = "Comienzos de la amenaza de los no-muertos",
 [5862] = "Propulsor de seforio",
+[5865] = "Propulsor de seforio modificado"
 [5867] = "Ampolla con grabados",
 [5868] = "Ampolla con grabados llena",
 [5869] = "Pezuña hendida",
