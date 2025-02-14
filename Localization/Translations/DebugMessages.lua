@@ -39,15 +39,15 @@ local debugMessagesLocales = {
         ["frFR"] = "Active ou désactive l'affichage de Questie sur la carte et la minicarte",
     },
     ["Toggles the My Journey window"] = {
-        ["ptBR"] = "Mostra/oculta a janela 'Minha Jornada'",
+        ["ptBR"] = "Mostra/oculta a janela 'Minha jornada'",
         ["ruRU"] = "открыть 'Путешествие'.",
         ["deDE"] = "Zeigen/Verstecken des 'Meine Reise'-Fensters",
         ["koKR"] = "나의 여정 창을 표시합니다",
-        ["esMX"] = "Muestra/oculta la ventana de 'Mi Viaje'",
+        ["esMX"] = "Muestra/oculta la ventana de 'Mi viaje'",
         ["enUS"] = true,
         ["zhCN"] = "打开日志窗口",
         ["zhTW"] = "打開冒險日記",
-        ["esES"] = "Muestra/oculta la ventana de 'Mi Viaje'",
+        ["esES"] = "Muestra/oculta la ventana de 'Mi viaje'",
         ["frFR"] = "Active ou désactive l'affichage de la fenêtre 'Mon voyage'.",
     },
     ["Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"] = {
