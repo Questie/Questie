@@ -57,6 +57,7 @@ local questTagCorrections = {
     [208] = {1, "Elite"},
     [373] = {81, "Dungeon"},
     [644] = {1, "Elite"},
+    [645] = {1, "Elite"},
     [4146] = {81, "Dungeon"},
     [5342] = {0, ""},
     [5344] = {0, ""},
