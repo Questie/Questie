@@ -3872,7 +3872,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{66.61,41.73}}},
         },
         [48503] = { -- Kingslayer Orkus
-            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{27.35,87.35}}},
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{27.35,87.34}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [48515] = { -- Stormpike Battle Master
