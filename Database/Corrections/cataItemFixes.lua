@@ -36,6 +36,9 @@ function CataItemFixes.Load()
         [4106] = { -- Tumbled Crystal
             [itemKeys.npcDrops] = {1096,4260},
         },
+        [4440] = { -- Sigil of Strom
+            [itemKeys.npcDrops] = {2588,2590,2591,24477},
+        },
         [4506] = { -- Stromgarde Badge
             [itemKeys.npcDrops] = {2588,2590,2591,24477},
         },

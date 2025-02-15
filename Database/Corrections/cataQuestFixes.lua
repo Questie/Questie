@@ -6008,8 +6008,20 @@ function CataQuestFixes.Load()
         [26022] = { -- First Blood
             [questKeys.preQuestSingle] = {},
         },
+        [26023] = { -- The Forsaken Trollbane
+            [questKeys.preQuestSingle] = {26022},
+        },
+        [26025] = { -- The Traitor Orc
+            [questKeys.preQuestSingle] = {26022},
+        },
         [26026] = { -- Dream of a Better Tomorrow
             [questKeys.preQuestSingle] = {26004},
+        },
+        [26029] = { -- The Real Threat
+            [questKeys.preQuestSingle] = {26027},
+        },
+        [26039] = { -- The Princess Trapped
+            [questKeys.preQuestSingle] = {},
         },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
@@ -6097,6 +6109,9 @@ function CataQuestFixes.Load()
         },
         [26082] = { -- To Battlescar!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in Krom'gar Demolisher"),0,{{"monster",35163}}}},
+        },
+        [26083] = { -- Hello Lolo
+            [questKeys.preQuestSingle] = {26081},
         },
         [26085] = { -- Rallying the Defenders
             [questKeys.objectives] = {nil,{{203452}}},
@@ -6647,6 +6662,9 @@ function CataQuestFixes.Load()
         },
         [26340] = { -- The Hunt
             [questKeys.preQuestSingle] = {9457},
+        },
+        [26341] = { -- The Stone Shards
+            [questKeys.nextQuestInChain] = 26039,
         },
         [26342] = { -- Paint it Black
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -7726,6 +7744,9 @@ function CataQuestFixes.Load()
         },
         [26907] = { -- Take Them Down!
             [questKeys.objectives] = {{{4424},{4428},{4420},{4422}}},
+        },
+        [26909] = { -- The Stone Shards
+            [questKeys.nextQuestInChain] = 26039,
         },
         [26910] = { -- Etched Letter
             [questKeys.requiredClasses] = classKeys.HUNTER,
@@ -11737,6 +11758,7 @@ function CataQuestFixes.Load()
         },
         [28572] = { -- Warchief's Command: Arathi Highlands!
             [questKeys.requiredMaxLevel] = 28,
+            [questKeys.nextQuestInChain] = 26022,
         },
         [28573] = { -- Hero's Call: Arathi Highlands!
             [questKeys.requiredMaxLevel] = 28,

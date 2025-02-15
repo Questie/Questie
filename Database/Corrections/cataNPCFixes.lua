@@ -201,6 +201,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
         },
+        [2612] = { -- Lieutenant Valorcall
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{37.95,55.71}}},
+            [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{37.95,55.71},{37.75,56.48},{37.57,56.98},{37.24,56.82},{36.99,56.63},{36.59,56.50},{36.25,56.50},{36.19,56.50},{35.67,56.50},{35.10,56.51}}}},
+        },
         [2635] = { -- Elder Snapjaw Crocolisk
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.34,56.16},{49.29,55.17},{50.4,53.29},{48.74,50.01},{48.5,52.19},{50.83,50.83},{50.82,49.58},{50.9,48.22},{49.79,44.5}}},
         },
@@ -342,6 +346,9 @@ function CataNpcFixes.Load()
         },
         [4331] = { -- Firemane Ash Tail
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.04,77.19},{48.88,67.29},{36.66,69.42},{39.36,65.32},{39.42,64.46},{40.02,65.31},{42.17,67.18},{39.49,66.15},{38.75,65.71},{38.83,65.65},{38.99,65.82},{44.61,66.35},{45.15,66.21},{43.91,66.08},{44.7,65.45},{51.93,70.63},{43.13,65.89},{49.72,67.98},{37.84,68.22}}},
+        },
+        [4479] = { -- Fardel Dabyrie
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{51.08,39.78},{51.14,41.5},{48.94,39.5}}},
         },
         [4542] = { -- High Inquisitor Fairbanks
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{55.4,26.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
