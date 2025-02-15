@@ -54,6 +54,7 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
+    [208] = {1, "Elite"},
     [373] = {81, "Dungeon"},
     [4146] = {81, "Dungeon"},
     [5342] = {0, ""},
