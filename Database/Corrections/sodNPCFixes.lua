@@ -844,7 +844,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {87283},
         },
         [238376] = { -- Brother Luctus
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.56,65.46}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{80.56,65.46}},
+                [zoneIDs.AZSHARA] = {{32,54}},
+                [zoneIDs.BURNING_STEPPES] = {{65.43,55.13}},
+                [zoneIDs.SWAMP_OF_SORROWS] = {{32,54}},
+                [zoneIDs.WINTERSPRING] = {{58.41,35.97}},
+                [zoneIDs.TANARIS] = {{53.9,28.6}},
+            },
         },
 
         -- fake NPCs
