@@ -10778,7 +10778,7 @@ function CataQuestFixes.Load()
         [28206] = { -- A Lost Lad
             [questKeys.name] = "A Lost Lad", -- Called Little Girl Lost in original Cata
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {28189,28196,28197,28199},
+            [questKeys.preQuestGroup] = {28196,28197,28199},
         },
         [28208] = { -- Winna's Kitten
             [questKeys.preQuestGroup] = {28190,28207},
