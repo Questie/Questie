@@ -7755,6 +7755,9 @@ function CataQuestFixes.Load()
         [26911] = { -- Myzrael's Tale [Horde]
             [questKeys.preQuestSingle] = {26042},
         },
+        [26912] = { -- The Princess Unleashed
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon Myzrael"),0,{{"object",138492}}}},
+        },
         [26913] = { -- Charging into Battle -- Human Warrior
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100}}},
             [questKeys.nextQuestInChain] = 28789,
