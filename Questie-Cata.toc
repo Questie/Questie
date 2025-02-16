@@ -5,6 +5,7 @@
 ## Notes-esMX: Un asistente de misiones
 ## Notes-esES: Un asistente de misiones
 ## Notes-ptBR: Um assistente de missões
+## Notes-ruRU: Помощник по заданиям в WoW Classic
 ## Notes-frFR: Un assistant de quêtes
 ## Notes-zhCN: 独立的怀旧服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
