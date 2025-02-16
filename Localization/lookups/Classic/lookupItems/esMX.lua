@@ -918,6 +918,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [7867] = "Vasija de sangre de dragón",
 [7871] = "Muestra de robo",
 [7886] = "Diario sin traducir",
+[7887] = "Collar y gema recuperados",
 [7906] = "Cuernos de Nez'ra",
 [7908] = "Diario de Klaven Mortoalerta",
 [7910] = "Rubí estrella",
