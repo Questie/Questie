@@ -440,6 +440,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4644] = "El Corazón Heredado",
 [4645] = "Cadenas de Hematus",
 [4646] = "Estrella de Xil'yeh",
+[4648] = "Sigilo del Martillo",
 [4702] = "Pico de prospector",
 [4739] = "Carne de zancudo de llanura",
 [4740] = "Pluma de zancudo de llanura",
