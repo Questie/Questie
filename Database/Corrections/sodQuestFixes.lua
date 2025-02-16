@@ -459,7 +459,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78537] = { -- Elixir of Insight
-            [questKeys.preQuestSingle] = {78506},
+            [questKeys.preQuestSingle] = {85772},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78561] = { -- Elixir of Insight
@@ -3769,6 +3769,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{5164}},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+        },
+        [85772] = { -- Elemental Distress
+            [questKeys.startedBy] = {{12736}},
+            [questKeys.objectives] = {nil,nil,{{210668},{210667},{210665}}},
+            [questKeys.preQuestSingle] = {78920},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [85798] = { -- Arms for the Field
             [questKeys.startedBy] = {nil,nil,{21260}},

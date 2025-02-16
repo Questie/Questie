@@ -8053,6 +8053,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"To become an Armorsmith, you must make the following items and return them to Grumnus: 4 Ornate Mithril Helms, 2 Ornate Mithril Boots, 1 Ornate Mithril Breastplate."},
             [questKeys.objectives] = {nil,nil,{{7937},{7936},{7935}}},
         },
+        [85772] = {
+            [questKeys.name] = "Elemental Distress",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{12736}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Collect motes of elemental rage, and bring them to Je'neu Sancrea at Zoram'gar Outpost, Ashenvale."},
+            [questKeys.objectives] = nil,
+        },
         [85798] = {
             [questKeys.name] = "Arms for the Field",
             [questKeys.startedBy] = nil,
