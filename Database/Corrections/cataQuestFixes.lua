@@ -6579,6 +6579,9 @@ function CataQuestFixes.Load()
         [26304] = { -- Nighttime in the Jungle
             [questKeys.preQuestSingle] = {26359},
         },
+        [26306] = { -- Start Taking Back
+            [questKeys.preQuestSingle] = {},
+        },
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
         },
@@ -6854,6 +6857,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26375,26376,26377},
             [questKeys.objectives] = {{{44281,nil,Questie.ICON_TYPE_EVENT},{44282,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [26432] = { -- The Fall of Jintha'Alor
+            [questKeys.nextQuestInChain] = 26306,
         },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
