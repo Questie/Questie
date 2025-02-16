@@ -6,7 +6,7 @@
 ## Notes-esES: Un asistente de misiones
 ## Notes-ptBR: Um assistente de missões
 ## Notes-frFR: Un assistant de quêtes
-## Notes-zhCN: 独立的经典版任务助手
+## Notes-zhCN: 独立的经典服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
 ## Version: 10.16.1
 ## RequiredDeps:
