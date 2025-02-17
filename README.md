@@ -31,7 +31,7 @@ Trust us it's (Good)!
 
 Questie comes with translations for all offical WoW Classic languages. These are:
 
-English, German, French, Spanish, Portuguese, Russian, Chinese, Taiwanese and Korean.
+English, German, French, Spanish, Portuguese, Russian, Simplified Chinese, Traditional Chinese and Korean.
 
 If you want to help with translations then checkout the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations) and search for missing translations by:
 > `["<yourLanguage>"] = false` (e.g. `["deDE"] = false`) and replace the `false` with a string of the new translation, e.g. `["<yourLanguage>"] = "YourTranslation"`.
