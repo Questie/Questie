@@ -4150,6 +4150,10 @@ function CataNpcFixes.Load()
         [53009] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{46.53,35.51}}},
         },
+        [53079] = { -- Crimson Lasher
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{53.53,90.74}}},
+            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+        },
         [53080] = { -- Captain Irontree
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{45.63,86.15}}},
         },

@@ -37,7 +37,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:SetFullHeight(true)
     zoneTreeFrame:SetTree(zoneTree)
 
-    zoneTreeFrame.treeframe:SetWidth(220)
+    zoneTreeFrame.treeframe:SetWidth(280)
     zoneTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
 
