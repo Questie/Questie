@@ -13368,6 +13368,7 @@ function CataQuestFixes.Load()
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},
             [questKeys.nextQuestInChain] = 29302,
+            [questKeys.preQuestSingle] = {29203},
         },
         [29299] = { -- Some Like It Hot
             [questKeys.exclusiveTo] = {29255,29257},
