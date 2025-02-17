@@ -391,6 +391,7 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
 
     if (quest.preQuestGroup and next(quest.preQuestGroup)) then
         for _, v in pairs(quest.preQuestGroup) do
+            v = math.abs(v)
             if v ~= quest.Id then
                 local preQuest = QuestieDB.GetQuest(v)
                 local label = QuestieJourneyUtils.GetInteractiveQuestLabel(preQuest)
