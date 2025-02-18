@@ -1712,6 +1712,11 @@ function AceConfigDialog:FeedGroup(appName,options,container,rootframe,path, isR
 		--if parenttype is tree then this group is already a node on that tree
 		elseif (parenttype ~= "tree") or isRoot then
 			local tree = gui:Create("TreeGroup")
+
+            if (group.treeWidth ~= nil) then
+                tree:SetTreeWidth(group.treeWidth)
+            end
+
 			InjectInfo(tree, options, group, path, rootframe, appName)
 			tree:EnableButtonTooltips(false)
 
@@ -2029,3 +2034,4 @@ function AceConfigDialog:AddToBlizOptions(appName, name, parent, ...)
 		error(("%s has already been added to the Blizzard Options Window with the given path"):format(appName), 2)
 	end
 end
+
