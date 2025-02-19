@@ -29,9 +29,10 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
         [126158] = { -- Tallonkai's Dresser
-            [objectKeys.spawns] = {
-                [zoneIDs.TELDRASSIL] = {{66.1,52}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{66.1,52}}},
+        },
+        [142487] = { -- The Sparklematic 5200
+            [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{65.78,57.63},{68.67,62.02},{63.05,68.12}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [144052] = { -- Sandsorrow Watch Water Hole
             [objectKeys.name] = "Sandsorrow Watch Water Hole",

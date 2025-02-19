@@ -488,6 +488,9 @@ function CataNpcFixes.Load()
         [6072] = { -- Diathorus the Seeker
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.47,83.9}}},
         },
+        [6235] = { -- Electrocutioner 6000
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{24.58,67.92}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
+        },
         [6243] = { -- Gelihast
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{52.25,55.1},{-1,-1}}},
         },
@@ -496,6 +499,9 @@ function CataNpcFixes.Load()
         },
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
+        },
+        [7079] = { -- Viscous Fallout
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{76.87,44.41}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [7149] = { -- Withered Protector
             [npcKeys.waypoints] = {},
@@ -546,6 +552,9 @@ function CataNpcFixes.Load()
         },
         [7797] = { -- Ruuzlu
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20},{-1,-1}}},
+        },
+        [7800] = { -- Mekgineer Thermaplugg
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{31.35,29.74}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92},{-1,-1}}},
@@ -3082,6 +3091,18 @@ function CataNpcFixes.Load()
                     {40.03,69.24,phases.THASSARIAN_WPL_FP},
                 },
             },
+        },
+        [44556] = { -- Murd Doc
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{63.02,33.26},{-1,-1}}},
+        },
+        [44560] = { -- B.E Barechus
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{65.11,47.02}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
+        },
+        [44561] = { -- Face
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_LAUNCH_BAY] = {{23.88,39.05}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
+        },
+        [44563] = { -- Hann Ibal
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{34.57,19.78}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [44629] = { -- Garrosh Hellscream
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{57.28,10.28}}},
