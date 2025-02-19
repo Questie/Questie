@@ -158,6 +158,9 @@ function CataItemFixes.Load()
         [18960] = { -- Lookout's Spyglass
             [itemKeys.npcDrops] = {5840},
         },
+        [19034] = { -- Lard's Lunch
+            [itemKeys.objectDrops] = {},
+        },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
         },

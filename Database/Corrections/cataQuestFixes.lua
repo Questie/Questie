@@ -6390,6 +6390,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [26212] = { -- Lard Lost His Lunch
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the basket"), 0, {{"object", 179910}}}},
+        },
         [26213] = { -- Hot On the Trail: The Riverpaw Clan
             [questKeys.preQuestSingle] = {26209},
         },
@@ -6436,6 +6439,9 @@ function CataQuestFixes.Load()
         },
         [26237] = { -- Times are Tough
             [questKeys.preQuestSingle] = {26236},
+        },
+        [26240] = { -- Stomp To My Beat
+            [questKeys.objectives] = {{{42536,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26241] = { -- Westfall Stew
             [questKeys.preQuestSingle] = {26236},
@@ -6492,6 +6498,12 @@ function CataQuestFixes.Load()
         [26266] = { -- Hope for the People
             [questKeys.preQuestSingle] = {26270},
         },
+        [26267] = { -- Skulk Rock Clean-Up
+            [questKeys.preQuestSingle] = {26263},
+        },
+        [26268] = { -- Skulk Rock Supplies
+            [questKeys.preQuestSingle] = {26263},
+        },
         [26269] = { -- The Green Hills of Stranglethorn
             [questKeys.preQuestSingle] = {583},
         },
@@ -6525,6 +6537,9 @@ function CataQuestFixes.Load()
         },
         [26280] = { -- The Defense of Grom'gol: Murloc Menace
             [questKeys.preQuestSingle] = {26278},
+        },
+        [26283] = { -- Prime Slime
+            [questKeys.preQuestSingle] = {26263},
         },
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -6581,6 +6596,9 @@ function CataQuestFixes.Load()
         },
         [26306] = { -- Start Taking Back
             [questKeys.preQuestSingle] = {},
+        },
+        [26307] = { -- Start Taking Back
+            [questKeys.preQuestSingle] = {26306},
         },
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
@@ -6702,6 +6720,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{34}},
             [questKeys.finishedBy] = {nil,{33}},
         },
+        [26357] = { -- Faces of Evil
+            [questKeys.objectives] = {{{42704,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
         },
@@ -6726,6 +6747,12 @@ function CataQuestFixes.Load()
         [26365] = { -- Hero's Call: Redridge Mountains!
             [questKeys.nextQuestInChain] = 26503,
             [questKeys.exclusiveTo] = {28563},
+        },
+        [26367] = { -- Ongo'longo's Revenge
+            [questKeys.preQuestGroup] = {26306,26366},
+        },
+        [26368] = { -- Venomous Secrets
+            [questKeys.preQuestSingle] = {26309},
         },
         [26371] = { -- The Legend of Captain Grayson
             [questKeys.nextQuestInChain] = 26348,
@@ -6756,6 +6783,9 @@ function CataQuestFixes.Load()
         },
         [26383] = { -- Breaking Waves of Change
             [questKeys.nextQuestInChain] = 13518,
+        },
+        [26384] = { -- Darkcleric Marnal
+            [questKeys.preQuestSingle] = {26369},
         },
         [26385] = { -- Breaking Waves of Change
             [questKeys.nextQuestInChain] = 13518,
@@ -6860,6 +6890,8 @@ function CataQuestFixes.Load()
         },
         [26432] = { -- The Fall of Jintha'Alor
             [questKeys.nextQuestInChain] = 26306,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26267,26268},
         },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
@@ -7093,6 +7125,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.requiredSourceItems] = {58949},
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
+        },
+        [26558] = { -- Summoning Shadra
+            [questKeys.objectives] = {{{43067,nil,Questie.ICON_TYPE_EVENT},{43069,nil,Questie.ICON_TYPE_EVENT},{43068,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26560] = { -- Jorgensen
             [questKeys.preQuestSingle] = {26587},
@@ -11567,6 +11602,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 48,
             [questKeys.nextQuestInChain] = 25048,
         },
+        [28508] = { -- The Battle for Andorhal
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Western Plaguelands"), 0, {{"monster", 43573}}}},
+        },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 48,
@@ -11775,6 +11813,7 @@ function CataQuestFixes.Load()
         },
         [28574] = { -- Warchief's Command: The Hinterlands!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 26238,
         },
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
