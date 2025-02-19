@@ -359,7 +359,7 @@ function QuestieOptions.tabs.general:Initialize()
                         name = function() return l10n("Level from"); end,
                         desc = function() return l10n("Minimum quest level to show."); end,
                         width = 1.063,
-                        min = 0,
+                        min = 1,
                         max = GetMaxPlayerLevel(),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
@@ -385,7 +385,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return l10n("Maximum quest level to show.");
                         end,
                         width = 1.063,
-                        min = 0,
+                        min = 1,
                         max = GetMaxPlayerLevel(),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
