@@ -74,7 +74,7 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Mostrar iconos de asignadores de misiones",
         ["frFR"] = "Afficher les icônes des donneurs de quêtes",
     },
-    ["Toggles whether or not available/complete quest icons appear on HUD. (Default: %s)"] = {
+    ["Toggles whether or not available/complete quest icons appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de missões disponíveis/concluídas aparecem no HUD. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Schaltet ein, ob Icons für verfügbare/abgeschlossene Quests im HUD angezeigt werden oder nicht. (Standard: %s)",
@@ -146,10 +146,10 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Ajusta el tamaño de los iconos que aparecen en el HUD. (Predeterminado: %s)",
         ["frFR"] = "Ajuste la taille des icônes qui apparaissent sur le HUD. (Par défaut : %s)",
     },
-    ["Toggles whether or not object (gear) icons appear on the DBM HUD. (Default: %s)"] = {
+    ["Toggles whether or not object (gear) icons appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de objetos (equipamentos) aparecem no HUD. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки объектов (снаряжения) на DMB HUD (по умолчанию: %s)",
-        ["deDE"] = "Aktiviert/Deaktiviert, ob Objekt-Icons (Ausrüstung) im DBM-HUD angezeigt werden oder nicht.",
+        ["deDE"] = "Aktiviert/Deaktiviert, ob Objekt-Icons (Ausrüstung) im HUD angezeigt werden oder nicht.",
         ["koKR"] = "DBM HUD에 오브젝트(기어) 아이콘을 표시할지 여부를 전환합니다. (기본값: %s)",
         ["esMX"] = "Activa o desactiva si los iconos de objetos (equipo) aparecen en el HUD. (Predeterminado: %s)",
         ["enUS"] = true,
@@ -182,9 +182,9 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Mostrar iconos de botín",
         ["frFR"] = "Afficher les icônes de butin",
     },
-    ["Toggles whether or not loot icons appear on the DBM HUD. (Default: %s)"] = {
+    ["Toggles whether or not loot icons appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de saque aparecem no HUD. (Padrão: %s)",
-        ["ruRU"] = "Показать/скрыть значки добычи на DMB HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки добычи на HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktivert die Anzeige von Beute-Icons im HUD. (Standard: %s)",
         ["koKR"] = "수집 아이콘을 HUD에 표시합니다. (기본값: %s)",
         ["esMX"] = "Activa o desactiva si los iconos de botín aparecen en el HUD. (Predeterminado: %s)",
@@ -230,9 +230,9 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Mostrar iconos de matanza",
         ["frFR"] = "Afficher les icônes de tuerie",
     },
-    ["Toggles whether or not slay icons appear on the DBM HUD. (Default: %s)"] = {
+    ["Toggles whether or not slay icons appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de matança aparecem no HUD. (Padrão: %s)",
-        ["ruRU"] = "Показать/скрыть значки убийств на DBM HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки убийств на HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige von Tötungs-Icons im HUD. (Standard: %s)",
         ["koKR"] = "처치 아이콘을 HUD에 표시합니다. (기본값: %s)",
         ["esMX"] = "Activa o desactiva si los iconos de matanza aparecen en el HUD. (Predeterminado: %s)",
