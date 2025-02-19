@@ -1370,6 +1370,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [14625] = "Símbolo de Honor perdido",
 [14645] = "Llave esqueleto sin terminar",
 [14679] = "Del amor y la familia",
+[15002] = "Pica de Nimboya",
 [15043] = "Termitas de las Tierras de la Peste",
 [15209] = "Fardo de reliquias",
 [15826] = "Bálsamo animal curativo",
