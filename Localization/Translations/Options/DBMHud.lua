@@ -267,16 +267,16 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Ajuste le niveau de zoom des icônes du HUD qui affecte la distance à laquelle vous les voyez. (Par défaut : %s)",
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
-        ["ptBR"] = "O DBM HUD se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a sua tela. Ativar esse recurso geralmente requer um /reload para ter efeito.",
+        ["ptBR"] = "O DBM HUD se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a tela. Ativar esse recurso geralmente requer recarregar a interface para ter efeito.",
         ["ruRU"] = "Оверлей DBM HUD интегрируется с аддоном DeadlyBossMods для отображения на вашем экране радара со значками целей. После включения настройки желательно перезагрузить интерфейс командой /reload",
         ["deDE"] = "Das DBM-HUD integriert sich in dem Addon DeadlyBossMods, um ein Radar mit Quest-Icons auf dem gesamten Bildschirm anzuzeigen. Die Aktivierung dieser Funktion erfordert normalerweise ein /reload",
         ["koKR"] = "DBM HUD는 애드온 DeadlyBossMods와 통합되어 전체 화면에 목표 아이콘의 레이더를 표시합니다. 이 기능을 활성화시키기 위해 /reload가 필요합니다.",
-        ["esMX"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Al activar esta función generalmente requiere /recargar para tener efecto.",
+        ["esMX"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Activar esta función generalmente requiere recargar la interfaz para que tenga efecto.",
         ["enUS"] = true,
         ["zhCN"] = "DBM HUD 与 DeadlyBossMods 插件集成，可在整个屏幕上显示目标图标雷达。启用此功能通常需要 /reload 才能生效。",
         ["zhTW"] = "DBM HUD 與 DeadlyBossMods 插件整合，可在整個螢幕上顯示目標圖示雷達。啟用此功能通常需要 /reload 才能生效。",
-        ["esES"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Al activar esta función generalmente requiere /recargar para tener efecto.",
-        ["frFR"] = "Le DBM HUD s'intègre avec l'add-on DeadlyBossMods pour afficher un radar d'icônes d'objectifs sur l'ensemble de votre écran. Activer cette fonctionnalité nécessite généralement un /reload pour prendre effet.",
+        ["esES"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Activar esta función generalmente requiere recargar la interfaz para que tenga efecto.",
+        ["frFR"] = "Le DBM HUD s'intègre avec l'add-on DeadlyBossMods pour afficher un radar d'icônes d'objectifs sur l'ensemble de votre écran. Activer cette fonctionnalité nécessite généralement de recharger l'interface pour prendre effet.",
     },
 }
 
