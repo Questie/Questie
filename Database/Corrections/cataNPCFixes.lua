@@ -716,6 +716,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{32.12,94.7}}},
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
         },
+        [14392] = { -- Overlord Runthak
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.61,82.38}}},
+        },
         [14431] = { -- Fury Shelda
             [npcKeys.waypoints] = {},
         },
@@ -724,10 +727,6 @@ function CataNpcFixes.Load()
         },
         [14479] = { -- Twilight Lord Everun
             [npcKeys.waypoints] = {},
-        },
-        [14661] = { -- Stinglasher
-            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{75.58,60.85}}},
-            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{73.81,63.45},{73.78,63.74},{73.71,63.86},{73.60,63.98},{73.55,64.00},{73.37,63.93},{73.29,63.80},{73.24,63.55},{73.28,63.40},{73.36,63.22},{73.43,63.16},{73.50,63.13},{73.61,63.10},{73.64,63.10},{73.81,63.15},{73.93,63.19},{74.05,63.08},{74.05,63.07},{74.11,62.97},{74.17,62.88},{74.25,62.76},{74.30,62.68},{74.37,62.59},{74.53,62.42},{74.63,62.35},{74.76,62.26},{74.85,62.19},{74.88,62.17},{74.98,62.09},{75.08,61.98},{75.15,61.84},{75.23,61.69},{75.33,61.48},{75.36,61.36},{75.39,61.19},{75.41,61.03},{75.46,60.85},{75.58,60.85},{75.68,60.87},{75.77,60.90},{75.89,60.94},{75.97,60.98},{76.11,61.07},{76.12,61.08},{76.25,61.17},{76.28,61.19},{76.40,61.26},{76.55,61.34},{76.62,61.38},{76.66,61.40},{76.84,61.49},{76.92,61.53},{77.00,61.56},{77.09,61.60},{77.15,61.65},{77.16,61.66},{77.25,61.77},{77.32,61.89},{77.42,62.04},{77.43,62.05},{77.54,62.02},{77.74,62.07},{77.88,62.21},{78.03,62.44},{78.14,62.48},{78.15,62.47},{78.32,62.38},{78.42,62.48},{78.49,62.72},{78.47,62.87},{78.46,62.89},{78.42,62.95},{78.19,63.07},{78.09,63.01},{78.02,62.84},{78.06,62.53},{77.97,62.35}}}},
         },
         [14508] = { -- Short John Mithril
             [npcKeys.spawns] = {[5287]={{45,25.38}}},
@@ -764,6 +763,10 @@ function CataNpcFixes.Load()
                     {43.77,28.71,phases.SEARING_GORGE_CAVE_ASSAULT},
                 },
             },
+        },
+        [14661] = { -- Stinglasher
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{75.58,60.85}}},
+            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{73.81,63.45},{73.78,63.74},{73.71,63.86},{73.60,63.98},{73.55,64.00},{73.37,63.93},{73.29,63.80},{73.24,63.55},{73.28,63.40},{73.36,63.22},{73.43,63.16},{73.50,63.13},{73.61,63.10},{73.64,63.10},{73.81,63.15},{73.93,63.19},{74.05,63.08},{74.05,63.07},{74.11,62.97},{74.17,62.88},{74.25,62.76},{74.30,62.68},{74.37,62.59},{74.53,62.42},{74.63,62.35},{74.76,62.26},{74.85,62.19},{74.88,62.17},{74.98,62.09},{75.08,61.98},{75.15,61.84},{75.23,61.69},{75.33,61.48},{75.36,61.36},{75.39,61.19},{75.41,61.03},{75.46,60.85},{75.58,60.85},{75.68,60.87},{75.77,60.90},{75.89,60.94},{75.97,60.98},{76.11,61.07},{76.12,61.08},{76.25,61.17},{76.28,61.19},{76.40,61.26},{76.55,61.34},{76.62,61.38},{76.66,61.40},{76.84,61.49},{76.92,61.53},{77.00,61.56},{77.09,61.60},{77.15,61.65},{77.16,61.66},{77.25,61.77},{77.32,61.89},{77.42,62.04},{77.43,62.05},{77.54,62.02},{77.74,62.07},{77.88,62.21},{78.03,62.44},{78.14,62.48},{78.15,62.47},{78.32,62.38},{78.42,62.48},{78.49,62.72},{78.47,62.87},{78.46,62.89},{78.42,62.95},{78.19,63.07},{78.09,63.01},{78.02,62.84},{78.06,62.53},{77.97,62.35}}}},
         },
         [14822] = { -- Sayge
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84},{-1,-1}}},
@@ -4275,6 +4278,9 @@ function CataNpcFixes.Load()
         [54118] = { -- Hudson Barnes
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{65.17,33.47}}},
         },
+        [54123] = { -- Echo of Sylvanas
+            [npcKeys.spawns] = {[zoneIDs.END_TIME_RUBY_DRAGONSHRINE] = {{56.77,39.94}},[zoneIDs.END_TIME] = {{-1,-1}}},
+        },
         [54142] = { -- Hired Courier
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{57.33,9.01}}},
         },
@@ -4282,7 +4288,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{71.77,49.78}}},
         },
         [54312] = { -- Aggra
-            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.22,30.11}}},
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{60.22,30.11}}},
         },
         [54334] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
@@ -4294,17 +4300,32 @@ function CataNpcFixes.Load()
                 [zoneIDs.DALARAN] = {{49.88,50.37}},
             },
         },
+        [54431] = { -- Echo of Baine
+            [npcKeys.spawns] = {[zoneIDs.END_TIME_OBSIDIAN_DRAGONSHRINE] = {{36.56,52.09}},[zoneIDs.END_TIME] = {{-1,-1}}},
+        },
+        [54432] = { -- Murozond
+            [npcKeys.spawns] = {[zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{49.33,29.31}},[zoneIDs.END_TIME] = {{-1,-1}}},
+        },
         [54441] = { -- Thaumaturge Vashreen
             [npcKeys.friendlyToFaction] = "A",
         },
         [54442] = { -- Warpweaver Hashom
             [npcKeys.friendlyToFaction] = "A",
         },
+        [54445] = { -- Echo of Jaina
+            [npcKeys.spawns] = {[zoneIDs.END_TIME_AZURE_DRAGONSHRINE] = {{49.37,66.48}},[zoneIDs.END_TIME] = {{-1,-1}}},
+        },
         [54471] = { -- Thaumaturge Zajir
             [npcKeys.friendlyToFaction] = "H",
         },
         [54473] = { -- Warpweaver Dushar
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [54476] = { -- Nozdormu
+            [npcKeys.spawns] = {
+                [zoneIDs.END_TIME_RUBY_DRAGONSHRINE]={{36.35,43.61}},
+                [zoneIDs.END_TIME]={{79.54,44.94},{-1,-1}},
+            },
         },
         [54485] = { -- Jessica Rogers
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.65,77.84},{-1,-1}}},
@@ -4318,8 +4339,17 @@ function CataNpcFixes.Load()
         [54510] = { -- Baby
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.29,82.06},{-1,-1}}},
         },
+        [54544] = { -- Echo of Tyrande
+            [npcKeys.spawns] = {[zoneIDs.END_TIME_EMERALD_DRAGONSHRINE] = {{50.79,44.29}},[zoneIDs.END_TIME] = {{-1,-1}}},
+        },
         [54605] = { -- Finlay Coolshot
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{50.7,65.15},{-1,-1}}},
+        },
+        [54751] = { -- Nozdormu
+            [npcKeys.spawns] = {
+                [zoneIDs.END_TIME]={{-1,-1}},
+                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE]={{37.3,79.94},{52.14,44.46,phases.ET_MUROZOND_DEAD}},
+            },
         },
         [55382] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
@@ -4329,6 +4359,12 @@ function CataNpcFixes.Load()
                 [zoneIDs.SILVERMOON_CITY] = {{74.32,81.88}},
                 [zoneIDs.SHATTRATH_CITY] = {{51.8,29.26}},
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
+            },
+        },
+        [57864] = { -- Alurmi
+            [npcKeys.spawns] = {
+                [zoneIDs.END_TIME]={{79.63,45.1},{-1,-1}},
+                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE]={{51.01,43.49,phases.ET_MUROZOND_DEAD}},
             },
         },
         [80001] = { -- Maintain a Trot for 8 seconds
