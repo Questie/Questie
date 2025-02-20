@@ -74,7 +74,7 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Mostrar iconos de asignadores de misiones",
         ["frFR"] = "Afficher les icônes des donneurs de quêtes",
     },
-    ["Toggles whether or not available/complete quest icons appear on the HUD. (Default: %s"] = {
+    ["Toggles whether or not available/complete quest icons appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ativa ou desativa se os ícones de missões disponíveis/concluídas aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на HUD",
         ["deDE"] = "Schaltet ein, ob Icons für verfügbare/abgeschlossene Quests im HUD angezeigt werden oder nicht.",
