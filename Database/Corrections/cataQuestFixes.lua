@@ -2309,6 +2309,9 @@ function CataQuestFixes.Load()
         [13989] = { -- King of the Foulweald
             [questKeys.requiredSourceItems] = {46739},
         },
+        [13991] = { -- The Purloined Payroll
+            [questKeys.nextQuestInChain] = 14066,
+        },
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
         },
@@ -2368,6 +2371,7 @@ function CataQuestFixes.Load()
         },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched",{[zoneIDs.THE_BARRENS] = {{59.2,67.5}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [14069] = { -- Good Help is Hard to Find
             [questKeys.objectives] = {{{34830,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -13799,10 +13803,12 @@ function CataQuestFixes.Load()
         [29452] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29129,
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [29453] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29132,
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [29455] = { -- Target: Turtle
             [questKeys.objectives] = {{{54490}}},
@@ -13979,6 +13985,26 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.NONE,
             [questKeys.startedBy] = {{100031}},
             [questKeys.finishedBy] = {{100032}},
+        },
+        [30094] = { -- The End Time
+            [questKeys.nextQuestInChain] = 30096,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
+        },
+        [30095] = { -- The End Time
+            [questKeys.startedBy] = {{52408}},
+            [questKeys.nextQuestInChain] = 30096,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
+        },
+        [30096] = { -- Murozond
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 30098,
+        },
+        [30097] = { -- Archival Purposes
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54123,54431,54445,54544},54123}}},
+            [questKeys.requiredSourceItems] = {77939,77940,77941,77942},
+        },
+        [30098] = { -- The Well of Eternity
+            [questKeys.nextQuestInChain] = 30099,
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},

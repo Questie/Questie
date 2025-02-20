@@ -5553,9 +5553,6 @@ function QuestieQuestBlacklist:Load()
         [29934] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30092] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30093] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30097] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30102] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30104] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30105] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30106] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30107] = QuestieCorrections.CATA_HIDE, -- Not in the game
@@ -5704,10 +5701,10 @@ function QuestieQuestBlacklist:Load()
         --[29437] = true, -- The Fallen Guardian
         --[29439] = true, -- The Call of the World-Shaman
         --[29440] = true, -- The Call of the World-Shaman
-        [29452] = true, -- Your Time Has Come
-        [29453] = true, -- Your Time Has Come
-        [30094] = true, -- The End Time
-        [30095] = true, -- The End Time
+        --[29452] = true, -- Your Time Has Come
+        --[29453] = true, -- Your Time Has Come
+        --[30094] = true, -- The End Time
+        --[30095] = true, -- The End Time
 
         -- Phase 4 - Hour of Twilight
         --[29801] = true, -- Proving Your Worth
