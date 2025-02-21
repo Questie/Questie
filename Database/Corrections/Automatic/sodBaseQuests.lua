@@ -8812,6 +8812,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect Remnants of Valor within Naxxramas."},
             [questKeys.objectives] = {nil,nil,{{236397}}}
         },
+        [87365] = {
+            [questKeys.name] = "Valor Grows by Daring",
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Collect Remnants of Valor within Naxxramas."},
+            [questKeys.objectives] = {nil,nil,{{236397}}},
+        },
         [87366] = {
             [questKeys.name] = "Knight Time",
             [questKeys.startedBy] = {{238382}},
