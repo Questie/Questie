@@ -378,6 +378,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4467] = "Sigilo de Ignaeus",
 [4468] = "Trol'kalar enfundada",
 [4469] = "Vara del Orden",
+[4472] = "Pergamino de Myzrael",
 [4473] = "Grilletes tétricos",
 [4479] = "Talismán ardiente",
 [4480] = "Talismán del trueno",
