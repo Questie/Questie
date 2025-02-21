@@ -6753,7 +6753,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28563},
         },
         [26367] = { -- Ongo'longo's Revenge
-            [questKeys.preQuestGroup] = {26306,26366},
+            [questKeys.preQuestGroup] = {26307,26366},
         },
         [26368] = { -- Venomous Secrets
             [questKeys.preQuestSingle] = {26309},
