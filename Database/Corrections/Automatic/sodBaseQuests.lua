@@ -9087,6 +9087,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"For 27 Insignias of the Dawn and 27 Insignias of the Crusade you may choose an item from the Argent Dawn's treasure cache."},
             [questKeys.objectives] = {nil,nil,{{22523},{22524}}},
         },
+        [88729] = {
+            [questKeys.name] = "Ramaladni's Icy Grasp",
+            [questKeys.startedBy] = {{16112}},
+            [questKeys.finishedBy] = {{16112}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Korfax at Light's Hope Chapel in the Eastern Plaguelands wants you to bring him 1 Frozen Rune, 1 Blue Sapphire and 1 Arcanite Bar. Rewards Ramaladni's Icy Grasp."},
+            [questKeys.objectives] = {nil,nil,{{12361},{12360},{236656}}},
+        },
         [88730] = {
             [questKeys.name] = "The Only Song I Know...",
             [questKeys.startedBy] = nil,
