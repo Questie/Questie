@@ -21,15 +21,15 @@ local _InitializeLocaleOverride, _GetFallbackLocale
 local locale = 'enUS'
 local supportedLocals = {
     ['enUS'] = true,
+    ['deDE'] = true,
     ['esES'] = true,
     ['esMX'] = true,
-    ['ptBR'] = true,
     ['frFR'] = true,
-    ['deDE'] = true,
+    ['koKR'] = true,
+    ['ptBR'] = true,
     ['ruRU'] = true,
     ['zhCN'] = true,
     ['zhTW'] = true,
-    ['koKR'] = true,
 }
 
 function l10n:Initialize()
