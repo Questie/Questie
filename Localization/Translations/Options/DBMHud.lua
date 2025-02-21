@@ -230,8 +230,8 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示任务需要击杀图标",
         ["zhTW"] = "顯示殺怪圖示",
     },
-        ["enUS"] = true,
     ["Toggles whether or not slay icons appear on the HUD. (Default: %s)"] = {
+        ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige von Tötungs-Icons im HUD.",
         ["esES"] = "Activa o desactiva si los iconos de matanza aparecen en el HUD.",
         ["esMX"] = "Activa o desactiva si los iconos de matanza aparecen en el HUD.",
