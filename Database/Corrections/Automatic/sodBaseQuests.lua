@@ -8914,7 +8914,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [87459] = {
             [questKeys.name] = "Scarlet Activities",
             [questKeys.startedBy] = {{11036}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{11036}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
