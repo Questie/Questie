@@ -7788,7 +7788,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [26907] = { -- Take Them Down!
-            [questKeys.objectives] = {{{4424},{4428},{4420},{4422}}},
+            [questKeys.objectives] = {{{4422},{4420},{4428},{4424}}},
         },
         [26909] = { -- The Stone Shards
             [questKeys.nextQuestInChain] = 26039,
