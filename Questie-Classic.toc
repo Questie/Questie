@@ -2,11 +2,11 @@
 ## Title: Questie|cFF00FF00 v10.17.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Notes-esMX: Un asistente de misiones
 ## Notes-esES: Un asistente de misiones
+## Notes-esMX: Un asistente de misiones
+## Notes-frFR: Un assistant de quêtes
 ## Notes-ptBR: Um assistente de missões
 ## Notes-ruRU: Помощник по заданиям в WoW Classic
-## Notes-frFR: Un assistant de quêtes
 ## Notes-zhCN: 独立的怀旧服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
 ## Version: 10.17.0
