@@ -7780,7 +7780,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{33260}},
         },
         [26903] = { -- Willix the Importer
-            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{65.2,81.21},{-1,-1}}}},
         },
         [26904] = { -- Harnessing the Flames
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},

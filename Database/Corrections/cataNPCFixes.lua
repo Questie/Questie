@@ -390,8 +390,38 @@ function CataNpcFixes.Load()
         [4331] = { -- Firemane Ash Tail
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{48.04,77.19},{48.88,67.29},{36.66,69.42},{39.36,65.32},{39.42,64.46},{40.02,65.31},{42.17,67.18},{39.49,66.15},{38.75,65.71},{38.83,65.65},{38.99,65.82},{44.61,66.35},{45.15,66.21},{43.91,66.08},{44.7,65.45},{51.93,70.63},{43.13,65.89},{49.72,67.98},{37.84,68.22}}},
         },
+        [4420] = { -- Overlord Ramtusk
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{56.9,29.8},{-1,-1}}},
+        },
+        [4421] = { -- Charlga Razorflank
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{26.41,32.39},{-1,-1}}},
+        },
+        [4422] = { -- Agathelos the Raging
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{11.39,72.5},{-1,-1}}},
+        },
+        [4424] = { -- Aggem Thorncurse
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{80.84,54.39},{-1,-1}}},
+        },
+        [4428] = { -- Death Speaker Jargba
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{87.91,41.34},{-1,-1}}},
+        },
         [4479] = { -- Fardel Dabyrie
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{51.08,39.78},{51.14,41.5},{48.94,39.5}}},
+        },
+        [4508] = { -- Willix the Importer
+            [npcKeys.spawns] = {
+                [zoneIDs.RAZORFEN_KRAUL] = {
+                    {-1,-1},
+                    {36.26,31.56,phases.WILLIX_IN_TENT},
+                    {65.2,81.21,phases.WILLIX_AT_EXIT},
+                },
+            },
+        },
+        [4538] = { -- Kraul Bat
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{13.4,34.6},{11.16,32.48},{12.46,39.97},{11.39,43.7},{10.09,49.16},{6.78,44.9},{10.12,53.2},{12.81,55.77},{12.2,52.2},{15.36,55.58},{19.46,55.57},{18.7,58.62},{-1,-1}}},
+        },
+        [4539] = { -- Greater Kraul Bat
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{11.01,30.3},{8.74,38.25},{11.18,48.84},{16.84,58.93},{-1,-1}}},
         },
         [4542] = { -- High Inquisitor Fairbanks
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_CATHEDRAL] = {{55.4,26.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
@@ -3075,6 +3105,12 @@ function CataNpcFixes.Load()
         },
         [44387] = { -- Flaming Eradicator
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{31.83,67.03}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [44402] = { -- Auld Stonespire
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{68.17,82.96},{-1,-1}}},
+        },
+        [44415] = { -- Spirit of Agamaggan
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{20.08,31.56},{-1,-1}}},
         },
         [44447] = { -- Andorhal Deathguard
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{46.29,69.43},{47.33,62.56},{47.93,67.13},{49.14,66.31},{41.92,65.51},{41.89,66.68},{43.51,64.96},{47.93,71.05}}},
