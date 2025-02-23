@@ -479,6 +479,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4843] = "Piedra rúnica de amatista",
 [4844] = "Piedra rúnica de ópalo",
 [4845] = "Piedra rúnica de diamante",
+[4846] = "Piñón del n.º 5",
 [4847] = "Grilletes de vínculo elemental de Lotwil",
 [4848] = "Hocico de jabaguerrero",
 [4849] = "Costillar de jabaguerrero",
