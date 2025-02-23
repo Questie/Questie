@@ -43,6 +43,9 @@ function CataObjectFixes.Load()
         [148503] = { -- Fire Plume Ridge Hot Spot
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{48.32,43.48}}},
         },
+        [152097] = { -- Belnistrasz's Brazier
+            [objectKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{46.88,22.28},{-1,-1}}},
+        },
         [154357] = { -- Glinting Mud
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{25.88,47.15},{23.94,49.78},{34.8,49.43},{32.07,51.94},{19.77,47.27},{27.09,50.94},{35.73,49.6},{35.71,49.6},{21.92,48.48}}},
         },

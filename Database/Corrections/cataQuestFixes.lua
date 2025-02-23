@@ -8060,6 +8060,9 @@ function CataQuestFixes.Load()
         [27015] = { -- Consecrated Note -- Tauren Paladin
             [questKeys.preQuestSingle] = {},
         },
+        [27019] = { -- Scourge of the Downs
+            [questKeys.nextQuestInChain] = 27022,
+        },
         [27020] = { -- The First Lesson
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3059}}}},
@@ -8069,7 +8072,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 3061}}}},
         },
         [27022] = { -- Extinguishing the Idol
-            [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.RAZORFEN_DOWNS]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.RAZORFEN_DOWNS]={{46.46,22.62},{-1,-1}}}},
         },
         [27023] = { -- The Way of the Sunwalkers
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
@@ -8147,11 +8150,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26766,26768,28866},
         },
         [27062] = { -- Looming Threat
-            [questKeys.exclusiveTo] = {27009},
+            [questKeys.nextQuestInChain] = 27009,
             [questKeys.finishedBy] = {{44837}},
         },
         [27063] = { -- Looming Threat
-            [questKeys.exclusiveTo] = {27009},
+            [questKeys.nextQuestInChain] = 27009,
             [questKeys.finishedBy] = {{44837}},
         },
         [27064] = { -- He's Holding Out on Us

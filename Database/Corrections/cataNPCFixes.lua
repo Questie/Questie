@@ -557,16 +557,39 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [7319] = { -- Lady Sathrah
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
+        },
+        [7327] = { -- Withered Warrior
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{43.64,23.77},{34.8,20.33},{32.27,17.89},{29.52,18.85},{-1,-1}}},
+        },
+        [7328] = { -- Withered Reaver
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{72.7,44.4},{76.94,26.78},{68.47,33.26},{59.55,36.82},{59.69,28.93},{56.14,29.47},{48.51,39.27},{47.93,33.35},{-1,-1}}},
+        },
+        [7329] = { -- Withered Quilguard
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{73.66,44.99},{71.94,42.58},{76.03,28.59},{67.65,32.39},{59.87,38.6},{58.77,37.68},{60.26,31.04},{60.64,29.03},{56.58,29.8},{49.02,39.06},{49.5,39.36},{47.07,34.11},{-1,-1}}},
+        },
+        [7332] = { -- Withered Spearhide
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{47.32,22.06},{44.03,24.87},{37.65,25.81},{-1,-1}}},
+        },
+        [7333] = { -- Withered Battle Boar
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{46.66,23.14},{47.04,23.72},{47.11,23.01},{47.83,23.02},{37.82,24.49},{38.55,25.1},{38.96,24.94},{38.62,26.02},{-1,-1}}},
+        },
+        [7334] = { -- Battle Boar Horror
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{45.79,32.69},{46.08,31.96},{67.45,41},{41,19.19},{-1,-1}}},
+        },
+        [7335] = { -- Death's Head Geomancer
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{44.27,26.16},{32.83,18.08},{-1,-1}}},
+        },
+        [7337] = { -- Death's Head Necromancer
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{72.88,43.21},{75.67,26.83},{68.42,30.96},{60.96,37.52},{60.71,29.75},{55.85,28.67},{47.76,38.62},{48.48,33.87},{-1,-1}}},
         },
         [7355] = { -- Tuten'kash
-            [npcKeys.spawns] = {[722]={{58.92,31.11}}},
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{58.05,33.09},{-1,-1}}},
         },
         [7357] = { -- Mordresh Fire Eye
-            [npcKeys.spawns] = {[722]={{85.84,46.96}}},
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{85.82,45.68},{-1,-1}}},
         },
         [7358] = { -- Amnennar the Coldbringer
-            [npcKeys.spawns] = {[722]={{44.43,59.62}}},
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{44.86,59.16},{-1,-1}}},
         },
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
@@ -589,9 +612,12 @@ function CataNpcFixes.Load()
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92},{-1,-1}}},
         },
+        [8516] = { -- Belnistrasz
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{77.46,15.14},{-1,-1}}},
+        },
         [8567] = { -- Glutton
-            [npcKeys.spawns] = {[722]={{33.93,52.14}}},
-            [npcKeys.waypoints] = {[722]={{{33.93,52.14},{33.13,54.44},{33.40,59.02},{34.06,64.21},{35.39,68.79},{37.65,71.78},{40.38,74.88},{43.70,76.07}}}},
+            [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{33.93,52.14},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.RAZORFEN_DOWNS] = {{{33.93,52.14},{33.13,54.44},{33.40,59.02},{34.06,64.21},{35.39,68.79},{37.65,71.78},{40.38,74.88},{43.70,76.07}}}},
         },
         [8576] = { -- Ag'tor Bloodfist
             [npcKeys.spawns] = {
