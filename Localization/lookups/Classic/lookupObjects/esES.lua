@@ -172,6 +172,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [2866] = "Flor de fuego",
 [2867] = "Cajón de provisiones de excavación",
 [2868] = "Mapa arrugado",
+[2871] = "Altar desgastado por el mar",
 [2875] = "Esqueleto de enano maltrecho",
 [2883] = "Calabaza madura",
 [2891] = "Cráneos trofeo de Balia'mah",

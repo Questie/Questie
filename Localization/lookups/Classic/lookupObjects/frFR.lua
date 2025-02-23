@@ -172,6 +172,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [2866] = "Fleur de feu",
 [2867] = "Caisse de ravitaillement pour l'excavation",
 [2868] = "Carte chiffonnée",
+[2871] = "Autel dégradé par la mer",
 [2875] = "Squelette de nain décrépi",
 [2883] = "Citrouille mûre",
 [2891] = "Crânes trophées de Balia'mah",

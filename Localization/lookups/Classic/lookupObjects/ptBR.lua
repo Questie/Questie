@@ -167,6 +167,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [2866] = "Ignídea",
 [2867] = "Caixote de Suprimentos da Escavação",
 [2868] = "Mapa Amassado",
+[2871] = "Altar Desgastado pelo Mar",
 [2875] = "Esqueleto de Anão Danificado",
 [2883] = "Abóbora Madura",
 [2891] = "Crânios-troféu de Balia'mah",
