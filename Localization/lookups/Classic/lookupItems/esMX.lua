@@ -346,6 +346,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3919] = "Menudillos de Velo de Bruma",
 [3920] = "Cartas de navegación de los Velasangre",
 [3921] = "Órdenes de los Velasangre",
+[3922] = "Pago del Trémulo",
 [3923] = "Brazales de elemental de Agua",
 [3924] = "Pata de palo de Maury",
 [3925] = "Catalejo dorado de Jon-Jon",
