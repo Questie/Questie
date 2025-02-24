@@ -1566,6 +1566,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {12012,29092},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
+        [11956] = { -- Finding the Phylactery
+            [questKeys.preQuestSingle] = {},
+        },
         [11973] = { -- Prisoner of War
             [questKeys.startedBy] = {{55531}},
             [questKeys.preQuestSingle] = {},
@@ -1585,6 +1588,9 @@ function CataQuestFixes.Load()
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
+        },
+        [12088] = { -- Thassarian, the Death Knight
+            [questKeys.nextQuestInChain] = 11956,
         },
         [12133] = { -- Smash the Pumpkin
             [questKeys.zoneOrSort] = -21,
