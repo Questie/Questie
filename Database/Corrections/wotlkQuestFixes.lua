@@ -2349,7 +2349,8 @@ function QuestieWotlkQuestFixes:Load()
         [12557] = {
             [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
         },
-        [12561] = {
+        [12561] = { -- An Issue of Trust
+            [questKeys.preQuestSingle] = {},
             [questKeys.requiredSpell] = 54197,
         },
         [12563] = {
