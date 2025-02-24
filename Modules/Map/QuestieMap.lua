@@ -444,6 +444,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
                     for _, value in ipairs(dungeonLocation) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3], typ)
                     end
+                    QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
                     -- world spawn
                 else
                     QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)

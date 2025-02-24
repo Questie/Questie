@@ -2309,6 +2309,9 @@ function CataQuestFixes.Load()
         [13989] = { -- King of the Foulweald
             [questKeys.requiredSourceItems] = {46739},
         },
+        [13991] = { -- The Purloined Payroll
+            [questKeys.nextQuestInChain] = 14066,
+        },
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
         },
@@ -2368,6 +2371,7 @@ function CataQuestFixes.Load()
         },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched",{[zoneIDs.THE_BARRENS] = {{59.2,67.5}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [14069] = { -- Good Help is Hard to Find
             [questKeys.objectives] = {{{34830,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6390,6 +6394,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42384,42391,42386},42383,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [26212] = { -- Lard Lost His Lunch
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the basket"), 0, {{"object", 179910}}}},
+        },
         [26213] = { -- Hot On the Trail: The Riverpaw Clan
             [questKeys.preQuestSingle] = {26209},
         },
@@ -6436,6 +6443,9 @@ function CataQuestFixes.Load()
         },
         [26237] = { -- Times are Tough
             [questKeys.preQuestSingle] = {26236},
+        },
+        [26240] = { -- Stomp To My Beat
+            [questKeys.objectives] = {{{42536,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26241] = { -- Westfall Stew
             [questKeys.preQuestSingle] = {26236},
@@ -6492,6 +6502,12 @@ function CataQuestFixes.Load()
         [26266] = { -- Hope for the People
             [questKeys.preQuestSingle] = {26270},
         },
+        [26267] = { -- Skulk Rock Clean-Up
+            [questKeys.preQuestSingle] = {26263},
+        },
+        [26268] = { -- Skulk Rock Supplies
+            [questKeys.preQuestSingle] = {26263},
+        },
         [26269] = { -- The Green Hills of Stranglethorn
             [questKeys.preQuestSingle] = {583},
         },
@@ -6525,6 +6541,9 @@ function CataQuestFixes.Load()
         },
         [26280] = { -- The Defense of Grom'gol: Murloc Menace
             [questKeys.preQuestSingle] = {26278},
+        },
+        [26283] = { -- Prime Slime
+            [questKeys.preQuestSingle] = {26263},
         },
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -6581,6 +6600,9 @@ function CataQuestFixes.Load()
         },
         [26306] = { -- Start Taking Back
             [questKeys.preQuestSingle] = {},
+        },
+        [26307] = { -- Start Taking Back
+            [questKeys.preQuestSingle] = {26306},
         },
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
@@ -6702,6 +6724,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{34}},
             [questKeys.finishedBy] = {nil,{33}},
         },
+        [26357] = { -- Faces of Evil
+            [questKeys.objectives] = {{{42704,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
         },
@@ -6726,6 +6751,12 @@ function CataQuestFixes.Load()
         [26365] = { -- Hero's Call: Redridge Mountains!
             [questKeys.nextQuestInChain] = 26503,
             [questKeys.exclusiveTo] = {28563},
+        },
+        [26367] = { -- Ongo'longo's Revenge
+            [questKeys.preQuestGroup] = {26307,26366},
+        },
+        [26368] = { -- Venomous Secrets
+            [questKeys.preQuestSingle] = {26309},
         },
         [26371] = { -- The Legend of Captain Grayson
             [questKeys.nextQuestInChain] = 26348,
@@ -6756,6 +6787,9 @@ function CataQuestFixes.Load()
         },
         [26383] = { -- Breaking Waves of Change
             [questKeys.nextQuestInChain] = 13518,
+        },
+        [26384] = { -- Darkcleric Marnal
+            [questKeys.preQuestSingle] = {26369},
         },
         [26385] = { -- Breaking Waves of Change
             [questKeys.nextQuestInChain] = 13518,
@@ -6860,6 +6894,8 @@ function CataQuestFixes.Load()
         },
         [26432] = { -- The Fall of Jintha'Alor
             [questKeys.nextQuestInChain] = 26306,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26267,26268},
         },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
@@ -7093,6 +7129,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.requiredSourceItems] = {58949},
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
+        },
+        [26558] = { -- Summoning Shadra
+            [questKeys.objectives] = {{{43067,nil,Questie.ICON_TYPE_EVENT},{43069,nil,Questie.ICON_TYPE_EVENT},{43068,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26560] = { -- Jorgensen
             [questKeys.preQuestSingle] = {26587},
@@ -7741,7 +7780,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{33260}},
         },
         [26903] = { -- Willix the Importer
-            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{65.2,81.21},{-1,-1}}}},
         },
         [26904] = { -- Harnessing the Flames
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
@@ -7749,7 +7788,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [26907] = { -- Take Them Down!
-            [questKeys.objectives] = {{{4424},{4428},{4420},{4422}}},
+            [questKeys.objectives] = {{{4422},{4420},{4428},{4424}}},
         },
         [26909] = { -- The Stone Shards
             [questKeys.nextQuestInChain] = 26039,
@@ -8021,6 +8060,9 @@ function CataQuestFixes.Load()
         [27015] = { -- Consecrated Note -- Tauren Paladin
             [questKeys.preQuestSingle] = {},
         },
+        [27019] = { -- Scourge of the Downs
+            [questKeys.nextQuestInChain] = 27022,
+        },
         [27020] = { -- The First Lesson
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3059}}}},
@@ -8030,7 +8072,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 3061}}}},
         },
         [27022] = { -- Extinguishing the Idol
-            [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.RAZORFEN_DOWNS]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.RAZORFEN_DOWNS]={{46.46,22.62},{-1,-1}}}},
         },
         [27023] = { -- The Way of the Sunwalkers
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
@@ -8108,11 +8150,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26766,26768,28866},
         },
         [27062] = { -- Looming Threat
-            [questKeys.exclusiveTo] = {27009},
+            [questKeys.nextQuestInChain] = 27009,
             [questKeys.finishedBy] = {{44837}},
         },
         [27063] = { -- Looming Threat
-            [questKeys.exclusiveTo] = {27009},
+            [questKeys.nextQuestInChain] = 27009,
             [questKeys.finishedBy] = {{44837}},
         },
         [27064] = { -- He's Holding Out on Us
@@ -11567,6 +11609,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 48,
             [questKeys.nextQuestInChain] = 25048,
         },
+        [28508] = { -- The Battle for Andorhal
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Western Plaguelands"), 0, {{"monster", 43573}}}},
+        },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 48,
@@ -11775,6 +11820,7 @@ function CataQuestFixes.Load()
         },
         [28574] = { -- Warchief's Command: The Hinterlands!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 26238,
         },
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
@@ -13760,10 +13806,12 @@ function CataQuestFixes.Load()
         [29452] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29129,
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [29453] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29132,
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [29455] = { -- Target: Turtle
             [questKeys.objectives] = {{{54490}}},
@@ -13940,6 +13988,26 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.NONE,
             [questKeys.startedBy] = {{100031}},
             [questKeys.finishedBy] = {{100032}},
+        },
+        [30094] = { -- The End Time
+            [questKeys.nextQuestInChain] = 30096,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
+        },
+        [30095] = { -- The End Time
+            [questKeys.startedBy] = {{52408}},
+            [questKeys.nextQuestInChain] = 30096,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
+        },
+        [30096] = { -- Murozond
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 30098,
+        },
+        [30097] = { -- Archival Purposes
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54123,54431,54445,54544},54123}}},
+            [questKeys.requiredSourceItems] = {77939,77940,77941,77942},
+        },
+        [30098] = { -- The Well of Eternity
+            [questKeys.nextQuestInChain] = 30099,
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},

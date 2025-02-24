@@ -172,6 +172,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [2866] = "Feuerblüte",
 [2867] = "Ausgrabungsgrundbedarfskiste",
 [2868] = "Zerknitterte Karte",
+[2871] = "Wassergeschliffener Altar",
 [2875] = "Ramponiertes Zwergenskelett",
 [2883] = "Reifer Kürbis",
 [2891] = "Balia’mah-Trophäenschädel",

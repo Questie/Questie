@@ -211,6 +211,9 @@ local phases = {
     LYDON_AWESOME_MAIN_BUILDING = 1139,
     ORKUS_IN_WATER = 1140,
     ORKUS_ON_LAND = 1141,
+    ET_MUROZOND_DEAD = 1142,
+    WILLIX_IN_TENT = 1143,
+    WILLIX_AT_EXIT = 1144,
 }
 Phasing.phases = phases
 
@@ -861,6 +864,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ORKUS_ON_LAND then
         return (complete[28345] or (questLog[28345] and questLog[28345].isComplete == 1)) or false
+    end
+
+    if phase == phases.ET_MUROZOND_DEAD then
+        return (questLog[30096] and questLog[30096].isComplete == 1) or false
+    end
+
+    if phase == phases.WILLIX_IN_TENT then
+        return not questLog[26903]
+    end
+
+    if phase == phases.WILLIX_AT_EXIT then
+        return questLog[26903]
     end
 
     return false
