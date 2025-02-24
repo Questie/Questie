@@ -749,6 +749,19 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{53.14,79.95},{53.93,79.2},{50.91,81.31},{52.65,81.86},{53.13,84.06},{55.07,79.4},{55.28,71.9},{50.65,70.78},{50.21,74.28},{49.89,77.3}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
         },
+        [12201] = { -- Princess Theradras
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{24.34,78.34}},[zoneIDs.MARAUDON] = {{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{{24.3,78.57},{24.59,79.74},{25.11,80.59},{25.97,81.29},{26.71,81.22},{27.35,80.35},{27.6,79.44},{27.64,78.26},{27.1,76.74},{26.45,76.18},{25.44,75.96},{24.66,76.9},{24.3,78.57}}}},
+        },
+        [12236] = { -- Lord Vyletongue
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{37.62,69.37},{-1,-1}}},
+        },
+        [12238] = { -- Zaetar's Spirit
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{25.37,78.3}},[zoneIDs.MARAUDON] = {{-1,-1}}},
+        },
+        [12258] = { -- Razorlash
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{16.2,33.98},{-1,-1}}},
+        },
         [12736] = { -- Je'neu Sancrea
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{48.48,11.74},{-1,-1}}},
         },
@@ -768,6 +781,9 @@ function CataNpcFixes.Load()
         },
         [13158] = { -- Lieutenant Sanders
             [npcKeys.waypoints] = {},
+        },
+        [13282] = { -- Noxxion
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{34.74,10.67},{-1,-1}}},
         },
         [14387] = { -- Lothos Riftwaker
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{32.12,94.7}}},
@@ -4873,6 +4889,24 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{58.47,73.76}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [npcKeys.questEnds] = {28355},
+        },
+        [100068] = { -- Princess Theradras
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{28.44,43.13}},[zoneIDs.MARAUDON] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.MARAUDON,
+            [npcKeys.questStarts] = {27692},
+        },
+        [100069] = { -- Servants of Theradras
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{63.33,20.31},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.MARAUDON,
+            [npcKeys.questStarts] = {27698},
+        },
+        [100070] = { -- Corruption in Maraudon
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{76.9,67.21},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.MARAUDON,
+            [npcKeys.questStarts] = {27697},
         },
     }
 end

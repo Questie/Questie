@@ -9600,6 +9600,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27606},
             [questKeys.exclusiveTo] = {27947},
         },
+        [27692] = { -- Princess Theradras
+            [questKeys.startedBy] = {{100068}},
+        },
         [27693] = { -- The Warden's Game
             [questKeys.startedBy] = {nil,{206335}},
             [questKeys.finishedBy] = {{100034}},
@@ -9615,6 +9618,12 @@ function CataQuestFixes.Load()
         [27696] = { -- The Elementium Axe
             [questKeys.preQuestGroup] = {27653,27655},
             [questKeys.exclusiveTo] = {},
+        },
+        [27697] = { -- Servants of Theradras
+            [questKeys.startedBy] = {{100070}},
+        },
+        [27698] = { -- Servants of Theradras
+            [questKeys.startedBy] = {{100069}},
         },
         [27700] = { -- Dragon, Unchained
             [questKeys.preQuestSingle] = {},
