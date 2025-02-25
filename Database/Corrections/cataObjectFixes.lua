@@ -43,6 +43,9 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{55.98,52.97}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
+        [141832] = { -- Gong of Zul'Farrak
+            [objectKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{32.77,43.5},{-1,-1}}},
+        },
         [142487] = { -- The Sparklematic 5200
             [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{65.78,57.63},{68.67,62.02},{63.05,68.12}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },

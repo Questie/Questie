@@ -552,20 +552,20 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{37.92,73.66},{-1,-1}}},
         },
         [7267] = { -- Chief Ukorz Sandscalp
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{42.51,34.20},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{43.84,35.26},{-1,-1}}},
         },
         [7271] = { -- Witch Doctor Zum'rah
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{44.17,15.35},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{44.02,15.08},{-1,-1}}},
         },
         [7272] = { -- Theka the Martyr
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{54.94,25.12},{-1,-1}}},
-            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK] = {{{53.54,25.32},{52.81,27.82},{54.67,29.41},{56.60,26.42}}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK] = {{{55.32,25.2},{55.86,25.46},{56.25,26.61},{56.1,27.85},{55.32,29.64},{53.92,28.91},{53.3,28.32},{52.8,27.71},{52.87,26.65},{53.04,25.91},{53.46,25.15},{54.38,24.77},{55.32,25.2}}}},
         },
         [7273] = { -- Gahz'rilla
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{29.68,38.98},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{29.38,38.55},{-1,-1}}},
         },
         [7275] = { -- Shadowpriest Sezz'ziz
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{30.61,17.65},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{30.58,18.2},{-1,-1}}},
         },
         [7291] = { -- Galgann Firehammer
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{25.76,35.92},{-1,-1}}},
@@ -613,23 +613,27 @@ function CataNpcFixes.Load()
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
         },
+        [7407] = { -- Chief Engineer Bilgewhizzle
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{58.18,89.1},{-1,-1}}},
+        },
         [7505] = { -- Bloodmage Drazial
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.2,36.2}}},
         },
         [7795] = { -- Hydromancer Velratha
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{32.14,39.88},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{32.33,40.32},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK] = {{{30.39,42.55},{28.62,40.15},{29.69,38.88},{30.67,37.5},{32.33,40.32}}}},
         },
         [7796] = { -- Nekrum Gutchewer
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{29.61,17.65},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{30.61,18.32},{-1,-1}}},
         },
         [7797] = { -- Ruuzlu
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{43.17,33.20},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{44.07,34.78},{-1,-1}}},
         },
         [7800] = { -- Mekgineer Thermaplugg
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{31.35,29.74}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [8127] = { -- Antu'sul
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{64.84,25.92},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{69.02,25.55},{-1,-1}}},
         },
         [8516] = { -- Belnistrasz
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{77.46,15.14},{-1,-1}}},
@@ -2600,6 +2604,9 @@ function CataNpcFixes.Load()
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{45.05,23.58}}},
         },
+        [40712] = { -- Mazoga's Spirit
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{56.74,89.11},{-1,-1}}},
+        },
         [40714] = { -- All or Nothing Kill Credit
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{46.27,46.56}}},
         },
@@ -3281,6 +3288,9 @@ function CataNpcFixes.Load()
                     {45.76,41.92,phases.SILVERPINE_FOREST_SEPULCHER},
                 },
             },
+        },
+        [44929] = { -- Tran'rek
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{58.27,88.65},{-1,-1}}},
         },
         [44938] = { -- Eavesdropping Credit
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{74.91,64.81}}},

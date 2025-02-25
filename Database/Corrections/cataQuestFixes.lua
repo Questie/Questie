@@ -8185,6 +8185,9 @@ function CataQuestFixes.Load()
         [27069] = { -- Steel Thunder
             [questKeys.objectives] = {nil,{{205165}}},
         },
+        [27070] = { -- A Fool's Errand
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 141832}}}},
+        },
         [27073] = { -- Give 'em Hell!
             [questKeys.preQuestSingle] = {27065},
         },
