@@ -58,6 +58,7 @@ describe("AutoQuesting", function()
     describe("OnQuestDetail", function()
         it("should accept quest", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.GetQuestID = function() return 123 end
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
 
@@ -118,6 +119,18 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was_not.called()
+        end)
+
+        it("should not accept when questId is 0 - happens when some other addon is faster", function()
+            _G.GetQuestID = function() return 0 end
+            QuestieDB.QueryQuestSingle = spy.new()
+            QuestieDB.IsTrivial = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.QueryQuestSingle).was_not.called()
+            assert.spy(QuestieDB.IsTrivial).was_not.called()
         end)
     end)
 
