@@ -9573,12 +9573,28 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{47250}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
+        [27672] = { -- The Chamber of Khaz'mul
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.nextQuestInChain] = 27677,
+        },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27675] = { -- Forged Documents
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
+        },
+        [27677] = { -- "Archaedas, The Ancient Stone Watcher
+            [questKeys.startedBy] = {{46234}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
+        },
+        [27679] = { -- The Chamber of Khaz'mul
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.nextQuestInChain] = 27680,
+        },
+        [27680] = { -- "Archaedas, The Ancient Stone Watcher
+            [questKeys.startedBy] = {{46236}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
         },
         [27683] = { -- Into the Woods
             [questKeys.nextQuestInChain] = 27367,

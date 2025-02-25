@@ -13,6 +13,10 @@ function CataObjectFixes.Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [2688] = { -- Keystone
+            [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
+        },
         [2712] = { -- Calcified Elven Gem
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{17.9,89.15},{10.7,91.52},{13.84,89.84},{17.68,87.3},{12.79,87.24},{14.29,93.01},{15.8,92.75},{16.21,95.14},{18.65,93.58},{14.25,95.1},{12.55,92.85},{18.32,92.14},{14.29,93.01},{18.32,92.14},{12.79,87.24},{16.21,95.14}}},
         },
@@ -30,6 +34,14 @@ function CataObjectFixes.Load()
         },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{66.1,52}}},
+        },
+        [131474] = { -- The Discs of Norgannon
+            [objectKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{49.94,33.49}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
+        },
+        [133234] = { -- Altar of Archaedas
+            [objectKeys.name] = "Altar of Archaedas",
+            [objectKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{55.98,52.97}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
         [142487] = { -- The Sparklematic 5200
             [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{65.78,57.63},{68.67,62.02},{63.05,68.12}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},

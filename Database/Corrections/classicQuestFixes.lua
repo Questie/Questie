@@ -1174,7 +1174,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {2281}, -- #1825
         },
         [2278] = {
-            [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer"}}},
+            [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
         },
         [2298] = {
             [questKeys.preQuestSingle] = {},

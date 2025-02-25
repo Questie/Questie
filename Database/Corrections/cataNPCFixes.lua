@@ -212,6 +212,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.03,64.80}}},
             [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{51.03,64.80},{51.17,64.82},{51.32,64.77},{51.45,64.70},{51.66,64.61},{52.06,64.53},{52.22,64.58},{52.38,64.64},{52.70,64.76},{53.06,64.85}}}},
         },
+        [2748] = { -- Archaedas
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{55.29,50.56}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
+        },
         [2755] = { -- Myzrael
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{57.3,34.58}}},
         },
@@ -530,11 +533,23 @@ function CataNpcFixes.Load()
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
+        [7023] = { -- Obsidian Sentinel
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{28.74,61.66},{-1,-1}}},
+        },
         [7079] = { -- Viscous Fallout
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{76.87,44.41}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [7149] = { -- Withered Protector
             [npcKeys.waypoints] = {},
+        },
+        [7172] = { -- Lore Keeper of Norgannon
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{47.74,37.08}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
+        },
+        [7206] = { -- Ancient Stone Keeper
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{47.46,43.51},{-1,-1}}},
+        },
+        [7228] = { -- Ironaya
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{37.92,73.66},{-1,-1}}},
         },
         [7267] = { -- Chief Ukorz Sandscalp
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{42.51,34.20},{-1,-1}}},
@@ -551,6 +566,9 @@ function CataNpcFixes.Load()
         },
         [7275] = { -- Shadowpriest Sezz'ziz
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{30.61,17.65},{-1,-1}}},
+        },
+        [7291] = { -- Galgann Firehammer
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{25.76,35.92},{-1,-1}}},
         },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{45.75,52.82}}},
@@ -3517,6 +3535,24 @@ function CataNpcFixes.Load()
         },
         [46181] = { -- Enchanter Farendin
             [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [46233] = { -- Olga Runesworn
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.93,72.94},{-1,-1}}},
+        },
+        [46234] = { -- Lead Prospector Durdin
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.72,72.54},{-1,-1}}},
+        },
+        [46235] = { -- Lidia Sunglow
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.93,72.94},{-1,-1}}},
+        },
+        [46236] = { -- High Examiner Tae'thelan Bloodwatcher
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.72,72.54},{-1,-1}}},
+        },
+        [46241] = { -- Aoren Sunglow
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.94,72.08},{-1,-1}}},
+        },
+        [46247] = { -- Kand Sandseeker
+            [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{63.94,72.08},{-1,-1}}},
         },
         [46254] = { -- Hogger
             [npcKeys.spawns] = {[zoneIDs.THE_STOCKADE] = {{19.4,24.9},{-1,-1}}},
