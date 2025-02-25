@@ -6518,7 +6518,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {583},
         },
         [26270] = { -- You Have Our Thanks
-            [questKeys.preQuestSingle] = {26241},
+            [questKeys.preQuestGroup] = {26237,26241},
         },
         [26271] = { -- Feeding the Hungry and the Hopeless
             [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42384,42386,42390,42391,42400},42383,nil,Questie.ICON_TYPE_EVENT}}},
