@@ -490,6 +490,12 @@ function CataNpcFixes.Load()
         [5056] = { -- Deviate Dreadfang
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{53.77,66.55},{55.33,66.13},{73.01,72.46},{-1,-1}}},
         },
+        [5709] = { -- Shade of Eranikus	
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{68.56,87.31},{-1,-1}}},
+        },
+        [5710] = { -- Jammal'an the Prophet
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{76.01,36.94},{-1,-1}}},
+        },
         [5755] = { -- Deviate Viper
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{11.24,52.72},{10.72,49.88},{6.77,36.05},{16.11,39.32},{11.43,33.48},{13.1,31.58},{11.02,29.63},{-1,-1}}},
         },
@@ -634,6 +640,9 @@ function CataNpcFixes.Load()
         },
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{69.02,25.55},{-1,-1}}},
+        },
+        [8440] = { -- Shade of Hakkar
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{24.35,45.71},{-1,-1}}},
         },
         [8516] = { -- Belnistrasz
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{77.46,15.14},{-1,-1}}},

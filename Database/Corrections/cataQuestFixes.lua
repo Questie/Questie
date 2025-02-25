@@ -9442,6 +9442,7 @@ function CataQuestFixes.Load()
         },
         [27633] = { -- The Blood God Hakkar
             [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 208321}}}},
         },
         [27635] = { -- Decontamination
             [questKeys.objectives] = {{{46185,nil,Questie.ICON_TYPE_MOUNT_UP}}},

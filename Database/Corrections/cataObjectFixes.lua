@@ -720,6 +720,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{58.8,27.49}}},
             [objectKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [208321] = { -- Shrine of the Soulflayer
+            [objectKeys.name] = "Shrine of the Soulflayer",
+            [objectKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{26.83,45.68},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
         [208376] = { -- Direhammer's Boots
             [objectKeys.name] = "Direhammer's Boots",
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{76.05,66.49}}},
