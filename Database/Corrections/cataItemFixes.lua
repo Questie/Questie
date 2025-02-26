@@ -27,6 +27,9 @@ function CataItemFixes.Load()
         [2676] = { -- Shimmerweed
             [itemKeys.npcDrops] = {41121},
         },
+        [2794] = { -- An Old History Book
+            [itemKeys.startQuest] = 0,
+        },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
         },
