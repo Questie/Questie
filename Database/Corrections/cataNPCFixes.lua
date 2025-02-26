@@ -24,6 +24,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [272] = { -- Chef Grual
+            [npcKeys.waypoints] = {},
+        },
         [300] = { -- Zzarc' Vul
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{37.87,84.35}}},
         },
