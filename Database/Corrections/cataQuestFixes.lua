@@ -7570,10 +7570,10 @@ function CataQuestFixes.Load()
         [26780] = { -- Nighttime in the Jungle
             [questKeys.preQuestSingle] = {26773},
         },
-        [26782] = { -- The Mosh'Ogg Bounty
+        [26782] = { -- The Mosh'Ogg Bounty -- replaces 26783 after turning in 26734. can't use exclusiveTo 26734 for 26783, leave as is
             [questKeys.exclusiveTo] = {26783},
         },
-        [26783] = { -- The Mosh'Ogg Bounty
+        [26783] = { -- The Mosh'Ogg Bounty -- it is available until turning in 26734. can't use exclusiveTo 26734, leave as is
             [questKeys.exclusiveTo] = {26782},
         },
         [26785] = { -- Part of the Pack
