@@ -767,6 +767,9 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60263] = { -- Whispering Blue Stone
+            [itemKeys.npcDrops] = {939,941,942,978,979,43910,43911,43912,43913},
+        },
         [60291] = { -- Tkashi Fetish
             [itemKeys.npcDrops] = {43977},
         },
