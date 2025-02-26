@@ -411,6 +411,13 @@ function CataNpcFixes.Load()
         [4428] = { -- Death Speaker Jargba
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{87.91,41.34},{-1,-1}}},
         },
+        [4457] = { -- Murkgill Forager
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{41.28,41.47},{40.52,38.15},{40.94,35.09},{42.05,34.79}}},
+        },
+        [4461] = { -- Murkgill Warrior
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{42.14,39.23},{44.27,41.8},{41.89,42.57},{40.32,40.08},{40.47,38.96},{41.23,39.03},{40.75,38.24},{39.79,35.82},{40.19,33.98},{41.49,33.99},{43.53,37.75}}},
+        },
         [4479] = { -- Fardel Dabyrie
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.08,39.78},{51.14,41.5},{48.94,39.5}}},
         },
