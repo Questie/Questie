@@ -4222,6 +4222,7 @@ function CataQuestFixes.Load()
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.MAGE + classKeys.WARLOCK + classKeys.ROGUE + classKeys.PRIEST + classKeys.HUNTER + classKeys.DRUID + classKeys.SHAMAN,
+            [questKeys.nextQuestInChain] = 25167,
         },
         [25074] = { -- Meet Me at Triumph
             [questKeys.preQuestSingle] = {25057},
@@ -4373,8 +4374,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25053,26886,26887},
         },
-        [25167] = { -- Breaking the chain
-            [questKeys.preQuestGroup] = {},
+        [25167] = { -- Breaking the Chain
+            [questKeys.preQuestSingle] = {},
         },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {},
