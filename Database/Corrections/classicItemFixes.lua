@@ -99,6 +99,9 @@ function QuestieItemFixes:Load()
         [2856] = {
             [itemKeys.npcDrops] = {426,430,446,580}, -- Remove rare mob #903
         },
+        [2859] = { -- Vile Fin Scale
+            [itemKeys.npcDrops] = {1543,1544,1545},
+        },
         [2886] = {
             [itemKeys.npcDrops] = {1125,1126,1127,1689},
         },
