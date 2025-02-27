@@ -1813,11 +1813,7 @@ function QuestieTracker:HookBaseTracker()
         end
     end
 
-    if Questie.db.profile.showBlizzardQuestTimer then
-        TrackerQuestTimers:ShowBlizzardTimer()
-    else
-        TrackerQuestTimers:HideBlizzardTimer()
-    end
+    TrackerQuestTimers:HideBlizzardTimer() -- We hide it on init, because the next update will show it if required
 
     QuestieTracker.alreadyHooked = true
 end
