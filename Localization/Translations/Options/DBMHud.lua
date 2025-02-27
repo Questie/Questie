@@ -74,7 +74,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示起始任务图标",
         ["zhTW"] = "顯示任務 NPC 圖示",
     },
-    ["Toggles whether or not available/complete quest icons appear on the HUD. (Default: %s)"] = {
+    ["Toggles whether or not available/complete quest icons appear on the HUD."] = {
         ["enUS"] = true,
         ["deDE"] = "Schaltet ein, ob Icons für verfügbare/abgeschlossene Quests im HUD angezeigt werden oder nicht.",
         ["esES"] = "Activa o desactiva si los iconos de misiones disponibles/completadas aparecen en el HUD.",
@@ -146,7 +146,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "调整HUD上显示的图标的大小。（默认：%s）",
         ["zhTW"] = "調整 HUD 上出現的圖示大小。(預設值: %s)",
     },
-    ["Toggles whether or not object (gear) icons appear on the HUD. (Default: %s)"] = {
+    ["Toggles whether or not object (gear) icons appear on the HUD."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert, ob Objekt-Icons (Zahnrad) im HUD angezeigt werden oder nicht.",
         ["esES"] = "Activa o desactiva si los iconos de objetos (engranaje) aparecen en el HUD.",
@@ -182,7 +182,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示任务物品图标",
         ["zhTW"] = "顯示撿東西圖示",
     },
-    ["Toggles whether or not loot icons appear on the HUD. (Default: %s)"] = {
+    ["Toggles whether or not loot icons appear on the HUD."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktivert die Anzeige von Beute-Icons im HUD.",
         ["esES"] = "Activa o desactiva si los iconos de botín aparecen en el HUD.",
@@ -230,7 +230,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示任务需要击杀图标",
         ["zhTW"] = "顯示殺怪圖示",
     },
-    ["Toggles whether or not slay icons appear on the HUD. (Default: %s)"] = {
+    ["Toggles whether or not slay icons appear on the HUD."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige von Tötungs-Icons im HUD.",
         ["esES"] = "Activa o desactiva si los iconos de matanza aparecen en el HUD.",
