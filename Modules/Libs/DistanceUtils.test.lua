@@ -125,6 +125,20 @@ describe("DistanceUtils", function()
 
             assert.spy(QuestieLib.Euclid).was_called_with(0, 0, 123, 456)
         end)
+
+        it("should error when dungeon location is not found", function()
+            _G.Questie.Error = spy.new(function() end)
+            ZoneDB.GetDungeonLocation = spy.new(function()
+                return nil
+            end)
+            local spawns = {
+                [2] = {{-1,-1}},
+            }
+
+            DistanceUtils.GetNearestSpawn(spawns)
+
+            assert.spy(_G.Questie.Error).was_called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
+        end)
     end)
 
     describe("GetNearestObjective", function()
