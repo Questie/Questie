@@ -121,7 +121,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept when questId is 0 - happens when some other addon is faster", function()
+        it("should not accept trivial quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
             _G.GetQuestID = function() return 0 end
             QuestieDB.QueryQuestSingle = spy.new()
             QuestieDB.IsTrivial = spy.new()
