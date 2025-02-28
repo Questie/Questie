@@ -14028,6 +14028,10 @@ function CataQuestFixes.Load()
         [29844] = { -- For Posterity
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [29847] = { -- To Catch a Thief
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use it"),0,{{"object",209927},{"object",209928}}}},
+            [questKeys.objectives] = {nil,{{206505,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [29851] = { -- Champion of the Tournament
             [questKeys.objectives] = {{{35451}}},
             [questKeys.requiredRaces] = raceKeys.NONE,
