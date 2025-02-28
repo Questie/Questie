@@ -843,7 +843,7 @@ function QuestieTracker:Update()
                             -- Set Timer Title based on states
                             line.label.activeTimer = false
                             if quest.timedBlizzardQuest then
-                                line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active") .. "!", "blue"))
+                                line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active!"), "blue"))
                             else
                                 local timeRemainingString, timeRemaining = TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
                                 if timeRemaining then
