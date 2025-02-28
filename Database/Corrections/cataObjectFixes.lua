@@ -35,6 +35,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
         [124371] = { -- Keystone
+            [objectKeys.name] = "Keystone",
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
