@@ -261,6 +261,9 @@ function QuestieQuestFixes:Load()
         [437] = {
             [questKeys.triggerEnd] = {"Enter the Dead Fields",{[zoneIDs.SILVERPINE_FOREST]={{45.91, 21.27}}}},
         },
+        [443] = {
+            [questKeys.preQuestSingle] = {439},
+        },
         [452] = {
             [questKeys.triggerEnd] = {"Aid Faerleia in killing the Pyrewood Council", {[zoneIDs.SILVERPINE_FOREST]={{46.51,74.07}}}},
         },
