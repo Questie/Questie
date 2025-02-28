@@ -148,6 +148,7 @@ function CataQuestFixes.Load()
         [648] = { -- Rescue OOX-17/TN!
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{60.8,53.68}}}},
+            [questKeys.exclusiveTo] = {},
         },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
@@ -339,6 +340,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {4489},
             [questKeys.nextQuestInChain] = 4490,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [3721] = { -- An OOX of Your Own
+            [questKeys.zoneOrSort] = 5287,
         },
         [4487] = { -- Summon Felsteed
             [questKeys.exclusiveTo] = {4488},
@@ -4884,6 +4888,7 @@ function CataQuestFixes.Load()
         [25476] = { -- Rescue OOX-22/FE!
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety",{[zoneIDs.FERALAS]={{55.63,51.35}}}},
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+            [questKeys.exclusiveTo] = {},
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
