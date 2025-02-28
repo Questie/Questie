@@ -96,13 +96,9 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("Repeatable Quests"); end,
                         desc = function() return l10n("Automatically accept repeatable quests (including dailies) from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_repeatable; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_repeatable = value
+                        get = function () return Questie.db.profile.autoAccept.repeatable; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.repeatable = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Repeatable toggled to:", value)
                         end,
                     },

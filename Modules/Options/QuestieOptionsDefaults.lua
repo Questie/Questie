@@ -117,6 +117,9 @@ function QuestieOptionsDefaults:Load()
             autocomplete = false,
             autoModifier = "shift",
             acceptTrivial = false,
+            autoAccept = {
+                repeatable = false,
+            },
             questAnnounceChannel = "party",
             questAnnounceItems = true,
             questAnnounceAccepted = false,
