@@ -4516,6 +4516,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
             },
         },
+        [56375] = { -- Mostrasz
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{67.83,45.13}}},
+        },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
                 [zoneIDs.END_TIME] = {{79.63,45.1},{-1,-1}},
