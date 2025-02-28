@@ -358,6 +358,39 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
         end)
 
+        it("should accept repeatable quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.repeatable = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept repeatable quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false, "Non-Repeatable Quest", 1, false, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+
         it("should not turn in quest when no quest is complete", function()
             _G.QuestieCompat.GetActiveQuests = function()
                 return "Test Quest", 1, false, false, false, false
