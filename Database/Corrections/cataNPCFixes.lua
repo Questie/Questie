@@ -4519,6 +4519,10 @@ function CataNpcFixes.Load()
         [56375] = { -- Mostrasz
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{67.83,45.13}}},
         },
+        [57777] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
                 [zoneIDs.END_TIME] = {{79.63,45.1},{-1,-1}},
