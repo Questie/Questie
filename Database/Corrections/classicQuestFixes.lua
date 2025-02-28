@@ -197,6 +197,7 @@ function QuestieQuestFixes:Load()
         },
         [349] = {
             [questKeys.objectivesText] = {},
+        },
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
