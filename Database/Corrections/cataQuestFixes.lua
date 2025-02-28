@@ -14038,6 +14038,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100031}},
             [questKeys.finishedBy] = {{100032}},
         },
+        [29934] = { -- To Ravenholdt
+            [questKeys.objectives] = {{{56314,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30094] = { -- The End Time
             [questKeys.nextQuestInChain] = 30096,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
