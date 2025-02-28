@@ -505,9 +505,9 @@ local trackerUILocales = {
         ["frFR"] = "Chronomètre de Blizzard actif !",
         ["koKR"] = false,
         ["ptBR"] = "Temporizador de Blizzard ativo!",
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["ruRU"] = "Таймер Blizzard активен!",
+        ["zhCN"] = "暴雪计时器启动！",
+        ["zhTW"] = "暴雪計時器啟動！",
     },
 }
 
