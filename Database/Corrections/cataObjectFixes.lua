@@ -774,6 +774,10 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
+        [209928] = { -- Unsecured Vent
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.35,45.38}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [278575] = { -- Hero's Call Board -- Twilight Highlands
             [objectKeys.spawns] = {[4922] = {{49.32,30.05,169}}},
             [objectKeys.zoneID] = 4922,
