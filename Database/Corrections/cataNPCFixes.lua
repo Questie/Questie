@@ -200,6 +200,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [2546] = { -- Fleet Master Firallon
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
+                    {46.7,95.34,phases.BOOTY_BAY_REGULAR},
+                    {35.66,66.74,phases.BOOTY_BAY_ATTACK},
+                },
+            },
+        },
         [2611] = { -- Fozruk
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
