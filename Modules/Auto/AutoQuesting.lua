@@ -13,7 +13,7 @@ local IS_TRIVIAL_INDEX_OFFSET = 2
 local IS_REPEATABLE_INDEX_OFFSET = 4
 
 function AutoQuesting.OnQuestDetail()
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -60,7 +60,7 @@ function AutoQuesting.OnQuestGreeting()
         end
     end
 
-    if Questie.db.profile.autoaccept then
+    if Questie.db.profile.autoAccept.enabled then
         local availableQuestsCount = GetNumAvailableQuests()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
@@ -95,7 +95,7 @@ function AutoQuesting.OnGossipShow()
         end
     end
 
-    if Questie.db.profile.autoaccept then
+    if Questie.db.profile.autoAccept.enabled then
         local availableQuests = { QuestieCompat.GetAvailableQuests() }
         if #availableQuests > 0 then
             local indexToAccept = 0
@@ -149,7 +149,7 @@ function AutoQuesting.OnQuestProgress()
 end
 
 function AutoQuesting.OnQuestAcceptConfirm()
-    if (not Questie.db.profile.autoaccept) then
+    if (not Questie.db.profile.autoAccept.enabled) then
         return
     end
 

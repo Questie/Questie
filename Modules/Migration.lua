@@ -78,6 +78,13 @@ local migrationFunctions = {
             Questie.db.profile.showAQWarEffortQuests = true
         end
     end,
+    [9] = function()
+        Questie.db.profile.autoAccept = {
+            enabled = Questie.db.profile.autoaccept,
+            repeatable = true,
+        }
+        Questie.db.profile.autoaccept = nil
+    end
 }
 
 function Migration:Migrate()

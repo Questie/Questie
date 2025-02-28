@@ -26,7 +26,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 name = function() return l10n("Auto Modifier") end,
                 desc = function() return l10n("The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC."); end,
                 width = 0.65,
-                --disabled = function() return (not Questie.db.profile.autocomplete) and (not Questie.db.profile.autoaccept) end,
+                --disabled = function() return (not Questie.db.profile.autocomplete) and (not Questie.db.profile.autoAccept.enabled) end,
                 get = function() return Questie.db.profile.autoModifier; end,
                 set = function(input, key)
                     Questie.db.profile.autoModifier = key
@@ -59,9 +59,9 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 2.1,
                 name = function() return l10n("Auto Accept Quests"); end,
                 desc = function() return l10n("When enabled, Questie will automatically accept quest dialogs when they appear, depending on the rules below."); end,
-                get = function () return Questie.db.profile.autoaccept; end,
+                get = function () return Questie.db.profile.autoAccept.enabled; end,
                 set = function (info, value)
-                    Questie.db.profile.autoaccept = value
+                    Questie.db.profile.autoAccept.enabled = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
             },
@@ -71,7 +71,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 inline = true,
                 width = 0.5,
                 name = function() return l10n("Rules for NPCs"); end,
-                disabled = function() return not Questie.db.profile.autoaccept end,
+                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
                 args = {
                     npc_normalquests = {
                         type = "toggle",
@@ -175,7 +175,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 2.3,
                 inline = true,
                 width = 0.5,
-                disabled = function() return not Questie.db.profile.autoaccept end,
+                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
                 name = function() return l10n("Rules for players"); end,
                 args = {
                     player_normalquests = {
@@ -283,7 +283,7 @@ function QuestieOptions.tabs.auto:Initialize()
             --    order = 8,
             --    name = function() return l10n("Accept trivial (low level) quests"); end,
             --    desc = function() return l10n("When this is enabled trivial (gray) quests will be auto accepted as well."); end,
-            --    disabled = function() return (not Questie.db.profile.autoaccept) end,
+            --    disabled = function() return (not Questie.db.profile.autoAccept.enabled) end,
             --    width = 1.5,
             --    get = function () return Questie.db.profile.acceptTrivial; end,
             --    set = function (info, value)

@@ -9,10 +9,10 @@ describe("AutoQuesting", function()
     local QuestieDB
 
     before_each(function()
-        Questie.db.profile.autoaccept = true
         Questie.db.profile.autocomplete = true
         Questie.db.profile.acceptTrivial = false
         Questie.db.profile.autoAccept = {
+            enabled = true,
             repeatable = true,
         }
         Questie.db.profile.autoModifier = "disabled"
@@ -71,7 +71,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when auto accept is disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnQuestDetail()
 
@@ -182,7 +182,7 @@ describe("AutoQuesting", function()
 
         it("should not accept quest when auto accept is disabled", function()
             _G.GetNumAvailableQuests = function() return 2 end
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -204,7 +204,7 @@ describe("AutoQuesting", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
-            Questie.db.profile.autoaccept = true
+            Questie.db.profile.autoAccept.enabled = true
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -244,7 +244,7 @@ describe("AutoQuesting", function()
         it("should not turn in quest when auto turn in is disabled", function()
             _G.GetNumActiveQuests = function() return 2 end
             _G.SelectActiveQuest = spy.new()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -256,7 +256,7 @@ describe("AutoQuesting", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = true
 
             AutoQuesting.OnQuestGreeting()
@@ -296,7 +296,7 @@ describe("AutoQuesting", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Test Quest", 1, false, 1, false, false, false
             end
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnGossipShow()
 
@@ -422,7 +422,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not turn in or accept quest when auto accept and turn in are disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnGossipShow()
@@ -545,7 +545,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not confirm quest accept when auto accept is disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnQuestAcceptConfirm()
 
