@@ -9585,7 +9585,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27672] = { -- The Chamber of Khaz'mul
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 124371}}}},
             [questKeys.nextQuestInChain] = 27677,
         },
         [27674] = { -- To the Surface
@@ -9600,7 +9600,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
         },
         [27679] = { -- The Chamber of Khaz'mul
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 124371}}}},
             [questKeys.nextQuestInChain] = 27680,
         },
         [27680] = { -- "Archaedas, The Ancient Stone Watcher
