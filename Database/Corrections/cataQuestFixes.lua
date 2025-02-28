@@ -1969,7 +1969,7 @@ function CataQuestFixes.Load()
         },
         [13647] = { -- Joining the Hunt
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {309,-26961},
+            [questKeys.preQuestGroup] = {309,-26961,13650},
         },
         [13650] = { -- Keep Your Hands Off The Goods!
             [questKeys.objectives] = {{{33487,nil,Questie.ICON_TYPE_EVENT},{33485,nil,Questie.ICON_TYPE_EVENT},{33486,nil,Questie.ICON_TYPE_EVENT}}},
