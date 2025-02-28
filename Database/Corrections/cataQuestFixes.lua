@@ -11218,15 +11218,15 @@ function CataQuestFixes.Load()
         },
         [28317] = { -- A Delivery for Thorg'izog
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28318] = { -- A Delivery for Neeralak
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28319] = { -- A Delivery for Xi'lun
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28320] = { -- Assault on Dreadmaul Rock
             [questKeys.preQuestSingle] = {28327},
