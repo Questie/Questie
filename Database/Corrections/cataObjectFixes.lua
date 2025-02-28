@@ -16,6 +16,9 @@ function CataObjectFixes.Load()
         [2086] = { -- Bloodsail Charts
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.05,82.46},{40.75,82.15},{45.01,79.4},{42,83.12}}},
         },
+        [2087] = { -- Bloodsail Orders
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.96,79.63},{42.02,83.18},{41.1,82.43},{40.75,82.25}}},
+        },
         [2688] = { -- Keystone
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
