@@ -13997,6 +13997,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [29802] = { -- A Hidden Message
+            [questKeys.objectives] = {{{57800,nil,Questie.ICON_TYPE_TALK},{55488,nil,Questie.ICON_TYPE_TALK}},nil,{{74752}}},
+            [questKeys.requiredSourceItems] = {74748,74750},
+        },
         [29826] = { -- Reclaiming Ahn'Kahet
             [questKeys.startedBy] = {{55658}},
         },
