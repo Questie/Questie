@@ -18,7 +18,7 @@ function AutoQuesting.OnQuestDetail()
     end
 
     local doAcceptQuest = true
-    if (not Questie.db.profile.acceptTrivial) then
+    if (not Questie.db.profile.autoAccept.trivial) then
         local questId = GetQuestID()
         -- GetQuestID returns 0 when the dialog is closed
         if questId > 0 then
@@ -100,12 +100,12 @@ function AutoQuesting.OnGossipShow()
         if #availableQuests > 0 then
             local indexToAccept = 0
 
-            if Questie.db.profile.acceptTrivial and Questie.db.profile.autoAccept.repeatable then
+            if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable then
                 indexToAccept = 1
             else
                 for i = 1, #availableQuests, INDIZES_AVAILABLE do
                     local shouldAccept = true
-                    if (not Questie.db.profile.acceptTrivial) then
+                    if (not Questie.db.profile.autoAccept.trivial) then
                         local isTrivial = availableQuests[i + IS_TRIVIAL_INDEX_OFFSET]
                         if isTrivial then
                             shouldAccept = false

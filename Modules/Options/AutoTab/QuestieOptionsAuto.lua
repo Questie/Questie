@@ -157,9 +157,9 @@ function QuestieOptions.tabs.auto:Initialize()
                         desc = function() return l10n("Automatically accept trivial (low-level) quests from NPCs."); end,
                         width = 1,
                         -- AUTO 1.0
-                        get = function() return Questie.db.profile.acceptTrivial; end,
+                        get = function() return Questie.db.profile.autoAccept.trivial; end,
                         set = function(_, value)
-                            Questie.db.profile.acceptTrivial = value
+                            Questie.db.profile.autoAccept.trivial = value
                         end,
                         -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_npc_trivial; end,
@@ -285,9 +285,9 @@ function QuestieOptions.tabs.auto:Initialize()
             --    desc = function() return l10n("When this is enabled trivial (gray) quests will be auto accepted as well."); end,
             --    disabled = function() return (not Questie.db.profile.autoAccept.enabled) end,
             --    width = 1.5,
-            --    get = function () return Questie.db.profile.acceptTrivial; end,
+            --    get = function () return Questie.db.profile.autoAccept.trivial; end,
             --    set = function (info, value)
-            --        Questie.db.profile.acceptTrivial = value
+            --        Questie.db.profile.autoAccept.trivial = value
             --    end,
             --},
             autoreject_options = {

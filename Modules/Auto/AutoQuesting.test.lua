@@ -10,9 +10,9 @@ describe("AutoQuesting", function()
 
     before_each(function()
         Questie.db.profile.autocomplete = true
-        Questie.db.profile.acceptTrivial = false
         Questie.db.profile.autoAccept = {
             enabled = true,
+            trivial = false,
             repeatable = true,
         }
         Questie.db.profile.autoModifier = "disabled"
@@ -106,7 +106,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.acceptTrivial = true
+            Questie.db.profile.autoAccept.trivial = true
             _G.GetQuestID = function() return 123 end
 
             AutoQuesting.OnQuestDetail()
@@ -328,7 +328,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.acceptTrivial = true
+            Questie.db.profile.autoAccept.trivial = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Trivial Quest", 1, true, 1, false, false, false
             end
