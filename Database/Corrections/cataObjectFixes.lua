@@ -436,6 +436,9 @@ function CataObjectFixes.Load()
         [204432] = { -- Lime Crate
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{38.57,87.36},{44.76,79.66},{46.03,80.32},{49.31,81.74},{51.61,88.91},{53.68,90.6},{56.63,84.74},{52.62,87.72},{46.18,90.14},{43.75,90.23},{40.41,83.05},{41.1,82.51},{41.93,83}}},
         },
+        [204433] = { -- Bloodsail Cannonball
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.84,97.57},{43.57,97.98},{52.21,94.39},{50.94,97.85},{48.6,98.4},{49.42,93.77},{50.52,95.29},{49.85,92.01},{46.3,96.03},{47.59,94.95},{44.61,96.25}}},
+        },
         [205016] = { -- Bonfire
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.24,68.02}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
