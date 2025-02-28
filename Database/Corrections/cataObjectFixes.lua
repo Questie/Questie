@@ -19,10 +19,6 @@ function CataObjectFixes.Load()
         [2087] = { -- Bloodsail Orders
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.96,79.63},{42.02,83.18},{41.1,82.43},{40.75,82.25}}},
         },
-        [2688] = { -- Keystone
-            [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
-        },
         [2712] = { -- Calcified Elven Gem
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{17.9,89.15},{10.7,91.52},{13.84,89.84},{17.68,87.3},{12.79,87.24},{14.29,93.01},{15.8,92.75},{16.21,95.14},{18.65,93.58},{14.25,95.1},{12.55,92.85},{18.32,92.14},{14.29,93.01},{18.32,92.14},{12.79,87.24},{16.21,95.14}}},
         },
@@ -37,6 +33,10 @@ function CataObjectFixes.Load()
         },
         [19283] = { -- Compendium of the Fallen
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [124371] = { -- Keystone
+            [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{66.1,52}}},
