@@ -113,6 +113,7 @@ local questTagCorrections = {
     [13129] = {81, "Dungeon"},
     [13199] = {41, "PvP"},
     [13662] = {0, ""},
+    [26452] = {41, "PvP"},
     [26856] = {81, "Dungeon"},
     [26858] = {81, "Dungeon"},
     [26862] = {81, "Dungeon"},
