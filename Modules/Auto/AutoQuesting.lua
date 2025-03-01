@@ -32,8 +32,7 @@ function AutoQuesting.OnQuestDetail()
         local questId = GetQuestID()
         -- GetQuestID returns 0 when the dialog is closed
         if questId > 0 then
-            local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
-            doAcceptQuest = (not QuestieDB.IsRepeatable(questLevel))
+            doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
         else
             doAcceptQuest = false
         end

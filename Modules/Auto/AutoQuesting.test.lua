@@ -139,33 +139,33 @@ describe("AutoQuesting", function()
         it("should accept repeatable quest when setting is enabled", function()
             Questie.db.profile.autoAccept.repeatable = true
             _G.GetQuestID = function() return 123 end
+            QuestieDB.IsRepeatable = spy.new()
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(QuestieDB.IsRepeatable).was_not.called()
         end)
 
         it("should not accept repeatable quest when setting is disabled", function()
             Questie.db.profile.autoAccept.repeatable = false
             _G.GetQuestID = function() return 123 end
-            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsRepeatable = spy.new(function() return true end)
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was.called_with(123)
         end)
 
         it("should not accept repeatable quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
             Questie.db.profile.autoAccept.repeatable = false
             _G.GetQuestID = function() return 0 end
-            QuestieDB.QueryQuestSingle = spy.new()
             QuestieDB.IsRepeatable = spy.new()
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was_not.called()
-            assert.spy(QuestieDB.QueryQuestSingle).was_not.called()
             assert.spy(QuestieDB.IsRepeatable).was_not.called()
         end)
     end)
