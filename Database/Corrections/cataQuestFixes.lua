@@ -20,6 +20,7 @@ QuestieCorrections.objectObjectiveFirst[25813] = true
 QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.objectObjectiveFirst[27161] = true
+QuestieCorrections.objectObjectiveFirst[30099] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[13798] = true
 QuestieCorrections.killCreditObjectiveFirst[25015] = true
@@ -14061,6 +14062,24 @@ function CataQuestFixes.Load()
         },
         [30098] = { -- The Well of Eternity
             [questKeys.nextQuestInChain] = 30099,
+        },
+        [30099] = { -- In Unending Numbers
+            [questKeys.nextQuestInChain] = 30100,
+            [questKeys.objectives] = {{{55085}},{{209366},{209447},{209448}}},
+            [questKeys.preQuestSingle] = {30096},
+        },
+        [30100] = { -- The Vainglorious
+            [questKeys.nextQuestInChain] = 30101,
+        },
+        [30101] = { -- The Path to the Dragon Soul
+            [questKeys.nextQuestInChain] = 30102,
+        },
+        [30102] = { -- The Hour of Twilight
+            [questKeys.nextQuestInChain] = 30103,
+            [questKeys.preQuestSingle] = {30101},
+        },
+        [30103] = { -- To Wyrmrest!
+            [questKeys.preQuestSingle] = {30101},
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},

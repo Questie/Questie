@@ -771,6 +771,15 @@ function CataObjectFixes.Load()
         [209242] = { -- Windswept Balloon
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43,58.4},{46.1,64.8},{47.4,62.3},{50.7,43.3},{52.4,62.9},{55.2,58.7},{56,44.3},{56.4,63.1},{57.8,43},{59.7,68.7},{59.8,35.8},{60.1,69.8},{60.4,73.2},{61,43.2},{61.2,66.5},{61.3,33.4},{61.7,76.9},{62,51.6},{62.6,76.3},{62.8,68.6},{62.9,40.2},{63,28.9},{63,41.8},{63.3,65.6},{64.3,38.8},{64.4,44.4},{64.6,68.3},{64.8,51},{64.9,76.5},{65.6,46.3},{66.2,33.4},{66.8,38.9},{67.3,73.3},{67.9,44.2},{69.6,43.2},{70.4,57.4},{71.6,47.3},{72.9,67.9},{73,61.7},{73.6,54.3},{75.4,56.7},{75.4,64.3},{76.2,61.7}}},
         },
+        [209366] = { -- Portal Energy Focus
+            [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{27.22,57.19},{-1,-1}}},
+        },
+        [209447] = { -- Portal Energy Focus
+            [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{18.65,38.07},{-1,-1}}},
+        },
+        [209448] = { -- Portal Energy Focus
+            [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{16.03,34.54},{-1,-1}}},
+        },
         [209927] = { -- Convenient Rope
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,

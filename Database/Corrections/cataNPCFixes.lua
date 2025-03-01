@@ -4515,6 +4515,12 @@ function CataNpcFixes.Load()
         [54544] = { -- Echo of Tyrande
             [npcKeys.spawns] = {[zoneIDs.END_TIME_EMERALD_DRAGONSHRINE] = {{50.79,44.29}},[zoneIDs.END_TIME] = {{-1,-1}}},
         },
+        [54548] = { -- Thrall
+            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{48.7,19.71},{-1,-1}}},
+        },
+        [54590] = { -- Arcurion
+            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{56.81,27.68},{-1,-1}}},
+        },
         [54605] = { -- Finlay Coolshot
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{50.7,65.15},{-1,-1}}},
         },
@@ -4524,6 +4530,15 @@ function CataNpcFixes.Load()
                 [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{37.3,79.94},{52.14,44.46,phases.ET_MUROZOND_DEAD}},
             },
         },
+        [54853] = { -- Queen Azshara
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.09,36.78},{-1,-1}}},
+        },
+        [54968] = { -- Asira Dawnslayer
+            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{39.08,51.26},{-1,-1}}},
+        },
+        [55085] = { -- Peroth'arn
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{19.5,51.47},{-1,-1}}},
+        },
         [55382] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY] = {{61.87,47.34}},
@@ -4532,6 +4547,20 @@ function CataNpcFixes.Load()
                 [zoneIDs.SILVERMOON_CITY] = {{74.32,81.88}},
                 [zoneIDs.SHATTRATH_CITY] = {{51.8,29.26}},
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
+            },
+        },
+        [55532] = { -- Illidan Stormrage
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{81.84,57.77},{-1,-1}}},
+        },
+        [55624] = { -- Image of Nozdormu
+            [npcKeys.name] = "Image of Nozdormu",
+            [npcKeys.spawns] = {
+                [zoneIDs.WELL_OF_ETERNITY] = {
+                    {-1,-1},
+                    {27.19,64.15,phases.WOT_NOZDORMU_1},
+                    {29.32,39.92,phases.WOT_NOZDORMU_2},
+                    {71.61,80.54,phases.WOT_NOZDORMU_3},
+                },
             },
         },
         [56375] = { -- Mostrasz
@@ -4545,7 +4574,14 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.END_TIME] = {{79.63,45.1},{-1,-1}},
                 [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{51.01,43.49,phases.ET_MUROZOND_DEAD}},
+                [zoneIDs.WELL_OF_ETERNITY] = {
+                    {-1,-1},
+                    {25.99,62.87,phases.ET_MUROZOND_DEAD},
+                },
             },
+        },
+        [57913] = { -- Chromie
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{87.32,49.23},{-1,-1}}},
         },
         [80001] = { -- Maintain a Trot for 8 seconds
             [npcKeys.name] = "Maintain a Trot for 8 seconds",
