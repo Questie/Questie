@@ -1,7 +1,7 @@
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
----@type QuestieQuestPrivate
 QuestieQuest.private = QuestieQuest.private or {}
+---@class QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.

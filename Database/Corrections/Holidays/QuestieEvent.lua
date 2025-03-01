@@ -150,7 +150,6 @@ function QuestieEvent:Load()
     QuestieEvent.eventQuests = nil
 end
 
----@param dayOfMonth number
 ---@return boolean
 _GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then

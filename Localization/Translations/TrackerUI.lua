@@ -497,6 +497,18 @@ local trackerUILocales = {
         ["zhCN"] = "任务（按远近反向）",
         ["zhTW"] = "任務 (依遠近 (反向)",
     },
+    ["Blizzard Timer Active!"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = "¡Temporizador de Blizzard activo!",
+        ["esMX"] = "¡Temporizador de Blizzard activo!",
+        ["frFR"] = "Chronomètre de Blizzard actif !",
+        ["koKR"] = false,
+        ["ptBR"] = "Temporizador de Blizzard ativo!",
+        ["ruRU"] = "Таймер Blizzard активен!",
+        ["zhCN"] = "暴雪计时器启动！",
+        ["zhTW"] = "暴雪計時器啟動！",
+    },
 }
 
 for k, v in pairs(trackerUILocales) do

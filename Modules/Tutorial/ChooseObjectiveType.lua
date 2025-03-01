@@ -1,11 +1,10 @@
----@type Tutorial
+---@class Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 
----@return Frame
 function Tutorial.CreateChooseObjectiveTypeFrame()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialChooseObjectiveType", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetSize(740, 358)

@@ -1,11 +1,10 @@
----@type Tutorial
+---@class Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
----@return Frame
 function Tutorial.ShowRunes()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialShowRunes", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetSize(525, 240)

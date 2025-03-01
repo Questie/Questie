@@ -19,7 +19,7 @@ function DebugFunctions.ShowQuestObjectives(questId)
     local quest = QuestieDB.GetQuest(questId)
 
     local objectives = C_QuestLog.GetQuestObjectives(questId)
-    ---@type QuestLogCacheObjectiveData[]
+    ---@type table<string, any>
     local questCacheObjectives = {}
 
     for i, objective in pairs(objectives) do

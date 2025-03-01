@@ -1,5 +1,4 @@
 ---@class Tutorial
----@field Initialize function
 local Tutorial = QuestieLoader:CreateModule("Tutorial")
 
 function Tutorial.Initialize()

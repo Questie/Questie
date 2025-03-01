@@ -148,6 +148,7 @@ function CataQuestFixes.Load()
         [648] = { -- Rescue OOX-17/TN!
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{60.8,53.68}}}},
+            [questKeys.exclusiveTo] = {},
         },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
@@ -339,6 +340,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {4489},
             [questKeys.nextQuestInChain] = 4490,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [3721] = { -- An OOX of Your Own
+            [questKeys.zoneOrSort] = 5287,
         },
         [4487] = { -- Summon Felsteed
             [questKeys.exclusiveTo] = {4488},
@@ -1965,7 +1969,7 @@ function CataQuestFixes.Load()
         },
         [13647] = { -- Joining the Hunt
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {309,-26961},
+            [questKeys.preQuestGroup] = {309,-26961,13650},
         },
         [13650] = { -- Keep Your Hands Off The Goods!
             [questKeys.objectives] = {{{33487,nil,Questie.ICON_TYPE_EVENT},{33485,nil,Questie.ICON_TYPE_EVENT},{33486,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4222,6 +4226,7 @@ function CataQuestFixes.Load()
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.MAGE + classKeys.WARLOCK + classKeys.ROGUE + classKeys.PRIEST + classKeys.HUNTER + classKeys.DRUID + classKeys.SHAMAN,
+            [questKeys.nextQuestInChain] = 25167,
         },
         [25074] = { -- Meet Me at Triumph
             [questKeys.preQuestSingle] = {25057},
@@ -4373,8 +4378,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25053,26886,26887},
         },
-        [25167] = { -- Breaking the chain
-            [questKeys.preQuestGroup] = {},
+        [25167] = { -- Breaking the Chain
+            [questKeys.preQuestSingle] = {},
         },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {},
@@ -4883,6 +4888,7 @@ function CataQuestFixes.Load()
         [25476] = { -- Rescue OOX-22/FE!
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety",{[zoneIDs.FERALAS]={{55.63,51.35}}}},
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+            [questKeys.exclusiveTo] = {},
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -7323,7 +7329,7 @@ function CataQuestFixes.Load()
         },
         [26644] = { -- Attracting Attention
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26634,26635},
+            [questKeys.preQuestGroup] = {26633,26634,26635},
         },
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
@@ -7444,6 +7450,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26697,26699,26700},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Kebok"), 0, {{"monster", 737}}}},
+            [questKeys.objectives] = {{{2546}}},
         },
         [26706] = { -- Endgame
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
@@ -7612,7 +7619,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28702},
         },
         [26809] = { -- Backdoor Dealings
-            [questKeys.objectives] = {{{43245}},{{204361}}},
+            [questKeys.objectives] = {{{43245}},{{204361,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26810] = { -- Eliminate the Outcast
             [questKeys.objectives] = {nil,{{204372,nil,Questie.ICON_TYPE_EVENT}}},
@@ -9578,7 +9585,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27672] = { -- The Chamber of Khaz'mul
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 124371}}}},
             [questKeys.nextQuestInChain] = 27677,
         },
         [27674] = { -- To the Surface
@@ -9593,7 +9600,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
         },
         [27679] = { -- The Chamber of Khaz'mul
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2688}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 124371}}}},
             [questKeys.nextQuestInChain] = 27680,
         },
         [27680] = { -- "Archaedas, The Ancient Stone Watcher
@@ -11211,15 +11218,15 @@ function CataQuestFixes.Load()
         },
         [28317] = { -- A Delivery for Thorg'izog
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28318] = { -- A Delivery for Neeralak
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28319] = { -- A Delivery for Xi'lun
             [questKeys.requiredSourceItems] = {63357},
-            [questKeys.preQuestGroup] = {28314,28315,28316},
+            [questKeys.preQuestGroup] = {28314,28315,28316,28326},
         },
         [28320] = { -- Assault on Dreadmaul Rock
             [questKeys.preQuestSingle] = {28327},
@@ -13991,6 +13998,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [29802] = { -- A Hidden Message
+            [questKeys.objectives] = {{{57800,nil,Questie.ICON_TYPE_TALK},{55488,nil,Questie.ICON_TYPE_TALK}},nil,{{74752}}},
+            [questKeys.requiredSourceItems] = {74748,74750},
+        },
         [29826] = { -- Reclaiming Ahn'Kahet
             [questKeys.startedBy] = {{55658}},
         },
@@ -14018,11 +14029,18 @@ function CataQuestFixes.Load()
         [29844] = { -- For Posterity
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [29847] = { -- To Catch a Thief
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use it"),0,{{"object",209927},{"object",209928}}}},
+            [questKeys.objectives] = {nil,{{206505,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [29851] = { -- Champion of the Tournament
             [questKeys.objectives] = {{{35451}}},
             [questKeys.requiredRaces] = raceKeys.NONE,
             [questKeys.startedBy] = {{100031}},
             [questKeys.finishedBy] = {{100032}},
+        },
+        [29934] = { -- To Ravenholdt
+            [questKeys.objectives] = {{{56314,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30094] = { -- The End Time
             [questKeys.nextQuestInChain] = 30096,

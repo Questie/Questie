@@ -200,6 +200,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [2546] = { -- Fleet Master Firallon
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
+                    {46.7,95.34,phases.BOOTY_BAY_REGULAR},
+                    {35.66,66.74,phases.BOOTY_BAY_ATTACK},
+                },
+            },
+        },
         [2611] = { -- Fozruk
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
@@ -678,8 +686,26 @@ function CataNpcFixes.Load()
         [9176] = { -- Gorlop
             [npcKeys.waypoints] = {[zoneIDs.BURNING_STEPPES] = {{{39.95,60.48},{40.24,60.42},{40.52,60.36},{40.81,60.31},{41.10,60.27},{41.38,60.18},{41.67,60.07},{41.95,59.95},{42.01,59.92},{42.02,59.92},{42.30,59.85},{42.59,59.84},{42.88,59.88},{43.16,59.97},{43.45,60.05},{43.74,60.11},{43.89,60.13},{43.91,60.14}}}},
         },
+        [9196] = { -- Highlord Omokk
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_HORDEMAR_CITY] = {{35,55.24}},[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+        },
+        [9237] = { -- War Master Voone
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_TAZZ_ALOR] = {{52.85,53.19}},[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+        },
+        [9568] = { -- Overlord Wyrmthalak
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_CHAMBER_OF_BATTLE] = {{56.02,55.36}},[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+        },
         [9684] = { -- Lar'korwi
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{69.98,40.96}}},
+        },
+        [10299] = { -- Acride
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{30.48,39.73},{-1,-1}}},
+        },
+        [10363] = { -- General Drakkisath
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{33.2,45.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
+        },
+        [10429] = { -- Warchief Rend Blackhand
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{48.6,19.1},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
         [10445] = { -- Selina Dourman
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55.56,55.01},{-1,-1}}},
@@ -4507,6 +4533,13 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{51.8,29.26}},
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
             },
+        },
+        [56375] = { -- Mostrasz
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{67.83,45.13}}},
+        },
+        [57777] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {

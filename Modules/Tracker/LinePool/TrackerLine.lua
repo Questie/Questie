@@ -39,7 +39,7 @@ local lineMarginLeft = 10
 
 ---@param index number
 ---@param parent ScrollFrame
----@param previousLine|nil LineFrame
+---@param previousLine LineFrame?
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
 ---@param OnQuestAdded function @Callback function for SetQuest

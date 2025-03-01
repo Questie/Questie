@@ -13,12 +13,14 @@ function CataObjectFixes.Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
-        [2688] = { -- Keystone
-            [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
+        [2086] = { -- Bloodsail Charts
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.05,82.46},{40.75,82.15},{45.01,79.4},{42,83.12}}},
+        },
+        [2087] = { -- Bloodsail Orders
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.96,79.63},{42.02,83.18},{41.1,82.43},{40.75,82.25}}},
         },
         [2712] = { -- Calcified Elven Gem
-            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{17.9,89.15},{10.7,91.52},{13.84,89.84},{17.68,87.3},{12.79,87.24},{14.29,93.01},{15.8,92.75},{16.21,95.14},{18.65,93.58},{14.25,95.1},{12.55,92.85},{18.32,92.14},{14.29,93.01},{18.32,92.14},{12.79,87.24},{16.21,95.14}}},
+            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{16.86,90.08},{17.9,89.15},{10.7,91.52},{13.84,89.84},{17.68,87.3},{12.79,87.24},{14.29,93.01},{15.8,92.75},{16.21,95.14},{18.65,93.58},{14.25,95.1},{12.55,92.85},{18.32,92.14},{14.29,93.01},{18.32,92.14},{12.79,87.24},{16.21,95.14}}},
         },
         [7510] = { -- Sprouted Frond
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
@@ -31,6 +33,11 @@ function CataObjectFixes.Load()
         },
         [19283] = { -- Compendium of the Fallen
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [124371] = { -- Keystone
+            [objectKeys.name] = "Keystone",
+            [objectKeys.spawns] = {[zoneIDs.ULDAMAN] = {{45.36,73.65},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{66.1,52}}},
@@ -427,6 +434,12 @@ function CataObjectFixes.Load()
         [204360] = { -- Monstrous Clam
             [objectKeys.spawns] = {[14] = {{59.03,14.08},{59.42,9.93},{59.37,12.45},{58.24,11.4},{58.08,13.54},{57.51,10.09},{56.24,9.64},{58.2,3.99},{58.96,5.17},{58.49,6.23},{56.88,6.68},{58.26,8.28}}},
         },
+        [204432] = { -- Lime Crate
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{38.57,87.36},{44.76,79.66},{46.03,80.32},{49.31,81.74},{51.61,88.91},{53.68,90.6},{56.63,84.74},{52.62,87.72},{46.18,90.14},{43.75,90.23},{40.41,83.05},{41.1,82.51},{41.93,83}}},
+        },
+        [204433] = { -- Bloodsail Cannonball
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.84,97.57},{43.57,97.98},{52.21,94.39},{50.94,97.85},{48.6,98.4},{49.42,93.77},{50.52,95.29},{49.85,92.01},{46.3,96.03},{47.59,94.95},{44.61,96.25}}},
+        },
         [205016] = { -- Bonfire
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.24,68.02}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
@@ -451,6 +464,10 @@ function CataObjectFixes.Load()
         },
         [206320] = { -- Wild Black Dragon Egg
             [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{73.72,48.82},{65.32,53.65},{64.59,49.09},{72.68,49.58},{65.05,50.85},{65.15,47.31},{66.58,45.8},{67.55,45.7},{67.91,44.59},{68.99,42.67},{72.69,39.42},{73.41,42.84},{69.16,53.41},{71.04,53.64},{69.52,37.81},{69.35,39.53},{68.29,43.55},{74.12,44.57},{71.49,49.73},{73.73,43.71},{71.25,52.02},{70.28,54.17},{73.16,41.22},{74.84,46.06},{74.4,47.56},{72.22,38.14},{70.61,37.55},{68.97,41.04}}},
+        },
+        [206505] = { -- Dragon Egg
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.27,45.37}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [206550] = { -- The Sun
             [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{49.13,57.28},{54.02,46.75},{17.07,65.65},{14.32,53.07},{22.85,47.96},{35.5,50.75},{27.27,38.97},{33.84,36.98},{28.34,58.8},{39.33,59.84},{44.18,35.91}}},
@@ -753,6 +770,14 @@ function CataObjectFixes.Load()
         },
         [209242] = { -- Windswept Balloon
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43,58.4},{46.1,64.8},{47.4,62.3},{50.7,43.3},{52.4,62.9},{55.2,58.7},{56,44.3},{56.4,63.1},{57.8,43},{59.7,68.7},{59.8,35.8},{60.1,69.8},{60.4,73.2},{61,43.2},{61.2,66.5},{61.3,33.4},{61.7,76.9},{62,51.6},{62.6,76.3},{62.8,68.6},{62.9,40.2},{63,28.9},{63,41.8},{63.3,65.6},{64.3,38.8},{64.4,44.4},{64.6,68.3},{64.8,51},{64.9,76.5},{65.6,46.3},{66.2,33.4},{66.8,38.9},{67.3,73.3},{67.9,44.2},{69.6,43.2},{70.4,57.4},{71.6,47.3},{72.9,67.9},{73,61.7},{73.6,54.3},{75.4,56.7},{75.4,64.3},{76.2,61.7}}},
+        },
+        [209927] = { -- Convenient Rope
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
+        [209928] = { -- Unsecured Vent
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.35,45.38}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [278575] = { -- Hero's Call Board -- Twilight Highlands
             [objectKeys.spawns] = {[4922] = {{49.32,30.05,169}}},

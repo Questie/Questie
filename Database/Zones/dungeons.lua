@@ -1,7 +1,7 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
----@alias DungeonZoneEntry
+---@class DungeonZoneEntry
 ---@field [1] string name
 ---@field [2] AreaId? alternativeAreaId
 ---@field [3] AreaId parentZone

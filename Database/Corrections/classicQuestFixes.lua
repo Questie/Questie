@@ -195,6 +195,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3,48,202,203,205,206,210,212,215,218,511,531,533,570,604,785,787,889,891,892,898,909,910,920,948,1110,1251,1270,1487},nil,{2794}},
             [questKeys.objectivesText] = {"Return the book: The History of Stormwind, to the Stormwind Library. NOTE: This is a very rare drop!"},
         },
+        [349] = {
+            [questKeys.objectivesText] = {},
+        },
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
@@ -257,6 +260,9 @@ function QuestieQuestFixes:Load()
         },
         [437] = {
             [questKeys.triggerEnd] = {"Enter the Dead Fields",{[zoneIDs.SILVERPINE_FOREST]={{45.91, 21.27}}}},
+        },
+        [443] = {
+            [questKeys.preQuestSingle] = {439},
         },
         [452] = {
             [questKeys.triggerEnd] = {"Aid Faerleia in killing the Pyrewood Council", {[zoneIDs.SILVERPINE_FOREST]={{46.51,74.07}}}},
