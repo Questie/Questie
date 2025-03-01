@@ -233,7 +233,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     else
         QuestieQuest:AcceptQuest(questId)
 
-        if Questie.db.profile.autoaccept and (not AutoQuesting.IsModifierHeld()) and ImmersionFrame and ImmersionFrame:IsShown() then
+        if Questie.db.profile.autoAccept.enabled and (not AutoQuesting.IsModifierHeld()) and ImmersionFrame and ImmersionFrame:IsShown() then
             ImmersionFrame:Hide()
         end
     end

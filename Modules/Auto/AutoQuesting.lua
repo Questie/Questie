@@ -9,19 +9,30 @@ local shouldRunAuto = true
 
 local INDIZES_AVAILABLE = 7
 local INDIZES_COMPLETE = 6
+local IS_TRIVIAL_INDEX_OFFSET = 2
+local IS_REPEATABLE_INDEX_OFFSET = 4
 
 function AutoQuesting.OnQuestDetail()
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
     local doAcceptQuest = true
-    if (not Questie.db.profile.acceptTrivial) then
+    if (not Questie.db.profile.autoAccept.trivial) then
         local questId = GetQuestID()
         -- GetQuestID returns 0 when the dialog is closed
         if questId > 0 then
             local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
             doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
+        else
+            doAcceptQuest = false
+        end
+    end
+    if (not Questie.db.profile.autoAccept.repeatable) then
+        local questId = GetQuestID()
+        -- GetQuestID returns 0 when the dialog is closed
+        if questId > 0 then
+            doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
         else
             doAcceptQuest = false
         end
@@ -48,7 +59,7 @@ function AutoQuesting.OnQuestGreeting()
         end
     end
 
-    if Questie.db.profile.autoaccept then
+    if Questie.db.profile.autoAccept.enabled then
         local availableQuestsCount = GetNumAvailableQuests()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
@@ -83,18 +94,31 @@ function AutoQuesting.OnGossipShow()
         end
     end
 
-    if Questie.db.profile.autoaccept then
+    if Questie.db.profile.autoAccept.enabled then
         local availableQuests = { QuestieCompat.GetAvailableQuests() }
         if #availableQuests > 0 then
             local indexToAccept = 0
-            if Questie.db.profile.acceptTrivial then
+
+            if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable then
                 indexToAccept = 1
             else
-                -- Check if there is a non-trivial quest available
-                for isTrivialIndex = 3, #availableQuests, INDIZES_AVAILABLE do
-                    local isTrivial = availableQuests[isTrivialIndex]
-                    if (not isTrivial) then
-                        indexToAccept = math.floor(isTrivialIndex / INDIZES_AVAILABLE) + 1
+                for i = 1, #availableQuests, INDIZES_AVAILABLE do
+                    local shouldAccept = true
+                    if (not Questie.db.profile.autoAccept.trivial) then
+                        local isTrivial = availableQuests[i + IS_TRIVIAL_INDEX_OFFSET]
+                        if isTrivial then
+                            shouldAccept = false
+                        end
+                    end
+                    if (not Questie.db.profile.autoAccept.repeatable) then
+                        local isRepeatable = availableQuests[i + IS_REPEATABLE_INDEX_OFFSET]
+                        if isRepeatable then
+                            shouldAccept = false
+                        end
+                    end
+
+                    if shouldAccept then
+                        indexToAccept = math.floor(i / INDIZES_AVAILABLE) + 1
                         break
                     end
                 end
@@ -124,7 +148,7 @@ function AutoQuesting.OnQuestProgress()
 end
 
 function AutoQuesting.OnQuestAcceptConfirm()
-    if (not Questie.db.profile.autoaccept) then
+    if (not Questie.db.profile.autoAccept.enabled) then
         return
     end
 
