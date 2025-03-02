@@ -149,6 +149,10 @@ function CataItemFixes.Load()
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
+        [18240] = { -- Ogre Tannin
+            [itemKeys.objectDrops] = {179499},
+            [itemKeys.npcDrops] = {},
+        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },

@@ -8168,7 +8168,6 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{44837}},
         },
         [27063] = { -- Looming Threat
-            [questKeys.nextQuestInChain] = 27009,
             [questKeys.finishedBy] = {{44837}},
         },
         [27064] = { -- He's Holding Out on Us

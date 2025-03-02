@@ -104,6 +104,18 @@ function CataObjectFixes.Load()
         [177964] = { -- Fathom Stone
             [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{41.41,75.37}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },
+        [179485] = { -- Felvine Shard
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{26.44,57.77},{-1,-1}}},
+        },
+        [179499] = { -- Ogre Tannin Basket
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{23.66,55.35},{-1,-1}}},
+        },
+        [179517] = { -- Treasure of the Shen'dralar
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{70.66,24.05},{-1,-1}}},
+        },
+        [179559] = { -- Felvine Shard
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{54.89,26.81},{54.97,26.85},{55.03,26.97},{55.02,26.71},{55.12,26.87},{-1,-1}}},
+        },
         [179832] = { -- Pillaclencher's Ornate Pillow
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
         },

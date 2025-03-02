@@ -765,6 +765,31 @@ function CataNpcFixes.Load()
         [11324] = { -- Searing Blade Warlock
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{27.67,86.01},{32.91,55},{39.94,46.03},{47.34,60.78},{40.94,67.11},{32.16,68.09},{36.91,82.67},{-1,-1}}},
         },
+        [11486] = { -- Prince Tortheldrin
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{59.83,23.43},{-1,-1}}},
+        },
+        [11487] = { -- Tendris Warpwood
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{30.24,45.47},{-1,-1}}},
+        },
+        [11488] = { -- Illyanna Ravenoak
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{31.99,78.42},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{{21.86,65.58},{18.99,72.97},{22.09,75.92},{20.19,81.31},{23.71,85.69},{28.19,84.91},{31.99,78.42}}}},
+        },
+        [11489] = { -- Tendris Warpwood
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{33.39,53.61},{-1,-1}}},
+        },
+        [11490] = { -- Zevrim Thornhoof
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{57.49,74.59},{-1,-1}}},
+        },
+        [11492] = { -- Alzzin the Wildshaper
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{57.18,28.76},{-1,-1}}},
+        },
+        [11496] = { -- Immol'thar
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{34.97,57.68},{-1,-1}}},
+        },
+        [11501] = { -- King Gordok
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{31.83,25.93},{-1,-1}}},
+        },
         [11517] = { -- Oggleflint
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{70.1,64.2},{-1,-1}}},
         },
@@ -849,8 +874,44 @@ function CataNpcFixes.Load()
         [13158] = { -- Lieutenant Sanders
             [npcKeys.waypoints] = {},
         },
+        [13280] = { -- Hydrospawn
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{55.39,71.14},{-1,-1}}},
+        },
         [13282] = { -- Noxxion
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{34.74,10.67},{-1,-1}}},
+        },
+        [14321] = { -- Guard Fengus
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{49.11,78.94},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{{49.11,78.94},{49.28,84.42},{49.1,89.61},{43.84,88.13},{45.19,89.28},{49.09,89.52},{49.34,84.42},{49.43,78.86},{49.59,71.22},{49.39,75.34},{49.18,78.06},{45.02,77.95},{43.05,77.53},{43.14,70.16},{42.83,78.47},{42.91,82.81},{42.92,84},{42.93,86.3},{42.92,84},{42.91,82.81},{42.83,78.47},{44.59,78.24},{47.68,78.38},{49.11,78.94}}}},
+        },
+        [14322] = { -- Stomper Kreeg
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{61.93,65.73},{-1,-1}}},
+        },
+        [14323] = { -- Guard Slip'kik
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{24.55,63.94},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{{24.55,63.94},{24.09,67.2},{23.08,67.15},{22.18,66.24},{22.03,64.06},{23.49,61.76},{23.57,56.25},{25.29,56.07},{26.67,57.96},{28.17,58.64}}}},
+        },
+        [14324] = { -- Cho'Rush the Observer
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{31.19,25.35},{-1,-1}}},
+        },
+        [14325] = { -- Captain Kromcrush
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{31.8,50.01},{-1,-1}}},
+        },
+        [14326] = { -- Guard Mol'dar
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{69.88,75.37},{-1,-1}}},
+        },
+        [14327] = { -- Lethtendris
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{43.96,49.88},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{{43.96,49.88},{44.51,49.81},{45.18,48.57},{44.74,46.48},{43.59,46.48},{42.84,47.73},{43.09,49.3},{43.96,49.88}}}},
+        },
+        [14338] = { -- Knot Thimblejack
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{28.54,55.14},{-1,-1}}},
+        },
+        [14354] = { -- Pusillin
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{12.2,30.87},{21.84,75.5},{32.19,26.4},{65.98,38.27},{75.4,45.23},{-1,-1}}},
+        },
+        [14358] = { -- Shen'dralar Ancient
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{48.35,53.7},{-1,-1}}},
         },
         [14387] = { -- Lothos Riftwaker
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{32.12,94.7}}},
@@ -3343,12 +3404,27 @@ function CataNpcFixes.Load()
         [44968] = { -- Ricket
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.38,26.16}}},
         },
+        [44969] = { -- Furgus Warpwood
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{11.21,38.89},{-1,-1}}},
+        },
+        [44971] = { -- "Ambassador" Dagg'thol
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{7.06,36.05},{-1,-1}}},
+        },
+        [44991] = { -- Estulan
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{90.62,44.84},{-1,-1}}},
+        },
         [44996] = { -- Magistrate Henry Maleb
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{65.71,23.79}}},
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
         },
+        [44999] = { -- Shen'dralar Watcher
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{87.41,52.37},{-1,-1}}},
+        },
         [45034] = { -- Yuldris Smolderfury
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.92,49.95}}},
+        },
+        [45040] = { -- Druid of the Talon
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{71.67,91.91},{-1,-1}}},
         },
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
@@ -4552,8 +4628,7 @@ function CataNpcFixes.Load()
         [55532] = { -- Illidan Stormrage
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{81.84,57.77},{-1,-1}}},
         },
-        [55624] = { -- Image of Nozdormu
-            [npcKeys.name] = "Image of Nozdormu",
+        [55624] = { -- Nozdormu/Image of Nozdormu
             [npcKeys.spawns] = {
                 [zoneIDs.WELL_OF_ETERNITY] = {
                     {-1,-1},
