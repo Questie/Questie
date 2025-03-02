@@ -3429,6 +3429,9 @@ function CataNpcFixes.Load()
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
+        [45052] = { -- Stonemaul Ogre
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{71.67,91.91},{-1,-1}}},
+        },
         [45115] = { -- Twilight Sermon Completion Credit
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{62.56,30.01}}},
         },
