@@ -60,9 +60,8 @@ function QuestieCompat.SetResizeBounds(frame, minWidth, minHeight, maxWidth, max
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.GetAvailableQuests)
 ---Returns the available quests at a quest giver.
----@return GossipQuestUIInfo[] info
+---@return GossipQuestUIInfo[]
 function QuestieCompat.GetAvailableQuests()
     if C_GossipInfo and C_GossipInfo.GetAvailableQuests then
         local info = C_GossipInfo.GetAvailableQuests()
@@ -80,14 +79,13 @@ function QuestieCompat.GetAvailableQuests()
         end
         return unpack(availableQuests)
     elseif GetGossipAvailableQuests then
-        return GetGossipAvailableQuests() -- https://wowpedia.fandom.com/wiki/API_GetGossipAvailableQuests
+        return GetGossipAvailableQuests()
     end
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.GetActiveQuests)
 ---Returns the quests which can be turned in at a quest giver.
----@return GossipQuestUIInfo[] info
+---@return GossipQuestUIInfo[]
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
         -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
