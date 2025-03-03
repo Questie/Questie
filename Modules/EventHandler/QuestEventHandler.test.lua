@@ -35,7 +35,7 @@ describe("QuestEventHandler", function()
     local QuestEventHandler
 
     before_each(function()
-        Questie.db.profile.autoaccept = false
+        Questie.db.profile.autoAccept = {enabled = false}
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
@@ -111,7 +111,7 @@ describe("QuestEventHandler", function()
     end)
 
     it("should hide Immersion frame when quest was auto accepted and modifier is not held", function()
-        Questie.db.profile.autoaccept = true
+        Questie.db.profile.autoAccept.enabled = true
         AutoQuesting.IsModifierHeld = function() return false end
         local ImmersionFrameHideMock = spy.new(function() end)
         _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}
@@ -127,7 +127,7 @@ describe("QuestEventHandler", function()
     end)
 
     it("should not hide Immersion frame when quest was auto accepted and modifier is held", function()
-        Questie.db.profile.autoaccept = true
+        Questie.db.profile.autoAccept.enabled = true
         AutoQuesting.IsModifierHeld = function() return true end
         local ImmersionFrameHideMock = spy.new(function() end)
         _G.ImmersionFrame = {IsShown = function() return true end, Hide = ImmersionFrameHideMock}

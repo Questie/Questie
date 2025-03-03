@@ -106,7 +106,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 width = 0.5,
                 hidden = (not Questie.IsTBC),
                 name = function() return l10n("Quel'Danas Settings"); end,
-                disabled = function() return not Questie.db.profile.autoaccept end,
+                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
                 args = {
                     isleOfQuelDanasPhase = {
                         type = "select",

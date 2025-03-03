@@ -49,6 +49,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     end
 
     it("should work", function()
+        Questie.db.profile.autoAccept = {
+            enabled = false,
+            trivial = false,
+            repeatable = false,
+        }
         local mockedQuestLogTitle = {
             [1] = {"Feralas", nil, nil, true, false, false, nil, nil},
             [2] = {"The Mark of Quality", 46, nil, false, false, nil, nil, 2822},

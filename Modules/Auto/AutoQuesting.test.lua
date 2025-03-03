@@ -9,9 +9,12 @@ describe("AutoQuesting", function()
     local QuestieDB
 
     before_each(function()
-        Questie.db.profile.autoaccept = true
         Questie.db.profile.autocomplete = true
-        Questie.db.profile.acceptTrivial = false
+        Questie.db.profile.autoAccept = {
+            enabled = true,
+            trivial = false,
+            repeatable = true,
+        }
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
@@ -68,7 +71,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when auto accept is disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnQuestDetail()
 
@@ -103,7 +106,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.acceptTrivial = true
+            Questie.db.profile.autoAccept.trivial = true
             _G.GetQuestID = function() return 123 end
 
             AutoQuesting.OnQuestDetail()
@@ -121,7 +124,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept when questId is 0 - happens when some other addon is faster", function()
+        it("should not accept trivial quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
             _G.GetQuestID = function() return 0 end
             QuestieDB.QueryQuestSingle = spy.new()
             QuestieDB.IsTrivial = spy.new()
@@ -131,6 +134,39 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
             assert.spy(QuestieDB.QueryQuestSingle).was_not.called()
             assert.spy(QuestieDB.IsTrivial).was_not.called()
+        end)
+
+        it("should accept repeatable quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.repeatable = true
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.IsRepeatable = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(QuestieDB.IsRepeatable).was_not.called()
+        end)
+
+        it("should not accept repeatable quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.IsRepeatable = spy.new(function() return true end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was.called_with(123)
+        end)
+
+        it("should not accept repeatable quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.GetQuestID = function() return 0 end
+            QuestieDB.IsRepeatable = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was_not.called()
         end)
     end)
 
@@ -146,7 +182,7 @@ describe("AutoQuesting", function()
 
         it("should not accept quest when auto accept is disabled", function()
             _G.GetNumAvailableQuests = function() return 2 end
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -168,7 +204,7 @@ describe("AutoQuesting", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
-            Questie.db.profile.autoaccept = true
+            Questie.db.profile.autoAccept.enabled = true
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -208,7 +244,7 @@ describe("AutoQuesting", function()
         it("should not turn in quest when auto turn in is disabled", function()
             _G.GetNumActiveQuests = function() return 2 end
             _G.SelectActiveQuest = spy.new()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -220,7 +256,7 @@ describe("AutoQuesting", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = true
 
             AutoQuesting.OnQuestGreeting()
@@ -260,7 +296,7 @@ describe("AutoQuesting", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Test Quest", 1, false, 1, false, false, false
             end
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnGossipShow()
 
@@ -292,7 +328,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.acceptTrivial = true
+            Questie.db.profile.autoAccept.trivial = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Trivial Quest", 1, true, 1, false, false, false
             end
@@ -315,6 +351,39 @@ describe("AutoQuesting", function()
         it("should skip trivial quest when setting is disabled and accept non-trivial", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Trivial Quest", 1, true, 1, false, false, false, "Non-Trivial Quest", 1, false, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+
+        it("should accept repeatable quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.repeatable = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept repeatable quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
+            Questie.db.profile.autoAccept.repeatable = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Repeatable Quest", 1, false, 1, true, false, false, "Non-Repeatable Quest", 1, false, 1, false, false, false
             end
 
             AutoQuesting.OnGossipShow()
@@ -353,7 +422,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not turn in or accept quest when auto accept and turn in are disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnGossipShow()
@@ -476,7 +545,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not confirm quest accept when auto accept is disabled", function()
-            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnQuestAcceptConfirm()
 
