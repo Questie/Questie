@@ -785,7 +785,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{57.18,28.76},{-1,-1}}},
         },
         [11496] = { -- Immol'thar
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{34.97,57.68},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{34.97,57.68},{-1,-1}}},
         },
         [11501] = { -- King Gordok
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{31.83,25.93},{-1,-1}}},
