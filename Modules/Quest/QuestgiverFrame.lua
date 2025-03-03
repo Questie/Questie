@@ -54,17 +54,14 @@ end
 local function updateGossipFrame()
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
-    local availQuests = {QuestieCompat.GetAvailableQuests()}
+    local availQuests = QuestieCompat.GetAvailableQuests()
     local activeQuests = {QuestieCompat.GetActiveQuests()}
     local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes
     local questgiver = UnitGUID("npc")
     if numAvailable > 0 then
         for i=1, numAvailable do
             index = index + 1
-            -- GetGossipAvailableQuests() returns 7 individual values per quest entry...
-            -- so we have to filter out to every 7th value, starting with 1, 8, 15, etc
-            local questIndex = (1 + ((i - 1) * 7))
-            local questname = availQuests[questIndex]
+            local questname = availQuests[i].title
             local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
             gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, false))

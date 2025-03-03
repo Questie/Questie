@@ -95,30 +95,30 @@ function AutoQuesting.OnGossipShow()
     end
 
     if Questie.db.profile.autoAccept.enabled then
-        local availableQuests = { QuestieCompat.GetAvailableQuests() }
+        local availableQuests = QuestieCompat.GetAvailableQuests()
         if #availableQuests > 0 then
             local indexToAccept = 0
 
             if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable then
                 indexToAccept = 1
             else
-                for i = 1, #availableQuests, INDIZES_AVAILABLE do
+                for i = 1, #availableQuests do
                     local shouldAccept = true
                     if (not Questie.db.profile.autoAccept.trivial) then
-                        local isTrivial = availableQuests[i + IS_TRIVIAL_INDEX_OFFSET]
+                        local isTrivial = availableQuests[i].isTrivial
                         if isTrivial then
                             shouldAccept = false
                         end
                     end
                     if (not Questie.db.profile.autoAccept.repeatable) then
-                        local isRepeatable = availableQuests[i + IS_REPEATABLE_INDEX_OFFSET]
+                        local isRepeatable = availableQuests[i].repeatable
                         if isRepeatable then
                             shouldAccept = false
                         end
                     end
 
                     if shouldAccept then
-                        indexToAccept = math.floor(i / INDIZES_AVAILABLE) + 1
+                        indexToAccept = i
                         break
                     end
                 end

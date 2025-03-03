@@ -2,6 +2,22 @@ dofile("setupTests.lua")
 
 _G.QuestieCompat = {}
 
+---@param override GossipQuestUIInfo
+local function getAvailableTestQuest(override)
+    return {
+        title = override.title or "Test Quest",
+        questLevel = override.questLevel or 1,
+        isTrivial = override.isTrivial or false,
+        frequency = override.frequency or 1,
+        repeatable = override.repeatable or false,
+        isLegendary = override.isLegendary or false,
+        isIgnored = override.isIgnored or false,
+        isImportant = override.isImportant or false,
+        isMeta = override.isMeta or false,
+        questID = override.questID or 0,
+    }
+end
+
 describe("AutoQuesting", function()
     ---@type AutoQuesting
     local AutoQuesting
@@ -16,7 +32,7 @@ describe("AutoQuesting", function()
             repeatable = true,
         }
         Questie.db.profile.autoModifier = "disabled"
-        _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
+        _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
         _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
@@ -269,7 +285,7 @@ describe("AutoQuesting", function()
         it("should accept available quest", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -280,7 +296,7 @@ describe("AutoQuesting", function()
         it("should accept available quest when active quests are not complete", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
             _G.QuestieCompat.GetActiveQuests = function()
                 return "Test Quest", 1, false, false, false, false
@@ -294,7 +310,7 @@ describe("AutoQuesting", function()
 
         it("should not accept available quest when auto accept is disabled", function()
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoAccept.enabled = false
 
@@ -305,7 +321,7 @@ describe("AutoQuesting", function()
 
         it("should not accept available quest when auto modifier is held", function()
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
@@ -319,7 +335,7 @@ describe("AutoQuesting", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -330,7 +346,7 @@ describe("AutoQuesting", function()
         it("should accept trivial quest when setting is enabled", function()
             Questie.db.profile.autoAccept.trivial = true
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false
+                return {getAvailableTestQuest({isTrivial = true})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -340,7 +356,7 @@ describe("AutoQuesting", function()
 
         it("should not accept trivial quest when setting is disabled", function()
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false
+                return {getAvailableTestQuest({isTrivial = true})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -350,7 +366,7 @@ describe("AutoQuesting", function()
 
         it("should skip trivial quest when setting is disabled and accept non-trivial", function()
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false, "Non-Trivial Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({isTrivial = true}), getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -361,7 +377,7 @@ describe("AutoQuesting", function()
         it("should accept repeatable quest when setting is enabled", function()
             Questie.db.profile.autoAccept.repeatable = true
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Repeatable Quest", 1, false, 1, true, false, false
+                return {getAvailableTestQuest({repeatable = true})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -372,7 +388,7 @@ describe("AutoQuesting", function()
         it("should not accept repeatable quest when setting is disabled", function()
             Questie.db.profile.autoAccept.repeatable = false
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Repeatable Quest", 1, false, 1, true, false, false
+                return {getAvailableTestQuest({repeatable = true})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -383,7 +399,7 @@ describe("AutoQuesting", function()
         it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
             Questie.db.profile.autoAccept.repeatable = false
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Repeatable Quest", 1, false, 1, true, false, false, "Non-Repeatable Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({repeatable = true}), getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -812,7 +828,7 @@ describe("AutoQuesting", function()
 
         it("should not accept available quest from gossip when coming from progress and auto modifier was held", function()
             _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
+                return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
