@@ -86,7 +86,10 @@ local migrationFunctions = {
         }
         Questie.db.profile.autoaccept = nil
         Questie.db.profile.acceptTrivial = nil
-    end
+    end,
+    [10] = function()
+        Questie.db.profile.autoAccept.pvp = true
+    end,
 }
 
 function Migration:Migrate()
