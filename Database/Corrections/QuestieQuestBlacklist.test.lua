@@ -6,6 +6,7 @@ dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
 local QuestieQuestBlacklist = require("Database.Corrections.QuestieQuestBlacklist")
+local QuestieCorrections = require("Database.Corrections.QuestieCorrections")
 local ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
 
 describe("QuestieQuestBlacklist", function()
@@ -29,7 +30,7 @@ describe("QuestieQuestBlacklist", function()
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
-        assert.is_nil( questToBlacklist[7877]) -- Phase 2
+        assert.are_same(QuestieCorrections.CATA_HIDE, questToBlacklist[7877]) -- Phase 2
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
         assert.is_true(questToBlacklist[8411]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
@@ -45,7 +46,7 @@ describe("QuestieQuestBlacklist", function()
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
-        assert.is_nil( questToBlacklist[7877]) -- Phase 2
+        assert.are_same(QuestieCorrections.CATA_HIDE, questToBlacklist[7877]) -- Phase 2
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
         assert.is_true(questToBlacklist[8411]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
