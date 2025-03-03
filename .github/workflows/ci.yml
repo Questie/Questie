@@ -60,7 +60,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Run Unit Tests
         run: |
@@ -90,7 +90,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Era database
         run: |
@@ -119,7 +119,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate SoD database
         run: |
@@ -148,7 +148,7 @@ jobs:
 #          luaVersion: "5.1"
 #
 #      - name: Install Luarocks
-#        uses: leafo/gh-actions-luarocks@v4.3.0
+#        uses: leafo/gh-actions-luarocks@v5.0.0
 #
 #      - name: Validate TBC database
 #        run: |
@@ -177,7 +177,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate WotLK database
         run: |
@@ -206,7 +206,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Cata database
         run: |
@@ -235,7 +235,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4.3.0
+        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Localized database
         run: |
