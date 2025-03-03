@@ -37,6 +37,15 @@ function AutoQuesting.OnQuestDetail()
             doAcceptQuest = false
         end
     end
+    if (not Questie.db.profile.autoAccept.pvp) then
+        local questId = GetQuestID()
+        -- GetQuestID returns 0 when the dialog is closed
+        if questId > 0 then
+            doAcceptQuest = (not QuestieDB.IsPvPQuest(questId))
+        else
+            doAcceptQuest = false
+        end
+    end
 
     if doAcceptQuest then
         AcceptQuest()
