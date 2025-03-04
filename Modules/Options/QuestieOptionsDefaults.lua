@@ -116,7 +116,7 @@ function QuestieOptionsDefaults:Load()
             autocomplete = false,
             autoModifier = "shift",
             autoAccept = {
-                enabled = true,
+                enabled = false,
                 trivial = false,
                 repeatable = true,
             },
