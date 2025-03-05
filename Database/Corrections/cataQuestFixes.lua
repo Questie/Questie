@@ -8285,6 +8285,9 @@ function CataQuestFixes.Load()
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
         },
+        [27147] = { -- Kirtonos the Herald
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Kirtonos"), 0, {{"object", 175564}}}},
+        },
         [27151] = { -- Taelan Fordring's Legacy
             [questKeys.preQuestSingle] = {27002},
         },

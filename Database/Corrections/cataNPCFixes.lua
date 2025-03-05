@@ -169,6 +169,9 @@ function CataNpcFixes.Load()
         [1656] = { -- Thurman Agamand
             [npcKeys.waypoints] = {},
         },
+        [1853] = { -- Darkmaster Gandling
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{68.52,30.14}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
         [2039] = { -- Ursal the Mauler
             [npcKeys.waypoints] = {},
         },
@@ -707,8 +710,21 @@ function CataNpcFixes.Load()
         [10429] = { -- Warchief Rend Blackhand
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{48.6,19.1},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
+        [10432] = { -- Vectus
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{48.25,66.2}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [10433] = { -- Marduk Blackpool
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{44.34,63.82}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
         [10445] = { -- Selina Dourman
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55.56,55.01},{-1,-1}}},
+        },
+        [10506] = { -- Kirtonos the Herald
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.71,12.97}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [10508] = { -- Ras Frostwhisper
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{40.56,88.47}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{{40.56,88.14},{41.61,88.09},{41.72,92.7},{39.52,92.74},{39.42,88.14},{40.56,88.14},{40.56,88.47}}}},
         },
         [10541] = { -- Krakle's Thermometer
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.47}}},
@@ -719,6 +735,9 @@ function CataNpcFixes.Load()
         [10666] = { -- Gordo
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{44.95,53.17}}},
             [npcKeys.waypoints] = {[zoneIDs.TIRISFAL_GLADES] = {{{44.12,53.92},{44.23,53.97},{44.24,53.77},{44.25,53.52},{44.32,53.30},{44.42,53.10},{44.56,52.98},{44.73,52.95},{44.88,53.02},{45.01,53.18},{45.10,53.38},{45.11,53.39}}}},
+        },
+        [10678] = { -- Plagued Hatchling
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{29.23,64.22},{31.3,60.7},{33.59,62.03},{31.89,67.38},{29.26,70.78},{36.14,61.64},{35.88,65.7},{33.17,69.69},{33,74.78},{30.78,78.03},{34.15,78},{37.63,70.24},{37.74,75.85}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [10737] = { -- Shy-Rotam
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{46.1,17.6}}},
@@ -749,6 +768,9 @@ function CataNpcFixes.Load()
         },
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.87,51.96}}},
+        },
+        [11261] = { -- Doctor Theolen Krastinov
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{95.52,45.85}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [11321] = { -- Molten Elemental
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{47.22,30.39},{52.99,48.14},{53.54,50.23},{51.2,41.58},{53.44,31.88},{53.24,27.48},{60.05,58.74},{66.66,18.9},{-1,-1}}},
@@ -801,6 +823,9 @@ function CataNpcFixes.Load()
         },
         [11520] = { -- Taragaman the Hungerer
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{40.7,57.4},{-1,-1}}},
+        },
+        [11622] = { -- Rattlegore
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{30.39,62.84}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [11682] = { -- Warsong Grunt
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{88.29,55.41},{88.62,50.76},{85.15,64.91},{85.4,64.95},{88.95,51.39},{89.46,62.52},{88.22,67.32},{89.8,59.45},{89.18,49.78},{92.14,54.32},{89.52,49.51},{90.04,62.89},{91.84,53.9},{91.9,54.05},{89.89,54.13},{89.9,51.91},{88.71,67.37},{88.37,55.89},{89.28,61.71},{90.62,54.13},{89.38,56.49},{89.22,65.45},{88.59,55.21},{88.12,61.92},{89.02,62.59},{87.07,60.55},{88.51,58.11},{89.57,57.69},{88.6,57.66},{89.44,62.61},{88.86,52.44},{87.79,64.62},{87.22,64.51},{89.8,57.75},{88.93,60.08},{90.73,58.92},{91.1,57.87},{89.55,58.67},{90.78,58.36},{89.78,58.34},{90.53,58.74},{88.65,59.23},{87.54,59.42},{88.01,59.31},{88.54,58.67},{88.2,53.14},{85.91,60.85}}},
@@ -3432,6 +3457,18 @@ function CataNpcFixes.Load()
         [45052] = { -- Stonemaul Ogre
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{71.67,91.91},{-1,-1}}},
         },
+        [45107] = { -- Eva Sarkhoff
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{46.23,51.66},{-1,-1}}},
+        },
+        [45108] = { -- Lucien Sarkhoff
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{47.38,51.66},{-1,-1}}},
+        },
+        [45109] = { -- Weldon Barov
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{46.02,58.46},{-1,-1}}},
+        },
+        [45110] = { -- Alexi Barov
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{47.25,58.46},{-1,-1}}},
+        },
         [45115] = { -- Twilight Sermon Completion Credit
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{62.56,30.01}}},
         },
@@ -4602,6 +4639,9 @@ function CataNpcFixes.Load()
         },
         [54605] = { -- Finlay Coolshot
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{50.7,65.15},{-1,-1}}},
+        },
+        [54606] = { -- Stone Guard Stok'ton
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{48.41,68.05},{-1,-1}}},
         },
         [54751] = { -- Nozdormu
             [npcKeys.spawns] = {
