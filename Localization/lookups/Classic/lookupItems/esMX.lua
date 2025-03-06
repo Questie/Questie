@@ -1018,6 +1018,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9257] = "Esencia samha",
 [9258] = "Esencia Byltan",
 [9259] = "Collar tribal trol",
+[9266] = "Planes de batalla de Zarpaleña",
 [9275] = "Llave de Cuergo",
 [9277] = "Memoria de Tecnobot",
 [9278] = "Esencia artificial",
