@@ -1645,6 +1645,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [19003] = "Cabeza de Nefarian",
 [19017] = "Esencia del Señor del Fuego",
 [19018] = "Hoja besada por el viento durmiente",
+[19020] = "Informe del campamento Mojache Zukk'ash",
 [19023] = "Cebo más preciado de Katoom",
 [19025] = "Péndola de Señor del Cielo",
 [19033] = "Herramientas perdidas de Esco",
