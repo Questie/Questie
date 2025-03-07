@@ -1,5 +1,6 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+local isHorde = UnitFactionGroup("Player") == "Horde"
 
 ---@class DungeonZoneEntry
 ---@field [1] string name
@@ -35,7 +36,7 @@ local dungeons = {
     [2367] = {"Old Hillsbrad Foothills",nil,440,{{440, 65.7, 49.8}}},
     [2437] = {"Ragefire Chasm",nil,1637,{{1637, 51.7, 49.8}}},
     [2557] = {"Dire Maul",2577,357,{{357, 59.2, 45.1}}},
-    [2597] = {"Alterac Valley",nil,36,{{36, 66.6, 51.3},}},
+    [2597] = {"Alterac Valley",nil,36,{(isHorde and {36, 39.5, 80.2}) or {36, 63.6, 58.8}}},
     [2677] = {"Blackwing Lair",nil,46,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
     [2717] = {"Molten Core",nil,46,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
     [2917] = {"Hall of Legends",nil,1637,{{1637, 40.4, 68.3}}},
@@ -141,6 +142,7 @@ if Questie.IsCata then
     dungeons[2367][4] = {{440, 64.8, 50}} -- Old Hillsbrad Foothills
     dungeons[2437][4] = {{1637, 55.2, 51.2}} -- Ragefire Chasm
     dungeons[2557][4] = {{357, 62.1, 30.2}} -- Dire Maul
+    dungeons[2597][4] = {(isHorde and {267, 58.4, 33.3}) or {267, 44.5, 46}} -- Alterac Valley
     dungeons[2677][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Blackwing Lair
     dungeons[2717][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Molten Core
     dungeons[3428][4] = {{1377, 24.4, 87.5}} -- Temple of Ahn'Qiraj
