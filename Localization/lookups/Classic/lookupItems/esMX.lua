@@ -1099,6 +1099,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9595] = "Muisek de hipogrifo",
 [9596] = "Muisek de dragón feérico",
 [9597] = "Muisek de gigante montés",
+[9618] = "Vasija de muisek de lechúcico",
 [9628] = "Faltriquera de hierbas de Neeru",
 [9629] = "Una cabeza reducida",
 [9738] = "Gema de Cobrah",
