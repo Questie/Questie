@@ -742,11 +742,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SERENDIA_FP then
-        return not complete[13520]
+        return not complete[13518] and not complete[13522]
     end
 
     if phase == phases.SERENDIA_INN then
-        return complete[13520] or false
+        return complete[13518] and complete[13522] or false
     end
 
     if phase == phases.GRIMCLAW_THICKET then

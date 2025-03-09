@@ -320,10 +320,10 @@ QuestieEvent.eventDates = {
         endDate = "16/2"
     },
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "31/3",
-        endDate = "6/4"
+        startDate = "20/4",
+        endDate = "26/4"
     },
-    ["Children's Week"] = {startDate = "1/5", endDate = "15/5"}, -- TODO: Usually it is only a week long
+    ["Children's Week"] = {startDate = "28/4", endDate = "12/5"}, -- TODO: Usually it is only a week long
     ["Midsummer"] = (isChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!

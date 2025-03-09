@@ -1763,7 +1763,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [13507] = { -- Denying Manpower
-            [questKeys.preQuestSingle] = {13505},
+            [questKeys.preQuestGroup] = {13504,13505},
         },
         [13509] = { -- War Supplies
             [questKeys.preQuestSingle] = {13504},
@@ -1793,10 +1793,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13591},
         },
         [13520] = { -- The Boon of the Seas
-            [questKeys.preQuestSingle] = {13518},
+            [questKeys.preQuestGroup] = {13518,13522},
         },
         [13521] = { -- Buzzbox 413
-            [questKeys.preQuestSingle] = {13518},
+            [questKeys.preQuestGroup] = {13518,13522},
         },
         [13523] = { -- Power Over the Tides
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Orb of Elune on its corpse"),0,{{"monster",32890}}}},
@@ -1937,7 +1937,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13569},
         },
         [13601] = { -- In Aid of the Refugees
-            [questKeys.preQuestGroup] = {13519,13596},
+            [questKeys.preQuestSingle] = {13596},
         },
         [13605] = { -- The Last Refugee
             [questKeys.triggerEnd] = {"Archaeologist Hollee escorted to safety.",{[zoneIDs.DARKSHORE] = {{41.18,43.36}}}},
@@ -1966,7 +1966,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13623},
         },
         [13646] = { -- Astranaar Bound
-            [questKeys.preQuestSingle] = {13642},
+            [questKeys.preQuestSingle] = {26464},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Get a ride to Astranaar"),0,{{"monster",33445}}}},
         },
         [13647] = { -- Joining the Hunt
             [questKeys.preQuestSingle] = {},
@@ -8284,6 +8285,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27923,27924,28105},
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
+        },
+        [27147] = { -- Kirtonos the Herald
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Kirtonos"), 0, {{"object", 175564}}}},
         },
         [27151] = { -- Taelan Fordring's Legacy
             [questKeys.preQuestSingle] = {27002},

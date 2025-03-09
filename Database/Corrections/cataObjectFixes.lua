@@ -101,6 +101,28 @@ function CataObjectFixes.Load()
         [169216] = { -- Preserved Threshadon Carcass
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},
         },
+        [175564] = { -- Brazier of the Herald
+            [objectKeys.name] = "Brazier of the Herald",
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176484] = { -- The Deed to Brill
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{37.44,85.82}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176485] = { -- The Deed to Caer Darrow
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{84.22,28.9}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176486] = { -- The Deed to Southshore
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{85.19,44.1},{-1,-1}}},
+        },
+        [176487] = { -- The Deed to Southshore
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{32.74,55.38}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176544] = { -- Remains of Eva Sarkhoff
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{90.28,40.38}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176545] = { -- Remains of Lucien Sarkhoff
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{92.02,52.02}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
         [177964] = { -- Fathom Stone
             [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{41.41,75.37}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },

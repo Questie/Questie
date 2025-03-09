@@ -16,7 +16,7 @@ local classLocales = {
     },
     ["Paladin"] = {
         ["enUS"] = true,
-        ["deDE"] = "Paladin",
+        ["deDE"] = true,
         ["esES"] = "Paladín",
         ["esMX"] = "Paladín",
         ["frFR"] = true,
