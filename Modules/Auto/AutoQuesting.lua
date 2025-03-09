@@ -14,34 +14,22 @@ function AutoQuesting.OnQuestDetail()
         return
     end
 
+    local questId = GetQuestID()
+    if questId == 0 then
+        -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
+        return
+    end
+
     local doAcceptQuest = true
     if (not Questie.db.profile.autoAccept.trivial) then
-        local questId = GetQuestID()
-        -- GetQuestID returns 0 when the dialog is closed
-        if questId > 0 then
-            local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
-            doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
-        else
-            doAcceptQuest = false
-        end
+        local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
+        doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
     end
     if (not Questie.db.profile.autoAccept.repeatable) then
-        local questId = GetQuestID()
-        -- GetQuestID returns 0 when the dialog is closed
-        if questId > 0 then
-            doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
-        else
-            doAcceptQuest = false
-        end
+        doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
     end
     if (not Questie.db.profile.autoAccept.pvp) then
-        local questId = GetQuestID()
-        -- GetQuestID returns 0 when the dialog is closed
-        if questId > 0 then
-            doAcceptQuest = (not QuestieDB.IsPvPQuest(questId))
-        else
-            doAcceptQuest = false
-        end
+        doAcceptQuest = (not QuestieDB.IsPvPQuest(questId))
     end
 
     if doAcceptQuest then
