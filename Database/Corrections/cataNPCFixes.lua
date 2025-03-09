@@ -1774,6 +1774,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [32964] = { -- Sentinel Aynasha
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{64.48,5.49}}},
+        },
         [32971] = { -- Ranger Glynda Nal'Shea 
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {
