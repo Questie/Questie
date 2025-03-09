@@ -7,10 +7,7 @@ local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuest
 
 local shouldRunAuto = true
 
-local INDIZES_AVAILABLE = 7
 local INDIZES_COMPLETE = 6
-local IS_TRIVIAL_INDEX_OFFSET = 2
-local IS_REPEATABLE_INDEX_OFFSET = 4
 
 function AutoQuesting.OnQuestDetail()
     if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
