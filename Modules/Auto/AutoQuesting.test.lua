@@ -441,6 +441,42 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
         end)
 
+        it("should accept PvP quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.pvp = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept PvP quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip PvP quest when setting is disabled and accept non-PvP", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({questID = 1}),getAvailableTestQuest({questID = 2})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+
         it("should not turn in quest when no quest is complete", function()
             _G.QuestieCompat.GetActiveQuests = function()
                 return "Test Quest", 1, false, false, false, false

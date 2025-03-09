@@ -125,6 +125,12 @@ function AutoQuesting.OnGossipShow()
                             shouldAccept = false
                         end
                     end
+                    if (not Questie.db.profile.autoAccept.pvp) then
+                        local isPvP = QuestieDB.IsPvPQuest(availableQuests[i].questID)
+                        if isPvP then
+                            shouldAccept = false
+                        end
+                    end
 
                     if shouldAccept then
                         indexToAccept = i
