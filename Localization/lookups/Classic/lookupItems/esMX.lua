@@ -1005,6 +1005,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9061] = "Combustible de cohete goblin",
 [9153] = "Planos de la plataforma",
 [9189] = "Campana de Shay",
+[9232] = "Papiro de Gadrin",
 [9233] = "Botella de veneno",
 [9234] = "Tiara de las profundidades",
 [9237] = "Cabellera de gnoll Zarpaleña",
