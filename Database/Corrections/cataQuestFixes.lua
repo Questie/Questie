@@ -2891,6 +2891,7 @@ function CataQuestFixes.Load()
         },
         [14333] = { -- While You're Here
             [questKeys.requiredSourceItems] = {49194},
+            [questKeys.preQuestSingle] = {14328},
         },
         [14335] = { -- Chipping In
             [questKeys.preQuestGroup] = {5421,14334}, -- #6449
@@ -4823,7 +4824,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25432},
         },
         [25436] = { -- Spiteful Sisters
-            [questKeys.preQuestGroup] = {25433,25434},
+            [questKeys.preQuestGroup] = {25429,25433,25434},
         },
         [25437] = { -- Ysondre's Call
             [questKeys.preQuestSingle] = {25436},
@@ -4979,13 +4980,13 @@ function CataQuestFixes.Load()
         [25532] = { -- Pirate Accuracy Increasing (Alliance)
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25515,25517,25524},
-            [questKeys.objectives] = {{{40727,nil,Questie.ICON_TYPE_TALK}},{{203009,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{40726,nil,Questie.ICON_TYPE_TALK}},{{203009,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{100056}},
         },
         [25533] = { -- Pirate Accuracy Increasing (Horde)
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25516,25518,25526},
-            [questKeys.objectives] = {{{40726,nil,Questie.ICON_TYPE_TALK}},{{203009,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{40727,nil,Questie.ICON_TYPE_TALK}},{{203009,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{100056}},
         },
         [25534] = { -- Going Off-Task [Horde]
@@ -5602,10 +5603,6 @@ function CataQuestFixes.Load()
         [25849] = { -- When Archaeology Attacks
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 26189,
-        },
-        [25852] = { -- All's Clear
-            [questKeys.nextQuestInChain] = 24862,
-            [questKeys.exclusiveTo] = {28550},
         },
         [25854] = { -- I'll Call Him Bitey
             [questKeys.nextQuestInChain] = 25855,

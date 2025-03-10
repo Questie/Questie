@@ -638,6 +638,9 @@ function CataItemFixes.Load()
         [56012] = { -- Stone Knife of Sealing
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56091] = { -- Krom'gar Log Book
+            [itemKeys.npcDrops] = {},
+        },
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },

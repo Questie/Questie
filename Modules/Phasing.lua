@@ -217,6 +217,8 @@ local phases = {
     WOT_NOZDORMU_1 = 1145,
     WOT_NOZDORMU_2 = 1146,
     WOT_NOZDORMU_3 = 1147,
+    KAMMAH_STONE = 1148,
+    KAMMAH_TENT = 1149,
 }
 Phasing.phases = phases
 
@@ -891,6 +893,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.WOT_NOZDORMU_3 then
         return false
+    end
+
+    if phase == phases.KAMMAH_STONE then
+        return not complete[14325] and (not questLog[14325] or (questLog[14325] and questLog[14325].isComplete == 0)) or false
+    end
+
+    if phase == phases.KAMMAH_TENT then
+        return complete[14325] or (questLog[14325] and questLog[14325].isComplete == 1) or false
     end
 
     return false
