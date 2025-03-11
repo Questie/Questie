@@ -3947,6 +3947,7 @@ function CataQuestFixes.Load()
         [24921] = { -- Report to Aubrey
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 24934,
+            [questKeys.exclusiveTo] = {},
         },
         [24925] = { -- Free the Captives
             [questKeys.objectives] = {{{38643,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4442,6 +4443,7 @@ function CataQuestFixes.Load()
         },
         [25197] = { -- The Admiral Won't Back Down
             [questKeys.nextQuestInChain] = 24934,
+            [questKeys.exclusiveTo] = {},
         },
         [25202] = { -- The Fastest Way to His Heart
             [questKeys.preQuestGroup] = {25200,25201},
