@@ -670,11 +670,26 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{16364,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {},
         },
+        [8544] = { -- Conqueror's Spaulders
+            [questKeys.preQuestSingle] = {8579},
+        },
         [8548] = {
             [questKeys.specialFlags] = 1,
         },
         [8551] = {
             [questKeys.questLevel] = 42,
+        },
+        [8559] = { -- Conqueror's Greaves
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8560] = { -- Conqueror's Legguards
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8561] = { -- Conqueror's Crown
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8562] = { -- Conqueror's Breastplate
+            [questKeys.preQuestSingle] = {8579},
         },
         [8572] = {
             [questKeys.specialFlags] = 1,
@@ -685,14 +700,89 @@ function QuestieTBCQuestFixes:Load()
         [8574] = {
             [questKeys.specialFlags] = 1,
         },
+        [8592] = { -- Tiara of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8593] = { -- Trousers of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8594] = { -- Mantle of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8596] = { -- Footwraps of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8602] = { -- Stormcaller's Pauldrons
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8603] = { -- Vestments of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
         [8619] = {
             [questKeys.questLevel] = -1,
+        },
+        [8621] = { -- Stormcaller's Footguards
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8622] = { -- Stormcaller's Hauberk
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8623] = { -- Stormcaller's Diadem
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8624] = { -- Stormcaller's Leggings
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8625] = { -- Enigma Shoulderpads
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8626] = { -- Striker's Footguards
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8627] = { -- Avenger's Breastplate
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8628] = { -- Avenger's Crown
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8629] = { -- Avenger's Legguards
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8630] = { -- Avenger's Pauldrons
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8631] = { -- Enigma Leggings
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8632] = { -- Enigma Circlet
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8633] = { -- Enigma Robes
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8634] = { -- Enigma Boots
+            [questKeys.preQuestSingle] = {8579},
         },
         [8635] = {
             [questKeys.questLevel] = -1,
         },
         [8636] = {
             [questKeys.questLevel] = -1,
+        },
+        [8637] = { -- Deathdealer's Boots
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8638] = { -- Deathdealer's Vest
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8639] = { -- Deathdealer's Helm
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8640] = { -- Deathdealer's Leggings
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8641] = { -- Deathdealer's Spaulders
+            [questKeys.preQuestSingle] = {8579},
         },
         [8642] = {
             [questKeys.questLevel] = -1,
@@ -732,6 +822,51 @@ function QuestieTBCQuestFixes:Load()
         },
         [8654] = {
             [questKeys.questLevel] = -1,
+        },
+        [8655] = { -- Avenger's Greaves
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8656] = { -- Striker's Hauberk
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8657] = { -- Striker's Diadem
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8658] = { -- Striker's Leggings
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8659] = { -- Striker's Pauldrons
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8660] = { -- Doomcaller's Footwraps
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8661] = { -- Doomcaller's Robes
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8662] = { -- Doomcaller's Circlet
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8663] = { -- Doomcaller's Trousers
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8664] = { -- Doomcaller's Mantle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8665] = { -- Genesis Boots
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8666] = { -- Genesis Vest
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8667] = { -- Genesis Helm
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8668] = { -- Genesis Trousers
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8669] = { -- Genesis Shoulderpads
+            [questKeys.preQuestSingle] = {8579},
         },
         [8670] = {
             [questKeys.questLevel] = -1,
