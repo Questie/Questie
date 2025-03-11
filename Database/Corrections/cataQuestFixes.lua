@@ -5339,6 +5339,7 @@ function CataQuestFixes.Load()
         },
         [25704] = { -- The Mad Magus
             [questKeys.objectives] = {{{41131,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Go through the portal"),0,{{"object",207073},{"object",207078}}}},
         },
         [25705] = { -- False Idols
             [questKeys.preQuestSingle] = {25703},
