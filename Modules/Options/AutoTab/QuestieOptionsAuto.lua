@@ -124,13 +124,9 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("PvP Quests"); end,
                         desc = function() return l10n("Automatically accept PvP quests from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_pvp; end,
+                        get = function () return Questie.db.profile.autoAccept.pvp; end,
                         set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_pvp = value
+                            Questie.db.profile.autoAccept.pvp = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC PvP toggled to:", value)
                         end,
                     },
