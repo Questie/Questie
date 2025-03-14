@@ -1789,7 +1789,7 @@ function QuestieQuestBlacklist:Load()
         [298] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [299] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [301] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [302] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        --[302] = QuestieCorrections.CATA_HIDE, -- this quest is available if you did quest id 301 precata
         [303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [304] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [305] = QuestieCorrections.CATA_HIDE, -- Removed with cata
