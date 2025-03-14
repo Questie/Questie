@@ -144,6 +144,12 @@ function CataObjectFixes.Load()
         [180453] = { -- Hive'Regal Glyphed Crystal
             [objectKeys.spawns] = {[zoneIDs.SILITHUS] = {{55.61,90.54}}},
         },
+        [180671] = { -- Xandivious' Demon Bag
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{67.56,49.97}}},
+        },
+        [180673] = { -- High Chief Winterfall Cave Mouth Spell Focus
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{69.13,50.67}}},
+        },
         [180771] = { -- Firework Launcher
             [objectKeys.spawns] = {
                 [zoneIDs.MOONGLADE] = {{37.15,57.88},{37.59,58.72},{37.39,59.64},{37.2,58.45},{37.38,59.26},{53.38,36.7},{54.16,36.9},{36.3,57.86},{35.98,59.94},{37.9,58.39},{53.92,36.84},{36.92,56.77},{36.52,60.23},{35.48,58.67},{36.5,56.81},{35.95,58.69},{42.64,35.39},{53.07,36.61},{36.45,57.12},{37.05,59.11},{36.15,57.41},{36.61,59.4},{42.53,34.3},{35.69,57.86},{35.68,58.43},{44.59,38.64},{53.63,36.77}},
