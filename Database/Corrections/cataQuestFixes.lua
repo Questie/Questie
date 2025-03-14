@@ -743,6 +743,7 @@ function CataQuestFixes.Load()
         },
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Xandivious"),0,{{"monster", 15623}}}},
         },
         [8544] = { -- Conqueror's Spaulders
             [questKeys.objectives] = {nil,nil,{{20928},{20875},{20863},{20858}},{910,0}},
@@ -1978,6 +1979,7 @@ function CataQuestFixes.Load()
         [13647] = { -- Joining the Hunt
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {309,-26961,13650},
+            [questKeys.exclusiveTo] = {297}, -- not available to chars that did quest 297 precata
         },
         [13650] = { -- Keep Your Hands Off The Goods!
             [questKeys.objectives] = {{{33487,nil,Questie.ICON_TYPE_EVENT},{33485,nil,Questie.ICON_TYPE_EVENT},{33486,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3996,10 +3998,10 @@ function CataQuestFixes.Load()
         },
         [24943] = { -- Re-Take the Courtyard
             [questKeys.preQuestSingle] = {24941},
-            [questKeys.objectives] = {{{38805,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24944] = { -- Back in the Fight
             [questKeys.preQuestSingle] = {24941},
+            [questKeys.objectives] = {{{38805,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
@@ -8435,7 +8437,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27213},
         },
         [27215] = { -- The Hermit of Swamplight Manor
-            [questKeys.preQuestSingle] = {27222},
+            [questKeys.preQuestSingle] = {27213},
         },
         [27222] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
@@ -12012,7 +12014,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28618},
         },
         [28627] = { -- Seril's Boast
-            [questKeys.preQuestSingle] = {28624},
+            [questKeys.preQuestSingle] = {28626},
         },
         [28629] = { -- Are We There, Yeti?
             [questKeys.preQuestSingle] = {28627},
@@ -13984,6 +13986,9 @@ function CataQuestFixes.Load()
         },
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
+        },
+        [29596] = { -- The End of the Exarch
+            [questKeys.preQuestSingle] = {},
         },
         [29598] = { -- Taretha's Diversion
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Set the fuse on a barrel"),0,{{"object",430017}}}},
