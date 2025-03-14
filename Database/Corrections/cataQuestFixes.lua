@@ -529,6 +529,12 @@ function CataQuestFixes.Load()
         [6581] = { -- Warsong Saw Blades
             [questKeys.parentQuest] = 0,
         },
+        [6607] = { -- Nat Pagle, Angler Extreme
+            [questKeys.preQuestSingle] = {},
+        },
+        [6608] = { -- You Too Good.
+            [questKeys.nextQuestInChain] = 6607,
+        },
         [6622] = { -- Triage
             [questKeys.preQuestSingle] = {},
         },
