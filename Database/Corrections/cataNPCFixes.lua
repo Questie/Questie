@@ -3689,6 +3689,51 @@ function CataNpcFixes.Load()
         [45796] = { -- Master Mathias Shaw
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.37,65.95}}},
         },
+        [8983] = { -- Golem Lord Argelmach
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{36.86,64.97}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9016] = { -- Bael'Gar
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{24,51.58},{-1,-1}}},
+        },
+        [9018] = { -- High Interrogator Gerstahn
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{47.55,93.18},{-1,-1}}},
+        },
+        [9019] = { -- Emperor Dagran Thaurissan
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{93.14,11.89}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9033] = { -- General Angerforge
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{36.51,83.84}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9039] = { -- Doom'rel
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{56.68,21.71}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9156] = { -- Ambassador Flamelash
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{53.8,48.79}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9476] = { -- Watchman Doomgrip
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{60.4,67.47}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9499] = { -- Plugger Spazzring
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{49.73,61.41}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9503] = { -- Private Rocknot
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{51.11,60.56}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9537] = { -- Hurley Blackbreath
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{47.71,59.93}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9543] = { -- Ribbly Screwspigot
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{49.08,61.82}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [12944] = { -- Lokhtos Darkbargainer
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{50.33,58.47}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [45849] = { -- Tinkee Steamboil
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{37.36,80.04},{-1,-1}}},
+        },
+        [45850] = { -- Maxwort Uberglint
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{35.97,80.95},{-1,-1}}},
+        },
         [45862] = { -- "Call in the Artillery" Southern Building Bunny
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{41.51,72.6}}},
         },
@@ -3703,6 +3748,30 @@ function CataNpcFixes.Load()
         },
         [45880] = { -- Baron Ashbury
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{47.91,72.22}}},
+        },
+        [45888] = { -- Mayara Brightwing
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{46.86,66.09}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [45890] = { -- Marshal Maxwell
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{58.08,22.23}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [45891] = { -- Oralius
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{36.71,74.52},{-1,-1}}},
+        },
+        [45892] = { -- Jalinda Sprig
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{36.18,77.28},{-1,-1}}},
+        },
+        [45894] = { -- Prospector Seymour
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{40.94,67.13},{-1,-1}}},
+        },
+        [45898] = { -- Kevin Dawson
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{44.3,77.8},{-1,-1}}},
+        },
+        [45899] = { -- Mountaineer Orfus
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{50.77,52.65}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [45903] = { -- Morgan
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{36.03,77.63},{-1,-1}}},
         },
         [46019] = { -- Cities in Dust Quest Credit
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.32,84.45}}},

@@ -98,6 +98,12 @@ function CataObjectFixes.Load()
         [164781] = { -- Yellow Power Crystal
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{24.32,43.57},{42.98,45.54},{42.52,33.91},{38.13,41.81},{46.2,19.53},{39.74,26.91},{34.67,33.25},{27.74,46.43},{32.98,29.54},{37.82,20.53},{43.83,21.45},{46.21,19.69},{46.87,14.92},{47.35,12.89},{39.34,14.47},{37.75,20.61},{31.27,18.55},{30.13,21.21},{26.39,29.08},{19.61,38.82},{25.52,39.9},{24.73,40.49}}},
         },
+        [164911] = { -- Thunderbrew Lager Keg
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{47.68,58.26},{47.84,58.11},{47.99,57.96}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [165554] = { -- Heart of the Mountain
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{61.6,69.22}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [169216] = { -- Preserved Threshadon Carcass
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},
         },
@@ -134,6 +140,9 @@ function CataObjectFixes.Load()
         },
         [179517] = { -- Treasure of the Shen'dralar
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{70.66,24.05},{-1,-1}}},
+        },
+        [179553] = { -- Core Fragment
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{69.27,36.95}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
         [179559] = { -- Felvine Shard
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{54.89,26.81},{54.97,26.85},{55.03,26.97},{55.02,26.71},{55.12,26.87},{-1,-1}}},
@@ -483,6 +492,9 @@ function CataObjectFixes.Load()
         [205016] = { -- Bonfire
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.24,68.02}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+        },
+        [205476] = { -- Book of Lost Souls
+            [objectKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP_LOWER_OBSERVATORY] = {{61.93,46.41}},[zoneIDs.SHADOWFANG_KEEP] = {{-1,-1}}},
         },
         [205876] = { -- Argent Portal
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{78.58,73.03}}},

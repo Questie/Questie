@@ -831,6 +831,12 @@ function CataItemFixes.Load()
         [60862] = { -- Forsaken Insignia
             [itemKeys.npcDrops] = {45197},
         },
+        [60874] = { -- Deathless Sinew
+            [itemKeys.npcDrops] = {47131,47132,47134,47135,47136},
+        },
+        [60875] = { -- Ghostly Essence
+            [itemKeys.npcDrops] = {3873,3875,3877,47231,47232},
+        },
         [60878] = { -- Silverlaine's Enchanted Crystal
             [itemKeys.npcDrops] = {3887},
         },

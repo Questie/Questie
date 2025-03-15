@@ -9298,6 +9298,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27505,27506},
         },
+        [27571] = { -- The Grim Guzzler
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Break the 3 barrels"), 0, {{"object", 164911}}}},
+        },
         [27574] = { -- I Never Forget a Face
             [questKeys.preQuestSingle] = {27542},
             [questKeys.exclusiveTo] = {27594}, -- unavailable after this point in the main zone quest chain
@@ -9350,6 +9353,9 @@ function CataQuestFixes.Load()
         },
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
+        },
+        [27596] = { -- The Heart of the Mountain
+            [questKeys.requiredSourceItems] = {11078},
         },
         [27597] = { -- Crazy Larry
             [questKeys.preQuestSingle] = {},
@@ -11484,6 +11490,7 @@ function CataQuestFixes.Load()
         },
         [28401] = { -- Slaves of the Firelord
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8909,8910,8911},8909,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
