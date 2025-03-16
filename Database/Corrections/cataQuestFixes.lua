@@ -8260,6 +8260,9 @@ function CataQuestFixes.Load()
         [27083] = { -- The Battle Resumes!
             [questKeys.preQuestSingle] = {26938},
         },
+        [27084] = { -- The Farmers' Militia
+            [questKeys.preQuestSingle] = {27083},
+        },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
