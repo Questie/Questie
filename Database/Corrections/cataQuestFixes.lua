@@ -8263,6 +8263,9 @@ function CataQuestFixes.Load()
         [27084] = { -- The Farmers' Militia
             [questKeys.preQuestSingle] = {27083},
         },
+        [27086] = { -- Ashes to Ashes (Horde)
+            [questKeys.preQuestSingle] = {27083},
+        },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
