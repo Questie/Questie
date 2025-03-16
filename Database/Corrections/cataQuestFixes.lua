@@ -7904,6 +7904,9 @@ function CataQuestFixes.Load()
         [26937] = { -- When Death is Not Enough
             [questKeys.objectives] = {{{45047}}},
         },
+        [26938] = { -- Combat Training
+            [questKeys.objectives] = {{{45098},{45085,nil,Questie.ICON_TYPE_EVENT,}}},
+        },
         [26939] = { -- The G-Team
             [questKeys.preQuestSingle] = {},
         },
