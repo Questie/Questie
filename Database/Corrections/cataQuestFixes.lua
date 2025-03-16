@@ -7930,6 +7930,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [26952] = { -- The Menders' Stead
+            [questKeys.preQuestSingle] = {26978},
             [questKeys.nextQuestInChain] = 26999,
         },
         [26953] = { -- Zen'Kiki, the Druid
