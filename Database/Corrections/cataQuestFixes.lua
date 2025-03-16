@@ -7901,6 +7901,9 @@ function CataQuestFixes.Load()
         [26936] = { -- Lower the Boom
             [questKeys.preQuestGroup] = {26933,26978},
         },
+        [26937] = { -- When Death is Not Enough
+            [questKeys.objectives] = {{{45047}}},
+        },
         [26939] = { -- The G-Team
             [questKeys.preQuestSingle] = {},
         },
