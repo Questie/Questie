@@ -14231,6 +14231,9 @@ function CataQuestFixes:LoadFactionFixes()
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
         },
+        [27683] = { -- Into the Woods
+            [questKeys.startedBy] = {{10840,44456,44462}},
+        },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.nextQuestInChain] = 27865,
         },
