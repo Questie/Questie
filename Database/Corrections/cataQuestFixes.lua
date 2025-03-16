@@ -8282,6 +8282,9 @@ function CataQuestFixes.Load()
         [27111] = { -- The Treasure of the Shen'dralar
             [questKeys.preQuestSingle] = {27110},
         },
+        [27117] = { -- Brute Strength
+            [questKeys.preQuestSingle] = {26922},
+        },
         [27118] = { -- A Broken Trap
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
