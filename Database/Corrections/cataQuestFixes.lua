@@ -7898,6 +7898,9 @@ function CataQuestFixes.Load()
         [26935] = { -- Northridge Lumber Mill
             [questKeys.nextQuestInChain] = 27000,
         },
+        [26936] = { -- Lower the Boom
+            [questKeys.preQuestGroup] = {26933,26978},
+        },
         [26939] = { -- The G-Team
             [questKeys.preQuestSingle] = {},
         },
