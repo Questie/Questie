@@ -8270,10 +8270,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27083},
         },
         [27087] = { -- Lindsay Ravensun, Revealed
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27084,27085,27086},
         },
         [27089] = { -- Ace in the Hole
             [questKeys.preQuestSingle] = {27087},
+            [questKeys.objectives] = {{{45101},{45103},{44453}}},
         },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
