@@ -7886,6 +7886,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestGroup] = {26921,26923},
         },
+        [26925] = { -- Araj the Summoner
+            [questKeys.exclusiveTo] = {},
+        },
         [26929] = { -- A Load of Croc
             [questKeys.preQuestSingle] = {26927},
         },
