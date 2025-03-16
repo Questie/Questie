@@ -8263,6 +8263,9 @@ function CataQuestFixes.Load()
         [27084] = { -- The Farmers' Militia
             [questKeys.preQuestSingle] = {27083},
         },
+        [27085] = { -- Supporting the Troops
+            [questKeys.preQuestSingle] = {27083},
+        },
         [27086] = { -- Ashes to Ashes (Horde)
             [questKeys.preQuestSingle] = {27083},
         },
