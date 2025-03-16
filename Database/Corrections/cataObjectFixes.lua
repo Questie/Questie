@@ -107,6 +107,9 @@ function CataObjectFixes.Load()
         [169216] = { -- Preserved Threshadon Carcass
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},
         },
+        [172911] = { -- The Black Anvil
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{56.53,31.06},{-1,-1}}},
+        },
         [175564] = { -- Brazier of the Herald
             [objectKeys.name] = "Brazier of the Herald",
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},

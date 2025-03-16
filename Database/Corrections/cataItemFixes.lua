@@ -113,6 +113,9 @@ function CataItemFixes.Load()
         [10755] = { -- Amulet of Allistarj
             [itemKeys.npcDrops] = {},
         },
+        [11078] = { -- Relic Coffer Key
+            [itemKeys.npcDrops] = {8889,8890,8891,8892,8893,8894,8895,8898,8899,8903,9437,9438,9439,9441,9442,9443,9445,9541,9554,9680,10043,24818,24819}, -- removed the bosses to clean up the map
+        },
         [11114] = { -- Dinosaur Bone
             [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
         },

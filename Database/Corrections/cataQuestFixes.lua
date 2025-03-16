@@ -547,6 +547,21 @@ function CataQuestFixes.Load()
         [6625] = { -- Alliance Trauma
             [questKeys.nextQuestInChain] = 6624,
         },
+        [6642] = { -- Favor Amongst the Brotherhood, Dark Iron Ore
+            [questKeys.requiredMinRep] = {},
+        },
+        [6643] = { -- Favor Amongst the Brotherhood, Fiery Core
+            [questKeys.requiredMinRep] = {},
+        },
+        [6644] = { -- Favor Amongst the Brotherhood, Lava Core
+            [questKeys.requiredMinRep] = {},
+        },
+        [6645] = { -- Favor Amongst the Brotherhood, Core Leather
+            [questKeys.requiredMinRep] = {},
+        },
+        [6646] = { -- Favor Amongst the Brotherhood, Blood of the Mountain
+            [questKeys.requiredMinRep] = {},
+        },
         [6983] = { -- You're a Mean One...
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
@@ -1742,6 +1757,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {}, -- needs a fake NPC inside oculus
         },
         [13125] = { -- The Air Stands Still
+            [questKeys.preQuestSingle] = {},
+        },
+        [13129] = { -- Head Games
             [questKeys.preQuestSingle] = {},
         },
         [13187] = { -- The Faceless Ones
@@ -9338,6 +9356,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27494},
             [questKeys.exclusiveTo] = {27498},
             [questKeys.finishedBy] = {{100018}},
+        },
+        [27589] = { -- The Grim Guzzler
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Break the 3 barrels"), 0, {{"object", 164911}}}},
         },
         [27590] = { -- Signal the Attack
             [questKeys.triggerEnd] = {"Signal the Attack", {[zoneIDs.TWILIGHT_HIGHLANDS]={{42.33,68.8},{40.62,62.21}}}},
