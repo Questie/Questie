@@ -8352,6 +8352,9 @@ function CataQuestFixes.Load()
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
         },
+        [27144] = { -- The Reckoning
+            [questKeys.preQuestSingle] = {27090},
+        },
         [27147] = { -- Kirtonos the Herald
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Kirtonos"), 0, {{"object", 175564}}}},
         },
