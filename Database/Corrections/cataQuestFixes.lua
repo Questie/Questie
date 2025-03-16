@@ -14082,6 +14082,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100031}},
             [questKeys.finishedBy] = {{100032}},
         },
+        [29861] = { -- Whatever it Takes!
+            [questKeys.preQuestSingle] = {},
+        },
         [29934] = { -- To Ravenholdt
             [questKeys.objectives] = {{{56314,nil,Questie.ICON_TYPE_TALK}}},
         },
