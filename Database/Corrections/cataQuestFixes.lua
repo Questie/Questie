@@ -8323,6 +8323,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27110},
         },
         [27117] = { -- Brute Strength
+            [questKeys.exclusiveTo] = {24671},
             [questKeys.preQuestSingle] = {26922},
         },
         [27118] = { -- A Broken Trap
