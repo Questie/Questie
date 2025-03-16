@@ -7882,6 +7882,10 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28786,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 375}}}},
         },
+        [26924] = { -- Scholomancer (Horde)
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestGroup] = {26921,26923},
+        },
         [26929] = { -- A Load of Croc
             [questKeys.preQuestSingle] = {26927},
         },
