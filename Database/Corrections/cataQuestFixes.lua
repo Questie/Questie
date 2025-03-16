@@ -8029,6 +8029,9 @@ function CataQuestFixes.Load()
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
         },
+        [26979] = { -- Strange New Faces
+            [questKeys.preQuestSingle] = {26936},
+        },
         [26980] = { -- Swiftgear Station
             [questKeys.nextQuestInChain] = 25864,
             [questKeys.preQuestGroup] = {25805,25819,25820},
