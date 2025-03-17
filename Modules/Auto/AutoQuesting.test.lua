@@ -30,6 +30,7 @@ describe("AutoQuesting", function()
             enabled = true,
             trivial = false,
             repeatable = true,
+            pvp = true,
         }
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
@@ -121,6 +122,20 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
+        it("should not accept quest when questId is 0 - happens when some other addon is faster", function()
+            _G.GetQuestID = function() return 0 end
+            QuestieDB.QueryQuestSingle = spy.new()
+            QuestieDB.IsRepeatable = spy.new()
+            QuestieDB.IsPvPQuest = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was_not.called()
+            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+        end)
+
         it("should accept trivial quest when setting is enabled", function()
             Questie.db.profile.autoAccept.trivial = true
             _G.GetQuestID = function() return 123 end
@@ -140,19 +155,8 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept trivial quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
-            _G.GetQuestID = function() return 0 end
-            QuestieDB.QueryQuestSingle = spy.new()
-            QuestieDB.IsTrivial = spy.new()
-
-            AutoQuesting.OnQuestDetail()
-
-            assert.spy(_G.AcceptQuest).was_not.called()
-            assert.spy(QuestieDB.QueryQuestSingle).was_not.called()
-            assert.spy(QuestieDB.IsTrivial).was_not.called()
-        end)
-
         it("should accept repeatable quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.trivial = true
             Questie.db.profile.autoAccept.repeatable = true
             _G.GetQuestID = function() return 123 end
             QuestieDB.IsRepeatable = spy.new()
@@ -174,15 +178,38 @@ describe("AutoQuesting", function()
             assert.spy(QuestieDB.IsRepeatable).was.called_with(123)
         end)
 
-        it("should not accept repeatable quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
-            Questie.db.profile.autoAccept.repeatable = false
-            _G.GetQuestID = function() return 0 end
-            QuestieDB.IsRepeatable = spy.new()
+        it("should accept PvP quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.pvp = true
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.IsPvPQuest = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+        end)
+
+        it("should not accept PvP quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was_not.called()
-            assert.spy(QuestieDB.IsRepeatable).was_not.called()
+            assert.spy(QuestieDB.IsPvPQuest).was.called_with(123)
+        end)
+
+        it("should not accept PvP quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.GetQuestID = function() return 0 end
+            QuestieDB.IsPvPQuest = spy.new()
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
         end)
     end)
 
@@ -401,6 +428,42 @@ describe("AutoQuesting", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true}), getAvailableTestQuest({})}
             end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+
+        it("should accept PvP quest when setting is enabled", function()
+            Questie.db.profile.autoAccept.pvp = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept PvP quest when setting is disabled", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip PvP quest when setting is disabled and accept non-PvP", function()
+            Questie.db.profile.autoAccept.pvp = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({questID = 1}),getAvailableTestQuest({questID = 2})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
 
             AutoQuesting.OnGossipShow()
 

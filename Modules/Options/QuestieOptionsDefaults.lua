@@ -119,6 +119,7 @@ function QuestieOptionsDefaults:Load()
                 enabled = false,
                 trivial = false,
                 repeatable = true,
+                pvp = true,
             },
             questAnnounceChannel = "party",
             questAnnounceItems = true,
