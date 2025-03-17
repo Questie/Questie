@@ -7882,6 +7882,13 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28786,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 375}}}},
         },
+        [26924] = { -- Scholomancer (Horde)
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestGroup] = {26921,26923},
+        },
+        [26925] = { -- Araj the Summoner
+            [questKeys.exclusiveTo] = {},
+        },
         [26929] = { -- A Load of Croc
             [questKeys.preQuestSingle] = {26927},
         },
@@ -7893,6 +7900,15 @@ function CataQuestFixes.Load()
         },
         [26935] = { -- Northridge Lumber Mill
             [questKeys.nextQuestInChain] = 27000,
+        },
+        [26936] = { -- Lower the Boom
+            [questKeys.preQuestGroup] = {26933,26978},
+        },
+        [26937] = { -- When Death is Not Enough
+            [questKeys.objectives] = {{{45047}}},
+        },
+        [26938] = { -- Combat Training
+            [questKeys.objectives] = {{{45098},{45085,nil,Questie.ICON_TYPE_EVENT,}}},
         },
         [26939] = { -- The G-Team
             [questKeys.preQuestSingle] = {},
@@ -7926,6 +7942,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [26952] = { -- The Menders' Stead
+            [questKeys.preQuestSingle] = {26978},
             [questKeys.nextQuestInChain] = 26999,
         },
         [26953] = { -- Zen'Kiki, the Druid
@@ -8020,6 +8037,9 @@ function CataQuestFixes.Load()
         },
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
+        },
+        [26979] = { -- Strange New Faces
+            [questKeys.preQuestSingle] = {26936},
         },
         [26980] = { -- Swiftgear Station
             [questKeys.nextQuestInChain] = 25864,
@@ -8240,6 +8260,26 @@ function CataQuestFixes.Load()
         [27082] = { -- Playing Dirty
             [questKeys.preQuestSingle] = {27065},
         },
+        [27083] = { -- The Battle Resumes!
+            [questKeys.preQuestSingle] = {26938},
+        },
+        [27084] = { -- The Farmers' Militia
+            [questKeys.preQuestSingle] = {27083},
+        },
+        [27085] = { -- Supporting the Troops
+            [questKeys.preQuestSingle] = {27083},
+        },
+        [27086] = { -- Ashes to Ashes (Horde)
+            [questKeys.preQuestSingle] = {27083},
+        },
+        [27087] = { -- Lindsay Ravensun, Revealed
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27084,27085,27086},
+        },
+        [27089] = { -- Ace in the Hole
+            [questKeys.preQuestSingle] = {27087},
+            [questKeys.objectives] = {{{45101},{45103},{44453}}},
+        },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
@@ -8282,6 +8322,9 @@ function CataQuestFixes.Load()
         [27111] = { -- The Treasure of the Shen'dralar
             [questKeys.preQuestSingle] = {27110},
         },
+        [27117] = { -- Brute Strength
+            [questKeys.exclusiveTo] = {},
+        },
         [27118] = { -- A Broken Trap
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -8311,6 +8354,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27923,27924,28105},
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
+        },
+        [27144] = { -- The Reckoning
+            [questKeys.preQuestSingle] = {27090},
         },
         [27147] = { -- Kirtonos the Herald
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Kirtonos"), 0, {{"object", 175564}}}},
@@ -14226,6 +14272,9 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
+        },
+        [27683] = { -- Into the Woods
+            [questKeys.startedBy] = {{10840,44456,44462}},
         },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.nextQuestInChain] = 27865,
