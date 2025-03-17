@@ -685,6 +685,12 @@ function CataNpcFixes.Load()
         [8886] = { -- Deviate Python
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{9.36,42.38},{13.53,51.55},{13.28,52.14},{13.67,52.14},{9.27,42.19},{9.25,42.49},{8.46,27.72},{8.93,27.58},{8.64,27.25},{17.03,25.62},{17.32,26.33},{-1,-1}}},
         },
+        [8906] = { -- Ragereaver Golem
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{34.5,68.91},{37.01,64.49}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [8907] = { -- Wrath Hammer Construct
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{40.63,70.54},{38.54,71.48},{38.48,70.08},{34.99,71.48},{36.7,63.73}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [8983] = { -- Golem Lord Argelmach
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{36.86,64.97}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
@@ -753,7 +759,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{30.48,39.73},{-1,-1}}},
         },
         [10363] = { -- General Drakkisath
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{33.2,45.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{32.6,45.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
         [10429] = { -- Warchief Rend Blackhand
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{48.6,19.1},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead

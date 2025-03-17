@@ -11331,7 +11331,6 @@ function CataQuestFixes.Load()
         [28343] = { -- The Breath of Cenarius
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,{{207103}},{{63469}}},
-            [questKeys.sourceItemId] = 63469,
         },
         [28344] = { -- Can You Smell What the Lok'tar is Cooking?
             [questKeys.nextQuestInChain] = 28345,
@@ -11523,6 +11522,8 @@ function CataQuestFixes.Load()
         },
         [28405] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {64313},
+            [questKeys.objectives] = {nil,{{172911}}},
         },
         [28406] = { -- The Dark Iron Army
             [questKeys.preQuestSingle] = {},
@@ -11585,9 +11586,12 @@ function CataQuestFixes.Load()
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8909,8910,8911},8909,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28466] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {64313},
+            [questKeys.objectives] = {nil,{{172911}}},
         },
         [28469] = { -- Winterfall Runners
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
@@ -11602,6 +11606,8 @@ function CataQuestFixes.Load()
         },
         [28473] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {64313},
+            [questKeys.objectives] = {nil,{{172911}}},
         },
         [28474] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
