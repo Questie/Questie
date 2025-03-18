@@ -8867,6 +8867,7 @@ function CataQuestFixes.Load()
         [27388] = { -- Heroes of Darrowshire
             [questKeys.preQuestSingle] = {27386},
             [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{11063,nil,Questie.ICON_TYPE_TALK},nil,{{12954},{12955}}},
         },
         [27389] = { -- Marauders of Darrowshire
             [questKeys.preQuestSingle] = {27386},
