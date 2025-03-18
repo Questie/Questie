@@ -219,6 +219,8 @@ local phases = {
     WOT_NOZDORMU_3 = 1147,
     KAMMAH_STONE = 1148,
     KAMMAH_TENT = 1149,
+    BALNAZZAR_DEAD = 1150,
+    RIVENDARE_DEAD = 1151,
 }
 Phasing.phases = phases
 
@@ -901,6 +903,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KAMMAH_TENT then
         return complete[14325] or (questLog[14325] and questLog[14325].isComplete == 1) or false
+    end
+
+    if phase == phases.BALNAZZAR_DEAD then
+        return complete[27208] or (questLog[27208] and questLog[27208].isComplete == 1) or false
+    end
+
+    if phase == phases.RIVENDARE_DEAD then
+        return complete[27227] or (questLog[27227] and questLog[27227].isComplete == 1) or false
     end
 
     return false

@@ -106,6 +106,7 @@ local dungeons = {
     [5861] = {"Darkmoon Faire Island",nil,440,{{12, 41.79, 69.52},{215, 36.85, 35.86}}},
     [5892] = {"Dragon Soul",nil,440,{{440, 64.8, 50}}},
     [7307] = {"Upper Blackrock Spire",nil,51,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
+    [10001] = {"Stratholme",nil,139,{{139, 43.5, 19.4}}}, -- The Gauntlet
     [10022] = {"Dire Maul",nil,357,{{357, 62.5,24.9}}}, -- North
     [10023] = {"Dire Maul",nil,357,{{357, 60.3,31.3}}}, -- West
     [10024] = {"Dire Maul",nil,357,{{357, 60.3,31.3}}}, -- West
@@ -135,7 +136,7 @@ if Questie.IsCata then
     dungeons[1583][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Blackrock Spire
     dungeons[1584][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Blackrock Depths
     dungeons[1977][4] = {{33, 72.1, 32.9}} -- Zul'Gurub
-    dungeons[2017][4] = {{139, 27.7, 11.5}, {139, 43.5, 19.4}} -- Stratholme
+    dungeons[2017][4] = {{139, 27.7, 11.5}} -- Stratholme
     dungeons[2100][4] = {{405, 29.1, 62.6}} -- Maraudon
     dungeons[2257][4] = {{1519, 69.49, 31.2}, {1537, 84.1, 53.1}} -- Deeprun Tram
     dungeons[2366][4] = {{440, 64.8, 50}} -- The Black Morass

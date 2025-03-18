@@ -770,8 +770,17 @@ function CataNpcFixes.Load()
         [10433] = { -- Marduk Blackpool
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{44.34,63.82}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [10439] = { -- Ramstein the Gorger
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{41.5,20.33},{-1,-1}}},
+        },
         [10445] = { -- Selina Dourman
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55.56,55.01},{-1,-1}}},
+        },
+        [10463] = { -- Shrieking Banshee
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{60.7,24.98},{59.93,29.82},{64.2,24.91},{66.86,28.73},{70.79,49.08},{68.25,50.16},{64.66,49.3},{62,46.13},{59.03,43.43},{-1,-1}}},
+        },
+        [10464] = { -- Wailing Banshee
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{57.77,23.67},{75.35,42.16},{71.34,44.09},{74.27,49.93},{-1,-1}}},
         },
         [10506] = { -- Kirtonos the Herald
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.71,12.97}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
@@ -779,6 +788,9 @@ function CataNpcFixes.Load()
         [10508] = { -- Ras Frostwhisper
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{40.56,88.47}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{{40.56,88.14},{41.61,88.09},{41.72,92.7},{39.52,92.74},{39.42,88.14},{40.56,88.14},{40.56,88.47}}}},
+        },
+        [10516] = { -- The Unforgiven
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{72.84,18.9},{-1,-1}}},
         },
         [10541] = { -- Krakle's Thermometer
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.47}}},
@@ -806,6 +818,12 @@ function CataNpcFixes.Load()
         [10807] = { -- Brumeran
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{51.89,58.59},{52.09,59.01},{52.27,59.44},{52.37,59.71},{52.38,59.74},{52.46,60.05},{52.50,60.21},{52.57,60.69},{52.58,61.18},{52.58,61.63},{52.58,61.87},{52.65,62.08},{52.73,62.26},{52.83,62.42},{52.90,62.51},{53.16,62.83},{53.34,62.91},{53.45,62.91},{53.76,63.06},{53.82,63.30},{53.85,63.41},{53.86,63.46},{53.94,63.93},{53.99,64.44},{54.05,64.83},{54.11,65.19},{54.20,65.69},{54.24,65.91},{54.26,66.05},{54.38,66.42},{54.58,66.67},{54.72,66.87},{54.80,67.00},{55.04,67.35},{55.06,67.37},{55.07,67.38},{55.35,67.67},{55.65,67.89},{55.94,68.17},{56.14,68.42},{56.29,68.56},{56.59,68.81},{56.91,68.98},{56.96,69.00},{57.21,69.11},{57.54,69.25},{57.62,69.29},{57.91,69.47},{58.15,69.65},{58.41,69.88},{58.71,70.13},{58.77,70.18},{59.03,70.41},{59.29,70.68},{59.41,70.84},{59.61,71.09},{59.79,71.27},{59.93,71.37},{60.23,71.59},{60.46,71.72},{60.66,71.79},{60.91,72.11},{60.99,72.34},{61.08,72.60},{61.18,72.91},{61.15,73.25},{61.14,73.27},{61.01,73.65},{60.91,73.96},{60.74,74.41},{60.72,74.48},{60.63,74.68},{60.45,75.04},{60.32,75.23},{60.21,75.40},{60.12,75.54},{59.82,75.79},{59.78,75.81},{59.56,75.93},{59.30,76.22},{59.30,76.22},{59.07,76.60},{58.80,76.92},{58.67,77.03},{58.59,77.08},{58.26,77.24},{57.93,77.37},{57.62,77.56},{57.53,77.63},{57.49,77.67},{57.35,77.80},{57.26,77.92},{57.01,78.28},{56.96,78.78},{56.96,78.89}}}},
         },
+        [10808] = { -- Timmy the Cruel
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{48.98,16.08},{-1,-1}}},
+        },
+        [10813] = { -- Balnazzar
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{18.83,83.59},{-1,-1}}},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {},
         },
@@ -822,6 +840,16 @@ function CataNpcFixes.Load()
         },
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.87,51.96}}},
+        },
+        [11058] = { -- Ezra Grimm
+            [npcKeys.name] = "Ezra Grimm",
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{55.41,67.79},{-1,-1}}},
+        },
+        [11120] = { -- Risen Hammersmith
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{12.95,51.11},{-1,-1}}},
+        },
+        [11121] = { -- Black Guard Swordsmith
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{73.98,51.95},{-1,-1}}},
         },
         [11261] = { -- Doctor Theolen Krastinov
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{95.52,45.85}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
@@ -3560,6 +3588,33 @@ function CataNpcFixes.Load()
         [45195] = { -- Bloodfang Stalker
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.35,47.7},{48.26,55.84},{49.72,53.08},{47.58,55.65},{49.48,54.98},{48.94,52.19},{45.6,53.64},{46.3,55.76},{48.72,53.72},{47.96,54.45},{44.89,47.25},{47.27,53.98},{44.65,50.28},{44.95,51.35},{47.71,51.8},{48.63,50.31},{47.64,50.68},{47.04,49.83},{47.25,48.29},{45.03,49.19},{45.97,49.55},{46.3,51.28},{46.8,52.11}}},
         },
+        [45200] = { -- Crusade Commander Eligor Dawnbringer
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME] = {
+                    {66.26,86.59},
+                    {21.63,80.68,phases.BALNAZZAR_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45201] = { -- Master Craftsman Wilhelm
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME] = {
+                    {65.23,87.09},
+                    {24.1,76.24,phases.BALNAZZAR_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45206] = { -- Crusade Commander Korfax
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME_THE_GAUNTLET] = {
+                    {67.93,72},
+                    {43.89,14.06,phases.RIVENDARE_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
         [45212] = { -- Gory
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{54.07,65.78}}},
         },
@@ -3593,6 +3648,51 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45323] = { -- Packmaster Stonebruiser
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME] = {
+                    {67.01,89.34},
+                    {21.67,79.64,phases.BALNAZZAR_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45328] = { -- Packmaster Stonebruiser
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME_THE_GAUNTLET] = {
+                    {67.59,82.24},
+                    {49.75,22.34,phases.RIVENDARE_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45329] = { -- Crusade Commander Eligor Dawnbringer
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME_THE_GAUNTLET] = {
+                    {68.05,72.61},
+                    {44.8,20.37,phases.RIVENDARE_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45330] = { -- Archmage Angela Dosantos
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME_THE_GAUNTLET] = {
+                    {67.08,72.54},
+                    {42.44,12.62,phases.RIVENDARE_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
+        [45331] = { -- Master Craftsman Wilhelm
+            [npcKeys.spawns] = {
+                [zoneIDs.STRATHOLME_THE_GAUNTLET] = {
+                    {68.65,73.08},
+                    {49.84,18.39,phases.RIVENDARE_DEAD},
+                    {-1,-1},
+                },
+            },
+        },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
@@ -3612,6 +3712,9 @@ function CataNpcFixes.Load()
                     {73.62,51.87,phases.CARAVAN_LIGHTS_HOPE},
                 },
             },
+        },
+        [45412] = { -- Lord Aurius Rivendare
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{37.21,19.94},{-1,-1}}},
         },
         [45417] = { -- Fiona
             [npcKeys.spawns] = {

@@ -8396,6 +8396,9 @@ function CataQuestFixes.Load()
         [27183] = { -- Marsh Frog Legs
             [questKeys.preQuestSingle] = {},
         },
+        [27185] = { -- Cutting the Competition
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Loot the Plans"), 0, {{"object", 176325}}}},
+        },
         [27186] = { -- Jarl Needs a Blade
             [questKeys.preQuestSingle] = {27184},
         },
@@ -8407,6 +8410,9 @@ function CataQuestFixes.Load()
         },
         [27191] = { -- Hungry as an Ogre!
             [questKeys.preQuestSingle] = {27184},
+        },
+        [27192] = { -- The Great Fras Siabi
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the box"), 0, {{"object", 175484}}}},
         },
         [27195] = { -- Nowhere to Run
             [questKeys.preQuestSingle] = {27194},
@@ -8467,6 +8473,9 @@ function CataQuestFixes.Load()
         [27226] = { -- Hair of the Dog
             [questKeys.preQuestSingle] = {27098},
             [questKeys.objectives] = {{{45196,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [27230] = { -- Weapons for War
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Loot the Plans"), 0, {{"object", 176327}}}},
         },
         [27231] = { -- Reinforcements from Fenris
             [questKeys.preQuestSingle] = {27098},
