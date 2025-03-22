@@ -10182,6 +10182,9 @@ function CataQuestFixes.Load()
         [27892] = { -- Jurrix the Striker
             [questKeys.preQuestSingle] = {27890},
         },
+        [27893] = { -- Gargal, the Behemoth
+            [questKeys.preQuestSingle] = {27890},
+        },
         [27894] = { -- The Wrath of a Dragonflight
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27891,27892,27893},
