@@ -10179,6 +10179,9 @@ function CataQuestFixes.Load()
         [27891] = { -- Amakkar, Jack of All Trades
             [questKeys.preQuestSingle] = {27890},
         },
+        [27892] = { -- Jurrix the Striker
+            [questKeys.preQuestSingle] = {27890},
+        },
         [27894] = { -- The Wrath of a Dragonflight
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27891,27892,27893},
