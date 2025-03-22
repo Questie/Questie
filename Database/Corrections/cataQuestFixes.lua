@@ -10179,6 +10179,7 @@ function CataQuestFixes.Load()
         [27891] = { -- Amakkar, Jack of All Trades
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47021,nil,Questie.ICON_TYPE_EVENT},{47021,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27892] = { -- Jurrix the Striker
             [questKeys.exclusiveTo] = {},
