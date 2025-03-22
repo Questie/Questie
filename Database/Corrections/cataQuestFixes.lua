@@ -10189,6 +10189,7 @@ function CataQuestFixes.Load()
         [27893] = { -- Gargal, the Behemoth
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47022,nil,Questie.ICON_TYPE_EVENT},{47022,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27894] = { -- The Wrath of a Dragonflight
             [questKeys.preQuestSingle] = {},
