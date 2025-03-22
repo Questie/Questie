@@ -10169,6 +10169,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{46757}},
             [questKeys.finishedBy] = {{100035}},
         },
+        [27884] = { -- New Kargath
+            [questKeys.preQuestSingle] = {27888},
+        },
         [27894] = { -- The Wrath of a Dragonflight
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27891,27892,27893},
