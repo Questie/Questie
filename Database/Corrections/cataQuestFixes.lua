@@ -10143,6 +10143,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.nextQuestInChain] = 25663,
         },
+        [27881] = { -- Bloodwatcher Point
+            [questKeys.preQuestSingle] = {27789},
+            [questKeys.nextQuestInChain] = 27882,
+        },
         [27885] = { -- The Warden's Game
             [questKeys.startedBy] = {nil,{206335}},
             [questKeys.finishedBy] = {{100034}},
