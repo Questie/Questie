@@ -10184,6 +10184,7 @@ function CataQuestFixes.Load()
         [27892] = { -- Jurrix the Striker
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47024,nil,Questie.ICON_TYPE_EVENT},{47024,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27893] = { -- Gargal, the Behemoth
             [questKeys.exclusiveTo] = {},
