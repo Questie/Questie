@@ -10177,12 +10177,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27888},
         },
         [27891] = { -- Amakkar, Jack of All Trades
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
         },
         [27892] = { -- Jurrix the Striker
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
         },
         [27893] = { -- Gargal, the Behemoth
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27890},
         },
         [27894] = { -- The Wrath of a Dragonflight
