@@ -4166,6 +4166,10 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [47021] = { -- Amakkar, Jack of All Trades
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.87,42.97}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{26.49,62.3}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
