@@ -10168,8 +10168,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27885,27886},
             [questKeys.startedBy] = {{46757}},
             [questKeys.finishedBy] = {{100035}},
+            [questKeys.nextQuestInChain] = 27913,
         },
-        [27884] = { -- New Kargath
+        [27888] = { -- Return to Blam
+            [questKeys.nextQuestInChain] = 27889,
+        },
+        [27889] = { -- New Kargath
             [questKeys.preQuestSingle] = {27888},
         },
         [27894] = { -- The Wrath of a Dragonflight
@@ -10222,6 +10226,7 @@ function CataQuestFixes.Load()
         [27913] = { -- The Titans' Trove
             [questKeys.startedBy] = {{100036}},
             [questKeys.preQuestSingle] = {27887},
+            [questKeys.nextQuestInChain] = 27888,
         },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
