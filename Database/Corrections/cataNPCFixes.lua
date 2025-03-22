@@ -4170,6 +4170,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.87,42.97}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
         },
+        [47022] = { -- Gargal, the Behemoth
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.96,42.86}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{26.49,62.3}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
