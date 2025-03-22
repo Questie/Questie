@@ -10147,7 +10147,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27789},
             [questKeys.nextQuestInChain] = 27882,
         },
-        [27883] = { -- The Warden's Pawn
+        [27883] = { -- The Sentinel's Pawn
+            [questKeys.preQuestSingle] = {27882},
+        },
+        [27884] = { -- The Warden's Pawn
             [questKeys.preQuestSingle] = {27882},
         },
         [27885] = { -- The Warden's Game
