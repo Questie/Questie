@@ -1512,6 +1512,9 @@ function QuestieTBCQuestFixes:Load()
         [9808] = {
             [questKeys.requiredMinRep] = {970,0},
         },
+        [9824] = {
+            [questKeys.objectives] = {{{18161,nil,Questie.ICON_TYPE_EVENT},{18162,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
         },
@@ -2902,10 +2905,10 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [11002] = {
-            [questKeys.startedBy] = {{17257},nil,{33102,},},
+            [questKeys.startedBy] = {{17257},nil,{32385}},
         },
         [11003] = {
-            [questKeys.startedBy] = {{17257},nil,{33102,},},
+            [questKeys.startedBy] = {{17257},nil,{32386}},
         },
         [11007] = {
             [questKeys.startedBy] = {{19622},nil,{32405}},

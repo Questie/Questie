@@ -13932,9 +13932,11 @@ function CataQuestFixes.Load()
         },
         [29475] = { -- Goblin Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
+            [questKeys.requiredSpell] = -20222, -- NEEDS to be able to accept -20219 too, it's broken as it is now
         },
         [29477] = { -- Gnomish Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
+            [questKeys.requiredSpell] = -20219, -- NEEDS to be able to accept -20222 too, it's broken as it is now
         },
         [29481] = { -- Elixir Master
             [questKeys.requiredLevel] = 75,
@@ -14030,6 +14032,9 @@ function CataQuestFixes.Load()
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
+        [29540] = { -- The Breaker
+            [questKeys.reputationReward] = {{946,6}},
+        },
         [29596] = { -- The End of the Exarch
             [questKeys.preQuestSingle] = {},
         },
@@ -14045,6 +14050,13 @@ function CataQuestFixes.Load()
         [29642] = { -- Trouble at Auchindoun
             [questKeys.exclusiveTo] = {10094},
             [questKeys.nextQuestInChain] = 29643,
+        },
+        [29649] = { -- How to Save a Life
+            [questKeys.requiredSourceItems] = {23735},
+        },
+        [29650] = { -- Fel Ember
+            [questKeys.requiredSourceItems] = {23735},
+            [questKeys.reputationReward] = {{947,5}},
         },
         [29682] = { -- Magisters' Terrace
             [questKeys.objectives] = {{{55007,nil,Questie.ICON_TYPE_TALK}}},
@@ -14378,13 +14390,13 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {25611,25807,25520,25372},
         },
         [29475] = { -- Goblin Engineering
-            [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.startedBy] = {{5174,5518,16726,52636}},
+            [questKeys.finishedBy] = {{5174,5518,16726,52636}},
             [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477,3630,3632,3634,3635,3637},
         },
         [29477] = { -- Gnomish Engineering
-            [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.startedBy] = {{5174,5518,16726,52636}},
+            [questKeys.finishedBy] = {{5518,7944,16726,52636}},
             [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181},
         },
         [29481] = { -- Elixir Master

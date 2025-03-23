@@ -89,7 +89,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [2817] = 127, -- Crystalsong Forest
     [3277] = 1460, -- Warsong Gulch - Battleground
     [3358] = 1461, -- Arathi Basin - Battleground
-    [3428] = 319, -- Ahn'Qiraj - Raid
+    [3428] = 320, -- Ahn'Qiraj - Raid
     [3429] = 247, -- Ruins of Ahn'Qiraj - Raid
     [3430] = 1941, -- Eversong Woods
     [3433] = 1942, -- Ghostlands
@@ -232,6 +232,8 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10037] = 405, -- End Time - Dungeon - Emerald Dragonshrine
     [10038] = 406, -- End Time - Dungeon - Bronze Dragonshrine
     [10039] = 400, -- Hour of Twilight - Wyrmrest Temple
+    [10040] = 319, -- Ahn'Qiraj - Raid - The Hive Undergrounds
+    [10041] = 321, -- Ahn'Qiraj - Raid - Vault of C'thun
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -407,9 +409,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [127]  = 2817, -- Crystalsong Forest
     [1460] = 3277, -- Warsong Gulch - Battleground
     [1461] = 3358, -- Arathi Basin - Battleground
-    [319]  = 3428, -- Ahn'Qiraj - Raid
-    [320]  = 3428, -- Ahn'Qiraj - Raid
-    [321]  = 3428, -- Ahn'Qiraj - Raid
+    [320]  = 3428, -- Ahn'Qiraj - Raid - The Temple Gates
     [247]  = 3429, -- Ruins of Ahn'Qiraj - Raid
     [1941] = 3430, -- Eversong Woods
     [1942] = 3433, -- Ghostlands
@@ -578,6 +578,8 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [405] = 10037, -- End Time - Dungeon - Emerald Dragonshrine
     [406] = 10038, -- End Time - Dungeon - Bronze Dragonshrine
     [400] = 10039, -- Hour of Twilight - Wyrmrest Temple
+    [319] = 10040, -- Ahn'Qiraj - Raid - The Hive Undergrounds
+    [321] = 10041, -- Ahn'Qiraj - Raid - Vault of C'thun
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2937,7 +2939,7 @@ ZoneDB.zoneIDs = {
     CHAMPIONS_HALL = 2918,
     WARSONG_GULCH = 3277,
     ARATHI_BASIN = 3358,
-    AHN_QIRAJ = 3428,
+    AHN_QIRAJ = 3428, -- this is also The Temple Gates map for AQ40 in Cata
     RUINS_OF_AHN_QIRAJ = 3429,
     NAXXRAMAS = 3456,
     EVERSONG_WOODS = 3430,
@@ -2970,6 +2972,7 @@ ZoneDB.zoneIDs = {
     MANA_TOMBS = 3792,
     TEMPEST_KEEP = 3845,
     ZUL_AMAN = 3805,
+    MAGTHERIDONS_LAIR = 3836,
     BLACK_TEMPLE = 3959,
     THE_FROZEN_SEA = 3979,
     SUNWELL_PLATEAU = 4075,
@@ -3126,6 +3129,8 @@ ZoneDB.zoneIDs = {
     END_TIME_EMERALD_DRAGONSHRINE = 10037, -- 405
     END_TIME_BRONZE_DRAGONSHRINE = 10038, -- 406
     HOUR_OF_TWILIGHT_WYRMREST_TEMPLE = 10039, -- 400
+    AQ40_THE_HIVE_UNDERGROUNDS = 10040, -- 319
+    AQ40_VAULT_OF_CTHUN = 10041, -- 321
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
@@ -3152,7 +3157,7 @@ ZoneDB.instanceIdToUiMapId = {
     [409] = ZoneDB.zoneIDs.MOLTEN_CORE,
     [429] = ZoneDB.zoneIDs.DIRE_MAUL,
     [469] = ZoneDB.zoneIDs.BLACKWING_LAIR,
-    [509] = ZoneDB.zoneIDs.AHN_QIRAJ,
-    [531] = ZoneDB.zoneIDs.RUINS_OF_AHN_QIRAJ,
+    [509] = ZoneDB.zoneIDs.RUINS_OF_AHN_QIRAJ,
+    [531] = ZoneDB.zoneIDs.AHN_QIRAJ,
     [533] = ZoneDB.zoneIDs.NAXXRAMAS,
 }

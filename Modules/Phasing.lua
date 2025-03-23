@@ -221,6 +221,7 @@ local phases = {
     KAMMAH_TENT = 1149,
     BALNAZZAR_DEAD = 1150,
     RIVENDARE_DEAD = 1151,
+    KARGATH_DEAD = 1152,
 }
 Phasing.phases = phases
 
@@ -911,6 +912,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RIVENDARE_DEAD then
         return complete[27227] or (questLog[27227] and questLog[27227].isComplete == 1) or false
+    end
+
+    if phase == phases.KARGATH_DEAD then
+        return complete[29653] or (questLog[29653] and questLog[29653].isComplete == 1) or complete[29654] or (questLog[29654] and questLog[29654].isComplete == 1) or false
     end
 
     return false
