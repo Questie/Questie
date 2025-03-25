@@ -14047,6 +14047,9 @@ function CataQuestFixes.Load()
         [29599] = { -- Escape from Durnholde
             [questKeys.zoneOrSort] = 2300,
         },
+        [29605] = { -- Brother Against Brother
+            [questKeys.objectives] = {{{18956,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29642] = { -- Trouble at Auchindoun
             [questKeys.exclusiveTo] = {10094},
             [questKeys.nextQuestInChain] = 29643,

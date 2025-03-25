@@ -234,6 +234,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10039] = 400, -- Hour of Twilight - Wyrmrest Temple
     [10040] = 319, -- Ahn'Qiraj - Raid - The Hive Undergrounds
     [10041] = 321, -- Ahn'Qiraj - Raid - Vault of C'thun
+    [10042] = 259, -- Sethekk Halls - Dungeon - Halls of Mourning
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -580,6 +581,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [400] = 10039, -- Hour of Twilight - Wyrmrest Temple
     [319] = 10040, -- Ahn'Qiraj - Raid - The Hive Undergrounds
     [321] = 10041, -- Ahn'Qiraj - Raid - Vault of C'thun
+    [259] = 10042, -- Sethekk Halls - Dungeon - Halls of Mourning
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2968,7 +2970,7 @@ ZoneDB.zoneIDs = {
     THE_MECHANAR = 3849,
     SHADOW_LABYRINTH = 3789,
     AUCHENAI_CRYPTS = 3790,
-    SETHEKK_HALLS = 3791,
+    SETHEKK_HALLS = 3791, -- this is also Veil Sethekk map for Sethekk Halls in Cata
     MANA_TOMBS = 3792,
     TEMPEST_KEEP = 3845,
     ZUL_AMAN = 3805,
@@ -3131,6 +3133,7 @@ ZoneDB.zoneIDs = {
     HOUR_OF_TWILIGHT_WYRMREST_TEMPLE = 10039, -- 400
     AQ40_THE_HIVE_UNDERGROUNDS = 10040, -- 319
     AQ40_VAULT_OF_CTHUN = 10041, -- 321
+    SETHEKK_HALLS_HALLS_OF_MOURNING = 10042, -- 259
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

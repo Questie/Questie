@@ -1662,6 +1662,19 @@ function CataNpcFixes.Load()
         [18162] = { -- Underground Pond Credit Marker
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{42.62,78.37}}},
         },
+        [18472] = { -- Darkweaver Syth
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{48.63,67.84},{-1,-1}}},
+        },
+        [18473] = { -- Talon King Ikiss
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.48,27.48}},[zoneIDs.SETHEKK_HALLS] = {{-1,-1}}},
+        },
+        [18956] = { -- Lakka
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{50.98,71.42},{-1,-1}}},
+        },
+        [19428] = { -- Cobalt Serpent
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.46,67.08}},[zoneIDs.SETHEKK_HALLS] = {{48.97,94.83},{52.1,85.87},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{{30.54,88.73},{28.54,86.74},{25.94,83.42},{25.94,81.48},{31.01,74.91},{31.56,72.68},{32.46,67.08}},{{44.09,96.18},{44.13,84.84},{44.86,82.77},{49.21,82.28},{51.94,82.87},{53.05,84.3},{53.14,92.67},{51.85,94.9},{51.4,94.9}}},[zoneIDs.SETHEKK_HALLS] = {{{51.4,94.9},{48.97,94.83}},{{52.1,85.87},{49.43,85.31},{48.85,88.04},{47.57,90.98},{45,89.08}}}},
+        },
         [20102] = { -- Goblin Commoner
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.77,84.45}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
@@ -4945,6 +4958,12 @@ function CataNpcFixes.Load()
                 [zoneIDs.END_TIME] = {{-1,-1}},
                 [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{37.3,79.94},{52.14,44.46,phases.ET_MUROZOND_DEAD}},
             },
+        },
+        [54840] = { -- Isfar
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{72.07,35.47},{-1,-1}}},
+        },
+        [54847] = { -- Dealer Vijaad
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{48.14,67.7},{-1,-1}}},
         },
         [54853] = { -- Queen Azshara
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.09,36.78},{-1,-1}}},
