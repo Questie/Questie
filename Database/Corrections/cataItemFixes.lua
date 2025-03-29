@@ -264,6 +264,9 @@ function CataItemFixes.Load()
         [24416] = { -- Corrupted Flower
             [itemKeys.npcDrops] = {},
         },
+        [27480] = { -- Soul Device
+            [itemKeys.objectDrops] = {182940},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },

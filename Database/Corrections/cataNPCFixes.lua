@@ -1668,12 +1668,38 @@ function CataNpcFixes.Load()
         [18473] = { -- Talon King Ikiss
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.48,27.48}},[zoneIDs.SETHEKK_HALLS] = {{-1,-1}}},
         },
+        [18667] = { -- Blackheart the Inciter
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{26.6,69.63},{-1,-1}}},
+        },
+        [18708] = { -- Murmur
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{81.07,39.3},{-1,-1}}},
+        },
+        [18731] = { -- Ambassador Hellmaw
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{21.43,39.05},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.SHADOW_LABYRINTH] = {{{15.82,24.09},{15.18,25.5},{14.75,27.03},{14.55,28.41},{14.47,30.61},{14.52,32.56},{14.8,34.6},{15.38,36.28},{16.1,37.52},{17.06,38.39},{18.07,38.95},{18.9,39.07},{21.43,39.05},{21.7,39.06},{23.41,36.95},{28.47,36.77},{30.3,38.13},{30.28,40.17},{28.91,41.61},{23.55,41.53},{21.7,39.06}}}},
+        },
+        [18732] = { -- Grandmaster Vorpil
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{53.3,56.38},{-1,-1}}},
+        },
+        [18794] = { -- Cabal Ritualist
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{21.18,42.28},{21.92,43.27},{22.64,42.26},{21.91,41.18},{21.2,35.87},{21.96,34.73},{22.7,35.83},{21.95,36.89},{25.04,39.16},{24.28,38.08},{23.55,39.21},{24.27,40.26},{28.91,40.27},{28.15,39.19},{28.89,38.07},{29.65,39.15},{30.49,35.86},{31.22,34.74},{31.99,35.86},{31.22,36.97},{31.18,41.16},{31.94,42.24},{31.21,43.37},{30.4,42.29},{-1,-1}}},
+        },
+        [18848] = { -- Malicious Instructor
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{36.39,86.43},{32.3,58.84},{21.77,63.27},{26.65,54.18},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.SHADOW_LABYRINTH] = {{{36.39,86.43},{37.21,85.83},{38.63,86.28},{40.03,87.52},{41.57,87.64},{43.24,86.63},{44.09,87.26},{44.63,88.27},{44.27,89.51},{43.57,89.42},{42.57,88},{37.41,88.07},{36.33,87.68},{36.39,86.43}},{{32.3,58.84},{32.65,55.79},{31.39,55.72},{29.85,61.7},{31.1,62.74},{31.32,61.56},{32.3,58.84}},{{21.77,63.27},{22.1,61.19},{23,60.42},{21.73,55.82},{20.67,56.31},{20.83,58.54},{18.6,58.98},{20.85,58.94},{21.57,60.42}},{{26.65,54.18},{28.35,54.21},{28.37,60.09},{26.7,60.23},{24.93,59.86},{24.68,54.32},{26.65,54.18}}}},
+        },
+        [18891] = { -- Spy To'gun
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{17.11,22.1},{-1,-1}}},
+        },
         [18956] = { -- Lakka
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{50.98,71.42},{-1,-1}}},
         },
         [19428] = { -- Cobalt Serpent
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.46,67.08}},[zoneIDs.SETHEKK_HALLS] = {{48.97,94.83},{52.1,85.87},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{{30.54,88.73},{28.54,86.74},{25.94,83.42},{25.94,81.48},{31.01,74.91},{31.56,72.68},{32.46,67.08}},{{44.09,96.18},{44.13,84.84},{44.86,82.77},{49.21,82.28},{51.94,82.87},{53.05,84.3},{53.14,92.67},{51.85,94.9},{51.4,94.9}}},[zoneIDs.SETHEKK_HALLS] = {{{51.4,94.9},{48.97,94.83}},{{52.1,85.87},{49.43,85.31},{48.85,88.04},{47.57,90.98},{45,89.08}}}},
+        },
+        [19698] = { -- Greatfather Aldrimus
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{35.08,65.15}}},
         },
         [20102] = { -- Goblin Commoner
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.77,84.45}}},
@@ -1688,6 +1714,9 @@ function CataNpcFixes.Load()
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{75.07,47.88}}},
+        },
+        [22890] = { -- First Fragment Guardian
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{82.62,30.44},{-1,-1}}},
         },
         [23233] = { -- Chu'a'lor
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{28.76,57.36}}},
@@ -4967,6 +4996,12 @@ function CataNpcFixes.Load()
         },
         [54853] = { -- Queen Azshara
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.09,36.78},{-1,-1}}},
+        },
+        [54890] = { -- Field Commander Mahfuun
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{21.24,13.08},{-1,-1}}},
+        },
+        [54891] = { -- Spy Grik'tha
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{22.56,12.45},{-1,-1}}},
         },
         [54931] = { -- Stone Guard Stok'ton
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{58.62,88.4},{-1,-1}}},

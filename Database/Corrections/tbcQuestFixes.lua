@@ -1518,6 +1518,9 @@ function QuestieTBCQuestFixes:Load()
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
         },
+        [9831] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 0, {{"object", 182196}}}},
+        },
         [9833] = {
             [questKeys.requiredMinRep] = {978,0},
         },
