@@ -45,7 +45,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 - We are happy about every help and contribution we get, so feel free to submit a Pull Request on GitHub
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
-### Installing lua
+### Installing Lua
 
 1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
    - For macOS that is `brew install lua@5.1`
@@ -62,7 +62,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 
 ### Unit Tests
 
-1. Run `busted -p ".test.lua" ."` in the root directory of the project
+1. Run `busted -p ".test.lua" .` in the root directory of the project
 2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
 
