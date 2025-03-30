@@ -1253,6 +1253,24 @@ function CataQuestFixes.Load()
         [10186] = { -- You're Hired!
             [questKeys.preQuestSingle] = {},
         },
+        [10227] = { -- I See Dead Draenei
+            [questKeys.zoneOrSort] = 3688,
+        },
+        [10228] = { -- Ezekiel
+            [questKeys.zoneOrSort] = 3688,
+        },
+        [10231] = { -- What Book? I Don't See Any Book.
+            [questKeys.zoneOrSort] = zoneIDs.SHATTRATH_CITY,
+        },
+        [10251] = { -- The Master's Grand Design?
+            [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
+        },
+        [10252] = { -- Vision of the Dead
+            [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
+        },
+        [10253] = { -- Levixus the Soul Caller
+            [questKeys.zoneOrSort] = 3688,
+        },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
         },
@@ -1310,6 +1328,9 @@ function CataQuestFixes.Load()
         [10732] = { -- Path of the Violet Protector
             [questKeys.exclusiveTo] = {10729,10730,10731},
             [questKeys.reputationReward] = {{967,5}},
+        },
+        [10847] = { -- The Eyes of Skettis
+            [questKeys.preQuestSingle] = {},
         },
         [10942] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
@@ -14034,6 +14055,10 @@ function CataQuestFixes.Load()
         },
         [29540] = { -- The Breaker
             [questKeys.reputationReward] = {{946,6}},
+        },
+        [29595] = { -- Everything Will Be Alright
+            [questKeys.nextQuestInChain] = 29596,
+            [questKeys.preQuestSingle] = {10253},
         },
         [29596] = { -- The End of the Exarch
             [questKeys.preQuestSingle] = {},

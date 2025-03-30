@@ -77,11 +77,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
-        [185002] = {
-            [objectKeys.name] = "Mana-Tombs Stasis Chamber",
-            [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.MANA_TOMBS,
-        },
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
@@ -100,6 +95,11 @@ function QuestieTBCObjectFixes:Load()
         },
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
+        },
+        [185519] = {
+            [objectKeys.name] = "Mana-Tombs Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MANA_TOMBS,
         },
         [185562] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.53,31.2}}},

@@ -2860,7 +2860,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185001}}}},
         },
         [10977] = {
-            [questKeys.objectives] = {nil,{{185002,"Mana-Tombs Stasis Chamber Investigated"}}},
+            [questKeys.objectives] = {nil,{{185519,"Mana-Tombs Stasis Chamber Investigated"}}},
             [questKeys.requiredMinRep] = {933,21000},
         },
         [10981] = {

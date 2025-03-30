@@ -235,6 +235,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10040] = 319, -- Ahn'Qiraj - Raid - The Hive Undergrounds
     [10041] = 321, -- Ahn'Qiraj - Raid - Vault of C'thun
     [10042] = 259, -- Sethekk Halls - Dungeon - Halls of Mourning
+    [10043] = 257, -- Auchenai Crypts - Dungeon - Bridge of Souls
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -458,7 +459,6 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [265] = 3717, -- The Slave Pens - Dungeon
     [260] = 3789, -- Shadow Labyrinth - Dungeon
     [256] = 3790, -- Auchenai Crypts - Dungeon
-    [257] = 3790, -- Auchenai Crypts - Dungeon
     [258] = 3791, -- Sethekk Halls - Dungeon
     [259] = 3791, -- Sethekk Halls - Dungeon
     [272] = 3792, -- Mana-Tombs - Dungeon
@@ -582,6 +582,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [319] = 10040, -- Ahn'Qiraj - Raid - The Hive Undergrounds
     [321] = 10041, -- Ahn'Qiraj - Raid - Vault of C'thun
     [259] = 10042, -- Sethekk Halls - Dungeon - Halls of Mourning
+    [257] = 10043, -- Auchenai Crypts - Dungeon - Bridge of Souls
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2969,7 +2970,7 @@ ZoneDB.zoneIDs = {
     THE_ARCATRAZ = 3848,
     THE_MECHANAR = 3849,
     SHADOW_LABYRINTH = 3789,
-    AUCHENAI_CRYPTS = 3790,
+    AUCHENAI_CRYPTS = 3790, -- this is also Halls of the Hereafter map for Auchenai Crypts in Cata
     SETHEKK_HALLS = 3791, -- this is also Veil Sethekk map for Sethekk Halls in Cata
     MANA_TOMBS = 3792,
     TEMPEST_KEEP = 3845,
@@ -3134,6 +3135,7 @@ ZoneDB.zoneIDs = {
     AQ40_THE_HIVE_UNDERGROUNDS = 10040, -- 319
     AQ40_VAULT_OF_CTHUN = 10041, -- 321
     SETHEKK_HALLS_HALLS_OF_MOURNING = 10042, -- 259
+    AUCHENAI_CRYPTS_BRIDGE_OF_SOULS = 10043, -- 257
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

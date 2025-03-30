@@ -1662,14 +1662,55 @@ function CataNpcFixes.Load()
         [18162] = { -- Underground Pond Credit Marker
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{42.62,78.37}}},
         },
+        [18311] = { -- Ethereal Crypt Raider
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{38.89,83.59},{38.74,84.97},{56.95,28.92},{54.43,27.73},{44.35,31.27},{44.36,23.46},{44.9,35.45},{40.71,32.33},{40.99,29.67},{40.99,27.92},{38.61,29.41},{38.63,27.84},{37.32,28.4},{33.19,26.27},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MANA_TOMBS] = {{{44.35,31.27},{43.58,29.1},{44.35,25.83},{45.06,25.06},{45.87,24.52},{46.29,25.5},{46.98,28.48},{46.52,30.85},{46.27,32.54},{44.35,31.27}},{{33.48,23.45},{33.85,25.91},{35.23,28.02},{37.32,28.4}}}},
+        }, 
+        [18312] = { -- Ethereal Spellbinder
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{32.07,62.08},{32.94,62.47},{32.64,74.71},{33.28,74.6},{34.37,68.43},{35.23,67.38},{38.19,84.85},{38.12,83.84},{41.2,81.43},{41.14,87.2},{41.96,88.59},{47.2,83.92},{47.2,85.04},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MANA_TOMBS] = {{{32.1,64.27},{32.64,74.71}},{{32.68,64.06},{33.28,74.6}}}},
+        },
+        [18313] = { -- Ethereal Sorcerer
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{54.86,80.87},{55.99,63.01},{60.74,55.62},{60.21,50.9},{60.72,44.94},{57.77,37.36},{62.65,33.8},{61.79,23.33},{59.94,22.75},{57.32,22.84},{56.48,29.3},{54.43,29.53},{44.35,31.27},{45.42,23.56},{46.43,33.38},{41.56,33.41},{41.82,28.71},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MANA_TOMBS] = {{{44.35,31.27},{43.58,29.1},{44.35,25.83},{45.06,25.06},{45.87,24.52},{46.29,25.5},{46.98,28.48},{46.52,30.85},{46.27,32.54},{44.35,31.27}}}},
+        },
+        [18314] = { -- Nexus Stalker
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{42.12,81.64},{42.79,80.82},{42.54,87.32},{49.21,84.32},{49.79,84.97},{49.79,83.87},{53.61,82.09},{53.58,82.62},{54.52,87.77},{57.08,84.97},{57.08,83.93},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MANA_TOMBS] = {{{53.61,82.09},{54.71,82.7},{55.05,84.43},{54.45,86.15},{53.76,86.28},{52.99,86.03},{52.47,84.93},{52.41,83.28},{53.61,82.09}},{{53.58,82.62},{54.46,83.24},{54.71,84.58},{54.44,85.46},{53.72,85.87},{52.95,85.46},{52.64,84.79},{52.73,83.56},{53.58,82.62}},{{57.08,83.93},{62,83.93}},{{57.08,84.97},{62,84.97}}}},
+        },
+        [18341] = { -- Pandemonius
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{47.76,28.69},{-1,-1}}},
+        }, 
+        [18343] = { -- Tavarok
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{60.62,75.04},{-1,-1}}},
+        }, 
+        [18344] = { -- Nexus-Prince Shaffar
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{32.48,49.93},{-1,-1}}},
+        }, 
+        [18371] = { -- Shirrak the Dead Watcher
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{46.2,66.13}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{{46.2,66.13},{46.18,73.02}}}},
+        },
+        [18373] = { -- Exarch Maladaar
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{73.78,49.15}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        },
         [18472] = { -- Darkweaver Syth
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{48.63,67.84},{-1,-1}}},
         },
         [18473] = { -- Talon King Ikiss
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.48,27.48}},[zoneIDs.SETHEKK_HALLS] = {{-1,-1}}},
         },
+        [18521] = { -- Raging Skeleton
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{64.35,85.57},{63.99,87.22},{60.1,90.57},{58.91,89.96},{57.14,87.87},{57.22,84.61}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        },
+        [18524] = { -- Angered Skeleton
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{62.64,87.12},{63.32,85.08},{62.11,84.35},{60.1,92.61},{61.77,90.5},{61.08,88.64},{58.68,85.85},{56.19,86.32}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        },
         [18667] = { -- Blackheart the Inciter
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{26.6,69.63},{-1,-1}}},
+        },
+        [18702] = { -- Auchenai Necromancer
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{71.06,65},{76.41,59.27},{76.46,65.73},{71.63,71.03}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
         },
         [18708] = { -- Murmur
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{81.07,39.3},{-1,-1}}},
@@ -4981,6 +5022,19 @@ function CataNpcFixes.Load()
         },
         [54636] = { -- Caza'rez
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{51.48,90.03},{-1,-1}}},
+        },
+        [54692] = { -- Artificer Morphalius
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{34.38,19.46},{-1,-1}}},
+        },
+        [54694] = { -- Mamdy the "Ologist"
+            [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{32.7,19.42},{-1,-1}}},
+        },
+        [54698] = { -- Tormented Soulpriest
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{46.22,23.1}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{{46.22,23.1},{46.23,21.76},{50.05,18.29},{51.26,17.82}}}},
+        },
+        [54725] = { -- Draenei Spirit
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS] = {{44.11,71.73},{-1,-1}}},
         },
         [54751] = { -- Nozdormu
             [npcKeys.spawns] = {
