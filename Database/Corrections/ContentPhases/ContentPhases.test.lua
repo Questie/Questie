@@ -35,7 +35,7 @@ describe("ContentPhases", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 3)
 
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
-            assert.is_true(questToBlacklist[8411]) -- Phase 4
+            assert.is_nil(questToBlacklist[8411]) -- Phase 3
             assert.is_true(questToBlacklist[8905]) -- Phase 5
             assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
