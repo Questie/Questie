@@ -103,8 +103,6 @@ local questsToBlacklistByPhase = {
         [10940] = true,
         [10941] = true,
         -----------------
-    },
-    [4] = { -- Phase 4 - Zul'Gurub
         [8410] = true, -- Shaman Sunken Temple
         [8411] = true, -- Shaman Sunken Temple
         [8412] = true, -- Shaman Sunken Temple
@@ -141,6 +139,8 @@ local questsToBlacklistByPhase = {
         [9052] = true, -- Druid Sunken Temple
         [9053] = true, -- Druid Sunken Temple
         [9063] = true, -- Druid Sunken Temple
+    },
+    [4] = { -- Phase 4 - Zul'Gurub
         [8056] = true,
         [8057] = true,
         [8064] = true,
