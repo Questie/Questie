@@ -1932,6 +1932,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}}}, -- only SW for consistency
         },
+        [14351] = {
+            [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
