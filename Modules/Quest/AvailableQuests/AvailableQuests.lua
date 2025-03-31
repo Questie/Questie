@@ -37,6 +37,7 @@ local timer
 local availableQuests = {}
 
 local dungeons
+local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
 local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
@@ -44,6 +45,7 @@ local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvai
 function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
     dungeons = ZoneDB:GetDungeons()
+    playerFaction, _ = UnitFactionGroup("player")
 end
 
 ---@param callback function | nil
@@ -276,6 +278,14 @@ end
 _AddStarter = function(starter, quest, tooltipKey)
     if (not starter) then
         return
+    end
+
+    if tooltipKey == "m_"..starter.id then
+        if playerFaction == "Alliance" and starter.friendlyToFaction == "H" then
+            return
+        elseif playerFaction == "Horde" and starter.friendlyToFaction == "A" then
+            return
+        end
     end
 
     QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey)
