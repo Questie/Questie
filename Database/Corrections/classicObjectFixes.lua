@@ -188,10 +188,12 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
         },
+        [175964] = {
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.SCHOLOMANCE,
+        },
         [176150] = {
-            [objectKeys.spawns] = {
-                [zoneIDs.WESTERN_PLAGUELANDS]={{43.60,69.97},{43.46,70.11},{43.38,69.97},{43.39,69.69},{43.37,69.51},{43.41,69.22},{43.59,69.30},{43.54,69.12},{43.42,68.78},{43.59,68.82}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{43.60,69.97},{43.46,70.11},{43.38,69.97},{43.39,69.69},{43.37,69.51},{43.41,69.22},{43.59,69.30},{43.54,69.12},{43.42,68.78},{43.59,68.82}}},
         },
         [176184] = {
             [objectKeys.name] = "Corrupt Jaedenar Moonwell",
