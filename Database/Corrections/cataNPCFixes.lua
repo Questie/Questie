@@ -3124,6 +3124,9 @@ function CataNpcFixes.Load()
         [41455] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{36.84,79.75}}},
         },
+        [41457] = { -- Executioner Verathress
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{57.16,85.17,phases.VASHJIR_NORTHERN_GARDEN}}},
+        },
         [41463] = { -- Captured Feralas Sentinel
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{45.24,50.17}}},
         },
@@ -3183,6 +3186,9 @@ function CataNpcFixes.Load()
         },
         [41770] = { -- Fiasco Sizzlegrin
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{50.35,78.99}}},
+        },
+        [41802] = { -- Wavespeaker Valoren
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{62.6,49.56}}},
         },
         [41810] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{60.24,63.7}}},
@@ -4656,6 +4662,12 @@ function CataNpcFixes.Load()
         },
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
+        },
+        [48836] = { -- Tamed Seahorse
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{40.59,74.94}}},
+        },
+        [48866] = { -- Tamed Seahorse
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{40.59,74.94}}},
         },
         [48880] = { -- Captain Iceheart
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{49.40,46.73}}},

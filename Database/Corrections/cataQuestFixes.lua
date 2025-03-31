@@ -5468,6 +5468,9 @@ function CataQuestFixes.Load()
         [25745] = { -- Negotiations (Horde)
             [questKeys.preQuestSingle] = {25543,25562},
         },
+        [25747] = { -- Looking Forward
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48836}}}},
+        },
         [25749] = { -- Not Entirely Unprepared
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41235,46470},41235,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -5493,7 +5496,7 @@ function CataQuestFixes.Load()
         },
         [25760] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25579,25580,25581,25582,25583},
+            [questKeys.preQuestGroup] = {25579,25580,25582,25583},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Blade to become a naga"),0,{{"object",430005}}}},
         },
         [25762] = { -- The Ancient Brazier
@@ -5668,6 +5671,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41457,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25858},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Attack an Kvaldir High-Shaman and kite him to Executioner Verathress"),0,{{"monster",41997},{"monster",41537}}}},
+            [questKeys.exclusiveTo] = {25892,25967}, -- not available anymore once you turn in 25755/25966, but it's easier to fix like this
         },
         [25864] = { -- Dinosaur Crisis
             [questKeys.preQuestSingle] = {},
@@ -5912,11 +5916,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25996},
         },
         [25957] = { -- Visions of the Past: The Invasion of Vashj'ir
-            [questKeys.preQuestGroup] = {25952,25953,25954,25955,25956},
+            [questKeys.preQuestGroup] = {25952,25953,25954,25955,25956}, -- might not need 25954
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Blade to become a naga"),0,{{"object",430005}}}},
         },
         [25958] = { -- Looking Forward
             [questKeys.preQuestSingle] = {25957},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48866}}}},
         },
         [25959] = { -- Clear Goals
             [questKeys.preQuestSingle] = {25958},
@@ -9034,10 +9039,10 @@ function CataQuestFixes.Load()
         },
         [27442] = { -- The War Has Many Fronts
             [questKeys.preQuestSingle] = {26006},
-            [questKeys.exclusiveTo] = {27203,27399},
+            [questKeys.exclusiveTo] = {27399},
         },
         [27443] = { -- The War Has Many Fronts
-            [questKeys.exclusiveTo] = {27203,27398},
+            [questKeys.exclusiveTo] = {27398},
         },
         [27446] = { -- Tanaris is Calling
             [questKeys.nextQuestInChain] = 25048,
