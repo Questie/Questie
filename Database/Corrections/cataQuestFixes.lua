@@ -7647,10 +7647,12 @@ function CataQuestFixes.Load()
         [26791] = { -- Sprout No More
             [questKeys.objectives] = {{{44126,nil,Questie.ICON_TYPE_INTERACT},{44049}},nil,nil,nil,},
             [questKeys.preQuestSingle] = {26834},
+            [questKeys.exclusiveTo] = {},
         },
         [26792] = { -- Fungal Monstrosities
             [questKeys.objectives] = {{{44126,nil,Questie.ICON_TYPE_INTERACT},{44035}},nil,nil,nil,},
             [questKeys.preQuestSingle] = {26834},
+            [questKeys.exclusiveTo] = {},
         },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
@@ -14279,7 +14281,7 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [26111] = { -- ... It Will Come
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26071,26072,26096},
+            [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
             [questKeys.nextQuestInChain] = {25967},
@@ -14378,7 +14380,7 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [26111] = { -- ... It Will Come
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26070,26072,26096},
+            [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
             [questKeys.nextQuestInChain] = {25892},
