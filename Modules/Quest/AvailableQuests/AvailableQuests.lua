@@ -45,7 +45,7 @@ local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvai
 function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
     dungeons = ZoneDB:GetDungeons()
-    playerFaction = UnitFactionGroup("player")[1]
+    playerFaction = UnitFactionGroup("player")
 end
 
 ---@param callback function | nil
