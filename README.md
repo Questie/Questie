@@ -60,6 +60,12 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 6. Install `luacheck`
     - `luarocks install luacheck`
 
+### luacheck
+
+Questie uses `luacheck` for linting. You can run it locally with:
+
+`luacheck -q Database Localization Modules Questie.lua`
+
 ### Unit Tests
 
 1. Run `busted -p ".test.lua" .` in the root directory of the project
