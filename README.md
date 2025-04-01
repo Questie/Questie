@@ -57,7 +57,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
    - `luarocks install busted`
 5. Install `bit32`
     - `luarocks install bit32`
-6. Install [luacheck](https://luacheck.readthedocs.io/en/stable/)
+6. Install [luacheck](https://github.com/lunarmodules/luacheck)
     - `luarocks install luacheck`
 
 ### luacheck
