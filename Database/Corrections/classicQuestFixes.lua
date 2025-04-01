@@ -3103,11 +3103,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
         },
         [8410] = {
-            [questKeys.exclusiveTo] = {8411},
+            [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
             [questKeys.startedBy] = {{3032,13417}},
         },
         [8411] = {
-            [questKeys.exclusiveTo] = {8410},
+            [questKeys.exclusiveTo] = {8410}, -- other preQuestSingle
         },
         [8412] = {
             [questKeys.preQuestSingle] = {8410,8411}, -- 8411 was missing
