@@ -1179,7 +1179,7 @@ function QuestieQuestBlacklist:Load()
         [8406] = true,
         [8407] = true,
         [8408] = true,
-        [8411] = true,
+        [8411] = QuestieCorrections.CATA_HIDE, -- not sure when this quest was removed, Wowhead says Cata, it is present in Classic SoD
         [8426] = true,
         [8427] = true,
         [8428] = true,

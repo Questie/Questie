@@ -2907,6 +2907,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Grom's Monument"),0,{{"object", 1324},}}},
         },
+        [8151] = {
+            [questKeys.startedBy] = {{3039,3352,4205,5116,5516}},
+        },
         [8166] = {
             [questKeys.specialFlags] = 0,
         },
@@ -2956,8 +2959,17 @@ function QuestieQuestFixes:Load()
         [8192] = {
             [questKeys.requiredClasses] = classIDs.DRUID,
         },
+        [8233] = {
+            [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
+        },
+        [8250] = {
+            [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
+        },
         [8251] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [8254] = {
+            [questKeys.startedBy] = {{5489,6018,11406}},
         },
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
@@ -3091,10 +3103,26 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
         },
         [8410] = {
+            [questKeys.exclusiveTo] = {8411},
             [questKeys.startedBy] = {{3032,13417}},
         },
+        [8411] = {
+            [questKeys.exclusiveTo] = {8410},
+        },
+        [8412] = {
+            [questKeys.preQuestSingle] = {8410,8411}, -- 8411 was missing
+        },
+        [8415] = {
+            [questKeys.startedBy] = {{928,5149}},
+        },
+        [8417] = {
+            [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
+        },
+        [8419] = {
+            [questKeys.startedBy] = {{461,3326,4563,5172}},
+        },
         [8423] = {
-            [questKeys.preQuestSingle] = {8417},
+            [questKeys.exclusiveTo] = {8417}, -- breadcrumb
         },
         [8426] = {
             [questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
@@ -3788,8 +3816,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9063] = {
-            [questKeys.exclusiveTo] = {9052},
-            [questKeys.zoneOrSort] = 493,
+            [questKeys.startedBy] = {{3033,4217,5505,12042}},
         },
         [9069] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -4222,29 +4249,8 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815},nil,nil},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [8151] = {
-            [questKeys.startedBy] = {{3039,3352},nil,nil},
-        },
-        [8233] = {
-            [questKeys.startedBy] = {{3328,4583},nil,nil},
-        },
-        [8250] = {
-            [questKeys.startedBy] = {{3047,4567,7311},nil,nil},
-        },
-        [8254] = {
-            [questKeys.startedBy] = {{6018},nil,nil},
-        },
-        [8417] = {
-            [questKeys.startedBy] = {{3041,3354,4593},nil,nil},
-        },
-        [8419] = {
-            [questKeys.startedBy] = {{3326,4563},nil,nil},
-        },
         [8904] = {
             [questKeys.exclusiveTo] = {8900,8901,8902,8979}
-        },
-        [9063] = {
-            [questKeys.startedBy] = {{3033,12042},nil,nil},
         },
         [9330] = {
             [questKeys.startedBy] = {nil,{181332},{23182}},
@@ -4291,27 +4297,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},
             [questKeys.requiredRaces] = raceIDs.NONE,
-        },
-        [8151] = {
-            [questKeys.startedBy] = {{4205,5116,5516},nil,nil},
-        },
-        [8233] = {
-            [questKeys.startedBy] = {{918,4163,5165},nil,nil},
-        },
-        [8250] = {
-            [questKeys.startedBy] = {{331,7312},nil,nil},
-        },
-        [8254] = {
-            [questKeys.startedBy] = {{5489,11406},nil,nil},
-        },
-        [8417] = {
-            [questKeys.startedBy] = {{5113,5479},nil,nil},
-        },
-        [8419] = {
-            [questKeys.startedBy] = {{461,5172},nil,nil},
-        },
-        [9063] = {
-            [questKeys.startedBy] = {{4217,5505,12042},nil,nil},
         },
         [9324] = {
             [questKeys.startedBy] = {nil,{181336},{23179}},
