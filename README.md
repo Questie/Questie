@@ -53,11 +53,11 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
    - For macOS that is `brew install luarocks`
 3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
    - `luarocks config lua_version 5.1`
-4. Install `busted`
+4. Install [busted](https://github.com/lunarmodules/busted)
    - `luarocks install busted`
 5. Install `bit32`
     - `luarocks install bit32`
-6. Install `luacheck`
+6. Install [luacheck](https://luacheck.readthedocs.io/en/stable/)
     - `luarocks install luacheck`
 
 ### luacheck
