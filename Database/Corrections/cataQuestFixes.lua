@@ -6137,7 +6137,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26059},
         },
         [26065] = { -- Free Wil'hai
-            [questKeys.preQuestSingle] = {26080,26092},
+            [questKeys.preQuestSingle] = {26019,26090},
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill all three Tentacle Horrors"),0,{{"monster",41641}}}},
         },
