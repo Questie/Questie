@@ -511,7 +511,7 @@ function CataNpcFixes.Load()
         [5056] = { -- Deviate Dreadfang
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{53.77,66.55},{55.33,66.13},{73.01,72.46},{-1,-1}}},
         },
-        [5709] = { -- Shade of Eranikus	
+        [5709] = { -- Shade of Eranikus
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{68.56,87.31},{-1,-1}}},
         },
         [5710] = { -- Jammal'an the Prophet
@@ -2008,7 +2008,7 @@ function CataNpcFixes.Load()
         [32964] = { -- Sentinel Aynasha
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{64.48,5.49}}},
         },
-        [32971] = { -- Ranger Glynda Nal'Shea 
+        [32971] = { -- Ranger Glynda Nal'Shea
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {
                     {50.22,19.79,phases.CERELLEAN_NEAR_EDGE},
@@ -4190,7 +4190,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.BADLANDS] = {
                     {66.39,55.49,phases.RHEA_LETHLOR_RAVINE},
                     {21.16,57.77,phases.RHEA_DRAGONS_MOUTH},
-                    --21.16,57.77,phases.RHEA_NEW_KARGATH},
+                    {18.15,42.51,phases.RHEA_NEW_KARGATH},
                     {15.96,33.39,phases.RHEA_HIDDEN_CLUTCH},
                 },
             },
@@ -4323,6 +4323,18 @@ function CataNpcFixes.Load()
                     {58.61,53.29,phases.SHADOWFANG_KEEP_GODFREY_DEAD_A},
                 },
             },
+        },
+        [47021] = { -- Amakkar, Jack of All Trades
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.87,42.97}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47022] = { -- Gargal, the Behemoth
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.96,42.86}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47024] = { -- Jurrix Whitemane
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.88,42.74}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{26.49,62.3}}},
