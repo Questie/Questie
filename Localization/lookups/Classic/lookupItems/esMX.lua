@@ -981,6 +981,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [8463] = "Órdenes del Jefe de Guerra",
 [8483] = "Faltriquera de agua de Vagayermos",
 [8523] = "Equipo de prueba de campo",
+[8524] = "Fuente de alimentación modelo 4711-FTZ",
 [8525] = "Orden de compra de Zinge",
 [8526] = "Tragano violeta",
 [8548] = "Vara divinomática",
