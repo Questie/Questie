@@ -665,8 +665,20 @@ function QuestieLib.GetSpawnDistance(spawnA, spawnB)
 end
 
 ---@param quest Quest
+---@param starterType string|nil Either "itemFromMonster" or "itemFromObject" if the quest is started by an item, otherwise nil
 ---@return number -- Questie.ICON_TYPE_X
-function QuestieLib.GetQuestIcon(quest)
+function QuestieLib.GetQuestIcon(quest, starterType)
+    if starterType and (starterType == "itemFromMonster" or starterType == "itemFromObject") then
+        if quest.Starts['NPC'] or quest.Starts['Object'] then
+            Questie:Debug(Questie.DEBUG_ELEVATED, 'WARNING: Quest starts from item and NPC/object: ', quest.Id)
+        end
+        local isTrivial = QuestieDB.IsTrivial(quest.level)
+        if starterType == "itemFromMonster" then
+            return (isTrivial and Questie.ICON_TYPE_AVAILABLE_LOOT_GRAY) or Questie.ICON_TYPE_AVAILABLE_LOOT
+        elseif starterType == "itemFromObject" then
+            return (isTrivial and Questie.ICON_TYPE_AVAILABLE_OBJECT_GRAY) or Questie.ICON_TYPE_AVAILABLE_OBJECT
+        end
+    end
     if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
         return Questie.ICON_TYPE_SODRUNE
     elseif QuestieDB.IsActiveEventQuest(quest.Id) then

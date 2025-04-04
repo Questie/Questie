@@ -64,6 +64,29 @@ end
 function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     --? Some quests can be started by both an NPC and a GameObject
 
+    if quest.Starts.Item then
+        local items = quest.Starts.Item
+        for i = 1, #items do
+            local item = QuestieDB:GetItem(quest.Starts.Item[i])
+
+            if (not item) then
+                -- TODO: This check can be removed once the DB is fixed
+                Questie:Error("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
+                return
+            end
+
+            if item.npcDrops then
+                for _, npc in ipairs(item.npcDrops) do
+                    _AddStarter(QuestieDB:GetNPC(npc), quest, "im_"..npc)
+                end
+            end
+            if item.objectDrops then
+                for _, obj in ipairs(item.objectDrops) do
+                    _AddStarter(QuestieDB:GetObject(obj), quest, "io_"..obj)
+                end
+            end
+        end
+    end
     if quest.Starts.GameObject then
         local gameObjects = quest.Starts.GameObject
         for i = 1, #gameObjects do
@@ -71,7 +94,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not obj) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("Object not found for quest", quest.Id, "NPC ID:", gameObjects[i], "- Please report this on Github or Discord!")
+                Questie:Error("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -280,12 +303,32 @@ _AddStarter = function(starter, quest, tooltipKey)
         return
     end
 
+    -- Need to let GetQuestIcon know when this quest starts from an item
+    local starterType = nil
+
     if tooltipKey == "m_"..starter.id then
+        -- filter hostile starters
         if playerFaction == "Alliance" and starter.friendlyToFaction == "H" then
             return
         elseif playerFaction == "Horde" and starter.friendlyToFaction == "A" then
             return
         end
+    elseif tooltipKey == "im_"..starter.id then
+        -- filter drops from friendlies
+        if playerFaction == "Alliance" and starter.friendlyToFaction == "A" then
+            return
+        elseif playerFaction == "Horde" and starter.friendlyToFaction == "H" then
+            return
+        elseif starter.friendlyToFaction == "AH" then
+            return
+        end
+        -- overwrite tooltipKey, so stuff shows in tooltips
+        tooltipKey = "m_"..starter.id
+        starterType = "itemFromMonster"
+    elseif tooltipKey == "io_"..starter.id then
+        -- overwrite tooltipKey, so stuff shows in tooltips
+        tooltipKey = "o_"..starter.id
+        starterType = "itemFromObject"
     end
 
     QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey)
@@ -301,13 +344,14 @@ _AddStarter = function(starter, quest, tooltipKey)
                 if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
                     local data = {
                         Id = quest.Id,
-                        Icon =  QuestieLib.GetQuestIcon(quest),
+                        Icon =  QuestieLib.GetQuestIcon(quest, starterType),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
                         IsObjectiveNote = false,
+                        StarterType = starterType,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -342,7 +386,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                 if not starterIcons[zone] then
                     local data = {
                         Id = quest.Id,
-                        Icon =  QuestieLib.GetQuestIcon(quest),
+                        Icon =  QuestieLib.GetQuestIcon(quest, starterType),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",

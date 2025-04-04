@@ -161,6 +161,10 @@ Questie.icons = {
     ["talk"] = "Interface\\Addons\\Questie\\Icons\\chatbubblegossipicon.blp",
     ["available"] = "Interface\\Addons\\Questie\\Icons\\available.blp",
     ["available_gray"] = "Interface\\Addons\\Questie\\Icons\\available_gray.blp",
+    ["available_loot"] = "Interface\\Addons\\Questie\\Icons\\available_loot.png",
+    ["available_loot_gray"] = "Interface\\Addons\\Questie\\Icons\\available_loot_gray.png",
+    ["available_object"] = "Interface\\Addons\\Questie\\Icons\\available_object.png",
+    ["available_object_gray"] = "Interface\\Addons\\Questie\\Icons\\available_object_gray.png",
     ["complete"] = "Interface\\Addons\\Questie\\Icons\\complete.blp",
     ["incomplete"] = "Interface\\Addons\\Questie\\Icons\\incomplete.blp",
     ["interact"] = "Interface\\Addons\\Questie\\Icons\\interact.blp",
@@ -224,6 +228,10 @@ Questie.ICON_TYPE_NODE_FISH = 20
 Questie.ICON_TYPE_NODE_HERB = 21
 Questie.ICON_TYPE_NODE_ORE = 22
 Questie.ICON_TYPE_CHEST = 23
+Questie.ICON_TYPE_AVAILABLE_LOOT = 24
+Questie.ICON_TYPE_AVAILABLE_LOOT_GRAY = 25
+Questie.ICON_TYPE_AVAILABLE_OBJECT = 26
+Questie.ICON_TYPE_AVAILABLE_OBJECT_GRAY = 27
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie.SetIcons()
@@ -234,6 +242,10 @@ function Questie.SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.profile.ICON_TALK or Questie.icons["talk"]
     Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.profile.ICON_AVAILABLE or Questie.icons["available"]
     Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.profile.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_LOOT] = Questie.db.profile.ICON_AVAILABLE_LOOT or Questie.icons["available_loot"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_LOOT_GRAY] = Questie.db.profile.ICON_TYPE_AVAILABLE_LOOT_GRAY or Questie.icons["available_loot_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_OBJECT] = Questie.db.profile.ICON_TYPE_AVAILABLE_OBJECT or Questie.icons["available_object"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_OBJECT_GRAY] = Questie.db.profile.ICON_TYPE_AVAILABLE_OBJECT_GRAY or Questie.icons["available_object_gray"]
     Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.profile.ICON_COMPLETE or Questie.icons["complete"]
     Questie.usedIcons[Questie.ICON_TYPE_INCOMPLETE] = Questie.db.profile.ICON_INCOMPLETE or Questie.icons["incomplete"]
     Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.profile.ICON_GLOW or Questie.icons["glow"]

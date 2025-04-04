@@ -705,7 +705,7 @@ end
 function QuestieMap.UpdateDrawnIcons(questId)
     for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
         if frame and frame.data and frame.data.QuestData then
-            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
+            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData, frame.data.StarterType)
 
             if newIcon ~= frame.data.Icon then
                 frame:UpdateTexture(Questie.usedIcons[newIcon])
