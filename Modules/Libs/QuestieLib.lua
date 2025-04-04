@@ -665,7 +665,7 @@ function QuestieLib.GetSpawnDistance(spawnA, spawnB)
 end
 
 ---@param quest Quest
----@return number -- Questie.ICON_TYPE_X
+---@return number iconType The number representing the type of icon
 function QuestieLib.GetQuestIcon(quest)
     if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
         return Questie.ICON_TYPE_SODRUNE

@@ -64,6 +64,41 @@ end
 function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     --? Some quests can be started by both an NPC and a GameObject
 
+    local added = 0
+    local limit = Questie.db.profile.availableIconLimit
+    if quest.Starts.Item then
+        local items = quest.Starts.Item
+        for i = 1, #items do
+            local item = QuestieDB:GetItem(quest.Starts.Item[i])
+
+            if (not item) then
+                -- TODO: This check can be removed once the DB is fixed
+                Questie:Error("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
+                return
+            end
+
+            if item.npcDrops then
+                for _, npc in ipairs(item.npcDrops) do
+                    local no = QuestieDB:GetNPC(npc)
+                    if limit == 0 or added < limit then
+                        added = added + _AddStarter(no, quest, "im_"..npc, (limit == 0 and 0) or (limit - added))
+                    else
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, no.name, npc, "m_"..npc)
+                    end
+                end
+            end
+            if item.objectDrops then
+                for _, obj in ipairs(item.objectDrops) do
+                    local oo = QuestieDB:GetObject(obj)
+                    if limit == 0 or added < limit then
+                        added = added + _AddStarter(oo, quest, "io_"..obj, (limit == 0 and 0) or (limit - added))
+                    else
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, oo.name, obj, "o_"..obj)
+                    end
+                end
+            end
+        end
+    end
     if quest.Starts.GameObject then
         local gameObjects = quest.Starts.GameObject
         for i = 1, #gameObjects do
@@ -71,11 +106,15 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not obj) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("Object not found for quest", quest.Id, "NPC ID:", gameObjects[i], "- Please report this on Github or Discord!")
+                Questie:Error("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
                 return
             end
 
-            _AddStarter(obj, quest, "o_" .. obj.id)
+            if limit == 0 or added < limit then
+                added = added + _AddStarter(obj, quest, "o_" .. obj.id, (limit == 0 and 0) or (limit - added))
+            else
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj.name, obj.id, "o_"..obj.id)
+            end
         end
     end
     if (quest.Starts.NPC) then
@@ -89,7 +128,11 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                 return
             end
 
-            _AddStarter(npc, quest, "m_" .. npc.id)
+            if limit == 0 or added < limit then
+                added = added + _AddStarter(npc, quest, "m_" .. npc.id, (limit == 0 and 0) or (limit - added))
+            else
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc.name, npc.id, "m_"..npc.id)
+            end
         end
     end
 end
@@ -272,33 +315,57 @@ _DrawAvailableQuest = function(questId)
     end, 0)
 end
 
----@param starter table Either an object or an NPC
----@param quest Quest
----@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
-_AddStarter = function(starter, quest, tooltipKey)
+---@param starter table Either an object or an NPC from QuestieDB.
+---@param quest Quest A Quest from QuestieDB.
+---@param tooltipKey string The tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>", for items it's "im_<ID>" or "io_<ID".
+---@param limit number The number of icons left to draw before the limit set in AvailableQuests.DrawAvailableQuest is reached. Zero means no limit.
+---@return number added The amount of notes that were added (excluding waypoints)
+_AddStarter = function(starter, quest, tooltipKey, limit)
     if (not starter) then
-        return
+        return 0
     end
 
+    -- Need to know when this quest starts from an item, so we save it later
+    local starterType = nil
+
     if tooltipKey == "m_"..starter.id then
+        -- filter hostile starters
         if playerFaction == "Alliance" and starter.friendlyToFaction == "H" then
-            return
+            return 0
         elseif playerFaction == "Horde" and starter.friendlyToFaction == "A" then
-            return
+            return 0
         end
+    elseif tooltipKey == "im_"..starter.id then
+        -- filter drops from friendlies
+        if playerFaction == "Alliance" and starter.friendlyToFaction == "A" then
+            return 0
+        elseif playerFaction == "Horde" and starter.friendlyToFaction == "H" then
+            return 0
+        elseif starter.friendlyToFaction == "AH" then
+            return 0
+        end
+        -- overwrite tooltipKey, so stuff shows in monster tooltips
+        tooltipKey = "m_"..starter.id
+        starterType = "itemFromMonster"
+    elseif tooltipKey == "io_"..starter.id then
+        -- overwrite tooltipKey, so stuff shows in object tooltips
+        tooltipKey = "o_"..starter.id
+        starterType = "itemFromObject"
     end
 
     QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey)
 
     local starterIcons = {}
     local starterLocs = {}
+    local added = 0
     for zone, spawns in pairs(starter.spawns or {}) do
         local alreadyAddedSpawns = {}
         if (zone and spawns) then
             local coords
             for spawnIndex = 1, #spawns do
                 coords = spawns[spawnIndex]
-                if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
+                if (#spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns)) and (limit == 0  or limit-added>0) then
+                    ---@class IconData
                     local data = {
                         Id = quest.Id,
                         Icon =  QuestieLib.GetQuestIcon(quest),
@@ -308,6 +375,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                         QuestData = quest,
                         Name = starter.name,
                         IsObjectiveNote = false,
+                        StarterType = starterType,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -315,6 +383,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                         if dungeonLocation then
                             for _, value in ipairs(dungeonLocation) do
                                 QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                added = added + 1
                             end
                         end
                     else
@@ -328,6 +397,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                         end
                         if icon then
                             tinsert(alreadyAddedSpawns, coords)
+                            added = added + 1
                         end
                     end
                 end
@@ -340,6 +410,7 @@ _AddStarter = function(starter, quest, tooltipKey)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
+                    ---@class IconData
                     local data = {
                         Id = quest.Id,
                         Icon =  QuestieLib.GetQuestIcon(quest),
@@ -349,21 +420,24 @@ _AddStarter = function(starter, quest, tooltipKey)
                         QuestData = quest,
                         Name = starter.name,
                         IsObjectiveNote = false,
+                        StarterType = starterType,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
+                    added = added + 1
                 end
                 QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
             end
         end
     end
+    return added
 end
 
 _HasProperDistanceToAlreadyAddedSpawns = function(coords, alreadyAddedSpawns)
     for _, alreadyAdded in pairs(alreadyAddedSpawns) do
         local distance = QuestieLib.GetSpawnDistance(alreadyAdded, coords)
         -- 28 seems like a good distance. The NPC Denalan in Teldrassil shows both spawns for the quests
-        if distance < 28 then
+        if distance < Questie.db.profile.spawnFilterDistance then
             return false
         end
     end

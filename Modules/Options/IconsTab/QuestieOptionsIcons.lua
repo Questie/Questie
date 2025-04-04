@@ -161,6 +161,19 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
+                    showItemQuests = {
+                        type = "toggle",
+                        order = 2.011,
+                        name = function() return l10n("Available Quests from Items"); end,
+                        desc = function() return l10n("When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."); end,
+                        width = 1.595,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.enableAvailableItems; end,
+                        set = function(info, value)
+                            Questie.db.profile.enableAvailableItems = value
+                            QuestieQuest.ToggleAvailableQuests(value)
+                        end,
+                    },
                     showEventQuests = {
                         type = "toggle",
                         order = 2.02,
