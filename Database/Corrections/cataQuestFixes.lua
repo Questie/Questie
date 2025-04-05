@@ -230,6 +230,11 @@ function CataQuestFixes.Load()
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
+        [1036] = { -- Avast Ye, Scallywag
+            [questKeys.nextQuestInChain] = 4621,
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.startedBy] = {{43454}},
+        },
         [1454] = { -- The Karnitol Shipwreck
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1453,14354},
@@ -359,6 +364,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {3631},
             [questKeys.nextQuestInChain] = 4490,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [4621] = { -- Avast Ye, Admiral!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.objectives] = {{{2496},{2487}},nil,nil,{87,3000}},
         },
         [5041] = { -- Supplies for the Crossroads
             [questKeys.preQuestSingle] = {871},
@@ -1057,6 +1067,9 @@ function CataQuestFixes.Load()
         },
         [9252] = { -- Defending Fairbreeze Village
             [questKeys.preQuestSingle] = {},
+        },
+        [9272] = { -- Dressing the Part
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -9769,12 +9782,12 @@ function CataQuestFixes.Load()
         },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27702,27719},
+            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
             [questKeys.nextQuestInChain] = 27720,
         },
         [27712] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27703,27798},
+            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
             [questKeys.nextQuestInChain] = 28885,
         },
         [27713] = { -- The Day that Deathwing Came
@@ -9807,7 +9820,7 @@ function CataQuestFixes.Load()
         },
         [27720] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27702,27719},
+            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
@@ -9895,7 +9908,7 @@ function CataQuestFixes.Load()
         },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
-            [questKeys.preQuestSingle] = {27922},
+            [questKeys.preQuestSingle] = {},
         },
         [27761] = { -- A Disarming Distraction
             [questKeys.objectives] = {nil,{{206395},{206396},{206397}},nil,nil,{{{46888},46888,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -12796,7 +12809,7 @@ function CataQuestFixes.Load()
         },
         [28885] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27703,27798},
+            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28909] = { -- Sauranok Will Point the Way
