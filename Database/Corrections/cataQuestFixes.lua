@@ -9782,12 +9782,12 @@ function CataQuestFixes.Load()
         },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27702,27719},
+            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
             [questKeys.nextQuestInChain] = 27720,
         },
         [27712] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27703,27798},
+            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
             [questKeys.nextQuestInChain] = 28885,
         },
         [27713] = { -- The Day that Deathwing Came
@@ -9820,7 +9820,7 @@ function CataQuestFixes.Load()
         },
         [27720] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27702,27719},
+            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
@@ -9908,7 +9908,7 @@ function CataQuestFixes.Load()
         },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
-            [questKeys.preQuestSingle] = {27922},
+            [questKeys.preQuestSingle] = {},
         },
         [27761] = { -- A Disarming Distraction
             [questKeys.objectives] = {nil,{{206395},{206396},{206397}},nil,nil,{{{46888},46888,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -12809,7 +12809,7 @@ function CataQuestFixes.Load()
         },
         [28885] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27703,27798},
+            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28909] = { -- Sauranok Will Point the Way
