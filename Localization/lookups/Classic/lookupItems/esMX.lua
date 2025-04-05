@@ -1055,6 +1055,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9369] = "Ala de duende dardo iridiscente",
 [9370] = "Pergamino Gordunni",
 [9371] = "Orbe Gordunni",
+[9436] = "Talega de Faranell",
 [9437] = "Muestra de basilisco sin estudiar",
 [9438] = "Muestra de escórpido aceptable",
 [9439] = "Muestra de hiena sin estudiar",
