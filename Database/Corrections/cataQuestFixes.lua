@@ -230,6 +230,11 @@ function CataQuestFixes.Load()
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
+        [1036] = { -- Avast Ye, Scallywag
+            [questKeys.nextQuestInChain] = 4621,
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.startedBy] = {{43454}},
+        },
         [1454] = { -- The Karnitol Shipwreck
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1453,14354},
@@ -359,6 +364,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {3631},
             [questKeys.nextQuestInChain] = 4490,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [4621] = { -- Avast Ye, Admiral!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.objectives] = {{{2496},{2487}},nil,nil,{87,3000}},
         },
         [5041] = { -- Supplies for the Crossroads
             [questKeys.preQuestSingle] = {871},
@@ -1057,6 +1067,9 @@ function CataQuestFixes.Load()
         },
         [9252] = { -- Defending Fairbreeze Village
             [questKeys.preQuestSingle] = {},
+        },
+        [9272] = { -- Dressing the Part
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
