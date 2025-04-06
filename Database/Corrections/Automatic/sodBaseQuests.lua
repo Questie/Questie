@@ -9406,6 +9406,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Receive instructions from Lord Maxwell Tyrosus."},
             [questKeys.objectives] = nil,
         },
+        [89567] = {
+            [questKeys.name] = "The Wrecked Caravan",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Investigate the remnants of the scarlet caravan in Plaguewood, along the road to Stratholme and speak with Leonid Barthalomew the Revered there when you have learned more."},
+            [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,

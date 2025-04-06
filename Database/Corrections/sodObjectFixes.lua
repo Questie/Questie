@@ -557,6 +557,13 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [531545] = { -- Dented Chest
+        [objectKeys.name] = "Dented Chest",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{33.52,27.30}},
+            },
+        },
 
         -- Fake IDs
         [600000] = {

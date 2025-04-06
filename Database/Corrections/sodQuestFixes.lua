@@ -13,6 +13,7 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 QuestieCorrections.eventObjectiveFirst[85304] = true
 QuestieCorrections.eventObjectiveFirst[85386] = true
+QuestieCorrections.eventObjectiveFirst[89567] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -4531,12 +4532,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{11036}},
             [questKeys.objectives] = {{{11036,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {87493},
+            [questKeys.nextQuestInChain] = 89563,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [89563] = { -- Leonid's Burden
             [questKeys.startedBy] = {{11034}},
             [questKeys.finishedBy] = {{11034}},
             [questKeys.preQuestSingle] = {89562},
+            [questKeys.nextQuestInChain] = 89567,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89567] = { -- The Wrecked Caravan
+            [questKeys.startedBy] = {{11034}},
+            [questKeys.finishedBy] = {{242019}},
+            [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
+            [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS]={{33.5,27.6}}}},
+            [questKeys.preQuestSingle] = {89563},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [90510] = { -- New Avalon

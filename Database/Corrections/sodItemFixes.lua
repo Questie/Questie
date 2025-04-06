@@ -254,5 +254,11 @@ function SeasonOfDiscovery:LoadItems()
         [237143] = { -- Orders from the High General
             [itemKeys.npcDrops] = {238745}
         },
+        [242257] = { -- Mysterious Alchemical Sample
+            [itemKeys.objectDrops] = {531545},
+        },
+        [242258] = { -- Research Notes
+            [itemKeys.objectDrops] = {531545},
+        },
     }
 end
