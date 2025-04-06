@@ -4170,7 +4170,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [87283] = { -- The Violet Satchel
             [questKeys.startedBy] = {nil,nil,{235852}},
-            [questKeys.finishedBy] = {{237957}},
+            [questKeys.finishedBy] = {{16381}},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
         [87360] = { -- The Fall of Kel'Thuzad
