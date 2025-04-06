@@ -4519,6 +4519,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87498},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89261] = { -- Prove Your Worth: Legguards
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},
