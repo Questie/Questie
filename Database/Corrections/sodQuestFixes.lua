@@ -4533,6 +4533,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87493},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89563] = { -- Leonid's Burden
+            [questKeys.startedBy] = {{11034}},
+            [questKeys.finishedBy] = {{11034}},
+            [questKeys.preQuestSingle] = {89562},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},

@@ -9395,6 +9395,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Learn more about Baelin Caldoran from Leonid Barthalomew the Revered."},
             [questKeys.objectives] = {{{243024}}},
         },
+        [89563] = {
+            [questKeys.name] = "Leonid's Burden",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Receive instructions from Lord Maxwell Tyrosus."},
+            [questKeys.objectives] = nil,
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
