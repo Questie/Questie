@@ -3072,6 +3072,9 @@ function QuestieQuestFixes:Load()
         [8368] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
         },
+        [8370] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 29,
+        },
         [8371] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
@@ -3098,6 +3101,9 @@ function QuestieQuestFixes:Load()
         },
         [8389] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
+        },
+        [8390] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 29,
         },
         [8391] = { -- Claiming Arathi Basin
             [questKeys.requiredMaxLevel] = 39,
@@ -3184,8 +3190,23 @@ function QuestieQuestFixes:Load()
         [8434] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 59,
         },
-        [8438] = {
-            [questKeys.zoneOrSort] = sortKeys.ARATHI_BASIN,
+        [8436] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8437] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8438] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 59,
+        },
+        [8440] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8441] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8442] = { -- Conquering Arathi Basin
+            [questKeys.requiredMaxLevel] = 59,
         },
         [8446] = {
             [questKeys.startedBy] = {{14887,14888,14889,14890},nil,{20644}},
