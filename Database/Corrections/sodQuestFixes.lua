@@ -4280,6 +4280,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87497},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87502] = { -- Gathering Intelligence
+            [questKeys.startedBy] = {{239031}},
+            [questKeys.finishedBy] = {{239031}},
+            [questKeys.objectives] = {{{239154,nil,Questie.ICON_TYPE_EVENT},{239152,nil,Questie.ICON_TYPE_EVENT},{239153,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Inquisitor Jociphine to get a disguise"),0,{{"monster", 243023}}}},
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

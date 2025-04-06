@@ -838,11 +838,34 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TANARIS] = {{53.9,28.6}},
             },
         },
+        [239031] = { -- Scarlet Inquisitor Caldoran
+            [npcKeys.name] = "Scarlet Inquisitor Caldoran",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.3,82.7}}},
+            [npcKeys.questStarts] = {87502},
+        },
         [239032] = { -- Commander Beatrix
             [npcKeys.name] = "Commander Beatrix",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.8,83.3}}},
             [npcKeys.questStarts] = {87497},
             [npcKeys.questEnds] = {87493,87498},
+        },
+        [239152] = { -- Scout the Mage Tower in New Avalon - Bunny
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.3,88.4}}},
+        },
+        [239153] = { -- Scout the Keep in New Avalon - Bunny
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{97.6,83.2}}},
+        },
+        [239154] = { -- Scout the Cathedral in Tyr's Hand - Bunny
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{85.3,84.0}}},
+        },
+        [243023] = { -- Inquisitor Jociphine
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.2,82.4}}},
         },
 
         -- fake NPCs

@@ -8977,6 +8977,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return to Commander Beatrix at the Scarlet Base Camp west of Tyr's Hand."},
             [questKeys.objectives] = nil,
         },
+        [87502] = {
+            [questKeys.name] = "Gathering Intelligence",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Enter Tyr's Hand in Eastern Plaguelands and scout out the central cathedral, as well as the mage tower and keep inside of New Avalon before returning to Caldoran at the Scarlet Base Camp. ","","A direct incursion is possible but may be dangerous. Speak with Inquisitor Jociphine at the Scarlet Base Camp if you'd prefer a more subtle approach."},
+            [questKeys.objectives] = {{{239154},{239152},{239153}}},
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

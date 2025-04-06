@@ -350,6 +350,18 @@ local seasonObjectiveLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Talk to Inquisitor Jociphine to get a disguise"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Sprich mit Inquisitor Jociphine, um eine Verkleidung zu erhalten",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do
