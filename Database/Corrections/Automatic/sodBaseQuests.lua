@@ -9010,6 +9010,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Speak with Lord Maxwell Tyrosus at Light's Hope Chapel in Eastern Plaguelands."},
             [questKeys.objectives] = nil,
         },
+        [87509] = {
+            [questKeys.name] = "The Wrath of the Dawn",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Report back to Commander Beatrix at the Scarlet Base Camp in Eastern Plaguelands and make ready to retake the Scarlet Enclave."},
+            [questKeys.objectives] = {{{239032}}},
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

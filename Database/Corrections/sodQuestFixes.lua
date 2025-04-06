@@ -4300,6 +4300,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87506},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87509] = { -- The Wrath of the Dawn
+            [questKeys.startedBy] = {{11034}},
+            [questKeys.finishedBy] = {{239032}},
+            [questKeys.preQuestSingle] = {87508},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
