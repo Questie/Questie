@@ -4203,6 +4203,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87365},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
+        [87367] = { -- A New Light
+            [questKeys.preQuestSingle] = {87366},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87368] = { -- A Product of Faith
+            [questKeys.preQuestSingle] = {87367},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87369] = { -- Cultivating Faith
+            [questKeys.preQuestSingle] = {87368},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
         [87377] = { -- Never at Rest
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
