@@ -1145,6 +1145,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10454] = "Esencia de Eranikus",
 [10458] = "Rezo a Elune",
 [10459] = "Cabeza del jefe Cornapunta Mantospina",
+[10465] = "Huevo de Hakkar",
 [10467] = "Cartera de comerciante",
 [10509] = "Corazón de llama",
 [10511] = "Aceite gólem",
