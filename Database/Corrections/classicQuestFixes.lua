@@ -3075,8 +3075,8 @@ function QuestieQuestFixes:Load()
         [8371] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
-        [8372] = {
-            [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
+        [8372] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 19,
         },
         [8373] = {
             [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
@@ -3089,6 +3089,9 @@ function QuestieQuestFixes:Load()
         },
         [8385] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+        },
+        [8386] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 19,
         },
         [8388] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
@@ -3108,20 +3111,29 @@ function QuestieQuestFixes:Load()
         [8395] = { -- Claiming Arathi Basin
             [questKeys.requiredMaxLevel] = 59,
         },
-        [8399] = {
-            [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
+        [8399] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 29,
         },
-        [8400] = {
-            [questKeys.exclusiveTo] = {8372,8399,8401,8402,8403},
+        [8400] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 39,
         },
-        [8401] = {
-            [questKeys.exclusiveTo] = {8372,8399,8400,8402,8403},
+        [8401] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 49,
         },
-        [8402] = {
-            [questKeys.exclusiveTo] = {8372,8399,8400,8401,8403},
+        [8402] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 59,
         },
-        [8403] = {
-            [questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
+        [8404] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 29,
+        },
+        [8405] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8406] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8407] = { -- Fight for Warsong Gulch
+            [questKeys.requiredMaxLevel] = 59,
         },
         [8410] = {
             [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
