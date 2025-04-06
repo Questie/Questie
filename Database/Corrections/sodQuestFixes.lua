@@ -4294,6 +4294,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87508] = { -- Report to Lord Tyrosus
+            [questKeys.startedBy] = {{239031}},
+            [questKeys.finishedBy] = {{11034}},
+            [questKeys.preQuestSingle] = {87506},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

@@ -8999,6 +8999,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Enter Tyr's Hand in Eastern Plaguelands, slay three Scarlet Siege Commanders."},
             [questKeys.objectives] = {{{239047}}},
         },
+        [87508] = {
+            [questKeys.name] = "Report to Lord Tyrosus",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Lord Maxwell Tyrosus at Light's Hope Chapel in Eastern Plaguelands."},
+            [questKeys.objectives] = nil,
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,
