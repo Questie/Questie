@@ -3073,6 +3073,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 19,
         },
         [8370] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8436,8437,8438,8439},
             [questKeys.requiredMaxLevel] = 29,
         },
         [8371] = { -- Concerted Efforts
@@ -3206,22 +3207,31 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 59,
         },
         [8436] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8370,8437,8438,8439},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8437] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8370,8436,8438,8439},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8438] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8370,8436,8437,8439},
             [questKeys.requiredMaxLevel] = 59,
         },
         [8440] = { -- Conquering Arathi Basin
+            [questKeys.preQuestSingle] = {8370,8436},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8441] = { -- Conquering Arathi Basin
+            [questKeys.preQuestSingle] = {8370,8436,8437},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8442] = { -- Conquering Arathi Basin
+            [questKeys.preQuestSingle] = {8370,8436,8437,8438},
             [questKeys.requiredMaxLevel] = 59,
+        },
+        [8443] = { -- Conquering Arathi Basin
+            [questKeys.preQuestSingle] = {8370,8436,8437,8438,8439},
         },
         [8446] = {
             [questKeys.startedBy] = {{14887,14888,14889,14890},nil,{20644}},
