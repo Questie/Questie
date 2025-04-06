@@ -9362,6 +9362,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Stonebridge."},
             [questKeys.objectives] = nil,
         },
+        [89257] = {
+            [questKeys.name] = "Prove Your Worth: Chestpiece",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Craft a Scarlet Chestpiece from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
+            [questKeys.objectives] = {{{241154}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,

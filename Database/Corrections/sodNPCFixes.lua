@@ -868,6 +868,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{85.3,84.0}}},
         },
+        [240248] = { -- Bryon Steelblade
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
+        },
         [243023] = { -- Inquisitor Jociphine
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.2,82.4}}},

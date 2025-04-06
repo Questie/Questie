@@ -4513,6 +4513,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7781},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
+        [89257] = { -- Prove Your Worth: Chestpiece
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},
