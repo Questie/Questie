@@ -9021,6 +9021,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Report back to Commander Beatrix at the Scarlet Base Camp in Eastern Plaguelands and make ready to retake the Scarlet Enclave."},
             [questKeys.objectives] = {{{239032}}},
         },
+        [87516] = {
+            [questKeys.name] = "Decapitation Strike",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Enter the Scarlet Enclave via the mountain path and engage the Tyr's Hand defenders. Ring the bell inside of the abbey to create confusion and signal Beatrix's forces to attack. ","","Once the bell is rung, confront Balnazzar and destroy him."},
+            [questKeys.objectives] = nil,
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

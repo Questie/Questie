@@ -4306,6 +4306,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87508},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87516] = { -- Decapitation Strike
+            [questKeys.startedBy] = {{239032}},
+            [questKeys.finishedBy] = {{239032}},
+            [questKeys.objectives] = {{{240811}}},
+            [questKeys.preQuestSingle] = {87509},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
