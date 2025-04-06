@@ -3091,6 +3091,7 @@ ZoneDB.zoneIDs = {
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
     THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
     KARAZHAN_CRYPTS = 16074, -- SoD Dungeon
+    SCARLET_ENCLAVE = 16236, -- SoD Raid
     -- Fake IDs for dungeons
     MARAUDON_ZAETARS_GRAVE = 10000, -- 281
     STRATHOLME_THE_GAUNTLET = 10001, -- 318
