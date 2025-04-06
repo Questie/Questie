@@ -3109,19 +3109,33 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 29,
         },
         [8391] = { -- Claiming Arathi Basin
+            [questKeys.preQuestSingle] = {8374,8393},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8392] = { -- Claiming Arathi Basin
+            [questKeys.preQuestSingle] = {8374,8393,8394},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8393] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8374,8394,8395,8396},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8394] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8374,8393,8395,8396},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8395] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8374,8393,8394,8396},
             [questKeys.requiredMaxLevel] = 59,
+        },
+        [8396] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8374,8393,8394,8395},
+        },
+        [8397] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8374,8393,8394,8395},
+        },
+        [8398] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8374,8393,8394,8395,8396},
         },
         [8399] = { -- Fight for Warsong Gulch
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
