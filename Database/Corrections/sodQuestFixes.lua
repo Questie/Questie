@@ -4267,6 +4267,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87459},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87497] = { -- The Schism
+            [questKeys.startedBy] = {{239032}},
+            [questKeys.finishedBy] = {{11036}},
+            [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {87493},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

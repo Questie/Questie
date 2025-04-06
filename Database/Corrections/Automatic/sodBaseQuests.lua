@@ -8955,6 +8955,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Scout out the Scarlet Base Camp west of Tyr's Hand  in Eastern Plaguelands and try to discern what is happening with the Scarlet Crusade forces there."},
             [questKeys.objectives] = nil,
         },
+        [87497] = {
+            [questKeys.name] = "The Schism",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Beatrix to learn more about the situation in the Scarlet Enclave at Tyr's Hand and report back to Leonid Barthalomew the Revered at Light's Hope Chapel once you've learned more about what is happening."},
+            [questKeys.objectives] = {{{239042}}},
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,
