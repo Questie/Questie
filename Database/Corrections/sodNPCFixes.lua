@@ -851,6 +851,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {87497},
             [npcKeys.questEnds] = {87493,87498},
         },
+        [239047] = { -- Scarlet Siege Commander
+            [npcKeys.name] = "Scarlet Siege Commander",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{78.4,79.6},{78.4,83.1},{81.1,80.9},{83.2,87.8},{84.4,81.9},{84.9,85.2}}},
+        },
         [239152] = { -- Scout the Mage Tower in New Avalon - Bunny
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.3,88.4}}},

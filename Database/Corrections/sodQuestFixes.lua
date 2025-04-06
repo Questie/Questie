@@ -4288,6 +4288,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Inquisitor Jociphine to get a disguise"),0,{{"monster", 243023}}}},
         },
+        [87506] = { -- Weakening The Defenses
+            [questKeys.startedBy] = {{239031}},
+            [questKeys.finishedBy] = {{239031}},
+            [questKeys.preQuestSingle] = {87502},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
