@@ -4193,6 +4193,7 @@ function SeasonOfDiscovery:LoadQuests()
         [87364] = { -- Seal the Deal
             [questKeys.startedBy] = {{238382}},
             [questKeys.finishedBy] = {{238382}},
+            [questKeys.preQuestSingle] = {87362},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
         },
         [87365] = { -- Valor Grows by Daring
