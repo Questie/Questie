@@ -75,12 +75,12 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                 return
             end
 
-            if item.npcDrops then
+            if item.npcDrops and Questie.db.profile.enableAvailableItems then
                 for _, npc in ipairs(item.npcDrops) do
                     _AddStarter(QuestieDB:GetNPC(npc), quest, "im_"..npc)
                 end
             end
-            if item.objectDrops then
+            if item.objectDrops and Questie.db.profile.enableAvailableItems then
                 for _, obj in ipairs(item.objectDrops) do
                     _AddStarter(QuestieDB:GetObject(obj), quest, "io_"..obj)
                 end
@@ -342,9 +342,10 @@ _AddStarter = function(starter, quest, tooltipKey)
             for spawnIndex = 1, #spawns do
                 coords = spawns[spawnIndex]
                 if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
+                    ---@class IconData
                     local data = {
                         Id = quest.Id,
-                        Icon =  QuestieLib.GetQuestIcon(quest, starterType),
+                        Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
@@ -384,15 +385,17 @@ _AddStarter = function(starter, quest, tooltipKey)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
+                    ---@class IconData
                     local data = {
                         Id = quest.Id,
-                        Icon =  QuestieLib.GetQuestIcon(quest, starterType),
+                        Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
                         IsObjectiveNote = false,
+                        StarterType = starterType,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }

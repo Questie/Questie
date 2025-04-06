@@ -1,4 +1,4 @@
----@type QuestieFramePool
+---@class QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -56,6 +56,13 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newTexture:SetAllPoints(newFrame)
     newTexture:SetTexelSnappingBias(0)
     newTexture:SetSnapToPixelGrid(false)
+
+    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+    newFrame.overlayTexture:SetWidth(16)
+    newFrame.overlayTexture:SetHeight(16)
+    newFrame.overlayTexture:SetAllPoints(newFrame)
+    newFrame.overlayTexture:SetTexelSnappingBias(0)
+    newFrame.overlayTexture:SetSnapToPixelGrid(false)
 
     local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
@@ -287,6 +294,16 @@ function _Qframe:UpdateTexture(texture)
     --self.data.Icon = texture;
     local colors = { 1, 1, 1 }
 
+    if self.data.StarterType then
+        if self.data.StarterType == "itemFromMonster" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
+        elseif self.data.StarterType == "itemFromObject" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
+        end
+    else
+        self.overlayTexture:SetTexture("")
+    end
+
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
     end
@@ -472,6 +489,7 @@ function _Qframe:ShouldBeHidden()
     local raid = QuestieDB.IsRaidQuest(questId)
     local pvp = QuestieDB.IsPvPQuest(questId)
     local normal = not (repeatable or event or dungeon or raid or pvp)
+    local itemStart = (data.StarterType ~= nil)
 
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
@@ -485,13 +503,15 @@ function _Qframe:ShouldBeHidden()
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
-            and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+            and (
+                    (not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
                 or ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)
                 or ((not profile.showRaidQuests) and raid)
                 or ((not profile.showPvPQuests) and pvp)
+                or ((not profile.enableAvailableItems) and itemStart)
                 or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])

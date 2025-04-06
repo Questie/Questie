@@ -48,6 +48,7 @@ function QuestieOptionsDefaults:Load()
             enableObjectives = true,
             enableTurnins = true,
             enableAvailable = true,
+            enableAvailableItems = true,
             enableTooltips = true,
             enableTooltipsItemID = false,
             enableTooltipsNPCID = false,
