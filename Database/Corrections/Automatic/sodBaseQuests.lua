@@ -8966,6 +8966,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Speak with Beatrix to learn more about the situation in the Scarlet Enclave at Tyr's Hand and report back to Leonid Barthalomew the Revered at Light's Hope Chapel once you've learned more about what is happening."},
             [questKeys.objectives] = {{{239042}}},
         },
+        [87498] = {
+            [questKeys.name] = "The Scarlet Reclamation",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Return to Commander Beatrix at the Scarlet Base Camp west of Tyr's Hand."},
+            [questKeys.objectives] = nil,
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

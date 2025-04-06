@@ -841,7 +841,8 @@ function SeasonOfDiscovery:LoadNPCs()
         [239032] = { -- Commander Beatrix
             [npcKeys.name] = "Commander Beatrix",
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.8,83.3}}},
-            [npcKeys.questEnds] = {87493},
+            [npcKeys.questStarts] = {87497},
+            [npcKeys.questEnds] = {87493,87498},
         },
 
         -- fake NPCs

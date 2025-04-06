@@ -4274,6 +4274,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87493},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87498] = { -- The Scarlet Reclamation
+            [questKeys.startedBy] = {{11036}},
+            [questKeys.finishedBy] = {{239032}},
+            [questKeys.preQuestSingle] = {87497},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
