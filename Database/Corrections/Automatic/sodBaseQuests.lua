@@ -8944,6 +8944,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the area near the Crusader Outpost northwest of The Bulwark in Tirisfal Glades and investigate for signs of recent Scarlet Crusade activity. Bring any information you recover back to Leonid Bartholomew the Revered."},
             [questKeys.objectives] = {nil,nil,{{237143}}},
         },
+        [87493] = {
+            [questKeys.name] = "Unrest at Tyr's Hand",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Scout out the Scarlet Base Camp west of Tyr's Hand  in Eastern Plaguelands and try to discern what is happening with the Scarlet Crusade forces there."},
+            [questKeys.objectives] = nil,
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

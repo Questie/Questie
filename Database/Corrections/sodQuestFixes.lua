@@ -4261,6 +4261,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [87493] = { -- Unrest at Tyr's Hand
+            [questKeys.startedBy] = {{11036}},
+            [questKeys.finishedBy] = {{239032}},
+            [questKeys.preQuestSingle] = {87459},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
