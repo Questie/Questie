@@ -1,6 +1,8 @@
-# https://www.wowhead.com/classic/quests?filter=8;2;11505
+# https://www.wowhead.com/classic/quests?filter=8;2;11507
+# Before release the PTR link is required: https://www.wowhead.com/classic-pt/quests?filter=8;2;11507
+# On the PTR the substr starts at 42
 # r = []
-# document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(38, 6)))); r; // run for each page
+# Array.from(document.getElementsByClassName("listview-cleartext")).forEach(l => r.push(parseInt(l.href.substr(38, 6)))); r; // run for each page
 # [...new Set(r)].sort();
 QUEST_IDS = [
     # 60863,
@@ -752,7 +754,7 @@ QUEST_IDS = [
     # 85706,
     # 85712,
     # 85713,
-    85772,
+    # 85772,
     # 85798,
     # 85882,
     # 85883,
@@ -831,6 +833,14 @@ QUEST_IDS = [
     # 87439,
     # 87440,
     # 87459,
+    87493,
+    87497,
+    87498,
+    87502,
+    87506,
+    87508,
+    87509,
+    87516,
     87520,
     # 88654,
     # 88713,
@@ -858,5 +868,40 @@ QUEST_IDS = [
     # 88882,
     # 88883,
     # 88968,
-    # 88969
+    # 88969,
+    89224,
+    89229,
+    89234,
+    89235,
+    89236,
+    89245,
+    89253,
+    89257,
+    89261,
+    89310,
+    89328,
+    89329,
+    89340,
+    89341,
+    89381,
+    89421,
+    89463,
+    89471,
+    89485,
+    89486,
+    89487,
+    89489,
+    89491,
+    89562,
+    89563,
+    89567,
+    89568,
+    89574,
+    90116,
+    90120,
+    90510,
+    90518,
+    90520,
+    90560,
+    90567,
 ]
