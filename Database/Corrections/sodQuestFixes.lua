@@ -4531,7 +4531,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{11036}},
             [questKeys.objectives] = {{{11036,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestSingle] = {87493},
+            [questKeys.preQuestSingle] = {87497},
             [questKeys.nextQuestInChain] = 89563,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
