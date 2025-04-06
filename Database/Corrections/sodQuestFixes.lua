@@ -4543,7 +4543,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [89567] = { -- The Wrecked Caravan
-            [questKeys.startedBy] = {{11034}},
+            [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{242019}},
             [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
             [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS]={{33.5,27.6}}}},
