@@ -75,12 +75,12 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                 return
             end
 
-            if item.npcDrops and Questie.db.profile.enableAvailableItems then
+            if item.npcDrops then
                 for _, npc in ipairs(item.npcDrops) do
                     _AddStarter(QuestieDB:GetNPC(npc), quest, "im_"..npc)
                 end
             end
-            if item.objectDrops and Questie.db.profile.enableAvailableItems then
+            if item.objectDrops then
                 for _, obj in ipairs(item.objectDrops) do
                     _AddStarter(QuestieDB:GetObject(obj), quest, "io_"..obj)
                 end
@@ -297,13 +297,13 @@ end
 
 ---@param starter table Either an object or an NPC
 ---@param quest Quest
----@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
+---@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>", for items it's "im_<ID>" or "io_<ID".
 _AddStarter = function(starter, quest, tooltipKey)
     if (not starter) then
         return
     end
 
-    -- Need to let GetQuestIcon know when this quest starts from an item
+    -- Need to know when this quest starts from an item, so we save it later
     local starterType = nil
 
     if tooltipKey == "m_"..starter.id then
@@ -322,11 +322,11 @@ _AddStarter = function(starter, quest, tooltipKey)
         elseif starter.friendlyToFaction == "AH" then
             return
         end
-        -- overwrite tooltipKey, so stuff shows in tooltips
+        -- overwrite tooltipKey, so stuff shows in monster tooltips
         tooltipKey = "m_"..starter.id
         starterType = "itemFromMonster"
     elseif tooltipKey == "io_"..starter.id then
-        -- overwrite tooltipKey, so stuff shows in tooltips
+        -- overwrite tooltipKey, so stuff shows in object tooltips
         tooltipKey = "o_"..starter.id
         starterType = "itemFromObject"
     end
