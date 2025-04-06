@@ -9296,5 +9296,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Stonebridge."},
             [questKeys.objectives] = nil,
         },
+        [90510] = {
+            [questKeys.name] = "New Avalon",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Use the Scarlet Insignia once you have acquired enough disguise pieces to fool the Scarlet Crusaders in New Avalon and speak with Inquisitor Jociphine again. Players with armor crafting professions can utilize recipes and plans for scarlet armor pieces obtained from hostile crusaders in Tyr's Hand and New Avalon."},
+            [questKeys.objectives] = {{{242450}}},
+        },
     }
 end

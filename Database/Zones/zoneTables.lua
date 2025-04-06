@@ -2981,6 +2981,7 @@ ZoneDB.zoneIDs = {
     SUNWELL_PLATEAU = 4075,
     ISLE_OF_QUEL_DANAS = 4080,
     MAGISTERS_TERRACE = 4131, -- this is also Observation Grounds map for Magister's Terrace in Cata
+    NEW_AVALON = 4343, -- SoD (might be the wrong ID)
     UPPER_BLACKROCK_SPIRE = 7307,
     DRAGONBLIGHT = 65,
     ZUL_DRAK = 66,

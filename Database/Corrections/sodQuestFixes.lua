@@ -4482,6 +4482,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7781},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
+        [90510] = { -- New Avalon
+            [questKeys.startedBy] = {{239031}},
+            [questKeys.finishedBy] = {{239031}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
 
         --- Fake rune quests
         [90000] = {
