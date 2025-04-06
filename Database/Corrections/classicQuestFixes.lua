@@ -3079,6 +3079,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
         [8372] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
             [questKeys.requiredMaxLevel] = 19,
         },
         [8373] = {
@@ -3121,28 +3122,42 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 59,
         },
         [8399] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
             [questKeys.requiredMaxLevel] = 29,
         },
         [8400] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8372,8399,8401,8402,8403},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8401] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8372,8399,8400,8402,8403},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8402] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8372,8399,8400,8401,8403},
             [questKeys.requiredMaxLevel] = 59,
         },
+        [8403] = { -- Fight for Warsong Gulch
+            [questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
+        },
         [8404] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8372,8399},
             [questKeys.requiredMaxLevel] = 29,
         },
         [8405] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8372,8399,8400},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8406] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8372,8399,8400,8401},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8407] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402},
             [questKeys.requiredMaxLevel] = 59,
+        },
+        [8408] = { -- Fight for Warsong Gulch
+            [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402,8403},
         },
         [8410] = {
             [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
