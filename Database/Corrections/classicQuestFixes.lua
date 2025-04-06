@@ -3081,11 +3081,32 @@ function QuestieQuestFixes:Load()
         [8373] = {
             [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
         },
+        [8374] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 29,
+        },
+        [8384] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 29,
+        },
         [8385] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
         [8388] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+        },
+        [8391] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8392] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8393] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8394] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8395] = { -- Claiming Arathi Basin
+            [questKeys.requiredMaxLevel] = 59,
         },
         [8399] = {
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
