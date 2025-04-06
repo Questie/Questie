@@ -4550,6 +4550,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89563},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89568] = { -- Something New
+            [questKeys.startedBy] = {{242019}},
+            [questKeys.finishedBy] = {{242019}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8523,8524,8525,8530,8543},243629}}},
+            [questKeys.preQuestSingle] = {89567},
+            [questKeys.sourceItemId] = 242319,
+            [questKeys.requiredSourceItems] = {242319},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},

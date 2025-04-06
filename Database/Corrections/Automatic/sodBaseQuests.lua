@@ -9417,6 +9417,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Investigate the remnants of the scarlet caravan in Plaguewood, along the road to Stratholme and speak with Leonid Barthalomew the Revered there when you have learned more."},
             [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
         },
+        [89568] = {
+            [questKeys.name] = "Something New",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Use the New Plague Samples on the Cannibal Ghouls and Scourge Warders found throughout Plaguewood and observe the effects."},
+            [questKeys.objectives] = {{{243629}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
