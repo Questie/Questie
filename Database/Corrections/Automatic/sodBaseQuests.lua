@@ -9384,6 +9384,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft a pair of Scarlet Pants from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
             [questKeys.objectives] = {{{241154}}},
         },
+        [89562] = {
+            [questKeys.name] = "My Old Enemy",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Learn more about Baelin Caldoran from Leonid Barthalomew the Revered."},
+            [questKeys.objectives] = {{{243024}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
