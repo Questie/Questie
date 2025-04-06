@@ -3069,8 +3069,8 @@ function QuestieQuestFixes:Load()
         [8367] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
-        [8368] = {
-            [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
+        [8368] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 19,
         },
         [8371] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
@@ -3095,6 +3095,9 @@ function QuestieQuestFixes:Load()
         },
         [8388] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+        },
+        [8389] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 19,
         },
         [8391] = { -- Claiming Arathi Basin
             [questKeys.requiredMaxLevel] = 39,
@@ -3157,20 +3160,29 @@ function QuestieQuestFixes:Load()
         [8423] = {
             [questKeys.exclusiveTo] = {8417}, -- breadcrumb
         },
-        [8426] = {
-            [questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
+        [8426] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 29,
         },
-        [8427] = {
-            [questKeys.exclusiveTo] = {8368,8426,8428,8429,8430},
+        [8427] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 39,
         },
-        [8428] = {
-            [questKeys.exclusiveTo] = {8368,8426,8427,8429,8430},
+        [8428] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 49,
         },
-        [8429] = {
-            [questKeys.exclusiveTo] = {8368,8426,8427,8428,8430},
+        [8429] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 59,
         },
-        [8430] = {
-            [questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
+        [8431] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 29,
+        },
+        [8432] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8433] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8434] = { -- Battle of Warsong Gulch
+            [questKeys.requiredMaxLevel] = 59,
         },
         [8438] = {
             [questKeys.zoneOrSort] = sortKeys.ARATHI_BASIN,
