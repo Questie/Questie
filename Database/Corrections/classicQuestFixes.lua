@@ -3070,6 +3070,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
         [8368] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
             [questKeys.requiredMaxLevel] = 19,
         },
         [8370] = { -- Conquering Arathi Basin
@@ -3183,28 +3184,42 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8417}, -- breadcrumb
         },
         [8426] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
             [questKeys.requiredMaxLevel] = 29,
         },
         [8427] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8368,8426,8428,8429,8430},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8428] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8368,8426,8427,8429,8430},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8429] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8368,8426,8427,8428,8430},
             [questKeys.requiredMaxLevel] = 59,
         },
+        [8430] = { -- Battle of Warsong Gulch
+            [questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
+        },
         [8431] = { -- Battle of Warsong Gulch
+            [questKeys.preQuestSingle] = {8368,8426},
             [questKeys.requiredMaxLevel] = 29,
         },
         [8432] = { -- Battle of Warsong Gulch
+            [questKeys.preQuestSingle] = {8368,8426,8427},
             [questKeys.requiredMaxLevel] = 39,
         },
         [8433] = { -- Battle of Warsong Gulch
+            [questKeys.preQuestSingle] = {8368,8426,8427,8428},
             [questKeys.requiredMaxLevel] = 49,
         },
         [8434] = { -- Battle of Warsong Gulch
+            [questKeys.preQuestSingle] = {8368,8426,8427,8428,8429},
             [questKeys.requiredMaxLevel] = 59,
+        },
+        [8435] = { -- Battle of Warsong Gulch
+            [questKeys.preQuestSingle] = {8368,8426,8427,8428,8429,8430},
         },
         [8436] = { -- Conquering Arathi Basin
             [questKeys.exclusiveTo] = {8370,8437,8438,8439},
