@@ -4668,6 +4668,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.sourceItemId] = 241655,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
         },
         [90567] = { -- Unfamiliar Foulness
             [questKeys.startedBy] = {nil,{531291},{241656}},
@@ -4676,6 +4677,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.sourceItemId] = 241656,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
         },
 
         --- Fake rune quests
