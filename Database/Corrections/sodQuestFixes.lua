@@ -4273,12 +4273,14 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [87459] = { -- Scarlet Activities
             [questKeys.preQuestSingle] = {9121,9122,9123},
+            [questKeys.nextQuestInChain] = 87493,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [87493] = { -- Unrest at Tyr's Hand
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87459},
+            [questKeys.nextQuestInChain] = 87497,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87497] = { -- The Schism
@@ -4292,6 +4294,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87497},
+            [questKeys.nextQuestInChain] = nil,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87502] = { -- Gathering Intelligence
