@@ -872,6 +872,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
         },
+        [241862] = { -- Scarlet Stash
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.75,82.25},{98.51,82.57}}},
+            [npcKeys.npcFlags] = npcFlags.BANKER,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Banker",
+        },
         [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
