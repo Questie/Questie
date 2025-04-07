@@ -451,7 +451,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90266] = 2, -- Druid Survival Instincts
     [90267] = 2, -- Druid Survival Instincts
     [90268] = 2, -- Druid Survival Instincts
-    [90352] = 1, -- Warrior Endless Rage Silverpine Forest
+    [90353] = 1, -- Warrior Endless Rage Silverpine Forest
 
     -- P3 SoD Runes
     [80411] = 3, -- Rogue Honor Among Thieves
