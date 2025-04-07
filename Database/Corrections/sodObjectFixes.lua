@@ -588,5 +588,10 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{81.76,58.04}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
         },
+        [600003] = {
+            [objectKeys.name] = "Crusader's Loom", -- For "Holy Threads"
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{94.65,83.57}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
     }
 end

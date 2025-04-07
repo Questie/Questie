@@ -9516,6 +9516,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the New Plague Samples on the Dark Summoners and Necromancers found throughout Eastern Plaguelands and observe the effects."},
             [questKeys.objectives] = {{{243630}}},
         },
+        [90116] = {
+            [questKeys.name] = "Holy Threads",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Acquire Dawnwoven Fabrics by weaving cloth into bolts while in close proximity to the Crusader's Loom. Return to Taylor once you have enough."},
+            [questKeys.objectives] = {nil,nil,{{239698}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
