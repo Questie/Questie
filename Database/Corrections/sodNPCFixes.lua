@@ -872,13 +872,24 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
         },
-        [242019] = { -- Leonid Barthalomew the Revered
+        [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
         },
         [243023] = { -- Inquisitor Jociphine
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.2,82.4}}},
+        },
+        [243386] = { -- Leonid Barthalomew the Revered, terrordale
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{16.54,31.21}}},
+        },
+        [243393] = { -- Leonid Barthalomew the Revered, service entrance gate, also inside stratholme
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.94,21.90}},
+                [zoneIDs.STRATHOLME] = {{-1,-1}}
+            },
         },
 
         -- fake NPCs

@@ -4515,6 +4515,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7781},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
+        [89229] = { -- The Right Path
+            [questKeys.startedBy] = {{243386}},
+            [questKeys.finishedBy] = {{11036}},
+            [questKeys.preQuestSingle] = {89328},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89234] = { -- A Personal Matter
+            [questKeys.startedBy] = {{242019}},
+            [questKeys.finishedBy] = {{243393}},
+            [questKeys.preQuestSingle] = {89562},
+            [questKeys.nextQuestInChain] = 89235,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89235] = { -- The Culling
+            [questKeys.startedBy] = {{243393}},
+            [questKeys.finishedBy] = {{243393}}, -- same ID despite being inside instance...
+            [questKeys.preQuestSingle] = {89234},
+            [questKeys.nextQuestInChain] = 89310,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [89257] = { -- Prove Your Worth: Chestpiece
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},
@@ -4526,6 +4546,28 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89310] = { -- Terrordale
+            [questKeys.startedBy] = {{243393}},
+            [questKeys.finishedBy] = {{243386}},
+            [questKeys.preQuestSingle] = {89235},
+            [questKeys.nextQuestInChain] = 89329,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89328] = { -- Loss
+            [questKeys.startedBy] = {{243386}},
+            [questKeys.finishedBy] = {{243386}},
+            [questKeys.preQuestSingle] = {89329},
+            [questKeys.nextQuestInChain] = 89229,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89329] = { -- Stomping Out The Infestation
+            [questKeys.startedBy] = {{243386}},
+            [questKeys.finishedBy] = {{243386}},
+            [questKeys.objectives] = {{{8555},{8556}}},
+            [questKeys.preQuestSingle] = {89310},
+            [questKeys.nextQuestInChain] = 89328,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [89562] = { -- My Old Enemy
             [questKeys.startedBy] = {{11036}},
@@ -4548,6 +4590,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
             [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS]={{33.5,27.6}}}},
             [questKeys.preQuestSingle] = {89563},
+            [questKeys.nextQuestInChain] = 89568,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [89568] = { -- Something New
@@ -4556,6 +4599,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{8523,8524,8525,8530,8543},243629}}},
             [questKeys.preQuestSingle] = {89567},
             [questKeys.sourceItemId] = 242319,
+            [questKeys.nextQuestInChain] = 89574,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [89574] = { -- Servants of Death
@@ -4564,6 +4608,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{8551,8553,8555},243630}}},
             [questKeys.preQuestSingle] = {89568},
             [questKeys.sourceItemId] = 242320,
+            [questKeys.nextQuestInChain] = 89234,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [90510] = { -- New Avalon
