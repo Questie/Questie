@@ -4661,6 +4661,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [90518] = { -- An Apple a Day Keeps the Undead at Bay
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [90560] = { -- Familiar Foulness
             [questKeys.startedBy] = {nil,{531291},{241655}},
             [questKeys.finishedBy] = nil,

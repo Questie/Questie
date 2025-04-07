@@ -9582,6 +9582,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the Scarlet Insignia once you have acquired enough disguise pieces to fool the Scarlet Crusaders in New Avalon and speak with Inquisitor Jociphine again. Players with armor crafting professions can utilize recipes and plans for scarlet armor pieces obtained from hostile crusaders in Tyr's Hand and New Avalon."},
             [questKeys.objectives] = {{{242450}}},
         },
+        [90518] = {
+            [questKeys.name] = "An Apple a Day Keeps the Undead at Bay",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Locate the apple orchard in the southern section of New Avalon to fetch some apples. Return to Carrie Hearthfire in the New Avalon inn once you have succeeded. If you find the apples to be too expensive, consider looking around for an alternative means to acquire them."},
+            [questKeys.objectives] = {nil,nil,{{238811},{238831},{238830}}},
+        },
         [90560] = {
             [questKeys.name] = "Familiar Foulness",
             [questKeys.startedBy] = nil,
