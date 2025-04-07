@@ -4309,7 +4309,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [87506] = { -- Weakening The Defenses
             [questKeys.startedBy] = {{239031}},
-            [questKeys.finishedBy] = {{239031}},
+            [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
