@@ -4617,8 +4617,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [90510] = { -- New Avalon
-            [questKeys.startedBy] = {{239031}},
-            [questKeys.finishedBy] = {{239031}},
+            [questKeys.startedBy] = {{243023}},
+            [questKeys.finishedBy] = {{243023}},
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
