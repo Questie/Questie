@@ -856,6 +856,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{78.4,79.6},{78.4,83.1},{81.1,80.9},{83.2,87.8},{84.4,81.9},{84.9,85.2}}},
         },
+        [239054] = { -- Argent Emissary
+            [npcKeys.name] = "Argent Emissary",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.79,83.27}}},
+            [npcKeys.questStarts] = {87508},
+            [npcKeys.questEnds] = nil,
+        },
         [239152] = { -- Scout the Mage Tower in New Avalon - Bunny
             [npcKeys.name] = "New Avalon Mage Tower",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
