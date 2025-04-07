@@ -7558,6 +7558,7 @@ function CataQuestFixes.Load()
         },
         [26731] = { -- The Altar of Naias
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Summon Naias"), 0, {{"object", 181636}}}},
+            [questKeys.sourceItemId] = 60273,
         },
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
