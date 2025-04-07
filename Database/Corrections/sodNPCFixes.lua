@@ -930,6 +930,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
         },
+        [242827] = { -- Captain Bloodcoin
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.8376,26.2241}}},
+            [npcKeys.npcFlags] = npcFlags.AUCTIONEER,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Seafaring Auctioneer",
+        },
         [242954] = { -- Anvil (New Avalon)
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{99.57,77.84}}},
