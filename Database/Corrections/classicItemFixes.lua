@@ -312,8 +312,8 @@ function QuestieItemFixes:Load()
         [5051] = {
             [itemKeys.relatedQuests] = {862},
         },
-        [5056] = {
-            [itemKeys.objectDrops] = {1619,3726,1618,3724,1620,3727},
+        [5056] = { -- Root Sample
+            [itemKeys.objectDrops] = {3724,3725,3726,3727,3729,3730}, -- only drops from these and we can remove from blacklist
         },
         [5058] = {
             [itemKeys.npcDrops] = {},
