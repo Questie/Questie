@@ -9461,6 +9461,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Slay 5 Crypt Walkers and 8 Crypt Fiends then return to Leonid Bartholomew the Revered at his former home in Terrordale."},
             [questKeys.objectives] = {{{8555},{8556}}},
         },
+        [89421] = {
+            [questKeys.name] = "Bullet Heaven",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Craft or purchase Thorium Shells from a player with the Engineering profession and bring them to Kyndra Swiftarrow near the New Avalon archery range."},
+            [questKeys.objectives] = {nil,nil,{{15997}}},
+        },
         [89562] = {
             [questKeys.name] = "My Old Enemy",
             [questKeys.startedBy] = nil,

@@ -4582,6 +4582,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.nextQuestInChain] = 89328,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89421] = { -- Bullet Heaven
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89562] = { -- My Old Enemy
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{11036}},
