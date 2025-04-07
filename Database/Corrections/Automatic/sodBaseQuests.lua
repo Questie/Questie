@@ -9362,6 +9362,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Stonebridge."},
             [questKeys.objectives] = nil,
         },
+        [89224] = {
+            [questKeys.name] = "Food Shortage",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Acquire Unappetizing Leftovers from across New Avalon and return them to the chef. If you are having trouble finding them scattered around, you may have better luck solving this shortage with violence."},
+            [questKeys.objectives] = {nil,nil,{{238794}}},
+        },
         [89229] = {
             [questKeys.name] = "The Right Path",
             [questKeys.startedBy] = nil,

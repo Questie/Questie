@@ -4522,6 +4522,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7781},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
+        [89224] = { -- Food Shortage
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.objectives] = {nil,nil,{{238794}}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [89229] = { -- The Right Path
             [questKeys.startedBy] = {{243386}},
             [questKeys.finishedBy] = {{11036}},

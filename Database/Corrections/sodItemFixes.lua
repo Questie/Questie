@@ -264,6 +264,9 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {238745},
             [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
+        [238794] = { -- Unappetizing Leftovers
+            [itemKeys.objectDrops] = {526132,526143,526144},
+        },
         [238899] = { -- Assorted Fish
             [itemKeys.npcDrops] = {241032},
         },
