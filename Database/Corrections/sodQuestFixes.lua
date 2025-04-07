@@ -4316,6 +4316,7 @@ function SeasonOfDiscovery:LoadQuests()
         [87508] = { -- Report to Lord Tyrosus
             [questKeys.startedBy] = {{239054}},
             [questKeys.finishedBy] = {{11034}},
+            [questKeys.objectives] = {{{11034,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {87506},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
