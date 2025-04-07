@@ -4542,6 +4542,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.nextQuestInChain] = 89310,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89236] = { -- Wrangling Apples
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89257] = { -- Prove Your Worth: Chestpiece
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},

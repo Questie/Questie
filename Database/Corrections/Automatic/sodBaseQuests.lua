@@ -9395,6 +9395,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Enter Stratholme and make your way through the gate leading into Slaughter Square and find Leonid Barthalomew the Revered there."},
             [questKeys.objectives] = {{{243385}}},
         },
+        [89236] = {
+            [questKeys.name] = "Wrangling Apples",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Locate the apple orchard in the southern section of New Avalon to fetch some apples. Return to Carrie Hearthfire in the New Avalon inn once you have succeeded. If you find the apples to be too expensive, consider looking around for an alternative means to acquire them."},
+            [questKeys.objectives] = {nil,nil,{{238811},{238831},{238830}}},
+        },
         [89257] = {
             [questKeys.name] = "Prove Your Worth: Chestpiece",
             [questKeys.startedBy] = nil,
