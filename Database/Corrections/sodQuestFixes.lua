@@ -4314,7 +4314,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87508] = { -- Report to Lord Tyrosus
-            [questKeys.startedBy] = {{239031}},
+            [questKeys.startedBy] = {{239054}},
             [questKeys.finishedBy] = {{11034}},
             [questKeys.preQuestSingle] = {87506},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
