@@ -4294,7 +4294,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87497},
-            [questKeys.nextQuestInChain] = nil,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87502] = { -- Gathering Intelligence
@@ -4617,7 +4616,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},
-            [questKeys.preQuestSingle] = {87498},
+            [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
 
