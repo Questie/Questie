@@ -9582,5 +9582,27 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the Scarlet Insignia once you have acquired enough disguise pieces to fool the Scarlet Crusaders in New Avalon and speak with Inquisitor Jociphine again. Players with armor crafting professions can utilize recipes and plans for scarlet armor pieces obtained from hostile crusaders in Tyr's Hand and New Avalon."},
             [questKeys.objectives] = {{{242450}}},
         },
+        [90560] = {
+            [questKeys.name] = "Familiar Foulness",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Gather Discolored Beast Hearts from creatures in the plaguelands and then bring them and the Mishandled Healing Potion to an interested member of the Royal Apothecary Society in Undercity."},
+            [questKeys.objectives] = {nil,nil,{{241652}}},
+        },
+        [90567] = {
+            [questKeys.name] = "Unfamiliar Foulness",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Gather Discolored Beast Hearts and Bleeding Hearts from the plaguelands. Bring them and the Mishandled Healing Potion to an interested alchemist in Darnassus."},
+            [questKeys.objectives] = {nil,nil,{{241652},{242018}}},
+        },
     }
 end

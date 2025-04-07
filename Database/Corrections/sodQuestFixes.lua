@@ -4661,6 +4661,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [90560] = { -- Familiar Foulness
+            [questKeys.startedBy] = {nil,{531291},{241655}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.objectives] = {nil,nil,{{241652}}},
+            [questKeys.sourceItemId] = 241655,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [90567] = { -- Unfamiliar Foulness
+            [questKeys.startedBy] = {nil,{531291},{241656}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.objectives] = {nil,nil,{{241652},{242018}}},
+            [questKeys.sourceItemId] = 241656,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
 
         --- Fake rune quests
         [90000] = {

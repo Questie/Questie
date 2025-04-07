@@ -592,6 +592,13 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{33.52,27.30}},
             },
         },
+        [531291] = { -- Potion Rack
+            [objectKeys.name] = "Potion Rack",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{99.331,83.307}},
+            },
+        },
 
         -- Fake IDs
         [600000] = {

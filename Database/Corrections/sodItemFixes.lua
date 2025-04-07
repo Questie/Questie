@@ -270,6 +270,12 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.npcDrops] = {241032},
         },
+        [241655] = { -- Mishandled Healing Potion
+            [itemKeys.objectDrops] = {531291},
+        },
+        [241656] = { -- Mishandled Healing Potion
+            [itemKeys.objectDrops] = {531291},
+        },
         [242257] = { -- Mysterious Alchemical Sample
             [itemKeys.objectDrops] = {531545},
         },
