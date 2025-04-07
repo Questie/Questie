@@ -252,7 +252,8 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {525416},
         },
         [237143] = { -- Orders from the High General
-            [itemKeys.npcDrops] = {238745}
+            [itemKeys.npcDrops] = {238745},
+            [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
         [242257] = { -- Mysterious Alchemical Sample
             [itemKeys.objectDrops] = {531545},

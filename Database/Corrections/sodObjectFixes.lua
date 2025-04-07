@@ -576,5 +576,10 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{81.29,58.75}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [600002] = {
+            [objectKeys.name] = "Ball and chain", -- For "Scarlet Activities"
+            [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{81.76,58.04}}},
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+        },
     }
 end
