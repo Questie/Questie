@@ -557,8 +557,15 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [529383] = { -- Unattended Pile of Mail, SoD New Avalon Mailbox
+            [objectKeys.name] = "Unattended Pile of Mail",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{90.32,81.98}},
+            },
+        },
         [531545] = { -- Dented Chest
-        [objectKeys.name] = "Dented Chest",
+            [objectKeys.name] = "Dented Chest",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [objectKeys.spawns] = {
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{33.52,27.30}},
