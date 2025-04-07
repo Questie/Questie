@@ -7329,7 +7329,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43443,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [26617] = { -- An Old Sea Dog
-            [questKeys.preQuestSingle] = {26595,26601,26606},
             [questKeys.startedBy] = {{43454},nil,{59143}},
         },
         [26618] = { -- Wolves at Our Heels
@@ -7559,6 +7558,7 @@ function CataQuestFixes.Load()
         },
         [26731] = { -- The Altar of Naias
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Summon Naias"), 0, {{"object", 181636}}}},
+            [questKeys.sourceItemId] = 60273,
         },
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
@@ -7688,7 +7688,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28702},
         },
         [26809] = { -- Backdoor Dealings
-            [questKeys.objectives] = {{{43245}},{{204361,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{43245,nil,Questie.ICON_TYPE_EVENT}},{{204361}}},
         },
         [26810] = { -- Eliminate the Outcast
             [questKeys.objectives] = {nil,{{204372,nil,Questie.ICON_TYPE_EVENT}}},
