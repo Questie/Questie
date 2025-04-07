@@ -872,6 +872,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
         },
+        [240811] = { -- Balnazzar, SoD Scarlet Enclave Raid Boss
+            [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
+        },
         [241862] = { -- Scarlet Stash
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.75,82.25},{98.51,82.57}}},
