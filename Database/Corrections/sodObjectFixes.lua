@@ -621,5 +621,10 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{94.65,83.57}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [600003] = {
+            [objectKeys.name] = "Crimson Bladeleave", -- For "Red is Not Dead"
+            [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{40.6,79.8}}},
+            [objectKeys.zoneID] = zoneIDs.AZSHARA,
+        },
     }
 end

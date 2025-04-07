@@ -302,7 +302,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90117] = 1, -- Paladin Seal of Martyrdom
     [90118] = 1, -- Paladin Horn of Lordaeron
     [90119] = 1, -- Paladin Horn of Lordaeron
-    [90120] = 1, -- Paladin Aegis
     [90121] = 1, -- Paladin Inspiration Exemplar
     [90122] = 1, -- Paladin Avenger's Shield
     [90123] = 1, -- Paladin Rebuke
@@ -452,6 +451,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90267] = 2, -- Druid Survival Instincts
     [90268] = 2, -- Druid Survival Instincts
     [90353] = 1, -- Warrior Endless Rage Silverpine Forest
+    [90354] = 1, -- Paladin Aegis
 
     -- P3 SoD Runes
     [80411] = 3, -- Rogue Honor Among Thieves

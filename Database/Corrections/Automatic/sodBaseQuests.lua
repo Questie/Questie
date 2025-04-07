@@ -9571,6 +9571,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Acquire Dawnwoven Fabrics by weaving cloth into bolts while in close proximity to the Crusader's Loom. Return to Taylor once you have enough."},
             [questKeys.objectives] = {nil,nil,{{239698}}},
         },
+        [90120] = {
+            [questKeys.name] = "Red is Not Dead",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Acquire a variety of materials that could be used as a vibrant red dye. Red Dye and Red Rose may be sourced from vendors. Firebloom may be acquired by Herbalists. Blood of Heroes can be found in the Plaguelands. Crimson Bladeleaves to extract dye from can be found near Lake Mennar in Azshara."},
+            [questKeys.objectives] = {nil,nil,{{2604},{3419},{4625},{12938},{239764}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
