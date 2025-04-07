@@ -7329,7 +7329,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43443,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [26617] = { -- An Old Sea Dog
-            [questKeys.preQuestSingle] = {26595,26601,26606},
             [questKeys.startedBy] = {{43454},nil,{59143}},
         },
         [26618] = { -- Wolves at Our Heels
