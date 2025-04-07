@@ -203,11 +203,27 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [2500] = { -- Captain Hecklebury Smotts
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
+                    {40.32,67.79,phases.BOOTY_BAY_REGULAR},
+                    {39.97,67.32,phases.BOOTY_BAY_ATTACK},
+                },
+            },
+        },
         [2546] = { -- Fleet Master Firallon
             [npcKeys.spawns] = {
                 [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
                     {46.7,95.34,phases.BOOTY_BAY_REGULAR},
                     {35.66,66.74,phases.BOOTY_BAY_ATTACK},
+                },
+            },
+        },
+        [2594] = { -- Sprogger
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
+                    {40.26,67.84,phases.BOOTY_BAY_REGULAR},
+                    {39.93,67.3,phases.BOOTY_BAY_ATTACK},
                 },
             },
         },
