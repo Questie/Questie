@@ -4653,6 +4653,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240631}},
             [questKeys.preQuestSingle] = {87502},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.TAILORING,250},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Craft cloth bolts near the Crusader's Loom"),0,{{"object", 600003}}}},
         },
         [90120] = { -- Red is Not Dead
@@ -4660,6 +4661,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240631}},
             [questKeys.preQuestSingle] = {90116},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.TAILORING,250},
         },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{243023}},
