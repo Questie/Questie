@@ -4288,12 +4288,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{11036}},
             [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {87493},
+            [questKeys.nextQuestInChain] = 87498,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87498] = { -- The Scarlet Reclamation
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87497},
+            [questKeys.nextQuestInChain] = 87502,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87502] = { -- Gathering Intelligence
@@ -4301,6 +4303,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{239031}},
             [questKeys.objectives] = {{{239154,nil,Questie.ICON_TYPE_EVENT},{239152,nil,Questie.ICON_TYPE_EVENT},{239153,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87498},
+            [questKeys.nextQuestInChain] = 90510,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Inquisitor Jociphine to get a disguise"),0,{{"monster", 243023}}}},
         },
