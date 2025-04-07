@@ -4316,13 +4316,14 @@ function SeasonOfDiscovery:LoadQuests()
         [87508] = { -- Report to Lord Tyrosus
             [questKeys.startedBy] = {{239054}},
             [questKeys.finishedBy] = {{11034}},
-            [questKeys.objectives] = {{{11034,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{11034,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87506},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87509] = { -- The Wrath of the Dawn
             [questKeys.startedBy] = {{11034}},
             [questKeys.finishedBy] = {{239032}},
+            [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87508},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
