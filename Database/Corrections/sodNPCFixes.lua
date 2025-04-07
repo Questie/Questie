@@ -857,14 +857,17 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{78.4,79.6},{78.4,83.1},{81.1,80.9},{83.2,87.8},{84.4,81.9},{84.9,85.2}}},
         },
         [239152] = { -- Scout the Mage Tower in New Avalon - Bunny
+            [npcKeys.name] = "New Avalon Mage Tower",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.3,88.4}}},
         },
         [239153] = { -- Scout the Keep in New Avalon - Bunny
+            [npcKeys.name] = "New Avalon Keep",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{97.6,83.2}}},
         },
         [239154] = { -- Scout the Cathedral in Tyr's Hand - Bunny
+            [npcKeys.name] = "Tyr's Hand Cathedral",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{85.3,84.0}}},
         },
