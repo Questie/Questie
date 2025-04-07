@@ -260,5 +260,11 @@ function SeasonOfDiscovery:LoadItems()
         [242258] = { -- Research Notes
             [itemKeys.objectDrops] = {531545},
         },
+        [242319] = { -- New Plague Samples
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [242320] = { -- New Plague Samples
+            [itemKeys.class] = itemClasses.QUEST,
+        },
     }
 end

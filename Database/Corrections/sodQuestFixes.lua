@@ -4556,7 +4556,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{8523,8524,8525,8530,8543},243629}}},
             [questKeys.preQuestSingle] = {89567},
             [questKeys.sourceItemId] = 242319,
-            [questKeys.requiredSourceItems] = {242319},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [90510] = { -- New Avalon
