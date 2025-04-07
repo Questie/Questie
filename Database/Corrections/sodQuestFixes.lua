@@ -4606,6 +4606,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87498},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89463] = { -- Nondisclosure Argument
+            [questKeys.name] = "Nondisclosure Argument",
+            [questKeys.startedBy] = {{240654}},
+            [questKeys.finishedBy] = {{240654}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89562] = { -- My Old Enemy
             [questKeys.startedBy] = {{11036}},
             [questKeys.finishedBy] = {{11036}},

@@ -9505,6 +9505,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft or purchase Thorium Shells from a player with the Engineering profession and bring them to Kyndra Swiftarrow near the New Avalon archery range."},
             [questKeys.objectives] = {nil,nil,{{15997}}},
         },
+        [89463] = {
+            [questKeys.name] = "Nondisclosure Arguement",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Fizzlefuse in New Avalon has requested a quill and something to make his hideout more comfortable. A Classy Quill can be found in the New Avalon Town Hall, and a House Prop may be found somewhere near Scholomance or in the Karazhan Crypts."},
+            [questKeys.objectives] = {nil,nil,{{239225},{239223}}},
+        },
         [89562] = {
             [questKeys.name] = "My Old Enemy",
             [questKeys.startedBy] = nil,

@@ -896,6 +896,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.subName] = "Leatherworking Supplies",
         },
+        [240654] = { -- Fizzlefuse
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.77,24.31}}},
+        },
         [241032] = { -- Fish Barrel
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{63.07,26.32},{63.08,26.35},{63.1,26.33}}},
