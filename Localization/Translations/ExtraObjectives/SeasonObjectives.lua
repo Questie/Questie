@@ -362,6 +362,18 @@ local seasonObjectiveLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Craft cloth bolts near the Crusader's Loom"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Stelle Stoffballen in der Nähe des Kreuzfahrerwebstuhls her",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do
