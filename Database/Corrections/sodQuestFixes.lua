@@ -4303,7 +4303,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{239031}},
             [questKeys.objectives] = {{{239154,nil,Questie.ICON_TYPE_EVENT},{239152,nil,Questie.ICON_TYPE_EVENT},{239153,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87498},
-            [questKeys.nextQuestInChain] = 90510,
+            [questKeys.nextQuestInChain] = 87506,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Inquisitor Jociphine to get a disguise"),0,{{"monster", 243023}}}},
         },
@@ -4311,6 +4311,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239032}},
             [questKeys.preQuestSingle] = {87502},
+            [questKeys.nextQuestInChain] = 87508,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87508] = { -- Report to Lord Tyrosus
@@ -4318,6 +4319,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{11034}},
             [questKeys.objectives] = {{{11034,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87506},
+            [questKeys.nextQuestInChain] = 87509,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87509] = { -- The Wrath of the Dawn
@@ -4325,6 +4327,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{239032}},
             [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {87508},
+            [questKeys.nextQuestInChain] = 87516,
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87516] = { -- Decapitation Strike
