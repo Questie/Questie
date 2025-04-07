@@ -4558,6 +4558,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.sourceItemId] = 242319,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89574] = { -- Servants of Death
+            [questKeys.startedBy] = {{242019}},
+            [questKeys.finishedBy] = {{242019}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8551,8553,8555},243630}}},
+            [questKeys.preQuestSingle] = {89568},
+            [questKeys.sourceItemId] = 242320,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [90510] = { -- New Avalon
             [questKeys.startedBy] = {{239031}},
             [questKeys.finishedBy] = {{239031}},

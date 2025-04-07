@@ -9428,6 +9428,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the New Plague Samples on the Cannibal Ghouls and Scourge Warders found throughout Plaguewood and observe the effects."},
             [questKeys.objectives] = {{{243629}}},
         },
+        [89574] = {
+            [questKeys.name] = "Servants of Death",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Use the New Plague Samples on the Dark Summoners and Necromancers found throughout Eastern Plaguelands and observe the effects."},
+            [questKeys.objectives] = {{{243630}}},
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = nil,
