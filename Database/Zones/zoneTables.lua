@@ -8,6 +8,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 --- https://wow.gamepedia.com/UiMapID/Classic
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapId = [[return {
+    [0] = 1415, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
     [1] = 1426, -- Dun Morogh
     [3] = 1418, -- Badlands
     [4] = 1419, -- Blasted Lands
@@ -322,6 +323,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
 
 ---@type table<UiMapId, AreaId>
 ZoneDB.private.uiMapIdToAreaId = [[return {
+    [1415] = 0, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
     [1426] = 1, -- Dun Morogh
     [1418] = 3, -- Badlands
     [1419] = 4, -- Blasted Lands
@@ -2859,6 +2861,7 @@ ZoneDB.private.subZoneToParentZone = [[return {
 -- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
 ---@enum ZoneIDs
 ZoneDB.zoneIDs = {
+    EASTERN_KINGDOM = 0, -- some things are so far off the map, we need to use this map
     DUN_MOROGH = 1,
     BADLANDS = 3,
     BLASTED_LANDS = 4,

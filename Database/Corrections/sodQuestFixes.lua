@@ -4548,6 +4548,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87498},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89245] = { -- Fish in a Barrel
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89257] = { -- Prove Your Worth: Chestpiece
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},

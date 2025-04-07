@@ -542,6 +542,18 @@ local easternKingdomsLocales = {
         ["zhCN"] = "新阿瓦隆",
         ["zhTW"] = "新阿瓦隆",
     },
+    ["Eastern Kingdoms"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Östliche Königreiche",
+        ["esES"] = "Reinos del Este",
+        ["esMX"] = "Reinos del Este",
+        ["frFR"] = "Royaumes de l'est",
+        ["koKR"] = "동부 왕국",
+        ["ptBR"] = "Reinos do Leste",
+        ["ruRU"] = "Восточные королевства",
+        ["zhCN"] = "东部王国",
+        ["zhTW"] = "東部王國",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do

@@ -887,6 +887,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.24,93.38}}},
         },
+        [241032] = { -- Fish Barrel
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{63.07,26.32},{63.08,26.35},{63.1,26.33}}},
+        },
         [241613] = { -- Kyndra Swiftarrow
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{93.81,90.07}}},
