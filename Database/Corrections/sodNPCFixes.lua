@@ -874,6 +874,16 @@ function SeasonOfDiscovery:LoadNPCs()
         [240248] = { -- Bryon Steelblade
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Repair",
+        },
+        [240631] = { -- Taylor Stitchings
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.69,83.54}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Tailoring Supplies",
         },
         [240604] = { -- Carrie Hearthfire
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -886,6 +896,9 @@ function SeasonOfDiscovery:LoadNPCs()
         [240632] = { -- Tanya Hyde
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.24,93.38}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Leatherworking Supplies",
         },
         [241032] = { -- Fish Barrel
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
@@ -899,6 +912,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
             [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
+        [241664] = { -- Malorie
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{95.29,78.80}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Food & Drink",
+        },
         [241862] = { -- Scarlet Stash
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.75,82.25},{98.51,82.57}}},
@@ -909,6 +929,13 @@ function SeasonOfDiscovery:LoadNPCs()
         [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
+        },
+        [242954] = { -- Anvil (New Avalon)
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{99.57,77.84}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Repair",
         },
         [243023] = { -- Inquisitor Jociphine
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
