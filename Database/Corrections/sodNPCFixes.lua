@@ -842,14 +842,15 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.name] = "Scarlet Inquisitor Caldoran",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.3,82.7}}},
-            [npcKeys.questStarts] = {87502},
+            [npcKeys.questStarts] = {87502,87506},
+            [npcKeys.questEnds] = {87502},
         },
         [239032] = { -- Commander Beatrix
             [npcKeys.name] = "Commander Beatrix",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.8,83.3}}},
-            [npcKeys.questStarts] = {87497},
-            [npcKeys.questEnds] = {87493,87498},
+            [npcKeys.questStarts] = {87497,87516},
+            [npcKeys.questEnds] = {87493,87498,87506,87509,87516},
         },
         [239047] = { -- Scarlet Siege Commander
             [npcKeys.name] = "Scarlet Siege Commander",
@@ -936,6 +937,8 @@ function SeasonOfDiscovery:LoadNPCs()
         [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
+            [npcKeys.questStarts] = {89234,89568,89574},
+            [npcKeys.questEnds] = {89567,89568,89574},
         },
         [242827] = { -- Captain Bloodcoin
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
@@ -954,10 +957,14 @@ function SeasonOfDiscovery:LoadNPCs()
         [243023] = { -- Inquisitor Jociphine
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.2,82.4}}},
+            [npcKeys.questStarts] = {90510},
+            [npcKeys.questEnds] = {90510},
         },
         [243386] = { -- Leonid Barthalomew the Revered, terrordale
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{16.54,31.21}}},
+            [npcKeys.questStarts] = {89229,89328,89329},
+            [npcKeys.questEnds] = {89310,89328,89329},
         },
         [243393] = { -- Leonid Barthalomew the Revered, service entrance gate, also inside stratholme
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -965,6 +972,8 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{47.94,21.90}},
                 [zoneIDs.STRATHOLME] = {{-1,-1}}
             },
+            [npcKeys.questStarts] = {89235,89310},
+            [npcKeys.questEnds] = {89234,89235},
         },
 
         -- fake NPCs
