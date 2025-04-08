@@ -1162,6 +1162,14 @@ function CataItemFixes.Load()
         [73269] = { -- Great Sea Herring
             [itemKeys.npcDrops] = {},
         },
+        [224452] = { -- Teleport Scroll: Stormwind
+            [itemKeys.name] = "Teleport Scroll: Stormwind",
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [224458] = { -- Teleport Scroll: Orgrimmar
+            [itemKeys.name] = "Teleport Scroll: Orgrimmar",
+            [itemKeys.class] = itemClasses.QUEST,
+        },
     }
 end
 
