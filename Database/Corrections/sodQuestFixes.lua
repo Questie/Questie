@@ -4528,8 +4528,9 @@ function SeasonOfDiscovery:LoadQuests()
         [89224] = { -- Food Shortage
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {87498},
             [questKeys.objectives] = {nil,nil,{{238794}}},
-            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89229] = { -- The Right Path
             [questKeys.startedBy] = {{243386}},
@@ -4554,13 +4555,13 @@ function SeasonOfDiscovery:LoadQuests()
         [89236] = { -- Wrangling Apples
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
-            [questKeys.preQuestSingle] = {87498},
+            [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89245] = { -- Fish in a Barrel
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
-            [questKeys.preQuestSingle] = {87498},
+            [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89257] = { -- Prove Your Worth: Chestpiece
@@ -4684,7 +4685,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90518] = { -- An Apple a Day Keeps the Undead at Bay
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
-            [questKeys.preQuestSingle] = {87498},
+            [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [90560] = { -- Familiar Foulness
