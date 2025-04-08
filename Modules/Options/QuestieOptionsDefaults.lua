@@ -6,6 +6,7 @@ function QuestieOptionsDefaults:Load()
         profile = {
             clusterLevelHotzone = 50,
             spawnFilterDistance = 28,
+            availableIconLimit = 30,
             enableIconLimit = false,
             iconLimit = 1500,
             availableScale = 1.2,
