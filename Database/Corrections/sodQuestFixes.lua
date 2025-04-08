@@ -4558,11 +4558,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.objectives] = {nil,nil,{{238811}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Retrieve the Apple Rope."), 0, {{"item", 238831}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Retrieve the Apple Scope."), 0, {{"item", 238830}}},
-                {{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")},
-            },
+            [questKeys.requiredSourceItems] = {238830,238831},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
         },
         [89245] = { -- Fish in a Barrel
             [questKeys.startedBy] = {{240604}},
