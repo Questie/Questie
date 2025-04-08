@@ -1203,6 +1203,9 @@ function QuestieTBCQuestFixes:Load()
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26}}}},
         },
+        [9453] = {
+            [questKeys.nextQuestInChain] = 9454,
+        },
         [9454] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1283,7 +1286,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Magwin Escorted to Safety", {[zoneIDs.AZUREMYST_ISLE]={{16.38,94.14}}}},
         },
         [9531] = {
-            [questKeys.objectives] = {{{17318,"The Traitor Uncovered"}},nil,nil},
+            [questKeys.objectives] = {nil,{{181694,"The Traitor Uncovered"}}},
         },
         [9532] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
