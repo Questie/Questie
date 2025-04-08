@@ -258,6 +258,9 @@ function CataObjectFixes.Load()
         [181679] = { -- Fel Brazier
             [objectKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{31.71,60.44},{31.71,63.29},{-1,-1}}},
         },
+        [181748] = { -- Blood Crystal
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{50.58,11.57}}},
+        },
         [181758] = { -- Mound of Dirt
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{61.17,49.64}}},
         },
