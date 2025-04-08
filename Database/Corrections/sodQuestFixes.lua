@@ -4583,18 +4583,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
+            [questKeys.exclusiveTo] = {89258,89261},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89258] = { -- Prove Your Worth: Wristguards
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
+            [questKeys.exclusiveTo] = {89257,89261},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89261] = { -- Prove Your Worth: Legguards
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
+            [questKeys.exclusiveTo] = {89257,89258},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89310] = { -- Terrordale
