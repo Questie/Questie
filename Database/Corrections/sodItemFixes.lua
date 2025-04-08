@@ -270,6 +270,15 @@ function SeasonOfDiscovery:LoadItems()
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
         },
+        [238811] = { -- Juicy Apple
+            [itemKeys.npcDrops] = {241019,240978},
+        },
+        [238830] = { -- Apple Scope
+            [itemKeys.objectDrops] = {526217},
+        },
+        [238831] = { -- Apple Rope
+            [itemKeys.objectDrops] = {526220},
+        },
         [238899] = { -- Assorted Fish
             [itemKeys.npcDrops] = {241032},
         },

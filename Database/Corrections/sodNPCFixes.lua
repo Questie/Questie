@@ -908,6 +908,16 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.77,24.31}}},
         },
+        [240978] = { -- Apple
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [241019] = { -- Johnny
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.911,91.356}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+        },
         [241032] = { -- Fish Barrel
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{63.07,26.32},{63.08,26.35},{63.1,26.33}}},

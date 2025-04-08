@@ -585,6 +585,20 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{95.565,79.510},{95.505,79.230},{95.137,79.025},{95.495,83.137},{94.421,83.621},{93.003,93.781},{98.126,79.988}},
             },
         },
+        [526217] = { -- Orchardist's Supply Chest
+            [objectKeys.name] = "Orchardist's Supply Chest",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{93.876,89.045}},
+            },
+        },
+        [526220] = { -- Rope
+            [objectKeys.name] = "Rope",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{94.354,90.041}},
+            },
+        },
         [529383] = { -- Unattended Pile of Mail, SoD New Avalon Mailbox
             [objectKeys.name] = "Unattended Pile of Mail",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
