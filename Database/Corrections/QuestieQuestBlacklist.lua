@@ -6103,6 +6103,29 @@ function QuestieQuestBlacklist:Load()
         [82985] = true, -- Boosted quest
         [82989] = true, -- Boosted quest
 
+        [88776] = true, -- Boosted quest
+        [88777] = true, -- Boosted quest
+        [88778] = true, -- Boosted quest
+        [88779] = true, -- Boosted quest
+        [88780] = true, -- Boosted quest
+        [88781] = true, -- Boosted quest
+        [88782] = true, -- Boosted quest
+        [88783] = true, -- Boosted quest
+        [88784] = true, -- Boosted quest
+        [88785] = true, -- Boosted quest
+        [88786] = true, -- Boosted quest
+        [88787] = true, -- Boosted quest
+        [88788] = true, -- Boosted quest
+        [88789] = true, -- Boosted quest
+        [88790] = true, -- Boosted quest
+        [88793] = true, -- Boosted quest
+        [88794] = true, -- Boosted quest
+        [88796] = true, -- Boosted quest
+        [88797] = true, -- Boosted quest
+        [88798] = true, -- Boosted quest
+        [88800] = true, -- Boosted quest
+        [88801] = true, -- Boosted quest
+
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
         [78288] = true, -- Let Me Make You An Offer (not longer in the game)
