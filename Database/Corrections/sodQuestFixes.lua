@@ -4569,6 +4569,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240604}},
             [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Free the fish from their barrels."), 0, {{"monster", 241032}}},
+            },
+        },
+        [89253] = { -- Main Course
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {89224},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89257] = { -- Prove Your Worth: Chestpiece
             [questKeys.startedBy] = {{240248}},

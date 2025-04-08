@@ -599,6 +599,10 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{94.354,90.041}},
             },
         },
+        [526809] = { -- Flopping Fish
+            [objectKeys.name] = "Flopping Fish",
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [529383] = { -- Unattended Pile of Mail, SoD New Avalon Mailbox
             [objectKeys.name] = "Unattended Pile of Mail",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
