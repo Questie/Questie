@@ -4698,7 +4698,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90567] = { -- Unfamiliar Foulness
             [questKeys.startedBy] = {nil,{531291},{241656}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{4160}},
             [questKeys.objectives] = {nil,nil,{{241652},{242018}}},
             [questKeys.sourceItemId] = 241656,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,

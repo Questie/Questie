@@ -273,11 +273,17 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.npcDrops] = {241032},
         },
+        [241652] = { -- Discolored Beast Heart
+            [itemKeys.npcDrops] = {1817,8596,8597,8598,8600,8601,8602,8603,8605},
+        },
         [241655] = { -- Mishandled Healing Potion
             [itemKeys.objectDrops] = {531291},
         },
         [241656] = { -- Mishandled Healing Potion
             [itemKeys.objectDrops] = {531291},
+        },
+        [242018] = { -- Plaguelands Bleeding Heart
+            [itemKeys.objectDrops] = {531301},
         },
         [242257] = { -- Mysterious Alchemical Sample
             [itemKeys.objectDrops] = {531545},
