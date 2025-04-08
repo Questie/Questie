@@ -4584,6 +4584,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.exclusiveTo] = {89258,89261},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89258] = { -- Prove Your Worth: Wristguards
@@ -4591,6 +4593,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.exclusiveTo] = {89257,89261},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89261] = { -- Prove Your Worth: Legguards
@@ -4598,6 +4602,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.exclusiveTo] = {89257,89258},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89310] = { -- Terrordale
