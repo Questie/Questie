@@ -1026,6 +1026,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9237] = "Cabellera de gnoll Zarpaleña",
 [9238] = "Caparazón de escarabajo sin rajar",
 [9244] = "Envío de Stoley",
+[9245] = "Botella de Stoley",
 [9246] = "Cabeza de Barbafuego",
 [9247] = "Escama naga Crestafuria",
 [9248] = "Reliquia misteriosa",
