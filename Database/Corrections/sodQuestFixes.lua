@@ -4531,6 +4531,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87498},
             [questKeys.objectives] = {nil,nil,{{238794}}},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
         },
         [89229] = { -- The Right Path
             [questKeys.startedBy] = {{243386}},
