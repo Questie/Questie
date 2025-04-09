@@ -603,6 +603,11 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.name] = "Flopping Fish",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [526937] = {
+            [objectKeys.name] = "Armor Crate",
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{98.54,84.12}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [527821] = {
             [objectKeys.name] = "Elegantly Painted House",
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},

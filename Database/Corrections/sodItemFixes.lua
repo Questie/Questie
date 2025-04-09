@@ -285,6 +285,9 @@ function SeasonOfDiscovery:LoadItems()
         [238935] = { -- Gently Plagued Meat
             [itemKeys.npcDrops] = {8600,240247},
         },
+        [238960] = { -- Quartermaster's Crate
+            [itemKeys.objectDrops] = {526937},
+        },
         [239016] = { -- Holy Salts
             [itemKeys.npcDrops] = {241120},
         },
