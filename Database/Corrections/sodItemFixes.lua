@@ -275,9 +275,11 @@ function SeasonOfDiscovery:LoadItems()
         },
         [238830] = { -- Apple Scope
             [itemKeys.objectDrops] = {526217},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [238831] = { -- Apple Rope
             [itemKeys.objectDrops] = {526220},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [238899] = { -- Assorted Fish
             [itemKeys.objectDrops] = {526809},
