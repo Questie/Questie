@@ -283,7 +283,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {526809},
         },
         [238935] = { -- Gently Plagued Meat
-            [itemKeys.npcDrops] = {8600},
+            [itemKeys.npcDrops] = {8600,240247},
         },
         [239016] = { -- Holy Salts
             [itemKeys.npcDrops] = {241120},
