@@ -289,7 +289,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {241120},
         },
         [239223] = { -- House Prop
-            [itemKeys.objectDrops] = {600005},
+            [itemKeys.objectDrops] = {527821},
         },
         [239225] = { -- Classy Quill
             [itemKeys.npcDrops] = {241877},

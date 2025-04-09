@@ -603,6 +603,11 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.name] = "Flopping Fish",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [527821] = {
+            [objectKeys.name] = "Elegantly Painted House",
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
         [528481] = {
             [objectKeys.name] = "Crimson Bladeleaf",
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{39.93,80.71},{40.55,81.42},{41.53,80.29},{40.45,78.64},{39.91,78.81}}},
@@ -657,11 +662,6 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.name] = "Crusader's Loom", -- For "Holy Threads"
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{94.65,83.57}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-        },
-        [600005] = {
-            [objectKeys.name] = "Elegantly Painted House", -- For "Nondisclosure Arguement"
-            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},
-            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
     }
 end
