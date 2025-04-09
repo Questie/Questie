@@ -658,5 +658,10 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{40.6,79.8}}},
             [objectKeys.zoneID] = zoneIDs.AZSHARA,
         },
+        [600005] = {
+            [objectKeys.name] = "Elegantly Painted House", -- For "Nondisclosure Arguement"
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
     }
 end

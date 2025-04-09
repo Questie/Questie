@@ -944,6 +944,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.subName] = "Banker",
         },
+        [241877] = { -- Mayor Quimby
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{90.87,85.69}}},
+        },
         [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},

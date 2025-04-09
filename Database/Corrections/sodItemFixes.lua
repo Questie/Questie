@@ -288,6 +288,12 @@ function SeasonOfDiscovery:LoadItems()
         [239016] = { -- Holy Salts
             [itemKeys.npcDrops] = {241120},
         },
+        [239223] = { -- House Prop
+            [itemKeys.objectDrops] = {600005},
+        },
+        [239225] = { -- Classy Quill
+            [itemKeys.npcDrops] = {241877},
+        },
         [241652] = { -- Discolored Beast Heart
             [itemKeys.npcDrops] = {1816,1817,8596,8597,8598,8600,8601,8602,8603,8605},
         },
