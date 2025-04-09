@@ -35,7 +35,7 @@ end
 if not pins.worldmapPinsPool then
     -- new frame pools in WoW 11.x
     if CreateUnsecuredRegionPoolInstance then
-        pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance("HereBeDragonsPinsTemplate")
+        pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance("HereBeDragonsPinsTemplateQuestie")
     else
         pins.worldmapPinsPool = CreateFramePool("FRAME")
     end
