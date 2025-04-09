@@ -4657,7 +4657,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89471] = { -- Goblin Tinkering
-            [questKeys.name] = "Nondisclosure Argument",
             [questKeys.startedBy] = {{240654}},
             [questKeys.finishedBy] = {{240654}},
             [questKeys.sourceItemId] = 239246,
