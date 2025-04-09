@@ -9527,6 +9527,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Fizzlefuse in New Avalon has requested a quill and something to make his hideout more comfortable. A Classy Quill can be found in the New Avalon Town Hall, and a House Prop may be found somewhere near Scholomance or in the Karazhan Crypts."},
             [questKeys.objectives] = {nil,nil,{{239225},{239223}}},
         },
+        [89471] = {
+            [questKeys.name] = "Goblin Tinkering",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Fizzlefuse in New Avalon has provided a shopping list of Engineering components needed for his inventions. Bring these items back to him."},
+            [questKeys.objectives] = {nil,nil,{{16000},{18631},{9061},{4389},{239246}}},
+        },
         [89562] = {
             [questKeys.name] = "My Old Enemy",
             [questKeys.startedBy] = nil,
