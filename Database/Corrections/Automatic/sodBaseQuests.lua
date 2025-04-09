@@ -9373,6 +9373,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Acquire Unappetizing Leftovers from across New Avalon and return them to the chef. If you are having trouble finding them scattered around, you may have better luck solving this shortage with violence."},
             [questKeys.objectives] = {nil,nil,{{238794}}},
         },
+        [89253] = {
+            [questKeys.name] = "Main Course",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Acquire meat that is safe for human consumption. If you struggle to locate some in New Avalon, you may (eventually) gather enough from slaying beasts in the Eastern Plaguelands."},
+            [questKeys.objectives] = {nil,nil,{{238935}}},
+        },
         [89229] = {
             [questKeys.name] = "The Right Path",
             [questKeys.startedBy] = nil,
