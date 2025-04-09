@@ -1832,10 +1832,10 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Escort Sentinel Aynasha to the Dock",{[zoneIDs.DARKSHORE] = {{60.25,6.93}}}},
         },
         [13512] = { -- Strategic Strikes
-            [questKeys.preQuestSingle] = {13507},
+            [questKeys.preQuestGroup] = {13507,13509},
         },
         [13513] = { -- On the Brink
-            [questKeys.preQuestSingle] = {13507},
+            [questKeys.preQuestGroup] = {13507,13509},
         },
         [13514] = { -- The Ancients' Ire
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Protector's back"),0,{{"monster",43742}}}},
