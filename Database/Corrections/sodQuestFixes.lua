@@ -4455,7 +4455,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{16376}},
             [questKeys.finishedBy] = {{16376}},
             [questKeys.objectives] = {nil,nil,{{236656},{7080},{12361}}},
-            [questKeys.preQuestSingle] = {9233},
+            [questKeys.preQuestSingle] = {9033},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
         },
