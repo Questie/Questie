@@ -265,7 +265,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
         [239764] = { -- Crimson Bladeleaf
-            [itemKeys.objectDrops] = {600004},
+            [itemKeys.objectDrops] = {528481},
         },
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
