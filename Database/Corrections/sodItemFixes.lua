@@ -282,6 +282,9 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.objectDrops] = {526809},
         },
+        [238935] = { -- Gently Plagued Meat
+            [itemKeys.npcDrops] = {8600},
+        },
         [241652] = { -- Discolored Beast Heart
             [itemKeys.npcDrops] = {1817,8596,8597,8598,8600,8601,8602,8603,8605},
         },
