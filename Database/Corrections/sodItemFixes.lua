@@ -285,6 +285,9 @@ function SeasonOfDiscovery:LoadItems()
         [238935] = { -- Gently Plagued Meat
             [itemKeys.npcDrops] = {8600},
         },
+        [239016] = { -- Holy Salts
+            [itemKeys.npcDrops] = {241120},
+        },
         [241652] = { -- Discolored Beast Heart
             [itemKeys.npcDrops] = {1817,8596,8597,8598,8600,8601,8602,8603,8605},
         },
