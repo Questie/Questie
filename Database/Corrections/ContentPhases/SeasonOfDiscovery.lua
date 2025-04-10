@@ -748,6 +748,12 @@ local questsToBlacklistByPhase = {
         [9116] = true, -- Priest
         [9117] = true, -- Priest
         [9118] = true, -- Priest
+
+        -- Atiesh
+        [9257] = true,
+        [9269] = true,
+        [9270] = true,
+        [9271] = true,
     },
 }
 

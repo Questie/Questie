@@ -4271,6 +4271,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
+        [87441] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87442] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87443] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87444] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [87459] = { -- Scarlet Activities
             [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.nextQuestInChain] = 87493,
