@@ -4822,7 +4822,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
             [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90519,90520},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [90519] = { -- Fish On Demand
@@ -4841,7 +4844,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
             [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90518,90519},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [90560] = { -- Familiar Foulness
