@@ -9582,6 +9582,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Aid Carrie Hearthfire in New Avalon one last time by gathering the following ingredients:."},
             [questKeys.objectives] = {nil,nil,{{6362},{4603},{13888},{3404},{12184},{3712}}},
         },
+        [89342] = {
+            [questKeys.name] = "VIP Haute Club Membership",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{240607}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Personally cook and deliver a Sunrise Omelette and Prowler Steak to Devon Woods  in front of the New Avalon inn."},
+            [questKeys.objectives] = {{{241462},{241461}}},
+        },
         [89381] = {
             [questKeys.name] = "Pin Cushion",
             [questKeys.startedBy] = nil,

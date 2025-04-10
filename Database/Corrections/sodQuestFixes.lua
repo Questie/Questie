@@ -4678,6 +4678,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.COOKING,250},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89342] = { -- VIP Haute Club Membership
+            [questKeys.startedBy] = {{240607}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectives] = {{{241462},{241461}},nil,{{238639},{238637}}},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89381] = { -- Pin Cushion
             [questKeys.startedBy] = {{241613}},
             [questKeys.finishedBy] = {{241613}},
