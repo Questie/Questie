@@ -2428,6 +2428,7 @@ function QuestieQuestBlacklist:Load()
         [1045] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1046] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1047] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1049] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1050] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1051] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1052] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -4061,6 +4062,7 @@ function QuestieQuestBlacklist:Load()
         [6143] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6145] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6146] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6147] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6148] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6161] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6162] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -4962,6 +4964,7 @@ function QuestieQuestBlacklist:Load()
         [9661] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9673] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9675] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9677] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -5250,6 +5253,7 @@ function QuestieQuestBlacklist:Load()
         [14317] = true, -- Not in the game
         [14319] = true, -- Not in the game
         [14349] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14350] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14355] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14356] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14409] = QuestieCorrections.CATA_HIDE, -- Removed with cata

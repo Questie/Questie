@@ -8908,6 +8908,7 @@ function CataQuestFixes.Load()
         [27388] = { -- Heroes of Darrowshire
             [questKeys.preQuestSingle] = {27386},
             [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{11063,nil,Questie.ICON_TYPE_TALK}},nil,{{12954},{12955}}},
         },
         [27389] = { -- Marauders of Darrowshire
             [questKeys.preQuestSingle] = {27386},
@@ -9697,10 +9698,11 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
         },
         [27683] = { -- Into the Woods
+            [questKeys.exclusiveTo] = {27683,28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27684] = { -- Visitors
-            [questKeys.exclusiveTo] = {28577,28578},
+            [questKeys.exclusiveTo] = {27683,28577,28578}, -- Pasta: from personal experience this is exclusive with 27683. Comments on Wowhead suggest this might not be excluive with 28577 or 28578 but needs verification
             [questKeys.nextQuestInChain] = 27367,
         },
         [27685] = { -- Good Deed Left Undone
@@ -11969,12 +11971,12 @@ function CataQuestFixes.Load()
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
-            [questKeys.exclusiveTo] = {27684,28578},
+            [questKeys.exclusiveTo] = {27683,27684,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [28578] = { -- Hero's Call: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
-            [questKeys.exclusiveTo] = {27684,28577},
+            [questKeys.exclusiveTo] = {27683,27684,28577},
             [questKeys.nextQuestInChain] = 27367,
         },
         [28579] = { -- Hero's Call: Badlands!
