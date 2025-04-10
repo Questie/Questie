@@ -9791,6 +9791,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Locate the apple orchard in the southern section of New Avalon to fetch some apples. Return to Carrie Hearthfire in the New Avalon inn once you have succeeded. If you find the apples to be too expensive, consider looking around for an alternative means to acquire them."},
             [questKeys.objectives] = {nil,nil,{{238811},{238831},{238830}}},
         },
+        [90519] = {
+            [questKeys.name] = "Fish On Demand",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Investigate the boat docked south of New Avalon for a shipment of fish and return a haul back to Carrie."},
+            [questKeys.objectives] = {nil,nil,{{238899}}},
+        },
         [90520] = {
             [questKeys.name] = "Food Safety",
             [questKeys.startedBy] = nil,

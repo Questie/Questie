@@ -4825,6 +4825,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [90519] = { -- Fish On Demand
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90518,90520},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Free the fish from their barrels."), 0, {{"monster", 241032}}},
+            },
+        },
         [90520] = { -- Food Safety
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
