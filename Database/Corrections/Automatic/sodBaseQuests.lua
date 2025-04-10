@@ -9516,6 +9516,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Slay 5 Crypt Walkers and 8 Crypt Fiends then return to Leonid Bartholomew the Revered at his former home in Terrordale."},
             [questKeys.objectives] = {{{8555},{8556}}},
         },
+        [89340] = {
+            [questKeys.name] = "Preposterously Prosed Postage",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Finish the delivery."},
+            [questKeys.objectives] = {nil,nil,{{239092}}},
+        },
         [89381] = {
             [questKeys.name] = "Pin Cushion",
             [questKeys.startedBy] = nil,

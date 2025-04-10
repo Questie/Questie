@@ -293,6 +293,11 @@ function SeasonOfDiscovery:LoadItems()
         [239016] = { -- Holy Salts
             [itemKeys.npcDrops] = {241120},
         },
+        [239092] = { -- Preposterously Prosed Postage
+            [itemKeys.npcDrops] = {241437},
+            [itemKeys.startQuest] = 89340,
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [239119] = { -- Holy Arrow
             [itemKeys.objectDrops] = {527513},
         },

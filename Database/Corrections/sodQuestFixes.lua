@@ -4639,6 +4639,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.nextQuestInChain] = 89328,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89340] = { -- Preposterously Prosed Postage
+            [questKeys.startedBy] = {nil,nil,{239092}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.objectivesText] = {"Finish the delivery. NOTE: You need to deploy a Pop-Up Shrub to spawn the Scarlet Courier."},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89381] = { -- Pin Cushion
             [questKeys.startedBy] = {{241613}},
             [questKeys.finishedBy] = {{241613}},
