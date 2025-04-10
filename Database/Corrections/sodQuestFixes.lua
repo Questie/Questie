@@ -4812,7 +4812,8 @@ function SeasonOfDiscovery:LoadQuests()
         [90518] = { -- An Apple a Day Keeps the Undead at Bay
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
-            [questKeys.preQuestSingle] = {89224},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [90520] = { -- Food Safety
