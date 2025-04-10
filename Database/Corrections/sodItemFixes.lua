@@ -284,6 +284,9 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.objectDrops] = {526809},
         },
+        [239302] = { -- Scarlet Uniform Belt
+            [itemKeys.npcDrops] = {241120,241121,241122,241123},
+        },
         [238935] = { -- Gently Plagued Meat
             [itemKeys.npcDrops] = {8597,8600,8601,8602,8603,240247},
         },
