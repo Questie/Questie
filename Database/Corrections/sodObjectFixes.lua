@@ -608,6 +608,11 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{98.54,84.12}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [527513] = {
+            [objectKeys.name] = "Holy Arrow",
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{93.33,91.08},{93.82,90.67},{94.97,90.99},{93.78,91.15},{93.48,91.44},{93.29,91.83},{93.46,92.15},{93.67,91,92},{94.12,91.23},{93.28,91.25}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [527821] = {
             [objectKeys.name] = "Elegantly Painted House",
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},

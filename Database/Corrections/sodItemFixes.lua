@@ -293,6 +293,9 @@ function SeasonOfDiscovery:LoadItems()
         [239016] = { -- Holy Salts
             [itemKeys.npcDrops] = {241120},
         },
+        [239119] = { -- Holy Arrow
+            [itemKeys.objectDrops] = {527513},
+        },
         [239223] = { -- House Prop
             [itemKeys.objectDrops] = {527821},
         },

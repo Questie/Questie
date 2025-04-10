@@ -4639,6 +4639,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.nextQuestInChain] = 89328,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89381] = { -- Pin Cushion
+            [questKeys.startedBy] = {{241613}},
+            [questKeys.finishedBy] = {{241613}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89421] = { -- Bullet Heaven
             [questKeys.startedBy] = {{240248}},
             [questKeys.finishedBy] = {{240248}},
