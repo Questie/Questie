@@ -4815,6 +4815,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [90520] = { -- Food Safety
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [90560] = { -- Familiar Foulness
             [questKeys.startedBy] = {nil,{531291},{241655}},
             [questKeys.finishedBy] = nil,
