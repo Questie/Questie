@@ -9527,6 +9527,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Finish the delivery."},
             [questKeys.objectives] = {nil,nil,{{239092}}},
         },
+        [89341] = {
+            [questKeys.name] = "The Great Feast",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Aid Carrie Hearthfire in New Avalon one last time by gathering the following ingredients:."},
+            [questKeys.objectives] = {nil,nil,{{6362},{4603},{13888},{3404},{12184},{3712}}},
+        },
         [89381] = {
             [questKeys.name] = "Pin Cushion",
             [questKeys.startedBy] = nil,

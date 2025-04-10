@@ -4647,6 +4647,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Finish the delivery. NOTE: You need to deploy a Pop-Up Shrub to spawn the Scarlet Courier."},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89341] = { -- The Great Feast
+            [questKeys.startedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240604}},
+            [questKeys.preQuestGroup] = {89236,89245,89253,89340},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
         [89381] = { -- Pin Cushion
             [questKeys.startedBy] = {{241613}},
             [questKeys.finishedBy] = {{241613}},
