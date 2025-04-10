@@ -4680,7 +4680,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [89342] = { -- VIP Haute Club Membership
             [questKeys.startedBy] = {{240607}},
-            [questKeys.finishedBy] = {{240604}},
+            [questKeys.finishedBy] = {{240607}},
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{241462},{241461}},nil,{{238639},{238637}}},
             [questKeys.preQuestSingle] = {89341},
