@@ -4566,7 +4566,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89234] = { -- A Personal Matter
             [questKeys.startedBy] = {{242019}},
             [questKeys.finishedBy] = {{243393}},
-            [questKeys.preQuestSingle] = {89562},
+            [questKeys.preQuestSingle] = {89574},
             [questKeys.nextQuestInChain] = 89235,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
