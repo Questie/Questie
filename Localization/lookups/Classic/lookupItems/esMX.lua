@@ -1003,6 +1003,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [8585] = "Pipeta de muestras cerrada",
 [8587] = "Trozos de insecto centipaar",
 [8593] = "Equipo de análisis de Patagolpe",
+[8594] = "Informe del análisis del insecto",
 [8603] = "Rocío Cardizal",
 [8623] = "Localizador de emergencia OOX-17/TN",
 [8683] = "Manzana fresca de Clara",
