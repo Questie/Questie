@@ -424,6 +424,9 @@ function CataItemFixes.Load()
         [49642] = { -- Heart of Arkkoroc
             [itemKeys.npcDrops] = {},
         },
+        [49667] = { -- Waterlogged Recipe
+            [itemKeys.npcDrops] = {},
+        },
         [49743] = { -- Sten's First Aid Kit
             [itemKeys.class] = itemClasses.QUEST,
         },
