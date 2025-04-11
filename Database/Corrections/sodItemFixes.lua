@@ -294,7 +294,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {526937},
         },
         [239016] = { -- Holy Salts
-            [itemKeys.npcDrops] = {241120,241121,241122,241123},
+            [itemKeys.npcDrops] = {241048,241119,241120,241121,241122,241123},
         },
         [239092] = { -- Preposterously Prosed Postage
             [itemKeys.npcDrops] = {241437},
