@@ -76,7 +76,7 @@ local advancedOptionsLocales = {
     },
     ["Available quest filter distance"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Filterdistanz für verfügbare Quests",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -88,7 +88,7 @@ local advancedOptionsLocales = {
     },
     ["How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wie weit entfernt innerhalb einer Zone ein Spawn der einen Quest startet seien muss bevor ein anderer Spawn derselben Kreatur oder desselben Objektes hinzugefügt wird.\n\nWARNUNG! Diese Einstellung auf niedrigere Werte zu setzen kann in einer großen Menge an hinzugefügten Icons resultieren und die Leistung der Karte beeinträchtigen!",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -100,7 +100,7 @@ local advancedOptionsLocales = {
     },
     ["Available quest icon limit"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Anzeigelimit für verfügbare Quests",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -112,7 +112,7 @@ local advancedOptionsLocales = {
     },
     ["This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Diese Einstellung limitiert die Anzahl an Icons die einen einzelnen Quest starten.\n\nDie Einstellung auf Null setzen bedeutet es gibt kein Limit (außer durch andere Einstellungen).\n\nWARNUNG! Diese Einstellung auf Null zu setzen kann in einer großen Menge an hinzugefügten Icons resultieren und die Leistung der Karte beeinträchtigen!",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,

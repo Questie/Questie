@@ -892,7 +892,7 @@ local iconOptionsLocales = {
     },
     ["Available Quests from Items"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Verfügbare Quests von Gegenständen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -904,7 +904,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wenn dies aktiviert ist werden die Orte wo man Gegenstände plündern kann die Quest starten auf der Karte/Minikarte angezeigt.",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
