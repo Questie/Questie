@@ -4821,12 +4821,15 @@ function SeasonOfDiscovery:LoadQuests()
         [90518] = { -- An Apple a Day Keeps the Undead at Bay
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
+            [questKeys.objectives] = {nil,nil,{{238811}}},
             [questKeys.preQuestSingle] = {89341},
             [questKeys.exclusiveTo] = {90519,90520},
-            [questKeys.requiredSkill] = {profKeys.COOKING,250},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {238830,238831},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
         },
         [90519] = { -- Fish On Demand
             [questKeys.startedBy] = {{240604}},
