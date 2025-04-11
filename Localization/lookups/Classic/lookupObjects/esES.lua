@@ -965,6 +965,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [178609] = "Nieve de Vacaciones",
 [178784] = "Suministros Dentefrío",
 [178785] = "Suministros Ferrohondo",
+[178907] = "Estanque Naranja de Maraudon",
 [179004] = "Pergaminos de Drek'Thar",
 [179005] = "Pergaminos de Drek'Thar",
 [179006] = "Documentos de Vanndar",

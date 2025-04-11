@@ -19,9 +19,9 @@ WAGO_METADATA=$(cat <<-EOF
    "label": "$LATEST_GIT_TAG",
    "stability": "$RELEASE_TYPE",
    "changelog": $CHANGELOG,
-   "supported_wotlk_patch": "3.4.3",
+   "supported_wotlk_patch": "3.4.4",
    "supported_cata_patch": "4.4.2",
-   "supported_classic_patch": "1.15.6"
+   "supported_classic_patch": "1.15.7"
 }
 EOF
 )

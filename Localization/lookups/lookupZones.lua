@@ -22,6 +22,7 @@ l10n.continentLookup = {
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
 l10n.zoneLookup = {
     [0]={
+        [0]="Eastern Kingdoms",
         [1]="Dun Morogh",
         [2]="Longshore",
         [3]="Badlands",

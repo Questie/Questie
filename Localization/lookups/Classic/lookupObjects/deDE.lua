@@ -974,6 +974,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [178726] = "Ichmans Signal",
 [178784] = "Coldtooth-Vorräte",
 [178785] = "Irondeep-Vorräte",
+[178907] = "Maraudon orangefarbenen Kristallteich",
 [179004] = "Drek’Thars Schriftrollen",
 [179005] = "Drek’Thars Schriftrollen",
 [179006] = "Vanndars Dokumente",

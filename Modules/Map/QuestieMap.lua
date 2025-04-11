@@ -305,6 +305,11 @@ function QuestieMap.ProcessQueue()
             frame:SetSize(size, size)
 
             QuestieMap.utils:SetDrawOrder(frame);
+
+            mapDrawCall[2]._loaded = true
+            if mapDrawCall[2]._needsUnload then
+                mapDrawCall[2]:Unload()
+            end
         end
 
         local minimapDrawCall = tremove(minimapDrawQueue, 1);
@@ -313,16 +318,11 @@ function QuestieMap.ProcessQueue()
             HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
 
             QuestieMap.utils:SetDrawOrder(frame);
-        end
 
-        mapDrawCall[2]._loaded = true
-        if mapDrawCall[2]._needsUnload then
-            mapDrawCall[2]:Unload()
-        end
-
-        minimapDrawCall[2]._loaded = true
-        if minimapDrawCall[2]._needsUnload then
-            minimapDrawCall[2]:Unload()
+            minimapDrawCall[2]._loaded = true
+            if minimapDrawCall[2]._needsUnload then
+                minimapDrawCall[2]:Unload()
+            end
         end
     end
 end

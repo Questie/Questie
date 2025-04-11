@@ -8,6 +8,12 @@ function SeasonOfDiscovery:LoadItems()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [2287] = { -- Haunch of Meat (modified to add new SoD vendors to food vendor townsfolk)
+            [itemKeys.vendors] = {982,1464,2365,2388,2814,3025,3089,3312,3368,3411,3489,3621,3705,3881,3882,3933,3935,3960,4084,4169,4255,4782,4875,4879,4891,4894,4954,4963,5111,5124,5611,5620,5870,6928,6929,6930,7485,7731,7733,7736,7941,8125,9356,10367,11118,11187,12196,12794,12959,14624,15174,241664},
+        },
+        [2320] = { -- Coarse Thread (modified to add new SoD vendors to trade goods vendor townsfolk)
+            [itemKeys.vendors] = {66,777,843,960,989,1148,1250,1286,1347,1454,1456,1465,1474,1672,1692,2118,2225,2381,2393,2394,2668,2669,2670,2672,2697,2698,2699,2810,2816,2819,2821,2846,3005,3081,3091,3096,3168,3187,3364,3366,3367,3482,3485,3499,3556,3614,3779,3954,3955,3958,4168,4189,4194,4225,4229,4561,4577,4589,4775,4877,4897,5100,5128,5135,5154,5163,5565,5783,5817,5944,6301,6567,6568,6574,6576,6731,7852,7854,7940,7947,8145,8160,8363,8681,8934,9636,11189,11557,11874,12022,12028,12043,12245,12941,12942,12943,12956,12957,12958,15165,15179,240631,240632},
+        },
         [5359] = { -- Lorgalis Manuscript
             [itemKeys.relatedQuests] = {78923}, -- SoD Knowledge in the Deeps
         },
@@ -18,6 +24,9 @@ function SeasonOfDiscovery:LoadItems()
         [5952] = { -- Corrupted Brain Stem
             [itemKeys.relatedQuests] = {78926}, -- SoD Researching the Corruption
             [itemKeys.npcDrops] = {216660, 4788, 4789, 4803, 4802, 4805, 4807, 4799, 4798, 204645, 216662, 4831, 216659, 216661, 204068}, -- now drops from raid version of npc
+        },
+        [8766] = { -- Morning Glory Dew (modified to add new SoD vendors to drink vendor townsfolk)
+            [itemKeys.vendors] = {258,274,295,465,734,955,982,1237,1247,1328,1464,1697,2303,2352,2364,2366,2388,2803,2832,3086,3298,3411,3546,3577,3621,3689,3708,3881,3882,3883,3884,3934,3937,3959,3961,4167,4169,4181,4190,4191,4192,4195,4255,4266,4554,4555,4571,4782,4875,4879,4893,4963,4981,5111,5112,5140,5611,5620,5688,5814,5871,6091,6272,6495,6727,6734,6735,6736,6737,6738,6739,6740,6741,6746,6747,6790,6791,6807,6928,6929,6930,7485,7714,7731,7733,7736,7737,7744,7941,7943,8125,8137,8143,8150,8152,8931,9356,9501,10367,11038,11103,11106,11116,11118,11187,11287,12019,12026,12196,12794,12959,14371,14624,14731,14961,14962,14963,14964,15124,15125,15174,16256,16458,241664},
         },
         [204806] = { -- Rune of Victory Rush
             [itemKeys.npcDrops] = {706,946,1986},
@@ -252,7 +261,78 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {525416},
         },
         [237143] = { -- Orders from the High General
-            [itemKeys.npcDrops] = {238745}
+            [itemKeys.npcDrops] = {238745},
+            [itemKeys.objectDrops] = {600002}, -- fake for tooltips
+        },
+        [239764] = { -- Crimson Bladeleaf
+            [itemKeys.objectDrops] = {528481},
+        },
+        [238794] = { -- Unappetizing Leftovers
+            [itemKeys.objectDrops] = {526132,526143,526144},
+        },
+        [238811] = { -- Juicy Apple
+            [itemKeys.npcDrops] = {241019,240978},
+        },
+        [238830] = { -- Apple Scope
+            [itemKeys.objectDrops] = {526217},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [238831] = { -- Apple Rope
+            [itemKeys.objectDrops] = {526220},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [238899] = { -- Assorted Fish
+            [itemKeys.objectDrops] = {526809},
+        },
+        [239302] = { -- Scarlet Uniform Belt
+            [itemKeys.npcDrops] = {241120,241121,241122,241123},
+        },
+        [238935] = { -- Gently Plagued Meat
+            [itemKeys.npcDrops] = {8597,8600,8601,8602,8603,240247},
+        },
+        [238960] = { -- Quartermaster's Crate
+            [itemKeys.objectDrops] = {526937},
+        },
+        [239016] = { -- Holy Salts
+            [itemKeys.npcDrops] = {241048,241119,241120,241121,241122,241123},
+        },
+        [239092] = { -- Preposterously Prosed Postage
+            [itemKeys.npcDrops] = {241437},
+            [itemKeys.startQuest] = 89340,
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [239119] = { -- Holy Arrow
+            [itemKeys.objectDrops] = {527513},
+        },
+        [239223] = { -- House Prop
+            [itemKeys.objectDrops] = {527821},
+        },
+        [239225] = { -- Classy Quill
+            [itemKeys.npcDrops] = {241877},
+        },
+        [241652] = { -- Discolored Beast Heart
+            [itemKeys.npcDrops] = {1816,1817,8596,8597,8598,8600,8601,8602,8603,8605,240247},
+        },
+        [241655] = { -- Mishandled Healing Potion
+            [itemKeys.objectDrops] = {531291},
+        },
+        [241656] = { -- Mishandled Healing Potion
+            [itemKeys.objectDrops] = {531291},
+        },
+        [242018] = { -- Plaguelands Bleeding Heart
+            [itemKeys.objectDrops] = {531301},
+        },
+        [242257] = { -- Mysterious Alchemical Sample
+            [itemKeys.objectDrops] = {531545},
+        },
+        [242258] = { -- Research Notes
+            [itemKeys.objectDrops] = {531545},
+        },
+        [242319] = { -- New Plague Samples
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [242320] = { -- New Plague Samples
+            [itemKeys.class] = itemClasses.QUEST,
         },
     }
 end

@@ -530,6 +530,30 @@ local easternKingdomsLocales = {
         ["zhCN"] = "希尔斯布莱德",
         ["zhTW"] = "希爾斯布萊德",
     },
+    ["New Avalon"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Neues Avalon",
+        ["esES"] = "Nuevo Avalón",
+        ["esMX"] = "Nuevo Avalón",
+        ["frFR"] = "Nouvelle-Avalon",
+        ["koKR"] = "신 아발론",
+        ["ptBR"] = "Nova Avalonia",
+        ["ruRU"] = "Новый Авалон",
+        ["zhCN"] = "新阿瓦隆",
+        ["zhTW"] = "新阿瓦隆",
+    },
+    ["Eastern Kingdoms"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Östliche Königreiche",
+        ["esES"] = "Reinos del Este",
+        ["esMX"] = "Reinos del Este",
+        ["frFR"] = "Royaumes de l'est",
+        ["koKR"] = "동부 왕국",
+        ["ptBR"] = "Reinos do Leste",
+        ["ruRU"] = "Восточные королевства",
+        ["zhCN"] = "东部王国",
+        ["zhTW"] = "東部王國",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do

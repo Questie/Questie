@@ -18,6 +18,12 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [16786] = { -- Argent Quartermaster
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{54.8,62.13},{54.55,62.22}},
+                [zoneIDs.IRONFORGE]={{29.59,61.44},{29.37,60.04}},
+                [zoneIDs.DARNASSUS]={{39.11,45.43},{39.55,46.88}},
+                [zoneIDs.EASTERN_PLAGUELANDS]={{81.04,59.74},{80.74,59.9}},
+            },
             [npcKeys.questStarts] = {9321,9337,9341,87434,87436,87438,87440,88746,88883},
             [npcKeys.questEnds] = {9321,9337,9341,87434,87436,87438,87440,88746,88883},
         },
@@ -837,6 +843,165 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WINTERSPRING] = {{58.41,35.97}},
                 [zoneIDs.TANARIS] = {{53.9,28.6}},
             },
+        },
+        [239031] = { -- Scarlet Inquisitor Caldoran
+            [npcKeys.name] = "Scarlet Inquisitor Caldoran",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.3,82.7}}},
+            [npcKeys.questStarts] = {87502,87506},
+            [npcKeys.questEnds] = {87502},
+        },
+        [239032] = { -- Commander Beatrix
+            [npcKeys.name] = "Commander Beatrix",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.8,83.3}}},
+            [npcKeys.questStarts] = {87497,87516},
+            [npcKeys.questEnds] = {87493,87498,87506,87509,87516},
+        },
+        [239047] = { -- Scarlet Siege Commander
+            [npcKeys.name] = "Scarlet Siege Commander",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{78.4,79.6},{78.4,83.1},{81.1,80.9},{83.2,87.8},{84.4,81.9},{84.9,85.2}}},
+        },
+        [239054] = { -- Argent Emissary
+            [npcKeys.name] = "Argent Emissary",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.79,83.27}}},
+            [npcKeys.questStarts] = {87508},
+            [npcKeys.questEnds] = nil,
+        },
+        [239152] = { -- Scout the Mage Tower in New Avalon - Bunny
+            [npcKeys.name] = "New Avalon Mage Tower",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.3,88.4}}},
+        },
+        [239153] = { -- Scout the Keep in New Avalon - Bunny
+            [npcKeys.name] = "New Avalon Keep",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{97.6,83.2}}},
+        },
+        [239154] = { -- Scout the Cathedral in Tyr's Hand - Bunny
+            [npcKeys.name] = "Tyr's Hand Cathedral",
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{85.3,84.0}}},
+        },
+        [240248] = { -- Bryon Steelblade
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.48, 84.14}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Repair",
+        },
+        [240604] = { -- Carrie Hearthfire
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{95.3,78.38}}},
+        },
+        [240607] = { -- Devon Woods
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{95.31,80.24}}},
+        },
+        [240631] = { -- Taylor Stitchings
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.69, 83.54}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Tailoring Supplies",
+        },
+        [240632] = { -- Tanya Hyde
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.24,93.38}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Leatherworking Supplies",
+        },
+        [240654] = { -- Fizzlefuse
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.77,24.31}}},
+        },
+        [240978] = { -- Apple
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [241019] = { -- Johnny
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.911,91.356}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+        },
+        [241032] = { -- Fish Barrel
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{63.08,26.35}}},
+        },
+        [241408] = { -- Scarlet Courier
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{99.02,89.07}}},
+        },
+        [241613] = { -- Kyndra Swiftarrow
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{93.81,90.07}}},
+        },
+        [240811] = { -- Balnazzar, SoD Scarlet Enclave Raid Boss
+            [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
+        },
+        [241664] = { -- Malorie
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{95.29,78.80}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Food & Drink",
+        },
+        [241862] = { -- Scarlet Stash
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{98.75,82.25},{98.51,82.57}}},
+            [npcKeys.npcFlags] = npcFlags.BANKER,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Banker",
+        },
+        [241877] = { -- Mayor Quimby
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{90.87,85.69}}},
+        },
+        [242019] = { -- Leonid Barthalomew the Revered, scarlet caravan
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.54,27.42}}},
+            [npcKeys.questStarts] = {89234,89568,89574},
+            [npcKeys.questEnds] = {89567,89568,89574},
+        },
+        [242827] = { -- Captain Bloodcoin
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.8376,26.2241}}},
+            [npcKeys.npcFlags] = npcFlags.AUCTIONEER,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Seafaring Auctioneer",
+        },
+        [242954] = { -- Anvil (New Avalon)
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{99.57,77.84}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.subName] = "Repair",
+        },
+        [243023] = { -- Inquisitor Jociphine
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{68.2,82.4}}},
+            [npcKeys.questStarts] = {90510},
+            [npcKeys.questEnds] = {90510},
+        },
+        [243386] = { -- Leonid Barthalomew the Revered, terrordale
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{16.54,31.21}}},
+            [npcKeys.questStarts] = {89229,89328,89329},
+            [npcKeys.questEnds] = {89310,89328,89329},
+        },
+        [243393] = { -- Leonid Barthalomew the Revered, service entrance gate, also inside stratholme
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.94,21.90}},
+                [zoneIDs.STRATHOLME] = {{-1,-1}}
+            },
+            [npcKeys.questStarts] = {89235,89310},
+            [npcKeys.questEnds] = {89234,89235},
         },
 
         -- fake NPCs
