@@ -1680,9 +1680,24 @@ function CataNpcFixes.Load()
         [17713] = { -- Bloodcursed Naga
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{79.05,16.27},{82.04,21.1},{80.92,22.28},{81.35,21.57},{79.86,14.92},{79.99,17.91},{81.02,16.16},{82.04,18.08},{81.04,19.55},{81.43,18.85},{82.18,24.17},{82.98,16.51},{82.71,25.63},{81.59,25.06},{81.18,25.67},{82.09,16.62},{81.86,14.66},{80.97,13.72},{78.96,13.61},{79.83,12.1},{80.02,10.39},{80.97,45.51},{79.57,48.68},{82.43,47.45},{82.07,43.49},{82.94,48.49},{83.95,44.53},{82.99,50.62},{80.51,51.48},{83.07,52.31},{83.05,52.17},{84.32,56.31},{80.87,53.87},{80.44,53.57},{83.3,54.61},{85.56,57.55},{85.08,57.05},{86.92,56.75},{85.29,53.36},{87.6,55.06},{85.68,52.09},{86.6,51.87},{87.59,53.1}}},
         },
+        [17770] = { -- Hungarfen
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{70.27,91.11},{-1,-1}}},
+        },
+        [17827] = { -- Claw
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{41.39,22.52},{-1,-1}}},
+        },
         [17876] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{74.48,57.73},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
+        },
+        [17882] = { -- The Black Stalker
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{25.32,43.99},{-1,-1}}},
+        },
+        [17885] = { -- Earthbinder Rayge
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{67.4,21.23},{-1,-1}}},
+        },
+        [18105] = { -- Ghaz'an
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{78.36,28.44},{-1,-1}}},
         },
         [18161] = { -- Underground Well Credit Marker
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{53.2,90.22}}},
@@ -5068,6 +5083,15 @@ function CataNpcFixes.Load()
         },
         [54636] = { -- Caza'rez
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{51.48,90.03},{-1,-1}}},
+        },
+        [54674] = { -- T'shu
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{31.56,65.26},{-1,-1}}},
+        },
+        [54675] = { -- Watcher Jhang
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{30.83,65.17},{-1,-1}}},
+        },
+        [54678] = { -- Naturalist Bite
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{29.51,64.39},{-1,-1}}},
         },
         [54692] = { -- Artificer Morphalius
             [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{34.38,19.46},{-1,-1}}},

@@ -279,6 +279,9 @@ function CataObjectFixes.Load()
         [182947] = { -- The Codex of Blood
             [objectKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{53.26,58.78},{-1,-1}}},
         },
+        [183385] = { -- Sanguine Hibiscus
+            [objectKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{39.11,74.94},{26.41,51.51},{34.7,46.7},{51.08,54.69},{40.74,21.52},{52.87,29.72},{56.42,27.85},{51.22,95.38},{52.45,61.34},{71.93,58.57},{59.92,53.31},{64.87,67.28},{55.35,86.49},{61.79,87.46},{61.34,96.42},{53.73,82.18},{54.49,70.69},{34.84,57.46},{47.95,62.17},{-1,-1}}},
+        },
         [185309] = { -- Altar of Goc
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.15,18.5}}},
         },

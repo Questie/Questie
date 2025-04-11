@@ -219,7 +219,6 @@ function QuestieItemBlacklist:Load()
         [22832] = true, -- Super Mana Potion
         [23445] = true, -- Fel Iron Bar
         [23793] = true, -- Heavy Knothide Leather
-        [24246] = true, -- Sanguine Hibiscus
         [24368] = true, -- Coilfang Armaments
         [24401] = true, -- Unidentified Plant Parts
         [26042] = true, -- Oshu'gun Crystal Powder Sample
