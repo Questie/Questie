@@ -9615,6 +9615,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft or purchase Thorium Shells from a player with the Engineering profession and bring them to Kyndra Swiftarrow near the New Avalon archery range."},
             [questKeys.objectives] = {nil,nil,{{15997}}},
         },
+        [89445] = {
+            [questKeys.name] = "Blades of Light",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find a Blacksmith that can tell you more about the Ruined Lightforged Blade."},
+            [questKeys.objectives] = nil,
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = nil,

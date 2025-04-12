@@ -4703,6 +4703,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89445] = { -- Blades of Light
+            [questKeys.startedBy] = {nil,nil,{239196}},
+            [questKeys.finishedBy] = {{16376}},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
             [questKeys.startedBy] = {{240654}},
