@@ -9626,6 +9626,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find a Blacksmith that can tell you more about the Ruined Lightforged Blade."},
             [questKeys.objectives] = nil,
         },
+        [89446] = {
+            [questKeys.name] = "The Lost Craftsman",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find Master Craftsman Omarion."},
+            [questKeys.objectives] = nil,
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = nil,

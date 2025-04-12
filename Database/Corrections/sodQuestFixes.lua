@@ -4707,6 +4707,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {nil,nil,{239196}},
             [questKeys.finishedBy] = {{16376}},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89446,
+        },
+        [89446] = { -- The Lost Craftsman
+            [questKeys.startedBy] = {{16376}},
+            [questKeys.finishedBy] = {{16365}},
+            [questKeys.preQuestSingle] = {89445},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
