@@ -261,14 +261,13 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {525416},
         },
         [237143] = { -- Orders from the High General
-            [itemKeys.npcDrops] = {238745},
             [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
         },
         [238811] = { -- Juicy Apple
-            [itemKeys.npcDrops] = {241019,240978},
+            [itemKeys.npcDrops] = {240998,240978},
         },
         [238830] = { -- Apple Scope
             [itemKeys.objectDrops] = {526217},
@@ -281,21 +280,13 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.objectDrops] = {526809},
         },
-        [239302] = { -- Scarlet Uniform Belt
-            [itemKeys.npcDrops] = {241120,241121,241122,241123},
-        },
-        [238935] = { -- Gently Plagued Meat
-            [itemKeys.npcDrops] = {8597,8600,8601,8602,8603,240247},
-        },
         [238960] = { -- Quartermaster's Crate
             [itemKeys.objectDrops] = {526937},
         },
         [239016] = { -- Holy Salts
-            [itemKeys.npcDrops] = {241048,241119,241120,241121,241122,241123},
+            [itemKeys.npcDrops] = {240998,241048,241119,241120,241121,241122,241123,241877,242367,242757},
         },
         [239092] = { -- Preposterously Prosed Postage
-            [itemKeys.npcDrops] = {241437},
-            [itemKeys.startQuest] = 89340,
             [itemKeys.class] = itemClasses.QUEST,
         },
         [239119] = { -- Holy Arrow
@@ -303,9 +294,6 @@ function SeasonOfDiscovery:LoadItems()
         },
         [239223] = { -- House Prop
             [itemKeys.objectDrops] = {527821},
-        },
-        [239225] = { -- Classy Quill
-            [itemKeys.npcDrops] = {241877},
         },
         [239764] = { -- Crimson Bladeleaf
             [itemKeys.objectDrops] = {528481},
