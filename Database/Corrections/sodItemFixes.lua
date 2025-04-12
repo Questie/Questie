@@ -264,9 +264,6 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {238745},
             [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
-        [239764] = { -- Crimson Bladeleaf
-            [itemKeys.objectDrops] = {528481},
-        },
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
         },
@@ -309,6 +306,9 @@ function SeasonOfDiscovery:LoadItems()
         },
         [239225] = { -- Classy Quill
             [itemKeys.npcDrops] = {241877},
+        },
+        [239764] = { -- Crimson Bladeleaf
+            [itemKeys.objectDrops] = {528481},
         },
         [241652] = { -- Discolored Beast Heart
             [itemKeys.npcDrops] = {1816,1817,8596,8597,8598,8600,8601,8602,8603,8605,240247},
