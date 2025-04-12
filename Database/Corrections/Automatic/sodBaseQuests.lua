@@ -9637,6 +9637,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find Master Craftsman Omarion."},
             [questKeys.objectives] = nil,
         },
+        [89447] = {
+            [questKeys.name] = "Extravagant Tastes",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring ten servings of Dirge's Kickin' Chimaerok Chops to Master Craftsman Omarion in Naxxramas."},
+            [questKeys.objectives] = {nil,nil,{{21023}}},
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = nil,
