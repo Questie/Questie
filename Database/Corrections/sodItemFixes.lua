@@ -292,6 +292,9 @@ function SeasonOfDiscovery:LoadItems()
         [239119] = { -- Holy Arrow
             [itemKeys.objectDrops] = {527513},
         },
+        [239216] = { -- Lightforged Iron
+            [itemKeys.npcDrops] = {240794,240811,240812,241021,241772,241768,241769,241770,243021,243269},
+        },
         [239223] = { -- House Prop
             [itemKeys.objectDrops] = {527821},
         },

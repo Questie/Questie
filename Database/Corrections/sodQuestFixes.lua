@@ -4721,6 +4721,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{16365}},
             [questKeys.preQuestSingle] = {89446},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89448,
+        },
+        [89448] = { -- Gathering Light
+            [questKeys.startedBy] = {{16365}},
+            [questKeys.finishedBy] = {{16365}},
+            [questKeys.preQuestSingle] = {89447},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",

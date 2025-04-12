@@ -9648,6 +9648,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring ten servings of Dirge's Kickin' Chimaerok Chops to Master Craftsman Omarion in Naxxramas."},
             [questKeys.objectives] = {nil,nil,{{21023}}},
         },
+        [89448] = {
+            [questKeys.name] = "Gathering Light",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring 12 ingots of Lightforged Iron to Master Craftsman Omarion in Naxxramas and discover where the Scarlet Crusade is forging these new weapons."},
+            [questKeys.objectives] = {nil,nil,{{239216}}},
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = nil,
