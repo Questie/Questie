@@ -31,6 +31,9 @@ function SeasonOfDiscovery:LoadItems()
         [9279] = { -- White Punch Card
             [itemKeys.npcDrops] = {216667,216668,216669,216670,216671},
         },
+        [9309] = { -- Robo-mechanical Guts
+            [itemKeys.npcDrops] = {215728,216666,216668,216669,216670,216671,217582,217733,218242,218243,218244,218245,218537,220072},
+        },
         [204806] = { -- Rune of Victory Rush
             [itemKeys.npcDrops] = {706,946,1986},
         },
