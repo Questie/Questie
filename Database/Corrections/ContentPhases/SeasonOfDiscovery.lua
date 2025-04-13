@@ -419,6 +419,7 @@ local questsToBlacklistByPhase = {
         [4604] = true,
         [4605] = true,
         [4606] = true,
+        [81975] = true, -- Never was made available as it seems
 
         -- Original Sunken Temple quests (instance reworked to raid, new quest IDs)
         [1445] = true,
