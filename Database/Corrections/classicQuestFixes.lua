@@ -1213,8 +1213,9 @@ function QuestieQuestFixes:Load()
         [2925] = {
             [questKeys.exclusiveTo] = {2924},
         },
-        [2926] = {
+        [2926] = { -- Gnogaine
             [questKeys.preQuestSingle] = {}, -- #2389
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Empty Leaden Collection Phial."), 0, {{"monster", 6213},{"monster", 6329}}}},
         },
         [2927] = {
             [questKeys.nextQuestInChain] = 2926,

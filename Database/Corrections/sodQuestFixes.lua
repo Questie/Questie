@@ -1119,6 +1119,7 @@ function SeasonOfDiscovery:LoadQuests()
         [80139] = { -- Gnogaine
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Empty Leaden Collection Phial."), 0, {{"monster", 216668},{"monster", 216669}}}},
         },
         [80140] = { -- Return of the Ring Horde
             [questKeys.preQuestSingle] = {79984},
