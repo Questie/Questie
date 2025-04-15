@@ -80,6 +80,9 @@ function CataItemFixes.Load()
         [5847] = { -- Mirefin Head
             [itemKeys.npcDrops] = {4358,4359,4360,4361,4362,4363,23841},
         },
+        [5883] = { -- Forked Mudrock Tongue
+            [itemKeys.npcDrops] = {4397},
+        },
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },

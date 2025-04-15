@@ -1814,6 +1814,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{48.48,61.57}}},
         },
+        [23679] = { -- Garn Mathers
+            [npcKeys.waypoints] = {[zoneIDs.DUSTWALLOW_MARSH] = {{{63.9,29.05},{63.73,28.66},{63.88,28.28},{64,27.85},{64.19,27.53},{64.35,27.1},{64.45,26.77},{64.64,26.83},{64.88,27.15},{64.93,27.65},{64.74,27.96},{64.44,28.78},{64.17,28.99},{63.9,29.05}}}},
+        },
         [23843] = { -- Mordant Grimsby
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{55.58,26.14}}},
         },

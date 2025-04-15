@@ -294,7 +294,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{36273}},
         },
         [6522] = {
-            [questKeys.startedBy] = {{4421},nil,{17008}},
             [questKeys.finishedBy] = {{36273}},
         },
         [6622] = { -- Triage
@@ -323,7 +322,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {7642,7648},
         },
         [7704] = {
-            [questKeys.startedBy] = {nil,{179832},{18950}},
+            [questKeys.startedBy] = {nil,nil,{18950}},
         },
         [7785] = {
             [questKeys.requiredClasses] = classIDs.NONE,
