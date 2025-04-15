@@ -4711,6 +4711,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89445] = { -- Blades of Light
             [questKeys.startedBy] = {nil,nil,{239196}},
             [questKeys.finishedBy] = {{16376}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89446,
         },
