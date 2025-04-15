@@ -277,6 +277,9 @@ function QuestieObjectFixes:Load()
         [188123] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
         },
+        [181598] = { -- Silithyst Geyser
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{41.17,77.14},{49.21,44.84},{35.7,66.4},{41.67,27.04},{26.42,81.5},{20.84,81.43},{31.28,65.46},{39.94,22.35},{36.7,77.47},{18.88,80.26},{50.45,50.69},{38.91,80.85},{36.09,29.92},{48.83,85.1},{36.02,38.35},{59.25,58.77},{64.01,70.86},{60.61,63.0},{58.07,49.96}}},
+        },
         [375544] = {
             [objectKeys.name] = "Wooden Figurine",
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.61,22.03}}},
