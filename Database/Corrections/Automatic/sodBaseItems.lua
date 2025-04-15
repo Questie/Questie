@@ -54010,6 +54010,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [242465] = {
+            [itemKeys.name] = "Jostled Chalice Fragment",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = {239248},
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [242710] = {
             [itemKeys.name] = "Monster Weapon [DNT]",
             [itemKeys.npcDrops] = nil,
