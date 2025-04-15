@@ -42,6 +42,9 @@ function QuestieItemFixes:Load()
             [itemKeys.class] = 12,
             [itemKeys.name] = 'Keg of Thunderbrew',
         },
+        [1357] = {
+            [itemKeys.npcDrops] = {126,127,171,391,456,458,513,515,517},
+        },
         [1524] = {
             [itemKeys.npcDrops] = {667,669,670,672,696,780,781,782,783,784,1059,1061,1062},
         },
@@ -150,6 +153,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {407},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [3317] = {
+            [itemKeys.npcDrops] = {1939,1940,1942,1943},
         },
         [3340] = {
             [itemKeys.npcDrops] = {},
@@ -299,6 +305,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {793,717},
             [itemKeys.npcDrops] = {},
         },
+        [4854] = {
+            [itemKeys.npcDrops] = {3056},
+        },
         [4904] = {
             [itemKeys.relatedQuests] = {812},
             [itemKeys.npcDrops] = {3189},
@@ -430,6 +439,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {20806},
         },
+        [5877] = {
+            [itemKeys.npcDrops] = {4130,4131,4133},
+        },
         [5880] = {
             [itemKeys.class] = 12,
         },
@@ -478,6 +490,9 @@ function QuestieItemFixes:Load()
         },
         [6992] = {
             [itemKeys.npcDrops] = {},
+        },
+        [7067] = {
+            [itemKeys.npcDrops] = {92,2258,2359,2592,2735,2736,2752,2755,2791,2919,4034,4035,4120,4499,5465,7031,7032,7135,7136,7137,8278,9396,10119,11658,11659,11665,11746,11747,11777,11778,11781,11782,11783,11784,12076,12100,12101,13256,14462,14464,15205,15208,15307},
         },
         [7070] = {
             [itemKeys.objectDrops] = {},
@@ -690,6 +705,9 @@ function QuestieItemFixes:Load()
         [10575] = {
             [itemKeys.npcDrops] = {9461}, -- #1216
         },
+        [10589] = {
+            [itemKeys.npcDrops] = {5353},
+        },
         [10639] = {
             [itemKeys.npcDrops] = {1988,1989},
         },
@@ -784,8 +802,8 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
         },
-        [7067] = {
-            [itemKeys.npcDrops] = {92,2258,2359,2592,2735,2736,2752,2755,2791,2919,4034,4035,4120,4499,5465,7031,7032,7135,7136,7137,8278,9396,10119,11658,11659,11665,11746,11747,11777,11778,11781,11782,11783,11784,12076,12100,12101,13256,14462,14464,15205,15208,15307},
+        [11818] = {
+            [itemKeys.npcDrops] = {5840,5844,5846,8504,8566,15692},
         },
         [11914] = {
             [itemKeys.npcDrops] = {},
@@ -1311,6 +1329,24 @@ function QuestieItemFixes:Load()
         },
         [22527] = {
             [itemKeys.npcDrops] = {6520,6521,7031,7032,7132,8519,8520,8521,8522,8909,8910,8911,9017,9025,9026,9816,9878,9879,11480,11483,11484,11744,11745,11746,11747,13279,13280,14399,14400,14455,14458,14460,14462},
+        },
+        [23179] = {
+            [itemKeys.objectDrops] = {181336},
+        },
+        [23180] = {
+            [itemKeys.objectDrops] = {181337},
+        },
+        [23181] = {
+            [itemKeys.objectDrops] = {181335},
+        },
+        [23182] = {
+            [itemKeys.objectDrops] = {181332},
+        },
+        [23183] = {
+            [itemKeys.objectDrops] = {181333},
+        },
+        [23184] = {
+            [itemKeys.objectDrops] = {181334},
         },
         [190179] = {
             [itemKeys.name] = "Avelina's Heart",
