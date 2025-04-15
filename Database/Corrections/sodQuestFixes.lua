@@ -4873,6 +4873,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90520] = { -- Food Safety
             [questKeys.startedBy] = {{240604}},
             [questKeys.finishedBy] = {{240604}},
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {89341},
             [questKeys.exclusiveTo] = {90518,90519},
             [questKeys.requiredSkill] = {profKeys.COOKING,250},
