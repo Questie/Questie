@@ -4040,13 +4040,15 @@ function QuestieQuestFixes:Load()
         [9416] = {
             [questKeys.exclusiveTo] = {},
         },
-        [9419] = {
+        [9419] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{17090,"Return Silithyst",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
-        [9422] = {
+        [9422] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18199,"Return Silithyst",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         ----- Warlock Incubus quest chain -----
         [65593] = {
