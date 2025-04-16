@@ -4346,6 +4346,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
         [87516] = { -- Decapitation Strike
+            [questKeys.objectives] = {{{240811}}},
             [questKeys.preQuestSingle] = {87509},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
