@@ -9879,6 +9879,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Gather Discolored Beast Hearts from creatures in the plaguelands and then bring them and the Mishandled Healing Potion to an interested member of the Royal Apothecary Society in Undercity."},
             [questKeys.objectives] = {nil,nil,{{241652}}},
         },
+        [90566] = {
+            [questKeys.name] = "Oh, My Bleeding Hearts!",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{1937}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Deliver the Basket of Discolored Beast Hearts and some Plaguelands Bleeding Hearts to Apothecary Renferrel in the Sepulcher of Silverpine Forest."},
+            [questKeys.objectives] = {nil,nil,{{242018}}},
+        },
         [90567] = {
             [questKeys.name] = "Unfamiliar Foulness",
             [questKeys.startedBy] = nil,
