@@ -9505,6 +9505,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft a pair of Scarlet Bracers from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
             [questKeys.objectives] = {{{241154}}},
         },
+        [89259] = {
+            [questKeys.name] = "Prove Your Worth: Gloves",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Craft a pair of Scarlet Gloves from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
+            [questKeys.objectives] = {{{241154}}},
+        },
         [89260] = {
             [questKeys.name] = "Prove Your Worth: Belt",
             [questKeys.startedBy] = nil,
