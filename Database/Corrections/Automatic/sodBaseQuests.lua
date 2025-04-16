@@ -9100,8 +9100,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [87516] = {
             [questKeys.name] = "Decapitation Strike",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{239032}},
+            [questKeys.finishedBy] = {{239337}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
