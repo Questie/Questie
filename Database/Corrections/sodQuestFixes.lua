@@ -4710,8 +4710,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89421] = { -- Bullet Heaven
-            [questKeys.startedBy] = {{240248}},
-            [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.exclusiveTo] = {89257,89258,89259,89260,89261},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

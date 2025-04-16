@@ -9617,8 +9617,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [89421] = {
             [questKeys.name] = "Bullet Heaven",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{241613}},
+            [questKeys.finishedBy] = {{241613}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
