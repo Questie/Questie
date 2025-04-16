@@ -1378,6 +1378,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [208484] = {
+            [itemKeys.name] = "Sunlight",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [208601] = {
             [itemKeys.name] = "Top-Right Map Piece",
             [itemKeys.npcDrops] = {2022,2025,2027,2029,2030},
