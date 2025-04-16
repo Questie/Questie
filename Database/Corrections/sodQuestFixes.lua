@@ -4898,7 +4898,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90560] = { -- Familiar Foulness
             [questKeys.startedBy] = {nil,{531291},{241655}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{2055}},
             [questKeys.objectives] = {nil,nil,{{241652}}},
             [questKeys.sourceItemId] = 241655,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
