@@ -581,7 +581,7 @@ function QuestieTBCQuestFixes:Load()
              [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
-            [questKeys.startedBy] = {{15298},nil,{20483}},
+            [questKeys.startedBy] = {nil,nil,{20483}},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8344] = {
@@ -647,13 +647,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8474] = {
-            [questKeys.startedBy] = {{15409},nil,{23228}},
+            [questKeys.startedBy] = {nil,nil,{23228}},
         },
         [8476] = {
             [questKeys.preQuestSingle] = {},
         },
         [8482] = {
-            [questKeys.startedBy] = {{15968},nil,{20765}},
+            [questKeys.startedBy] = {nil,nil,{20765}},
         },
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1010,7 +1010,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
         },
         [8887] = {
-            [questKeys.startedBy] = {{15668,15669,15670,15950},nil,{21776}},
+            [questKeys.startedBy] = {nil,nil,{21776}},
         },
         [8894] = {
             [questKeys.preQuestSingle] = {},
@@ -1150,7 +1150,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {9252},
         },
         [9360] = {
-            [questKeys.startedBy] = {{15407},nil,{23249}},
+            [questKeys.startedBy] = {nil,nil,{23249}},
         },
         [9365] = {
             [questKeys.objectivesText] = {},
@@ -1182,7 +1182,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [9418] = {
-            [questKeys.startedBy] = {{17084},nil,{23580}},
+            [questKeys.startedBy] = {nil,nil,{23580}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take Avruu's Orb to the Haal'eshi Altar"), 0, {{"object", 181606}}}},
         },
         [9421] = {
@@ -1210,7 +1210,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [9455] = {
-            [questKeys.startedBy] = {{17202},nil,{23678}},
+            [questKeys.startedBy] = {nil,nil,{23678}},
         },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Gift of Naias near the Altar of Naias"), 0, {{"object", 181636}}}},
@@ -1274,7 +1274,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9514] = {
             [questKeys.preQuestSingle] = {9506},
-            [questKeys.startedBy] = {{17193,17194,17195},nil,{23759}},
+            [questKeys.startedBy] = {nil,nil,{23759}},
         },
         [9523] = {
             [questKeys.preQuestSingle] = {9506,9512},
@@ -1315,7 +1315,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9544},
         },
         [9564] = {
-            [questKeys.startedBy] = {{17475},nil,{23850}},
+            [questKeys.startedBy] = {nil,nil,{23850}},
             [questKeys.preQuestSingle] = {9559},
         },
         [9565] = {
@@ -1329,16 +1329,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9576] = {
-            [questKeys.startedBy] = {{17496},nil,{23870}},
+            [questKeys.startedBy] = {nil,nil,{23870}},
         },
         [9582] = {
             [questKeys.requiredSourceItems] = {},
         },
         [9587] = {
-            [questKeys.startedBy] = {{17537},nil,{23890}},
+            [questKeys.startedBy] = {nil,nil,{23890}},
         },
         [9588] = {
-            [questKeys.startedBy] = {{17537},nil,{23892}},
+            [questKeys.startedBy] = {nil,nil,{23892}},
         },
         [9591] = {
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {[zoneIDs.AZUREMYST_ISLE]={{20.29,64.87},{22.04,72.29},{20.57,68.9}}}},
@@ -1350,7 +1350,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Tame a Nightstalker", {[zoneIDs.AZUREMYST_ISLE]={{36.41,40.24},{35.82,37.14}}}},
         },
         [9594] = {
-            [questKeys.startedBy] = {{17528},nil,{23900}},
+            [questKeys.startedBy] = {nil,nil,{23900}},
         },
         [9601] = {
             [questKeys.startedBy] = {{16681,20406},nil,nil},
@@ -1362,7 +1362,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
         [9616] = {
-            [questKeys.startedBy] = {{17591},nil,{23910}},
+            [questKeys.startedBy] = {nil,nil,{23910}},
         },
         [9618] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1506,7 +1506,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10105},
         },
         [9798] = {
-            [questKeys.startedBy] = {{16522},nil,{24414}},
+            [questKeys.startedBy] = {nil,nil,{24414}},
             [questKeys.preQuestSingle] = {9309},
         },
         [9802] = {
@@ -1562,10 +1562,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {941,0},
         },
         [9871] = {
-            [questKeys.startedBy] = {{18238},nil,{24559}},
+            [questKeys.startedBy] = {nil,nil,{24559}},
         },
         [9872] = {
-            [questKeys.startedBy] = {{18238},nil,{24558}},
+            [questKeys.startedBy] = {nil,nil,{24558}},
         },
         [9874] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1590,7 +1590,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
         },
         [9911] = {
-            [questKeys.startedBy] = {{18285},nil,{25459}},
+            [questKeys.startedBy] = {nil,nil,{25459}},
         },
         [9913] = {
             [questKeys.exclusiveTo] = {9882},
@@ -2553,7 +2553,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
         [10793] = {
-            [questKeys.startedBy] = {{21979},nil,{31345}},
+            [questKeys.startedBy] = {nil,nil,{31345}},
         },
         [10797] = {
             [questKeys.startedBy] = {{20753},nil,nil},
@@ -2614,7 +2614,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495,31518},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Exorcism Feathers to summon Koi-Koi Spirits"), 0, {{"monster", 21326}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Exorcism Feathers to summon Koi-Koi Spirits"), 0, {{"monster", 21326}}}},
         },
         [10831] = {
             [questKeys.requiredSkill] = {197,350},
@@ -2911,13 +2911,13 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [11002] = {
-            [questKeys.startedBy] = {{17257},nil,{32385}},
+            [questKeys.startedBy] = {nil,nil,{32385}},
         },
         [11003] = {
-            [questKeys.startedBy] = {{17257},nil,{32386}},
+            [questKeys.startedBy] = {nil,nil,{32386}},
         },
         [11007] = {
-            [questKeys.startedBy] = {{19622},nil,{32405}},
+            [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
@@ -2955,7 +2955,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11021] = {
             [questKeys.preQuestSingle] = {11004},
-            [questKeys.startedBy] = {{23066},nil,{32523}},
+            [questKeys.startedBy] = {nil,nil,{32523}},
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,
@@ -3011,7 +3011,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11041] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.startedBy] = {{23267},nil,{32621}},
+            [questKeys.startedBy] = {nil,nil,{32621}},
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
@@ -4260,10 +4260,10 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11933] = {
-            [questKeys.startedBy] = {nil,{188128},{35569}},
+            [questKeys.startedBy] = {nil,nil,{35569}},
         },
         [11935] = {
-            [questKeys.startedBy] = {nil,{188129},{35568}},
+            [questKeys.startedBy] = {nil,nil,{35568}},
         },
         [11947] = {
             [questKeys.finishedBy] = {{26221},nil},
