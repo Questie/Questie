@@ -9945,5 +9945,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Defeat Solistrasza and obtain a Mature Light Dragon Sinew, then bring it to Grok'lo at Light's Hope Chapel in the Eastern Plaguelands. Rewards ."},
             [questKeys.objectives] = {nil,nil,{{242364},{242365}}},
         },
+        [90627] = {
+            [questKeys.name] = "Crafty the Crafter",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Meet with Mizzle the Crafty in Dire Maul North.You'll want to catch him with no distractions, so don't kill any of the important Ogres on your way to him, or else he'll have to spend time replacing them and can't help you. Go alone."},
+            [questKeys.objectives] = {nil,nil,{{242365}}},
+        },
     }
 end

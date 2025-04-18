@@ -4851,6 +4851,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {90625},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [90627] = { -- Crafty the Crafter
+            [questKeys.startedBy] = {{238415}},
+            [questKeys.finishedBy] = {{14353}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {},
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.preQuestSingle] = {90626},
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
 
         --- Fake rune quests
         [90000] = {

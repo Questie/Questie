@@ -1936,6 +1936,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
+        [14353] = { -- Mizzle the Crafty
+            [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
