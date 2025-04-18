@@ -4605,8 +4605,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
         [89259] = { -- Prove Your Worth: Gloves
-            [questKeys.startedBy] = {{240248}},
-            [questKeys.finishedBy] = {{240248}},
             [questKeys.preQuestSingle] = {87498},
             [questKeys.requiredSourceItems] = {238960},
             [questKeys.exclusiveTo] = {89257,89258,89260,89261,89421},
@@ -4686,15 +4684,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.nextQuestInChain] = 89446,
         },
         [89446] = { -- The Lost Craftsman
-            [questKeys.startedBy] = {{16376}},
-            [questKeys.finishedBy] = {{16365}},
             [questKeys.preQuestSingle] = {89445},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89447,
         },
         [89447] = { -- Extravagant Tastes
-            [questKeys.startedBy] = {{16365}},
-            [questKeys.finishedBy] = {{16365}},
             [questKeys.preQuestSingle] = {89446},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89448,
@@ -4823,7 +4817,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90560] = { -- Familiar Foulness
             [questKeys.startedBy] = {nil,{531291},{241655}},
-            [questKeys.finishedBy] = {{2055}},
             [questKeys.sourceItemId] = 241655,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4838,11 +4831,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90567] = { -- Unfamiliar Foulness
             [questKeys.startedBy] = {nil,{531291},{241656}},
-            [questKeys.finishedBy] = {{4160}},
-            [questKeys.objectives] = {nil,nil,{{241652},{242018}}},
             [questKeys.sourceItemId] = 241656,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
         },
 

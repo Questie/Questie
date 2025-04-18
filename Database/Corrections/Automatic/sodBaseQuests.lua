@@ -9529,8 +9529,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [89259] = {
             [questKeys.name] = "Prove Your Worth: Gloves",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -9661,8 +9661,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [89446] = {
             [questKeys.name] = "The Lost Craftsman",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{16376}},
+            [questKeys.finishedBy] = {{16365}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -9672,8 +9672,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [89447] = {
             [questKeys.name] = "Extravagant Tastes",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{16365}},
+            [questKeys.finishedBy] = {{16365}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
