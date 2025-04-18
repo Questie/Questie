@@ -3633,10 +3633,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38213}}},
         },
         [24691] = { -- Peculiar Delicacies
-            [questKeys.preQuestSingle] = {24690},
+            [questKeys.preQuestSingle] = {24690,24735},
         },
         [24692] = { -- The Fledgling Colossus
-            [questKeys.preQuestSingle] = {24690},
+            [questKeys.preQuestSingle] = {24690,24735},
         },
         [24694] = { -- The Shaper's Terrace
             [questKeys.preQuestGroup] = {24720,24721,24722,24723},
