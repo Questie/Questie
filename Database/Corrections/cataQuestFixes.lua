@@ -5079,8 +5079,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [25566] = { -- The Secrets of Uldum
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25420,25565},
+            [questKeys.preQuestSingle] = {25420},
         },
         [25574] = { -- Flames from Above
             [questKeys.objectives] = {{{40856,nil,Questie.ICON_TYPE_EVENT}}},
