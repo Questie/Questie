@@ -2939,9 +2939,13 @@ function CataQuestFixes.Load()
         [14346] = { -- Cleansing Our Crevasse [Horde]
             [questKeys.objectives] = {{{36227,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [14347] = { -- Hold the Line
+            [questKeys.exclusiveTo] = {},
+        },
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
+            [questKeys.exclusiveTo] = {},
         },
         [14354] = { -- Elune's Gifts
             [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT},{195497,nil,Questie.ICON_TYPE_EVENT},{195438,nil,Questie.ICON_TYPE_EVENT}}},
