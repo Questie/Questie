@@ -9120,6 +9120,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Join the battle and gain access to the inner portion of the Scarlet Enclave. Engage High Commander Beatrix's forces and defeat her, then slay the dragon, Solistrasza inside of the inner walls to the enclave."},
             [questKeys.objectives] = {{{238954},{240812}}},
         },
+        [87518] = {
+            [questKeys.name] = "Fall of the Grand Crusader",
+            [questKeys.startedBy] = {{239337}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Slay Grand Crusader Baelin Caldoran in the Scarlet Enclave's inner sanctum."},
+            [questKeys.objectives] = {{{241006}}},
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

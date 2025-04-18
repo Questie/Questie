@@ -4354,6 +4354,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87516},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87518] = { -- Fall of the Grand Crusader
+            [questKeys.finishedBy] = {{239337}},
+            [questKeys.preQuestSingle] = {87517},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
