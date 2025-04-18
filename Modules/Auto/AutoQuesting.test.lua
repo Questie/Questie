@@ -260,7 +260,17 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept quest if player is not in battleground and quest was shared by another player when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return nil end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
 
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
     end)
 
