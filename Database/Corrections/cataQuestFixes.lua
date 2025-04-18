@@ -9885,7 +9885,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27761,27777},
         },
         [27779] = { -- Gnomebliteration
-            [questKeys.objectives] = {{{46384}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{46384,46568},46384}}},
         },
         [27781] = { -- The Machination
             [questKeys.preQuestSingle] = {27758},
