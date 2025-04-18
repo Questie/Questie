@@ -9923,5 +9923,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Gather Discolored Beast Hearts and Bleeding Hearts from the plaguelands. Bring them and the Mishandled Healing Potion to an interested alchemist in Darnassus."},
             [questKeys.objectives] = {nil,nil,{{241652},{242018}}},
         },
+        [90625] = {
+            [questKeys.name] = "On Dreaded Wings",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Wing of Balnazzar to Light's Hope Chapel in the Eastern Plaguelands."},
+            [questKeys.objectives] = nil,
+        },
     }
 end

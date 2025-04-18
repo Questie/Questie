@@ -4835,6 +4835,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
         },
+        [90625] = { -- On Dreaded Wings
+            [questKeys.startedBy] = {nil,nil,{242365}},
+            [questKeys.finishedBy] = {{238415}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
 
         --- Fake rune quests
         [90000] = {
