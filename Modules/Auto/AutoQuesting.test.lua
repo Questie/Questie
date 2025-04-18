@@ -31,6 +31,7 @@ describe("AutoQuesting", function()
             trivial = false,
             repeatable = true,
             pvp = true,
+            rejectSharedInBattleground = false
         }
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
@@ -48,6 +49,7 @@ describe("AutoQuesting", function()
         _G.ImmersionContentFrame = nil
 
         _G.AcceptQuest = spy.new(function() end)
+        _G.DeclineQuest = spy.new(function() end)
         _G.ConfirmAcceptQuest = spy.new(function() end)
         _G.SelectAvailableQuest = spy.new(function() end)
         _G.CompleteQuest = spy.new(function() end)
@@ -210,6 +212,32 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was_not.called()
             assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+        end)
+
+        it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return true end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was.called_with("player")
+        end)
+
+        it("should accept quest if player is in battleground and quest was shared by another player when setting is not enabled", function()
+
+        end)
+
+        it("should accept quest if player is in battleground and quest was not shared by another player when setting is enabled", function()
+
+        end)
+
+        it("should accept quest if player is not in battleground and quest was shared by another player when setting is enabled", function()
+
         end)
     end)
 

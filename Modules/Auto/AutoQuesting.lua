@@ -20,6 +20,14 @@ function AutoQuesting.OnQuestDetail()
         return
     end
 
+    if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
+        local unitType = strsplit("-", UnitGUID("questnpc"))
+        if unitType == "Player" then
+            DeclineQuest()
+            return
+        end
+    end
+
     local doAcceptQuest = true
     if (not Questie.db.profile.autoAccept.trivial) then
         local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
