@@ -58,6 +58,7 @@ describe("AutoQuesting", function()
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
+        _G.UnitGUID = spy.new(function()  end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         _G.C_Timer = {
@@ -229,7 +230,19 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept quest if player is in battleground and quest was shared by another player when setting is not enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return true end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = false
 
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was_not.called()
         end)
 
         it("should accept quest if player is in battleground and quest was not shared by another player when setting is enabled", function()
