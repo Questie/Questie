@@ -4842,6 +4842,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.sourceItemId] = 242365,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [90626] = { -- Sinew of Light
+            [questKeys.startedBy] = {{238415}},
+            [questKeys.finishedBy] = {{238415}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {nil,nil,{{242364}}},
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.preQuestSingle] = {90625},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
 
         --- Fake rune quests
         [90000] = {

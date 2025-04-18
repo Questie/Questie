@@ -9934,5 +9934,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Take the Wing of Balnazzar to Light's Hope Chapel in the Eastern Plaguelands."},
             [questKeys.objectives] = nil,
         },
+        [90626] = {
+            [questKeys.name] = "Sinew of Light",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Defeat Solistrasza and obtain a Mature Light Dragon Sinew, then bring it to Grok'lo at Light's Hope Chapel in the Eastern Plaguelands. Rewards ."},
+            [questKeys.objectives] = {nil,nil,{{242364},{242365}}},
+        },
     }
 end

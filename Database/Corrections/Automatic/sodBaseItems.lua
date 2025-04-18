@@ -53892,7 +53892,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [242364] = {
             [itemKeys.name] = "Mature Light Dragon Sinew",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {238954},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
