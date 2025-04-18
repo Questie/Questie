@@ -3700,6 +3700,7 @@ function CataQuestFixes.Load()
         },
         [24718] = { -- The Mighty U'cha
             [questKeys.startedBy] = {{100063}},
+            [questKeys.preQuestSingle] = {24693},
         },
         [24719] = { -- Claws of White
             [questKeys.preQuestSingle] = {},
