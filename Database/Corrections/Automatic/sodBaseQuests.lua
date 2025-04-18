@@ -9109,6 +9109,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Enter the Scarlet Enclave via the mountain path and engage the Tyr's Hand defenders. Ring the bell inside of the abbey to create confusion and signal Beatrix's forces to attack. ","","Once the bell is rung, confront Balnazzar and destroy him."},
             [questKeys.objectives] = nil,
         },
+        [87517] = {
+            [questKeys.name] = "Red = Dead",
+            [questKeys.startedBy] = {{239337}},
+            [questKeys.finishedBy] = {{239337}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Join the battle and gain access to the inner portion of the Scarlet Enclave. Engage High Commander Beatrix's forces and defeat her, then slay the dragon, Solistrasza inside of the inner walls to the enclave."},
+            [questKeys.objectives] = {{{238954},{240812}}},
+        },
         [88654] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = nil,

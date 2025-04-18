@@ -4350,6 +4350,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {87509},
             [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
         },
+        [87517] = { -- Red = Dead
+            [questKeys.preQuestSingle] = {87516},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
         [88654] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
