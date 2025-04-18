@@ -94,6 +94,9 @@ local migrationFunctions = {
     [11] = function()
         Questie.db.profile.autoAccept.pvp = true
     end,
+    [12] = function()
+        Questie.db.profile.autoAccept.rejectSharedInBattleground = false
+    end,
 }
 
 function Migration:Migrate()
