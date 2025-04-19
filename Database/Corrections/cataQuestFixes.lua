@@ -14125,6 +14125,11 @@ function CataQuestFixes.Load()
         [30103] = { -- To Wyrmrest!
             [questKeys.preQuestSingle] = {30101},
         },
+        [30105] = { -- The Twilight Prophet
+            [questKeys.preQuestSingle] = {30101},
+            [questKeys.startedBy] = {nil,nil,{77957}},
+            [questKeys.finishedBy] = {{54971}},
+        },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
         },
