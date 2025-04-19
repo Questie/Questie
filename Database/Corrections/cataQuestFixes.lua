@@ -11457,7 +11457,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [28395] = { -- Feathers for Nafien
-            [questKeys.preQuestGroup] = {28338,28366},
+            [questKeys.preQuestGroup] = {28364,28338,28366},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -11701,7 +11701,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28480,28483,28486}, -- 28483 might not be needed, worth to double check
         },
         [28521] = { -- Speak to Salfa
-            [questKeys.preQuestGroup] = {28362,28364,28338,28366},
+            [questKeys.preQuestGroup] = {28364,28338,28366},
             [questKeys.nextQuestInChain] = 28524,
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
@@ -12123,7 +12123,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25710,
         },
         [28674] = { -- Starfall Village
-            [questKeys.preQuestGroup] = {28722,28628},
+            [questKeys.preQuestGroup] = {28628,28722},
             [questKeys.nextQuestInChain] = 28676,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
@@ -12647,7 +12647,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27520,27519,27706},
         },
         [28847] = { -- The Pursuit of Umbranse
-            [questKeys.preQuestGroup] = {28848,28628,28722},
+            [questKeys.preQuestGroup] = {28628,28722},
             [questKeys.nextQuestInChain] = 28837,
         },
         [28849] = { -- Twilight Skies
