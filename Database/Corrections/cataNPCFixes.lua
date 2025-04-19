@@ -302,6 +302,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [3535] = { -- Blackmoss the Fetid
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{52.04,63.66}}},
+        },
         [3568] = { -- Mist
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{34.49,27.82}}},
         },
