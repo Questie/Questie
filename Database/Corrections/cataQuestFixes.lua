@@ -1790,9 +1790,6 @@ function CataQuestFixes.Load()
         [13480] = { -- The Great Egg Hunt
             [questKeys.preQuestSingle] = {},
         },
-        [13483] = { -- Spring Gatherers
-            [questKeys.startedBy] = {},
-        },
         [13504] = { -- Shatterspear Laborers
             [questKeys.preQuestSingle] = {13589},
         },
