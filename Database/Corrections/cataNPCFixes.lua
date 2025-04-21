@@ -1686,6 +1686,15 @@ function CataNpcFixes.Load()
         [17770] = { -- Hungarfen
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{70.27,91.11},{-1,-1}}},
         },
+        [17796] = { -- Mekgineer Steamrigger
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{32.12,83.49},{-1,-1}}},
+        },
+        [17797] = { -- Hydromancer Thespia
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{54.27,12.06},{-1,-1}}},
+        },
+        [17798] = { -- Warlord Kalithresh
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{81.11,43.4},{-1,-1}}},
+        },
         [17827] = { -- Claw
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{41.39,22.52},{-1,-1}}},
         },
@@ -1698,6 +1707,24 @@ function CataNpcFixes.Load()
         },
         [17885] = { -- Earthbinder Rayge
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{67.4,21.23},{-1,-1}}},
+        },
+        [17890] = { -- Weeder Greenthumb
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{48.8,83.57},{-1,-1}}},
+        },
+        [17893] = { -- Naturalist Bite
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{95.79,66.26},{-1,-1}}},
+        },
+        [17941] = { -- Mennu the Betrayer
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{48.79,25.51},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.THE_SLAVE_PENS] = {{{48.79,25.51},{48.77,13.43}}}},
+        },
+        [17942] = { -- Quagmirran
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{81.2,80.52},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.THE_SLAVE_PENS] = {{{85.29,67.61},{81.2,80.52}}}},
+        },
+        [17991] = { -- Rokmar the Crackler
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{57.1,36.58},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.THE_SLAVE_PENS] = {{{57.13,44.34},{57.58,39.93},{57.1,36.58},{56.47,31.21}}}},
         },
         [18105] = { -- Ghaz'an
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{78.36,28.44},{-1,-1}}},
@@ -1799,11 +1826,23 @@ function CataNpcFixes.Load()
         [20797] = { -- Deviate Coiler Hatchling
             [npcKeys.waypoints] = {},
         },
+        [21338] = { -- Coilfang Leper
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{30.31,79.67},{31.48,78.9},{31.01,78.19},{31.05,76.64},{32.11,77.47},{33.1,77.77},{32.66,79.15},{31.69,80.37},{35.29,76.39},{36.33,76.41},{35.84,77.2},{36.25,77.93},{35.77,78.87},{35.35,77.93},{34.77,77.14},{34.71,78.29},{-1,-1}}},
+        },
+        [21694] = { -- Bog Overlord
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{29.62,17.23},{35.4,15.22},{40.88,17.61},{35.01,37.76},{30.59,34.45},{-1,-1}}},
+        },
+        [22421] = { -- Skar'this the Heretic
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{57.57,83.85},{-1,-1}}},
+        },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{75.07,47.88}}},
         },
         [22890] = { -- First Fragment Guardian
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{82.62,30.44},{-1,-1}}},
+        },
+        [22891] = { -- Second Fragment Guardian
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{52.97,23.71},{-1,-1}}},
         },
         [23233] = { -- Chu'a'lor
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{28.76,57.36}}},
@@ -5090,6 +5129,12 @@ function CataNpcFixes.Load()
         [54636] = { -- Caza'rez
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{51.48,90.03},{-1,-1}}},
         },
+        [54667] = { -- Watcher Jhang
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{18.8,11.16},{-1,-1}}},
+        },
+        [54668] = { -- Nahuud
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{17.8,12},{-1,-1}}},
+        },
         [54674] = { -- T'shu
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{31.56,65.26},{-1,-1}}},
         },
@@ -5123,6 +5168,15 @@ function CataNpcFixes.Load()
         },
         [54847] = { -- Dealer Vijaad
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{48.14,67.7},{-1,-1}}},
+        },
+        [54848] = { -- Watcher Jhang
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{17.87,27.22},{-1,-1}}},
+        },
+        [54849] = { -- Naturalist Bite
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{17.44,25.85},{-1,-1}}},
+        },
+        [54851] = { -- Windcaller Claw
+            [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{18.82,27.53},{-1,-1}}},
         },
         [54853] = { -- Queen Azshara
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.09,36.78},{-1,-1}}},

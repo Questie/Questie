@@ -14003,6 +14003,9 @@ function CataQuestFixes.Load()
         [29540] = { -- The Breaker
             [questKeys.reputationReward] = {{946,6}},
         },
+        [29563] = { -- Lost in Action
+            [questKeys.objectives] = {{{17893,nil,Questie.ICON_TYPE_TALK},{17890,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29570] = { -- Rescuing the Expedition
             [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_TALK},{17894,nil,Questie.ICON_TYPE_TALK}}},
         },
