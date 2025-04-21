@@ -1826,6 +1826,9 @@ function CataNpcFixes.Load()
         [20797] = { -- Deviate Coiler Hatchling
             [npcKeys.waypoints] = {},
         },
+        [21212] = { -- Lady Vashj
+            [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},
+        },
         [21338] = { -- Coilfang Leper
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{30.31,79.67},{31.48,78.9},{31.01,78.19},{31.05,76.64},{32.11,77.47},{33.1,77.77},{32.66,79.15},{31.69,80.37},{35.29,76.39},{36.33,76.41},{35.84,77.2},{36.25,77.93},{35.77,78.87},{35.35,77.93},{34.77,77.14},{34.71,78.29},{-1,-1}}},
         },
@@ -1837,6 +1840,9 @@ function CataNpcFixes.Load()
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{75.07,47.88}}},
+        },
+        [22820] = { -- Seer Olum
+            [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{48.02,18.42},{-1,-1}}},
         },
         [22890] = { -- First Fragment Guardian
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{82.62,30.44},{-1,-1}}},
