@@ -1784,6 +1784,12 @@ function CataQuestFixes.Load()
         [13337] = { -- The Ironwall Rampart
             [questKeys.preQuestSingle] = {},
         },
+        [13479] = { -- The Great Egg Hunt
+            [questKeys.preQuestSingle] = {},
+        },
+        [13480] = { -- The Great Egg Hunt
+            [questKeys.preQuestSingle] = {},
+        },
         [13504] = { -- Shatterspear Laborers
             [questKeys.preQuestSingle] = {13589},
         },
@@ -2939,9 +2945,13 @@ function CataQuestFixes.Load()
         [14346] = { -- Cleansing Our Crevasse [Horde]
             [questKeys.objectives] = {{{36227,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [14347] = { -- Hold the Line
+            [questKeys.exclusiveTo] = {},
+        },
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
+            [questKeys.exclusiveTo] = {},
         },
         [14354] = { -- Elune's Gifts
             [questKeys.objectives] = {nil,{{195517,nil,Questie.ICON_TYPE_EVENT},{195497,nil,Questie.ICON_TYPE_EVENT},{195438,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3633,10 +3643,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38213}}},
         },
         [24691] = { -- Peculiar Delicacies
-            [questKeys.preQuestSingle] = {24690},
+            [questKeys.preQuestSingle] = {24690,24735},
         },
         [24692] = { -- The Fledgling Colossus
-            [questKeys.preQuestSingle] = {24690},
+            [questKeys.preQuestSingle] = {24690,24735},
         },
         [24694] = { -- The Shaper's Terrace
             [questKeys.preQuestGroup] = {24720,24721,24722,24723},
@@ -3700,6 +3710,7 @@ function CataQuestFixes.Load()
         },
         [24718] = { -- The Mighty U'cha
             [questKeys.startedBy] = {{100063}},
+            [questKeys.preQuestSingle] = {24693},
         },
         [24719] = { -- Claws of White
             [questKeys.preQuestSingle] = {},
@@ -5079,8 +5090,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [25566] = { -- The Secrets of Uldum
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25420,25565},
+            [questKeys.preQuestSingle] = {25420},
         },
         [25574] = { -- Flames from Above
             [questKeys.objectives] = {{{40856,nil,Questie.ICON_TYPE_EVENT}}},
@@ -9885,7 +9895,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27761,27777},
         },
         [27779] = { -- Gnomebliteration
-            [questKeys.objectives] = {{{46384}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{46384,46568},46384}}},
         },
         [27781] = { -- The Machination
             [questKeys.preQuestSingle] = {27758},
@@ -11453,7 +11463,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [28395] = { -- Feathers for Nafien
-            [questKeys.preQuestGroup] = {28338,28366},
+            [questKeys.preQuestGroup] = {28364,28338,28366},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -11697,7 +11707,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28480,28483,28486}, -- 28483 might not be needed, worth to double check
         },
         [28521] = { -- Speak to Salfa
-            [questKeys.preQuestGroup] = {28362,28364,28338,28366},
+            [questKeys.preQuestGroup] = {28364,28338,28366},
             [questKeys.nextQuestInChain] = 28524,
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
@@ -12119,7 +12129,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25710,
         },
         [28674] = { -- Starfall Village
-            [questKeys.preQuestGroup] = {28722,28628},
+            [questKeys.preQuestGroup] = {28628,28722},
             [questKeys.nextQuestInChain] = 28676,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
@@ -12643,7 +12653,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27520,27519,27706},
         },
         [28847] = { -- The Pursuit of Umbranse
-            [questKeys.preQuestGroup] = {28848,28628,28722},
+            [questKeys.preQuestGroup] = {28628,28722},
             [questKeys.nextQuestInChain] = 28837,
         },
         [28849] = { -- Twilight Skies
@@ -13993,6 +14003,9 @@ function CataQuestFixes.Load()
         [29540] = { -- The Breaker
             [questKeys.reputationReward] = {{946,6}},
         },
+        [29563] = { -- Lost in Action
+            [questKeys.objectives] = {{{17893,nil,Questie.ICON_TYPE_TALK},{17890,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29570] = { -- Rescuing the Expedition
             [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_TALK},{17894,nil,Questie.ICON_TYPE_TALK}}},
         },
@@ -14120,6 +14133,11 @@ function CataQuestFixes.Load()
         },
         [30103] = { -- To Wyrmrest!
             [questKeys.preQuestSingle] = {30101},
+        },
+        [30105] = { -- The Twilight Prophet
+            [questKeys.preQuestSingle] = {30101},
+            [questKeys.startedBy] = {nil,nil,{77957}},
+            [questKeys.finishedBy] = {{54971}},
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
