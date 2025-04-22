@@ -1711,6 +1711,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [19025] = "Péndola de Señor del Cielo",
 [19033] = "Herramientas perdidas de Esco",
 [19034] = "Almuerzo de Lard",
+[19036] = "Mensaje final a Martillo Salvaje",
 [19061] = "Ración de hierro de la Garganta Grito de Guerra",
 [19064] = "Llave de grillete",
 [19069] = "Calavera del cazador Malkhor",
