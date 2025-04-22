@@ -1850,6 +1850,9 @@ function CataNpcFixes.Load()
         [22891] = { -- Second Fragment Guardian
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{52.97,23.71},{-1,-1}}},
         },
+        [22892] = { -- Third Fragment Guardian
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{82.62,30.44},{-1,-1}}},
+        },
         [23233] = { -- Chu'a'lor
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{28.76,57.36}}},
         },
@@ -4171,6 +4174,10 @@ function CataNpcFixes.Load()
         [46077] = { -- Lord Itharius
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{49.96,17.21},{-1,-1}}},
         },
+        [46121] = { -- "Up to the Citadel" Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.65,65.93}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
         [46125] = { -- High Warlord Cromush
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {
@@ -4626,7 +4633,7 @@ function CataNpcFixes.Load()
         [47876] = { -- Obsidian Flower Bunny
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{64.07,78.04}}},
         },
-        [47900] = { -- Master Apothecary Lydon{36.65,61.2},
+        [47900] = { -- Master Apothecary Lydon
             [npcKeys.spawns] = {
                 [zoneIDs.HILLSBRAD_FOOTHILLS] = {
                     {40.35,59.31,phases.LYDON_AWESOME_CAGE},
@@ -4639,6 +4646,9 @@ function CataNpcFixes.Load()
         },
         [47929] = { -- Obsidia
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{45.15,91.73}}},
+        },
+        [47940] = { -- Commander Schnottz
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{24.41,64.09}}},
         },
         [47970] = { -- Schnottz Guests
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{21.91,64.1}}},
@@ -4749,6 +4759,9 @@ function CataNpcFixes.Load()
         },
         [48490] = { -- Greater Colossus
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{66.61,41.73}}},
+        },
+        [48499] = { -- Fanny Thundermar
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{34.96,31.14}}},
         },
         [48503] = { -- Kingslayer Orkus
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{27.35,87.34}}},

@@ -8801,7 +8801,6 @@ function CataQuestFixes.Load()
         },
         [27374] = { -- The Maw of Madness
             [questKeys.preQuestSingle] = {28655},
-            [questKeys.startedBy] = {{49374}},
             [questKeys.nextQuestInChain] = 27299,
         },
         [27375] = { -- The Weeping Wound
@@ -9716,12 +9715,12 @@ function CataQuestFixes.Load()
         },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
+            [questKeys.preQuestGroup] = {27659,27702,27719},
             [questKeys.nextQuestInChain] = 27720,
         },
         [27712] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
+            [questKeys.preQuestGroup] = {27659,27703,27798},
             [questKeys.nextQuestInChain] = 28885,
         },
         [27713] = { -- The Day that Deathwing Came
@@ -9753,7 +9752,7 @@ function CataQuestFixes.Load()
         },
         [27720] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27659,27662,27702,27719},
+            [questKeys.preQuestGroup] = {27659,27702,27719},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
@@ -10402,6 +10401,7 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {},
         },
         [27990] = { -- Battlezone
+            [questKeys.finishedBy] = {{47940}},
             [questKeys.objectives] = {{{47385},{47159,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732},{"monster", 47743}}}},
         },
@@ -10441,6 +10441,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47339,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28001] = { -- A Coward's Due
+            [questKeys.finishedBy] = {{46591,48173}},
             [questKeys.preQuestSingle] = {27817},
         },
         [28002] = { -- Crisis Management
@@ -10933,7 +10934,6 @@ function CataQuestFixes.Load()
         },
         [28216] = { -- Magmalord Falthazar
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
-            [questKeys.finishedBy] = {{46591}},
         },
         [28217] = { -- Wanted: The Demon Hunter
             [questKeys.preQuestSingle] = {28374},
@@ -11157,6 +11157,9 @@ function CataQuestFixes.Load()
         [28293] = { -- That's No Pyramid!
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [28294] = { -- The Kirthaven Summit
+            [questKeys.startedBy] = {{48173,46591}},
+        },
         [28295] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28558},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
@@ -11321,6 +11324,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28096},
             [questKeys.triggerEnd] = {"Orkus Safely Escorted Out of the Water",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.99,74.38}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Orkus"), 0, {{"monster", 48218}}}},
+        },
+        [28346] = { -- The Bachelor
+            [questKeys.preQuestSingle] = {28294},
         },
         [28348] = { -- Stormpike Rendezvous
             [questKeys.triggerEnd] = {"Learn about the Stormpike rendezvous",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.99,74.38}}}},
@@ -12736,7 +12742,7 @@ function CataQuestFixes.Load()
         },
         [28885] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27659,27662,27703,27798},
+            [questKeys.preQuestGroup] = {27659,27703,27798},
             [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28909] = { -- Sauranok Will Point the Way
