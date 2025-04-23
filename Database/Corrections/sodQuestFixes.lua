@@ -4681,8 +4681,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [89421] = { -- Bullet Heaven
             [questKeys.preQuestSingle] = {87498},
-            [questKeys.exclusiveTo] = {89257,89258,89259,89260,89261},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,250},
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
