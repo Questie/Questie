@@ -4185,6 +4185,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [46174] = { -- Cayden Dunwald
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {45.78,71.73,phases.CAYDEN_START_AMBUSH},
+                    {47.88,74.55,phases.CAYDEN_FINISH_AMBUSH},
+                },
+            },
+        },
         [46180] = { -- Ithurian Whitespire
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
