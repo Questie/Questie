@@ -96,6 +96,7 @@ local migrationFunctions = {
     end,
     [12] = function()
         Questie.db.profile.autoAccept.rejectSharedInBattleground = false
+        Questie.db.profile.tutorialRejectInBattlegroundsDone = false
     end,
 }
 

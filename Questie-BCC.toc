@@ -221,6 +221,10 @@ Modules\Tracker\LinePool\VoiceOverPlayButton.lua
 Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
 
+# Tutorial
+Modules\Tutorial\RejectInBattlegrounds.lua
+Modules\Tutorial\Tutorial.lua
+
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
 
