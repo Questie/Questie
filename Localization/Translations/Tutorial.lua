@@ -118,7 +118,7 @@ local tutorialLocals = {
         ["frFR"] = "Questie peut rejeter automatiquement les quêtes partagées avec vous\npendant que vous êtes sur un champ de bataille.\n\n\nSouhaitez-vous activer cela ?",
         ["koKR"] = false,
         ["ptBR"] = "Questie pode rejeitar automaticamente as missões compartilhadas com você\nenquanto estiver em um campo de batalha.\n\n\nDeseja ativar isso?",
-        ["ruRU"] = false,
+        ["ruRU"] = "На поле боя Questie может автоматически отменять задания,\nкоторыми поделились с вами.\n\n\nХотите ли вы включить это?",
         ["zhCN"] = false,
         ["zhTW"] = false,
     }
