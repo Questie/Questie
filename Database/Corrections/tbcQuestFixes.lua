@@ -1964,6 +1964,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10277] = {
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.87,54.3}}}},
+            [questKeys.nextQuestInChain] = 10282,
         },
         [10283] = {
             [questKeys.objectives] = {nil,{{182589,"Internment Lodges Set Ablaze"}}},
@@ -2177,18 +2178,22 @@ function QuestieTBCQuestFixes:Load()
         [10460] = {
             [questKeys.startedBy] = {{19935,19936}},
             [questKeys.nextQuestInChain] = 10467,
+            [questKeys.preQuestSingle] = {10445},
         },
         [10461] = {
             [questKeys.startedBy] = {{19935,19936}},
             [questKeys.nextQuestInChain] = 10465,
+            [questKeys.preQuestSingle] = {10445},
         },
         [10462] = {
             [questKeys.startedBy] = {{19935,19936}},
             [questKeys.nextQuestInChain] = 10466,
+            [questKeys.preQuestSingle] = {10445},
         },
         [10463] = {
             [questKeys.startedBy] = {{19935,19936}},
             [questKeys.nextQuestInChain] = 10464,
+            [questKeys.preQuestSingle] = {10445},
         },
         [10464] = {
             [questKeys.startedBy] = {{19935,19936}},

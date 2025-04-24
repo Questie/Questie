@@ -492,6 +492,18 @@ function QuestieWotlkQuestFixes:Load()
         [10445] = {
             [questKeys.exclusiveTo] = {13432},
         },
+        [10460] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10461] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10462] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10463] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
         [10464] = {
             [questKeys.objectives] = {nil,nil,nil,{990,9000}},
         },

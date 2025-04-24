@@ -224,6 +224,8 @@ local phases = {
     KARGATH_DEAD = 1152,
     CAYDEN_START_AMBUSH = 1153,
     CAYDEN_FINISH_AMBUSH = 1154,
+    OHF_THRALL_PRISON = 1155,
+    OHF_THRALL_DESTINY = 1156,
 }
 Phasing.phases = phases
 
@@ -926,6 +928,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CAYDEN_FINISH_AMBUSH then
         return complete[27648] or (questLog[27648] and questLog[27648].isComplete == 1) or false
+    end
+
+    if phase == phases.OHF_THRALL_PRISON then
+        return not complete[29599] and (not questLog[29599] or (questLog[29599] and questLog[29599].isComplete == 0)) or false
+    end
+
+    if phase == phases.OHF_THRALL_DESTINY then
+        return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
     end
 
     return false

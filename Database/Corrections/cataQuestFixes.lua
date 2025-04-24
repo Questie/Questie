@@ -1257,6 +1257,27 @@ function CataQuestFixes.Load()
         [10253] = { -- Levixus the Soul Caller
             [questKeys.zoneOrSort] = 3688,
         },
+        [10277] = { -- The Caverns of Time
+            [questKeys.zoneOrSort] = 1941,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.56,54.14}}}},
+        },
+        [10279] = { -- To The Master's Lair
+            [questKeys.zoneOrSort] = 1941,
+        },
+        [10282] = { -- Old Hillsbrad
+            [questKeys.zoneOrSort] = 1941,
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [10296] = { -- The Black Morass
+            [questKeys.zoneOrSort] = 1941,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [10297] = { -- The Opening of the Dark Portal
+            [questKeys.zoneOrSort] = 1941,
+            [questKeys.preQuestSingle] = {},
+        },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
         },
@@ -1280,6 +1301,54 @@ function CataQuestFixes.Load()
         },
         [10450] = { -- Bonechewer Blood
             [questKeys.preQuestSingle] = {10291,10875},
+        },
+        [10460] = { -- Defender's Pledge
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10461] = { -- Restorer's Pledge
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10462] = { -- Champion's Pledge
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10463] = { -- Sage's Pledge
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10464] = { -- Sage's Vow
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10465] = { -- Restorer's Vow
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10466] = { -- Champion's Vow
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10467] = { -- Defender's Vow
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10468] = { -- Sage's Oath
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10469] = { -- Restorer's Oath
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10470] = { -- Champion's Oath
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10471] = { -- Defender's Oath
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10472] = { -- Sage's Covenant
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10473] = { -- Restorer's Covenant
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10474] = { -- Champion's Covenant
+            [questKeys.startedBy] = {{19935}},
+        },
+        [10475] = { -- Defender's Covenant
+            [questKeys.startedBy] = {{19935}},
         },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
@@ -1687,6 +1756,12 @@ function CataQuestFixes.Load()
         [12492] = { -- Direbrew's Dire Brew
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [12513] = { -- Nice Hat...
+            [questKeys.zoneOrSort] = 1941,
+        },
+        [12515] = { -- Nice Hat...
+            [questKeys.zoneOrSort] = 1941,
+        },
         [12535] = { -- Mischief in the Making
             [questKeys.preQuestSingle] = {12532},
         },
@@ -1783,6 +1858,9 @@ function CataQuestFixes.Load()
         },
         [13337] = { -- The Ironwall Rampart
             [questKeys.preQuestSingle] = {},
+        },
+        [13432] = { -- The Vials of Eternity
+            [questKeys.startedBy] = {{19935}},
         },
         [13479] = { -- The Great Egg Hunt
             [questKeys.preQuestSingle] = {},
@@ -14019,13 +14097,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [29598] = { -- Taretha's Diversion
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Set the fuse on a barrel"),0,{{"object",430017}}}},
-            [questKeys.zoneOrSort] = 2300,
+            [questKeys.zoneOrSort] = 1941,
             [questKeys.nextQuestInChain] = 29599,
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,{{182589,"Internment Lodges Set Ablaze"}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",18725}}}},
         },
         [29599] = { -- Escape from Durnholde
-            [questKeys.zoneOrSort] = 2300,
+            [questKeys.zoneOrSort] = 1941,
         },
         [29605] = { -- Brother Against Brother
             [questKeys.objectives] = {{{18956,nil,Questie.ICON_TYPE_TALK}}},

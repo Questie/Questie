@@ -2810,18 +2810,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Set the fuse on a barrel"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Make it rain"] = {
         ["enUS"] = true,
         ["deDE"] = false,
