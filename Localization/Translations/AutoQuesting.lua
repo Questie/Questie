@@ -10,7 +10,7 @@ local autoLocales = {
         ["frFR"] = false,
         ["koKR"] = false,
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание, которым поделился другой игрок, автоматически отменено.",
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
