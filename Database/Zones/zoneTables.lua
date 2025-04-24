@@ -237,6 +237,9 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10041] = 321, -- Ahn'Qiraj - Raid - Vault of C'thun
     [10042] = 259, -- Sethekk Halls - Dungeon - Halls of Mourning
     [10043] = 257, -- Auchenai Crypts - Dungeon - Bridge of Souls
+    [10044] = 268, -- The Mechanar - Dungeon - Calculation Chamber
+    [10045] = 270, -- The Arcatraz - Dungeon - Stasis Block: Maximus
+    [10046] = 271, -- The Arcatraz - Dungeon - Containment Core
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -471,10 +474,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [1555] = 3845, -- Tempest Keep - Raid
     [266] = 3847, -- The Botanica - Dungeon
     [269] = 3848, -- The Arcatraz - Dungeon
-    [270] = 3848, -- The Arcatraz - Dungeon
-    [271] = 3848, -- The Arcatraz - Dungeon
     [267] = 3849, -- The Mechanar - Dungeon
-    [268] = 3849, -- The Mechanar - Dungeon
     [330] = 3923, -- Gruul's Lair - Raid
     [339] = 3959, -- Black Temple - Raid
     [113] = 3979, -- The Frozen Sea
@@ -585,6 +585,9 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [321] = 10041, -- Ahn'Qiraj - Raid - Vault of C'thun
     [259] = 10042, -- Sethekk Halls - Dungeon - Halls of Mourning
     [257] = 10043, -- Auchenai Crypts - Dungeon - Bridge of Souls
+    [268] = 10044, -- The Mechanar - Dungeon - Calculation Chamber
+    [270] = 10045, -- The Arcatraz - Dungeon - Stasis Block: Maximus
+    [271] = 10046, -- The Arcatraz - Dungeon - Containment Core
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2971,8 +2974,8 @@ ZoneDB.zoneIDs = {
     THE_UNDERBOG = 3716,
     THE_SLAVE_PENS = 3717,
     THE_BOTANICA = 3847,
-    THE_ARCATRAZ = 3848,
-    THE_MECHANAR = 3849,
+    THE_ARCATRAZ = 3848, -- this is also Stasis Block: Trion map in The Arcatraz in Cata
+    THE_MECHANAR = 3849, -- this is also The Mechanar map for The Mechanar in Cata
     SHADOW_LABYRINTH = 3789,
     AUCHENAI_CRYPTS = 3790, -- this is also Halls of the Hereafter map for Auchenai Crypts in Cata
     SETHEKK_HALLS = 3791, -- this is also Veil Sethekk map for Sethekk Halls in Cata
@@ -3142,6 +3145,9 @@ ZoneDB.zoneIDs = {
     AQ40_VAULT_OF_CTHUN = 10041, -- 321
     SETHEKK_HALLS_HALLS_OF_MOURNING = 10042, -- 259
     AUCHENAI_CRYPTS_BRIDGE_OF_SOULS = 10043, -- 257
+    THE_MECHANAR_CALCULATION_CHAMBER = 10044, -- 268
+    THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS = 10045, -- 270
+    THE_ARCATRAZ_CONTAINMENT_CORE = 10046, -- 271
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

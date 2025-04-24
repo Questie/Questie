@@ -14166,6 +14166,35 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {23735},
             [questKeys.reputationReward] = {{947,5}},
         },
+        [29657] = { -- With Great Power, Comes Great Responsibility
+            [questKeys.startedBy] = {{100000}},
+        },
+        [29658] = { -- The Calculator
+            [questKeys.preQuestSingle] = {29657},
+            [questKeys.startedBy] = {{100001}},
+        },
+        [29660] = { -- Saving the Botanica
+            [questKeys.startedBy] = {{100071}},
+        },
+        [29667] = { -- Culling the Herd
+            [questKeys.preQuestSingle] = {29660},
+            [questKeys.startedBy] = {{100001}},
+        },
+        [29669] = { -- A Most Somber Task
+            [questKeys.preQuestSingle] = {29667},
+            [questKeys.startedBy] = {{100001}},
+        },
+        [29674] = { -- Unbound Darkness
+            [questKeys.startedBy] = {{100072}},
+        },
+        [29675] = { -- Hey There Dalliah
+            [questKeys.preQuestSingle] = {29674},
+            [questKeys.startedBy] = {{100001}},
+        },
+        [29681] = { -- Maximum Security Breakout
+            [questKeys.preQuestSingle] = {29675},
+            [questKeys.startedBy] = {{100001}},
+        },
         [29682] = { -- Magisters' Terrace
             [questKeys.objectives] = {{{55007,nil,Questie.ICON_TYPE_TALK}}},
         },

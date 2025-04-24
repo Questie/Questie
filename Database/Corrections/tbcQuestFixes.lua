@@ -1524,6 +1524,12 @@ function QuestieTBCQuestFixes:Load()
         [9831] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 0, {{"object", 182196}}}},
         },
+        [9832] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 1, {{"object", 182197}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 2, {{"object", 182198}}},
+            },
+        },
         [9833] = {
             [questKeys.requiredMinRep] = {978,0},
         },
@@ -1531,7 +1537,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
         },
         [9836] = {
-            [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95}}}},
+            [questKeys.objectives] = {{{15608,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9847] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Feralfen Totem on the ground"), 0, {{"object", 182176}}}},
