@@ -11007,12 +11007,8 @@ function CataQuestFixes.Load()
         [28241] = { -- A Vision of Twilight
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
         },
-        [28243] = { -- The Eyes Have It
-            [questKeys.finishedBy] = {{48010}},
-        },
         [28244] = { -- Eye Spy
             [questKeys.objectives] = {{{48116,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.finishedBy] = {{48010}},
         },
         [28246] = { -- Strategic Cuts
             [questKeys.preQuestSingle] = {28239},
@@ -11117,7 +11113,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48201}}},
         },
         [28280] = { -- Tear Them From the Sky!
-            [questKeys.preQuestGroup] = {28211,28212},
+            [questKeys.preQuestGroup] = {28211,28212,28215},
         },
         [28281] = { -- Last Stand at Thundermar
             [questKeys.preQuestSingle] = {28280},
