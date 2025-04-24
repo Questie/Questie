@@ -23,8 +23,6 @@ describe("AutoQuesting", function()
     local AutoQuesting
     ---@type QuestieDB
     local QuestieDB
-    ---@type l10n
-    local l10n
 
     before_each(function()
         Questie.db.profile.autocomplete = true
@@ -71,7 +69,7 @@ describe("AutoQuesting", function()
         }
 
         QuestieDB = require("Database.QuestieDB")
-        l10n = require("Localization.l10n")
+        require("Localization.l10n") -- We don't need the return value
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
