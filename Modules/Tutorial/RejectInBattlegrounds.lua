@@ -34,21 +34,21 @@ function Tutorial.AutoRejectInBattlegroundsFrame()
     )
     customText:SetPoint("TOP", 0, -35)
 
-    local acceptOnlyQuestieButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyQuestieButton:SetText(NO)
-    acceptOnlyQuestieButton:SetSize(100, 24)
-    acceptOnlyQuestieButton:SetPoint("BOTTOMLEFT", 60, 15)
-    acceptOnlyQuestieButton:SetScript("OnClick", function()
+    local noButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+    noButton:SetText(NO)
+    noButton:SetSize(100, 24)
+    noButton:SetPoint("BOTTOMLEFT", 60, 15)
+    noButton:SetScript("OnClick", function()
         Questie.db.profile.autoAccept.rejectSharedInBattleground = false
         Questie.db.profile.tutorialRejectInBattlegroundsDone = true
         baseFrame:Hide()
     end)
 
-    local acceptOnlyBlizzardButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyBlizzardButton:SetText(YES)
-    acceptOnlyBlizzardButton:SetSize(100, 24)
-    acceptOnlyBlizzardButton:SetPoint("BOTTOMRIGHT", -60, 15)
-    acceptOnlyBlizzardButton:SetScript("OnClick", function()
+    local yesButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+    yesButton:SetText(YES)
+    yesButton:SetSize(100, 24)
+    yesButton:SetPoint("BOTTOMRIGHT", -60, 15)
+    yesButton:SetScript("OnClick", function()
         Questie.db.profile.autoAccept.rejectSharedInBattleground = true
         Questie.db.profile.tutorialRejectInBattlegroundsDone = true
         baseFrame:Hide()
