@@ -8,6 +8,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 --- https://wow.gamepedia.com/UiMapID/Classic
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapId = [[return {
+    [0] = 1415, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
     [1] = 1426, -- Dun Morogh
     [3] = 1418, -- Badlands
     [4] = 1419, -- Blasted Lands
@@ -89,7 +90,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [2817] = 127, -- Crystalsong Forest
     [3277] = 1460, -- Warsong Gulch - Battleground
     [3358] = 1461, -- Arathi Basin - Battleground
-    [3428] = 319, -- Ahn'Qiraj - Raid
+    [3428] = 320, -- Ahn'Qiraj - Raid
     [3429] = 247, -- Ruins of Ahn'Qiraj - Raid
     [3430] = 1941, -- Eversong Woods
     [3433] = 1942, -- Ghostlands
@@ -232,6 +233,10 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10037] = 405, -- End Time - Dungeon - Emerald Dragonshrine
     [10038] = 406, -- End Time - Dungeon - Bronze Dragonshrine
     [10039] = 400, -- Hour of Twilight - Wyrmrest Temple
+    [10040] = 319, -- Ahn'Qiraj - Raid - The Hive Undergrounds
+    [10041] = 321, -- Ahn'Qiraj - Raid - Vault of C'thun
+    [10042] = 259, -- Sethekk Halls - Dungeon - Halls of Mourning
+    [10043] = 257, -- Auchenai Crypts - Dungeon - Bridge of Souls
 
     -- TODO: Sort these in
     [4737] = 194, -- Kezan
@@ -318,6 +323,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
 
 ---@type table<UiMapId, AreaId>
 ZoneDB.private.uiMapIdToAreaId = [[return {
+    [1415] = 0, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
     [1426] = 1, -- Dun Morogh
     [1418] = 3, -- Badlands
     [1419] = 4, -- Blasted Lands
@@ -407,9 +413,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [127]  = 2817, -- Crystalsong Forest
     [1460] = 3277, -- Warsong Gulch - Battleground
     [1461] = 3358, -- Arathi Basin - Battleground
-    [319]  = 3428, -- Ahn'Qiraj - Raid
-    [320]  = 3428, -- Ahn'Qiraj - Raid
-    [321]  = 3428, -- Ahn'Qiraj - Raid
+    [320]  = 3428, -- Ahn'Qiraj - Raid - The Temple Gates
     [247]  = 3429, -- Ruins of Ahn'Qiraj - Raid
     [1941] = 3430, -- Eversong Woods
     [1942] = 3433, -- Ghostlands
@@ -457,7 +461,6 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [265] = 3717, -- The Slave Pens - Dungeon
     [260] = 3789, -- Shadow Labyrinth - Dungeon
     [256] = 3790, -- Auchenai Crypts - Dungeon
-    [257] = 3790, -- Auchenai Crypts - Dungeon
     [258] = 3791, -- Sethekk Halls - Dungeon
     [259] = 3791, -- Sethekk Halls - Dungeon
     [272] = 3792, -- Mana-Tombs - Dungeon
@@ -578,6 +581,10 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [405] = 10037, -- End Time - Dungeon - Emerald Dragonshrine
     [406] = 10038, -- End Time - Dungeon - Bronze Dragonshrine
     [400] = 10039, -- Hour of Twilight - Wyrmrest Temple
+    [319] = 10040, -- Ahn'Qiraj - Raid - The Hive Undergrounds
+    [321] = 10041, -- Ahn'Qiraj - Raid - Vault of C'thun
+    [259] = 10042, -- Sethekk Halls - Dungeon - Halls of Mourning
+    [257] = 10043, -- Auchenai Crypts - Dungeon - Bridge of Souls
 
     -- TODO: Sort these in
     [194] = 4737, -- Kezan
@@ -2854,6 +2861,7 @@ ZoneDB.private.subZoneToParentZone = [[return {
 -- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
 ---@enum ZoneIDs
 ZoneDB.zoneIDs = {
+    EASTERN_KINGDOM = 0, -- some things are so far off the map, we need to use this map
     DUN_MOROGH = 1,
     BADLANDS = 3,
     BLASTED_LANDS = 4,
@@ -2937,7 +2945,7 @@ ZoneDB.zoneIDs = {
     CHAMPIONS_HALL = 2918,
     WARSONG_GULCH = 3277,
     ARATHI_BASIN = 3358,
-    AHN_QIRAJ = 3428,
+    AHN_QIRAJ = 3428, -- this is also The Temple Gates map for AQ40 in Cata
     RUINS_OF_AHN_QIRAJ = 3429,
     NAXXRAMAS = 3456,
     EVERSONG_WOODS = 3430,
@@ -2955,6 +2963,7 @@ ZoneDB.zoneIDs = {
     THE_EXODAR = 3557,
     HELLFIRE_RAMPARTS = 3562,
     HYJAL_SUMMIT = 3606,
+    SERPENTSHRINE_CAVERN = 3607,
     SHATTRATH_CITY = 3703,
     THE_BLOOD_FURNACE = 3713,
     THE_SHATTERED_HALLS = 3714,
@@ -2965,16 +2974,18 @@ ZoneDB.zoneIDs = {
     THE_ARCATRAZ = 3848,
     THE_MECHANAR = 3849,
     SHADOW_LABYRINTH = 3789,
-    AUCHENAI_CRYPTS = 3790,
-    SETHEKK_HALLS = 3791,
+    AUCHENAI_CRYPTS = 3790, -- this is also Halls of the Hereafter map for Auchenai Crypts in Cata
+    SETHEKK_HALLS = 3791, -- this is also Veil Sethekk map for Sethekk Halls in Cata
     MANA_TOMBS = 3792,
     TEMPEST_KEEP = 3845,
     ZUL_AMAN = 3805,
+    MAGTHERIDONS_LAIR = 3836,
     BLACK_TEMPLE = 3959,
     THE_FROZEN_SEA = 3979,
     SUNWELL_PLATEAU = 4075,
     ISLE_OF_QUEL_DANAS = 4080,
     MAGISTERS_TERRACE = 4131, -- this is also Observation Grounds map for Magister's Terrace in Cata
+    NEW_AVALON = 4343, -- SoD (might be the wrong ID)
     UPPER_BLACKROCK_SPIRE = 7307,
     DRAGONBLIGHT = 65,
     ZUL_DRAK = 66,
@@ -3085,6 +3096,7 @@ ZoneDB.zoneIDs = {
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
     THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
     KARAZHAN_CRYPTS = 16074, -- SoD Dungeon
+    SCARLET_ENCLAVE = 16236, -- SoD Raid
     -- Fake IDs for dungeons
     MARAUDON_ZAETARS_GRAVE = 10000, -- 281
     STRATHOLME_THE_GAUNTLET = 10001, -- 318
@@ -3126,6 +3138,10 @@ ZoneDB.zoneIDs = {
     END_TIME_EMERALD_DRAGONSHRINE = 10037, -- 405
     END_TIME_BRONZE_DRAGONSHRINE = 10038, -- 406
     HOUR_OF_TWILIGHT_WYRMREST_TEMPLE = 10039, -- 400
+    AQ40_THE_HIVE_UNDERGROUNDS = 10040, -- 319
+    AQ40_VAULT_OF_CTHUN = 10041, -- 321
+    SETHEKK_HALLS_HALLS_OF_MOURNING = 10042, -- 259
+    AUCHENAI_CRYPTS_BRIDGE_OF_SOULS = 10043, -- 257
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
@@ -3152,7 +3168,7 @@ ZoneDB.instanceIdToUiMapId = {
     [409] = ZoneDB.zoneIDs.MOLTEN_CORE,
     [429] = ZoneDB.zoneIDs.DIRE_MAUL,
     [469] = ZoneDB.zoneIDs.BLACKWING_LAIR,
-    [509] = ZoneDB.zoneIDs.AHN_QIRAJ,
-    [531] = ZoneDB.zoneIDs.RUINS_OF_AHN_QIRAJ,
+    [509] = ZoneDB.zoneIDs.RUINS_OF_AHN_QIRAJ,
+    [531] = ZoneDB.zoneIDs.AHN_QIRAJ,
     [533] = ZoneDB.zoneIDs.NAXXRAMAS,
 }

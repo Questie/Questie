@@ -339,6 +339,18 @@ local raidLocales = {
         ["zhCN"] = "巨龙之魂",
         ["zhTW"] = "巨龍之魂",
     },
+    ["Scarlet Enclave"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Scharlachrote Enklave",
+        ["esES"] = "Enclave Escarlata",
+        ["esMX"] = "Enclave Escarlata",
+        ["frFR"] = "Enclave Écarlate",
+        ["koKR"] = "붉은십자군 초소",
+        ["ptBR"] = "Enclave Escarlate",
+        ["ruRU"] = "Анклав Алого ордена",
+        ["zhCN"] = "血色领地",
+        ["zhTW"] = "血色領區",
+    },
 }
 
 for k, v in pairs(raidLocales) do

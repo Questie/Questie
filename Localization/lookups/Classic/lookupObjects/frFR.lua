@@ -972,6 +972,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [178725] = "Balise de Slidore",
 [178784] = "Fournitures de Froide-dent",
 [178785] = "Fournitures de Gouffrefer",
+[178907] = "Bassin de cristal orange de Maraudon",
 [179004] = "Rouleaux de Drek'Thar",
 [179005] = "Rouleaux de Drek'Thar",
 [179006] = "Les documents de Vanndar",

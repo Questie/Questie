@@ -80,13 +80,23 @@ function CataItemFixes.Load()
         [5847] = { -- Mirefin Head
             [itemKeys.npcDrops] = {4358,4359,4360,4361,4362,4363,23841},
         },
+        [5883] = { -- Forked Mudrock Tongue
+            [itemKeys.npcDrops] = {4397},
+        },
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },
         [8244] = { -- Flawless Draenethyst Sphere
             [itemKeys.startQuest] = 25772,
         },
+        [8623] = { -- OOX-17/TN Distress Beacon
+            [itemKeys.npcDrops] = {5419,5420,5421,5422,5423,5424,5425,5426,5427,5428,5429,5430,5431,5441,5450,5451,5452,5453,5454,5455,5456,5457,5458,5459,5460,5465,5466,5469,5470,5471,5472,5473,5474,5475,5481,5485,5490,5616,5617,5623,5645,5646,5647,5648,5649,5650,7246,7247,7269,7272,7274,7276,7286,7604,7605,7606,7608,7795,7796,7797,7803,7855,7856,7857,7858,7899,7902,8095,8120,8667,9396,9397,10080,10081,10082,12046,14123,38646,38750,38909,38914,38916,38997,38998,39020,39022,40527,40581,40632,40635,40636,40648,40656,40665,40717,40764,44546,44557,44612},
+        },
+        [8704] = { -- OOX-09/HL Distress Beacon
+            [itemKeys.npcDrops] = {2505,2639,2640,2641,2642,2643,2644,2645,2646,2647,2648,2649,2650,2651,2652,2653,2654,2655,2656,2657,2658,2659,2680,2681,2686,2691,2692,2693,2694,2707,2923,2924,2925,2926,2927,2928,2929,4465,4466,4467,4468,4469,7808,7809,7977,7995,7996,8636,10802,17235,17236,42536,42555,42724,42879,42901},
+        },
         [8705] = { -- OOX-22/FE Distress Beacon
+            [itemKeys.npcDrops] = {5229,5232,5234,5236,5237,5238,5239,5240,5241,5244,5245,5246,5247,5249,5251,5253,5254,5255,5258,5260,5262,5268,5272,5274,5276,5278,5286,5287,5288,5292,5293,5295,5296,5297,5299,5300,5304,5305,5306,5307,5308,5327,5328,5331,5332,5333,5334,5335,5336,5337,5357,5358,5359,5360,5361,5362,5363,5364,5366,5461,5462,5881,7584,7725,7726,7727,7848,8075,12418,14603,14604,14638,14639,14640,14661,39384,39728,39896,39949,39952,39957,40059,40168,40193,40224,40972},
             [itemKeys.startQuest] = 25475,
         },
         [8973] = { -- Thick Yeti Hide
@@ -222,11 +232,20 @@ function CataItemFixes.Load()
         [22978] = { -- Emitter Spare Part
             [itemKeys.npcDrops] = {},
         },
+        [23726] = { -- Fel Ember
+            [itemKeys.objectDrops] = {181679},
+        },
+        [23735] = { -- Grand Warlock's Amulet
+            [itemKeys.npcDrops] = {16807},
+        },
         [23777] = { -- Diabolical Plans
             [itemKeys.startQuest] = 26443,
         },
-        [23798] = { -- Diabolical Plans
+        [23797] = { -- Diabolical Plans
             [itemKeys.startQuest] = 26447,
+        },
+        [23901] = { -- Nazan's Head
+            [itemKeys.npcDrops] = {17307},
         },
         [24025] = { -- Deathclaw's Paw
             [itemKeys.npcDrops] = {17661},
@@ -255,6 +274,9 @@ function CataItemFixes.Load()
         [24416] = { -- Corrupted Flower
             [itemKeys.npcDrops] = {},
         },
+        [27480] = { -- Soul Device
+            [itemKeys.objectDrops] = {182940},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -263,6 +285,9 @@ function CataItemFixes.Load()
         },
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
+        },
+        [33833] = { -- Nazan's Riding Crop
+            [itemKeys.npcDrops] = {17307},
         },
         [34130] = { -- Recovery Diver's Potion
             [itemKeys.class] = itemClasses.QUEST,
@@ -314,6 +339,9 @@ function CataItemFixes.Load()
         },
         [45885] = { -- Thistle Bear Fur
             [itemKeys.npcDrops] = {33978},
+        },
+        [46128] = { -- Troll Charm
+            [itemKeys.npcDrops] = {3924,3925,3926},
         },
         [46354] = { -- Seed of the Earth
             [itemKeys.npcDrops] = {33072},
@@ -387,6 +415,12 @@ function CataItemFixes.Load()
         [49172] = { -- Simmering Water Droplet
             [itemKeys.npcDrops] = {36131},
         },
+        [49200] = { -- Infernal Power Core
+            [itemKeys.npcDrops] = {35591},
+        },
+        [49220] = { -- Infernal Power Core
+            [itemKeys.npcDrops] = {35591},
+        },
         [49281] = { -- Chance the Cat
             [itemKeys.npcDrops] = {36459,36461},
         },
@@ -400,6 +434,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {36756,36987},
         },
         [49642] = { -- Heart of Arkkoroc
+            [itemKeys.npcDrops] = {},
+        },
+        [49667] = { -- Waterlogged Recipe
             [itemKeys.npcDrops] = {},
         },
         [49743] = { -- Sten's First Aid Kit
@@ -1014,6 +1051,9 @@ function CataItemFixes.Load()
         [63686] = { -- Daggerspine Attack Plans
             [itemKeys.startQuest] = 28356,
         },
+        [64313] = { -- Elemental-Imbued Weapon
+            [itemKeys.npcDrops] = {8889,8890,8891,8892,8893,8894,8898,8903,24818,24819},
+        },
         [64318] = { -- Fine Dark Cloth
             [itemKeys.npcDrops] = {},
         },
@@ -1131,8 +1171,19 @@ function CataItemFixes.Load()
         [71716] = { -- Soothsayer's Runes
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [72160] = { -- Hellfire Supplies
+            [itemKeys.objectDrops] = {209347},
+        },
         [73269] = { -- Great Sea Herring
             [itemKeys.npcDrops] = {},
+        },
+        [224452] = { -- Teleport Scroll: Stormwind
+            [itemKeys.name] = "Teleport Scroll: Stormwind",
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [224458] = { -- Teleport Scroll: Orgrimmar
+            [itemKeys.name] = "Teleport Scroll: Orgrimmar",
+            [itemKeys.class] = itemClasses.QUEST,
         },
     }
 end

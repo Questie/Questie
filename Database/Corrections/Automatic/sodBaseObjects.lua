@@ -2781,6 +2781,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [495577] = {
+            [objectKeys.name] = "Chromatic Stash",
+            [objectKeys.zoneID] = 2677,
+            [objectKeys.spawns] = {
+                [2677] = {{-1,-1}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [499987] = {
             [objectKeys.name] = "Spellbook",
             [objectKeys.zoneID] = 45,

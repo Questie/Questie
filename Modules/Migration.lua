@@ -91,6 +91,9 @@ local migrationFunctions = {
         -- The previous release had the default value set to "true", which was incorrect.
         Questie.db.profile.autoAccept.enabled = false
     end,
+    [11] = function()
+        Questie.db.profile.autoAccept.pvp = true
+    end,
 }
 
 function Migration:Migrate()

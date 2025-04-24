@@ -150,6 +150,9 @@ function QuestieTBCItemFixes:Load()
         [24226] = {
             [itemKeys.npcDrops] = {17832},
         },
+        [24246] = {
+            [itemKeys.npcDrops] = {},
+        },
         [24355] = {
             [itemKeys.class] = 12,
         },
@@ -364,12 +367,6 @@ function QuestieTBCItemFixes:Load()
         [32364] = {
             [itemKeys.objectDrops] = {185566},
             [itemKeys.npcDrops] = {23002},
-        },
-        [32385] = {
-            [itemKeys.npcDrops] = {21174},
-        },
-        [32386] = {
-            [itemKeys.npcDrops] = {21174},
         },
         [32406] = {
             [itemKeys.class] = 12,

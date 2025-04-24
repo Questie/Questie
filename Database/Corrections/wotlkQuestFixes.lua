@@ -294,7 +294,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{36273}},
         },
         [6522] = {
-            [questKeys.startedBy] = {{4421},nil,{17008}},
             [questKeys.finishedBy] = {{36273}},
         },
         [6622] = { -- Triage
@@ -323,7 +322,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {7642,7648},
         },
         [7704] = {
-            [questKeys.startedBy] = {nil,{179832},{18950}},
+            [questKeys.startedBy] = {nil,nil,{18950}},
         },
         [7785] = {
             [questKeys.requiredClasses] = classIDs.NONE,
@@ -492,6 +491,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10445] = {
             [questKeys.exclusiveTo] = {13432},
+        },
+        [10460] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10461] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10462] = {
+            [questKeys.preQuestSingle] = {10445,13432},
+        },
+        [10463] = {
+            [questKeys.preQuestSingle] = {10445,13432},
         },
         [10464] = {
             [questKeys.objectives] = {nil,nil,nil,{990,9000}},
@@ -1015,11 +1026,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ask McGoyver for a ride to the Explorers' League Outpost"),0,{{"monster",24040}}}},
         },
         [11452] = {
-            [questKeys.startedBy] = {{24018},nil,{34090}},
+            [questKeys.startedBy] = {nil,nil,{34090}},
             [questKeys.requiredSourceItems] = {},
         },
         [11453] = {
-            [questKeys.startedBy] = {{24018},nil,{34091}},
+            [questKeys.startedBy] = {nil,nil,{34091}},
             [questKeys.requiredSourceItems] = {},
         },
         [11458] = {
@@ -1172,7 +1183,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11632] = {
-            [questKeys.startedBy] = {nil,{187674},{34777}},
+            [questKeys.startedBy] = {nil,nil,{34777}},
         },
         [11633] = {
             [questKeys.requiredSourceItems] = {},
@@ -1201,7 +1212,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11654] = {
-            [questKeys.startedBy] = {{26115},nil,{34815}},
+            [questKeys.startedBy] = {nil,nil,{34815}},
             [questKeys.preQuestSingle] = {11633},
         },
         [11656] = {
@@ -1578,7 +1589,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26678,"Warsong Battle Standard Defended"}}},
         },
         [12055] = {
-            [questKeys.startedBy] = {{26349},nil,{36742}},
+            [questKeys.startedBy] = {nil,nil,{36742}},
             [questKeys.preQuestSingle] = {12000},
         },
         [12056] = {
@@ -1588,7 +1599,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12059] = {
-            [questKeys.startedBy] = {{26349},nil,{36746}},
+            [questKeys.startedBy] = {nil,nil,{36746}},
             [questKeys.preQuestSingle] = {11999},
         },
         [12060] = {
@@ -1611,7 +1622,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12067] = {
-            [questKeys.startedBy] = {{26762},nil,{36756}},
+            [questKeys.startedBy] = {nil,nil,{36756}},
         },
         [12068] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 420049}}}},
@@ -1659,7 +1670,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12085] = {
-            [questKeys.startedBy] = {{26815},nil,{36780}},
+            [questKeys.startedBy] = {nil,nil,{36780}},
         },
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
@@ -1681,7 +1692,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12034},
         },
         [12105] = {
-            [questKeys.startedBy] = {{27547},nil,{36940}},
+            [questKeys.startedBy] = {nil,nil,{36940}},
         },
         [12107] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Ley Line Focus Control Talisman"),1,{{"object", 188491}}}},
@@ -1740,10 +1751,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12146] = {
-            [questKeys.startedBy] = {{27004,27005},nil,{36855}},
+            [questKeys.startedBy] = {nil,nil,{36855}},
         },
         [12147] = {
-            [questKeys.startedBy] = {{27004,27005},nil,{36856}},
+            [questKeys.startedBy] = {nil,nil,{36856}},
         },
         [12150] = {
             [questKeys.objectives] = {{{27003,}}},
@@ -1976,7 +1987,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Deliver Shredder"),0,{{"monster", 27423}}}},
         },
         [12271] = {
-            [questKeys.startedBy] = {{27209},nil,{37432}},
+            [questKeys.startedBy] = {nil,nil,{37432}},
             [questKeys.preQuestSingle] = {12245},
         },
         [12272] = {
@@ -2093,10 +2104,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12419] = {
-            [questKeys.startedBy] = {{27680},nil,{37833}},
+            [questKeys.startedBy] = {nil,nil,{37833}},
         },
         [12423] = {
-            [questKeys.startedBy] = {{27547},nil,{37830}},
+            [questKeys.startedBy] = {nil,nil,{37830}},
         },
         [12427] = {
             [questKeys.preQuestSingle] = {12413},
@@ -2199,11 +2210,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
         [12491] = {
-            [questKeys.startedBy] = {{23872},nil,{38280}},
+            [questKeys.startedBy] = {nil,nil,{38280}},
             [questKeys.preQuestSingle] = {},
         },
         [12492] = {
-            [questKeys.startedBy] = {{23872},nil,{38281}},
+            [questKeys.startedBy] = {nil,nil,{38281}},
             [questKeys.preQuestSingle] = {},
         },
         [12498] = {
@@ -2234,7 +2245,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
         [12507] = { -- Strange Mojo
-            [questKeys.startedBy] = {{28034,28035,28036},nil,{38321}},
+            [questKeys.startedBy] = {nil,nil,{38321}},
         },
         [12509] = {
             [questKeys.parentQuest] = 12501,
@@ -2504,7 +2515,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12631] = {
-            [questKeys.startedBy] = {{28519},nil,{38660}},
+            [questKeys.startedBy] = {nil,nil,{38660}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12633},
@@ -2516,7 +2527,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12633] = {
-            [questKeys.startedBy] = {{28519},nil,{38673}},
+            [questKeys.startedBy] = {nil,nil,{38673}},
             [questKeys.preQuestSingle] = {12238},
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12631},
@@ -3519,7 +3530,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13043] = {
             [questKeys.preQuestSingle] = {12999},
-            [questKeys.startedBy] = {{30409},nil,{42772}},
+            [questKeys.startedBy] = {nil,nil,{42772}},
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
@@ -3681,7 +3692,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13104},
         },
         [13136] = {
-            [questKeys.startedBy] = {{30597},nil,{43242}},
+            [questKeys.startedBy] = {nil,nil,{43242}},
             [questKeys.objectives] = {nil,nil,{{43259}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13119,13120},
@@ -3880,7 +3891,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {11528,13966},
         },
         [13204] = {
-            [questKeys.startedBy] = {{30329},nil,{43512}},
+            [questKeys.startedBy] = {nil,nil,{43512}},
         },
         [13211] = {
             [questKeys.preQuestSingle] = {},
@@ -4414,14 +4425,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Request a portal to Orgrimmar"), 0, {{"monster", 32346}}}},
         },
         [13372] = {
-            [questKeys.startedBy] = {{15989},nil,{44569}},
+            [questKeys.startedBy] = {nil,nil,{44569}},
         },
         [13373] = {
             [questKeys.objectives] = {{{32179},{32188}},nil,nil,nil,{{{32182,32183},32182}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
         },
         [13375] = {
-            [questKeys.startedBy] = {{15989},nil,{44577}},
+            [questKeys.startedBy] = {nil,nil,{44577}},
         },
         [13376] = {
             [questKeys.preQuestSingle] = {13373},
@@ -4536,7 +4547,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to the ship"), 1, {{"monster", 31085}}}},
         },
         [13420] = {
-            [questKeys.startedBy] = {nil,{193997},{44725}},
+            [questKeys.startedBy] = {nil,nil,{44725}},
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {},
         },
@@ -4936,7 +4947,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [13604] = {
-            [questKeys.startedBy] = {{32867,32927},nil,{45506}},
+            [questKeys.startedBy] = {nil,nil,{45506}},
         },
         [13607] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
@@ -4964,7 +4975,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [13631] = {
-            [questKeys.startedBy] = {{32871},nil,{46052}},
+            [questKeys.startedBy] = {nil,nil,{46052}},
         },
         [13633] = {
             [questKeys.preQuestSingle] = {13667},
@@ -5561,10 +5572,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13817] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.startedBy] = {{32867,32927},nil,{45857}},
+            [questKeys.startedBy] = {nil,nil,{45857}},
         },
         [13819] = {
-            [questKeys.startedBy] = {{32871},nil,{46053}},
+            [questKeys.startedBy] = {nil,nil,{46053}},
         },
         [13820] = {
             [questKeys.startedBy] = {{33817}},
@@ -6170,7 +6181,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
         },
         [14483] = {
-            [questKeys.startedBy] = {{36296},nil,{49641}},
+            [questKeys.startedBy] = {nil,nil,{49641}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [20438] = {
@@ -6367,17 +6378,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24223,24224},
         },
         [24428] = {
-            [questKeys.startedBy] = {{10184},nil,{49644}},
+            [questKeys.startedBy] = {nil,nil,{49644}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [24429] = {
-            [questKeys.startedBy] = {{10184},nil,{49643}},
+            [questKeys.startedBy] = {nil,nil,{49643}},
         },
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
         [24442] = { -- Battle Plans Of The Kvaldir
-            [questKeys.startedBy] = {{34839,34838},nil,{49676}},
+            [questKeys.startedBy] = {nil,nil,{49676}},
         },
         [24461] = {
             [questKeys.requiredSourceItems] = {49718,49723},
@@ -6774,7 +6785,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 24547,
         },
         [24745] = {
-            [questKeys.startedBy] = {{36296},nil,{50320}},
+            [questKeys.startedBy] = {nil,nil,{50320}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [24748] = {
@@ -7095,7 +7106,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 24549,
         },
         [24914] = {
-            [questKeys.startedBy] = {{36597},nil,{53135}},
+            [questKeys.startedBy] = {nil,nil,{53135}},
             [questKeys.preQuestSingle] = {24549},
             [questKeys.requiredSourceItems] = {},
         },

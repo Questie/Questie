@@ -944,6 +944,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [178609] = "Neve de Feriado",
 [178784] = "Suprimentos de Dentefrio",
 [178785] = "Suprimentos dos Ferrofundo",
+[178907] = "Poça de cristal laranja de Maraudon",
 [179006] = "Documentos de Vanndar",
 [179007] = "Documentos de Vanndar",
 [179008] = "Documentos de Vanndar",

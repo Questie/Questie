@@ -219,9 +219,16 @@ local phases = {
     WOT_NOZDORMU_3 = 1147,
     KAMMAH_STONE = 1148,
     KAMMAH_TENT = 1149,
-    LINDSAY_WPL_TREE = 1150,
-    LINDSAY_WPL_TENT = 1151,
-    LINDSAY_WPL_INN = 1152,
+    BALNAZZAR_DEAD = 1150,
+    RIVENDARE_DEAD = 1151,
+    KARGATH_DEAD = 1152,
+    CAYDEN_START_AMBUSH = 1153,
+    CAYDEN_FINISH_AMBUSH = 1154,
+    OHF_THRALL_PRISON = 1155,
+    OHF_THRALL_DESTINY = 1156,
+    LINDSAY_WPL_TREE = 1157,
+    LINDSAY_WPL_TENT = 1158,
+    LINDSAY_WPL_INN = 1159,
 }
 Phasing.phases = phases
 
@@ -303,11 +310,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_CAVERN then
-        return (not complete[25988]) or complete[26143] or false
+        return (not complete[25987] and not complete[25988]) or complete[26143] or false
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
-        return ((complete[25988] or complete[25987]) and (not complete[26143])) or false
+        return ((complete[25987] or complete[25988]) and (not complete[26143])) or false
     end
 
     if phase == phases.SIRA_KESS_AT_GARDEN then
@@ -906,6 +913,34 @@ function Phasing.IsSpawnVisible(phase)
         return complete[14325] or (questLog[14325] and questLog[14325].isComplete == 1) or false
     end
 
+    if phase == phases.BALNAZZAR_DEAD then
+        return complete[27208] or (questLog[27208] and questLog[27208].isComplete == 1) or false
+    end
+
+    if phase == phases.RIVENDARE_DEAD then
+        return complete[27227] or (questLog[27227] and questLog[27227].isComplete == 1) or false
+    end
+
+    if phase == phases.KARGATH_DEAD then
+        return complete[29653] or (questLog[29653] and questLog[29653].isComplete == 1) or complete[29654] or (questLog[29654] and questLog[29654].isComplete == 1) or false
+    end
+
+    if phase == phases.CAYDEN_START_AMBUSH then
+        return not complete[27648] and (not questLog[27648] or (questLog[27648] and questLog[27648].isComplete == 0)) or false
+    end
+
+    if phase == phases.CAYDEN_FINISH_AMBUSH then
+        return complete[27648] or (questLog[27648] and questLog[27648].isComplete == 1) or false
+    end
+
+    if phase == phases.OHF_THRALL_PRISON then
+        return not complete[29599] and (not questLog[29599] or (questLog[29599] and questLog[29599].isComplete == 0)) or false
+    end
+
+    if phase == phases.OHF_THRALL_DESTINY then
+        return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
+    end
+  
     if phase == phases.LINDSAY_WPL_TREE then
         return not complete[26936] or false
     end
