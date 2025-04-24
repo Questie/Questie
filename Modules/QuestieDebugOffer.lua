@@ -403,7 +403,11 @@ local function _AppendUniversalText(input)
         PosY = pos.y * 100
         text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
     else
-        local zoneId = ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
+        local instanceId = select(8, GetInstanceInfo())
+        local zoneId = ZoneDB.instanceIdToUiMapId[instanceId]
+        if (not zoneId) then
+            zoneId = "Unknown instanceId " .. instanceId
+        end
         text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. zoneId .. "]  -1, -1"
     end
 
