@@ -23,6 +23,8 @@ describe("AutoQuesting", function()
     local AutoQuesting
     ---@type QuestieDB
     local QuestieDB
+    ---@type l10n
+    local l10n
 
     before_each(function()
         Questie.db.profile.autocomplete = true
@@ -34,6 +36,7 @@ describe("AutoQuesting", function()
             rejectSharedInBattleground = false
         }
         Questie.db.profile.autoModifier = "disabled"
+        Questie.Print = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
@@ -68,6 +71,7 @@ describe("AutoQuesting", function()
         }
 
         QuestieDB = require("Database.QuestieDB")
+        l10n = require("Localization.l10n")
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
@@ -224,6 +228,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(Questie.Print).was.called()
             assert.spy(_G.AcceptQuest).was_not.called()
             assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
@@ -241,6 +246,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
             assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was_not.called()
         end)
@@ -255,6 +261,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
             assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
@@ -269,6 +276,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
             assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)

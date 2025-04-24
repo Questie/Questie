@@ -225,6 +225,7 @@ _G["Questie"] = {
         profile = {},
         global = {},
     },
+    Print = EMTPY_FUNC,
     Debug = EMTPY_FUNC,
     Warning = function(_, text)
         print("|cffffff00[WARNING]|r", text)

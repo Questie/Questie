@@ -2,6 +2,8 @@
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
@@ -24,6 +26,7 @@ function AutoQuesting.OnQuestDetail()
         local unitType = strsplit("-", UnitGUID("questnpc"))
         if unitType == "Player" then
             DeclineQuest()
+            Questie:Print(l10n("Automatically rejected quest shared by player."))
             return
         end
     end
