@@ -36,6 +36,7 @@
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
 
+    <Script file="AutoQuesting.lua"/>
     <Script file="Classes.lua"/>
     <Script file="Comms.lua"/>
     <Script file="DebugMessages.lua"/>
