@@ -226,6 +226,9 @@ local phases = {
     CAYDEN_FINISH_AMBUSH = 1154,
     OHF_THRALL_PRISON = 1155,
     OHF_THRALL_DESTINY = 1156,
+    LINDSAY_WPL_TREE = 1157,
+    LINDSAY_WPL_TENT = 1158,
+    LINDSAY_WPL_INN = 1159,
 }
 Phasing.phases = phases
 
@@ -936,6 +939,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.OHF_THRALL_DESTINY then
         return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
+    end
+  
+    if phase == phases.LINDSAY_WPL_TREE then
+        return not complete[26936] or false
+    end
+
+    if phase == phases.LINDSAY_WPL_TENT then
+        return (complete[26936] and not complete[27083]) or false
+    end
+
+    if phase == phases.LINDSAY_WPL_INN then
+        return complete[27083] or false
     end
 
     return false

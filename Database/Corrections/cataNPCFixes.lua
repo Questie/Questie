@@ -530,7 +530,7 @@ function CataNpcFixes.Load()
         [5056] = { -- Deviate Dreadfang
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{53.77,66.55},{55.33,66.13},{73.01,72.46},{-1,-1}}},
         },
-        [5709] = { -- Shade of Eranikus	
+        [5709] = { -- Shade of Eranikus
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{68.56,87.31},{-1,-1}}},
         },
         [5710] = { -- Jammal'an the Prophet
@@ -2144,7 +2144,7 @@ function CataNpcFixes.Load()
         [32964] = { -- Sentinel Aynasha
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{64.48,5.49}}},
         },
-        [32971] = { -- Ranger Glynda Nal'Shea 
+        [32971] = { -- Ranger Glynda Nal'Shea
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {
                     {50.22,19.79,phases.CERELLEAN_NEAR_EDGE},
@@ -3709,6 +3709,15 @@ function CataNpcFixes.Load()
                 [zoneIDs.WESTERN_PLAGUELANDS] = {
                     {41.06,70.44,phases.THASSARIAN_WPL_TOWER},
                     {39.91,69.47,phases.THASSARIAN_WPL_FP},
+                },
+            },
+        },
+        [44466] = { -- Lindsay Ravensun
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {
+                    {47.58,65.56,phases.LINDSAY_WPL_TREE},
+                    {40.69,52.00,phases.LINDSAY_WPL_TENT},
+                    {49.04,63.71,phases.LINDSAY_WPL_INN},
                 },
             },
         },
