@@ -58,7 +58,7 @@ describe("AutoQuesting", function()
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
-        _G.UnitGUID = spy.new(function()  end)
+        _G.UnitGUID = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         _G.C_Timer = {
