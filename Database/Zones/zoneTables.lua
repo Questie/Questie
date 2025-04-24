@@ -3178,4 +3178,5 @@ ZoneDB.instanceIdToUiMapId = {
     [509] = ZoneDB.zoneIDs.RUINS_OF_AHN_QIRAJ,
     [531] = ZoneDB.zoneIDs.AHN_QIRAJ,
     [533] = ZoneDB.zoneIDs.NAXXRAMAS,
+    [2856] = ZoneDB.zoneIDs.SCARLET_ENCLAVE,
 }
