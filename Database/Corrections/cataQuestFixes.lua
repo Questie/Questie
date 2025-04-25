@@ -1541,6 +1541,19 @@ function CataQuestFixes.Load()
         [11450] = { -- Fire Training
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [11481] = { -- Crisis at the Sunwell
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [11482] = { -- Duty Calls
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [11490] = { -- The Scryer's Scryer
+            [questKeys.preQuestSingle] = {29684},
+            [questKeys.nextQuestInChain] = 29685,
+        },
+        [11499] = { -- Wanted: The Signet Ring of Prince Kael'thas
+            [questKeys.preQuestSingle] = {},
+        },
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
         },
@@ -14196,9 +14209,11 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100001}},
         },
         [29682] = { -- Magisters' Terrace
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{55007,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29684] = { -- Severed Communications
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{24822,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29692] = { -- Bring Me Another Shrubbery!

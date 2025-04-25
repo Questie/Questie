@@ -141,6 +141,11 @@ function QuestieTBCObjectFixes:Load()
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         },
+        [187578] = {
+            [objectKeys.name] = "Scrying Orb",
+            [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
+        },
         [187892] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_SLAVE_PENS,
@@ -643,11 +648,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.9,44.8}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
-        [410015] = {
+        --[[[410015] = { -- REUSE
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
-        },
+        },]]
         [410016] = {
             [objectKeys.name] = "Portal to Socrethar's Seat",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},

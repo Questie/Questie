@@ -300,6 +300,9 @@ function CataObjectFixes.Load()
         [186273] = { -- Damaged Diving Gear
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{62.64,18.23},{62.33,18.88},{61.68,18.19}}},
         },
+        [187578] = { -- Scrying Orb
+            [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.44,26.71},{-1,-1}}},
+        },
         [187922] = { -- Alliance Bonfire - Burning Steppes
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.57,60.2}}},
         },

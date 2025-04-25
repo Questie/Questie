@@ -2841,6 +2841,7 @@ l10n.zoneCategoryLookup = {
         [4075] = "Sunwell Plateau",
         [4100] = "The Culling of Stratholme",
         [4120] = "The Nexus",
+        [4131] = "Magisters' Terrace",
         [4196] = "Drak'Tharon Keep",
         [4228] = "The Oculus",
         [4264] = "Halls of Stone",

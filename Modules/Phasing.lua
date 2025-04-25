@@ -229,6 +229,7 @@ local phases = {
     LINDSAY_WPL_TREE = 1157,
     LINDSAY_WPL_TENT = 1158,
     LINDSAY_WPL_INN = 1159,
+    MGT_KT_DEAD = 1160,
 }
 Phasing.phases = phases
 
@@ -951,6 +952,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.LINDSAY_WPL_INN then
         return complete[27083] or false
+    end
+
+    if phase == phases.MGT_KT_DEAD then
+        return complete[29685] or (questLog[29685] and questLog[29685].isComplete == 1) or false
     end
 
     return false

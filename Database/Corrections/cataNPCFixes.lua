@@ -2001,14 +2001,35 @@ function CataNpcFixes.Load()
         [24527] = { -- Bok Dropcertain
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{50.61,13.48}}},
         },
+        [24560] = { -- Priestess Delrissa
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE_GRAND_MAGISTERS_ASYLUM] = {{38.86,56.24}},[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
+        },
         [24657] = { -- Glodrak Huntsniper
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.23,18.53}}},
+        },
+        [24664] = { -- Kael'thas Sunstrider
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE_GRAND_MAGISTERS_ASYLUM] = {{7.3,50.04}},[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
+        },
+        [24697] = { -- Sister of Torment
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE_GRAND_MAGISTERS_ASYLUM] = {{15.1,50.22},{72.66,58.52},{64.13,52.66},{64.15,60.9},{47.81,60.16},{39.42,45.77}},[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
         },
         [24711] = { -- Tapper Swindlekeg
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
         },
+        [24723] = { -- Selin Fireheart
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{42.53,23.6},{-1,-1}}},
+        },
         [24727] = { -- Caylee Dak
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{31.29,27.89}}},
+        },
+        [24744] = { -- Vexallus
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{82.65,26.47},{-1,-1}}},
+        },
+        [24822] = { -- Tyrith
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{60.91,24.01},{-1,-1}}},
+        },
+        [24848] = { -- Kalecgos
+            [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.05,36.13},{-1,-1}}},
         },
         [24886] = { -- Exorcist Vaisha
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
@@ -5333,6 +5354,14 @@ function CataNpcFixes.Load()
         },
         [54968] = { -- Asira Dawnslayer
             [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{39.08,51.26},{-1,-1}}},
+        },
+        [55007] = { -- Exarch Larethor
+            [npcKeys.spawns] = {
+                [zoneIDs.MAGISTERS_TERRACE] = {{42.61,87.16},{-1,-1}},
+                [zoneIDs.MAGISTERS_TERRACE_GRAND_MAGISTERS_ASYLUM] = {
+                    {13.39,49.82,phases.MGT_KT_DEAD},
+                },
+            },
         },
         [55085] = { -- Peroth'arn
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{19.5,51.47},{-1,-1}}},
