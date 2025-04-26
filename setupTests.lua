@@ -55,6 +55,7 @@ _G.DurabilityFrame = {
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
+_G.C_Item = {}
 _G.GetItemCount = function() return 0 end
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
@@ -233,6 +234,9 @@ _G["Questie"] = {
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
     end,
+    UnregisterEvent = function(_, eventName)
+        registeredEvents[eventName] = nil
+    end,
     SendMessage = EMTPY_FUNC,
 }
 
@@ -241,10 +245,16 @@ local TestUtils = {
     resetEvents = function()
         registeredEvents = {}
     end,
+    ---@param eventName string
     triggerMockEvent = function(eventName, ...)
         if registeredEvents[eventName] then
             registeredEvents[eventName](eventName, ...)
         end
+    end,
+    ---@param eventName string
+    ---@return boolean
+    isEventRegistered = function(eventName)
+        return registeredEvents[eventName] ~= nil
     end
 }
 

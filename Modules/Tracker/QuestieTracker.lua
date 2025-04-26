@@ -791,7 +791,7 @@ function QuestieTracker:Update()
 
                         secondaryButton = true
                         secondaryButtonAlpha = alpha
-                    end)
+                    end, QuestieTracker.Update)
 
                     if (not shouldContinue) then
                         -- We exceeded the button pool
