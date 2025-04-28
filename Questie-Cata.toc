@@ -240,6 +240,7 @@ Modules\Tracker\LinePool\TrackerLinePool.lua
 
 # Tutorial
 Modules\Tutorial\ChooseObjectiveType.lua
+Modules\Tutorial\RejectInBattlegrounds.lua
 Modules\Tutorial\Tutorial.lua
 
 Modules\QuestieDBMIntegration.lua

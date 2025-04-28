@@ -110,6 +110,18 @@ local tutorialLocals = {
         ["zhCN"] = "（此设置可随时在设置中的图标标签页中更改）",
         ["zhTW"] = "(隨時都可以在設定選項的圖示標籤頁面中更改)",
     },
+    ["Questie can automatically reject quests shared to you\nwhile you are in a battleground.\n\n\nDo you want to activate this?"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questie kann automatisch Quests ablehnen, die in dir\nauf einem Schlachtfeld geteilt werden.\n\n\nMöchtest du das aktivieren?",
+        ["esES"] = "Questie puede rechazar automáticamente las misiones que te compartan\nmientras estás en un campo de batalla.\n\n\n¿Quieres activar esto?",
+        ["esMX"] = "Questie puede rechazar automáticamente las misiones que te compartan\nmientras estás en un campo de batalla.\n\n\n¿Quieres activar esto?",
+        ["frFR"] = "Questie peut rejeter automatiquement les quêtes partagées avec vous\npendant que vous êtes sur un champ de bataille.\n\n\nSouhaitez-vous activer cela ?",
+        ["koKR"] = false,
+        ["ptBR"] = "Questie pode rejeitar automaticamente as missões compartilhadas com você\nenquanto estiver em um campo de batalha.\n\n\nDeseja ativar isso?",
+        ["ruRU"] = "На поле боя Questie может автоматически отменять задания,\nкоторыми поделились с вами.\n\n\nХотите ли вы включить это?",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    }
 }
 
 for k, v in pairs(tutorialLocals) do

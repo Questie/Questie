@@ -233,6 +233,7 @@ Modules\Tracker\LinePool\TrackerLinePool.lua
 
 # Tutorial
 Modules\Tutorial\ShowRunes.lua
+Modules\Tutorial\RejectInBattlegrounds.lua
 Modules\Tutorial\Tutorial.lua
 
 Modules\QuestieDBMIntegration.lua

@@ -297,13 +297,9 @@ function QuestieOptions.tabs.auto:Initialize()
                 name = function() return l10n("Reject quests shared in battlegrounds"); end,
                 desc = function() return l10n("Automatically reject quests shared by players while in a battleground instance. This feature overrides autoaccept behavior."); end,
                 width = 1.6,
-                -- AUTO 1.0
-                disabled = true,
-                get = function () return false; end,
-                -- -- AUTO 2.0
-                -- get = function () return Questie.db.profile.autoreject_battleground; end,
-                set = function (info, value)
-                    Questie.db.profile.autoreject_battleground = value
+                get = function () return Questie.db.profile.autoAccept.rejectSharedInBattleground; end,
+                set = function (_, value)
+                    Questie.db.profile.autoAccept.rejectSharedInBattleground = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Reject Battleground toggled to:", value)
                 end,
             },

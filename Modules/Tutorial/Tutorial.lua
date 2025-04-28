@@ -9,4 +9,8 @@ function Tutorial.Initialize()
     if Questie.IsSoD and (not Questie.db.profile.tutorialShowRunesDone) then
         Tutorial.ShowRunes()
     end
+
+    if (not Questie.db.profile.tutorialRejectInBattlegroundsDone) then
+        Tutorial.AutoRejectInBattlegroundsFrame()
+    end
 end
