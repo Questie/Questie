@@ -510,6 +510,26 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MOONGLADE] = {{41.2, 43.6}},
             },
         },
+        [216666] = { -- Techbot
+            [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+        },
+        [216668] = { -- Irradiated Invader
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{20.9,36.02},{22.09,34.14},{19.68,36.71},{19.32,38.8},{21.81,32.2}}},
+        },
+        [216669] = { -- Caverndeep Pillager
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{21.79,33.69},{20.61,36.96},{18.76,39.16}}},
+        },
+        [216670] = { -- Caverndeep Looter
+            [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+        },
+        [216671] = { -- Caverndeep Invader
+            [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+        },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7, 67.23}},
