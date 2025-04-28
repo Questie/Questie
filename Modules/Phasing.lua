@@ -674,7 +674,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.RHEA_HIDDEN_CLUTCH then
-        return ((complete[27832] or (questLog[27832] and questLog[27832].isComplete == 1)) or (complete[27897] or (questLog[27897] and questLog[27897].isComplete == 1))) or false
+        return complete[27832] or questLog[27832] or complete[27897] or questLog[27897] or false
     end
 
     if phase == phases.DEATHWING_TELDURIN then
