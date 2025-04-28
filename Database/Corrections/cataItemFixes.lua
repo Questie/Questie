@@ -51,8 +51,17 @@ function CataItemFixes.Load()
         [4506] = { -- Stromgarde Badge
             [itemKeys.npcDrops] = {2588,2590,2591,24477},
         },
+        [5030] = { -- Centaur Bracers
+            [itemKeys.npcDrops] = {3275,3396,9456,9523,9524,44170},
+        },
+        [5061] = { -- Stolen Silver
+            [itemKeys.objectDrops] = {195224},
+        },
         [5084] = { -- Cap'n Garvey's Head
             [itemKeys.npcDrops] = {34750},
+        },
+        [5085] = { -- Quilboar Tusk
+            [itemKeys.npcDrops] = {3261,3265,3266,3267,3268,3269,3271,34503,34545},
         },
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608},
@@ -128,6 +137,9 @@ function CataItemFixes.Load()
         },
         [11114] = { -- Dinosaur Bone
             [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
+        },
+        [11148] = { -- Samophlange Manual Page
+            [itemKeys.npcDrops] = {3283,3286,9336},
         },
         [11569] = { -- Preserved Threshadon Meat
             [itemKeys.npcDrops] = {},
@@ -369,6 +381,9 @@ function CataItemFixes.Load()
         },
         [46702] = { -- Ancient Device Fragment
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46827] = { -- Ship Schematics
+            [itemKeys.npcDrops] = {34754},
         },
         [46858] = { -- Personal Riches
             [itemKeys.objectDrops] = {195525},
@@ -1083,6 +1098,9 @@ function CataItemFixes.Load()
         },
         [68638] = { -- Frostsaber Cub
             [itemKeys.npcDrops] = {51681},
+        },
+        [68820] = { -- Sputtervalve's Blueprints
+            [itemKeys.npcDrops] = {3282,3284,3285,52356,52357},
         },
         [68890] = { -- Dragon Kite 2-Pack
             [itemKeys.class] = itemClasses.QUEST,
