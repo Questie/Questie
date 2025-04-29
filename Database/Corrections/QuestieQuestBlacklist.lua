@@ -5246,6 +5246,7 @@ function QuestieQuestBlacklist:Load()
         [14111] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14114] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
         [14119] = true, -- Not in the game
+        [14133] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [14137] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
         [14139] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
         [14156] = true, -- Not in the game
@@ -5260,6 +5261,7 @@ function QuestieQuestBlacklist:Load()
         [14183] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14220] = true, -- Not in the game
+        [14231] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [14259] = true, -- Not in the game
         [14298] = true, -- Not in the game
         [14315] = QuestieCorrections.CATA_HIDE, -- Removed with cata
