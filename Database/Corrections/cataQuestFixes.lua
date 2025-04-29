@@ -4872,6 +4872,9 @@ function CataQuestFixes.Load()
         [25334] = { -- The Looming Threat
             [questKeys.objectives] = {{{39226,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [25336] = { -- Testing the Vessel
+            [questKeys.objectives] = {nil, nil, {{9594,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25340] = { -- Dark Heart [Horde]
             [questKeys.requiredSourceItems] = {9530},
         },
