@@ -4946,6 +4946,9 @@ function CataQuestFixes.Load()
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
         },
+        [25386] = { -- To Stonemaul Hold
+            [questKeys.exclusiveTo] = {25209},
+        },
         [25388] = { -- Crate of Crab Meat
             [questKeys.name] = 'Crate of Crab Meat',
         },
