@@ -14776,8 +14776,14 @@ function CataQuestFixes:LoadFactionFixes()
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
         },
+        [27675] = { -- Forged Documents [Alliance]
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
+        },
         [27683] = { -- Into the Woods
             [questKeys.startedBy] = {{10840,44456,44462}},
+        },
+        [27686] = { -- Forged Documents [Horde]
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
         },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.nextQuestInChain] = 27865,
