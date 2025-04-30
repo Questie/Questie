@@ -4716,6 +4716,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{16365}},
             [questKeys.finishedBy] = {{16365}},
             [questKeys.preQuestSingle] = {89447},
+            [questKeys.triggerEnd] = {"Explore the Scarlet Enclave Smithy",{[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}}},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
