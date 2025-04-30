@@ -5605,6 +5605,7 @@ function QuestieQuestBlacklist:Load()
         [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
         [28240] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28255] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28270] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28347] = true, -- Hidden quest
         [28365] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28371] = QuestieCorrections.CATA_HIDE, -- Hidden quest
@@ -5616,6 +5617,7 @@ function QuestieQuestBlacklist:Load()
         [28541] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28546] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28547] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28555] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28601] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28642] = QuestieCorrections.CATA_HIDE, -- Not in the game - Shy Rotam quest is 28742
@@ -5623,6 +5625,7 @@ function QuestieQuestBlacklist:Load()
         [28720] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28721] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28739] = true, -- Hidden quest
+        [28743] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28751] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28752] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28754] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28758
