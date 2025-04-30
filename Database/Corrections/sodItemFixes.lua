@@ -311,7 +311,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {528481},
         },
         [241652] = { -- Discolored Beast Heart
-            [itemKeys.npcDrops] = {1816,1817,1824,8596,8597,8598,8600,8601,8602,8603,8605,240247},
+            [itemKeys.npcDrops] = {1815,1816,1817,1821,1822,1824,8596,8597,8598,8600,8601,8602,8603,8605,240247},
         },
         [241655] = { -- Mishandled Healing Potion
             [itemKeys.objectDrops] = {531291},
