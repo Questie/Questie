@@ -234,6 +234,9 @@ _G["Questie"] = {
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
     end,
+    UnregisterEvent = function(_, eventName)
+        registeredEvents[eventName] = nil
+    end,
     SendMessage = EMTPY_FUNC,
 }
 
@@ -242,11 +245,17 @@ local TestUtils = {
     resetEvents = function()
         registeredEvents = {}
     end,
+    ---@param eventName string
     triggerMockEvent = function(eventName, ...)
         if registeredEvents[eventName] then
             registeredEvents[eventName](eventName, ...)
         end
-    end
+    end,
+    ---@param eventName string
+    ---@return boolean
+    isEventRegistered = function(eventName)
+        return registeredEvents[eventName] ~= nil
+    end,
 }
 
 return TestUtils
