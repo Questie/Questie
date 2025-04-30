@@ -11910,6 +11910,7 @@ function CataQuestFixes.Load()
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.nextQuestInChain] = 24906,
         },
         [28510] = { -- Warchief's Command: Feralas!
             [questKeys.requiredMaxLevel] = 38,
