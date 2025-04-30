@@ -174,6 +174,9 @@ function CataItemFixes.Load()
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
+        [16976] = { -- Murgut's Totem
+            [itemKeys.npcDrops] = {},
+        },
         [18240] = { -- Ogre Tannin
             [itemKeys.objectDrops] = {179499},
             [itemKeys.npcDrops] = {},
@@ -334,6 +337,9 @@ function CataItemFixes.Load()
         [44979] = { -- Overseer's Orders
             [itemKeys.npcDrops] = {32863},
         },
+        [45004] = { -- Serviceable Arrow
+            [itemKeys.npcDrops] = {},
+        },
         [45027] = { -- Tuft of Mottled Doe Hair
             [itemKeys.npcDrops] = {33313},
         },
@@ -343,8 +349,14 @@ function CataItemFixes.Load()
         [45043] = { -- The Purifier's Prayer Book
             [itemKeys.npcDrops] = {33347},
         },
+        [45051] = { -- Kadrak's Reins
+            [itemKeys.npcDrops] = {8582},
+        },
         [45066] = { -- Bathed Concoction
             [itemKeys.objectDrops] = {194651},
+        },
+        [45069] = { -- Freshly Cut Wood
+            [itemKeys.npcDrops] = {},
         },
         [45573] = { -- The Forest HEart
             [itemKeys.npcDrops] = {},
@@ -369,6 +381,9 @@ function CataItemFixes.Load()
         },
         [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46471] = { -- Furbolg Ear
+            [itemKeys.npcDrops] = {3743,3745,3750},
         },
         [46543] = { -- Laughing Sister's Corpse
             [itemKeys.npcDrops] = {34426},

@@ -169,6 +169,9 @@ function CataObjectFixes.Load()
         [177964] = { -- Fathom Stone
             [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{41.41,75.37}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },
+        [178227] = { -- Murgut's Totem Basket
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE] = {{56.38,63.51}}},
+        },
         [179485] = { -- Broken Trap
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{26.44,57.77},{-1,-1}}},
         },
