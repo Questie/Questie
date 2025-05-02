@@ -76,6 +76,7 @@ local allowFormattingUpdate = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local WatchFrame_Update = QuestWatch_Update or WatchFrame_Update
 
 function QuestieTracker.Initialize()
     if QuestieTracker.started then
@@ -254,7 +255,7 @@ function QuestieTracker.Initialize()
                 end
             end
         else
-            QuestWatch_Update()
+            WatchFrame_Update()
         end
 
         if QuestLogFrame:IsShown() then QuestLog_Update() end
