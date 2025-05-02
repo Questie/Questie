@@ -2902,7 +2902,7 @@ function CataQuestFixes.Load()
         },
         [14202] = { -- Survey the Lakeshore
             [questKeys.preQuestSingle] = {24453},
-            [questKeys.objectives] = {{{35488,nil,Questie.ICON_TYPE_EVENT},{35487,nil,Questie.ICON_TYPE_EVENT},{35489,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{35484,35488},35488,nil,Questie.ICON_TYPE_EVENT},{{35484,35487},35487,nil,Questie.ICON_TYPE_EVENT},{{35484,35489},35489,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14203] = { -- Waterlogged Recipe
             [questKeys.zoneOrSort] = 4613,
@@ -2925,7 +2925,7 @@ function CataQuestFixes.Load()
         },
         [14215] = { -- Memories of the Dead
             [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Touch the spirit"),0,{{"monster",35567}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Touch the spirit"),0,{{"monster",35567}}}},
         },
         [14217] = { -- Satyrical Offerings
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3347,7 +3347,7 @@ function CataQuestFixes.Load()
         },
         [14424] = { -- Need More Science
             [questKeys.preQuestSingle] = {14423},
-            [questKeys.exclusiveTo] = {14308},
+            [questKeys.nextQuestInChain] = 14308,
         },
         [14428] = { -- Amberwind's Journal
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3537,7 +3537,6 @@ function CataQuestFixes.Load()
         [24463] = { -- Probing into Ashenvale
             [questKeys.preQuestSingle] = {24439},
             [questKeys.exclusiveTo] = {13612,13866,28493},
-            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
         },
         [24467] = { -- Fade to Black
             [questKeys.preQuestSingle] = {14391},
