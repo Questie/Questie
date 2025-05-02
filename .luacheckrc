@@ -132,6 +132,7 @@ globals = {
     "C_ActionBar.IsOnBarOrSpecialBar",
     "C_ActionBar.ToggleAutoCastPetAction",
     "C_AddOns.GetAddOnMetadata",
+    "C_AddOns.IsAddOnLoaded",
     "C_AreaPoiInfo.GetAreaPOIForMap",
     "C_AreaPoiInfo.GetAreaPOIInfo",
     "C_AreaPoiInfo.IsAreaPOITimed",
