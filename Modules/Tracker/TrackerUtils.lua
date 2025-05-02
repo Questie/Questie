@@ -31,6 +31,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 local tinsert = table.insert
 
 local objectiveFlashTicker

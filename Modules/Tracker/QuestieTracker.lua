@@ -75,6 +75,7 @@ local isFirstRun = true
 local allowFormattingUpdate = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 function QuestieTracker.Initialize()
     if QuestieTracker.started then

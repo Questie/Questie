@@ -23,6 +23,7 @@ local _GetShortcuts
 local trackerOptions = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 function QuestieOptions.tabs.tracker:Initialize()
     trackerOptions = {
