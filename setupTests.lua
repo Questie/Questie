@@ -44,6 +44,11 @@ _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
+_G.C_AddOns = {
+    IsAddOnLoaded = function()
+        return false, true
+    end
+}
 _G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
 setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
     mockedReturnValue = false,
