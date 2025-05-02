@@ -2363,6 +2363,9 @@ function QuestieQuestFixes:Load()
         [6762] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,6761},
         },
+        [6804] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Aspect of Neptulon."), 0, {{"monster", 8519},{"monster", 8520},{"monster", 8521},{"monster", 8522}}}},
+        },
         [6861] = {
             [questKeys.objectivesText] = {},
         },
