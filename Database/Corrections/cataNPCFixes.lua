@@ -5488,6 +5488,16 @@ function CataNpcFixes.Load()
         [56375] = { -- Mostrasz
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{67.83,45.13}}},
         },
+        [57770] = { -- Zazzo Twinklefingers
+            [npcKeys.spawns] = {
+                [zoneIDs.RUINS_OF_GILNEAS] = {
+                    {70.07,40.73,phases.ZAZZO_GILNEAS},
+                },
+                [zoneIDs.DEADWIND_PASS] = {
+                    {52.48,77.73,phases.ZAZZO_DEADWIND},
+                },
+            },
+        },
         [57777] = { -- Wrathion
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
@@ -5501,6 +5511,10 @@ function CataNpcFixes.Load()
                     {25.99,62.87,phases.ET_MUROZOND_DEAD},
                 },
             },
+        },
+        [57910] = { -- Nalice
+            [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{54.05,90.88}}},
+            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
         },
         [57913] = { -- Chromie
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{87.32,49.23},{-1,-1}}},
