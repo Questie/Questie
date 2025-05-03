@@ -138,4 +138,34 @@ function Validators.checkParentChildQuestRelations(quests, questKeys)
     end
 end
 
+---@param quests table
+---@param questKeys DatabaseQuestKeys
+function Validators.checkZoneOrSort(quests, questKeys)
+    print("\n\27[36mSearching for quests without zoneOrSort...\27[0m")
+    local invalidQuests = {}
+    local zoneOrSortKey = questKeys.zoneOrSort
+    for questId, questData in pairs(quests) do
+        local zoneOrSort = questData[zoneOrSortKey]
+        if (not zoneOrSort) or zoneOrSort == 0 then
+            invalidQuests[questId] = true
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests without zoneOrSort:\27[0m")
+        for questId, _ in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mAll quests have zoneOrSort set\27[0m")
+        return nil
+    end
+end
+
 return Validators
