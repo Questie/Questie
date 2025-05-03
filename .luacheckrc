@@ -351,6 +351,7 @@ globals = {
     "C_CreatureInfo.GetClassInfo",
     "C_CreatureInfo.GetFactionInfo",
     "C_CreatureInfo.GetRaceInfo",
+    "C_CurrencyInfo.GetCoinTextureString",
     "C_Cursor.DropCursorCommunitiesStream",
     "C_Cursor.GetCursorCommunitiesStream",
     "C_Cursor.GetCursorItem",
@@ -419,6 +420,7 @@ globals = {
     "C_Item.GetItemID",
     "C_Item.GetItemIcon",
     "C_Item.GetItemIconByID",
+    "C_Item.GetItemInfo",
     "C_Item.GetItemInventoryType",
     "C_Item.GetItemInventoryTypeByID",
     "C_Item.GetItemLink",
@@ -2794,6 +2796,7 @@ globals = {
     "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
     "WOW_PROJECT_WRATH_CLASSIC",
     "WOW_PROJECT_CATACLYSM_CLASSIC",
+    "WOW_PROJECT_MISTS_CLASSIC",
     "WOW_PROJECT_MAINLINE",
     "FACTION_STANDING_CHANGED",
     -----------------------------------------------------> External Addons
