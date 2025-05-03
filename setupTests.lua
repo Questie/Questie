@@ -62,6 +62,7 @@ _G.QuestLogListScrollFrame = {
 }
 _G.C_Item = {
     GetItemCount = function() return 0 end,
+    GetItemSpell = function() return nil end,
 }
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end

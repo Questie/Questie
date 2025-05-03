@@ -426,6 +426,7 @@ globals = {
     "C_Item.GetItemNameByID",
     "C_Item.GetItemQuality",
     "C_Item.GetItemQualityByID",
+    "C_Item.GetItemSpell",
     "C_Item.IsBound",
     "C_Item.IsItemDataCached",
     "C_Item.IsItemDataCachedByID",
