@@ -8,7 +8,9 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+
+local AceGUI = LibStub("AceGUI-3.0")
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     local function compare(a, b)

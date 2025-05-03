@@ -8,6 +8,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+
 --[i_1337][playerName][questId] = objective
 local commsTooltipLookup = {}
 

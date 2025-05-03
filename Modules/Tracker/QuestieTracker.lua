@@ -44,6 +44,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
