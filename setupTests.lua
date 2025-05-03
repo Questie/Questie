@@ -60,7 +60,9 @@ _G.DurabilityFrame = {
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
-_G.GetItemCount = function() return 0 end
+_G.C_Item = {
+    GetItemCount = function() return 0 end,
+}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end

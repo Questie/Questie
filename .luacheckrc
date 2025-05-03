@@ -414,6 +414,7 @@ globals = {
     "C_Item.DoesItemExist",
     "C_Item.DoesItemExistByID",
     "C_Item.GetCurrentItemLevel",
+    "C_Item.GetItemCount",
     "C_Item.GetItemGUID",
     "C_Item.GetItemID",
     "C_Item.GetItemIcon",

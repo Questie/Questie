@@ -32,6 +32,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local GetItemCount = C_Item.GetItemCount or GetItemCount
 
 local tinsert = table.insert
 
