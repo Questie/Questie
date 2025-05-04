@@ -207,7 +207,7 @@ function Townsfolk.Initialize()
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
     local classSpecificTownsfolk = {}
-    local factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}}
+    local factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}, ["Neutral"] = {}}
 
     local classTrainers = Townsfolk.GetClassTrainers()
     for class, trainers in pairs(classTrainers) do
