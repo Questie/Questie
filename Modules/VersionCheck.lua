@@ -48,7 +48,7 @@ Questie._sessionWarnings = {}
 
 --- Addon is running on Classic MoP client
 ---@type boolean
-Questie.IsMists = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
+Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
 
 --- Addon is running on Classic Cata client
 ---@type boolean
