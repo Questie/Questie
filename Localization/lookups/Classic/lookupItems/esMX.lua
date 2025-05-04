@@ -1624,6 +1624,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [17756] = "Trozo de fragmento oscuro",
 [17757] = "Amuleto de los espíritus",
 [17758] = "Amuleto de Unidad",
+[17760] = "Semilla de vida",
 [17761] = "Gema del primer Kahn",
 [17762] = "Gema del segundo Kahn",
 [17763] = "Gema del tercer Kahn",
