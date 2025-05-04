@@ -146,7 +146,7 @@ function QuestieReputation.GetReputationReward(questId)
         return {}
     end
 
-    if (not Questie.IsCata) then
+    if (not Questie.IsCata) and (not Questie.IsMoP) then
         return reputationReward
     end
 

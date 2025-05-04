@@ -1137,7 +1137,7 @@ function TrackerUtils.HasQuest()
     local hasQuest
 
     if (GetNumQuestWatches(true) == 0) then
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
             else

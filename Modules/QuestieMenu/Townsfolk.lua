@@ -146,15 +146,15 @@ function Townsfolk.Initialize()
         [professionKeys.SKINNING] = {}
     }
 
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
         professionTrainers[professionKeys.JEWELCRAFTING] = {}
     end
 
-    if Questie.IsCata or Questie.IsWotlk then
+    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk then
         professionTrainers[professionKeys.INSCRIPTION] = {}
     end
 
-    if Questie.IsCata then
+    if Questie.IsMoP or Questie.IsCata then
         professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
@@ -185,7 +185,7 @@ function Townsfolk.Initialize()
     end
 
     -- Fix NPC Aresella (18991) can train first aid profession
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
         tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
     end
 
@@ -195,7 +195,7 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
     end
 
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
         local meetingStones = Townsfolk.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}
@@ -297,7 +297,7 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
         ["HUNTER"] = {},
         ["DEATHKNIGHT"] = {37201},
         ["WARLOCK"] = {5565,16583},
-        ["ROGUE"] = (Questie.IsWotlk or Questie.IsCata) and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+        ["ROGUE"] = (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
             or {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
@@ -354,7 +354,7 @@ local function _UpdatePetFood() -- call on change pet
 end
 
 local function _UpdateAmmoVendors() -- call on change weapon
-    if Questie.IsCata then
+    if Questie.IsCata or Questie.IsMoP then
         return
     end
 

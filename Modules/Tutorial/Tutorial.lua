@@ -5,7 +5,7 @@ local Tutorial = QuestieLoader:CreateModule("Tutorial")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 function Tutorial.Initialize()
-    if (Questie.IsWotlk or Questie.IsCata) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
+    if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
         QuestieCombatQueue:Queue(function()
             Tutorial.CreateChooseObjectiveTypeFrame()
         end)

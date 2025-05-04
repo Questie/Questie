@@ -71,7 +71,7 @@ function ExpandQuestButton.New(index, parent)
         end)
     end)
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         parent:HookScript("OnUpdate", parent.OnUpdate)
     end
 

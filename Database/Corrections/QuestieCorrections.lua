@@ -129,7 +129,7 @@ do
         addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
 
         -- TBC Corrections
-        if (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata) then
+        if (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) then
             addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
@@ -137,14 +137,14 @@ do
         end
 
         -- WOTLK Corrections
-        if (Questie.IsWotlk or Questie.IsCata) then
+        if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) then
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
         end
 
         -- CATA Corrections
-        if Questie.IsCata then
+        if Questie.IsCata or Questie.IsMoP then
             addOverride(QuestieDB.questDataOverrides, CataQuestFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, CataNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, CataItemFixes:LoadFactionFixes())
@@ -171,7 +171,7 @@ do
         end
 
         -- Wotlk Blacklist
-        if (Questie.IsWotlk or Questie.IsCata) then
+        if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) then
             -- We only add blacklist if no blacklist entry for the quest already exists
             for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
                 -- This has to be a nil-check, because the value could be false
@@ -235,7 +235,7 @@ function QuestieCorrections:Initialize(validationTables)
     QuestieQuestFixes:LoadMissingQuests()
 
     -- Classic Corrections
-    if (not Questie.IsCata) then
+    if (not Questie.IsCata) and (not Questie.IsMoP) then
         _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     end
     _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
@@ -243,14 +243,14 @@ function QuestieCorrections:Initialize(validationTables)
     _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
     _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
 
-    if Questie.IsTBC or Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsTBC or Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
@@ -258,7 +258,7 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    if Questie.IsCata then
+    if Questie.IsCata or Questie.IsMoP then
         _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)

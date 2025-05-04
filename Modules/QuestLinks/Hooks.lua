@@ -19,7 +19,7 @@ function Hooks:HookQuestLogTitle()
         end
 
         local questLogLineIndex
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             -- With Wotlk the offset is no longer required cause the API already hands the correct index
             questLogLineIndex = self:GetID()
         else
