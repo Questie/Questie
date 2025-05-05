@@ -6303,7 +6303,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26045,26046,26047},
         },
         [26049] = { -- The Princess Unleashed
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Summon Myzrael"),0,{{"object",138492}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon Myzrael"),0,{{"object",138492}}}},
         },
         [26050] = { -- Goggle Boggle
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{29.47,82.07}}}},
