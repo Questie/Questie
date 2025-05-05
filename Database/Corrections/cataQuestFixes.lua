@@ -9844,9 +9844,6 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
-        [27675] = { -- Forged Documents
-            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
-        },
         [27677] = { -- "Archaedas, The Ancient Stone Watcher
             [questKeys.startedBy] = {{46234}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
@@ -14776,9 +14773,6 @@ function CataQuestFixes:LoadFactionFixes()
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
         },
-        [27675] = { -- Forged Documents [Alliance]
-            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
-        },
         [27683] = { -- Into the Woods
             [questKeys.startedBy] = {{10840,44456,44462}},
         },
@@ -14883,6 +14877,9 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45226}},
+        },
+        [27675] = { -- Forged Documents
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
         },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.nextQuestInChain] = 27864,
