@@ -88,14 +88,20 @@ func dumpSubzoneToParentZone(AreaTable []*areaTable, outputfile string) {
 func main() {
 	// Download area tables from here e.g wotlk - https://wago.tools/db2/AreaTable?build=3.4.4.60430
 	var expansionFileMap = map[string]map[string]string{
+		"classic": {
+			"AreaTable": "../DBC - WoW.tools/AreaTable.1.15.7.60277.csv",
+		},
+		"tbc": {
+			"AreaTable": "../DBC - WoW.tools/AreaTable.2.5.4.44833.csv",
+		},
 		"wotlk": {
-			"AreaTable": "csv/AreaTable.3.4.4.60430.csv",
+			"AreaTable": "../DBC - WoW.tools/AreaTable.3.4.4.60430.csv",
 		},
 		"cata": {
-			"AreaTable": "csv/AreaTable.4.4.2.60192.csv",
+			"AreaTable": "../DBC - WoW.tools/AreaTable.4.4.2.60192.csv",
 		},
 		"mop": {
-			"AreaTable": "csv/AreaTable.5.5.0.60548.csv",
+			"AreaTable": "../DBC - WoW.tools/AreaTable.5.5.0.60548.csv",
 		},
 	}
 	for expansion, file := range expansionFileMap {
