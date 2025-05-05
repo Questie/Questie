@@ -10595,6 +10595,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27976,27977},
         },
         [27981] = { -- Heat That Just Don't Quit
+            [questKeys.objectives] = {{nil, nil, {62827,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {27965},
         },
         [27982] = { -- Twilight Collars
