@@ -61,18 +61,18 @@ print("Successfully generated mappings")
 
 print("Printing results into areaIdToUiMapId.lua...")
 with open('areaIdToUiMapId.lua', 'w') as f:
-    f.write('ZoneDB.private.areaIdToUiMapId = {\n')
+    f.write('ZoneDB.private.areaIdToUiMapId = [[return {\n')
     for area_id in sorted(area_id_to_ui_map_id.keys(), key=lambda x: int(x)):
         map_id = area_id_to_ui_map_id[area_id]
         f.write(f'    [{area_id}] = {map_id}, -- {mop_uimap[map_id]["Name_lang"]}\n')
-    f.write('}\n')
+    f.write('}]]')
 
 print("Printing results into uiMapIdToAreaId.lua...")
 with open('uiMapIdToAreaId.lua', 'w') as f:
-    f.write('ZoneDB.private.uiMapIdToAreaId = {\n')
+    f.write('ZoneDB.private.uiMapIdToAreaId = [[return {\n')
     for map_id in sorted(ui_map_id_to_area_id.keys(), key=lambda x: int(x)):
         area_id = ui_map_id_to_area_id[map_id]
         f.write(f'    [{map_id}] = {area_id}, -- {mop_uimap[map_id]["Name_lang"]}\n')
-    f.write('}\n')
+    f.write('}]]')
 
 print("Done!")
