@@ -1,10 +1,9 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
---- This table maps the areaId (used in the DB for example) to
---- the UiMapId of each zone.
+--- This table maps the areaId (used in the DB for example) to the UiMapId of each zone.
 --- The UiMapId identifies a map which can be displayed ingame on the worldmap.
---- Dungeons don't have a UiMapId!
+--- Dungeons don't have a UiMapId prior WotLK!
 --- https://wow.gamepedia.com/UiMapID/Classic
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapId = [[return {
