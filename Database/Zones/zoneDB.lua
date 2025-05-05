@@ -48,9 +48,16 @@ function ZoneDB.Initialize()
     areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
     uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
     dungeons = ZoneDB.private.dungeons
+
+    -- Load the subZoneToParentZone table
     subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
-    subZoneToParentZone[3545] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
-    subZoneToParentZone[3563] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
+
+    -- Override subZoneToParentZone with manual overrides
+    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
+    for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
+        subZoneToParentZone[areaId] = parentZoneId
+    end
+    subZoneToParentZoneOverride = nil
 
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
