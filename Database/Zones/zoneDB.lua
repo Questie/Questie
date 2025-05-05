@@ -57,7 +57,6 @@ function ZoneDB.Initialize()
     for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
         subZoneToParentZone[areaId] = parentZoneId
     end
-    subZoneToParentZoneOverride = nil
 
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
