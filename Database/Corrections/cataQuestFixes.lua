@@ -25,6 +25,7 @@ QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[13798] = true
 QuestieCorrections.killCreditObjectiveFirst[25015] = true
 QuestieCorrections.killCreditObjectiveFirst[25801] = true
+QuestieCorrections.killCreditObjectiveFirst[26058] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
 QuestieCorrections.killCreditObjectiveFirst[27715] = true
@@ -2314,7 +2315,10 @@ function CataQuestFixes.Load()
             [questKeys.sourceItemId] = 45710,
         },
         [13866] = { -- To The Ramparts!
-            [questKeys.exclusiveTo] = {13612,28493},
+            [questKeys.exclusiveTo] = {28493},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to the Mor'shan Ramparts"),0,{{"monster",34195}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 13612,
         },
         [13869] = { -- Recover the Remains
             [questKeys.preQuestSingle] = {26454},
@@ -3494,6 +3498,7 @@ function CataQuestFixes.Load()
         [24436] = { -- Halo Drops
             [questKeys.preQuestSingle] = {14479},
             [questKeys.objectives] = {{{36922,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",36917}}}},
         },
         [24437] = { -- First Come, First Served
             [questKeys.objectives] = {{{36953,nil,Questie.ICON_TYPE_EVENT},{36952,nil,Questie.ICON_TYPE_EVENT},{36951,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3510,7 +3515,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well",{[zoneIDs.MULGORE] = {{53.51,65.38}}}},
         },
         [24448] = { -- Field Promotion
-            [questKeys.preQuestGroup] = {24435,24436,24437},
+            [questKeys.preQuestGroup] = {24435,24436},
         },
         [24449] = { -- Shore Leave
             [questKeys.preQuestGroup] = {14480,14484,14485,14486,14487},
@@ -3536,7 +3541,8 @@ function CataQuestFixes.Load()
         },
         [24463] = { -- Probing into Ashenvale
             [questKeys.preQuestSingle] = {24439},
-            [questKeys.exclusiveTo] = {13612,13866,28493},
+            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
+            [questKeys.nextQuestInChain] = 13866,
         },
         [24467] = { -- Fade to Black
             [questKeys.preQuestSingle] = {14391},
@@ -3601,7 +3607,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.DWARF,
         },
         [24497] = { -- Airborne Again
-            [questKeys.preQuestSingle] = {14392},
+            [questKeys.preQuestGroup] = {14392,24449},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Secure a ride to Valormok"),0,{{"monster",37139}}}},
         },
         [24502] = { -- Necessary Roughness
@@ -3614,6 +3620,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{37106,100006}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {28414},
+        },
+        [24504] = { -- Clear the High Road
+            [questKeys.preQuestSingle] = {},
         },
         [24512] = { -- Warriors' Redemption
             [questKeys.requiredSourceItems] = {49769},
@@ -6223,7 +6232,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",41848}}}},
         },
         [25999] = { -- Barrier to Entry
-            [questKeys.objectives] = {nil,{{430014}}}
+            [questKeys.objectives] = {nil,{{203413}}}
         },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
@@ -6244,11 +6253,13 @@ function CataQuestFixes.Load()
         },
         [26010] = { -- Ashes to Ashes
             [questKeys.preQuestSingle] = {26004},
+            [questKeys.objectives] = {nil,{{203431,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26011] = { -- Enemy of the Horde: Marshal Paltrow
             [questKeys.preQuestSingle] = {26004},
         },
         [26016] = { -- Orders from Base Camp
+            [questKeys.preQuestSingle] = {26004},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [26019] = { -- Enormous Eel Egg
@@ -6286,12 +6297,13 @@ function CataQuestFixes.Load()
         },
         [26047] = { -- And That's Why They Call Them Peons...
             [questKeys.preQuestSingle] = {26044},
+            [questKeys.objectives] = {{{41989,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26048] = { -- Spare Parts Up In Here!
             [questKeys.preQuestGroup] = {26045,26046,26047},
         },
         [26049] = { -- The Princess Unleashed
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon Myzrael"),0,{{"object",138492}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Summon Myzrael"),0,{{"object",138492}}}},
         },
         [26050] = { -- Goggle Boggle
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{29.47,82.07}}}},
@@ -6303,8 +6315,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25988},
             [questKeys.nextQuestInChain] = 26065,
         },
+        [26058] = { -- In Defense of Krom'gar Fortress
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in"),0,{{"monster",41895}}}},
+        },
         [26059] = { -- Eyes and Ears: Malaka'jin
-            [questKeys.preQuestSingle] = {26115},
+            [questKeys.preQuestSingle] = {26058},
         },
         [26060] = { -- Da Voodoo: Stormer Heart
             [questKeys.preQuestSingle] = {26059},
@@ -6331,7 +6346,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203446}}},
         },
         [26069] = { -- Nura Pathfinder
-            [questKeys.exclusiveTo] = {24504,28549},
+            [questKeys.exclusiveTo] = {28549},
+            [questKeys.nextQuestInChain] = 24504,
+            [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [26070] = { -- Clearing the Defiled
             [questKeys.preQuestSingle] = {25987},
@@ -11896,7 +11913,8 @@ function CataQuestFixes.Load()
         },
         [28493] = { -- Warchief's Command: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
-            [questKeys.exclusiveTo] = {13612,13866},
+            [questKeys.exclusiveTo] = {13866},
+            [questKeys.nextQuestInChain] = 13612,
         },
         [28494] = { -- Warchief's Command: Northern Barrens!
             [questKeys.exclusiveTo] = {26642},
@@ -12016,7 +12034,7 @@ function CataQuestFixes.Load()
         },
         [28532] = { -- Warchief's Command: Stonetalon Mountains!
             [questKeys.requiredMaxLevel] = 28,
-            [questKeys.exclusiveTo] = {25945},
+            [questKeys.nextQuestInChain] = 25945,
         },
         [28531] = { -- Hero's Call: Desolace!
             [questKeys.requiredMaxLevel] = 33,
@@ -12058,6 +12076,8 @@ function CataQuestFixes.Load()
         [28549] = { -- Warchief's Command: Southern Barrens!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.exclusiveTo] = {26069},
+            [questKeys.nextQuestInChain] = 24504,
         },
         [28550] = { -- Hero's Call: Southern Barrens!
             [questKeys.requiredMaxLevel] = 33,
@@ -13046,7 +13066,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             [questKeys.requiredSourceItems] = {12622},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
-            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.GNOME + raceIDs.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29037,29038,29039,29040,29051,29052,29053},
@@ -13058,7 +13078,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {68645},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
-            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.GNOME + raceIDs.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29038,29039,29040,29051,29052,29053},
@@ -13066,14 +13086,14 @@ function CataQuestFixes.Load()
         [29038] = { -- Hunting Practice
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
-            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.GNOME + raceIDs.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29039,29040,29051,29052,29053},
         },
         [29039] = { -- Hunting Practice
             [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
-            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29040,29051,29052,29053},
@@ -13081,7 +13101,7 @@ function CataQuestFixes.Load()
         [29040] = { -- Cub's First Toy
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
-            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.GNOME + raceIDs.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
@@ -13089,7 +13109,7 @@ function CataQuestFixes.Load()
         },
         [29051] = { -- Cub's First Toy
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
-            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
@@ -13098,7 +13118,7 @@ function CataQuestFixes.Load()
         [29052] = { -- A Cub's Cravings
             [questKeys.requiredSourceItems] = {12622},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
-            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29053},
@@ -13106,7 +13126,7 @@ function CataQuestFixes.Load()
         [29053] = { -- 'Borrowing' From the Winterfall
             [questKeys.requiredSourceItems] = {68645},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
-            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            --[questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29052},
