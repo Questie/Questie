@@ -2593,6 +2593,14 @@ function CataNpcFixes.Load()
         [35839] = { -- Sergeant Cleese
             [npcKeys.spawns] = {[zoneIDs.GILNEAS_CITY] = {{67.55,64.26}}},
         },
+        [35867] = { -- Kalec
+            [npcKeys.spawns] = {
+                [zoneIDs.AZSHARA] = {
+                    {55.49,52.13},
+                    {66.55,20.36,phases.KALEC_TERMINUS},
+                },
+            },
+        },
         [35875] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -2679,6 +2687,9 @@ function CataNpcFixes.Load()
         [36644] = { -- Ahmo Thunderhorn
             [npcKeys.questStarts] = {24459,14438,14491},
             [npcKeys.questEnds] = {24215,14438,14491},
+        },
+        [36676] = { -- Azuregos
+            [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{67.07,20.57}}},
         },
         [36682] = { -- The Hammer
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{41.93,65.96}}},
