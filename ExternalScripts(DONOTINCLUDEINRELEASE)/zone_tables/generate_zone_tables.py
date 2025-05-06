@@ -47,15 +47,30 @@ area_id_to_ui_map_id = {}
 ui_map_id_to_area_id = {}
 for row_id in mop_uimap_assignment:
     row = mop_uimap_assignment[row_id]
-    if row['OrderIndex'] == '0' and row['AreaID'] != '0':
-        if row['AreaID'] not in area_id_to_ui_map_id:
-            area_id_to_ui_map_id[row['AreaID']] = row['UiMapID']
+    if row['OrderIndex'] == '0':
+        area_id = row['AreaID']
+        map_id = row['UiMapID']
+
+        if area_id == '0':
+            # Some entries in mop_uimap_assignment have AreaID 0, even though there is an areaId in mop_area_table.
+            # So we search for it by the zone name.
+            name_lang = mop_uimap[map_id]['Name_lang']
+            for mop_area_id, area in mop_area_table.items():
+                if area['AreaName_lang'] == name_lang:
+                    area_id = mop_area_id
+                    break
+        if area_id == '0':
+            print('AreaID is 0 for UiMapID:', map_id, mop_uimap[map_id]["Name_lang"])
+            continue
+
+        if area_id not in area_id_to_ui_map_id:
+            area_id_to_ui_map_id[area_id] = map_id
         else:
-            print('double for AreaID:', row['AreaID'])
-        if row['UiMapID'] not in ui_map_id_to_area_id:
-            ui_map_id_to_area_id[row['UiMapID']] = row['AreaID']
+            print('double for AreaID:', area_id)
+        if map_id not in ui_map_id_to_area_id:
+            ui_map_id_to_area_id[map_id] = area_id
         else:
-            print('double for UiMapID:', row['UiMapID'])
+            print('double for UiMapID:', map_id)
 
 print("Successfully generated mappings")
 
