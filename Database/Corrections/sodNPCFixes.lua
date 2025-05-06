@@ -941,6 +941,10 @@ function SeasonOfDiscovery:LoadNPCs()
         [240978] = { -- Apple
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [241006] = { -- Grand Crusader Caldoran
+            [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
+        },
         [241019] = { -- Johnny
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{94.911,91.356}}},

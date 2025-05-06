@@ -19,6 +19,7 @@ local DebugInformation = {} -- stores text of debug data dump per session
 local debugIndex = 0 -- current debug index, used so we can still retrieve info from previous offers
 local openDebugWindows = {} -- determines if existing debug window is already open, prevents duplicates
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
 local strsplit, tContains, tostring, tonumber = strsplit, tContains, tostring, tonumber

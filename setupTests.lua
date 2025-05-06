@@ -44,6 +44,11 @@ _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
+_G.C_AddOns = {
+    IsAddOnLoaded = function()
+        return false, true
+    end
+}
 _G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
 setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
     mockedReturnValue = false,
@@ -55,8 +60,10 @@ _G.DurabilityFrame = {
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
-_G.C_Item = {}
-_G.GetItemCount = function() return 0 end
+_G.C_Item = {
+    GetItemCount = function() return 0 end,
+    GetItemSpell = function() return nil end,
+}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
@@ -256,7 +263,7 @@ local TestUtils = {
     ---@return boolean
     isEventRegistered = function(eventName)
         return registeredEvents[eventName] ~= nil
-    end
+    end,
 }
 
 return TestUtils

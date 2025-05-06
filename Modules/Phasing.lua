@@ -230,6 +230,10 @@ local phases = {
     LINDSAY_WPL_TENT = 1158,
     LINDSAY_WPL_INN = 1159,
     MGT_KT_DEAD = 1160,
+    THE_BARRENS_KADRAK_MORSHAN = 1161,
+    ZAZZO_GILNEAS = 1162,
+    ZAZZO_DEADWIND = 1163,
+    KALEC_TERMINUS = 1164,
 }
 Phasing.phases = phases
 
@@ -956,6 +960,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.MGT_KT_DEAD then
         return complete[29685] or (questLog[29685] and questLog[29685].isComplete == 1) or false
+    end
+
+    if phase == phases.THE_BARRENS_KADRAK_MORSHAN then
+        return not complete[13712] and (not questLog[13712] or (questLog[13712] and questLog[13712].isComplete == 0)) or false
+    end
+
+    if phase == phases.ZAZZO_GILNEAS then
+        return not complete[30107] or false
+    end
+
+    if phase == phases.ZAZZO_DEADWIND then
+        return complete[30107] or false
+    end
+
+    if phase == phases.KALEC_TERMINUS then
+        return complete[14391] or (questLog[14391] and questLog[14391].isComplete == 1) or false
     end
 
     return false

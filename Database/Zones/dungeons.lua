@@ -120,7 +120,7 @@ local dungeons = {
     [16236] = {"Scarlet Enclave",nil,139,{{139, 68.67, 87.84}}},
 }
 
-if Questie.IsCata then
+if Questie.IsCata or Questie.IsMoP then
     dungeons[491][3] = 4709 -- Utgarde Keep
     dungeons[491][4] = {{4709, 41, 94.6}} -- Utgarde Keep
     dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade

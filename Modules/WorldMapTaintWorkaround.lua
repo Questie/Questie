@@ -1,6 +1,8 @@
 -- This must run as early as possible.
 -- This should be independednt of Questie and all libraries.
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 local function doWorkaround()
     -- Blizzard's bugs
     -- https://github.com/Stanzilla/WoWUIBugs/issues/114 and https://github.com/Stanzilla/WoWUIBugs/issues/165

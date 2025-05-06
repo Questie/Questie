@@ -44,6 +44,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
@@ -66,7 +68,7 @@ local questsWatched = GetNumQuestWatches()
 local trackedAchievements
 local trackedAchievementIds
 
-if Questie.IsWotlk or Questie.IsCata then
+if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
     trackedAchievements = { GetTrackedAchievements() }
     trackedAchievementIds = {}
 end
@@ -75,6 +77,9 @@ local isFirstRun = true
 local allowFormattingUpdate = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local WatchFrame_Update = QuestWatch_Update or WatchFrame_Update
+local GetItemCount = C_Item.GetItemCount or GetItemCount
 
 function QuestieTracker.Initialize()
     if QuestieTracker.started then
@@ -127,7 +132,7 @@ function QuestieTracker.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame, QuestieTracker.Update)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
 
-    if Questie.IsCata then
+    if Questie.IsCata or Questie.IsMoP then
         AutoCompleteFrame.Initialize(trackerBaseFrame)
     end
 
@@ -222,7 +227,7 @@ function QuestieTracker.Initialize()
 
         -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
         -- is enabled, this will always return nil so we need to save it before we enable Questie.
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             if #trackedAchievements > 0 then
                 local tempAchieves = trackedAchievements
 
@@ -253,7 +258,7 @@ function QuestieTracker.Initialize()
                 end
             end
         else
-            QuestWatch_Update()
+            WatchFrame_Update()
         end
 
         if QuestLogFrame:IsShown() then QuestLog_Update() end
@@ -445,11 +450,24 @@ function QuestieTracker:QuestItemLooted(text)
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
 
-            QuestieCombatQueue:Queue(function()
-                C_Timer.After(0.5, function()
-                    QuestieTracker:Update()
+            if GetItemCount(itemId) == 0 then
+                -- If the item is not fully in the bag yet, we need to wait for it to be added
+                Questie:RegisterEvent("BAG_UPDATE_DELAYED", function()
+                    if GetItemCount(itemId) > 0 then
+                        -- API recognizes the item is in the bag now
+                        Questie:UnregisterEvent("BAG_UPDATE_DELAYED")
+                        QuestieCombatQueue:Queue(function()
+                            QuestieTracker:Update()
+                        end)
+                    end
                 end)
-            end)
+            else
+                QuestieCombatQueue:Queue(function()
+                    C_Timer.After(0.5, function()
+                        QuestieTracker:Update()
+                    end)
+                end)
+            end
         end
     end
 end
@@ -473,7 +491,7 @@ function QuestieTracker:Disable()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         Questie.db.char.trackedAchievementIds = {}
         trackedAchievementIds = {}
     end
@@ -791,7 +809,7 @@ function QuestieTracker:Update()
 
                         secondaryButton = true
                         secondaryButtonAlpha = alpha
-                    end, QuestieTracker.Update)
+                    end)
 
                     if (not shouldContinue) then
                         -- We exceeded the button pool
@@ -1072,7 +1090,7 @@ function QuestieTracker:Update()
     -- Begin populating the tracker with achievements
     local _UpdateAchievements = function()
         -- Begin populating the tracker with achievements
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             -- Begin populating the tracker with tracked achievements - Note: We're limited to tracking only 10 Achievements at a time.
             -- For all intents and purposes at a code level we're going to treat each tracked Achievement the same way we treat and add Quests. This loop is
             -- necessary to keep separate from the above tracked Quests loop so we can place all tracked Achievements into it's own "Zone" called Achievements.
@@ -1461,7 +1479,7 @@ function QuestieTracker:Update()
     end
 
     -- Populate Achievements first then Quests
-    if Questie.db.profile.listAchievementsFirst and (Questie.IsWotlk or Questie.IsCata) then
+    if Questie.db.profile.listAchievementsFirst and (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) then
         _UpdateAchievements()
         _UpdateQuests()
     else
@@ -1700,7 +1718,7 @@ function QuestieTracker:Unhook()
     end
 
     -- Achievement Hooks
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         if QuestieTracker.IsTrackedAchievement then
             IsTrackedAchievement = QuestieTracker.IsTrackedAchievement
             GetNumTrackedAchievements = QuestieTracker.GetNumTrackedAchievements
@@ -1732,7 +1750,7 @@ function QuestieTracker:HookBaseTracker()
         hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
 
         -- Achievement secure hooks
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
             hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
         end
@@ -1784,7 +1802,7 @@ function QuestieTracker:HookBaseTracker()
     end
 
     -- Achievement Hooks
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         if not QuestieTracker.IsTrackedAchievement then
             QuestieTracker.IsTrackedAchievement = IsTrackedAchievement
             QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements

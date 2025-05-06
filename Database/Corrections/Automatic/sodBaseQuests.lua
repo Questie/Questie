@@ -9505,6 +9505,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Acquire meat that is safe for human consumption. If you struggle to locate some in New Avalon, you may (eventually) gather enough from slaying beasts in the Eastern Plaguelands."},
             [questKeys.objectives] = {nil,nil,{{238935}}},
         },
+        [89256] = {
+            [questKeys.name] = "Prove Your Worth: Shoulderpads",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Craft a Scarlet Shoulderpads from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
+            [questKeys.objectives] = {{{241154}}},
+        },
         [89257] = {
             [questKeys.name] = "Prove Your Worth: Chestpiece",
             [questKeys.startedBy] = nil,

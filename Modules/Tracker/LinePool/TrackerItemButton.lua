@@ -11,6 +11,7 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
+local GetItemCount = C_Item.GetItemCount or GetItemCount
 
 ---@param buttonName string
 function TrackerItemButton.New(buttonName)

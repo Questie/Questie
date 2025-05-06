@@ -693,7 +693,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         options["Explosion"] = "Explosion"
         options["Shing!"] = "Shing!"
         options["Wham!"] = "Wham!"
@@ -723,7 +723,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         options["Explosion"] = "Explosion"
         options["Shing!"] = "Shing!"
         options["Wham!"] = "Wham!"

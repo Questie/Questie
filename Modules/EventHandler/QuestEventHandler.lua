@@ -39,6 +39,7 @@ local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local tableRemove = table.remove
 
 local QUEST_LOG_STATES = {

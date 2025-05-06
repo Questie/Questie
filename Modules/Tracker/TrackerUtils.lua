@@ -31,6 +31,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local GetItemCount = C_Item.GetItemCount or GetItemCount
+local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
+
 local tinsert = table.insert
 
 local objectiveFlashTicker
@@ -1012,24 +1016,14 @@ end
 ---@param trackerQuestFrame table @The tracker quest frame
 ---@param isMinimizable boolean @true if the quest is minimizable
 ---@param rePositionLine function @Callback function to reposition the line
----@param UpdateTracker function @Callback function to update the Tracker on the next bag update, when sourceItem count is 0
 ---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
-function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine, UpdateTracker)
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
     local usableQuestItems = {}
 
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-
-    if sourceItemId then
-        if GetItemCount(sourceItemId) == 0 then
-            Questie:RegisterEvent("BAG_UPDATE_DELAYED", function()
-                Questie:UnregisterEvent("BAG_UPDATE_DELAYED")
-                UpdateTracker()
-            end)
-            return true -- We return true nevertheless, so the Tracker continues populating
-        elseif  TrackerUtils:IsQuestItemUsable(sourceItemId) then
-            tinsert(usableQuestItems, sourceItemId)
-        end
+    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+        tinsert(usableQuestItems, sourceItemId)
     end
 
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
@@ -1143,7 +1137,7 @@ function TrackerUtils.HasQuest()
     local hasQuest
 
     if (GetNumQuestWatches(true) == 0) then
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
             else

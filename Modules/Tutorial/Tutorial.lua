@@ -1,16 +1,25 @@
 ---@class Tutorial
 local Tutorial = QuestieLoader:CreateModule("Tutorial")
 
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 function Tutorial.Initialize()
-    if (Questie.IsWotlk or Questie.IsCata) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
-        Tutorial.CreateChooseObjectiveTypeFrame()
+    if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
+        QuestieCombatQueue:Queue(function()
+            Tutorial.CreateChooseObjectiveTypeFrame()
+        end)
     end
 
     if Questie.IsSoD and (not Questie.db.profile.tutorialShowRunesDone) then
-        Tutorial.ShowRunes()
+        QuestieCombatQueue:Queue(function()
+            Tutorial.ShowRunes()
+        end)
     end
 
     if (not Questie.db.profile.tutorialRejectInBattlegroundsDone) then
-        Tutorial.AutoRejectInBattlegroundsFrame()
+        QuestieCombatQueue:Queue(function()
+            Tutorial.AutoRejectInBattlegroundsFrame()
+        end)
     end
 end

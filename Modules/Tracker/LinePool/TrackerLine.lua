@@ -97,7 +97,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     end
 
     function line:OnUpdate(elapsed)
-        if Questie.IsWotlk or Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
             timeElapsed = timeElapsed + elapsed
 
             if timeElapsed > 1 and self.trackTimedQuest and self.label.activeTimer then

@@ -1,5 +1,4 @@
----@type TestUtils
-local TestUtils = dofile("setupTests.lua")
+dofile("setupTests.lua")
 
 local _GetMockedLine
 
@@ -14,9 +13,11 @@ describe("TrackerUtils", function()
     local TrackerUtils
 
     local rePositionLineMock
-    local UpdateTracker
     local match = require("luassert.match")
+    local mock = require("luassert.mock")
     local _ = match._ -- any match
+
+    local C_ItemMock
 
     before_each(function()
         Questie.db.profile = {
@@ -27,6 +28,7 @@ describe("TrackerUtils", function()
             collapsedZones = {},
         }
         CreateFrame.resetMockedFrames()
+        C_ItemMock = mock(_G.C_Item, true)
 
         QuestieDB = require("Database.QuestieDB")
         QuestiePlayer = require("Modules.QuestiePlayer")
@@ -36,13 +38,12 @@ describe("TrackerUtils", function()
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
         
         rePositionLineMock = spy.new(function() end)
-        UpdateTracker = spy.new(function() end)
     end)
 
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -61,7 +62,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -74,8 +75,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single requiredSourceItems entry as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -95,7 +96,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -108,8 +109,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single objective item entry as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -133,7 +134,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -146,8 +147,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -178,7 +179,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -193,8 +194,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -229,7 +230,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -244,8 +245,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -276,7 +277,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -291,8 +292,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function(itemId) return itemId == 456 and 1 or 0 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -313,7 +314,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -331,7 +332,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(line.expandQuest:IsVisible())
 
@@ -347,7 +348,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 1, line, 12, {}, true, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 1, line, 12, {}, true, rePositionLineMock)
 
             assert.is_false(line.expandQuest:IsVisible())
 
@@ -356,8 +357,8 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button and hide item buttons when quest is collapsed", function()
             Questie.db.char.collapsedQuests[1] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -388,7 +389,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_false(primaryButton:IsVisible())
             assert.is_false(secondaryButton:IsVisible())
@@ -397,8 +398,8 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button when no primary button is added", function()
             Questie.db.char.collapsedQuests[1] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -419,7 +420,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_false(primaryButton:IsVisible())
             assert.is_true(line.expandQuest:IsVisible())
@@ -428,8 +429,8 @@ describe("TrackerUtils", function()
         it("should hide expandQuest button and hide item buttons when quest is collapsed and collapseCompletedQuests is true", function()
             Questie.db.char.collapsedQuests[1] = true
             Questie.db.profile.collapseCompletedQuests = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -460,7 +461,7 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, true, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, true, rePositionLineMock)
 
             assert.is_false(primaryButton:IsVisible())
             assert.is_false(secondaryButton:IsVisible())
@@ -469,8 +470,8 @@ describe("TrackerUtils", function()
 
         it("should hide item buttons when zone is collapsed", function()
             Questie.db.char.collapsedZones["Durotar"] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -501,37 +502,11 @@ describe("TrackerUtils", function()
             }
             local line = _GetMockedLine()
 
-            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
+            TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_false(primaryButton:IsVisible())
             assert.is_false(secondaryButton:IsVisible())
             assert.is_false(line.expandQuest:IsVisible())
-        end)
-
-        it("should retry when quest has a sourceItem but it's bag count is 0", function()
-            _G.GetItemSpell = function() return nil end
-            _G.IsEquippableItem = function() return false end
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
-            _G.GetItemCount = function() return 0 end
-            TrackerLinePool.GetNextItemButton = spy.new(function() end)
-            local quest = {
-                Id = 1,
-                sourceItemId = 456,
-            }
-            local line = _GetMockedLine()
-
-            local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock, UpdateTracker)
-
-            assert.is_true(shouldContinue)
-            assert.is_true(TestUtils.isEventRegistered("BAG_UPDATE_DELAYED"))
-
-            TestUtils.triggerMockEvent("BAG_UPDATE_DELAYED")
-
-            assert.spy(UpdateTracker).was.called()
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(TrackerLinePool.GetNextItemButton).was_not.called()
         end)
 
         _GetMockedLine = function()

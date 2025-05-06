@@ -19,7 +19,7 @@ function TrackerQuestTimers:Initialize()
         return
     end
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
         QuestTimerFrame:HookScript("OnShow", function()
             if Questie.db.profile.showBlizzardQuestTimer then
                 TrackerQuestTimers:ShowBlizzardTimer()
@@ -30,7 +30,7 @@ function TrackerQuestTimers:Initialize()
     end
 
     -- Pre-Classic WotLK
-    if (not Questie.IsWotlk) and (not Questie.IsCata) then
+    if (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) then
         C_Timer.NewTicker(1, function()
             TrackerQuestTimers:UpdateTimerFrame()
         end)
