@@ -119,7 +119,7 @@ local tutorialLocals = {
         ["koKR"] = false,
         ["ptBR"] = "Questie pode rejeitar automaticamente as missões compartilhadas com você\nenquanto estiver em um campo de batalha.\n\n\nDeseja ativar isso?",
         ["ruRU"] = "На поле боя Questie может автоматически отменять задания,\nкоторыми поделились с вами.\n\n\nХотите ли вы включить это?",
-        ["zhCN"] = false,
+        ["zhCN"] = "当你在战场中，Questie 可以\n自动拒绝分享给你的任务。\n\n\n是否要启用此功能？",
         ["zhTW"] = "當你在戰場中，Questie 可以\n自動拒絕分享給你的任務。\n\n\n是否要啟用這個功能?",
     }
 }

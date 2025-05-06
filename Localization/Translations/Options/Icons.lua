@@ -899,7 +899,7 @@ local iconOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Missões disponíveis a partir de itens",
         ["ruRU"] = "Доступные задания от предметов",
-        ["zhCN"] = false,
+        ["zhCN"] = "可从物品接取的任务",
         ["zhTW"] = false,
     },
     ["When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."] = {
@@ -911,7 +911,7 @@ local iconOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Se ativado, as localizações dos itens que iniciam missões serão exibidas no mapa e minimapa.",
         ["ruRU"] = "Когда включено, местоположения выпадения предметов, начинающих задания, будут отображаться на карте/миникарте",
-        ["zhCN"] = false,
+        ["zhCN"] = "当启用时，开始任务的物品掉落位置将显示在地图/小地图上。",
         ["zhTW"] = false,
     },
     ["Available Event Quests"] = {

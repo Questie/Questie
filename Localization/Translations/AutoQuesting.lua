@@ -11,7 +11,7 @@ local autoLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Rejeitou-se automaticamente a missão compartilhada pelo jogador.",
         ["ruRU"] = "Задание, которым поделился другой игрок, автоматически отменено.",
-        ["zhCN"] = false,
+        ["zhCN"] = "已自动拒绝玩家分享的任务。",
         ["zhTW"] = "已自動拒絕玩家分享的任務。",
     },
 }
