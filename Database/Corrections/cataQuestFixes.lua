@@ -7864,7 +7864,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [26804] = { -- Flight to Razor Hill
-            [questKeys.requiredRaces] = raceKeys.GOBLIN,
+            [questKeys.requiredRaces] = raceIDs.GOBLIN,
         },
         [26805] = { -- To the Cape!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Explorers' League Digsite"), 0, {{"monster",43042}}}},
