@@ -160,7 +160,8 @@ function QuestieReputation.GetReputationReward(questId)
         if entry[2] > 0 then
             reward = reputationRewards[entry[2]] or entry[2]
         elseif entry[2] < 0 then
-            reward = -reputationRewards[-entry[2]] or entry[2]
+            local rewardEntry = reputationRewards[-entry[2]]
+            reward = rewardEntry and -rewardEntry or entry[2]
         end
 
         if reward then
