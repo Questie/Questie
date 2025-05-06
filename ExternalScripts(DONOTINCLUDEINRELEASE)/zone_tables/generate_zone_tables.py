@@ -51,6 +51,9 @@ for row_id in mop_uimap_assignment:
         area_id = row['AreaID']
         map_id = row['UiMapID']
 
+        if mop_uimap[map_id]['Type'] == '5': # 5 = "Micro-Dungeon"
+            map_id = mop_uimap[map_id]['ParentUiMapID']
+
         if area_id == '0':
             # Some entries in mop_uimap_assignment have AreaID 0, even though there is an areaId in mop_area_table.
             # So we search for it by the zone name.
