@@ -4926,6 +4926,9 @@ function CataQuestFixes.Load()
         [25334] = { -- The Looming Threat
             [questKeys.objectives] = {{{39226,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [25336] = { -- Testing the Vessel
+            [questKeys.objectives] = {nil, nil, {{9594,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25340] = { -- Dark Heart [Horde]
             [questKeys.requiredSourceItems] = {9530},
         },
@@ -4999,6 +5002,9 @@ function CataQuestFixes.Load()
         },
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
+        },
+        [25386] = { -- To Stonemaul Hold
+            [questKeys.exclusiveTo] = {25209},
         },
         [25388] = { -- Crate of Crab Meat
             [questKeys.name] = 'Crate of Crab Meat',
@@ -7857,6 +7863,9 @@ function CataQuestFixes.Load()
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
+        [26804] = { -- Flight to Razor Hill
+            [questKeys.requiredRaces] = raceIDs.GOBLIN,
+        },
         [26805] = { -- To the Cape!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Explorers' League Digsite"), 0, {{"monster",43042}}}},
             [questKeys.exclusiveTo] = {28702},
@@ -9897,7 +9906,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
-        [27675] = { -- Forged Documents
+        [27675] = { -- Forged Documents [Alliance]
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
         },
         [27677] = { -- "Archaedas, The Ancient Stone Watcher
@@ -9913,7 +9922,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 133234}}}},
         },
         [27683] = { -- Into the Woods
-            [questKeys.exclusiveTo] = {27683,28577,28578},
+            [questKeys.exclusiveTo] = {27684,28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27684] = { -- Visitors
@@ -9922,6 +9931,9 @@ function CataQuestFixes.Load()
         },
         [27685] = { -- Good Deed Left Undone
             [questKeys.nextQuestInChain] = 25587,
+        },
+        [27686] = { -- Forged Documents [Horde]
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
         },
         [27687] = { -- An Opened Can of Whoop Gnash
             [questKeys.preQuestSingle] = {25598},
@@ -10651,6 +10663,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27976,27977},
         },
         [27981] = { -- Heat That Just Don't Quit
+            [questKeys.objectives] = {{nil, nil, {62827,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {27965},
         },
         [27982] = { -- Twilight Collars
@@ -11968,6 +11981,7 @@ function CataQuestFixes.Load()
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.nextQuestInChain] = 24906,
         },
         [28510] = { -- Warchief's Command: Feralas!
             [questKeys.requiredMaxLevel] = 38,
