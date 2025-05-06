@@ -324,6 +324,10 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [10046] = 271, -- The Arcatraz - Dungeon - Containment Core
 }]]
 
+--- If you want to add something to uiMapIdToAreaId overwrite the data in this table.
+---@type table<AreaId, UiMapId>
+ZoneDB.private.uiMapIdToAreaIdOverride = [[return {}]]
+
 ---@type table<UiMapId, AreaId>
 ZoneDB.private.uiMapIdToAreaId = [[return {
     [1415] = 0, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)

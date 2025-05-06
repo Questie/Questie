@@ -54,9 +54,15 @@ function ZoneDB.Initialize()
     end
 
     uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local uiMapIdToAreaIdOverride = loadstring(ZoneDB.private.uiMapIdToAreaIdOverride)()
+    for areaId, uiMapId in pairs(uiMapIdToAreaIdOverride) do
+        uiMapIdToAreaId[areaId] = uiMapId
+    end
+
     dungeons = ZoneDB.private.dungeons
 
-    -- Load the subZoneToParentZone table
     subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
 
     -- Override subZoneToParentZone with manual overrides
