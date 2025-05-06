@@ -46,6 +46,13 @@ local zoneMap = {} -- Generated
 
 function ZoneDB.Initialize()
     areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local areaIdToUiMapIdOverride = loadstring(ZoneDB.private.areaIdToUiMapIdOverride)()
+    for areaId, uiMapId in pairs(areaIdToUiMapIdOverride) do
+        areaIdToUiMapId[areaId] = uiMapId
+    end
+
     uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
     dungeons = ZoneDB.private.dungeons
 
