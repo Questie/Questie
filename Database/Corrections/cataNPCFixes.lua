@@ -3503,20 +3503,33 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{33.11,76.77}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
+        [42039] = { -- High Chieftain Cliffwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.STONETALON_MOUNTAINS] = {
+                    {45.04,32.76,phases.STONETALON_CLIFFWALKER_JUSTICE},
+                    {45.61,34.21,phases.STONETALON_CLIFFWALKER_RAMP},
+                    {45.53,33.71,phases.STONETALON_CLIFFWALKER_GARROSH},
+                },
+            },
+        },
         [42074] = { -- Fathom-Stalker Azjentus
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{46.45,79.27}}},
         },
         [42076] = { -- Lady Naz'jar
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {
-                {29,78.45},
-                {46.38,79.03,phases.VASHJIR_LADY_NAZ_JAR_AT_RIDGE},
-            }},
+            [npcKeys.spawns] = {
+                [zoneIDs.SHIMMERING_EXPANSE] = {
+                    {29,78.45},
+                    {46.38,79.03,phases.VASHJIR_LADY_NAZ_JAR_AT_RIDGE},
+                },
+            },
         },
         [42077] = { -- Lady Naz'jar
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {
-                {33.13,75.88,phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE},
-                {42.51,78.62,phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE},
-            }},
+            [npcKeys.spawns] = {
+                [zoneIDs.SHIMMERING_EXPANSE] = {
+                    {33.13,75.88,phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE},
+                    {42.51,78.62,phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE},
+                },
+            },
         },
         [42135] = { -- Defend the Bridge Quad Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{38.49,78.6}}},

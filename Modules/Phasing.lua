@@ -234,6 +234,9 @@ local phases = {
     ZAZZO_GILNEAS = 1162,
     ZAZZO_DEADWIND = 1163,
     KALEC_TERMINUS = 1164,
+    STONETALON_CLIFFWALKER_JUSTICE = 1165,
+    STONETALON_CLIFFWALKER_RAMP = 1166,
+    STONETALON_CLIFFWALKER_GARROSH = 1167,
 }
 Phasing.phases = phases
 
@@ -976,6 +979,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KALEC_TERMINUS then
         return complete[14391] or (questLog[14391] and questLog[14391].isComplete == 1) or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_JUSTICE then
+        return not complete[26099] or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_RAMP then
+        return complete[26099] and not complete[26115] or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_GARROSH then
+        return complete[26115] or false
     end
 
     return false
