@@ -575,13 +575,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8335] = {
-             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8336] = {
-             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
-            [questKeys.startedBy] = {nil,nil,{20483}},
+            [questKeys.startedBy] = {{15298},nil,{20483}}, -- showing NPC as starter until bug is fixed
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8344] = {
@@ -1044,7 +1044,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [9164] = {
-            [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_INTERACT},{16206,nil,Questie.ICON_TYPE_INTERACT},{16209,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_TALK},{16206,nil,Questie.ICON_TYPE_TALK},{16209,nil,Questie.ICON_TYPE_TALK}}},
         },
         [9174] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},

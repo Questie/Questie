@@ -6348,6 +6348,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26060,26061},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{11915,11917,11918},11915,"Boulderslide Kobold subdued",Questie.ICON_TYPE_INTERACT}}},
         },
+        [26067] = { -- Jin'Zil's Blessing
+            [questKeys.objectives] = {{{41360,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
         },
@@ -6368,6 +6371,13 @@ function CataQuestFixes.Load()
         },
         [26073] = { -- All's Quiet on the Southern Front
             [questKeys.preQuestGroup] = {26067,26068},
+        },
+        [26074] = { -- Beginning of the End
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{41987,42030},41987,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb into the balloon"),0,{{"monster",42029}}}},
+        },
+        [26075] = { -- The Turd Problem
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4012,4014},4012}}},
         },
         [26077] = { -- Final Delivery
             [questKeys.objectives] = {{{41418,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -12131,8 +12141,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 18,
         },
         [28560] = { -- Warchief's Command: Ghostlands!
-            [questKeys.exclusiveTo] = {9144,9327,9329},
+            [questKeys.exclusiveTo] = {9144,9329},
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 9327, -- showing this as next quest since BE
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
