@@ -3378,6 +3378,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Andorel Sunsworn while in disguise"),0,{{"monster",36596}}}},
             [questKeys.objectives] = {{{36618},{36013},{36012}}},
         },
+        [14438] = { -- Sharing the Land
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2949,2950,2951},2949}}},
+        },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
             [questKeys.preQuestSingle] = {14322},
@@ -3411,6 +3414,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 215,
             [questKeys.preQuestGroup] = {14455,14456},
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{36727,nil,Questie.ICON_TYPE_EVENT},{37155,nil,Questie.ICON_TYPE_EVENT},{37156,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14463] = { -- Horses for Duskhaven
             [questKeys.preQuestSingle] = {},
