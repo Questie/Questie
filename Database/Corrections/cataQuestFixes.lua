@@ -11938,6 +11938,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28436,28227},
             [questKeys.requiredSourceItems] = {63357},
         },
+        [28438] = { -- Trial by Magma [Horde]
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Release the Magma Lord"),0,{{"monster",48159}}}},
+            [questKeys.requiredSourceItems] = {63357},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
