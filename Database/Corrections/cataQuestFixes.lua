@@ -11881,6 +11881,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28418},
             [questKeys.exclusiveTo] = {},
         },
+        [28423] = { -- Warlocks Have the Neatest Stuff [Horde]
+            [questKeys.preQuestSingle] = {28422},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
