@@ -11942,6 +11942,11 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Release the Magma Lord"),0,{{"monster",48159}}}},
             [questKeys.requiredSourceItems] = {63357},
         },
+        [28440] = { -- Abuse of Power [Horde]
+            [questKeys.preQuestSingle] = {28438},
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.objectives] = {{{48201}}},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
