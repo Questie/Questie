@@ -11290,7 +11290,7 @@ function CataQuestFixes.Load()
         },
         [28225] = { -- Prove Yer Allegiance
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {28184},
+            [questKeys.preQuestSingle] = {28184,28426},
         },
         [28226] = { -- Scrapped Golems
             [questKeys.exclusiveTo] = {},
