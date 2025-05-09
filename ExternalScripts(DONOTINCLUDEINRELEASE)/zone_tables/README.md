@@ -10,6 +10,5 @@ The CSV files used in the script were taken from https://wago.tools/. The patch 
 
 1. Make sure you have Python 3.x installed on your system.
 2. Run the `generate_zone_tables.py` script.
-3. Take the content of the generated `areaIdToUiMapId.lua` file and replace the previously used data.
-3. Take the content of the generated `uiMapIdToAreaId.lua` file and replace the previously used data.
-
+3. Take the content of the generated files (`areaIdToUiMapId.lua` and `uiMapIdToAreaId.lua`) from `/cata` or `/mop` and replace the matching data.
+4. The files are located in `Questie/Database/Zones/data`.
