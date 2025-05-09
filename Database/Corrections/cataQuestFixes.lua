@@ -11889,6 +11889,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28422},
             [questKeys.exclusiveTo] = {},
         },
+        [28425] = { -- Return to Ariok
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28423,28424},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
