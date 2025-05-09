@@ -11957,6 +11957,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28442},
             [questKeys.objectives] = {nil,nil,{{63424, nil, Questie.ICON_TYPE_INTERACT}}},
         },
+        [28446] = { -- Blood Tour [Horde]
+            [questKeys.preQuestGroup] = {28443,28444,28445},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
