@@ -11294,7 +11294,7 @@ function CataQuestFixes.Load()
         },
         [28226] = { -- Scrapped Golems
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {28184},
+            [questKeys.preQuestSingle] = {28184,28426},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Destroy the War Reaver"),0,{{"monster",7039}}}},
         },
         [28227] = { -- Golem Training
