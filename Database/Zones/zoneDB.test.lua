@@ -3,6 +3,9 @@ _G["Questie"] = {}
 _G.UnitFactionGroup = function() return "Horde" end
 dofile("Database/Zones/data/dungeons.lua")
 dofile("Database/Zones/data/zoneIds.lua")
+dofile("Database/Zones/data/areaIdToUiMapId.lua")
+dofile("Database/Zones/data/uiMapIdToAreaId.lua")
+dofile("Database/Zones/data/subZoneToParentZone.lua")
 
 
 describe("ZoneDB", function()
