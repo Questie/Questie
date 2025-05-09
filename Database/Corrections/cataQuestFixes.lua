@@ -11900,8 +11900,29 @@ function CataQuestFixes.Load()
         [28427] = { -- A Needle in a Hellhole [Horde]
             [questKeys.preQuestSingle] = {28426},
         },
-        [28429] = { -- A Perfect Costume [Horde]
+        [28428] = { -- A Perfect Costume
             [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("2 Hides, 4 Mud, 2 Thread"),0,{{"object",206947}}}},
+        },
+        [28429] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("4 Hides, 1 Mud, 3 Thread"),0,{{"object",206947}}}},
+        },
+        [28430] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.GOBLIN,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("1 Hide, 3 Mud, 4 Thread"),0,{{"object",206947}}}},
+        },
+        [28431] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.TROLL + raceIDs.BLOOD_ELF,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("3 Hides, 2 Mud, 1 Thread"),0,{{"object",206947}}}},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
