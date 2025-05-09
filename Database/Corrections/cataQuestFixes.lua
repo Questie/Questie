@@ -11924,6 +11924,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("3 Hides, 2 Mud, 1 Thread"),0,{{"object",206947}}}},
         },
+        [28434] = { -- Strategic Cuts [Horde]
+            [questKeys.preQuestSingle] = {28432},
+            [questKeys.requiredSourceItems] = {63357},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
