@@ -11862,6 +11862,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28174},
             [questKeys.preQuestSingle] = {26726},
         },
+        [28417] = { -- Done Nothing Wrong [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,{{63114,nil,Questie.ICON_TYPE_INTERACT},{63116,nil,Questie.ICON_TYPE_INTERACT},{63117,nil,Questie.ICON_TYPE_INTERACT},{63119,nil,Questie.ICON_TYPE_INTERACT}}}
+        },
         [28418] = { -- Burning Vengeance [Horde]
             [questKeys.preQuestSingle] = {},
         },
