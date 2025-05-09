@@ -11893,6 +11893,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28423,28424},
         },
+        [28426] = { -- Chiselgrip, the Heart of the Steppes [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28417,28425},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
