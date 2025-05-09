@@ -11873,6 +11873,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28418},
             [questKeys.exclusiveTo] = {},
         },
+        [28420] = { -- A Future Project [Horde]
+            [questKeys.preQuestSingle] = {28418},
+            [questKeys.exclusiveTo] = {},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
