@@ -45,6 +45,7 @@ Database\QuestXP\DB\xpDB-tbc.lua
 Modules\QuestieStream.lua
 
 # Zones
+Database\Zones\data\areaIdToUiMapId.lua
 Database\Zones\dungeons.lua
 Database\Zones\zoneTables.lua
 Database\Zones\zoneDB.lua
