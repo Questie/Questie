@@ -11963,6 +11963,9 @@ function CataQuestFixes.Load()
         [28447] = { -- Draconic Vanguard [Horde]
             [questKeys.preQuestGroup] = {28443,28444,28445},
         },
+        [28448] = { -- A Deal With a Dragon [Horde]
+            [questKeys.preQuestGroup] = {28443,28444,28445},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
