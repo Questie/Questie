@@ -11950,6 +11950,9 @@ function CataQuestFixes.Load()
         [28443] = { -- Blackened Ashes [Horde]
             [questKeys.preQuestSingle] = {28442},
         },
+        [28444] = { -- Latent Demons of the Land [Horde]
+            [questKeys.preQuestSingle] = {28442},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
