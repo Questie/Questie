@@ -11953,6 +11953,9 @@ function CataQuestFixes.Load()
         [28444] = { -- Latent Demons of the Land [Horde]
             [questKeys.preQuestSingle] = {28442},
         },
+        [28445] = { -- A Heap of Delicious Worg [Horde]
+            [questKeys.preQuestSingle] = {28442},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
