@@ -12038,6 +12038,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 18,
             [questKeys.nextQuestInChain] = 13518,
         },
+        [28491] = { -- Not Fireflies, Flameflies
+            [questKeys.objectives] = {nil,nil,{{64409, nil, Questie.ICON_TYPE_INTERACT}}},
+        },
         [28492] = { -- Hero's Call: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
             [questKeys.nextQuestInChain] = 13594,
