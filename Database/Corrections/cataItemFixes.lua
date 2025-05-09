@@ -235,6 +235,9 @@ function CataItemFixes.Load()
         [19802] = { -- Heart of Hakkar
             [itemKeys.npcDrops] = {},
         },
+        [20483] = { -- Tainted Arcane Sliver
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [20743] = { -- Unstable Mana Crystal
             [itemKeys.npcDrops] = {},
         },

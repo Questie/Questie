@@ -2878,6 +2878,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.TROLL,
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,27841,27846},
         },
+        [14184] = { -- My Time Has Passed
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",35287}}}},
+        },
         [14189] = { -- Translation
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Narimar"),0,{{"monster",35315}}}},
         },
@@ -3374,6 +3378,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Andorel Sunsworn while in disguise"),0,{{"monster",36596}}}},
             [questKeys.objectives] = {{{36618},{36013},{36012}}},
         },
+        [14438] = { -- Sharing the Land
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2949,2950,2951},2949}}},
+        },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
             [questKeys.preQuestSingle] = {14322},
@@ -3407,6 +3414,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 215,
             [questKeys.preQuestGroup] = {14455,14456},
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{36727,nil,Questie.ICON_TYPE_EVENT},{37155,nil,Questie.ICON_TYPE_EVENT},{37156,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14463] = { -- Horses for Duskhaven
             [questKeys.preQuestSingle] = {},
@@ -6348,6 +6356,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26060,26061},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{11915,11917,11918},11915,"Boulderslide Kobold subdued",Questie.ICON_TYPE_INTERACT}}},
         },
+        [26067] = { -- Jin'Zil's Blessing
+            [questKeys.objectives] = {{{41360,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
         },
@@ -6368,6 +6379,16 @@ function CataQuestFixes.Load()
         },
         [26073] = { -- All's Quiet on the Southern Front
             [questKeys.preQuestGroup] = {26067,26068},
+        },
+        [26074] = { -- Beginning of the End
+            [questKeys.objectives] = {{{41987,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb into the balloon"),0,{{"monster",42029}}}},
+        },
+        [26075] = { -- The Turd Problem
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4012,4014},4012}}},
+        },
+        [26076] = { -- The Turd Problem
+            [questKeys.objectives] = {{{42035}}},
         },
         [26077] = { -- Final Delivery
             [questKeys.objectives] = {{{41418,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6437,6 +6458,9 @@ function CataQuestFixes.Load()
         [26111] = { -- ... It Will Come
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Ick'thys the Unfathomable"), 0, {{"object", 203456}}}},
         },
+        [26115] = { -- To Be Horde...
+            [questKeys.objectives] = {{{42124,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26116] = { -- Kinelory Strikes
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
             [questKeys.preQuestSingle] = {26114},
@@ -6480,6 +6504,7 @@ function CataQuestFixes.Load()
         },
         [26134] = { -- Nothing Left for You Here
             [questKeys.preQuestSingle] = {26115},
+            [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [26135] = { -- Visions of the Past: Rise from the Deep
             [questKeys.preQuestSingle] = {25973},
@@ -12086,6 +12111,7 @@ function CataQuestFixes.Load()
         },
         [28548] = { -- Warchief's Command: Desolace!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 14184,
         },
         [28549] = { -- Warchief's Command: Southern Barrens!
             [questKeys.objectives] = {},
@@ -12131,8 +12157,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 18,
         },
         [28560] = { -- Warchief's Command: Ghostlands!
-            [questKeys.exclusiveTo] = {9144,9327,9329},
+            [questKeys.exclusiveTo] = {9144,9329},
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 9327, -- showing this as next quest since BE
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
