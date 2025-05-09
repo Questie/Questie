@@ -1,7 +1,7 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
 dofile("Database/itemDB.lua")
-dofile("Database/Zones/zoneTables.lua")
+dofile("Database/Zones/data/zoneIds.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end

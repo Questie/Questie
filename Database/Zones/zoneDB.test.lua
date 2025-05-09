@@ -2,7 +2,7 @@ dofile("Modules/Libs/QuestieLoader.lua")
 _G["Questie"] = {}
 _G.UnitFactionGroup = function() return "Horde" end
 dofile("Database/Zones/data/dungeons.lua")
-dofile("Database/Zones/zoneTables.lua")
+dofile("Database/Zones/data/zoneIds.lua")
 
 
 describe("ZoneDB", function()
