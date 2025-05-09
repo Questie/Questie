@@ -11955,6 +11955,7 @@ function CataQuestFixes.Load()
         },
         [28445] = { -- A Heap of Delicious Worg [Horde]
             [questKeys.preQuestSingle] = {28442},
+            [questKeys.objectives] = {nil,nil,{{63424, nil, Questie.ICON_TYPE_INTERACT}}},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
