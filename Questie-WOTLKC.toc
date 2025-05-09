@@ -46,9 +46,9 @@ Modules\QuestieStream.lua
 
 # Zones
 Database\Zones\data\areaIdToUiMapId.lua
+Database\Zones\data\dungeons.lua
 Database\Zones\data\subZoneToParentZone.lua
 Database\Zones\data\uiMapIdToAreaId.lua
-Database\Zones\dungeons.lua
 Database\Zones\zoneTables.lua
 Database\Zones\zoneDB.lua
 
