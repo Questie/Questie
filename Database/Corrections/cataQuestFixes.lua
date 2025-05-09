@@ -11966,6 +11966,18 @@ function CataQuestFixes.Load()
         [28448] = { -- A Deal With a Dragon [Horde]
             [questKeys.preQuestGroup] = {28443,28444,28445},
         },
+        [28450] = { -- A Delivery for Thorg'izog
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
+        [28451] = { -- A Delivery for Neeralak
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
+        [28452] = { -- A Delivery for Xi'lun
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
