@@ -11883,9 +11883,11 @@ function CataQuestFixes.Load()
         },
         [28423] = { -- Warlocks Have the Neatest Stuff [Horde]
             [questKeys.preQuestSingle] = {28422},
+            [questKeys.exclusiveTo] = {},
         },
         [28424] = { -- Shadow Boxing [Horde]
             [questKeys.preQuestSingle] = {28422},
+            [questKeys.exclusiveTo] = {},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
