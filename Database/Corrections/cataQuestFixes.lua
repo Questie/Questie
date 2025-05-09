@@ -11928,10 +11928,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28432},
             [questKeys.requiredSourceItems] = {63357},
         },
-        [28252] = { -- The Kodocaller's Horn [Horde]
+        [28436] = { -- The Kodocaller's Horn [Horde]
             [questKeys.requiredSourceItems] = {63357},
             [questKeys.objectives] = {{{48111,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.finishedBy] = {{100043}},
+        },
+        [28437] = { -- General Thorg'izog [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28436,28227},
+            [questKeys.requiredSourceItems] = {63357},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
