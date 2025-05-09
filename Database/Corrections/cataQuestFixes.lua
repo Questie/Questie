@@ -11858,9 +11858,12 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {24503},
         },
-        [28416] = { -- Burning Vengeance
+        [28416] = { -- Burning Vengeance [Alliance]
             [questKeys.exclusiveTo] = {28174},
             [questKeys.preQuestSingle] = {26726},
+        },
+        [28418] = { -- Burning Vengeance [Horde]
+            [questKeys.preQuestSingle] = {},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
