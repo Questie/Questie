@@ -11869,6 +11869,10 @@ function CataQuestFixes.Load()
         [28418] = { -- Burning Vengeance [Horde]
             [questKeys.preQuestSingle] = {},
         },
+        [28419] = { -- Stocking Up [Horde]
+            [questKeys.preQuestSingle] = {28418},
+            [questKeys.exclusiveTo] = {},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
