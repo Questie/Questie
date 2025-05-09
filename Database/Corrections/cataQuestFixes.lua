@@ -11897,6 +11897,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28417,28425},
         },
+        [28427] = { -- A Needle in a Hellhole [Horde]
+            [questKeys.preQuestSingle] = {28426},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
