@@ -11978,6 +11978,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {63357},
             [questKeys.preQuestSingle] = {28449},
         },
+        [28453] = { -- Locked and Loaded
+            [questKeys.preQuestGroup] = {28450,28451,28452},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
