@@ -11947,6 +11947,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {63357},
             [questKeys.objectives] = {{{48201}}},
         },
+        [28443] = { -- Blackened Ashes [Horde]
+            [questKeys.preQuestSingle] = {28442},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
