@@ -11981,6 +11981,9 @@ function CataQuestFixes.Load()
         [28453] = { -- Locked and Loaded
             [questKeys.preQuestGroup] = {28450,28451,28452},
         },
+        [28454] = { -- Assault on Dreadmaul Rock
+            [questKeys.preQuestSingle] = {28453},
+        },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
         },
