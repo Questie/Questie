@@ -50,6 +50,7 @@ Database\Zones\data\dungeons.lua
 Database\Zones\data\subZoneToParentZone.lua
 Database\Zones\data\uiMapIdToAreaId.lua
 Database\Zones\data\zoneIds.lua
+Database\Zones\data\instanceIdToUiMapId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
