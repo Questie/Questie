@@ -12026,11 +12026,11 @@ function CataQuestFixes.Load()
         [28513] = { -- Pride of the Highborne
             [questKeys.objectives] = {nil,nil,nil,nil,{{{7524,7523,48727},7523}}},
         },
-        [28514] = { -- Mouton Flamestar
+        [28514] = { -- Mouton Flamestar [Alliance]
             [questKeys.nextQuestInChain] = 28172,
         },
-        [28515] = { -- Mouton Flamestar
-            [questKeys.nextQuestInChain] = 28172,
+        [28515] = { -- Mouton Flamestar [Horde]
+            [questKeys.nextQuestInChain] = 28417,
         },
         [28517] = { -- The Howling Oak
             [questKeys.preQuestSingle] = {},
