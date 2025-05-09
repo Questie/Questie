@@ -12452,7 +12452,6 @@ function CataQuestFixes.Load()
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
             [questKeys.nextQuestInChain] = 28418,
-
         },
         [28671] = { -- Warchief's Command: Blasted Lands!
             [questKeys.startedBy] = {nil,{207324,207325}},
