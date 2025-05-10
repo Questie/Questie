@@ -1240,6 +1240,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11315] = "Brote sangrepétalo",
 [11316] = "Sangrepétalo",
 [11318] = "Calima Atal'ai",
+[11319] = "Controlador descargado",
 [11325] = "Jarra de cerveza Hierro Negro",
 [11370] = "Mena de hierro negro",
 [11382] = "Sangre de la montaña",
