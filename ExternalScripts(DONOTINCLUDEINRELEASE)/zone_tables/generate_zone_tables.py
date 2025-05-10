@@ -1,6 +1,40 @@
 import csv
 import os
 
+def build_zone_dicts(uimap_assignment, uimap, area_table):
+    area_id_to_ui_map_id = {}
+    ui_map_id_to_area_id = {}
+    for row_id in uimap_assignment:
+        row = uimap_assignment[row_id]
+        if row['OrderIndex'] == '0':
+            area_id = row['AreaID']
+            map_id = row['UiMapID']
+            if uimap[map_id]['Type'] == '5':  # 5 = "Micro-Dungeon"
+                map_id = uimap[map_id]['ParentUiMapID']
+
+            if area_id == '0':
+                # Some entries in X_uimap_assignment have AreaID 0, even though there is an areaId in X_area_table.
+                # So we search for it by the zone name.
+                name_lang = uimap[map_id]['Name_lang']
+                for mop_area_id, area in area_table.items():
+                    if area['AreaName_lang'] == name_lang:
+                        area_id = mop_area_id
+                        break
+            if area_id == '0':
+                print('AreaID is 0 for UiMapID:', map_id, uimap[map_id]["Name_lang"])
+                continue
+
+            if area_id not in area_id_to_ui_map_id:
+                area_id_to_ui_map_id[area_id] = map_id
+            else:
+                print('double for AreaID:', area_id)
+            if map_id not in ui_map_id_to_area_id:
+                ui_map_id_to_area_id[map_id] = area_id
+            else:
+                print('double for UiMapID:', map_id)
+
+    return area_id_to_ui_map_id, ui_map_id_to_area_id
+
 print('Reading cata files...')
 
 cata_area_table = {}
@@ -44,37 +78,7 @@ with open('../DBC - WoW.tools/Uimapassignment.5.5.0.60700.csv', 'r') as f:
 print("Successfully read files")
 print("Generating MoP mappings...")
 
-area_id_to_ui_map_id = {}
-ui_map_id_to_area_id = {}
-for row_id in mop_uimap_assignment:
-    row = mop_uimap_assignment[row_id]
-    if row['OrderIndex'] == '0':
-        area_id = row['AreaID']
-        map_id = row['UiMapID']
-
-        if mop_uimap[map_id]['Type'] == '5': # 5 = "Micro-Dungeon"
-            map_id = mop_uimap[map_id]['ParentUiMapID']
-
-        if area_id == '0':
-            # Some entries in mop_uimap_assignment have AreaID 0, even though there is an areaId in mop_area_table.
-            # So we search for it by the zone name.
-            name_lang = mop_uimap[map_id]['Name_lang']
-            for mop_area_id, area in mop_area_table.items():
-                if area['AreaName_lang'] == name_lang:
-                    area_id = mop_area_id
-                    break
-        if area_id == '0':
-            print('AreaID is 0 for UiMapID:', map_id, mop_uimap[map_id]["Name_lang"])
-            continue
-
-        if area_id not in area_id_to_ui_map_id:
-            area_id_to_ui_map_id[area_id] = map_id
-        else:
-            print('double for AreaID:', area_id)
-        if map_id not in ui_map_id_to_area_id:
-            ui_map_id_to_area_id[map_id] = area_id
-        else:
-            print('double for UiMapID:', map_id)
+area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(mop_uimap_assignment, mop_uimap, mop_area_table)
 
 print("Successfully generated MoP mappings")
 
@@ -103,37 +107,7 @@ print("Done with MoP!")
 
 print("Generating Cata mappings...")
 
-area_id_to_ui_map_id = {}
-ui_map_id_to_area_id = {}
-for row_id in cata_uimap_assignment:
-    row = cata_uimap_assignment[row_id]
-    if row['OrderIndex'] == '0':
-        area_id = row['AreaID']
-        map_id = row['UiMapID']
-
-        if cata_uimap[map_id]['Type'] == '5': # 5 = "Micro-Dungeon"
-            map_id = cata_uimap[map_id]['ParentUiMapID']
-
-        if area_id == '0':
-            # Some entries in cata_uimap_assignment have AreaID 0, even though there is an areaId in cata_area_table.
-            # So we search for it by the zone name.
-            name_lang = cata_uimap[map_id]['Name_lang']
-            for cata_area_id, area in cata_area_table.items():
-                if area['AreaName_lang'] == name_lang:
-                    area_id = cata_area_id
-                    break
-        if area_id == '0':
-            print('AreaID is 0 for UiMapID:', map_id, cata_uimap[map_id]["Name_lang"])
-            continue
-
-        if area_id not in area_id_to_ui_map_id:
-            area_id_to_ui_map_id[area_id] = map_id
-        else:
-            print('double for AreaID:', area_id)
-        if map_id not in ui_map_id_to_area_id:
-            ui_map_id_to_area_id[map_id] = area_id
-        else:
-            print('double for UiMapID:', map_id)
+area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(cata_uimap_assignment, cata_uimap, cata_area_table)
 
 print("Successfully generated Cata mappings")
 
