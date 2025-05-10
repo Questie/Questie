@@ -29,28 +29,35 @@ local subZoneToParentZone
 ---@type table<AreaId, AreaId>
 local alternativeDungeonAreaIdToDungeonAreaId = {}
 
-
--- Overrides for UiMapId to AreaId
-local UiMapIdOverrides = {
-    [174] = 4720, -- The Lost Isles
-    [246] = 3713, -- Hellfire Citadel
-    -- We map "Eastern Kingdom" and "Kalimdor" zone to 0, because they are not used for any NPC/object, but can be returned from
-    -- C_Map.GetBestMapForUnit("player") when the player is in a cave for example.
-    [113] = 0, -- Northrend
-    [1414] = 0, -- Kalimdor
-    [1415] = 0, -- Eastern Kingdom
-    [1945] = 0, -- Outland
-}
 local zoneMap = {} -- Generated
 
 
 function ZoneDB.Initialize()
     areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local areaIdToUiMapIdOverride = loadstring(ZoneDB.private.areaIdToUiMapIdOverride)()
+    for areaId, uiMapId in pairs(areaIdToUiMapIdOverride) do
+        areaIdToUiMapId[areaId] = uiMapId
+    end
+
     uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local uiMapIdToAreaIdOverride = loadstring(ZoneDB.private.uiMapIdToAreaIdOverride)()
+    for areaId, uiMapId in pairs(uiMapIdToAreaIdOverride) do
+        uiMapIdToAreaId[areaId] = uiMapId
+    end
+
     dungeons = ZoneDB.private.dungeons
+
     subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
-    subZoneToParentZone[3545] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
-    subZoneToParentZone[3563] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
+
+    -- Override subZoneToParentZone with manual overrides
+    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
+    for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
+        subZoneToParentZone[areaId] = parentZoneId
+    end
 
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
@@ -79,11 +86,6 @@ end
 ---@param uiMapId UiMapId
 ---@return AreaId
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    --? Some areas have multiple areaIds, so we return the correct AreaId
-    if UiMapIdOverrides[uiMapId] then
-        return UiMapIdOverrides[uiMapId]
-    end
-
     local foundId
     -- First we look for a direct match
     for AreaUiMapId, lAreaId in pairs(uiMapIdToAreaId) do

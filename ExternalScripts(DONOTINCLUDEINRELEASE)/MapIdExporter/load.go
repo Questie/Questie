@@ -7,7 +7,7 @@ import (
 	"github.com/gocarina/gocsv"
 )
 
-//Map Id types
+// Map Id types
 type MapId int   //Big map id such as 0, 1 and 530 for Kalimdor etc.
 type UiMapId int // Modern Map Id
 type ZoneId int  //e.g Dun Morogh
@@ -120,10 +120,12 @@ type areaTable struct {
 	AreaBit       int    `csv:"AreaBit"`
 	Flags0        int    `csv:"Flags[0]"`
 	Flags1        int    `csv:"Flags[1]"`
+	Flags0_new    int    `csv:"Flags_0"` //`csv:"Flags[0]"`
+	Flags1_new    int    `csv:"Flags_1"` //`csv:"Flags[1]"`
 }
 
-func LoadAreaTable() []*areaTable {
-	in, err := os.Open("csv/areatable.csv")
+func LoadAreaTable(file string) []*areaTable {
+	in, err := os.Open(file)
 	if err != nil {
 		panic(err)
 	}
