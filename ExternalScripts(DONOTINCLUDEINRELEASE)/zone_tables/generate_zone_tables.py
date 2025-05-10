@@ -43,6 +43,16 @@ def build_zone_dicts(uimap_assignment, uimap, area_table):
 
     return area_id_to_ui_map_id, ui_map_id_to_area_id
 
+def write_area_to_ui_map_file(file_path: str, mappings: dict, uimap: dict):
+    print("Printing results into %s..." % file_path)
+    with open(file_path, 'w') as f:
+        f.write('ZoneDB.private.areaIdToUiMapId = [[return {\n')
+        for area_id in sorted(mappings.keys(), key=lambda x: int(x)):
+            map_id = mappings[area_id]
+            is_dungeon_or_raid = uimap[map_id]['Type'] == '4' and uimap[map_id]['ParentUiMapID'] != 0
+            f.write(f'    [{area_id}] = {map_id}, -- {uimap[map_id]["Name_lang"]}{" - (Dungeon/Raid)" if is_dungeon_or_raid else ""}\n')
+        f.write('}]]')
+
 print('Reading cata files...')
 cata_area_table = read_csv('../DBC - WoW.tools/areatable_cata.csv')
 cata_uimap = read_csv('../DBC - WoW.tools/uimap_cata.csv')
@@ -64,14 +74,7 @@ print("Successfully generated MoP mappings")
 if not os.path.exists('mop'):
     os.makedirs('mop')
 
-print("Printing results into mop/areaIdToUiMapId.lua...")
-with open('mop/areaIdToUiMapId.lua', 'w') as f:
-    f.write('ZoneDB.private.areaIdToUiMapId = [[return {\n')
-    for area_id in sorted(area_id_to_ui_map_id.keys(), key=lambda x: int(x)):
-        map_id = area_id_to_ui_map_id[area_id]
-        is_dungeon_or_raid = mop_uimap[map_id]['Type'] == '4' and mop_uimap[map_id]['ParentUiMapID'] != 0
-        f.write(f'    [{area_id}] = {map_id}, -- {mop_uimap[map_id]["Name_lang"]}{" - (Dungeon/Raid)" if is_dungeon_or_raid else ""}\n')
-    f.write('}]]')
+write_area_to_ui_map_file('mop/areaIdToUiMapId.lua', area_id_to_ui_map_id, mop_uimap)
 
 print("Printing results into mop/uiMapIdToAreaId.lua...")
 with open('mop/uiMapIdToAreaId.lua', 'w') as f:
@@ -93,14 +96,7 @@ print("Successfully generated Cata mappings")
 if not os.path.exists('cata'):
     os.makedirs('cata')
 
-print("Printing results into cata/areaIdToUiMapId.lua...")
-with open('cata/areaIdToUiMapId.lua', 'w') as f:
-    f.write('ZoneDB.private.areaIdToUiMapId = [[return {\n')
-    for area_id in sorted(area_id_to_ui_map_id.keys(), key=lambda x: int(x)):
-        map_id = area_id_to_ui_map_id[area_id]
-        is_dungeon_or_raid = cata_uimap[map_id]['Type'] == '4' and cata_uimap[map_id]['ParentUiMapID'] != 0
-        f.write(f'    [{area_id}] = {map_id}, -- {cata_uimap[map_id]["Name_lang"]}{" - (Dungeon/Raid)" if is_dungeon_or_raid else ""}\n')
-    f.write('}]]')
+write_area_to_ui_map_file('cata/areaIdToUiMapId.lua', area_id_to_ui_map_id, cata_uimap)
 
 print("Printing results into cata/uiMapIdToAreaId.lua...")
 with open('cata/uiMapIdToAreaId.lua', 'w') as f:
