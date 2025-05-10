@@ -9,7 +9,7 @@ def read_csv(file_path: str) -> dict:
             csv_data[row['ID']] = row
     return csv_data
 
-def build_zone_dicts(uimap_assignment, uimap, area_table, read_micro_dungeons: bool):
+def build_zone_dicts(uimap_assignment: dict, uimap: dict, area_table: dict, read_micro_dungeons: bool) -> tuple[dict, dict]:
     area_id_to_ui_map_id = {}
     ui_map_id_to_area_id = {}
     for row_id in uimap_assignment:
