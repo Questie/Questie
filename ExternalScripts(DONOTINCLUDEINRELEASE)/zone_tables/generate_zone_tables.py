@@ -69,9 +69,10 @@ cata_uimap = read_csv('../DBC - WoW.tools/uimap_cata.csv')
 cata_uimap_assignment = read_csv('../DBC - WoW.tools/uimapassignment_cata.csv')
 
 print('Reading mop files...')
-mop_area_table = read_csv('../DBC - WoW.tools/AreaTable.5.5.0.60700.csv')
-mop_uimap = read_csv('../DBC - WoW.tools/Uimap.5.5.0.60700.csv')
-mop_uimap_assignment = read_csv('../DBC - WoW.tools/Uimapassignment.5.5.0.60700.csv')
+mop_build_version = '5.5.0.60700'
+mop_area_table = read_csv('../DBC - WoW.tools/AreaTable.%s.csv' % mop_build_version)
+mop_uimap = read_csv('../DBC - WoW.tools/Uimap.%s.csv' % mop_build_version)
+mop_uimap_assignment = read_csv('../DBC - WoW.tools/Uimapassignment.%s.csv' % mop_build_version)
 
 print("Successfully read files")
 
