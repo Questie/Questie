@@ -11290,11 +11290,11 @@ function CataQuestFixes.Load()
         },
         [28225] = { -- Prove Yer Allegiance
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {28184},
+            [questKeys.preQuestSingle] = {28184,28426},
         },
         [28226] = { -- Scrapped Golems
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {28184},
+            [questKeys.preQuestSingle] = {28184,28426},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Destroy the War Reaver"),0,{{"monster",7039}}}},
         },
         [28227] = { -- Golem Training
@@ -11858,9 +11858,131 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {24503},
         },
-        [28416] = { -- Burning Vengeance
+        [28416] = { -- Burning Vengeance [Alliance]
             [questKeys.exclusiveTo] = {28174},
             [questKeys.preQuestSingle] = {26726},
+        },
+        [28417] = { -- Done Nothing Wrong [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,{{63114,nil,Questie.ICON_TYPE_INTERACT},{63116,nil,Questie.ICON_TYPE_INTERACT},{63117,nil,Questie.ICON_TYPE_INTERACT},{63119,nil,Questie.ICON_TYPE_INTERACT}}}
+        },
+        [28418] = { -- Burning Vengeance [Horde]
+            [questKeys.preQuestSingle] = {},
+        },
+        [28419] = { -- Stocking Up [Horde]
+            [questKeys.preQuestSingle] = {28418},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28420] = { -- A Future Project [Horde]
+            [questKeys.preQuestSingle] = {28418},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28421] = { -- Mud Hunter [Horde]
+            [questKeys.preQuestSingle] = {28418},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28423] = { -- Warlocks Have the Neatest Stuff [Horde]
+            [questKeys.preQuestSingle] = {28422},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28424] = { -- Shadow Boxing [Horde]
+            [questKeys.preQuestSingle] = {28422},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28425] = { -- Return to Ariok
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28423,28424},
+        },
+        [28426] = { -- Chiselgrip, the Heart of the Steppes [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28417,28425},
+        },
+        [28427] = { -- A Needle in a Hellhole [Horde]
+            [questKeys.preQuestSingle] = {28426},
+        },
+        [28428] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("2 Hides, 4 Mud, 2 Thread"),0,{{"object",206947}}}},
+        },
+        [28429] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("4 Hides, 1 Mud, 3 Thread"),0,{{"object",206947}}}},
+        },
+        [28430] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.GOBLIN,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("1 Hide, 3 Mud, 4 Thread"),0,{{"object",206947}}}},
+        },
+        [28431] = { -- A Perfect Costume
+            [questKeys.preQuestSingle] = {28427},
+            [questKeys.requiredRaces] = raceIDs.TROLL + raceIDs.BLOOD_ELF,
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("3 Hides, 2 Mud, 1 Thread"),0,{{"object",206947}}}},
+        },
+        [28434] = { -- Strategic Cuts [Horde]
+            [questKeys.preQuestSingle] = {28432},
+            [questKeys.requiredSourceItems] = {63357},
+        },
+        [28436] = { -- The Kodocaller's Horn [Horde]
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.objectives] = {{{48111,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.finishedBy] = {{100043}},
+        },
+        [28437] = { -- General Thorg'izog [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28436,28227},
+            [questKeys.requiredSourceItems] = {63357},
+        },
+        [28438] = { -- Trial by Magma [Horde]
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Release the Magma Lord"),0,{{"monster",48159}}}},
+            [questKeys.requiredSourceItems] = {63357},
+        },
+        [28440] = { -- Abuse of Power [Horde]
+            [questKeys.preQuestSingle] = {28438},
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.objectives] = {{{48201}}},
+        },
+        [28443] = { -- Blackened Ashes [Horde]
+            [questKeys.preQuestSingle] = {28442},
+        },
+        [28444] = { -- Latent Demons of the Land [Horde]
+            [questKeys.preQuestSingle] = {28442},
+        },
+        [28445] = { -- A Heap of Delicious Worg [Horde]
+            [questKeys.preQuestSingle] = {28442},
+            [questKeys.objectives] = {nil,nil,{{63424, nil, Questie.ICON_TYPE_INTERACT}}},
+        },
+        [28446] = { -- Blood Tour [Horde]
+            [questKeys.preQuestGroup] = {28443,28444,28445},
+        },
+        [28447] = { -- Draconic Vanguard [Horde]
+            [questKeys.preQuestGroup] = {28443,28444,28445},
+        },
+        [28448] = { -- A Deal With a Dragon [Horde]
+            [questKeys.preQuestGroup] = {28443,28444,28445},
+        },
+        [28450] = { -- A Delivery for Thorg'izog
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
+        [28451] = { -- A Delivery for Neeralak
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
+        [28452] = { -- A Delivery for Xi'lun
+            [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestSingle] = {28449},
+        },
+        [28453] = { -- Locked and Loaded
+            [questKeys.preQuestGroup] = {28450,28451,28452},
+        },
+        [28454] = { -- Assault on Dreadmaul Rock
+            [questKeys.preQuestSingle] = {28453},
         },
         [28457] = { -- A Dangerous Alliance
             [questKeys.preQuestSingle] = {},
@@ -11944,6 +12066,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 18,
             [questKeys.nextQuestInChain] = 13518,
         },
+        [28491] = { -- Not Fireflies, Flameflies
+            [questKeys.objectives] = {nil,nil,{{64409, nil, Questie.ICON_TYPE_INTERACT}}},
+        },
         [28492] = { -- Hero's Call: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
             [questKeys.nextQuestInChain] = 13594,
@@ -12019,11 +12144,11 @@ function CataQuestFixes.Load()
         [28513] = { -- Pride of the Highborne
             [questKeys.objectives] = {nil,nil,nil,nil,{{{7524,7523,48727},7523}}},
         },
-        [28514] = { -- Mouton Flamestar
+        [28514] = { -- Mouton Flamestar [Alliance]
             [questKeys.nextQuestInChain] = 28172,
         },
-        [28515] = { -- Mouton Flamestar
-            [questKeys.nextQuestInChain] = 28172,
+        [28515] = { -- Mouton Flamestar [Horde]
+            [questKeys.nextQuestInChain] = 28417,
         },
         [28517] = { -- The Howling Oak
             [questKeys.preQuestSingle] = {},
@@ -12448,6 +12573,7 @@ function CataQuestFixes.Load()
         },
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
+            [questKeys.nextQuestInChain] = 28418,
         },
         [28671] = { -- Warchief's Command: Blasted Lands!
             [questKeys.startedBy] = {nil,{207324,207325}},
