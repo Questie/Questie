@@ -24,19 +24,19 @@ with open('../DBC - WoW.tools/uimapassignment_cata.csv', 'r') as f:
 print('Reading mop files...')
 
 mop_area_table = {}
-with open('../DBC - WoW.tools/AreaTable.5.5.0.60548.csv', 'r') as f:
+with open('../DBC - WoW.tools/AreaTable.5.5.0.60700.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         mop_area_table[row['ID']] = row
 
 mop_uimap = {}
-with open('../DBC - WoW.tools/Uimap.5.5.0.60548.csv', 'r') as f:
+with open('../DBC - WoW.tools/Uimap.5.5.0.60700.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         mop_uimap[row['ID']] = row
 
 mop_uimap_assignment = {}
-with open('../DBC - WoW.tools/Uimapassignment.5.5.0.60548.csv', 'r') as f:
+with open('../DBC - WoW.tools/Uimapassignment.5.5.0.60700.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         mop_uimap_assignment[row['ID']] = row
