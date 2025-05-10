@@ -9,7 +9,7 @@ def read_csv(file_path: str) -> dict:
             csv_data[row['ID']] = row
     return csv_data
 
-def build_zone_dicts(uimap_assignment, uimap, area_table):
+def build_zone_dicts(uimap_assignment, uimap, area_table, read_micro_dungeons: bool):
     area_id_to_ui_map_id = {}
     ui_map_id_to_area_id = {}
     for row_id in uimap_assignment:
@@ -17,7 +17,7 @@ def build_zone_dicts(uimap_assignment, uimap, area_table):
         if row['OrderIndex'] == '0':
             area_id = row['AreaID']
             map_id = row['UiMapID']
-            if uimap[map_id]['Type'] == '5':  # 5 = "Micro-Dungeon"
+            if not read_micro_dungeons and uimap[map_id]['Type'] == '5':  # 5 = "Micro-Dungeon"
                 map_id = uimap[map_id]['ParentUiMapID']
 
             if area_id == '0':
@@ -78,7 +78,7 @@ print("Successfully read files")
 
 print("Generating MoP mappings...")
 
-area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(mop_uimap_assignment, mop_uimap, mop_area_table)
+area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(mop_uimap_assignment, mop_uimap, mop_area_table, True)
 
 print("Successfully generated MoP mappings")
 
@@ -92,7 +92,7 @@ print("Done with MoP!")
 
 print("Generating Cata mappings...")
 
-area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(cata_uimap_assignment, cata_uimap, cata_area_table)
+area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(cata_uimap_assignment, cata_uimap, cata_area_table, False)
 
 print("Successfully generated Cata mappings")
 
