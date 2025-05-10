@@ -1,6 +1,14 @@
 import csv
 import os
 
+def read_csv(file_path: str) -> dict:
+    csv_data = {}
+    with open(file_path, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            csv_data[row['ID']] = row
+    return csv_data
+
 def build_zone_dicts(uimap_assignment, uimap, area_table):
     area_id_to_ui_map_id = {}
     ui_map_id_to_area_id = {}
@@ -36,46 +44,17 @@ def build_zone_dicts(uimap_assignment, uimap, area_table):
     return area_id_to_ui_map_id, ui_map_id_to_area_id
 
 print('Reading cata files...')
-
-cata_area_table = {}
-with open('../DBC - WoW.tools/areatable_cata.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        cata_area_table[row['ID']] = row
-
-cata_uimap = {}
-with open('../DBC - WoW.tools/uimap_cata.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        cata_uimap[row['ID']] = row
-
-cata_uimap_assignment = {}
-with open('../DBC - WoW.tools/uimapassignment_cata.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        cata_uimap_assignment[row['ID']] = row
+cata_area_table = read_csv('../DBC - WoW.tools/areatable_cata.csv')
+cata_uimap = read_csv('../DBC - WoW.tools/uimap_cata.csv')
+cata_uimap_assignment = read_csv('../DBC - WoW.tools/uimapassignment_cata.csv')
 
 print('Reading mop files...')
-
-mop_area_table = {}
-with open('../DBC - WoW.tools/AreaTable.5.5.0.60700.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        mop_area_table[row['ID']] = row
-
-mop_uimap = {}
-with open('../DBC - WoW.tools/Uimap.5.5.0.60700.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        mop_uimap[row['ID']] = row
-
-mop_uimap_assignment = {}
-with open('../DBC - WoW.tools/Uimapassignment.5.5.0.60700.csv', 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        mop_uimap_assignment[row['ID']] = row
+mop_area_table = read_csv('../DBC - WoW.tools/AreaTable.5.5.0.60700.csv')
+mop_uimap = read_csv('../DBC - WoW.tools/Uimap.5.5.0.60700.csv')
+mop_uimap_assignment = read_csv('../DBC - WoW.tools/Uimapassignment.5.5.0.60700.csv')
 
 print("Successfully read files")
+
 print("Generating MoP mappings...")
 
 area_id_to_ui_map_id, ui_map_id_to_area_id = build_zone_dicts(mop_uimap_assignment, mop_uimap, mop_area_table)
