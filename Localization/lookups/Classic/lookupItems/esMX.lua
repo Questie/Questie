@@ -1148,6 +1148,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10447] = "Cabeza de Lathoric el Negro",
 [10450] = "Pluma de hipogrifo sin estropear",
 [10454] = "Esencia de Eranikus",
+[10455] = "Esencia encadenada de Eranikus",
 [10458] = "Rezo a Elune",
 [10459] = "Cabeza del jefe Cornapunta Mantospina",
 [10465] = "Huevo de Hakkar",
