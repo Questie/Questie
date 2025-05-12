@@ -421,6 +421,7 @@ QuestieDB.classKeys = {
     SHAMAN = 64,
     MAGE = 128,
     WARLOCK = 256,
+    MONK = 512,
     DRUID = 1024
 }
 
