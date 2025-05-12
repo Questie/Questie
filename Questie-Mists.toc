@@ -114,6 +114,12 @@ Database\Corrections\cataNPCFixes.lua
 Database\Corrections\cataItemFixes.lua
 Database\Corrections\cataObjectFixes.lua
 
+# MoP Corrections
+Database\Corrections\mopQuestFixes.lua
+Database\Corrections\mopNPCFixes.lua
+Database\Corrections\mopItemFixes.lua
+Database\Corrections\mopObjectFixes.lua
+
 # Compiler
 Database\compiler.lua
 

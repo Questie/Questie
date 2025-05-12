@@ -62,6 +62,15 @@ local CataItemFixes = QuestieLoader:ImportModule("CataItemFixes")
 ---@type CataObjectFixes
 local CataObjectFixes = QuestieLoader:ImportModule("CataObjectFixes")
 
+---@type MopQuestFixes
+local MopQuestFixes = QuestieLoader:ImportModule("MopQuestFixes")
+---@type MopNpcFixes
+local MopNpcFixes = QuestieLoader:ImportModule("MopNpcFixes")
+---@type MopItemFixes
+local MopItemFixes = QuestieLoader:ImportModule("MopItemFixes")
+---@type MopObjectFixes
+local MopObjectFixes = QuestieLoader:ImportModule("MopObjectFixes")
+
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
@@ -263,6 +272,13 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Questie.IsMoP then
+        _LoadCorrections("questData", MopQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", MopNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", MopItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", MopObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     if Questie.IsSoD then
