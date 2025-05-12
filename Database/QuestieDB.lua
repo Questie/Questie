@@ -387,10 +387,30 @@ local questTagCorrections = {
     [9665] = {41, "PvP"},
 }
 
+local function GetAllAllianceRaceValue()
+    if Questie.IsMoP or Questie.IsCata then
+        return 2098253
+    elseif Questie.IsWotlk or Questie.IsTBC then
+        return 1101
+    else
+        return 77
+    end
+end
+
+local function GetAllHordeRaceValue()
+    if Questie.IsMoP or Questie.IsCata then
+        return 946
+    elseif Questie.IsWotlk or Questie.IsTBC then
+        return 690
+    else
+        return 178
+    end
+end
+
 -- race bitmask data, for easy access
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = Questie.IsClassic and 77 or Questie.IsCata or Questie.IsMoP and 2098253 or 1101,
-    ALL_HORDE = Questie.IsClassic and 178 or Questie.IsCata or Questie.IsMoP and 946 or 690,
+    ALL_ALLIANCE = GetAllAllianceRaceValue(),
+    ALL_HORDE = GetAllHordeRaceValue(),
     NONE = 0,
 
     HUMAN = 1,
