@@ -16760,9 +16760,7 @@ QuestieDB.questData = [[return {
 [31691] = {"Inscribed Crane Staff",{nil,nil,{79340}},{{56063}},85,90,0,nil,{"Bring your Inscribed Crane Staff to Inkmaster Jo Po in the Arboretum."},nil,nil,nil,nil,nil,nil,nil,nil,5931,nil,nil,nil,nil,nil,1048712},
 [31692] = {"Inscribed Serpent Staff",{nil,nil,{79341}},{{56065}},85,90,0,nil,{"Bring your Inscribed Serpent Staff to Inkmaster Wei in the Arboretum."},nil,nil,nil,nil,nil,nil,nil,nil,5931,nil,nil,nil,nil,nil,1048712},
 [31693] = {"Julia Stevens",{{64330}},{{64330}},1,-1,0,nil,{"Defeat Julia Stevens in a pet battle."},nil,nil,nil,nil,nil,nil,nil,nil,-394,nil,nil,nil,nil,nil,4096,1},
-[31694] = {"Hisingen Blues",nil,nil,1,-1,0,nil,{"test log desc ! $1oa $1oo $1oo $1oa test cona $oo fodasse $o1x caracois $o1 crl
-
-*DO NOT LOCALIZE*"},nil,nil,nil,nil,nil,nil,nil,nil,4471},
+[31694] = {"Hisingen Blues",nil,nil,1,-1,0,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,4471},
 [31695] = {"Beyond the Wall",{{63535,63542}},{{60688}},88,88,0,nil,{"Speak with Taran Zhu at the Longying Outpost in Townlong Steppes."},nil,nil,nil,nil,nil,nil,nil,nil,5842,nil,nil,nil,nil,30814,8},
 [31697] = {"ACCIDENTAL COPY [reuse if you like]",nil,nil,88,89,0,nil,{"Use a Dragon Launcher to kill 50 swarming mantid."},nil,nil,nil,nil,nil,nil,nil,nil,5842,nil,nil,nil,nil,nil,1048584,nil,nil,{{1270,5}}},
 [31698] = {"Thinning The Pack",{{58228}},{{58564}},90,90,0,nil,{"Kill 8 Windward Tigers or Windward Alphas."},nil,nil,nil,nil,nil,nil,nil,nil,5785,nil,nil,nil,nil,nil,4096,1,nil,{{1271,5}}},
