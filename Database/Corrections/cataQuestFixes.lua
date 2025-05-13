@@ -178,6 +178,7 @@ function CataQuestFixes.Load()
         },
         [844] = { -- Plainstrider Menace
             [questKeys.startedBy] = {{34258}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [845] = { -- The Zhevra
             [questKeys.preQuestSingle] = {},
@@ -240,6 +241,7 @@ function CataQuestFixes.Load()
         },
         [905] = { -- Into the Raptor's Den
             [questKeys.objectives] = {nil,{{195311},{195311},{195311}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
@@ -2621,6 +2623,9 @@ function CataQuestFixes.Load()
         },
         [14038] = { -- Love it or Limpet
             [questKeys.objectives] = {nil,{{195202,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14046] = { -- The Baron's Demands
+            [questKeys.objectives] = {{{3467,nil,Questie.ICON_TYPE_TALK}}},
         },
         [14050] = { -- Gazlowe's Fortune
             [questKeys.preQuestSingle] = {14049},

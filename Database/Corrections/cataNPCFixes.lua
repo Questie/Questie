@@ -292,7 +292,6 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {851,852,855,4021},
         },
         [3394] = { -- Barak Kodobane
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{51.0,78.8}}},
             [npcKeys.waypoints] = {},
         },
         [3395] = { -- Verog the Dervish
@@ -305,6 +304,9 @@ function CataNpcFixes.Load()
         [3412] = { -- Nogg
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{56.28,56.36}}},
             [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR] = {{{56.28,56.36},{56.74,57.02}}}},
+        },
+        [3438] = { -- Kreenig Snarlsnout
+            [npcKeys.waypoints] = {},
         },
         [3467] = { -- Baron Longshore
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{69.91,85.2}}},
@@ -957,6 +959,9 @@ function CataNpcFixes.Load()
         [11501] = { -- King Gordok
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{31.83,25.93},{-1,-1}}},
         },
+        [11502] = { -- Ragnaros
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{55.36,55.02},{-1,-1}}},
+        },
         [11517] = { -- Oggleflint
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{70.1,64.2},{-1,-1}}},
         },
@@ -1010,6 +1015,13 @@ function CataNpcFixes.Load()
         [11937] = { -- Demon Portal Guardian
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{53.14,79.95},{53.93,79.2},{50.91,81.31},{52.65,81.86},{53.13,84.06},{55.07,79.4},{55.28,71.9},{50.65,70.78},{50.21,74.28},{49.89,77.3}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
+        },
+        [12056] = { -- Baron Geddon
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{66.97,65.83},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.MOLTEN_CORE] = {{{57.14,73.74},{53.94,75.85},{52.15,75.77},{51.39,78.21},{51.83,81.94},{53.51,83.94},{54.88,82.65},{55.35,79.23},{56.38,74.98},{57.14,73.74},{64.53,67.01},{66.14,66.16},{66.97,65.83}}}},
+        },
+        [12057] = { -- Garr
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{29.58,73.08},{-1,-1}}},
         },
         [12201] = { -- Princess Theradras
             [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{24.34,78.34}},[zoneIDs.MARAUDON] = {{-1,-1}}},

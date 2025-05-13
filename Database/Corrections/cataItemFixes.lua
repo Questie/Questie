@@ -57,11 +57,17 @@ function CataItemFixes.Load()
         [5061] = { -- Stolen Silver
             [itemKeys.objectDrops] = {195224},
         },
+        [5078] = { -- Theramore Medal
+            [itemKeys.npcDrops] = {3385,3386,3393,5629,34706,34707},
+        },
         [5084] = { -- Cap'n Garvey's Head
             [itemKeys.npcDrops] = {34750},
         },
         [5085] = { -- Quilboar Tusk
             [itemKeys.npcDrops] = {3261,3265,3266,3267,3268,3269,3271,34503,34545},
+        },
+        [5086] = { -- Zhevra Hooves
+            [itemKeys.npcDrops] = {3242,3426,3466,44166},
         },
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608},
