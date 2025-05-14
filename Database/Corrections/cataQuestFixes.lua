@@ -3640,10 +3640,8 @@ function CataQuestFixes.Load()
         [24512] = { -- Warriors' Redemption
             [questKeys.requiredSourceItems] = {49769},
             [questKeys.objectives] = {{{37167,"Stonetalon Prisoner Armed",Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Acquire crates of Confiscated Arms"),0,{{"object",201701}}}},
-        },
-        [24518] = { -- The Low Road
-            [questKeys.startedBy] = {{37216}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the ropes to go up and down the hill"), 0, {{"object", 201707},{"object", 201708}}}},
+            [questKeys.requiredRaces] = raceIDs.DWARF,
         },
         [24520] = { -- Give Sassy the News
             [questKeys.sourceItemId] = 46856,
@@ -3668,6 +3666,10 @@ function CataQuestFixes.Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 926}}},
             },
             [questKeys.requiredRaces] = raceIDs.DWARF,
+        },
+        [24529] = { -- Bad to Worse
+            [questKeys.objectives] = {{{37487,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{3261,37511,38884},3261}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 201724}}}},
         },
         [24530] = { -- Oh, A Hunter's Life For Me
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{56641}}},
@@ -3701,6 +3703,7 @@ function CataQuestFixes.Load()
         },
         [24543] = { -- A Family Divided
             [questKeys.preQuestSingle] = {24529},
+            [questKeys.nextQuestInChain] = 24546,
         },
         [24546] = { -- A Line in the Dirt
             [questKeys.preQuestSingle] = {},
@@ -4854,6 +4857,9 @@ function CataQuestFixes.Load()
         },
         [25281] = { -- Pay It Forward
             [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25284] = { -- Feeding the Fear
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the ropes to go up and down the hill"), 0, {{"object", 201707},{"object", 201708}}}},
         },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {},
