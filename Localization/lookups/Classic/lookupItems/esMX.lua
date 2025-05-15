@@ -1156,6 +1156,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10467] = "Cartera de comerciante",
 [10509] = "Corazón de llama",
 [10511] = "Aceite gólem",
+[10515] = "Antorcha de reprensión",
 [10538] = "Tablilla de Beth'Amara",
 [10539] = "Tablilla de Jin'yael",
 [10540] = "Tablilla de Markri",

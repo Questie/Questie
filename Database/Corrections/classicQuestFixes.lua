@@ -2630,6 +2630,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7638},
             [questKeys.zoneOrSort] = -141,
         },
+        [7736] = {
+            [questKeys.objectivesText] = {},
+        },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},
         },
