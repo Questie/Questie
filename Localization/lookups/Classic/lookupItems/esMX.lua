@@ -1207,6 +1207,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11018] = "Tierra de Un'Goro",
 [11040] = "Mañagrana",
 [11058] = "Aro de la nariz de Sha'ni",
+[11078] = "Llave del arca de reliquias",
 [11080] = "Cabeza cortada de Gor'tesh",
 [11109] = "Comida para pollos especial",
 [11112] = "Equipo de investigación",
