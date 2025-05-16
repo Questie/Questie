@@ -1232,6 +1232,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11186] = "Cristal de poder rojo",
 [11188] = "Cristal de poder amarillo",
 [11227] = "Trozo del estandarte de Krom'zar",
+[11231] = "Muda de piel de Vuelo Negro alterada",
 [11242] = "Raíz del mal",
 [11266] = "Fragmento elemental fracturado",
 [11268] = "Cabeza de Argelmach",
