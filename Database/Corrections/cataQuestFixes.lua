@@ -3722,6 +3722,10 @@ function CataQuestFixes.Load()
         [24569] = { -- Siegebreaker
             [questKeys.preQuestGroup] = {24546,24551},
         },
+        [24573] = { -- Honoring the Dead
+            [questKeys.preQuestSingle] = {24569},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{3703,37747},3703,nil,Questie.ICON_TYPE_EVENT},{{6387,37756},6387,nil,Questie.ICON_TYPE_EVENT},{{5944,37758},5944,nil,Questie.ICON_TYPE_EVENT},{{10378,37759},10378,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
@@ -3729,6 +3733,10 @@ function CataQuestFixes.Load()
         },
         [24577] = { -- Desolation Hold Inspection
             [questKeys.objectives] = {{{37811,"Gar'dul Notified",Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to Desolation Hold"),0,{{"monster",37679}}}},
+        },
+        [24591] = { -- Changing of the Gar'dul
+            [questKeys.objectives] = {{{37843,nil,Questie.ICON_TYPE_EVENT},{37811,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24593] = { -- Neither Human Nor Beast
             [questKeys.preQuestSingle] = {},
@@ -3740,12 +3748,18 @@ function CataQuestFixes.Load()
         [24601] = { -- The Nightmare Scar
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",37570}}}},
         },
+        [24604] = { -- Concern for Mankrik
+            [questKeys.nextQuestInChain] = 24603,
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
             [questKeys.preQuestSingle] = {24591},
             [questKeys.objectives] = {{{37923}},{{201876,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [24619] = { -- Parts-is-Parts
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Calder's Bonesaw on its remains"),0,{{"monster",37922},{"monster",37923},{"monster",37925},{"monster",37926},{"monster",37971},{"monster",37977}}}},
         },
         [24622] = { -- A Troll's Truest Companion
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3774,6 +3788,9 @@ function CataQuestFixes.Load()
         },
         [24628] = { -- Preparations
             [questKeys.preQuestSingle] = {24617},
+        },
+        [24632] = { -- Tauren Vengeance
+            [questKeys.nextQuestInChain] = 24684,
         },
         [24633] = { -- Mahka's Plea
             [questKeys.preQuestSingle] = {24653},
@@ -4023,6 +4040,9 @@ function CataQuestFixes.Load()
         },
         [24744] = { -- The Biggest Egg Ever
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mechachicken"),0,{{"monster",38224}}}},
+        },
+        [24747] = { -- Sabotage!
+            [questKeys.objectives] = {{{38109,nil,Questie.ICON_TYPE_INTERACT},{38251,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24751] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -10699,7 +10719,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27976,27977},
         },
         [27981] = { -- Heat That Just Don't Quit
-            [questKeys.objectives] = {{nil, nil, {62827,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,{{62827,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {27965},
         },
         [27982] = { -- Twilight Collars

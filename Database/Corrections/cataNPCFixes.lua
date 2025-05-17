@@ -2371,9 +2371,6 @@ function CataNpcFixes.Load()
         [33444] = { -- Harbinger Aphotic
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{20.34,42.47}}},
         },
-        [37759] = { -- Omusa's Spirit
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{43.6,52.2}}},
-        },
         [33889] = { -- Krokk
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{82.54,53.8}}},
         },
@@ -2781,6 +2778,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{78.11,66.11}}},
             [npcKeys.waypoints] = {[zoneIDs.GILNEAS] = {{{79.33,64.84},{79.16,65.02},{78.90,65.31},{78.84,65.34},{78.77,65.38},{78.69,65.42},{78.60,65.48},{78.44,65.63},{78.37,65.70},{78.31,65.78},{78.25,65.85},{78.19,65.93},{78.13,66.01},{78.10,66.11},{78.14,66.21},{78.17,66.32},{78.13,66.42},{78.07,66.50},{78.00,66.47},{77.95,66.38},{77.90,66.30},{77.90,66.30},{77.87,66.27},{77.82,66.18},{77.84,66.08},{77.90,65.99},{77.97,66.02},{77.97,66.02},{78.01,66.06},{78.08,66.12},{78.08,66.13}}}},
         },
+        [37759] = { -- Omusa's Spirit
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{43.69,52.34}}},
+        },
         [37776] = { -- Apprentice Nelphi
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{44.86,72.41}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
@@ -2796,6 +2796,10 @@ function CataNpcFixes.Load()
                     {70.88,39.84,phases.GILNEAS_CHAPTER_10},
                 },
             },
+        },
+        [37843] = { -- Gar'dul Top of Tower Quest Credit
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{40.72,69.24}}},
+            [npcKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
         },
         [37847] = { -- Mankrik
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{44.51,88.09}}},
@@ -2880,6 +2884,10 @@ function CataNpcFixes.Load()
         },
         [38240] = { -- Dweller of the North
             [npcKeys.name] = "Dweller of the North"
+        },
+        [38251] = { -- Bael'dun Escape Quest Credit
+            [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.84,86.84}}},
+            [npcKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
         },
         [38255] = { -- Maximillian of Northshire
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{30.62,51.14}}},

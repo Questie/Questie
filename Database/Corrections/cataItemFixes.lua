@@ -521,6 +521,9 @@ function CataItemFixes.Load()
         [49944] = { -- Belysra's Talisman
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [50054] = { -- SI:7 Briefings
+            [itemKeys.npcDrops] = {38033},
+        },
         [50134] = { -- Horn of Tal'doren
             [itemKeys.class] = itemClasses.QUEST,
         },
