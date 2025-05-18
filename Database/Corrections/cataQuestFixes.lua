@@ -178,6 +178,7 @@ function CataQuestFixes.Load()
         },
         [844] = { -- Plainstrider Menace
             [questKeys.startedBy] = {{34258}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [845] = { -- The Zhevra
             [questKeys.preQuestSingle] = {},
@@ -240,6 +241,7 @@ function CataQuestFixes.Load()
         },
         [905] = { -- Into the Raptor's Den
             [questKeys.objectives] = {nil,{{195311},{195311},{195311}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
@@ -2622,6 +2624,9 @@ function CataQuestFixes.Load()
         [14038] = { -- Love it or Limpet
             [questKeys.objectives] = {nil,{{195202,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [14046] = { -- The Baron's Demands
+            [questKeys.objectives] = {{{3467,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [14050] = { -- Gazlowe's Fortune
             [questKeys.preQuestSingle] = {14049},
         },
@@ -3635,10 +3640,8 @@ function CataQuestFixes.Load()
         [24512] = { -- Warriors' Redemption
             [questKeys.requiredSourceItems] = {49769},
             [questKeys.objectives] = {{{37167,"Stonetalon Prisoner Armed",Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Acquire crates of Confiscated Arms"),0,{{"object",201701}}}},
-        },
-        [24518] = { -- The Low Road
-            [questKeys.startedBy] = {{37216}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the ropes to go up and down the hill"), 0, {{"object", 201707},{"object", 201708}}}},
+            [questKeys.requiredRaces] = raceIDs.DWARF,
         },
         [24520] = { -- Give Sassy the News
             [questKeys.sourceItemId] = 46856,
@@ -3663,6 +3666,10 @@ function CataQuestFixes.Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 926}}},
             },
             [questKeys.requiredRaces] = raceIDs.DWARF,
+        },
+        [24529] = { -- Bad to Worse
+            [questKeys.objectives] = {{{37487,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{3261,37511,38884},3261}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 201724}}}},
         },
         [24530] = { -- Oh, A Hunter's Life For Me
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{56641}}},
@@ -3696,6 +3703,7 @@ function CataQuestFixes.Load()
         },
         [24543] = { -- A Family Divided
             [questKeys.preQuestSingle] = {24529},
+            [questKeys.nextQuestInChain] = 24546,
         },
         [24546] = { -- A Line in the Dirt
             [questKeys.preQuestSingle] = {},
@@ -3714,6 +3722,10 @@ function CataQuestFixes.Load()
         [24569] = { -- Siegebreaker
             [questKeys.preQuestGroup] = {24546,24551},
         },
+        [24573] = { -- Honoring the Dead
+            [questKeys.preQuestSingle] = {24569},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{3703,37747},3703,nil,Questie.ICON_TYPE_EVENT},{{6387,37756},6387,nil,Questie.ICON_TYPE_EVENT},{{5944,37758},5944,nil,Questie.ICON_TYPE_EVENT},{{10378,37759},10378,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
@@ -3721,6 +3733,10 @@ function CataQuestFixes.Load()
         },
         [24577] = { -- Desolation Hold Inspection
             [questKeys.objectives] = {{{37811,"Gar'dul Notified",Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to Desolation Hold"),0,{{"monster",37679}}}},
+        },
+        [24591] = { -- Changing of the Gar'dul
+            [questKeys.objectives] = {{{37843,nil,Questie.ICON_TYPE_EVENT},{37811,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24593] = { -- Neither Human Nor Beast
             [questKeys.preQuestSingle] = {},
@@ -3732,12 +3748,18 @@ function CataQuestFixes.Load()
         [24601] = { -- The Nightmare Scar
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",37570}}}},
         },
+        [24604] = { -- Concern for Mankrik
+            [questKeys.nextQuestInChain] = 24603,
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
             [questKeys.preQuestSingle] = {24591},
             [questKeys.objectives] = {{{37923}},{{201876,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [24619] = { -- Parts-is-Parts
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Calder's Bonesaw on its remains"),0,{{"monster",37922},{"monster",37923},{"monster",37925},{"monster",37926},{"monster",37971},{"monster",37977}}}},
         },
         [24622] = { -- A Troll's Truest Companion
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3766,6 +3788,9 @@ function CataQuestFixes.Load()
         },
         [24628] = { -- Preparations
             [questKeys.preQuestSingle] = {24617},
+        },
+        [24632] = { -- Tauren Vengeance
+            [questKeys.nextQuestInChain] = 24684,
         },
         [24633] = { -- Mahka's Plea
             [questKeys.preQuestSingle] = {24653},
@@ -4015,6 +4040,9 @@ function CataQuestFixes.Load()
         },
         [24744] = { -- The Biggest Egg Ever
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mechachicken"),0,{{"monster",38224}}}},
+        },
+        [24747] = { -- Sabotage!
+            [questKeys.objectives] = {{{38109,nil,Questie.ICON_TYPE_INTERACT},{38251,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24751] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4849,6 +4877,9 @@ function CataQuestFixes.Load()
         },
         [25281] = { -- Pay It Forward
             [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25284] = { -- Feeding the Fear
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the ropes to go up and down the hill"), 0, {{"object", 201707},{"object", 201708}}}},
         },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {},
@@ -10688,7 +10719,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27976,27977},
         },
         [27981] = { -- Heat That Just Don't Quit
-            [questKeys.objectives] = {{nil, nil, {62827,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,{{62827,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {27965},
         },
         [27982] = { -- Twilight Collars

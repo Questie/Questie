@@ -41,6 +41,7 @@ local dungeons = {
     [2717] = {"Molten Core",nil,46,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
     [2917] = {"Hall of Legends",nil,1637,{{1637, 40.4, 68.3}}},
     [2918] = {"Champions' Hall",nil,1519,{{1519, 72.7, 54}}},
+    [3358] = {"Arathi Basin",nil,36,{(isHorde and {45, 73.5, 29.0}) or {45, 45.4, 44.4}}},
     [3428] = {"Temple of Ahn'Qiraj",nil,1377,{{1377, 28.6, 92.3}}},
     [3429] = {"Ruins of Ahn'Qiraj",nil,1377,{{1377, 28.6, 92.3}}},
     [3456] = {"Naxxramas",nil,65,{{139, 39.9, 25.8}}},
