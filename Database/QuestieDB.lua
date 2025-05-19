@@ -388,7 +388,9 @@ local questTagCorrections = {
 }
 
 local function GetAllAllianceRaceValue()
-    if Questie.IsMoP or Questie.IsCata then
+    if Questie.IsMoP then
+        return 18875469
+    elseif Questie.IsCata then
         return 2098253
     elseif Questie.IsWotlk or Questie.IsTBC then
         return 1101
@@ -398,7 +400,9 @@ local function GetAllAllianceRaceValue()
 end
 
 local function GetAllHordeRaceValue()
-    if Questie.IsMoP or Questie.IsCata then
+    if Questie.IsMoP then
+        return 33555378
+    elseif Questie.IsCata then
         return 946
     elseif Questie.IsWotlk or Questie.IsTBC then
         return 690
@@ -408,6 +412,8 @@ local function GetAllHordeRaceValue()
 end
 
 -- race bitmask data, for easy access
+-- Checkout the ChrRaces DBC e.g. https://wago.tools/db2/ChrRaces
+-- The values below are calculated by 2^entry
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = GetAllAllianceRaceValue(),
     ALL_HORDE = GetAllHordeRaceValue(),
@@ -425,6 +431,9 @@ QuestieDB.raceKeys = {
     BLOOD_ELF = 512,
     DRAENEI = 1024,
     WORGEN = 2097152, -- lol
+    PANDAREN_NEUTRAL = 8388608,
+    PANDAREN_ALLIANCE = 16777216,
+    PANDAREN_HORDE = 33554432,
 }
 
 -- Combining these with "and" makes the order matter
