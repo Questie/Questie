@@ -387,53 +387,60 @@ local questTagCorrections = {
     [9665] = {41, "PvP"},
 }
 
-local function GetAllAllianceRaceValue()
-    if Questie.IsMoP then
-        return 18875469
-    elseif Questie.IsCata then
-        return 2098253
-    elseif Questie.IsWotlk or Questie.IsTBC then
-        return 1101
-    else
-        return 77
-    end
-end
-
-local function GetAllHordeRaceValue()
-    if Questie.IsMoP then
-        return 33555378
-    elseif Questie.IsCata then
-        return 946
-    elseif Questie.IsWotlk or Questie.IsTBC then
-        return 690
-    else
-        return 178
-    end
-end
-
--- race bitmask data, for easy access
--- Checkout the ChrRaces DBC e.g. https://wago.tools/db2/ChrRaces
--- The values below are calculated by 2^entry
+-- * race bitmask data, for easy access
+-- ? The PlayableRaceBit can be found in ChrRaces.dbc
+-- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
+-- ? The values below are calculated by 2^PlayableRaceBit
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = GetAllAllianceRaceValue(),
-    ALL_HORDE = GetAllHordeRaceValue(),
+    -- Allow all alliance races
+    ALL_ALLIANCE = (function()
+        if Questie.IsClassic then
+            return 77
+        elseif Questie.IsTBC or Questie.IsWotlk then
+            return 1101
+        elseif Questie.IsCata then
+            return 2098253
+        elseif Questie.IsMoP then
+            return 18875469
+        else
+            print("Unknown expansion for ALL_ALLIANCE")
+            return 77
+        end
+    end)(),
+    -- ALlow all horde races
+    ALL_HORDE = (function()
+        if Questie.IsClassic then
+            return 178
+        elseif Questie.IsTBC or Questie.IsWotlk then
+            return 690
+        elseif Questie.IsCata then
+            return 946
+        elseif Questie.IsMoP then
+            return 33555378
+        else
+            print("Unknown expansion for ALL_HORDE")
+            return 178
+        end
+    end)(),
+    -- Allow all races (No limit on allowed races)
     NONE = 0,
 
-    HUMAN = 1,
-    ORC = 2,
-    DWARF = 4,
-    NIGHT_ELF = 8,
-    UNDEAD = 16,
-    TAUREN = 32,
-    GNOME = 64,
-    TROLL = 128,
-    GOBLIN = 256,
-    BLOOD_ELF = 512,
-    DRAENEI = 1024,
-    WORGEN = 2097152, -- lol
-    PANDAREN_NEUTRAL = 8388608,
-    PANDAREN_ALLIANCE = 16777216,
-    PANDAREN_HORDE = 33554432,
+    --[[PlayableRaceBit]]
+    --[[ 0]] HUMAN = 1,
+    --[[ 1]] ORC  = 2,
+    --[[ 2]] DWARF = 4,
+    --[[ 3]] NIGHT_ELF = 8,
+    --[[ 4]] UNDEAD = 16,
+    --[[ 5]] TAUREN = 32,
+    --[[ 6]] GNOME = 64,
+    --[[ 7]] TROLL = 128,
+    --[[ 8]] GOBLIN = 256,                  -- Cata
+    --[[ 9]] BLOOD_ELF = 512,               -- TBC
+    --[[10]] DRAENEI = 1024,                -- TBC
+    --[[21]] WORGEN = 2097152,              -- Cata
+    --[[23]] PANDAREN_NEUTRAL = 8388608,    -- MoP
+    --[[24]] PANDAREN_ALLIANCE = 16777216,  -- MoP
+    --[[25]] PANDAREN_HORDE = 33554432,     -- MoP
 }
 
 -- Combining these with "and" makes the order matter
