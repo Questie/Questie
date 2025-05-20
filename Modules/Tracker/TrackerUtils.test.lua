@@ -32,7 +32,7 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
         C_ItemMock = mock(_G.C_Item, true)
 
-        Expansions = require("Modules.Expansions")
+        Expansions = QuestieLoader:ImportModule("Expansions")
         QuestieDB = require("Database.QuestieDB")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
