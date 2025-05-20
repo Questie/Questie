@@ -15,6 +15,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -53,10 +55,10 @@ QuestieJourney.questCategoryKeys = questCategoryKeys
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        if not (questCategoryKeys.OUTLAND == id and Questie.IsClassic) and
-            not (questCategoryKeys.NORTHREND == id and (Questie.IsClassic or Questie.IsTBC)) and
-            not (questCategoryKeys.CATACLYSM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) and
-            not (questCategoryKeys.THE_MAELSTROM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) then
+        if not (questCategoryKeys.OUTLAND == id and Expansions.Current == Expansions.Era) and
+            not (questCategoryKeys.NORTHREND == id and Expansions.Current <= Expansions.Tbc) and
+            not (questCategoryKeys.CATACLYSM == id and Expansions.Current <= Expansions.Wotlk) and
+            not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current <= Expansions.Cata) then
             continents[id] = l10n(name)
         end
     end

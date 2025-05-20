@@ -5,6 +5,8 @@ local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -19,7 +21,7 @@ function TrackerQuestTimers:Initialize()
         return
     end
 
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestTimerFrame:HookScript("OnShow", function()
             if Questie.db.profile.showBlizzardQuestTimer then
                 TrackerQuestTimers:ShowBlizzardTimer()
@@ -30,7 +32,7 @@ function TrackerQuestTimers:Initialize()
     end
 
     -- Pre-Classic WotLK
-    if (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) then
+    if Expansions.Current <= Expansions.Tbc then
         C_Timer.NewTicker(1, function()
             TrackerQuestTimers:UpdateTimerFrame()
         end)

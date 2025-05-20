@@ -15,6 +15,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -158,7 +160,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         style = "dropdown",
                         name = function() return l10n("Isle of Quel'Danas Phase") end,
                         desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
-                        disabled = function() return (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) end,
+                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
                         get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
                         set = function(_, key)
                             Questie.db.profile.isleOfQuelDanasPhase = key
@@ -180,7 +182,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         order = 1.5,
                         name = function() return l10n("Disable Phase reminder"); end,
                         desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
-                        disabled = function() return (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) end,
+                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
                         width = 1,
                         get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
                         set = function(_, value)

@@ -1,5 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- This file contains all zones which are used in Era, TBC and WotLK.
 -- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
@@ -2764,7 +2766,7 @@ l10n.zoneLookup = {
 }
 
 local maelstromZones = {}
-if Questie.IsCata then
+if Expansions.Current >= Expansions.Cata then
     for id, name in pairs(l10n.zoneLookup[646]) do -- Deepholm
         maelstromZones[id] = name
     end

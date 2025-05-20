@@ -5,6 +5,8 @@ local Townsfolk = QuestieLoader:CreateModule("Townsfolk")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
@@ -146,15 +148,15 @@ function Townsfolk.Initialize()
         [professionKeys.SKINNING] = {}
     }
 
-    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Expansions.Current >= Expansions.Tbc then
         professionTrainers[professionKeys.JEWELCRAFTING] = {}
     end
 
-    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk then
+    if Expansions.Current >= Expansions.Wotlk then
         professionTrainers[professionKeys.INSCRIPTION] = {}
     end
 
-    if Questie.IsMoP or Questie.IsCata then
+    if Expansions.Current >= Expansions.Cata then
         professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
@@ -185,7 +187,7 @@ function Townsfolk.Initialize()
     end
 
     -- Fix NPC Aresella (18991) can train first aid profession
-    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Expansions.Current >= Expansions.Tbc then
         tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
     end
 
@@ -195,7 +197,7 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
     end
 
-    if Questie.IsMoP or Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Expansions.Current >= Expansions.Tbc then
         local meetingStones = Townsfolk.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}
@@ -297,7 +299,7 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
         ["HUNTER"] = {},
         ["DEATHKNIGHT"] = {37201},
         ["WARLOCK"] = {5565,16583},
-        ["ROGUE"] = (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+        ["ROGUE"] = (Expansions.Current >= Expansions.Wotlk) and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
             or {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037},
         ["MONK"] = {},
@@ -321,10 +323,10 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
         27532,16082,16083, -- Fishing skill books
         27736,16072,16073, -- Cooking skill books
     }))
-    Questie.db.char.vendorList["Bags"] = _reformatVendors(Townsfolk:PopulateVendors({4496, 4497, 4498, 4499, (Questie.IsTBC or Questie.IsWotlk) and 30744 or nil}))
+    Questie.db.char.vendorList["Bags"] = _reformatVendors(Townsfolk:PopulateVendors({4496, 4497, 4498, 4499, (Expansions.Current >= Expansions.Tbc) and 30744 or nil}))
     Questie.db.char.vendorList["Potions"] = _reformatVendors(Townsfolk:PopulateVendors({
-        118, 858, 929, 1710, 3928, 13446, 18839, (Questie.IsTBC or Questie.IsWotlk) and 22829 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32947 or nil, (Questie.IsWotlk) and 33447 or nil, -- Healing Potions
-        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Questie.IsTBC or Questie.IsWotlk) and 22832 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32948 or nil, (Questie.IsWotlk) and 33448 or nil, -- Mana Potions
+        118, 858, 929, 1710, 3928, 13446, 18839, (Expansions.Current >= Expansions.Tbc) and 22829 or nil, (Expansions.Current >= Expansions.Tbc) and 32947 or nil, (Expansions.Current >= Expansions.Wotlk) and 33447 or nil, -- Healing Potions
+        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Expansions.Current >= Expansions.Tbc) and 22832 or nil, (Expansions.Current >= Expansions.Tbc) and 32948 or nil, (Expansions.Current >= Expansions.Wotlk) and 33448 or nil, -- Mana Potions
     }))
     Townsfolk:UpdatePlayerVendors()
 end
@@ -355,7 +357,7 @@ local function _UpdatePetFood() -- call on change pet
 end
 
 local function _UpdateAmmoVendors() -- call on change weapon
-    if Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Cata then
         return
     end
 

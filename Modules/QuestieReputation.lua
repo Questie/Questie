@@ -4,6 +4,8 @@ local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local playerReputations = {}
 
@@ -146,7 +148,7 @@ function QuestieReputation.GetReputationReward(questId)
         return {}
     end
 
-    if (not Questie.IsCata) and (not Questie.IsMoP) then
+    if Expansions.Current <= Expansions.Wotlk then
         return reputationReward
     end
 

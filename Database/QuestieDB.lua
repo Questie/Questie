@@ -7,6 +7,8 @@ local _QuestieDB = QuestieDB.private
 -------------------------
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
@@ -54,7 +56,7 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
-    [208] = WOW_PROJECT_ID < WOW_PROJECT_CATACLYSM_CLASSIC and {1, "Elite"} or nil,
+    [208] = Expansions.Current < Expansions.Cata and {1, "Elite"} or nil,
     [373] = {81, "Dungeon"},
     [644] = {1, "Elite"},
     [645] = {1, "Elite"},

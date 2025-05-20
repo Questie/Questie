@@ -1,4 +1,6 @@
 local QuestieProfiler = QuestieLoader:CreateModule("Profiler")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieProfiler.hooks = {}
 QuestieProfiler.alreadyHooked = {}
@@ -141,7 +143,7 @@ function QuestieProfiler:CreateUI()
     })
 
     local scrollFrameTemplete
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         scrollFrameTemplete = "ScrollFrameTemplate"
     else
         scrollFrameTemplete = "UIPanelScrollFrameTemplate"

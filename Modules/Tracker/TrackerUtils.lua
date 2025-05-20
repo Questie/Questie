@@ -14,6 +14,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
 --Import Questie modules.
 -------------------------
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
@@ -1137,7 +1139,7 @@ function TrackerUtils.HasQuest()
     local hasQuest
 
     if (GetNumQuestWatches(true) == 0) then
-        if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+        if Expansions.Current >= Expansions.Wotlk then
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
             else

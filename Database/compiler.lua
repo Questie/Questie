@@ -9,6 +9,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 
 local pcall, type, next = pcall, type, next
@@ -1343,7 +1345,7 @@ function QuestieDBCompiler:ValidateQuests()
             local b = nonCompiledData[QuestieDB.questKeys[key]]
 
             --Special case for questLevel
-            if (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and (key == "questLevel" or key == "requiredLevel") then
+            if (Expansions.Current >= Expansions.Tbc) and (key == "questLevel" or key == "requiredLevel") then
                 local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
                 if (key == "questLevel") then
                     a = questLevel

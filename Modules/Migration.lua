@@ -2,6 +2,8 @@
 local Migration = QuestieLoader:CreateModule("Migration")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
@@ -17,7 +19,7 @@ local migrationFunctions = {
     [2] = function()
         -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
         local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
-        if (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) and
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
             objectiveSound == "Explosion" or
             objectiveSound == "Shing!" or
             objectiveSound == "Wham!" or
@@ -30,7 +32,7 @@ local migrationFunctions = {
         end
 
         local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
-        if (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) and
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
             progressSound == "Explosion" or
             progressSound == "Shing!" or
             progressSound == "Wham!" or

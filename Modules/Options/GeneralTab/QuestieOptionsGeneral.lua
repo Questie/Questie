@@ -18,6 +18,8 @@ local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 local Sounds = QuestieLoader:ImportModule("Sounds")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -693,7 +695,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         options["Explosion"] = "Explosion"
         options["Shing!"] = "Shing!"
         options["Wham!"] = "Wham!"
@@ -723,7 +725,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         options["Explosion"] = "Explosion"
         options["Shing!"] = "Shing!"
         options["Wham!"] = "Wham!"
