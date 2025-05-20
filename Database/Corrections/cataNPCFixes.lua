@@ -5576,6 +5576,10 @@ function CataNpcFixes.Load()
         [57913] = { -- Chromie
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{87.32,49.23},{-1,-1}}},
         },
+        [58038] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{70.53,46.79}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [80001] = { -- Maintain a Trot for 8 seconds
             [npcKeys.name] = "Maintain a Trot for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,

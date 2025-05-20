@@ -2005,6 +2005,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [82136] = "Farol",
 [82137] = "Farol",
 [82138] = "Farol",
+[83763] = "Libros robados",
 [85562] = "Caja fuerte de Vetaferro",
 [85563] = "Caja fuerte de Dentomuerto",
 [86492] = "Cajón de Elunite",
