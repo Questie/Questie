@@ -20,7 +20,8 @@ describe("QuestieReputation", function()
         _G.IsSpellKnown = spy.new(function()
             return false
         end)
-        Expansions = require("Modules.Expansions")
+
+        Expansions = QuestieLoader:ImportModule("Expansions")
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
