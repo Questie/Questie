@@ -153,7 +153,6 @@ describe("QuestieReputation", function()
         it("should return an empty table when a quest has no reputation reward", function()
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
-            Expansion
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
