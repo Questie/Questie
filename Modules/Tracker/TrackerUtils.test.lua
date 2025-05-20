@@ -529,7 +529,6 @@ describe("TrackerUtils", function()
         before_each(function()
             Questie.IsCata = false
             Questie.IsWotlk = false
-            Expansions = QuestieLoader:ImportModule("Expansions")
         end)
 
         it("should return true when a quest is tracked", function()
