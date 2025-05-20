@@ -58,7 +58,7 @@ QuestieDB.questCompilerTypes = {
     ['finishedBy'] = "questgivers", -- table
     ['requiredLevel'] = "u8", -- int
     ['questLevel'] = "s16", -- int
-    ['requiredRaces'] = "u24", -- bitmask
+    ['requiredRaces'] = "u32", -- bitmask
     ['requiredClasses'] = "u16", -- bitmask
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
