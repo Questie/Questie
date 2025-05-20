@@ -26,20 +26,21 @@ def build_zone_dicts(uimap_assignment: dict, uimap: dict, area_table: dict, read
                 name_lang = uimap[map_id]['Name_lang']
                 for mop_area_id, area in area_table.items():
                     if area['AreaName_lang'] == name_lang:
+                        if mop_area_id not in area_id_to_ui_map_id:
+                            area_id_to_ui_map_id[mop_area_id] = map_id
+                        if map_id not in ui_map_id_to_area_id:
+                            ui_map_id_to_area_id[map_id] = mop_area_id
+                        else:
+                            print('multiple areaIDs for UiMapID:', map_id)
                         area_id = mop_area_id
-                        break
             if area_id == '0':
                 print('AreaID is 0 for UiMapID:', map_id, uimap[map_id]["Name_lang"])
                 continue
 
             if area_id not in area_id_to_ui_map_id:
                 area_id_to_ui_map_id[area_id] = map_id
-            else:
-                print('double for AreaID:', area_id)
             if map_id not in ui_map_id_to_area_id:
                 ui_map_id_to_area_id[map_id] = area_id
-            else:
-                print('double for UiMapID:', map_id)
 
     return area_id_to_ui_map_id, ui_map_id_to_area_id
 
