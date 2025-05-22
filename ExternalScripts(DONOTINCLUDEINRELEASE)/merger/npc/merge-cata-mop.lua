@@ -1,5 +1,6 @@
 local cata = require('cataNpcDB')
 local mop = require('mopNpcDB')
+local mopTrinity = require('mopNpcDB-trinity')
 
 local npcKeys = {
     ['name'] = 1, -- string
@@ -25,6 +26,14 @@ for npcId, data in pairs(mop) do
 
     if npc then
         mop[npcId] = npc
+    end
+end
+
+for npcId, data in pairs(mopTrinity) do
+    local npc = mop[npcId]
+
+    if not npc then
+        mop[npcId] = data
     end
 end
 
