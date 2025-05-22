@@ -186,7 +186,7 @@ _AddQuestRequirements = function (quest)
                 if currentObjective.Text then
                     if currentObjective == quest.ObjectiveData[1] then
                         _AddTooltipLine(" ")
-                        _AddColoredTooltipLine(l10n("Requirements"), "gold")
+                        _AddColoredTooltipLine(l10n("Objectives"), "gold")
                     end
                     _AddColoredTooltipLine(currentObjective.Text, "white")
                 else
@@ -200,7 +200,7 @@ _AddQuestRequirements = function (quest)
                     if objectiveName then
                         if currentObjective == quest.ObjectiveData[1] then
                             _AddTooltipLine(" ")
-                            _AddColoredTooltipLine(l10n("Requirements"), "gold")
+                            _AddColoredTooltipLine(l10n("Objectives"), "gold")
                         end
                         _AddColoredTooltipLine(objectiveName, "white")
                     end
