@@ -1,4 +1,5 @@
 dofile("Modules/Libs/QuestieLoader.lua")
+dofile("Modules/Expansions.lua")
 
 dofile("Database/itemDB.lua")
 dofile("Database/Zones/data/zoneIds.lua")
