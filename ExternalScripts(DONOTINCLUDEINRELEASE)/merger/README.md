@@ -12,3 +12,5 @@ This collection of scripts was created to merge the database files from mangos a
 ### MoP
 
 Use the `merge-cata-mop.lua` script to merge the cata DB with the mop DB. This will take all pre-mop data from the cata DB.
+
+Use the `extractMopIds.lua` script to extract the mop ids from the cata DB. This will create a new file called `mopIds.txt` which contains all quest ID which were added with MoP. Use it in the sqlua repository, to get all quests that were added with MoP.
