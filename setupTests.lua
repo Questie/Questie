@@ -247,6 +247,7 @@ _G["Questie"] = {
         registeredEvents[eventName] = nil
     end,
     SendMessage = EMTPY_FUNC,
+    IsMoP = true,
 }
 
 ---@class TestUtils
