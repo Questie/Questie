@@ -2,6 +2,7 @@ local Validators = require("cli.validators")
 local exitMock
 
 local questKeys = {
+    startedBy = "startedBy",
     sourceItemId = "sourceItemId",
     requiredSourceItems = "requiredSourceItems",
     objectives = "objectives",
@@ -217,6 +218,84 @@ describe("Validators", function()
                 [5] = "quest is missing/hidden in the database. parentQuest is 3",
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
+        end)
+    end)
+
+    describe("checkQuestStarters", function()
+        it("should find quests with non-existing NPC starters", function()
+            local quests = {
+                [1] = {
+                    startedBy = {{2}},
+                },
+            }
+            local npcs = {}
+            local objects = {[2]={}}
+            local items = {[2]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+
+            assert.are.same({
+                [1] = "NPC starter 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with non-existing object starters", function()
+            local quests = {
+                [1] = {
+                    startedBy = {nil,{2}},
+                },
+            }
+            local npcs = {[2]={}}
+            local objects = {}
+            local items = {[2]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+
+            assert.are.same({
+                [1] = "Object starter 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with non-existing item starters", function()
+            local quests = {
+                [1] = {
+                    startedBy = {nil,nil,{2}},
+                },
+            }
+            local npcs = {[2]={}}
+            local objects = {[2]={}}
+            local items = {}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+
+            assert.are.same({
+                [1] = "Item starter 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all quest starters are valid", function()
+            local quests = {
+                [1] = {
+                    startedBy = {{1}},
+                },
+                [2] = {
+                    startedBy = {nil,{2}},
+                },
+                [3] = {
+                    startedBy = {nil,nil,{3}},
+                },
+            }
+            local npcs = {[1]={}}
+            local objects = {[2]={}}
+            local items = {[3]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
         end)
     end)
 end)
