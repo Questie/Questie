@@ -1,5 +1,6 @@
 local cata = require('cataQuestDB')
 local mop = require('mopQuestDB')
+local mopTrinity = require('mopQuestDB-trinity')
 
 local questKeys = {
     ['name'] = 1, -- string
@@ -50,6 +51,16 @@ for questId, data in pairs(mop) do
 
     if quest then
         mop[questId] = quest
+    end
+
+    local trinityQuest = mopTrinity[questId]
+    if trinityQuest then
+        -- iterate questKeys and take the values from mopTrinity if mop doesn't have them
+        for _, index in pairs(questKeys) do
+            if not data[index] and trinityQuest[index] then
+                mop[questId][index] = trinityQuest[index]
+            end
+        end
     end
 end
 
