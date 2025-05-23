@@ -1,7 +1,5 @@
 ---@class QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
@@ -24,7 +22,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.CATA_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -39,7 +37,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.CATA_HIDE,
+        [936] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Cata,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -808,16 +806,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_HIDE,
-        [6862] = QuestieCorrections.CLASSIC_HIDE,
-        [6864] = QuestieCorrections.CLASSIC_HIDE,
-        [6901] = QuestieCorrections.CLASSIC_HIDE,
+        [6861] = Expansions.Current == Expansions.Era,
+        [6862] = Expansions.Current == Expansions.Era,
+        [6864] = Expansions.Current == Expansions.Era,
+        [6901] = Expansions.Current == Expansions.Era,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_HIDE,
-        [7282] = QuestieCorrections.CLASSIC_HIDE,
-        [7301] = QuestieCorrections.CLASSIC_HIDE,
-        [7302] = QuestieCorrections.CLASSIC_HIDE,
+        [7281] = Expansions.Current == Expansions.Era,
+        [7282] = Expansions.Current == Expansions.Era,
+        [7301] = Expansions.Current == Expansions.Era,
+        [7302] = Expansions.Current == Expansions.Era,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -877,16 +875,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
-        [9260] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9261] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9262] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9263] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9264] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9265] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9260] = (not Questie.IsSoD),
+        [9261] = (not Questie.IsSoD),
+        [9262] = (not Questie.IsSoD),
+        [9263] = (not Questie.IsSoD),
+        [9264] = (not Questie.IsSoD),
+        [9265] = (not Questie.IsSoD),
         --
         [9085] = true,
         [9153] = true,
-        [9154] = QuestieCorrections.ERA_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9154] = (not Questie.IsSoD),
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
@@ -1311,7 +1309,7 @@ function QuestieQuestBlacklist:Load()
         [13478] = Expansions.Current >= Expansions.Wotlk, -- pvp marks removed in wotlk
 
         [6804] = Expansions.Current >= Expansions.Wotlk,
-        [7737] = QuestieCorrections.WOTLK_HIDE, -- replaced by 13662 in wotlk
+        [7737] = Expansions.Current == Expansions.Wotlk, -- replaced by 13662 in wotlk
         [9094] = Expansions.Current >= Expansions.Wotlk,
         [9317] = Expansions.Current >= Expansions.Wotlk,
         [9318] = Expansions.Current >= Expansions.Wotlk,
@@ -1514,8 +1512,8 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         --- Chinese servers wotlk only
-        [78752] = QuestieCorrections.WOTLK_HIDE, -- Proof of Demise: Titan Rune Protocol Gamma (might become available again later on)
-        [78753] = QuestieCorrections.WOTLK_HIDE, -- Proof of Demise: Threats to Azeroth (might become available again later on)
+        [78752] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (might become available again later on)
+        [78753] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (might become available again later on)
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Cata, -- Not in the game
