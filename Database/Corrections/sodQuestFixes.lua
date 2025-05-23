@@ -4665,9 +4665,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89300] = { -- The Ashbringer
+            [questKeys.startedBy] = {nil,nil,{239696}},
+            [questKeys.preQuestSingle] = {89304},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89304] = { -- The Perfect Metal
             [questKeys.preQuestSingle] = {89237},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89300,
         },
         [89310] = { -- Terrordale
             [questKeys.preQuestSingle] = {89235},

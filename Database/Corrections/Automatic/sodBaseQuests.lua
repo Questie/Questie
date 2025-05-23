@@ -9604,6 +9604,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft a pair of Scarlet Boots from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
             [questKeys.objectives] = {{{241154}}},
         },
+        [89300] = {
+            [questKeys.name] = "The Ashbringer",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Equip the Hilt of the Ashbringer and use the blade to commune with the disembodied spirit you hear in your head."},
+            [questKeys.objectives] = {nil,nil,{{239010}}},
+        },
         [89304] = {
             [questKeys.name] = "The Perfect Metal",
             [questKeys.startedBy] = {{242125}},
