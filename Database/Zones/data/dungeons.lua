@@ -1,5 +1,7 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 local isHorde = UnitFactionGroup("Player") == "Horde"
 
 ---@class DungeonZoneEntry
@@ -121,7 +123,7 @@ local dungeons = {
     [16236] = {"Scarlet Enclave",nil,139,{{139, 68.67, 87.84}}},
 }
 
-if Questie.IsCata or Questie.IsMoP then
+if Expansions.Current >= Expansions.Cata then
     dungeons[491][3] = 4709 -- Utgarde Keep
     dungeons[491][4] = {{4709, 41, 94.6}} -- Utgarde Keep
     dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade

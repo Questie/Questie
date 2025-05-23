@@ -138,4 +138,45 @@ function Validators.checkParentChildQuestRelations(quests, questKeys)
     end
 end
 
+function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+    print("\n\27[36mSearching for quest starters...\27[0m")
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        local startedBy = questData[questKeys.startedBy]
+        if startedBy then
+            for _, npcStarter in pairs(startedBy[1] or {}) do
+                if not npcs[npcStarter] then
+                    invalidQuests[questId] = "NPC starter " .. npcStarter .. " is missing in the database"
+                end
+            end
+            for _, objectStarter in pairs(startedBy[2] or {}) do
+                if not objects[objectStarter] then
+                    invalidQuests[questId] = "Object starter " .. objectStarter .. " is missing in the database"
+                end
+            end
+            for _, itemStarter in pairs(startedBy[3] or {}) do
+                if not items[itemStarter] then
+                    invalidQuests[questId] = "Item starter " .. itemStarter .. " is missing in the database"
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid quest starters:\27[0m")
+        for questId, reason in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid quest starters\27[0m")
+        return nil
+    end
+end
+
 return Validators

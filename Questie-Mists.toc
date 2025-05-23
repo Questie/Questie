@@ -1,5 +1,5 @@
 ## Interface: 50500
-## Title: Questie|cFF00FF00 v10.21.0|r
+## Title: Questie|cFF00FF00 v10.21.2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
@@ -9,7 +9,7 @@
 ## Notes-ruRU: Помощник по заданиям в WoW Classic
 ## Notes-zhCN: 独立的怀旧服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
-## Version: 10.21.0
+## Version: 10.21.2
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -55,10 +55,10 @@ Database\Zones\data\instanceIdToUiMapId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
-Database\Cata\cataItemDB.lua
-Database\Cata\cataNpcDB.lua
-Database\Cata\cataObjectDB.lua
-Database\Cata\cataQuestDB.lua
+Database\MoP\mopItemDB.lua
+Database\MoP\mopNpcDB.lua
+Database\MoP\mopObjectDB.lua
+Database\MoP\mopQuestDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
@@ -114,6 +114,12 @@ Database\Corrections\cataQuestFixes.lua
 Database\Corrections\cataNPCFixes.lua
 Database\Corrections\cataItemFixes.lua
 Database\Corrections\cataObjectFixes.lua
+
+# MoP Corrections
+Database\Corrections\mopQuestFixes.lua
+Database\Corrections\mopNPCFixes.lua
+Database\Corrections\mopItemFixes.lua
+Database\Corrections\mopObjectFixes.lua
 
 # Compiler
 Database\compiler.lua

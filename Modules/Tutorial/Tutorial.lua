@@ -3,9 +3,11 @@ local Tutorial = QuestieLoader:CreateModule("Tutorial")
 
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 function Tutorial.Initialize()
-    if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
+    if (Expansions.Current >= Expansions.Wotlk) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
         QuestieCombatQueue:Queue(function()
             Tutorial.CreateChooseObjectiveTypeFrame()
         end)

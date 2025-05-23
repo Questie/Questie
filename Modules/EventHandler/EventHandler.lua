@@ -5,6 +5,8 @@ local _EventHandler = {}
 -------------------------
 --Import modules.
 -------------------------
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type AchievementEventHandler
@@ -99,7 +101,7 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
         AutoQuesting.OnQuestFinished()
-        if Questie.IsCata or Questie.IsMoP then
+        if Expansions.Current >= Expansions.Cata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
             -- This is easier, than actually figuring out which events are fired in which order for this logic.
             C_Timer.After(0.5, function()
@@ -177,7 +179,7 @@ function EventHandler:RegisterLateEvents()
     end)
 
     -- UI Achievement Events
-    if (Questie.IsWotlk or Questie.IsCata or Questie.IsMoP) and Questie.db.profile.trackerEnabled then
+    if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(_, achieveId)
             AchievementEventHandler.AchievementEarned(achieveId)
         end)
@@ -201,7 +203,7 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
     end
 
-    if (Questie.IsCata or Questie.IsMoP) and Questie.db.profile.trackerEnabled then
+    if Expansions.Current >= Expansions.Cata and Questie.db.profile.trackerEnabled then
        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
@@ -328,7 +330,7 @@ function _EventHandler:MapExplorationUpdated()
     end
 
     -- Exploratory based Achievement updates
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -433,7 +435,7 @@ function _EventHandler:ChatMsgSkill()
     end
 
     -- Skill based Achievement updates
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)

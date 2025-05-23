@@ -7,6 +7,8 @@ local _QuestieDB = QuestieDB.private
 -------------------------
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
@@ -54,7 +56,7 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
-    [208] = {not Questie.IsCata and 1, not Questie.IsCata and "Elite"},
+    [208] = Expansions.Current < Expansions.Cata and {1, "Elite"} or nil,
     [373] = {81, "Dungeon"},
     [644] = {1, "Elite"},
     [645] = {1, "Elite"},
@@ -387,24 +389,60 @@ local questTagCorrections = {
     [9665] = {41, "PvP"},
 }
 
--- race bitmask data, for easy access
+-- * race bitmask data, for easy access
+-- ? The PlayableRaceBit can be found in ChrRaces.dbc
+-- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
+-- ? The values below are calculated by 2^PlayableRaceBit
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = Questie.IsClassic and 77 or Questie.IsCata and 2098253 or 1101,
-    ALL_HORDE = Questie.IsClassic and 178 or Questie.IsCata and 946 or 690,
+    -- Allow all alliance races
+    ALL_ALLIANCE = (function()
+        if Questie.IsClassic then
+            return 77
+        elseif Questie.IsTBC or Questie.IsWotlk then
+            return 1101
+        elseif Questie.IsCata then
+            return 2098253
+        elseif Questie.IsMoP then
+            return 18875469
+        else
+            print("Unknown expansion for ALL_ALLIANCE")
+            return 77
+        end
+    end)(),
+    -- ALlow all horde races
+    ALL_HORDE = (function()
+        if Questie.IsClassic then
+            return 178
+        elseif Questie.IsTBC or Questie.IsWotlk then
+            return 690
+        elseif Questie.IsCata then
+            return 946
+        elseif Questie.IsMoP then
+            return 33555378
+        else
+            print("Unknown expansion for ALL_HORDE")
+            return 178
+        end
+    end)(),
+    -- Allow all races (No limit on allowed races)
     NONE = 0,
 
-    HUMAN = 1,
-    ORC = 2,
-    DWARF = 4,
-    NIGHT_ELF = 8,
-    UNDEAD = 16,
-    TAUREN = 32,
-    GNOME = 64,
-    TROLL = 128,
-    GOBLIN = 256,
-    BLOOD_ELF = 512,
-    DRAENEI = 1024,
-    WORGEN = 2097152, -- lol
+    --[[PlayableRaceBit]]
+    --[[ 0]] HUMAN = 1,
+    --[[ 1]] ORC  = 2,
+    --[[ 2]] DWARF = 4,
+    --[[ 3]] NIGHT_ELF = 8,
+    --[[ 4]] UNDEAD = 16,
+    --[[ 5]] TAUREN = 32,
+    --[[ 6]] GNOME = 64,
+    --[[ 7]] TROLL = 128,
+    --[[ 8]] GOBLIN = 256,                  -- Cata
+    --[[ 9]] BLOOD_ELF = 512,               -- TBC
+    --[[10]] DRAENEI = 1024,                -- TBC
+    --[[21]] WORGEN = 2097152,              -- Cata
+    --[[23]] PANDAREN_NEUTRAL = 8388608,    -- MoP
+    --[[24]] PANDAREN_ALLIANCE = 16777216,  -- MoP
+    --[[25]] PANDAREN_HORDE = 33554432,     -- MoP
 }
 
 -- Combining these with "and" makes the order matter
@@ -421,6 +459,7 @@ QuestieDB.classKeys = {
     SHAMAN = 64,
     MAGE = 128,
     WARLOCK = 256,
+    MONK = 512,
     DRUID = 1024
 }
 

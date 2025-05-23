@@ -1,5 +1,7 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieDB.sortKeys = {
     EPIC = -1,
@@ -46,7 +48,7 @@ QuestieDB.sortKeys = {
     BLACKROCK_ERUPTION = -644,
 }
 
-QuestieDB.factionTemplate = Questie.IsWotlk and { -- [id] = EnemyGroup
+QuestieDB.factionTemplate = Expansions.Current >= Expansions.Wotlk and { -- [id] = EnemyGroup
     [1] = 12,
     [2] = 10,
     [3] = 12,

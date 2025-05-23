@@ -11,6 +11,8 @@ describe("TrackerUtils", function()
     local TrackerLinePool
     ---@type TrackerUtils
     local TrackerUtils
+    ---@type Expansions
+    local Expansions
 
     local rePositionLineMock
     local match = require("luassert.match")
@@ -30,13 +32,14 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
         C_ItemMock = mock(_G.C_Item, true)
 
+        Expansions = require("Modules.Expansions")
         QuestieDB = require("Database.QuestieDB")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
         require("Modules.Tracker.LinePool.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        
+
         rePositionLineMock = spy.new(function() end)
     end)
 
@@ -540,6 +543,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsCata = true
+            Expansions.Current = Expansions.Cata
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -550,6 +554,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -560,6 +565,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsCata = true
+            Expansions.Current = Expansions.Cata
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -570,6 +576,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
 
             local hasQuest = TrackerUtils.HasQuest()
 

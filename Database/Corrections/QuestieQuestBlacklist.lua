@@ -4196,6 +4196,7 @@ function QuestieQuestBlacklist:Load()
         [7505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7561] = true, -- Correct version is 7787
         [7562] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7563] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7564] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4852,6 +4853,7 @@ function QuestieQuestBlacklist:Load()
         [9308] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9316] = true, -- Not in the game
         [9338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9347] = true, -- Correct version is 9351
         [9353] = true, -- Redeem iCoke Gift Box Voucher
         [9362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5204,6 +5206,7 @@ function QuestieQuestBlacklist:Load()
         [11589] = true, -- Not in the game
         [11934] = true, -- Not in the game
         [11992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12001] = true, -- Not in the game
         [12179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [12238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [12313] = true, -- Not in the game

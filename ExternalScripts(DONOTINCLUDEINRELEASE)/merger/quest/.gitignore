@@ -3,3 +3,6 @@ cataQuestDB-trinity.lua
 merged-file.lua
 tbcQuestDB.lua
 wotlkQuestDB.lua
+mopQuestDB.lua
+mopQuestDB-trinity.lua
+mopIds.txt

@@ -4,6 +4,8 @@ local _QuestieInit = QuestieInit.private
 
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -307,6 +309,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.started = true
 
+    -- ! Never implemented
     if (Questie.IsWotlk or Questie.IsTBC) and QuestiePlayer.IsMaxLevel() then
         local lastRequestWasYesterday = Questie.db.global.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
         local isPastDailyReset = Questie.db.global.lastDailyRequestResetTime < GetQuestResetTime();
@@ -396,7 +399,7 @@ function QuestieInit:Init()
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
         WatchFrameHook.Hide()
 
-        if (not Questie.IsWotlk) and (not Questie.IsCata) and (not Questie.IsMoP) then
+        if Expansions.Current < Expansions.Wotlk then
             -- Need to hook this ASAP otherwise the scroll bars show up
             hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
                 if TrackedQuestsScrollFrame then

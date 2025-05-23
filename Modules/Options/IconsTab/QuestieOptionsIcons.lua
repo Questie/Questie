@@ -18,6 +18,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -1273,7 +1275,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
 end
 
 _GetIconThemes = function()
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
@@ -1290,7 +1292,7 @@ _GetIconThemes = function()
 end
 
 _GetIconThemesSort = function()
-    if Questie.IsWotlk or Questie.IsCata or Questie.IsMoP then
+    if Expansions.Current >= Expansions.Wotlk then
         return {
             "questie",
             "blizzard",

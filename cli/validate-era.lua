@@ -6,6 +6,7 @@ WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_WRATH_CLASSIC = 11
 WOW_PROJECT_CATACLYSM_CLASSIC = 14
+WOW_PROJECT_MISTS_CLASSIC = 19
 WOW_PROJECT_MAINLINE = 1
 
 QUEST_MONSTERS_KILLED = "QUEST_MONSTERS_KILLED"
@@ -222,6 +223,7 @@ local function _CheckClassicDatabase()
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
 end
 
 _CheckClassicDatabase()
