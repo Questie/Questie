@@ -9483,6 +9483,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Locate the apple orchard in the southern section of New Avalon to fetch some apples. Return to Carrie Hearthfire in the New Avalon inn once you have succeeded. If you find the apples to be too expensive, consider looking around for an alternative means to acquire them."},
             [questKeys.objectives] = {nil,nil,{{238811},{238831},{238830}}},
         },
+        [89237] = {
+            [questKeys.name] = "This Could Get Expensive...",
+            [questKeys.startedBy] = {{242125}},
+            [questKeys.finishedBy] = {{242125}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring Master Craftsman Omarion 20 Arcanite Bars, 20 Obsidian-Infused Thorium Bars, 120 Truesilver Bars, 10 Huge Emeralds, and 20 Righteous Orbs."},
+            [questKeys.objectives] = {nil,nil,{{12360},{234003},{6037},{12364},{12811}}},
+        },
         [89245] = {
             [questKeys.name] = "Fish in a Barrel",
             [questKeys.startedBy] = {{240604}},

@@ -4573,6 +4573,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSourceItems] = {238830,238831},
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
         },
+        [89237] = { -- This Could Get Expensive...
+            [questKeys.preQuestSingle] = {89449},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89245] = { -- Fish in a Barrel
             [questKeys.preQuestSingle] = {89224},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
@@ -4733,6 +4737,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89449] = { -- The Radiant Forge
             [questKeys.preQuestSingle] = {89448},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89237,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
