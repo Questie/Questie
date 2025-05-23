@@ -4556,6 +4556,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89328},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [89232] = { -- The First Step
+            [questKeys.preQuestSingle] = {89300},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89234] = { -- A Personal Matter
             [questKeys.preQuestSingle] = {89574},
             [questKeys.nextQuestInChain] = 89235,
@@ -4669,6 +4673,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {nil,nil,{239696}},
             [questKeys.preQuestSingle] = {89304},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89232,
         },
         [89304] = { -- The Perfect Metal
             [questKeys.preQuestSingle] = {89237},

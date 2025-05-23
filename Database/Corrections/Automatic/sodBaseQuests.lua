@@ -9450,6 +9450,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Speak with Leonid Barthalomew the Revered at Light's Hope Chapel to receive your reward."},
             [questKeys.objectives] = nil,
         },
+        [89232] = {
+            [questKeys.name] = "The First Step",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with the Will of the Ashbringer and hear what it has to say."},
+            [questKeys.objectives] = {{{241335}}},
+        },
         [89234] = {
             [questKeys.name] = "A Personal Matter",
             [questKeys.startedBy] = {{242019}},
