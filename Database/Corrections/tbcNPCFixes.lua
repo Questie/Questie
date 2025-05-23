@@ -244,6 +244,9 @@ function QuestieTBCNpcFixes:Load()
         [17116] = {
             [npcKeys.waypoints] = {},
         },
+        [17119] = {
+            [npcKeys.waypoints] = {},
+        },
         [17204] = {
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.8,32.8}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_EXODAR] = {{{29.8,32.8},{30.3,33.2},{31,32.4},{31,28.9},{31.3,27.7},{31,28.9},{31,32.4},{30.3,33.2},{29.8,32.8}}}},

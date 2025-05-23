@@ -699,7 +699,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{21015,21016},nil}, -- #1574
         },
         [1270] = {
-            [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48,24}}}},
+            [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
         },
         [1271] = {
             [questKeys.preQuestGroup] = {1222,1204},

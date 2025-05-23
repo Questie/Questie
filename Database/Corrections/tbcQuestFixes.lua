@@ -1200,6 +1200,9 @@ function QuestieTBCQuestFixes:Load()
         [9433] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Robotron Control near the Concealed Command Console hidden in a small cluster of bushes"), 0, {{"object", 181825}}}},
         },
+        [9437] = { -- Twilight of the Dawn Runner
+            [questKeys.objectives] = {{{17119,nil,Questie.ICON_TYPE_TALK}},nil,{{23657}}},
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26}}}},
         },

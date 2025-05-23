@@ -3482,7 +3482,7 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Get a ride to Theramore"] = {
+    ["Get a ride to Dustwallow Marsh"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
