@@ -7107,7 +7107,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 24549,
         },
         [24914] = {
-            [questKeys.startedBy] = {nil,nil,{53135}},
+            [questKeys.startedBy] = {nil,nil,{51315}},
             [questKeys.preQuestSingle] = {24549},
             [questKeys.requiredSourceItems] = {},
         },
