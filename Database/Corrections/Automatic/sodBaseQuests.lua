@@ -9604,6 +9604,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft a pair of Scarlet Boots from any armor crafting profession or donate any piece of crafted Scarlet Uniform equipment. ","","If you choose to donate, you can find a crate near the quartermaster inside of the barracks. Deliver the crated item back to Bryon Steelblade to receive credit."},
             [questKeys.objectives] = {{{241154}}},
         },
+        [89304] = {
+            [questKeys.name] = "The Perfect Metal",
+            [questKeys.startedBy] = {{242125}},
+            [questKeys.finishedBy] = {{242125}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Talk to Omarion about what comes next."},
+            [questKeys.objectives] = nil,
+        },
         [89310] = {
             [questKeys.name] = "Terrordale",
             [questKeys.startedBy] = {{243393}},

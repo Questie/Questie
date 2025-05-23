@@ -4576,6 +4576,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89237] = { -- This Could Get Expensive...
             [questKeys.preQuestSingle] = {89449},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89304,
         },
         [89245] = { -- Fish in a Barrel
             [questKeys.preQuestSingle] = {89224},
@@ -4663,6 +4664,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89304] = { -- The Perfect Metal
+            [questKeys.preQuestSingle] = {89237},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89310] = { -- Terrordale
             [questKeys.preQuestSingle] = {89235},
