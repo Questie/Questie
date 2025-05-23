@@ -9890,6 +9890,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the Scarlet Monastery in Tirisfal Glades. Enter the monastery's cathedral while wielding the Corrupted Ashbringer and bear witness to what occurs there."},
             [questKeys.objectives] = nil,
         },
+        [89475] = {
+            [questKeys.name] = "The Lonely Path of the Damned",
+            [questKeys.startedBy] = {{242499}},
+            [questKeys.finishedBy] = {{11034}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Lord Maxwell Tyrosus at Light's Hope Chapel. ","","You should stow the Corrupted Ashbringer in your bags, or else the members of the Argent Dawn may react with hostility upon seeing the tainted weapon."},
+            [questKeys.objectives] = nil,
+        },
         [89485] = {
             [questKeys.name] = "Whimsical Horrors",
             [questKeys.startedBy] = {{240654}},

@@ -4806,6 +4806,11 @@ function SeasonOfDiscovery:LoadQuests()
         [89474] = { -- Forgiveness
             [questKeys.preQuestSingle] = {90559},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89475,
+        },
+        [89475] = { -- The Lonely Path of the Damned
+            [questKeys.preQuestSingle] = {89474},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89485] = { -- Whimsical Horrors
             [questKeys.preQuestSingle] = {89471},
