@@ -289,7 +289,7 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
         return true
     end
     local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
-    local day = date.day or date.monthDay
+    local day = date.monthDay or date.day
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
         and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
