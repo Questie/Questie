@@ -4801,6 +4801,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89473] = { -- The Well of Eternity
             [questKeys.preQuestSingle] = {90508},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90559,
         },
         [89485] = { -- Whimsical Horrors
             [questKeys.preQuestSingle] = {89471},
@@ -4920,6 +4921,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [90559] = { -- The Tempering
+            [questKeys.preQuestSingle] = {89473},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [90560] = { -- Familiar Foulness
             [questKeys.startedBy] = {nil,{531291},{241655}},

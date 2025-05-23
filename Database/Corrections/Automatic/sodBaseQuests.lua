@@ -10088,6 +10088,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Acquire meat that is safe for human consumption. If you struggle to locate some in New Avalon, you may (eventually) gather enough from slaying beasts in the Eastern Plaguelands."},
             [questKeys.objectives] = {nil,nil,{{238935}}},
         },
+        [90559] = {
+            [questKeys.name] = "The Tempering",
+            [questKeys.startedBy] = {{242863}},
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Heat the Inert Ashbringer at the bonfire at the abandoned druid camp south of the Nordrassil, then quench the Heated Blade into the waters of the Well of Eternity. ","","Speak with The Will of the Ashbringer when you are done."},
+            [questKeys.objectives] = {nil,nil,{{241657},{241654}}},
+        },
         [90560] = {
             [questKeys.name] = "Familiar Foulness",
             [questKeys.startedBy] = nil,
