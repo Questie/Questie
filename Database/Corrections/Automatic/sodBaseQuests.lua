@@ -9824,6 +9824,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Enter the Scarlet Enclave and meet Master Craftsman Omarion at the Radiant Forge there."},
             [questKeys.objectives] = nil,
         },
+        [89451] = {
+            [questKeys.name] = "Journey To Moonglade",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{241834}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find a way to reach the summit of Mount Hyjal."},
+            [questKeys.objectives] = {{{241834}}},
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = {{240654}},

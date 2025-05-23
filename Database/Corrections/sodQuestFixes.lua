@@ -4679,6 +4679,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89301] = { -- A Difficult Path
             [questKeys.preQuestSingle] = {89443},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89451,
         },
         [89303] = { -- On Fate's Path
             [questKeys.preQuestSingle] = {89232},
@@ -4774,6 +4775,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89448},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89237,
+        },
+        [89451] = { -- Journey To Moonglade
+            [questKeys.preQuestSingle] = {89301},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
