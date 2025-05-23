@@ -17,14 +17,12 @@ local bitband = bit.band
 ---@return table<QuestId, boolean>
 function BlacklistFilter.filterExpansion(blacklist)
     for questId, flag in pairs(blacklist) do
-        if flag ~= true and flag ~= false then
-            if BlacklistFilter.IsFlagged(flag) then
-                blacklist[questId] = true
-            end
+        if BlacklistFilter.IsFlagged(flag) then
+            blacklist[questId] = true
+        end
 
-            if blacklist[questId] ~= true then
-                blacklist[questId] = nil
-            end
+        if blacklist[questId] ~= true then
+            blacklist[questId] = nil
         end
     end
 
