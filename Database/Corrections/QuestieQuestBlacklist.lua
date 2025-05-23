@@ -870,8 +870,8 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         --Darkmoon Faire
-        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
-        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7905] = Expansions.Current < Expansions.Cata,
+        [7926] = Expansions.Current < Expansions.Cata,
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
@@ -1056,7 +1056,7 @@ function QuestieQuestBlacklist:Load()
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = Expansions.Current >= Expansions.Tbc, -- Wildhammer faction removed in TBC. Repeatable to gain rep
-        [8329] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
+        [8329] = Expansions.Current < Expansions.Cata, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
