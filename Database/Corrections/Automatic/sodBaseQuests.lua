@@ -9725,6 +9725,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring 12 ingots of Lightforged Iron to Master Craftsman Omarion in Naxxramas and discover where the Scarlet Crusade is forging these new weapons."},
             [questKeys.objectives] = {nil,nil,{{239216}}},
         },
+        [89449] = {
+            [questKeys.name] = "The Radiant Forge",
+            [questKeys.startedBy] = {{16365}},
+            [questKeys.finishedBy] = {{242125}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Enter the Scarlet Enclave and meet Master Craftsman Omarion at the Radiant Forge there."},
+            [questKeys.objectives] = nil,
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = {{240654}},

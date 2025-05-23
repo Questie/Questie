@@ -4728,6 +4728,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89447},
             [questKeys.triggerEnd] = {"Explore the Scarlet Enclave Smithy",{[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}}},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89449,
+        },
+        [89449] = { -- The Radiant Forge
+            [questKeys.preQuestSingle] = {89448},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
