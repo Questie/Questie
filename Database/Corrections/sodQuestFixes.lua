@@ -4803,6 +4803,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 90559,
         },
+        [89474] = { -- Forgiveness
+            [questKeys.preQuestSingle] = {90559},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89485] = { -- Whimsical Horrors
             [questKeys.preQuestSingle] = {89471},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},

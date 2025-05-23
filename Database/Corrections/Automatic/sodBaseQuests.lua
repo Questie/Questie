@@ -9879,6 +9879,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"There is an abandoned druid camp on the south side of the well of eternity. Gather 12 pieces of Nordrassil Detritus scattered around the base of the world tree and place them inside the Hyjal Bonfire to ignite the flame."},
             [questKeys.objectives] = {nil,nil,{{240848},{240936}}},
         },
+        [89474] = {
+            [questKeys.name] = "Forgiveness",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{242499}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Travel to the Scarlet Monastery in Tirisfal Glades. Enter the monastery's cathedral while wielding the Corrupted Ashbringer and bear witness to what occurs there."},
+            [questKeys.objectives] = nil,
+        },
         [89485] = {
             [questKeys.name] = "Whimsical Horrors",
             [questKeys.startedBy] = {{240654}},
