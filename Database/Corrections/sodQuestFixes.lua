@@ -4779,6 +4779,11 @@ function SeasonOfDiscovery:LoadQuests()
         [89451] = { -- Journey To Moonglade
             [questKeys.preQuestSingle] = {89301},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89462,
+        },
+        [89462] = { -- The Druid of the Talon
+            [questKeys.preQuestSingle] = {89451},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",

@@ -9835,6 +9835,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find a way to reach the summit of Mount Hyjal."},
             [questKeys.objectives] = {{{241834}}},
         },
+        [89462] = {
+            [questKeys.name] = "The Druid of the Talon",
+            [questKeys.startedBy] = {{241834}},
+            [questKeys.finishedBy] = {{242174}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Thisalee Crow near Everlook in Winterspring."},
+            [questKeys.objectives] = nil,
+        },
         [89463] = {
             [questKeys.name] = "Nondisclosure Arguement",
             [questKeys.startedBy] = {{240654}},
