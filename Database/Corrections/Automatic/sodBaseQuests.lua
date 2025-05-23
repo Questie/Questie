@@ -10022,6 +10022,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Gather 15 Crates of Moonglade Supplies from the Winterfall Furbolg camps and villages in Winterspring."},
             [questKeys.objectives] = {nil,nil,{{240835}}},
         },
+        [90508] = {
+            [questKeys.name] = "As The Crow Flies",
+            [questKeys.startedBy] = {{242174}},
+            [questKeys.finishedBy] = {{242439}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Secure transport to the peak of Mount Hyjal."},
+            [questKeys.objectives] = nil,
+        },
         [90510] = {
             [questKeys.name] = "New Avalon",
             [questKeys.startedBy] = {{243023}},

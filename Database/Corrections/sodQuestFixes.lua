@@ -4870,9 +4870,15 @@ function SeasonOfDiscovery:LoadQuests()
         [90506] = { -- Take Their Breath Away
             [questKeys.preQuestSingle] = {89462},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90508,
         },
         [90507] = { -- Logistics Challenges
             [questKeys.preQuestSingle] = {89462},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90508,
+        },
+        [90508] = { -- As The Crow Flies
+            [questKeys.preQuestGroup] = {90506,90507},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [90510] = { -- New Avalon
