@@ -9747,6 +9747,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Speak with Lord Maxwell Tyrosus at Light's Hope Chapel about the Emblem of the Ashbringer."},
             [questKeys.objectives] = {nil,nil,{{239197}}},
         },
+        [89443] = {
+            [questKeys.name] = "Falling Into Place",
+            [questKeys.startedBy] = {{11034}},
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Combine the Reforged Blade of the Ashbringer, the Emblem of the Ashbringer, and the Hilt of the Ashbringer, and then speak with the Will of the Ashbringer to determine your next steps."},
+            [questKeys.objectives] = {nil,nil,{{240936},{239219}}},
+        },
         [89445] = {
             [questKeys.name] = "Blades of Light",
             [questKeys.startedBy] = nil,

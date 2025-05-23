@@ -4734,6 +4734,11 @@ function SeasonOfDiscovery:LoadQuests()
         [89442] = { -- Emblem of Darkness
             [questKeys.preQuestSingle] = {89303},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89443,
+        },
+        [89443] = { -- Falling Into Place
+            [questKeys.preQuestSingle] = {89442},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89445] = { -- Blades of Light
             [questKeys.startedBy] = {nil,nil,{239196}},
