@@ -4991,6 +4991,10 @@ function CataQuestFixes.Load()
         [25355] = { -- Lightning in a Bottle
             [questKeys.preQuestSingle] = {25277},
         },
+        [25356] = { -- To the Summit
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40358,39898},40358,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 25487,
+        },
         [25357] = { -- Buy Us Some Time
             [questKeys.exclusiveTo] = {},
         },
@@ -5193,8 +5197,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25949,25558},
         },
         [25478] = { -- To the Summit
-            [questKeys.objectives] = {{{40358,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40358,39898},40358,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25487,
         },
         [25479] = { -- To New Thalanaar
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40358,40367},40358,nil,Questie.ICON_TYPE_TALK}}},
@@ -5207,6 +5212,9 @@ function CataQuestFixes.Load()
         },
         [25486] = { -- The Grimtotem are Coming
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+            [questKeys.preQuestSingle] = {},
+        },
+        [25487] = { -- The Grimtotem are Coming
             [questKeys.preQuestSingle] = {},
         },
         [25496] = { -- Grudge Match
@@ -7743,9 +7751,10 @@ function CataQuestFixes.Load()
         },
         [26701] = { -- Flight to Brackenwall
             [questKeys.nextQuestInChain] = 26682,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Dustwallow Marsh"), 0, {{"monster", 16227}}}},
         },
         [26702] = { -- Flight to Theramore
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Theramore"), 0, {{"monster", 16227}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Dustwallow Marsh"), 0, {{"monster", 16227}}}},
             [questKeys.nextQuestInChain] = 27210,
         },
         [26703] = { -- Bloodsail's End
@@ -8859,7 +8868,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27257,27259,27261},
         },
         [27261] = { -- Questioning Reethe
-            [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
+            [questKeys.objectives] = {{{4980,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27262] = { -- Suspicious Hoofprints
             [questKeys.preQuestSingle] = {27249},
@@ -9271,6 +9280,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27408,27409},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Redeem Remains"), 0, {{"object", 186332}}}},
+        },
+        [27415] = { -- The Brood of Onyxia
+            [questKeys.preQuestSingle] = {27416},
         },
         [27416] = { -- The Brood of Onyxia
             [questKeys.preQuestSingle] = {27414},
@@ -12298,6 +12310,7 @@ function CataQuestFixes.Load()
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.nextQuestInChain] = 26682,
         },
         [28556] = { -- Breaking the Hand
             [questKeys.objectives] = {{{48862,nil,Questie.ICON_TYPE_EVENT},{48864,nil,Questie.ICON_TYPE_EVENT},{48865,nil,Questie.ICON_TYPE_EVENT},{48867,nil,Questie.ICON_TYPE_EVENT}}},
