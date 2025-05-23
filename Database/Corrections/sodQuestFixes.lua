@@ -4798,6 +4798,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
         },
+        [89473] = { -- The Well of Eternity
+            [questKeys.preQuestSingle] = {90508},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89485] = { -- Whimsical Horrors
             [questKeys.preQuestSingle] = {89471},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
@@ -4880,6 +4884,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90508] = { -- As The Crow Flies
             [questKeys.preQuestGroup] = {90506,90507},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89473,
         },
         [90510] = { -- New Avalon
             [questKeys.preQuestSingle] = {87502},

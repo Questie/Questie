@@ -9868,6 +9868,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Fizzlefuse in New Avalon has provided a shopping list of Engineering components needed for his inventions. Bring these items back to him."},
             [questKeys.objectives] = {nil,nil,{{16000},{18631},{9061},{4389},{239246}}},
         },
+        [89473] = {
+            [questKeys.name] = "The Well of Eternity",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{242863}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"There is an abandoned druid camp on the south side of the well of eternity. Gather 12 pieces of Nordrassil Detritus scattered around the base of the world tree and place them inside the Hyjal Bonfire to ignite the flame."},
+            [questKeys.objectives] = {nil,nil,{{240848},{240936}}},
+        },
         [89485] = {
             [questKeys.name] = "Whimsical Horrors",
             [questKeys.startedBy] = {{240654}},
