@@ -4867,6 +4867,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredSkill] = {profKeys.TAILORING,250},
         },
+        [90506] = { -- Take Their Breath Away
+            [questKeys.preQuestSingle] = {89462},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [90507] = { -- Logistics Challenges
             [questKeys.preQuestSingle] = {89462},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,

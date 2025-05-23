@@ -10000,6 +10000,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Acquire a variety of materials that could be used as a vibrant red dye. Red Dye and Red Rose may be sourced from vendors. Firebloom may be acquired by Herbalists. Blood of Heroes can be found in the Plaguelands. Crimson Bladeleaves to extract dye from can be found near Lake Mennar in Azshara."},
             [questKeys.objectives] = {nil,nil,{{2604},{3419},{4625},{12938},{239764}}},
         },
+        [90506] = {
+            [questKeys.name] = "Take Their Breath Away",
+            [questKeys.startedBy] = {{242174}},
+            [questKeys.finishedBy] = {{242174}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Retrieve 10 Nivifacient Glands from blue dragonspawn at Mazthoril just south of Everlook."},
+            [questKeys.objectives] = {nil,nil,{{240832}}},
+        },
         [90507] = {
             [questKeys.name] = "Logistics Challenges",
             [questKeys.startedBy] = {{242174}},
