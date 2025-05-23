@@ -9626,6 +9626,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Equip the Hilt of the Ashbringer and use the blade to commune with the disembodied spirit you hear in your head."},
             [questKeys.objectives] = {nil,nil,{{239010}}},
         },
+        [89303] = {
+            [questKeys.name] = "On Fate's Path",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find Omarion inside of the Scarlet Enclave and ask him how the work on his new lightforged alloy is going.","","Speak with the Will of the Ashbringer when you have what you need."},
+            [questKeys.objectives] = {nil,nil,{{239197}}},
+        },
         [89304] = {
             [questKeys.name] = "The Perfect Metal",
             [questKeys.startedBy] = {{242125}},

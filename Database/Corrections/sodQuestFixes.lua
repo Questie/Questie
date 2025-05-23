@@ -4559,6 +4559,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89232] = { -- The First Step
             [questKeys.preQuestSingle] = {89300},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89303,
         },
         [89234] = { -- A Personal Matter
             [questKeys.preQuestSingle] = {89574},
@@ -4674,6 +4675,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89304},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89232,
+        },
+        [89303] = { -- On Fate's Path
+            [questKeys.preQuestSingle] = {89232},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89304] = { -- The Perfect Metal
             [questKeys.preQuestSingle] = {89237},
