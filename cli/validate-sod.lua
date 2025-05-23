@@ -234,6 +234,7 @@ local function _CheckSoDDatabase()
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
 end
 
 _CheckSoDDatabase()
