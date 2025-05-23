@@ -4676,6 +4676,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89232,
         },
+        [89301] = { -- A Difficult Path
+            [questKeys.preQuestSingle] = {89443},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [89303] = { -- On Fate's Path
             [questKeys.preQuestSingle] = {89232},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
@@ -4739,6 +4743,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89443] = { -- Falling Into Place
             [questKeys.preQuestSingle] = {89442},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89301,
         },
         [89445] = { -- Blades of Light
             [questKeys.startedBy] = {nil,nil,{239196}},

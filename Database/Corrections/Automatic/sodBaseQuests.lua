@@ -9626,6 +9626,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Equip the Hilt of the Ashbringer and use the blade to commune with the disembodied spirit you hear in your head."},
             [questKeys.objectives] = {nil,nil,{{239010}}},
         },
+        [89301] = {
+            [questKeys.name] = "A Difficult Path",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{241334}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with the Will of the Ashbringer to learn what is needed to access the peak of Mount Hyjal."},
+            [questKeys.objectives] = {{{242170}}},
+        },
         [89303] = {
             [questKeys.name] = "On Fate's Path",
             [questKeys.startedBy] = {{241334}},
