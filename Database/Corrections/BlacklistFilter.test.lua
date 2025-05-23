@@ -20,6 +20,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -32,6 +33,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Classic client and CLASSIC_HIDE", function()
@@ -45,6 +47,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -57,6 +60,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Era client and ERA_HIDE", function()
@@ -70,6 +74,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -82,6 +87,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_true(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for TBC client and TBC_HIDE", function()
@@ -95,6 +101,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -107,6 +114,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Wotlk client and WOTLK_HIDE", function()
@@ -120,6 +128,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -132,6 +141,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Cata client and CATA_HIDE", function()
@@ -145,6 +155,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -157,6 +168,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for SoD client and SOD_HIDE", function()
@@ -170,6 +182,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -182,6 +195,7 @@ describe("BlacklistFilter", function()
         assert.is_true(result[6])
         assert.is_nil(result[7])
         assert.is_nil(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Anniversary client and ANNIVERSARY_HIDE", function()
@@ -195,6 +209,7 @@ describe("BlacklistFilter", function()
             [6] = BlacklistFilter.SOD_HIDE,
             [7] = BlacklistFilter.ERA_HIDE,
             [8] = BlacklistFilter.ANNIVERSARY_HIDE,
+            [9] = false,
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
@@ -207,6 +222,7 @@ describe("BlacklistFilter", function()
         assert.is_nil(result[6])
         assert.is_nil(result[7])
         assert.is_true(result[8])
+        assert.is_nil(result[9])
     end)
 
     it("should set true for Classic client and CLASSIC_HIDE + SOD_HIDE", function()
