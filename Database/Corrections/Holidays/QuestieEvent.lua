@@ -62,8 +62,6 @@ _QuestieEvent.eventNamesForQuests = {}
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type BlacklistFilter
-local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type QuestieNPCFixes
@@ -134,7 +132,8 @@ function QuestieEvent:Load()
         _QuestieEvent.eventNamesForQuests[questId] = eventName
 
         if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-            if (not questData[5]) or (not BlacklistFilter.IsFlagged(questData[5])) then
+            local hideQuest = questData[5]
+            if (not hideQuest) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -263,7 +262,8 @@ _LoadDarkmoonFaire = function()
     QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
-        if questData[1] == "Darkmoon Faire" and ((not questData[5]) or (not Questie.IsSoD) or questData[5] ~= QuestieCorrections.SOD_HIDE) then
+        local hideQuest = questData[5]
+        if questData[1] == "Darkmoon Faire" and (not hideQuest) then
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
