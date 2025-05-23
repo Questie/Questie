@@ -806,6 +806,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredLevel] = 54,
             [questKeys.preQuestSingle] = {8321},
         },
+        [8308] = { -- Brann Bronzebeard's Lost Letter
+            [questKeys.startedBy] = {nil,nil,{20461}},
+        },
         [8318] = { -- Secret Communication
             [questKeys.preQuestSingle] = {},
         },
