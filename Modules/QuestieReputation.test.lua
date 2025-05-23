@@ -21,7 +21,7 @@ describe("QuestieReputation", function()
             return false
         end)
 
-        Expansions = QuestieLoader:ImportModule("Expansions")
+        Expansions = require("Modules.Expansions")
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 

@@ -18,3 +18,5 @@ Expansions.Tbc = expansionOrderLookup[WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5]
 Expansions.Wotlk = expansionOrderLookup[WOW_PROJECT_WRATH_CLASSIC or 11]
 Expansions.Cata = expansionOrderLookup[WOW_PROJECT_CATACLYSM_CLASSIC or 14]
 Expansions.MoP = expansionOrderLookup[WOW_PROJECT_MISTS_CLASSIC or 19]
+
+return Expansions
