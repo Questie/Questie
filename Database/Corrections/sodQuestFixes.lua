@@ -4679,6 +4679,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89303] = { -- On Fate's Path
             [questKeys.preQuestSingle] = {89232},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89442,
         },
         [89304] = { -- The Perfect Metal
             [questKeys.preQuestSingle] = {89237},
@@ -4729,6 +4730,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,250},
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89442] = { -- Emblem of Darkness
+            [questKeys.preQuestSingle] = {89303},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89445] = { -- Blades of Light
             [questKeys.startedBy] = {nil,nil,{239196}},

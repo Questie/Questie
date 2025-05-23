@@ -9736,6 +9736,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Craft or purchase Thorium Shells from a player with the Engineering profession and bring them to Kyndra Swiftarrow near the New Avalon archery range."},
             [questKeys.objectives] = {nil,nil,{{15997}}},
         },
+        [89442] = {
+            [questKeys.name] = "Emblem of Darkness",
+            [questKeys.startedBy] = {{241334}},
+            [questKeys.finishedBy] = {{11034}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Lord Maxwell Tyrosus at Light's Hope Chapel about the Emblem of the Ashbringer."},
+            [questKeys.objectives] = {nil,nil,{{239197}}},
+        },
         [89445] = {
             [questKeys.name] = "Blades of Light",
             [questKeys.startedBy] = nil,
