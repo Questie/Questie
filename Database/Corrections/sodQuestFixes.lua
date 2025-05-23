@@ -4784,6 +4784,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89462] = { -- The Druid of the Talon
             [questKeys.preQuestSingle] = {89451},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90507,
         },
         [89463] = { -- Nondisclosure Argument
             [questKeys.name] = "Nondisclosure Argument",
@@ -4865,6 +4866,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {90116},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.requiredSkill] = {profKeys.TAILORING,250},
+        },
+        [90507] = { -- Logistics Challenges
+            [questKeys.preQuestSingle] = {89462},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [90510] = { -- New Avalon
             [questKeys.preQuestSingle] = {87502},
