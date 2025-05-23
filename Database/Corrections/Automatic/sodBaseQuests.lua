@@ -9934,6 +9934,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the Prototype Magnet throughout New Avalon to reveal and attract magnetic bits. When you have sufficiently proven Fizzlefuse's theory, return to him."},
             [questKeys.objectives] = {nil,nil,{{240846},{240845}}},
         },
+        [89488] = {
+            [questKeys.name] = "A Kind of Peace",
+            [questKeys.startedBy] = {{242501}},
+            [questKeys.finishedBy] = {{242501}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"The Will of the Ashbringer is using the last of its power to create a connection to Alexandros Mograine inside of Naxxramas. Take the portal and confront the Spirit of Mograine.","","Should you fall in battle, make your way back to the portal within Light's Hope Chapel to re-enter Naxxramas."},
+            [questKeys.objectives] = {{{241940}}},
+        },
         [89489] = {
             [questKeys.name] = "Increased Drop Rate",
             [questKeys.startedBy] = {{240654}},

@@ -4811,6 +4811,7 @@ function SeasonOfDiscovery:LoadQuests()
         [89475] = { -- The Lonely Path of the Damned
             [questKeys.preQuestSingle] = {89474},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89488,
         },
         [89485] = { -- Whimsical Horrors
             [questKeys.preQuestSingle] = {89471},
@@ -4826,6 +4827,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {89471},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89488] = { -- A Kind of Peace
+            [questKeys.preQuestSingle] = {89475},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [89489] = { -- Increased Drop Rate
             [questKeys.preQuestGroup] = {89485,89486,89487},
