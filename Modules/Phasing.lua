@@ -237,6 +237,18 @@ local phases = {
     STONETALON_CLIFFWALKER_JUSTICE = 1165,
     STONETALON_CLIFFWALKER_RAMP = 1166,
     STONETALON_CLIFFWALKER_GARROSH = 1167,
+    SHANG_XI_BENCH = 1168,
+    SHANG_XI_DOORWAY = 1169,
+    SHANG_XI_BRIDGE = 1170,
+    DRIVER_NOT_RESCUED = 1171,
+    DRIVER_RESCUED = 1172,
+    SHANG_XI_TEMPLE_NORTH = 1173,
+    SHANG_XI_TEMPLE_SOUTH = 1174,
+    AYSA_LIANG_POOL_HOUSE = 1175,
+    AYSA_LIANG_BRIDGE = 1176,
+    AYSA_LIANG_LAKE = 1177,
+    AYSA_ROPE = 1178,
+    AYSA_CAVE = 1179,
 }
 Phasing.phases = phases
 
@@ -991,6 +1003,54 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.STONETALON_CLIFFWALKER_GARROSH then
         return complete[26115] or false
+    end
+
+    if phase == phases.SHANG_XI_BENCH then
+        return  not complete[29524] and (not questLog[29524] or (questLog[29524] and questLog[29524].isComplete == 0)) or false
+    end
+
+    if phase == phases.SHANG_XI_DOORWAY then
+        return (complete[29524] or (questLog[29524] and questLog[29524].isComplete == 1)) and (not complete[29409] and (not questLog[29409] or (questLog[29409] and questLog[29409].isComplete == 0))) or false
+    end
+
+    if phase == phases.SHANG_XI_BRIDGE then
+        return (complete[29409] or (questLog[29409] and questLog[29409].isComplete == 1)) or false
+    end
+
+    if phase == phases.DRIVER_NOT_RESCUED then
+        return not complete[29419] and (not questLog[29419] or (questLog[29419] and questLog[29419].isComplete == 0)) or false
+    end
+
+    if phase == phases.DRIVER_RESCUED then
+        return (complete[29419] or (questLog[29419] and questLog[29419].isComplete == 1)) or false
+    end
+
+    if phase == phases.SHANG_XI_TEMPLE_NORTH then
+        return not complete[29774] or false
+    end
+
+    if phase == phases.SHANG_XI_TEMPLE_SOUTH then
+        return complete[29774] or false
+    end
+
+    if phase == phases.AYSA_LIANG_POOL_HOUSE then
+        return not complete[29676] or false
+    end
+
+    if phase == phases.AYSA_LIANG_BRIDGE then
+        return complete[29676] and (not complete[29678] and (not questLog[29678] or (questLog[29678] and questLog[29678].isComplete == 0))) or false
+    end
+
+    if phase == phases.AYSA_LIANG_LAKE then
+        return complete[29678] or (questLog[29678] and questLog[29678].isComplete == 1) or false
+    end
+
+    if phase == phases.AYSA_ROPE then
+        return not complete[29785] or false
+    end
+
+    if phase == phases.AYSA_CAVE then
+        return complete[29785] or false
     end
 
     return false
