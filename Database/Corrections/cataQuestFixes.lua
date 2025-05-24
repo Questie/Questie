@@ -6107,7 +6107,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41628,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25940] = { -- Last Stand at Whistling Grove
-            [questKeys.preQuestSingle] = {25428},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25428,25392},
             [questKeys.exclusiveTo] = {25462},
         },
         [25942] = { -- Buy Us Some Time
