@@ -440,7 +440,7 @@ QuestieDB.raceKeys = {
     --[[ 9]] BLOOD_ELF = 512,               -- TBC
     --[[10]] DRAENEI = 1024,                -- TBC
     --[[21]] WORGEN = 2097152,              -- Cata
-    --[[23]] PANDAREN_NEUTRAL = 8388608,    -- MoP
+    --[[23]] PANDAREN = 8388608,            -- MoP
     --[[24]] PANDAREN_ALLIANCE = 16777216,  -- MoP
     --[[25]] PANDAREN_HORDE = 33554432,     -- MoP
 }
