@@ -4498,6 +4498,12 @@ if Expansions.Current >= Expansions.Cata then
     end
 end
 
+-- Merge the Wandering Isle into the Pandaria zones
+local wanderingIsle = l10n.zoneLookup[860]
+for id, name in pairs(wanderingIsle) do
+    l10n.zoneLookup[870][id] = name
+end
+
 -- The keys need to match with QuestieJourney.questCategoryKeys
 l10n.zoneCategoryLookup = {
     [1] = l10n.zoneLookup[0],
