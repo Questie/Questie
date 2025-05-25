@@ -2670,6 +2670,9 @@ l10n.zoneLookup = {
     [757]={
         [5600]="Baradin Hold",
     },
+    [870] = {
+        [5736] = "The Wandering Isle",
+    },
     [930]={
         [5783]="Alcaz Island",
     },
