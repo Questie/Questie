@@ -5716,6 +5716,9 @@ function QuestieQuestBlacklist:Load()
         [29381] = true, -- Hidden quest
         [29386] = true, -- Hidden quest
         [29395] = true, -- Hidden quest
+        [29404] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29405] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29407] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [29413] = true, -- Not in the game
         [29429] = true, -- Not in the game
         [29432] = Expansions.Current >= Expansions.Cata, -- Not in the game
@@ -5756,10 +5759,16 @@ function QuestieQuestBlacklist:Load()
         [29671] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29672] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29683] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29703] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29705] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29706] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [29761] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29773] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30105] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [30110] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [30111] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [30454] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [30455] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30537] = true, -- Not in the game
         [30538] = true, -- Not in the game
         [30539] = true, -- Hidden quest
@@ -5786,6 +5795,9 @@ function QuestieQuestBlacklist:Load()
         [30560] = true, -- Hidden quest
         [30561] = true, -- Hidden quest
         [30562] = true, -- Hidden quest
+        [30817] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [30818] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [32396] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65601] = Expansions.Current >= Expansions.Cata, -- Not in the game
