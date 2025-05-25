@@ -4629,6 +4629,7 @@ l10n.zoneCategoryLookup = {
         [-262] = "Priest",
         [-263] = "Druid",
         [-372] = "Death Knight",
+        [-395] = "Monk",
     },
     [11] = {
         [-24] = "Herbalism",
