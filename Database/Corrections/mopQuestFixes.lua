@@ -165,7 +165,7 @@ function MopQuestFixes.Load()
         },
         [29772] = { -- Raucous Rousing
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.objectives] = {nil,{{209626}}}, -- "unk name", it's actually "Break Gong"
+            [questKeys.objectives] = {nil,{{209626}}},
         },
         [29774] = { -- Not In the Face!
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
@@ -189,7 +189,7 @@ function MopQuestFixes.Load()
         [29778] = { -- Rewritten Wisdoms
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29775},
-            [questKeys.objectives] = {nil,{{209656}}}, -- "unk name", it's actually "Defaced Scroll of Wisdom"
+            [questKeys.objectives] = {nil,{{209656}}},
         },
         [29779] = { -- The Direct Solution
             [questKeys.requiredRaces] = raceIDs.PANDAREN,

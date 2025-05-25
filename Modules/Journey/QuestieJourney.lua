@@ -43,11 +43,12 @@ local questCategoryKeys = {
     NORTHREND = 4,
     CATACLYSM = 5,
     THE_MAELSTROM = 6,
-    DUNGEONS = 7,
-    BATTLEGROUNDS = 8,
-    CLASS = 9,
-    PROFESSIONS = 10,
-    EVENTS = 11,
+    PANDARIA = 7,
+    DUNGEONS = 8,
+    BATTLEGROUNDS = 9,
+    CLASS = 10,
+    PROFESSIONS = 11,
+    EVENTS = 12,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -55,10 +56,11 @@ QuestieJourney.questCategoryKeys = questCategoryKeys
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        if not (questCategoryKeys.OUTLAND == id and Expansions.Current == Expansions.Era) and
-            not (questCategoryKeys.NORTHREND == id and Expansions.Current <= Expansions.Tbc) and
-            not (questCategoryKeys.CATACLYSM == id and Expansions.Current <= Expansions.Wotlk) and
-            not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current <= Expansions.Cata) then
+        if not (questCategoryKeys.OUTLAND == id and Expansions.Current < Expansions.Tbc) and
+            not (questCategoryKeys.NORTHREND == id and Expansions.Current < Expansions.Wotlk) and
+            not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) then
             continents[id] = l10n(name)
         end
     end

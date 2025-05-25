@@ -86,6 +86,18 @@ local zoneSectionLocales = {
         ["zhCN"] = "大漩涡",
         ["zhTW"] = "大漩渦",
     },
+    ["Pandaria"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = "판다리아",
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "潘达利亚",
+        ["zhTW"] = "潘達利亞",
+    },
     ["Professions"] = {
         ["enUS"] = true,
         ["deDE"] = "Berufe",
