@@ -26,6 +26,10 @@ for objId, data in pairs(mop) do
                 mop[objId][index] = trinityObject[index]
             end
         end
+
+        if data[objectKeys.name] == "unk name" then
+            mop[objId][objectKeys.name] = trinityObject[objectKeys.name]
+        end
     end
 end
 
