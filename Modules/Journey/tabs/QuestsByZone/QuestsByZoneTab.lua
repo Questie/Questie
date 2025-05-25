@@ -86,6 +86,8 @@ _CreateContinentDropdown = function()
         selectedContinentId = questCategoryKeys.OUTLAND
     elseif currentContinentId == 571 then -- Northrend
         selectedContinentId = questCategoryKeys.NORTHREND
+    elseif currentContinentId == 870 then -- Pandaria
+        selectedContinentId = questCategoryKeys.PANDARIA
     elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
         selectedContinentId = questCategoryKeys.DUNGEONS
     end

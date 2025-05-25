@@ -14,11 +14,12 @@ l10n.continentLookup = {
     [4] = "Northrend",
     [5] = "Cataclysm",
     [6] = "The Maelstrom",
-    [7] = "Dungeons",
-    [8] = "Battlegrounds",
-    [9] = "Class",
-    [10] = "Professions",
-    [11] = "Events",
+    [7] = "Pandaria",
+    [8] = "Dungeons",
+    [9] = "Battlegrounds",
+    [10] = "Class",
+    [11] = "Professions",
+    [12] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2789,6 +2790,9 @@ l10n.zoneCategoryLookup = {
     },
     [6] = maelstromZones,
     [7] = {
+        [5736] = "The Wandering Isle",
+    },
+    [8] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2874,7 +2878,7 @@ l10n.zoneCategoryLookup = {
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
     },
-    [8] = {
+    [9] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2888,7 +2892,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [9] = {
+    [10] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2900,7 +2904,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [10] = {
+    [11] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2916,7 +2920,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [11] = {
+    [12] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",
