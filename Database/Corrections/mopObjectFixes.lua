@@ -27,5 +27,9 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [212526] = { -- An empty bookshelf
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
+        },
     }
 end

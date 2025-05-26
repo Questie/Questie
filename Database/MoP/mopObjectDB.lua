@@ -17825,6 +17825,7 @@ QuestieDB.objectData = [[return {
 [212518] = {"Doodad_Sherpa_bedroll_007",nil,nil,{[5805]={{27.59,16.56}}},5805},
 [212519] = {"Doodad_Sherpa_bedroll_008",nil,nil,{[5805]={{28.15,16.54}}},5805},
 [212520] = {"Doodad_Sherpa_bedroll_009",nil,nil,{[5805]={{28.22,16.64}}},5805},
+[212526] = {"An empty bookshelf",nil,nil,nil,0},
 [212527] = {"Hozen in the Mist",nil,nil,nil,0},
 [212528] = {"Fish Tales",nil,nil,nil,0},
 [212529] = {"The Dark Heart of the Mogu",nil,nil,nil,0},
