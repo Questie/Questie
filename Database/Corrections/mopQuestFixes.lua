@@ -470,5 +470,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29800},
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [32807] = { -- The Warchief and the Darkness
+            [questKeys.preQuestSingle] = {32806},
+        },
     }
 end
