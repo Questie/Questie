@@ -671,6 +671,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [164958] = "Blutblütensprössling",
 [165554] = "Herz des Berges",
 [165658] = "Dunkeleisenablagerung",
+[165678] = "Golakkakrater",
 [165738] = "Dunkeleisenbierbecher",
 [165739] = "‘Grimmiger Säufer’-Eber",
 [166863] = "Frisches Dreschadongerippe",

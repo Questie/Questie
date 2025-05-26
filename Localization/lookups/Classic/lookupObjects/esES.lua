@@ -668,6 +668,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [164958] = "Brote pétalo de sangre",
 [165554] = "El corazón de la montaña",
 [165658] = "Depósito de los Hierro Negro",
+[165678] = "Cráter de Golakka",
 [165738] = "Jarra de cerveza Hierro Negro",
 [165739] = "Jabalí chupón siniestro",
 [166863] = "Cadáver reciente de Tresadon",
