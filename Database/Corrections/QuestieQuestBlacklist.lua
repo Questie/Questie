@@ -6264,6 +6264,9 @@ function QuestieQuestBlacklist:Load()
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
         questsToBlacklist = ContentPhases.BlacklistSoMQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
+    elseif Questie.IsMoP then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
+        questsToBlacklist = ContentPhases.BlacklistMoPQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.MoP)
     end
 
     return questsToBlacklist
