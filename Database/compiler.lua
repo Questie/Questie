@@ -20,7 +20,7 @@ local abs, min, floor = math.abs, math.min, math.floor
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD = 48
-local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
+local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 10
 
 ---@alias CompilerTypes
 ---| "u8"
