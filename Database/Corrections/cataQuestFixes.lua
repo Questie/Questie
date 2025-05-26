@@ -11527,10 +11527,12 @@ function CataQuestFixes.Load()
         [28295] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28558},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questKeys.nextQuestInChain] = 27003,
         },
         [28296] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28557},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questKeys.nextQuestInChain] = 27003,
         },
         [28297] = { -- Meet with Ormak Grimshot
             [questKeys.nextQuestInChain] = 28461,
