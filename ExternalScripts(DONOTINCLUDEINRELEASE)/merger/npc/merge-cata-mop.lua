@@ -27,13 +27,23 @@ for npcId, data in pairs(mop) do
     if npc then
         mop[npcId] = npc
     end
-end
 
-for npcId, data in pairs(mopTrinity) do
-    local npc = mop[npcId]
+    local trinityNpc = mopTrinity[npcId]
+    if trinityNpc then
+        -- iterate npcKeys and take the values from mopTrinity if mop doesn't have them
+        for _, index in pairs(npcKeys) do
+            if not data[index] and trinityNpc[index] then
+                mop[npcId][index] = trinityNpc[index]
+            end
+        end
 
-    if not npc then
-        mop[npcId] = data
+        if trinityNpc[npcKeys.spawns] then
+            for zoneId, _ in pairs(trinityNpc[npcKeys.spawns]) do
+                if zoneId ~= 0 then
+                    mop[npcId][npcKeys.spawns] = trinityNpc[npcKeys.spawns]
+                end
+            end
+        end
     end
 end
 
