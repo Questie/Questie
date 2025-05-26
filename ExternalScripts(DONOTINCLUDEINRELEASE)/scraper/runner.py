@@ -63,10 +63,10 @@ class Runner:
         process.crawl(ItemSpider)
         process.start()
 
-    def run_object(self) -> None:
+    def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_data.json"})
-        process.crawl(ObjectSpider)
+        process.crawl(ObjectSpider, run_for_retail)
         process.start()
 
     def run_object_translations(self) -> None:
@@ -125,7 +125,7 @@ if __name__ == '__main__':
         runner.run_item()
     if args.object:
         print("Running object spider")
-        runner.run_object()
+        runner.run_object(run_for_retail)
     if args.object_translations:
         print("Running object spider for translations")
         runner.run_object_translations()
