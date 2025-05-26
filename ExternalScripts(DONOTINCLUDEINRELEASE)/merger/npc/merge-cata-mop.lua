@@ -22,12 +22,6 @@ local npcKeys = {
 }
 
 for npcId, data in pairs(mop) do
-    local npc = cata[npcId]
-
-    if npc then
-        mop[npcId] = npc
-    end
-
     local trinityNpc = mopTrinity[npcId]
     if trinityNpc then
         -- iterate npcKeys and take the values from mopTrinity if mop doesn't have them
@@ -44,6 +38,19 @@ for npcId, data in pairs(mop) do
                 end
             end
         end
+    end
+
+    -- Override mop entry with cata, since the data is better
+    local cataNpc = cata[npcId]
+    if cataNpc then
+        mop[npcId] = cataNpc
+    end
+end
+
+-- add cata NPCs that are not in mop
+for npcId, data in pairs(cata) do
+    if not mop[npcId] then
+        mop[npcId] = data
     end
 end
 
