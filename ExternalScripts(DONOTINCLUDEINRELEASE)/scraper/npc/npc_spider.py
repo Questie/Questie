@@ -3,6 +3,7 @@ import scrapy
 from scrapy import signals
 
 from match_dungeon_spawns import match_dungeon_spawns
+from npc.retail_npc_ids import RETAIL_NPC_IDS
 from npc.npc_formatter import NPCFormatter
 from npc.npc_ids import NPC_IDS
 
@@ -10,12 +11,16 @@ from npc.npc_ids import NPC_IDS
 class NPCSpider(scrapy.Spider):
     name = "npc"
     base_url_classic = "https://www.wowhead.com/classic/npc={}"
+    base_url_retail = "https://www.wowhead.com/npc={}"
 
     start_urls = []
 
-    def __init__(self) -> None:
+    def __init__(self, run_for_retail: bool) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
+        if run_for_retail:
+            self.start_urls = [self.base_url_retail.format(npc_id) for npc_id in RETAIL_NPC_IDS]
+        else:
+            self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
 
     def parse(self, response):
         result = {}
