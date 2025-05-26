@@ -670,6 +670,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [164958] = "Pousse de Pétale-de-sang",
 [165554] = "Coeur de la montagne",
 [165658] = "Gisement de sombrefer",
+[165678] = "Cratère de Golakka",
 [165738] = "Chope de bière sombrefer",
 [165739] = "Sanglier du Sinistre dévoreur",
 [166863] = "Carcasse fraîche de battrodon",
