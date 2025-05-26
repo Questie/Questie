@@ -467,10 +467,15 @@ end
 
 function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
     if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error("Questie" .. ": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers " .. areaID .. " " .. x .. " " .. y)
+        error("Questie:DrawLineIcon: 'areaID', 'x' and 'y' must be numbers. Got: " .. tostring(areaID) .. ", " .. tostring(x) .. ", " .. tostring(y))
     end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
+
+    if type(uiMapId) ~= "number" then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "DrawLineIcon: Invalid uiMapId for areaID:", areaID)
+        return
+    end
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
 end
