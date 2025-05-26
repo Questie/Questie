@@ -33,6 +33,13 @@ for objId, data in pairs(mop) do
     end
 end
 
+-- add cata objects that are not in mop
+for objId, data in pairs(cata) do
+    if not mop[objId] then
+        mop[objId] = data
+    end
+end
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
