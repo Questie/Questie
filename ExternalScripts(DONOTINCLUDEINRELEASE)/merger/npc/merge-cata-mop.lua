@@ -54,6 +54,13 @@ for npcId, data in pairs(cata) do
     end
 end
 
+-- add trinity NPCs that are not in mop
+for npcId, data in pairs(mopTrinity) do
+    if not mop[npcId] then
+        mop[npcId] = data
+    end
+end
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
