@@ -206,6 +206,18 @@ local eventsLocales = {
         ["zhCN"] = "元素誓约",
         ["zhTW"] = "元素桎梏",
     },
+    ["Proving Grounds"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Feuerprobe",
+        ["esES"] = "Terreno de Pruebas",
+        ["esMX"] = "Terreno de Pruebas",
+        ["frFR"] = "L’Ordalie",
+        ["koKR"] = "수련의 장",
+        ["ptBR"] = "Campo de Testes",
+        ["ruRU"] = "Арена испытаний",
+        ["zhCN"] = "试炼场",
+        ["zhTW"] = "試煉場",
+    },
     ["Nightmare Incursions"] = {
         ["enUS"] = true,
         ["deDE"] = "Alptraumeinfälle",

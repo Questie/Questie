@@ -422,6 +422,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29792},
         },
+        [30617] = { -- Roadside Assistance
+            [questKeys.preQuestSingle] = {30616},
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
@@ -464,11 +467,89 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [31288] = { -- Research Project: The Mogu Dynasties
+            [questKeys.exclusiveTo] = {31289},
+        },
+        [31289] = { -- Uncovering the Past
+            [questKeys.exclusiveTo] = {31288},
+        },
+        [31313] = { -- Just A Folk Stor
+            [questKeys.preQuestSingle] = {31312},
+        },
+        [31314] = { -- Old Man Thistle's Treasure
+            [questKeys.preQuestSingle] = {31313},
+        },
+        [31315] = { -- The Heartland Legacy
+            [questKeys.preQuestSingle] = {31314},
+        },
+        [31377] = { -- Attack At The Temple of the Jade Serpent
+            [questKeys.exclusiveTo] = {31379,31381,31383},
+        },
+        [31379] = { -- Challenge At The Temple of the Red Crane
+            [questKeys.exclusiveTo] = {31377,31381,31383},
+        },
+        [31381] = { -- Trial At The Temple of the White Tiger
+            [questKeys.exclusiveTo] = {31377,31379,31383},
+        },
+        [31383] = { -- Defense At Niuzao Temple
+            [questKeys.exclusiveTo] = {31377,31379,31381},
+        },
+        [31384] = { -- The Golden Lotus
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31392] = { -- Temple of the White Tiger
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31393] = { -- Temple of the White Tiger
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29800},
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31488] = { -- Stranger in a Strange Land
+            [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},
+        },
+        [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
+            [questKeys.exclusiveTo] = {31520,31522,31523,31524,31525,31526,31527,31528},
+        },
+        [31520] = {-- A Worthy Challenge: Sha of Doubt
+            [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
+        },
+        [31522] = {-- A Worthy Challenge: Sha of Hatred
+            [questKeys.exclusiveTo] = {31519,31520,31523,31524,31525,31526,31527,31528},
+        },
+        [31523] = {-- A Worthy Challenge: Xin the Weaponmaster
+            [questKeys.exclusiveTo] = {31519,31520,31522,31524,31525,31526,31527,31528},
+        },
+        [31524] = {-- A Worthy Challenge: Raigonn
+            [questKeys.exclusiveTo] = {31519,31520,31522,31523,31525,31526,31527,31528},
+        },
+        [31525] = {-- A Worthy Challenge: Wing Leader Ner'onok
+            [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31526,31527,31528},
+        },
+        [31526] = {-- A Worthy Challenge: Durand
+            [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31527,31528},
+        },
+        [31527] = {-- A Worthy Challenge: Flameweaver Koegler
+            [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31528},
+        },
+        [31528] = {-- A Worthy Challenge: Darkmaster Gandling
+            [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31527},
+        },
+        [31876] = { -- The Inkmasters of the Arboretum
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+        },
+        [31877] = { -- The Inkmasters of the Arboretum
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+        },
+        [32016] = { -- Elder Charms of Good Fortune
+            [questKeys.startedBy] = {{64029}},
+        },
+        [32017] = { -- Elder Charms of Good Fortune
+            [questKeys.startedBy] = {{63996}},
         },
         [32807] = { -- The Warchief and the Darkness
             [questKeys.preQuestSingle] = {32806},

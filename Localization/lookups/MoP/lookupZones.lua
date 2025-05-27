@@ -4671,6 +4671,7 @@ l10n.zoneCategoryLookup = {
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
         --[-400] = "Love is in the Air", -- Needed before WotLK
+        [-400] = "Proving Grounds",
         [-401] = "Children's Week",
         [-402] = "Harvest Festival",
         [-403] = "Hallow's End",
