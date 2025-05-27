@@ -56,5 +56,6 @@ body:
         - Season of Discovery
         - WotLK
         - Cata
+        - MoP
     validations:
       required: true

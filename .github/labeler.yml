@@ -16,3 +16,7 @@ wotlk:
 # Label for Cata quests
 cata:
   - '### Game flavor\s*Cata'
+
+# Label for MoP quests
+mop:
+  - '### Game flavor\s*MoP'
