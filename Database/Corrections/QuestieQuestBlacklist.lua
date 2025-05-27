@@ -6183,6 +6183,39 @@ function QuestieQuestBlacklist:Load()
         [88800] = true, -- Boosted quest
         [88801] = true, -- Boosted quest
 
+        ----- MoP -------------- MoP quests --------------- MoP -----
+        ----- MoP ------------- starting here -------------- MoP -----
+
+        -- Hallow's End
+        [32020] = true,
+        [32021] = true,
+        [32022] = true,
+        [32023] = true,
+        [32024] = true,
+        [32026] = true,
+        [32027] = true,
+        [32028] = true,
+        [32029] = true,
+        [32031] = true,
+        [32032] = true,
+        [32033] = true,
+        [32034] = true,
+        [32036] = true,
+        [32037] = true,
+        [32039] = true,
+        [32040] = true,
+        [32041] = true,
+        [32042] = true,
+        [32043] = true,
+        [32044] = true,
+        [32046] = true,
+        [32047] = true,
+        [32048] = true,
+        [32049] = true,
+        [32050] = true,
+        [32051] = true,
+        [32052] = true,
+
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
         [78288] = true, -- Let Me Make You An Offer (not longer in the game)

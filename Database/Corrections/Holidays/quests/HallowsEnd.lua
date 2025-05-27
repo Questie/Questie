@@ -259,3 +259,33 @@ tinsert(eventQuests, {"Hallow's End", 29428}) -- What Now?
 tinsert(eventQuests, {"Hallow's End", 29429}) -- The Creepy Crate
 tinsert(eventQuests, {"Hallow's End", 29430}) -- A Friend in Need
 tinsert(eventQuests, {"Hallow's End", 29431}) -- A Friend in Need
+
+-- MoP quests
+tinsert(eventQuests, {"Hallow's End", 32020}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32021}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32022}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32023}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32024}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32026}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32027}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32028}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32029}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32031}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32032}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32033}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32034}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32036}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32037}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32039}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32040}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32041}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32042}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32043}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32044}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32046}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32047}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32048}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32049}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32050}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32051}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 32052}) -- Candy Bucket
