@@ -407,6 +407,58 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
         },
+        [30135] = { -- Beating the Odds
+            [questKeys.preQuestSingle] = {30134},
+            [questKeys.nextQuestInChain] = 30136,
+        },
+        [30136] = { -- Empty Nests
+            [questKeys.preQuestSingle] = {30135},
+            [questKeys.nextQuestInChain] = 30137,
+        },
+        [30137] = { -- Egg Collection
+            [questKeys.preQuestSingle] = {30136},
+            [questKeys.nextQuestInChain] = 30138,
+        },
+        [30138] = { -- Choosing the One
+            [questKeys.preQuestSingle] = {30137},
+        },
+        [30139] = { -- The Rider's Journey
+            [questKeys.preQuestSingle] = {30138},
+            [questKeys.exclusiveTo] = {30140,30141},
+        },
+        [30140] = { -- The Rider's Journey
+            [questKeys.preQuestSingle] = {30138},
+            [questKeys.exclusiveTo] = {30139,30141},
+        },
+        [30141] = { -- The Rider's Journey
+            [questKeys.preQuestSingle] = {30138},
+            [questKeys.exclusiveTo] = {30139,30140},
+        },
+        [30142] = { -- It's A...
+            [questKeys.preQuestSingle] = {30139,30140,30141},
+            [questKeys.nextQuestInChain] = 30143,
+        },
+        [30143] = { -- They Grow Like Weeds
+            [questKeys.preQuestSingle] = {30142},
+        },
+        [30144] = { -- Flight Training: Ring Round-Up
+            [questKeys.preQuestSingle] = {30143},
+        },
+        [30145] = { -- Flight Training: Full Speed Ahead
+            [questKeys.preQuestSingle] = {30144},
+        },
+        [30187] = { -- Flight Training: In Due Course
+            [questKeys.preQuestSingle] = {30145},
+        },
+        [30188] = { -- Riding the Skies (Jade Cloud Serpent)
+            [questKeys.preQuestGroup] = {30140,30187},
+        },
+        [31810] = { -- Riding the Skies (Azure Cloud Serpent)
+            [questKeys.preQuestGroup] = {30139,30187},
+        },
+        [31811] = { -- Riding the Skies (Golden Cloud Serpent)
+            [questKeys.preQuestGroup] = {30141,30187},
+        },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
