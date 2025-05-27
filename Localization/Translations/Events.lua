@@ -206,6 +206,18 @@ local eventsLocales = {
         ["zhCN"] = "元素誓约",
         ["zhTW"] = "元素桎梏",
     },
+    ["Battle Pets"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kampfhaustiere",
+        ["esES"] = "Mascotas de duelo",
+        ["esMX"] = "Mascotas de duelo",
+        ["frFR"] = "Mascottes de combat",
+        ["koKR"] = "전투 애완동물들",
+        ["ptBR"] = "Batalha de Mascotes",
+        ["ruRU"] = "Боевые питомцы",
+        ["zhCN"] = "战斗宠物",
+        ["zhTW"] = "戰鬥寵物",
+    },
     ["Proving Grounds"] = {
         ["enUS"] = true,
         ["deDE"] = "Feuerprobe",
