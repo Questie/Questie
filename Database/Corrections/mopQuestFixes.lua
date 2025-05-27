@@ -455,6 +455,24 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29798},
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30881] = { -- Round 2: Clever Ashyo & Ken-Ken
+            [questKeys.preQuestSingle] = {30879},
+        },
+        [30882] = { -- Round 2: Kang Bramblestaff
+            [questKeys.preQuestSingle] = {30880},
+        },
+        [30883] = { -- Round 3: The Wrestler
+            [questKeys.preQuestSingle] = {30879},
+        },
+        [30885] = { -- Round 3: Master Boom Boom
+            [questKeys.preQuestSingle] = {30882},
+        },
+        [30902] = { -- Round 4: Master Windfur
+            [questKeys.preQuestSingle] = {30885},
+        },
+        [30907] = { -- Round 4: The P.U.G.
+            [questKeys.preQuestSingle] = {30883},
+        },
         [30987] = { -- Joining the Alliance
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE,
