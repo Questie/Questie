@@ -407,6 +407,30 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
         },
+        [30240] = { -- Survival Ring: Flame
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30242] = { -- Survival Ring: Blades
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30243] = { -- Mantid Under Fire
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30261] = { -- Roll Club: Serpent's Spine
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30266] = { -- Bloodied Skies
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30277] = { -- The Crumbling Hall
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30280] = { -- The Thunder Below
+            [questKeys.preQuestSingle] = {30640},
+        },
+        [30306] = { -- The Battle Ring
+            [questKeys.preQuestSingle] = {30640},
+        },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
