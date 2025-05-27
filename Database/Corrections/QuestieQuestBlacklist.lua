@@ -6186,6 +6186,8 @@ function QuestieQuestBlacklist:Load()
         ----- MoP -------------- MoP quests --------------- MoP -----
         ----- MoP ------------- starting here -------------- MoP -----
 
+        [31489] = true, -- Stranger in a Strange Land (Rogue only version of 31488. For those who know Wrathion already from the Fangs quest chain)
+
         -- Hallow's End
         [32020] = true,
         [32021] = true,
