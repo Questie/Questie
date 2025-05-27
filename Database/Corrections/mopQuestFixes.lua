@@ -578,5 +578,29 @@ function MopQuestFixes.Load()
         [32807] = { -- The Warchief and the Darkness
             [questKeys.preQuestSingle] = {32806},
         },
+        [33336] = { -- The Essence of Time
+            [questKeys.preQuestSingle] = {33161},
+        },
+        [33337] = { -- A Vision in Time
+            [questKeys.preQuestSingle] = {33338},
+        },
+        [33338] = { -- Empowering the Hourglass
+            [questKeys.preQuestSingle] = {33336},
+        },
+        [33375] = { -- Refining The Vision
+            [questKeys.preQuestSingle] = {33337},
+        },
+        [33376] = { -- Seeking Fate
+            [questKeys.preQuestSingle] = {33375},
+        },
+        [33377] = { -- Hidden Threads
+            [questKeys.preQuestSingle] = {33376},
+        },
+        [33378] = { -- Courting Destiny
+            [questKeys.preQuestSingle] = {33377},
+        },
+        [33379] = { -- One Final Turn
+            [questKeys.preQuestSingle] = {33378},
+        },
     }
 end
