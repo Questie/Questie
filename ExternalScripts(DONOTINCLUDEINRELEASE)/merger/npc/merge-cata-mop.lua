@@ -1,6 +1,7 @@
 local cata = require('cataNpcDB')
 local mop = require('mopNpcDB')
 local mopTrinity = require('mopNpcDB-trinity')
+local mopWowhead = require('wowheadNpcDB')
 
 local npcKeys = {
     ['name'] = 1, -- string
@@ -37,6 +38,20 @@ for npcId, data in pairs(mop) do
                     mop[npcId][npcKeys.spawns] = trinityNpc[npcKeys.spawns]
                 end
             end
+        end
+    end
+
+    local wowheadNpc = mopWowhead[npcId]
+    if wowheadNpc then
+        mop[npcId][npcKeys.friendlyToFaction] = wowheadNpc[npcKeys.friendlyToFaction]
+        if not data[npcKeys.spawns] then
+            mop[npcId][npcKeys.spawns] = wowheadNpc[npcKeys.spawns]
+        end
+        if not data[npcKeys.questStarts] then
+            mop[npcId][npcKeys.questStarts] = wowheadNpc[npcKeys.questStarts]
+        end
+        if not data[npcKeys.questEnds] then
+            mop[npcId][npcKeys.questEnds] = wowheadNpc[npcKeys.questEnds]
         end
     end
 
