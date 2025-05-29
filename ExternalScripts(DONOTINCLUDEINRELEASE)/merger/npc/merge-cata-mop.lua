@@ -115,7 +115,7 @@ for npcId, data in pairsByKeys(mop) do
     printString = printString .. data[npcKeys.minLevel] .. ","
     printString = printString .. data[npcKeys.maxLevel] .. ","
     printString = printString .. data[npcKeys.rank] .. ","
-    if data[npcKeys.spawns] then
+    if data[npcKeys.spawns] and next(data[npcKeys.spawns]) then
         printString = printString .. "{"
         for zoneID, coords in pairsByKeys(data[npcKeys.spawns]) do
             printString = printString .. "[" .. zoneID .. "]={"
