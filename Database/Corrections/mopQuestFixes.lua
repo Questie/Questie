@@ -561,6 +561,9 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [31169] = { -- The Art of the Monk
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
         },
