@@ -1,5 +1,5 @@
-print("reading questxp_cata.csv")
-local questXpDBC = io.open("../DBC - WoW.tools/questxp_cata.csv", "r")
+print("reading QuestXP.5.5.0.61051.csv")
+local questXpDBC = io.open("../DBC - WoW.tools/QuestXP.5.5.0.61051.csv", "r")
 local questXpLines = {}
 for line in questXpDBC:lines() do
     if line == "" then

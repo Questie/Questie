@@ -40,7 +40,7 @@ Modules\Libs\MessageHandler.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
-Database\QuestXP\DB\xpDB-cata.lua
+Database\QuestXP\DB\xpDB-mop.lua
 
 # stream module (used by DB)
 Modules\QuestieStream.lua
