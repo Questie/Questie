@@ -744,11 +744,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [79348] = { -- The Lost Ancient
-            [questKeys.startedBy] = {{216310},nil,{212693}},
+            [questKeys.startedBy] = {nil,nil,{212693}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [79358] = { -- Tattered Note
-            [questKeys.startedBy] = {{4421},nil,{212748}},
+            [questKeys.startedBy] = {nil,nil,{212748}},
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
@@ -1507,7 +1507,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [81766] = { -- The Bloody Missive
-            [questKeys.startedBy] = {{6272},nil,{219930}},
+            [questKeys.startedBy] = {nil,nil,{219930}},
             [questKeys.preQuestSingle] = {81765},
             [questKeys.nextQuestInChain] = 81790,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
@@ -2963,7 +2963,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84377] = { -- End of the Dark Horde
-            [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.startedBy] = {nil,nil,{227911}},
             [questKeys.finishedBy] = {{332}},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
@@ -3142,7 +3142,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [84870] = { -- The Dark Hoard
-            [questKeys.startedBy] = {{12435},nil,{229352}},
+            [questKeys.startedBy] = {nil,nil,{229352}},
             [questKeys.objectives] = {nil,nil,{{229362}}},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
@@ -3232,7 +3232,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85112] = { -- The Depleted Scythe
-            [questKeys.startedBy] = {{12435},nil,{231722}},
+            [questKeys.startedBy] = {nil,nil,{231722}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85150] = { -- The Only Good Bug is a Dead Bug
@@ -3253,7 +3253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85304] = { -- Essence of Fire
-            [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.startedBy] = {nil,nil,{230904}},
             [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES]={{14.8,56.7}}}},
             [questKeys.objectives] = {{{232429},{232429},{232398}},nil,{{230908}}},
             [questKeys.nextQuestInChain] = 85385,
@@ -3292,12 +3292,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [85443] = { -- Rise, Thunderfury!
-            [questKeys.startedBy] = {{231494},nil,{232018}},
+            [questKeys.startedBy] = {nil,nil,{232018}},
             [questKeys.preQuestSingle] = {85441},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [85445] = { -- The Golden Disk
-            [questKeys.startedBy] = {{13020},nil,{231378}},
+            [questKeys.startedBy] = {nil,nil,{231378}},
             [questKeys.objectives] = {{{2888,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.nextQuestInChain] = 85447,
@@ -3327,7 +3327,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [85455] = { -- The Blood of the Lightbringer
-            [questKeys.startedBy] = {{12017},nil,{231452}},
+            [questKeys.startedBy] = {nil,nil,{231452}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 85034,
         },
@@ -3363,7 +3363,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85501] = { -- The Heart of Chromaggus
-            [questKeys.startedBy] = {{14020},nil,{231814}},
+            [questKeys.startedBy] = {nil,nil,{231814}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [85505] = { -- Soul of Devouring
@@ -3410,7 +3410,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85555] = { -- Heavy Metal
-            [questKeys.startedBy] = {{12017},nil,{231995}},
+            [questKeys.startedBy] = {nil,nil,{231995}},
             [questKeys.nextQuestInChain] = 85556,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -3721,7 +3721,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [85660] = { -- The Heart of Hakkar
-            [questKeys.startedBy] = {{14834},nil,{19802}},
+            [questKeys.startedBy] = {nil,nil,{19802}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85699] = { -- Snakestone of the Shadow Huntress
@@ -4022,7 +4022,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
         },
         [86673] = { -- The Fall of Ossirian
-            [questKeys.startedBy] = {{15339},nil,{21220}},
+            [questKeys.startedBy] = {nil,nil,{21220}},
             [questKeys.finishedBy] = {{15181}},
             [questKeys.zoneOrSort] = zoneIDs.RUINS_OF_AHN_QIRAJ,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200},{factionIDs.BROOD_OF_NOZDORMU,200}},
@@ -4180,7 +4180,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
         [87360] = { -- The Fall of Kel'Thuzad
-            [questKeys.startedBy] = {{15990},nil,{236350}},
+            [questKeys.startedBy] = {nil,nil,{236350}},
             [questKeys.finishedBy] = {{16113}},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},

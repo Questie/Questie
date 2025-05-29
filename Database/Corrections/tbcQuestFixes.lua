@@ -581,7 +581,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
-            [questKeys.startedBy] = {{15298},nil,{20483}}, -- showing NPC as starter until bug is fixed
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8344] = {
@@ -3289,9 +3288,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
-        },
-        [11178] = {
-            [questKeys.startedBy] = {{23863},nil,{33102,},},
         },
         [11180] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861,"Information Gathered"}}},
