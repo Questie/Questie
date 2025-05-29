@@ -337,14 +337,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
             return 0
         end
     elseif tooltipKey == "im_"..starter.id then
-        -- filter drops from friendlies
-        if playerFaction == "Alliance" and starter.friendlyToFaction == "A" then
-            return 0
-        elseif playerFaction == "Horde" and starter.friendlyToFaction == "H" then
-            return 0
-        elseif starter.friendlyToFaction == "AH" then
-            return 0
-        end
+        -- We don't filter items by faction, because Questie can not differentiate neutral NPCs from friendly ones.
         -- overwrite tooltipKey, so stuff shows in monster tooltips
         tooltipKey = "m_"..starter.id
         starterType = "itemFromMonster"
