@@ -144,6 +144,7 @@ ZoneDB.zoneIDs = {
     WINTERGRASP = 4197,
     THE_NEXUS = 4265,
     ULDUAR = 4273,
+    AZJOL_NERUB = 4277, -- this is also The Gilded Gate map for Azjol-Nerub in Cata
     DALARAN = 4395,
     THE_UNDERBELLY = 4560,
     VIOLET_HOLD = 4415,
@@ -186,11 +187,10 @@ ZoneDB.zoneIDs = {
     THE_SPARK_OF_IMAGINATION = 4660,
     THE_INNER_SANCTUM_OF_ULDUAR = 4661,
     -- Fake IDs for Hall of Lightning
-    THE_TERRESTRIAL_WATCHTOWER = 4274,
+    THE_TERRESTRIAL_WATCHTOWER = 4548,
     -- Fake IDs for Azjol-Nerub
+    HADRONOXS_LAIR = 3477,
     THE_BROOD_PIT = 4301,
-    HADRONOXS_LAIR = 4806,
-    THE_GILDED_GATE = 4807,
     -- Fake IDs for The Oculus
     BAND_OF_VARIANCE = 4801,
     BAND_OF_ACCELERATION = 4802,
