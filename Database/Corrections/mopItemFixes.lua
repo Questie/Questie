@@ -1,10 +1,12 @@
 ---@class MopItemFixes
 local MopItemFixes = QuestieLoader:CreateModule("MopItemFixes")
 
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 function MopItemFixes.Load()
     local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
 
     return {
         [74160] = { -- Zin\'Jun\'s Rifle
@@ -25,6 +27,9 @@ function MopItemFixes.Load()
         [74615] = { -- Paint Soaked Brush
             [itemKeys.npcDrops] = {55601},
             [itemKeys.objectDrops] = {},
+        },
+        [89163] = { -- Requisitioned Firework Launcher
+            [itemKeys.class] = itemClasses.QUEST,
         },
     }
 end
