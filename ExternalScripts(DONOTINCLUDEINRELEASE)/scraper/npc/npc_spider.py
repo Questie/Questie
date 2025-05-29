@@ -66,9 +66,9 @@ class NPCSpider(scrapy.Spider):
             yield result
 
     def __match_spawns(self, result, script):
-        zone_id_pattern = re.compile(r'"(\d+)":\[{')
+        zone_id_pattern = re.compile(r'"(\d+)":(?:\[{|{"\d+")')
         zone_id_matches = zone_id_pattern.findall(script)
-        coords_pattern = re.compile(r'"coords":\[(\[.*?])],')
+        coords_pattern = re.compile(r'"coords":\[(\[.*?])][,}]')
         coords_matches = coords_pattern.findall(script)
         spawns = []
         for zone_id, coords in zip(zone_id_matches, coords_matches):
