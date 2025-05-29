@@ -33,6 +33,15 @@ function QuestXP.Init()
             end
         end
     end
+
+    if Expansions.Current >= Expansions.Wotlk then
+        -- Handle Fast Track "Guild Perk"
+        -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters
+        local isFastTrackActive = IsSpellKnown(78632) -- Fast Track (Rank 2)
+        if isFastTrackActive then
+            globalXPMultiplier = globalXPMultiplier + 0.1 -- 10% bonus XP
+        end
+    end
 end
 
 ---@param xp XP
