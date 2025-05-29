@@ -66,6 +66,7 @@ Database\npcDB.lua
 Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
+Database\FactionTemplates\factionTemplateMoP.lua
 
 # Corrections
 Database\Corrections\BlacklistFilter.lua
