@@ -27,10 +27,10 @@ class Runner:
     def __init__(self) -> None:
         self.logger = getLogger(__name__)
 
-    def run_quest(self) -> None:
+    def run_quest(self, run_for_retail: bool) -> None:
         Path("quest/quest_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/quest_data.json"})
-        process.crawl(QuestSpider)
+        process.crawl(QuestSpider, run_for_retail)
         process.start()
 
     def run_classic_quest(self) -> None:
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     if args.quest:
         print("Running quest spider")
-        runner.run_quest()
+        runner.run_quest(run_for_retail)
     if args.quest_classic:
         print("Running quest spider for classic wow")
         runner.run_classic_quest()
