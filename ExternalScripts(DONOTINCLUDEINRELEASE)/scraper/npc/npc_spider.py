@@ -31,7 +31,11 @@ class NPCSpider(scrapy.Spider):
                     # Handle an invalid case
                     return
                 result["npcId"] = npc_id
-                result["name"] = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script).group(1)
+                name_match = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script)
+                if not name_match:
+                    # Raid/Dungeon Boss sites use a different format
+                    name_match = re.search(r'"name_enus":"((?:[^"\\]|\\.)*)"', script)
+                result["name"] = name_match.group(1)
                 min_level_match = re.search(r'"minlevel":(\d+)', script)
                 result["minLevel"] = min_level_match.group(1) if str(min_level_match) != "None" else "0"
                 max_level_match = re.search(r'"maxlevel":(\d+)', script)
