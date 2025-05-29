@@ -12,13 +12,13 @@ function MopItemFixes.Load()
         [74160] = { -- Zin\'Jun\'s Rifle
             [itemKeys.npcDrops] = {55470,66917}
         },
-        [74161] = { -- Zin\'Jun\'s Rifle
+        [74161] = { -- Zin\'Jun\'s Left Eye
             [itemKeys.npcDrops] = {55470,66917}
         },
-        [74160] = { -- Zin\'Jun\'s Rifle
+        [74162] = { -- Zin\'Jun\'s Right Eye
             [itemKeys.npcDrops] = {55470,66917}
         },
-        [74160] = { -- Zin\'Jun\'s Rifle
+        [74163] = { -- Snuff\'s Corpse
             [itemKeys.npcDrops] = {55470,66917}
         },
         [74296] = { -- Stolen Carrot
