@@ -33,9 +33,13 @@ for npcId, data in pairs(mop) do
         end
 
         if trinityNpc[npcKeys.spawns] then
+            mop[npcId][npcKeys.spawns] = {}
             for zoneId, _ in pairs(trinityNpc[npcKeys.spawns]) do
                 if zoneId ~= 0 then
-                    mop[npcId][npcKeys.spawns] = trinityNpc[npcKeys.spawns]
+                    if not mop[npcId][npcKeys.zoneID] or mop[npcId][npcKeys.zoneID] == 0 then
+                        mop[npcId][npcKeys.zoneID] = zoneId
+                    end
+                    mop[npcId][npcKeys.spawns][zoneId] = trinityNpc[npcKeys.spawns][zoneId]
                 end
             end
         end
@@ -44,8 +48,17 @@ for npcId, data in pairs(mop) do
     local wowheadNpc = mopWowhead[npcId]
     if wowheadNpc then
         mop[npcId][npcKeys.friendlyToFaction] = wowheadNpc[npcKeys.friendlyToFaction]
-        if not data[npcKeys.spawns] then
-            mop[npcId][npcKeys.spawns] = wowheadNpc[npcKeys.spawns]
+        if not data[npcKeys.spawns] and wowheadNpc[npcKeys.spawns] then
+            mop[npcId][npcKeys.spawns] = {}
+            for zoneId, _ in pairs(wowheadNpc[npcKeys.spawns]) do
+                -- Filter out non-MoP zones
+                if zoneId <= 6852 or zoneId == 14288 or zoneId == 14334 or zoneId == 15306 or zoneId == 15318 then
+                    if not mop[npcId][npcKeys.zoneID] or mop[npcId][npcKeys.zoneID] == 0 then
+                        mop[npcId][npcKeys.zoneID] = zoneId
+                    end
+                    mop[npcId][npcKeys.spawns][zoneId] = wowheadNpc[npcKeys.spawns][zoneId]
+                end
+            end
         end
         if not data[npcKeys.questStarts] then
             mop[npcId][npcKeys.questStarts] = wowheadNpc[npcKeys.questStarts]

@@ -430,6 +430,14 @@ function MopNpcFixes.Load()
         [64764] = { -- Hooded Crusader
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [65310] = { -- Turnip Punching Bag
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = {},
+        },
+        [65325] = { -- Puntable Marmot
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = {},
+        },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
         },
