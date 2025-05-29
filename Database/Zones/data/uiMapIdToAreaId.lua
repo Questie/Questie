@@ -213,7 +213,6 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [1953] = 3523, -- Netherstorm
     [1943] = 3524, -- Azuremyst Isle
     [1950] = 3525, -- Bloodmyst Isle
-    --[246] = 3535, -- Hellfire Citadel - Dungeon This is hellfire citadel area in The Shattered halls], have to have it because mobs use this AreaId
     [114] = 3537, -- Borean Tundra
     [1947] = 3557, -- The Exodar
     [347] = 3562, -- Hellfire Ramparts - Dungeon
