@@ -7,12 +7,6 @@ function MopItemFixes.Load()
     local itemKeys = QuestieDB.itemKeys
 
     return {
-        [72071] = { -- Stolen Training Supplies
-            [itemKeys.npcDrops] = {54130},
-        },
-        [72112] = { -- Fluttering Breeze
-            [itemKeys.npcDrops] = {54631},
-        },
         [74296] = { -- Stolen Carrot
             [itemKeys.npcDrops] = {55504},
         },
