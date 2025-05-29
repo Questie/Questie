@@ -28,6 +28,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {55601},
             [itemKeys.objectDrops] = {},
         },
+        [74621] = { -- Viscous Chlorophyll
+            [itemKeys.npcDrops] = {55610},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },

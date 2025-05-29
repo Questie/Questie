@@ -330,6 +330,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29799},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",57741}}}},
         },
+        [29815] = { -- Forensic Science
+            [questKeys.objectives] = {nil,nil,{{74621,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
