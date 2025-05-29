@@ -420,6 +420,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{82.8,38.8}}},
         },
+        [62923] = { -- Empty Package
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}
+            },
+        },
         [63296] = { -- Gato
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_TRIALS] = {{42.2,68.4}}},
