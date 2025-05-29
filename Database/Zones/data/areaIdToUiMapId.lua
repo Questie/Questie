@@ -5,7 +5,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [0] = 1415, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
-    [3535] = 246, -- Hellfire Citadel - Dungeon This is hellfire citadel area in The Shattered halls, have to have it because mobs use this AreaId
     [4274] = 139, -- Halls of Lightning - The Terrestrial Watchtower (fake ID for Halls of Lightning)
     [4301] = 157, -- Azjol-Nerub - The Brood Pit (fake ID for Azjol-Nerub)
     [4659] = 150, -- Ulduar - The Descent of Madness (fake ID for Ulduar)
