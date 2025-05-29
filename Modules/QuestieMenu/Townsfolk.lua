@@ -11,7 +11,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
 
-local tinsert = tinsert
+local tinsert = table.insert
 local sub, bitband, strlen = string.sub, bit.band, string.len
 
 local professionKeys = QuestieProfessions.professionKeys
