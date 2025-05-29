@@ -51,7 +51,8 @@ QuestieDB.sortKeys = {
     BLACKROCK_ERUPTION = -644,
 }
 
-QuestieDB.factionTemplate = Expansions.Current >= Expansions.Wotlk and { -- [id] = EnemyGroup
+---@type table<FactionId, EnemyGroup>
+QuestieDB.factionTemplate = Expansions.Current >= Expansions.Wotlk and {
     [1] = 12,
     [2] = 10,
     [3] = 12,
