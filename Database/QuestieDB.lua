@@ -591,6 +591,8 @@ function QuestieDB:Initialize()
     Questiedbcharhidden = Questie.db.char.hidden
 end
 
+---@param objectId ObjectId
+---@return Object|nil
 function QuestieDB:GetObject(objectId)
     if not objectId then
         return nil
@@ -619,6 +621,8 @@ function QuestieDB:GetObject(objectId)
     return obj;
 end
 
+---@param itemId ItemId
+---@return Item|nil
 function QuestieDB:GetItem(itemId)
     if (not itemId) or (itemId == 0) then
         return nil
@@ -1649,8 +1653,8 @@ function QuestieDB:GetCreatureLevels(quest)
     return creatureLevels
 end
 
----@param npcId number
----@return table|nil
+---@param npcId NpcId
+---@return NPC|nil
 function QuestieDB:GetNPC(npcId)
     if not npcId then
         return nil
