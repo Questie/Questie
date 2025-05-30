@@ -37,6 +37,9 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [85783] = { -- Captain Jack\'s Head
+            [itemKeys.npcDrops] = {63809},
+        },
         [85784] = { -- Alliance Service Medallion
             [itemKeys.npcDrops] = {63764,63782},
         },
