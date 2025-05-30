@@ -2935,6 +2935,13 @@ function QuestieQuestFixes:Load()
         [8374] = { -- Claiming Arathi Basin
             [questKeys.requiredMaxLevel] = 29,
         },
+        [8375] = { -- Remember Alterac Valley!
+            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+        },
+        [8383] = { -- Remember Alterac Valley!
+            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+            [questKeys.objectivesText] = {},
+        },
         [8384] = { -- Claiming Arathi Basin
             [questKeys.requiredMaxLevel] = 29,
         },
@@ -2943,6 +2950,10 @@ function QuestieQuestFixes:Load()
         },
         [8386] = { -- Fight for Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
+        },
+        [8387] = { -- Invaders of Alterac Valley
+            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+            [questKeys.objectivesText] = {},
         },
         [8388] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
