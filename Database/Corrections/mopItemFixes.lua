@@ -34,6 +34,9 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [75202] = { -- Speckled Trout
+            [itemKeys.npcDrops] = {56180},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
