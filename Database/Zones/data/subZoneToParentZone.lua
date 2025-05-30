@@ -4,8 +4,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 --? If you want to add something in subZoneToParentZone overwrite the data in this table
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
 ZoneDB.private.subZoneToParentZoneOverride = [[return {
-    [3545] = 3483, -- Hellfire Citadel -> Hellfire Peninsula
-    [3563] = 3483, -- Hellfire Citadel -> Hellfire Peninsula
+    [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
+    [3563] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
     [10047] = 4228, -- The Oculus - Band of Acceleration (fake ID for The Oculus)
     [10048] = 4228, -- The Oculus - Band of Transmutation (fake ID for The Oculus)
     [10049] = 4228, -- The Oculus - Band of Alignment (fake ID for The Oculus)
@@ -13,14 +13,13 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10051] = 4273, -- The Spark of Imagination -> Ulduar (fake ID for Ulduar)
     [10052] = 4273, -- The Inner Sanctum of Ulduar -> Ulduar (fake ID for Ulduar)
     [10053] = 1196, -- Utgarde Pinnacle - Lower Level (fake ID for Utgarde Pinnacle)
-    [10054] = 4272,  -- Halls of Lightning - The Terrestrial Watchtower (fake ID for Halls of Lightning)
+    [10054] = 4272, -- Halls of Lightning - The Terrestrial Watchtower (fake ID for Halls of Lightning)
     [10055] = 4277, -- Azjol-Nerub - The BroodPit (fake ID for Azjol-Nerub)
     [10056] = 4277, -- Azjol-Nerub - Hadronox's Lair (fake ID for Azjol-Nerub)
     [10057] = 206,  -- Utgarde Keep - Middle Level (fake ID for Utgarde Keep)
     [10058] = 206,  -- Utgarde Keep - Upper Level (fake ID for Utgarde Keep)
     [10059] = 4100, -- The Culling of Stratholme - City (fake ID for The Culling of Stratholme)
-    [4822] = 4196, -- Drak'Tharon Keep - Lower Level (fake ID for Drak'Tharon Keep)
-    [4823] = 4196, -- Drak'Tharon Keep - Upper Level (fake ID for Drak'Tharon Keep)
+    [10060] = 4196, -- Drak'Tharon Keep - Upper Level (fake ID for Drak'Tharon Keep)
     [4824] = 4416, -- Gundrak - Upper Level (fake ID for Gundrak)
     [4825] = 4416, -- Gundrak - Lower Level (fake ID for Gundrak)
     [4830] = 4812, -- Upper Spire -> Icecrown Citadel (fake ID for ICC)

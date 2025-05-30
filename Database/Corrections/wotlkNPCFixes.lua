@@ -670,46 +670,42 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [26620] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26621] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26623] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26631] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{69.7,47.3}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{69.7,47.3},{-1,-1}}},
         },
         [26632] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{47.6,13.3}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{47.6,13.3}},[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}}},
         },
         [26633] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.GRIZZLY_HILLS] = {{51.8,18.2}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS] = {{51.8,18.2}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [26635] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26636] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26637] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
         [26638] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26639] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26647] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.DRAGONBLIGHT] = {{54.50,23.62}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{54.50,23.62}}},
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [26648] = {
@@ -717,7 +713,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [26664] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{69.9,22.1},{67.6,30.6},{63.7,25},{64,14.2},{69.7,15.1},{71.2,17.5}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{69.9,22.1},{67.6,30.6},{63.7,25},{64,14.2},{69.7,15.1},{71.2,17.5},{-1,-1}}},
         },
         [26669] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
@@ -792,7 +788,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [26830] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [26847] = { --"Omu Spiritbreeze", "Wind Rider Master"
             [npcKeys.friendlyToFaction] = "H",
@@ -877,7 +873,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27431] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
         [27575] = { -- #4675
@@ -959,10 +955,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [27871] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
         },
         [27909] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}}},
         },
         [27915] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{47.5,39.7},{-1,-1}}},
@@ -986,17 +982,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [28016] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{47.6,13.3}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{47.6,13.3}},[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}}},
         },
         [28026] = {
-            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5}}},
         },
         [28070] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE]={{71.1,48.5},{-1,-1}},},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE]={{71.1,48.5},{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
         [28083] = {
-            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6}}},
         },
         [28118] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{41.39,73.83},{42.94,76.3},{44.57,79},{43.01,81.33},{41.45,78.86},{39.95,76.07}}},
@@ -1528,7 +1524,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{21.1,43.4}},[zoneIDs.AZJOL_NERUB]={{-1,-1}}},
         },
         [30534] = {
-            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{67.5,80.6}},[4196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{67.5,80.6},{-1,-1}}},
         },
         [30535] = {
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE]={{28.1,61.1},{-1,-1}}},

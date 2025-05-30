@@ -142,6 +142,7 @@ ZoneDB.zoneIDs = {
     BOREAN_TUNDRA = 3537,
     SHOLAZAR_BASIN = 3711,
     THE_CULLING_OF_STRATHOLME = 4100,
+    DRAKTHARON_KEEP = 4196, -- this is also The Vestibules of Drak'Tharon map for Drak'Tharon Keep
     WINTERGRASP = 4197,
     THE_OCULUS = 4228, -- this is also Band of Variance map for The Oculus
     THE_NEXUS = 4265,
@@ -191,9 +192,6 @@ ZoneDB.zoneIDs = {
     FORGE_OF_SOULS = 4809,
     PIT_OF_SARON = 4813,
     HALLS_OF_REFLECTION = 4820,
-    -- Fake IDs for Drak'tharon Keep
-    DRAKTHARON_KEEP_LOWER_LEVEL = 4822,
-    DRAKTHARON_KEEP_UPPER_LEVEL = 4823,
     -- Fake IDs for Gundrak
     GUNDRAK_UPPER_LEVEL = 4824, -- 154
     GUNDRAK_LOWER_LEVEL = 4825, -- 153
@@ -290,4 +288,5 @@ ZoneDB.zoneIDs = {
     UTGARDE_KEEP_MIDDLE_LEVEL = 10057, -- 134
     UTGARDE_KEEP_UPPER_LEVEL = 10058, -- 135
     THE_CULLING_OF_STRATHOLME_CITY = 10059, -- 131
+    DRAKTHARON_KEEP_UPPER_LEVEL = 10060, -- 161
 }
