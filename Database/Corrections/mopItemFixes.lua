@@ -37,6 +37,9 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [85784] = { -- Alliance Service Medallion
+            [itemKeys.npcDrops] = {63764,63782},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
