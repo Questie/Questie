@@ -1207,7 +1207,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [29306] = {
-            [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{46.6,28}},[4416]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GUNDRAK]={{46.6,28},{-1,-1}}},
         },
         [29311] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_THE_OLD_KINGDOM]={{21.43,50.95},{-1,-1}}},
@@ -1247,7 +1247,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.79,60.36}}},
         },
         [29573] = {
-            [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{46.5,65.3}},[4416]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GUNDRAK]={{46.5,65.3},{-1,-1}}},
         },
         [29579] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
@@ -1534,7 +1534,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
         [30537] = {
-            [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{45.6,61.5}},[4416]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GUNDRAK]={{45.6,61.5},{-1,-1}}},
         },
         [30538] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{47.4,22.9}},[zoneIDs.UTGARDE_PINNACLE]={{-1,-1}}},

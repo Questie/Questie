@@ -475,6 +475,9 @@ function CataObjectFixes.Load()
         [190108] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.57,52.3}}},
         },
+        [192826] = { -- Drakkari History Tablet
+            [objectKeys.spawns] = {[zoneIDs.GUNDRAK] = {{-1,-1}}},
+        },
         [194070] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.92,37.16}}},
         },
