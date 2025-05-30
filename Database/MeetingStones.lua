@@ -81,6 +81,10 @@ _MeetingStones.levelRanges = {
         name = "Gnomeregan",
         range = "(24-32)"
     },
+    [179584] = {
+        name = "Blackrock Mountain",
+        range = "(48-61)"
+    },
     [179585] = {
         name = "Blackrock Mountain",
         range = "(48-61)"
@@ -261,5 +265,53 @@ _MeetingStones.levelRanges = {
     [209128] = {
         name = "Firelands",
         range = "(85)"
+    },
+    [211720] = {
+        name = "Terrace of Endless Spring",
+        range = "(90)"
+    },
+    [212859] = {
+        name = "Shadow-Pan Monastery",
+        range = "(87-90)"
+    },
+    [213170] = {
+        name = "Temple of the Jade Serpent",
+        range = "(85-90)"
+    },
+    [213254] = {
+        name = "Mogu Shan Palace",
+        range = "(87-90)"
+    },
+    [213255] = {
+        name = "Mogu Shan Palace",
+        range = "(87-90)"
+    },
+    [214169] = {
+        name = "Gate of the Setting Sun",
+        range = "(88-90)"
+    },
+    [214944] = {
+        name = "Siege of Niuzao Temple",
+        range = "(90)"
+    },
+    [214961] = {
+        name = "Mogu'shan Vaults",
+        range = "(90)"
+    },
+    [214979] = {
+        name = "Stormstout Brewery",
+        range = "(85-90)"
+    },
+    [221268] = {
+        name = "Siege of Orgrimmar",
+        range = "(90)"
+    },
+    [223816] = {
+        name = "Heart of Fear",
+        range = "(90)"
+    },
+    [223817] = {
+        name = "Throne of Thunder",
+        range = "(90)"
     },
 }
