@@ -1720,6 +1720,13 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
+local questsRequiringNewbieAchievement = {
+    [31316] = true, -- Julia, The Pet Tamer
+    [31812] = true, -- Zunta, The Pet Tamer
+    [32008] = true, -- Audrey Burnhep
+    [32009] = true, -- Varzok
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1734,6 +1741,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
         end
 
         return false
+    end
+
+    if questsRequiringNewbieAchievement[questId] then
+        return select(13, GetAchievementInfo(7433)) -- Newbie
     end
 end
 
