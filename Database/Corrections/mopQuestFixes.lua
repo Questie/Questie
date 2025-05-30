@@ -582,6 +582,12 @@ function MopQuestFixes.Load()
         [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
         },
+        [31369] = { -- The Anglers
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31370] = { -- The Anglers
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31377] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },

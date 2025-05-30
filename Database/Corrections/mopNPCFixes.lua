@@ -430,6 +430,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_TRIALS] = {{42.2,68.4}}},
         },
+        [64033] = { -- Master Angler Marina
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
