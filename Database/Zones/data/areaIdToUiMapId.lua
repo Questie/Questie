@@ -59,9 +59,8 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [10056] = 158, -- Azjol-Nerub - Hadronox's Lair (fake ID for Azjol-Nerub)
     [10057] = 134, -- Utgarde Keep - Middle Level (fake ID for Utgarde Keep)
     [10058] = 135, -- Utgarde Keep - Upper Level (fake ID for Utgarde Keep)
+    [10059] = 131, -- The Culling of Stratholme - City (fake ID for The Culling of Stratholme)
 	
-    [4811] = 130, -- The Culling of Stratholme - Village (fake ID for The Culling of Stratholme)
-    [4814] = 131, -- The Culling of Stratholme - City (fake ID for The Culling of Stratholme)
     [4822] = 160, -- Drak'Tharon Keep - Lower Level (fake ID for Drak'Tharon Keep)
     [4823] = 161, -- Drak'Tharon Keep - Upper Level (fake ID for Drak'Tharon Keep)
     [4824] = 154, -- Gundrak - Upper Level (fake ID for Gundrak)

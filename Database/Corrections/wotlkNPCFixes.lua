@@ -657,10 +657,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[67]={{40.27,85.41}},[2817]={{80.08,53.21}},[66]={{43.42,71.81}},[495]={{48.64,13.09}},[394]={{19.26,61.17}},[65]={{38.31,48.45}},[3537]={{51.16,11.47}},[3711]={{46.74,61.65}},[3430]={{46.41,50.51}},[3433]={{46.89,26.48}},[85]={{57.29,51.76}},[130]={{49.65,38.4}},[267]={{58.65,25.52}},[45]={{74.27,41.38}},[47]={{76.66,75.07}},[33]={{32.89,75.18}},[8]={{46.73,47.17}},[46]={{61.86,29.12}},[3]={{4.7,48.79}},[3519]={{51.97,42.96}},[3520]={{33.62,30.64}},[3522]={{49.92,58.75}},[3523]={{32.16,68.33}},[3483]={{57.17,41.99}},[3521]={{35.47,51.69}},[3518]={{50.97,34.13}},[14]={{52.15,47.25}},[618]={{59.88,35.58}},[331]={{70.2,69.31}},[17]={{52.22,28}},[15]={{33.49,30.91}},[400]={{42.36,52.93}},[440]={{49.81,26.99}},[1377]={{46.41,44.56}},[357]={{72.41,47.76}},[405]={{26.13,77.01}},[406]={{50.54,60.41}},[215]={{51.88,59.77}},},
         },
         [26527] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{86.45,61.47}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{86.45,61.47},{-1,-1}}},
         },
         [26533] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{32.3,46.2}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{32.3,46.2}},[zoneIDs.THE_CULLING_OF_STRATHOLME]={{-1,-1}}},
         },
         [26555] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
@@ -941,7 +941,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27744] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{66.4,28},{62.1,31.1},{59.3,27.1},{57.8,32.2}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{66.4,28},{62.1,31.1},{59.3,27.1},{57.8,32.2}},[zoneIDs.THE_CULLING_OF_STRATHOLME]={{-1,-1}}},
         },
         [27759] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
@@ -965,7 +965,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
         },
         [27915] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{47.5,39.7}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{47.5,39.7},{-1,-1}}},
         },
         [27959] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD] = {{61.1,2}}},
@@ -1056,7 +1056,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
         [28341] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{-1,-1}},[zoneIDs.THE_CULLING_OF_STRATHOLME]={{-1,-1}}},
         },
         [28358] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
@@ -1589,13 +1589,13 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30996] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{-1,-1}}},
         },
         [30997] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{31.9,44.6}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{31.9,44.6}},[zoneIDs.THE_CULLING_OF_STRATHOLME]={{-1,-1}}},
         },
         [31024] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{83.8,59.9}},[4100]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{83.8,59.9},{-1,-1}}},
         },
         [31054] = {
             [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{72.66,31.67},{43.73,17.01}}},

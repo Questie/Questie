@@ -13,7 +13,6 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [246] = 3713, -- Hellfire Citadel
     [174] = 4720, -- The Lost Isles
 
-    [130] = 4811, -- The Culling of Stratholme - Village (fake ID for The Culling of Stratholme)
     [131] = 4814, -- The Culling of Stratholme - City (fake ID for The Culling of Stratholme)
     [153] = 4825, -- Gundrak - Lower Level (fake ID for Gundrak)
     [154] = 4824, -- Gundrak - Upper Level (fake ID for Gundrak)
@@ -245,6 +244,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [143] = 4228, -- The Oculus - Dungeon
     [1375] = 4264, -- Halls of Stone - Dungeon
     [129] = 4265, -- The Nexus - Dungeon
+    [130] = 4100, -- The Culling of Stratholme
     [133] = 206, -- Utgarde Keep - Dungeon
     [137] = 1196, -- Utgarde Pinnacle - Dungeon
     [138] = 4272, -- Halls of Lightning - Dungeon
@@ -353,7 +353,6 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [468] = 6456, -- Ammen Vale
     [469] = 6457, -- New Tinkertown
 
-    --[130] = 4100, -- The Culling of Stratholme
     --[154] = 4416, -- Gundrak
     --[160] = 4196, -- Drak'Tharon Keep
     --[174] = 4720, -- The Lost Isles
