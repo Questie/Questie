@@ -284,7 +284,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23953] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_LOWER_LEVEL]={{29.6,65.1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{29.6,65.1},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
         },
         [23954] = {
@@ -343,7 +343,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [24137] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_LOWER_LEVEL]={{68,67.7}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{68,67.7},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
         },
         [24142] = { --"Camp Winterhoof Wind Rider"
@@ -663,7 +663,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{32.3,46.2}},[4100]={{-1,-1}}},
         },
         [26555] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
         },
         [26584] = { --"Sage Paluna"
             [npcKeys.friendlyToFaction] = "H",
@@ -720,28 +720,28 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{69.9,22.1},{67.6,30.6},{63.7,25},{64,14.2},{69.7,15.1},{71.2,17.5}},[4196]={{-1,-1}}},
         },
         [26669] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
         },
         [26670] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
         },
         [26678] = {
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{25.24,41.16}}},
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [26691] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
         },
         [26694] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}}},
         },
         [26680] = { --"Aiyan Coldwind", "Innkeeper"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
         [26696] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{42.8,52.7},{42.8,54.1},{49.4,53.3},{49.4,53.9},{61.8,35.6}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{55.6,33.5},{57.5,18.4}},[1196] = {{-1,-1}}},
-            [npcKeys.waypoints] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{{49.4,53.3},{55.9,53.9}}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{{48.4,44.5},{51.5,42.8},{54,38.9},{56,38.2},{55.9,42.9},{55,46.2},{53,47.9},{50.9,45.9},{48.4,44.5}}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{42.8,52.7},{42.8,54.1},{49.4,53.3},{49.4,53.9},{61.8,35.6},{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{55.6,33.5},{57.5,18.4}}},
+            [npcKeys.waypoints] = {[zoneIDs.UTGARDE_PINNACLE]={{{49.4,53.3},{55.9,53.9}}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{{48.4,44.5},{51.5,42.8},{54,38.9},{56,38.2},{55.9,42.9},{55,46.2},{53,47.9},{50.9,45.9},{48.4,44.5}}}},
         },
         [26697] = { --"Tewah Chillmane", "Leather Armor Merchant"
             [npcKeys.friendlyToFaction] = "H",
@@ -806,7 +806,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{20.7,64.17}}},
         },
         [26861] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{40.9,53.4}},[1196] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{40.9,53.4},{-1,-1}}},
         },
         [26935] = {
             [npcKeys.waypoints] = {},
@@ -1522,7 +1522,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{48.52,54.36}}},
         },
         [30531] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_LOWER_LEVEL]={{47.8,71.4}},[206]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{47.8,71.4},{-1,-1}}},
         },
         [30533] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{21.1,43.4}},[zoneIDs.AZJOL_NERUB]={{-1,-1}}},
@@ -1541,7 +1541,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{45.6,61.5}},[4416]={{-1,-1}}},
         },
         [30538] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{47.4,22.9}},[1196]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{47.4,22.9}},[zoneIDs.UTGARDE_PINNACLE]={{-1,-1}}},
         },
         [30575] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{84.2,75.6},{84.4,75},{84.6,76.8},{85,76.2},{85,77.6},{85.2,73.4},{85.2,74.6},{85.4,74},{85.6,73.8},{85.6,78.4},{86.4,76.6},},},
@@ -1574,7 +1574,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30871] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{43.9,18}},[1196] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{43.9,18},{-1,-1}}},
         },
         [30944] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.15,71.18}}},

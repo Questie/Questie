@@ -202,19 +202,19 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.GUNDRAK_LOWER_LEVEL] = {{-1,-1}},[4416] = {{-1,-1}}},
         },
         [192941] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}}},
         },
         [192942] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}}},
         },
         [192943] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}}},
         },
         [192944] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}}},
         },
         [192945] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}}},
         },
         [193004] = {
             [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{57.85,74.37},{59.35,71.77},{58.08,70.64}}},
@@ -232,7 +232,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.AHNKAHET_THE_OLD_KINGDOM] = {{12.29,50.82},{-1,-1}}},
         },
         [193059] = {
-            [objectKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_KEEP_LOWER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_KEEP_MIDDLE_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_KEEP] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_KEEP_MIDDLE_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_KEEP] = {{-1,-1}}},
         },
         [193091] = {
             [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{34.7,66.0}}},
@@ -337,27 +337,27 @@ function QuestieWotlkObjectFixes:Load()
         },
         [194200] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{64.1,60.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194201] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{64.1,60.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194313] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{70.7,48.5}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194314] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{70.7,48.5}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194327] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{53,25.4}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194331] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{53,25.4}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194463] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.1,60.5},{43.5,54.9},{45,57},{41,54},{39,60},{46.1,61},{46.2,59.2}}},
@@ -369,7 +369,7 @@ function QuestieWotlkObjectFixes:Load()
         },
         [194555] = {
             [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194821] = {
             [objectKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
@@ -381,15 +381,15 @@ function QuestieWotlkObjectFixes:Load()
         },
         [194957] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_SPARK_OF_IMAGINATION,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194958] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_SPARK_OF_IMAGINATION,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [195036] = {
             [objectKeys.spawns] = {[zoneIDs.THE_DESCENT_OF_MADNESS]={{57.7,72.6},{59.2,68},{59.2,54.9},{57.2,52.7}},[zoneIDs.ULDUAR]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.THE_DESCENT_OF_MADNESS,
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [195309] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{42.65,58.43},{42.25,60.1},{43.36,60.69},{43.4,57.84},{42.94,56.95},{43.22,55.94},{42.52,55.01},{43.09,54.6},{41.51,53.56},{41.19,52.62},{40.67,53.31},{40.06,52.53},{39.38,53.79},{38.55,53.96},{38.46,55.05},{37.61,56.07},{38.38,58.33},{37.73,59.86},{38.57,61.28},{38.87,60.57},{39.23,61.41},{40.61,60.33},{41.53,60.01},{42.24,60.09},{43.36,60.69},{44.68,59.4},{45.55,59.06},{45.47,60.13},{45.06,60.94},{45.15,61.93},{44.54,61.9},{46,61.18},{46.5,62.41},{46.08,63.36},{46.7,64.01},{47.35,62.49},{47.72,61.55},{46.88,59.91},{46.29,58.52},{45.85,57.6},{45.92,57.02},{45.77,55.82},{42.4,53.88},{43.38,59.28},{43.82,61.93},{46.69,60.7},{45.03,56.98},{45.15,55.61},{45.03,56.96},{43.9,56.55},{43.38,59.28},{44.27,61.01},{46.82,63.05},{44.34,58.48},{46.56,62.92},{38.21,62.04},{38.03,58.85},{37.67,57.9},{38.13,57.05},{39.95,61.25},{38.84,59.57},{40.56,62.92},{39.99,61.76},{39.96,60.23}}},
@@ -440,7 +440,7 @@ function QuestieWotlkObjectFixes:Load()
         },
         [202239] = {
             [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE]={{71.3,30.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE,
+            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [202240] = {
             [objectKeys.spawns] = {},
