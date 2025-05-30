@@ -582,26 +582,85 @@ function MopQuestFixes.Load()
         [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
         },
+        [31367] = { -- The Lorewalkers
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31368] = { -- The Lorewalkers
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31369] = { -- The Anglers
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [31370] = { -- The Anglers
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [31372] = { -- The Tillers
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31373] = { -- The Order of the Cloud Serpent
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31374] = { -- The Tillers
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31375] = { -- The Order of the Cloud Serpent
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31376] = { -- Attack At The Temple of the Jade Serpent
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31378,31380,31382},
+        },
         [31377] = { -- Attack At The Temple of the Jade Serpent
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },
+        [31378] = { -- Challenge At The Temple of the Red Crane
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31376,31380,31382},
+        },
         [31379] = { -- Challenge At The Temple of the Red Crane
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {31377,31381,31383},
         },
+        [31380] = { -- Trial At The Temple of the White Tiger
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31376,31378,31382},
+        },
         [31381] = { -- Trial At The Temple of the White Tiger
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {31377,31379,31383},
         },
+        [31382] = { -- Defense At Niuzao Temple
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31376,31378,31380},
+        },
         [31383] = { -- Defense At Niuzao Temple
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
         [31384] = { -- The Golden Lotus
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31385] = { -- The Golden Lotus
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31386] = { -- The Shado-Pan Offensive
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31387] = { -- Understanding The Shado-Pan
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31388] = { -- The Shado-Pan Offensive
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31389] = { -- Understanding The Shado-Pan
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31390] = { -- The Klaxxi
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31391] = { -- The Klaxxi
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31392] = { -- Temple of the White Tiger
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -609,11 +668,20 @@ function MopQuestFixes.Load()
         [31393] = { -- Temple of the White Tiger
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [31394] = { -- A Celestial Experience
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31395] = { -- A Celestial Experience
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29800},
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31486] = { -- Everything I Know About Cooking
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},
