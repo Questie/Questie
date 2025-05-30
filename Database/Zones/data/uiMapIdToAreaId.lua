@@ -12,6 +12,7 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [1945] = 0, -- Outland
     [246] = 3713, -- Hellfire Citadel
     [174] = 4720, -- The Lost Isles
+    [370] = 5786, -- The Nexus Legendary
 
     [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
