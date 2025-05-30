@@ -100,6 +100,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
+        [29611] = { -- The Art of War
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [29612] = { -- The Art of War
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
