@@ -15,8 +15,6 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [10051] = 151, -- Ulduar - The Spark of Imagination (fake ID for Ulduar)
     [10052] = 149, -- Ulduar - The Inner Sanctum of Ulduar (fake ID for Ulduar)
 	
-    [4808] = 132, -- Ahn'kahet: The Old Kingdom - dungeon map (fake ID for Ahn'kahet: The Old Kingdom)
-    [4810] = 140, -- Halls of Stone - dungeon map (fake ID for Halls of Stone)
     [4811] = 130, -- The Culling of Stratholme - Village (fake ID for The Culling of Stratholme)
     [4814] = 131, -- The Culling of Stratholme - City (fake ID for The Culling of Stratholme)
     [4816] = 136, -- Utgarde Pinnacle - Lower Level (fake ID for Utgarde Pinnacle)

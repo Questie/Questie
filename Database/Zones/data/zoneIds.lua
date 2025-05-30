@@ -153,6 +153,7 @@ ZoneDB.zoneIDs = {
     ACHERUS_THE_EBON_HOLD = 4281,
     DALARAN = 4395,
     VIOLET_HOLD = 4415,
+    AHNKAHET_THE_OLD_KINGDOM = 4494,
     THE_UNDERBELLY = 4560,
     THE_ARCHIVUM = 4657,
     TRIAL_OF_THE_CRUSADER = 4722,
@@ -197,11 +198,8 @@ ZoneDB.zoneIDs = {
     BAND_OF_ACCELERATION = 10047,
     BAND_OF_TRANSMUTATION = 10048,
     BAND_OF_ALIGNMENT = 10049,
-    -- Fake IDs for Ahn'Kahet: The Old Kingdom
-    AHNKAHET_MAP = 4808,
+    -- Fake IDs for Forge Of Souls
     FORGE_OF_SOULS = 4809,
-    -- Fake IDs for Halls of Stone
-    HALLS_OF_STONE_MAP = 4810,
     -- Fake IDs for The Culling of Stratholme
     THE_CULLING_OF_STRATHOLME_VILLAGE = 4811,
     PIT_OF_SARON = 4813,
