@@ -168,7 +168,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
         [191349] = {
-            [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [191577] = {
             [objectKeys.name] = "Acherus Soul Prison",
@@ -191,7 +191,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{52.36,73.26},{43.61,67.3},{43.76,67.21},{45.46,66.73},{43.87,67.74},{45.52,67.16},{45.19,66.82},{52.66,75.17},{52.36,75.08},{52.36,75.43},{53.28,75.10},{53.57,74.88},{53.53,74.64}}},
         },
         [192788] = {
-            [objectKeys.spawns] = {[zoneIDs.THE_NEXUS_MAP] = {{18.9,51.7}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{18.9,51.7},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
         [192818] = {
@@ -247,7 +247,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{30.6,46.7}},[4100]={{-1,-1}}},
         },
         [193603] = {
-            [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [193980] = {
             [objectKeys.name] = "Bloodstained Stone",

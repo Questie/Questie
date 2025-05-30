@@ -1402,7 +1402,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11905] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS_MAP]={{64.9,21.6}},[zoneIDs.THE_NEXUS]={{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6},{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
             [questKeys.requiredSourceItems] = {},
         },
         [11906] = {

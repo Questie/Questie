@@ -768,7 +768,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [26723] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS_MAP] = {{36.1,67.4}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{36.1,67.4},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
         [26725] = { --"Wind Tamer Oril"
@@ -784,7 +784,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [26792] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS_MAP] = {{50.2,68.4},{54.7,55.9},{58.5,55.3},{59.8,48.5},{65.1,51.2},{62.6,63.9}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{50.2,68.4},{54.7,55.9},{58.5,55.3},{59.8,48.5},{65.1,51.2},{62.6,63.9},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
         [26810] = { --"Roanauk Icemist", "High Chieftain of the Taunka"
@@ -892,23 +892,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27641] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{40.9,67.1},{40.1,55.2},{57.6,54.1},{57.5,66},{72.2,73.3},{72.7,77.4},{74.7,75.3},{27.4,79.8},{25.9,81.2},{25.8,78.5}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{40.9,67.1},{40.1,55.2},{57.6,54.1},{57.5,66},{72.2,73.3},{72.7,77.4},{74.7,75.3},{27.4,79.8},{25.9,81.2},{25.8,78.5}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [27642] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_TRANSMUTATION]={{-1,-1}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_TRANSMUTATION]={{-1,-1}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [27655] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [27656] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.3,13.3}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.3,13.3}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.BAND_OF_ALIGNMENT]={{{47.3,13.3},{43.8,13.9},{40.5,15.5},{37.2,18.4},{34.4,22.2},{31.9,27},{30,33.7},{29.3,40.3},{29.9,48.7},{31.8,55.3},{34.2,60},{37.5,64.4},{42,68},{47.8,69.5},{53.3,68.3},{57.3,65.4},{60.7,61.9},{63.4,56.9},{65.9,48.9},{66.4,43.4},{66.3,36.6},{64.6,28.4},{62.3,23},{58.2,17.8},{54,14.8},{50.1,13.3},{47.3,13.3}}}},
         },
         [27658] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_VARIANCE]={{50,81.2}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_OCULUS]={{50,81.2},{-1,-1}}},
         },
         [27447] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [27688] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{21.66,84.54}}},
@@ -979,7 +979,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [28012] = {
-            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[4228]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[zoneIDs.THE_OCULUS]={{-1,-1}}},
         },
         [28013] = {
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{71.81,82.70}}},
@@ -1535,7 +1535,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE_MAP]={{28.1,61.1}},[4264]={{-1,-1}}},
         },
         [30536] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS_MAP]={{54.9,65.2}},[4265]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS]={{54.9,65.2},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
         [30537] = {
