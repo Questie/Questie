@@ -40,9 +40,13 @@ class NPCSpider(scrapy.Spider):
                 result["minLevel"] = min_level_match.group(1) if str(min_level_match) != "None" else "0"
                 max_level_match = re.search(r'"maxlevel":(\d+)', script)
                 result["maxLevel"] = max_level_match.group(1) if str(max_level_match) != "None" else "0"
-                react_match = re.search(r'"react":\[(-?\d+),(-?\d+)]', script)
-                result["reactAlliance"] = react_match.group(1) if str(react_match) != "None" else "0"
-                result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
+                react_match = re.search(r'"react":\[(?:(-?\d+)|null),(?:(-?\d+)|null)]', script)
+                if react_match is not None:
+                    result["reactAlliance"] = react_match.group(1) if react_match.group(1) is not None else "0"
+                    result["reactHorde"] = react_match.group(2) if react_match.group(2) is not None else "0"
+                else:
+                    result["reactAlliance"] = "0"
+                    result["reactHorde"] = "0"
 
                 list_views_pattern = re.compile(r'new Listview\((.*?)}\)', re.DOTALL)
                 for match in list_views_pattern.findall(script):
