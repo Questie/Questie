@@ -61,6 +61,27 @@ for questId, data in pairs(mop) do
                 mop[questId][index] = trinityQuest[index]
             end
         end
+
+        local nextQuestInChain = trinityQuest[questKeys.nextQuestInChain]
+        if nextQuestInChain then
+            local nextQuest = mop[nextQuestInChain]
+            if nextQuest and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
+                -- Quest does not have pre-quest, so we add the current quest as pre-quest.
+                -- This is not 100% correct, but it will be easier to manually fix invalid breadcrumb quests, than adding pre-quests to all quests.
+                mop[nextQuestInChain][questKeys.preQuestSingle] = {questId}
+            end
+        end
+    end
+
+    local nextQuestInChain = data[questKeys.nextQuestInChain]
+    if nextQuestInChain then
+        local nextQuest = mop[nextQuestInChain]
+        local cataNextQuest = cata[nextQuestInChain]
+        if nextQuest and (not cataNextQuest) and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
+            -- Quest does not have pre-quest, so we add the current quest as pre-quest.
+            -- This is not 100% correct, but it will be easier to manually fix invalid breadcrumb quests, than adding pre-quests to all quests.
+            mop[nextQuestInChain][questKeys.preQuestSingle] = {questId}
+        end
     end
 end
 
