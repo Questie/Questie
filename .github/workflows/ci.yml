@@ -31,6 +31,7 @@ jobs:
         uses: leafo/gh-actions-lua@v11.0.0
         with:
           luaVersion: "5.1"
+          buildCache: false # TODO: Remove this when action was updated to fix caching issues
 
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1.1.2
