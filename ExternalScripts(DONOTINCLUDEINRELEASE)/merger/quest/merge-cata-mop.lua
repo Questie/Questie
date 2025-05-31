@@ -47,40 +47,46 @@ local questKeys = {
 }
 
 for questId, data in pairs(mop) do
-    local quest = cata[questId]
+    local cataQuest = cata[questId]
 
-    if quest then
-        mop[questId] = quest
-    end
+    if cataQuest then
+        mop[questId] = cataQuest
+        if data[questKeys.requiredRaces] then
+            mop[questId][questKeys.requiredRaces] = data[questKeys.requiredRaces]
+        end
+        if data[questKeys.requiredClasses] then
+            mop[questId][questKeys.requiredClasses] = data[questKeys.requiredClasses]
+        end
+    else
+        local trinityQuest = mopTrinity[questId]
+        if trinityQuest then
+            -- iterate questKeys and take the values from mopTrinity if mop doesn't have them
+            for _, index in pairs(questKeys) do
+                if not data[index] and trinityQuest[index] and index ~= questKeys.requiredRaces then
+                    mop[questId][index] = trinityQuest[index]
+                end
+            end
 
-    local trinityQuest = mopTrinity[questId]
-    if trinityQuest then
-        -- iterate questKeys and take the values from mopTrinity if mop doesn't have them
-        for _, index in pairs(questKeys) do
-            if not data[index] and trinityQuest[index] then
-                mop[questId][index] = trinityQuest[index]
+            local nextQuestInChain = trinityQuest[questKeys.nextQuestInChain]
+            if nextQuestInChain then
+                local nextQuest = mop[nextQuestInChain]
+                if nextQuest and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
+                    -- Quest does not have pre-quest, so we add the current quest as pre-quest.
+                    -- This is not 100% correct, but it will be easier to manually fix invalid breadcrumb quests, than adding pre-quests to all quests.
+                    mop[nextQuestInChain][questKeys.preQuestSingle] = {questId}
+                end
             end
         end
 
-        local nextQuestInChain = trinityQuest[questKeys.nextQuestInChain]
+        local nextQuestInChain = data[questKeys.nextQuestInChain]
         if nextQuestInChain then
             local nextQuest = mop[nextQuestInChain]
-            if nextQuest and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
+            local cataNextQuest = cata[nextQuestInChain]
+            if nextQuest and (not cataNextQuest) and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
                 -- Quest does not have pre-quest, so we add the current quest as pre-quest.
                 -- This is not 100% correct, but it will be easier to manually fix invalid breadcrumb quests, than adding pre-quests to all quests.
                 mop[nextQuestInChain][questKeys.preQuestSingle] = {questId}
             end
-        end
-    end
-
-    local nextQuestInChain = data[questKeys.nextQuestInChain]
-    if nextQuestInChain then
-        local nextQuest = mop[nextQuestInChain]
-        local cataNextQuest = cata[nextQuestInChain]
-        if nextQuest and (not cataNextQuest) and (not nextQuest[questKeys.preQuestSingle]) and (not nextQuest[questKeys.preQuestGroup]) then
-            -- Quest does not have pre-quest, so we add the current quest as pre-quest.
-            -- This is not 100% correct, but it will be easier to manually fix invalid breadcrumb quests, than adding pre-quests to all quests.
-            mop[nextQuestInChain][questKeys.preQuestSingle] = {questId}
         end
     end
 end

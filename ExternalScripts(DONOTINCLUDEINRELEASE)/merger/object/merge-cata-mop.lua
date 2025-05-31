@@ -12,23 +12,23 @@ local objectKeys = {
 }
 
 for objId, data in pairs(mop) do
-    local object = cata[objId]
+    local cataObject = cata[objId]
 
-    if object then
-        mop[objId] = object
-    end
-
-    local trinityObject = mopTrinity[objId]
-    if trinityObject then
-        -- iterate objectKeys and take the values from mopTrinity if mop doesn't have them
-        for _, index in pairs(objectKeys) do
-            if not data[index] and trinityObject[index] then
-                mop[objId][index] = trinityObject[index]
+    if cataObject then
+        mop[objId] = cataObject
+    else
+        local trinityObject = mopTrinity[objId]
+        if trinityObject then
+            -- iterate objectKeys and take the values from mopTrinity if mop doesn't have them
+            for _, index in pairs(objectKeys) do
+                if not data[index] and trinityObject[index] then
+                    mop[objId][index] = trinityObject[index]
+                end
             end
-        end
 
-        if data[objectKeys.name] == "unk name" then
-            mop[objId][objectKeys.name] = trinityObject[objectKeys.name]
+            if data[objectKeys.name] == "unk name" then
+                mop[objId][objectKeys.name] = trinityObject[objectKeys.name]
+            end
         end
     end
 end

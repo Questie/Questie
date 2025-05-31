@@ -21,13 +21,13 @@ local itemKeys = {
 
 for itemId, data in pairs(mop) do
     -- Override mop entry with cata, since the data is better
-    local cataNpc = cata[itemId]
-    if cataNpc then
-        mop[itemId] = cataNpc
+    local cataItem = cata[itemId]
+    if cataItem then
+        mop[itemId] = cataItem
     end
 end
 
--- add cata objects that are not in mop
+-- add cata items that are not in mop
 for itemId, data in pairs(cata) do
     if not mop[itemId] then
         mop[itemId] = data
