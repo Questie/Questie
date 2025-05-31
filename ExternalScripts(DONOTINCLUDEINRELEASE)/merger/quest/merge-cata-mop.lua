@@ -51,6 +51,7 @@ for questId, data in pairs(mop) do
 
     if cataQuest then
         mop[questId] = cataQuest
+        -- Only take race and class requirements from MoP for cata quests, because Pandaren and Monks were added.
         if data[questKeys.requiredRaces] then
             mop[questId][questKeys.requiredRaces] = data[questKeys.requiredRaces]
         end
