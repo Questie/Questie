@@ -99,6 +99,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
+        [29547] = { -- The King's Command
+            [questKeys.startedBy] = {{100002}},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Stormwind Keep visited", {[zoneIDs.STORMWIND_CITY]={{84.9,32.5}}}},
+        },
+        [29548] = { -- The Mission
+            [questKeys.objectives] = {{{66292,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29611] = { -- The Art of War
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},

@@ -447,6 +447,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [66292] = { -- Sky Admiral Rogers
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{41.4,70.1}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
         },
@@ -747,6 +751,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52,75.8},{52.2,75.4},{52.6,80},{54.4,75.4},{54.6,58.6},{55.2,60.2},{55.8,60},{57.8,76.4},{58.4,59},{58.4,59.8},{58.6,59.4},{58.6,59.8},{58.6,80.2},{58.8,81},{67.6,55.2},{67.6,55.8},{69.2,59},{69.4,49}}},
         },
         -- Fake NPCs for Auto Accept and Auto Turn in
+        [100002] = { -- A Personal Summons - Stormwind
+            [npcKeys.questStarts] = {28825,29547},
+        },
         [110000] = { -- Shu, the Spirit of Water
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
