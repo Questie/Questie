@@ -893,11 +893,32 @@ function MopQuestFixes.Load()
         [31876] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
+        [31878] = { -- Audrey Burnhep
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
+        },
+        [31879] = { -- Audrey Burnhep
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
+        },
+        [31880] = { -- Audrey Burnhep
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
+        },
+        [31881] = { -- Audrey Burnhep
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
+        },
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
+        [31990] = { -- Audrey Burnhep
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
+        },
         [32008] = { -- Audrey Burnhep
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {31316},
         },
         [32009] = { -- Varzok
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
