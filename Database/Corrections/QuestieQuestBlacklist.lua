@@ -6188,6 +6188,8 @@ function QuestieQuestBlacklist:Load()
 
         [31489] = true, -- Stranger in a Strange Land (Rogue only version of 31488. For those who know Wrathion already from the Fangs quest chain)
         [31554] = true, -- On The Mend (duplicate of 31553)
+        [33121] = true, -- DEPRECATED The Celestial Tournament
+        [33122] = true, -- DEPRECATED Great Job, You Won
 
         -- Hallow's End
         [32020] = true,
