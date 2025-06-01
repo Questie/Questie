@@ -911,6 +911,20 @@ function MopQuestFixes.Load()
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
+        [31889] = { -- Battle Pet Tamers: Kalimdor
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31917},
+        },
+        [31891] = { -- Battle Pet Tamers: Kalimdor
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31918},
+        },
+        [31917] = { -- A Tamer's Homecoming
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31918] = { -- A Tamer's Homecoming
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [31975] = { -- The Returning Champion
             [questKeys.startedBy] = {{66466}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
