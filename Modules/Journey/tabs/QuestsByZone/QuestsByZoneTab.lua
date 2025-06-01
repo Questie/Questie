@@ -78,7 +78,7 @@ _CreateContinentDropdown = function()
 
     local questCategoryKeys = QuestieJourney.questCategoryKeys
     -- This mapping translates the actual continent ID to the keys of l10n.continentLookup
-    if currentContinentId == 0 then -- Eastern Kingdom
+    if currentContinentId == 0 then -- Eastern Kingdoms
         selectedContinentId = questCategoryKeys.EASTERN_KINGDOMS
     elseif currentContinentId == 1 then -- Kalimdor
         selectedContinentId = questCategoryKeys.KALIMDOR
