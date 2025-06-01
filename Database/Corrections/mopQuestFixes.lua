@@ -911,6 +911,14 @@ function MopQuestFixes.Load()
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
+        [31983] = { -- A Brief Reprieve
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31928},
+        },
+        [31984] = { -- A Brief Reprieve
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31928},
+        },
         [31990] = { -- Audrey Burnhep
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {31316},
