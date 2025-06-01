@@ -43,6 +43,9 @@ function MopItemFixes.Load()
         [85784] = { -- Alliance Service Medallion
             [itemKeys.npcDrops] = {63764,63782},
         },
+        [86404] = { -- Old Map
+            [itemKeys.npcDrops] = {59639},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
