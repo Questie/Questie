@@ -911,6 +911,23 @@ function MopQuestFixes.Load()
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
+        [31975] = { -- The Returning Champion
+            [questKeys.startedBy] = {{66466}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31897},
+        },
+        [31976] = { -- The Returning Champion
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31897},
+        },
+        [31977] = { -- The Returning Champion
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31897},
+        },
+        [31980] = { -- The Returning Champion
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31897},
+        },
         [31983] = { -- A Brief Reprieve
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {31928},
