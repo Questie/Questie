@@ -919,6 +919,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {31918},
         },
+        [31902] = { -- Battle Pet Tamers: Eastern Kingdoms
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31917},
+        },
+        [31903] = { -- Battle Pet Tamers: Eastern Kingdoms
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31918},
+        },
         [31917] = { -- A Tamer's Homecoming
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
