@@ -180,6 +180,7 @@ ZoneDB.zoneIDs = {
     TIMELESS_ISLE = 6757,
     KALIMDOR = 10073, -- continent map
     EASTERN_KINGDOMS = 10074, -- continent map
+    PANDARIA = 10075, -- continent map
     -- Fake IDs for Forge Of Souls
     FORGE_OF_SOULS = 4809,
     PIT_OF_SARON = 4813,

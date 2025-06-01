@@ -448,8 +448,26 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {},
         },
         [66292] = { -- Sky Admiral Rogers
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{41.4,70.1}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_KINGDOMS] = {
+                    {41.48,70.2,phases.SKYFIRE_STORMWIND},
+                },
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {42.04,92.75,phases.SKYFIRE_JADE_FOREST},
+                },
+            },
+        },
+        [66297] = { -- Skyfire Gyrocopter
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.02,92.51}}},
+        },
+        [66400] = { -- Ship 1 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.13,99.38}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [66401] = { -- Ship 2 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.PANDARIA] = {{65.31,74.96}}},
+            [npcKeys.zoneID] = zoneIDs.PANDARIA,
         },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},

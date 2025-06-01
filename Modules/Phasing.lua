@@ -249,6 +249,8 @@ local phases = {
     AYSA_LIANG_LAKE = 1177,
     AYSA_ROPE = 1178,
     AYSA_CAVE = 1179,
+    SKYFIRE_STORMWIND = 1180,
+    SKYFIRE_JADE_FOREST = 1181,
 }
 Phasing.phases = phases
 
@@ -1051,6 +1053,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.AYSA_CAVE then
         return complete[29785] or false
+    end
+
+    if phase == phases.SKYFIRE_STORMWIND then
+        return not complete[29548] and (not questLog[29548] or (questLog[29548] and questLog[29548].isComplete == 0)) or false
+    end
+
+    if phase == phases.SKYFIRE_JADE_FOREST then
+        return complete[29548] or (questLog[29548] and questLog[29548].isComplete == 1) or false
     end
 
     return false

@@ -103,9 +103,19 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{100002}},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Stormwind Keep visited", {[zoneIDs.STORMWIND_CITY]={{84.9,32.5}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [29548] = { -- The Mission
             [questKeys.objectives] = {{{66292,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [29576] = { -- An Air of Worry
+            [questKeys.nextQuestInChain] = 29578,
+            [questKeys.breadcrumbForQuestId] = 29578,
+        },
+        [29578] = { -- Defiance
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29576},
         },
         [29611] = { -- The Art of War
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -114,6 +124,14 @@ function MopQuestFixes.Load()
         [29612] = { -- The Art of War
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [29617] = { -- Tian Monastery
+            [questKeys.nextQuestInChain] = 29618,
+            [questKeys.breadcrumbForQuestId] = 29618,
+        },
+        [29618] = { -- The High Elder
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29617},
         },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
@@ -170,6 +188,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",57710}}}},
+        },
+        [29744] = { -- Some "Pupil of Nature"
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbForQuestId] = 29745,
+        },
+        [29745] = { -- The Sprites' Plight
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29744},
         },
         [29768] = { -- Missing Mallet
             [questKeys.requiredLevel] = 4,
@@ -556,6 +582,9 @@ function MopQuestFixes.Load()
         [31169] = { -- The Art of the Monk
             [questKeys.requiredClasses] = classIDs.MONK,
         },
+        [31261] = { -- Captain Jack's Dead
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
         },
@@ -573,7 +602,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31313},
             [questKeys.nextQuestInChain] = 31315,
         },
-         [31315] = { -- The Heartland Legacy
+        [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
         },
         [31367] = { -- The Lorewalkers
@@ -854,6 +883,10 @@ function MopQuestFixes.Load()
         },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31732] = { -- Unleash Hell
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",66297}}}},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
