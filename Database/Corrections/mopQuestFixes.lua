@@ -27,9 +27,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
         [29408] = { -- The Lesson of the Burning Scroll
-            [questKeys.objectives] = {{{53566,nil,Questie.ICON_TYPE_EVENT}},{{210986}}},
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.objectives] = {{{53566,nil,Questie.ICON_TYPE_EVENT}},{{210986}}},
         },
         [29409] = { -- The Disciple's Challenge
             [questKeys.requiredLevel] = 1,
@@ -40,10 +40,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
         [29414] = { -- The Way of the Tushui
-            [questKeys.preQuestSingle] = {},
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.objectives] = {{{59642,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
         },
         [29417] = { -- The Way of the Huojin
             [questKeys.requiredLevel] = 2,
@@ -59,9 +59,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{54855,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29420] = { -- The Spirit's Guardian
-            [questKeys.preQuestSingle] = {},
             [questKeys.requiredLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
         },
         [29421] = { -- Only the Worthy Shall Pass
             [questKeys.requiredLevel] = 2,
@@ -73,9 +73,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57779,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29423] = { -- The Passion of Shen-zin Su
-            [questKeys.requiredLevel] = 3,
             [questKeys.startedBy] = {{54787,54135}},
-            [questKeys.preQuestSingle] = {29422},
+            [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.objectives] = {{{54786,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -147,11 +146,11 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
         [29678] = { -- Shu, the Spirit of Water
+            [questKeys.finishedBy] = {{110000}},
             [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29666,29677},
-            [questKeys.finishedBy] = {{110000}},
             [questKeys.objectives] = {{{57476,nil,Questie.ICON_TYPE_EVENT},{55205,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29679] = { -- A New Friend
@@ -167,13 +166,12 @@ function MopQuestFixes.Load()
         [29768] = { -- Missing Mallet
             [questKeys.requiredLevel] = 4,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestGroup] = {29769,29770},
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29769,29770},
         },
         [29769] = { -- Rascals
             [questKeys.requiredLevel] = 4,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29680},
         },
         [29770] = { -- Still Good!
             [questKeys.requiredLevel] = 5,
@@ -201,7 +199,6 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 4,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",59497}}}},
-            [questKeys.preQuestSingle] = {29774},
         },
         [29776] = { -- Morning Breeze Village
             [questKeys.requiredLevel] = 4,
@@ -211,39 +208,42 @@ function MopQuestFixes.Load()
         [29777] = { -- Tools of the Enemy
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29776},
         },
         [29778] = { -- Rewritten Wisdoms
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29775},
             [questKeys.objectives] = {nil,{{209656}}},
+            [questKeys.preQuestSingle] = {29775},
         },
         [29779] = { -- The Direct Solution
+            [questKeys.finishedBy] = {{55583,65558}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29777,29778,29783},
-            [questKeys.finishedBy] = {{55583,65558}},
+            [questKeys.nextQuestInChain] = 29784,
         },
         [29780] = { -- Do No Evil
+            [questKeys.finishedBy] = {{55583,65558}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29777,29778,29783},
-            [questKeys.finishedBy] = {{55583,65558}},
+            [questKeys.nextQuestInChain] = 29784,
         },
         [29781] = { -- Monkey Advisory Warning
+            [questKeys.finishedBy] = {{55583,65558}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29777,29778,29783},
-            [questKeys.finishedBy] = {{55583,65558}},
+            [questKeys.nextQuestInChain] = 29784,
         },
         [29782] = { -- Stronger Than Bone
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29783},
+            [questKeys.nextQuestInChain] = 29785,
         },
         [29783] = { -- Stronger Than Stone
             [questKeys.requiredLevel] = 5,
@@ -259,9 +259,9 @@ function MopQuestFixes.Load()
         [29785] = { -- Dafeng, the Spirit of Air
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.objectives] = {{{55592,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29782,29784},
-            [questKeys.objectives] = {{{55592,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29786] = { -- Battle for the Skies
             [questKeys.requiredLevel] = 5,
@@ -282,9 +282,9 @@ function MopQuestFixes.Load()
         [29790] = { -- Passing Wisdom
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.objectives] = {{{56686,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29788,29789},
-            [questKeys.objectives] = {{{56686,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29791] = { -- The Suffering of Shen-zin Su
             [questKeys.requiredLevel] = 5,
@@ -294,7 +294,6 @@ function MopQuestFixes.Load()
         [29792] = { -- Bidden to Greatness
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29791},
             [questKeys.objectives] = {nil,{{210965},{210964}}},
         },
         [29793] = { -- Evil from the Seas
@@ -305,8 +304,9 @@ function MopQuestFixes.Load()
         [29794] = { -- None Left Behind
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29796},
             [questKeys.objectives] = {{{55999,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {29796},
+            [questKeys.nextQuestInChain] = 29798,
         },
         [29795] = { -- Stocking Stalks
             [questKeys.requiredLevel] = 5,
@@ -318,11 +318,13 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29793,30590},
+            [questKeys.nextQuestInChain] = 29797,
         },
         [29797] = { -- Medical Supplies
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.preQuestSingle] = {29796},
+            [questKeys.nextQuestInChain] = 29798,
         },
         [29798] = { -- An Ancient Evil
             [questKeys.requiredLevel] = 5,
@@ -333,8 +335,8 @@ function MopQuestFixes.Load()
         [29799] = { -- The Healing of Shen-zin Su
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {30767},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60770,60834,60877,60878},60770,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29800,
         },
         [29800] = { -- New Allies
             [questKeys.requiredLevel] = 5,
@@ -381,49 +383,48 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {73210},
         },
         [30039] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.MONK,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.MONK,
         },
         [30040] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.MAGE,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.MAGE,
         },
         [30041] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
         },
         [30042] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
         },
         [30043] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
         },
         [30044] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.SHAMAN,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
         },
         [30045] = { -- Much to Learn
-            [questKeys.requiredLevel] = 1,
-            [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.startedBy] = {nil,{210051}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
         },
         [30135] = { -- Beating the Odds
-            [questKeys.preQuestSingle] = {30134},
             [questKeys.nextQuestInChain] = 30136,
         },
         [30136] = { -- Empty Nests
@@ -455,15 +456,6 @@ function MopQuestFixes.Load()
         },
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
-        },
-        [30144] = { -- Flight Training: Ring Round-Up
-            [questKeys.preQuestSingle] = {30143},
-        },
-        [30145] = { -- Flight Training: Full Speed Ahead
-            [questKeys.preQuestSingle] = {30144},
-        },
-        [30187] = { -- Flight Training: In Due Course
-            [questKeys.preQuestSingle] = {30145},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
@@ -507,56 +499,32 @@ function MopQuestFixes.Load()
         [30590] = { -- Handle With Care
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {30589},
         },
         [30591] = { -- Preying on the Predators
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29792},
-        },
-        [30617] = { -- Roadside Assistance
-            [questKeys.preQuestSingle] = {30616},
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29798},
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [30881] = { -- Round 2: Clever Ashyo & Ken-Ken
-            [questKeys.preQuestSingle] = {30879},
-        },
-        [30882] = { -- Round 2: Kang Bramblestaff
-            [questKeys.preQuestSingle] = {30880},
-        },
-        [30883] = { -- Round 3: The Wrestler
-            [questKeys.preQuestSingle] = {30879},
-        },
-        [30885] = { -- Round 3: Master Boom Boom
-            [questKeys.preQuestSingle] = {30882},
-        },
-        [30902] = { -- Round 4: Master Windfur
-            [questKeys.preQuestSingle] = {30885},
-        },
-        [30907] = { -- Round 4: The P.U.G.
-            [questKeys.preQuestSingle] = {30883},
         },
         [30987] = { -- Joining the Alliance
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE,
             [questKeys.preQuestSingle] = {31450},
+            [questKeys.nextQuestInChain] = 30988,
         },
         [30988] = { -- The Alliance Way
+            [questKeys.startedBy] = {{29611}},
+            [questKeys.finishedBy] = {{61796}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE,
             [questKeys.preQuestSingle] = {30987},
-            [questKeys.startedBy] = {{29611}},
-            [questKeys.finishedBy] = {{61796}},
         },
         [30989] = { -- An Old Pit Fighter
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE,
-            [questKeys.preQuestSingle] = {30988},
             [questKeys.objectives] = {{{61796,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31012] = { -- Joining the Horde
@@ -565,17 +533,17 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31450},
         },
         [31013] = { -- The Horde Way
+            [questKeys.startedBy] = {{39605}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_HORDE,
-            [questKeys.preQuestSingle] = {31012},
-            [questKeys.startedBy] = {{39605}},
+            [questKeys.nextQuestInChain] = 31014,
         },
         [31014] = { -- Hellscream's Gift
+            [questKeys.finishedBy] = {{39605}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_HORDE,
-            [questKeys.preQuestSingle] = {31013},
-            [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {31013},
         },
         [31169] = { -- The Art of the Monk
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -586,13 +554,18 @@ function MopQuestFixes.Load()
         [31289] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
         },
+        [31312] = { -- The Old Map
+            [questKeys.nextQuestInChain] = 31313,
+        },
         [31313] = { -- Just A Folk Stor
             [questKeys.preQuestSingle] = {31312},
+            [questKeys.nextQuestInChain] = 31314,
         },
         [31314] = { -- Old Man Thistle's Treasure
             [questKeys.preQuestSingle] = {31313},
+            [questKeys.nextQuestInChain] = 31315,
         },
-        [31315] = { -- The Heartland Legacy
+         [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
         },
         [31367] = { -- The Lorewalkers
@@ -690,8 +663,8 @@ function MopQuestFixes.Load()
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
-            [questKeys.preQuestSingle] = {29800},
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 31012,
         },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -731,7 +704,6 @@ function MopQuestFixes.Load()
         },
         [31309] = { -- On The Mend
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31308},
             [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31316] = { -- Julia, The Pet Tamer
@@ -744,17 +716,14 @@ function MopQuestFixes.Load()
         },
         [31549] = { -- On The Mend
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31548},
             [questKeys.objectives] = {{{9980,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31550] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31785},
         },
         [31551] = { -- Got one!
             [questKeys.startedBy] = {{63075}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31822},
         },
         [31552] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63070}},
@@ -763,12 +732,10 @@ function MopQuestFixes.Load()
         [31553] = { -- On The Mend
             [questKeys.startedBy] = {{63070}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31552},
             [questKeys.objectives] = {{{10051,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31555] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31826},
         },
         [31556] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63077}},
@@ -777,17 +744,14 @@ function MopQuestFixes.Load()
         [31568] = { -- On The Mend
             [questKeys.startedBy] = {{63077}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31556},
             [questKeys.objectives] = {{{17485,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31569] = { -- Got one!
             [questKeys.startedBy] = {{63077}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31825},
         },
         [31570] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31830},
         },
         [31571] = { -- Learning the Ropes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -795,7 +759,6 @@ function MopQuestFixes.Load()
         [31572] = { -- On The Mend
             [questKeys.startedBy] = {{63061}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31571},
             [questKeys.objectives] = {{{9987,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31573] = { -- Learning the Ropes
@@ -805,13 +768,11 @@ function MopQuestFixes.Load()
         [31574] = { -- On The Mend
             [questKeys.startedBy] = {{63067}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31573},
             [questKeys.objectives] = {{{10050,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31575] = { -- Got one!
             [questKeys.startedBy] = {{63067}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31831},
         },
         [31576] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63073}},
@@ -820,13 +781,11 @@ function MopQuestFixes.Load()
         [31577] = { -- On The Mend
             [questKeys.startedBy] = {{63073}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31576},
             [questKeys.objectives] = {{{10055,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31578] = { -- Got one!
             [questKeys.startedBy] = {{63073}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31823},
         },
         [31579] = { -- Learning the Ropes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -834,13 +793,11 @@ function MopQuestFixes.Load()
         [31580] = { -- On The Mend
             [questKeys.startedBy] = {{63080}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31579},
             [questKeys.objectives] = {{{16185,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31581] = { -- Got one!
             [questKeys.startedBy] = {{63080}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31824},
         },
         [31582] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63083}},
@@ -849,12 +806,10 @@ function MopQuestFixes.Load()
         [31583] = { -- On The Mend
             [questKeys.startedBy] = {{63083}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31582},
             [questKeys.objectives] = {{{10085,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31584] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31832},
         },
         [31585] = { -- Learning the Ropes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -862,25 +817,21 @@ function MopQuestFixes.Load()
         [31586] = { -- On The Mend
             [questKeys.startedBy] = {{63086}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31585},
             [questKeys.objectives] = {{{45789,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31587] = { -- Got one!
             [questKeys.startedBy] = {{63086}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31828},
         },
         [31588] = { -- Learning the Ropes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31589] = { -- On The Mend
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31588},
             [questKeys.objectives] = {{{47764,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31590] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31827},
         },
         [31591] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63083}},
@@ -889,19 +840,16 @@ function MopQuestFixes.Load()
         [31592] = { -- On The Mend
             [questKeys.startedBy] = {{63083}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31591},
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31593] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31821},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
         [31785] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31309},
         },
         [31812] = { -- Zunta, The Pet Tamer
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -909,49 +857,38 @@ function MopQuestFixes.Load()
         },
         [31821] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31592},
         },
         [31822] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31549},
         },
         [31823] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31577},
         },
         [31824] = { -- Level Up!
             [questKeys.startedBy] = {{63080}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31580},
         },
         [31825] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31568},
         },
         [31826] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31553},
         },
         [31827] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31589},
         },
         [31828] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31586},
         },
         [31830] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31572},
         },
         [31831] = { -- Level Up!
             [questKeys.startedBy] = {{63067}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.preQuestSingle] = {31574},
         },
         [31832] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {31583},
         },
         [31876] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
@@ -970,9 +907,6 @@ function MopQuestFixes.Load()
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
-        },
-        [32807] = { -- The Warchief and the Darkness
-            [questKeys.preQuestSingle] = {32806},
         },
         [33336] = { -- The Essence of Time
             [questKeys.preQuestSingle] = {33161},
