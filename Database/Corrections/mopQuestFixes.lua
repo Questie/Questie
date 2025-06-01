@@ -844,8 +844,17 @@ function MopQuestFixes.Load()
         [31593] = { -- Got one!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [31693] = { -- Julia Stevens
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
+        },
+        [31780] = { -- Old MacDonald
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31781] = { -- Lindsay
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [31785] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -893,6 +902,15 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31832] = { -- Level Up!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31850] = { -- Eric Davidson
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31851] = { -- Bill Buckler
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31852] = { -- Steven Lisbane
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [31854] = { -- Analynn
@@ -959,6 +977,21 @@ function MopQuestFixes.Load()
         },
         [31908] = { -- Elena Flutterfly
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31910] = { -- David Kosse
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31911] = { -- Deiza Plaguehorn
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31912] = { -- Kortas Darkhammer
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31913] = { -- Everessa
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31914] = { -- Durin Darkhammer
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [31917] = { -- A Tamer's Homecoming
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

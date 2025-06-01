@@ -1742,6 +1742,21 @@ local questsRequiringTamingKalimdorAchievement = {
     [31909] = true, -- Grand Master Trixxy
 }
 
+local questsRequiringTamingEasternKingdomsAchievement = {
+    [31693] = true, -- Julia Stevens
+    [31780] = true, -- Old MacDonald
+    [31781] = true, -- Lindsay
+    [31850] = true, -- Eric Davidson
+    [31851] = true, -- Bill Buckler
+    [31852] = true, -- Steven Lisbane
+    [31910] = true, -- David Kosse
+    [31911] = true, -- Deiza Plaguehorn
+    [31912] = true, -- Kortas Darkhammer
+    [31913] = true, -- Everessa
+    [31914] = true, -- Durin Darkhammer
+    [31916] = true, -- Grand Master Lydia Accoste
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1764,6 +1779,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringTamingKalimdorAchievement[questId] then
         return select(13, GetAchievementInfo(6602)) -- Taming Kalimdor
+    end
+
+    if questsRequiringTamingEasternKingdomsAchievement[questId] then
+        return select(13, GetAchievementInfo(6603)) -- Taming Eastern Kingdoms
     end
 end
 
