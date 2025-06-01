@@ -928,6 +928,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {31897},
         },
+        [31981] = { -- Exceeding Expectations
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {31920},
+        },
+        [31982] = { -- Exceeding Expectations
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {31920},
+        },
         [31983] = { -- A Brief Reprieve
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {31928},
