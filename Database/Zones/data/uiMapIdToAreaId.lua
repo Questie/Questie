@@ -7,8 +7,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [113] = 0, -- Northrend
-    [1414] = 0, -- Kalimdor
-    [1415] = 0, -- Eastern Kingdoms
+    [1414] = 10073, -- Kalimdor - the continent map
+    [1415] = 10074, -- Eastern Kingdoms - the continent map
     [1945] = 0, -- Outland
     [246] = 3713, -- Hellfire Citadel
     [174] = 4720, -- The Lost Isles

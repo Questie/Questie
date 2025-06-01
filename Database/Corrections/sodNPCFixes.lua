@@ -935,8 +935,8 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.subName] = "Leatherworking Supplies",
         },
         [240654] = { -- Fizzlefuse
-            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.77,24.31}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{62.77,24.31}}},
         },
         [240978] = { -- Apple
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -953,12 +953,12 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.maxLevel] = 60,
         },
         [241032] = { -- Fish Barrel
-            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{63.08,26.35}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{63.08,26.35}}},
         },
         [241408] = { -- Scarlet Courier
-            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{99.02,89.07}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{99.02,89.07}}},
         },
         [241613] = { -- Kyndra Swiftarrow
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -1005,8 +1005,8 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {89567,89568,89574},
         },
         [242827] = { -- Captain Bloodcoin
-            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOM,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOM] = {{62.8376,26.2241}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{62.8376,26.2241}}},
             [npcKeys.npcFlags] = npcFlags.AUCTIONEER,
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.subName] = "Seafaring Auctioneer",

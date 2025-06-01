@@ -5,6 +5,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [0] = 1415, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
+    [10073] = 1414, -- Kalimdor - the continent map
+    [10074] = 1415, -- Eastern Kingdoms - the continent map
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
     [10002] = 243, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
