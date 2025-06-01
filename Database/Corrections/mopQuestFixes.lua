@@ -149,6 +149,7 @@ function MopQuestFixes.Load()
         [29678] = { -- Shu, the Spirit of Water
             [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29666,29677},
             [questKeys.finishedBy] = {{110000}},
             [questKeys.objectives] = {{{57476,nil,Questie.ICON_TYPE_EVENT},{55205,nil,Questie.ICON_TYPE_EVENT}}},
@@ -249,10 +250,11 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
         },
         [29784] = { -- Balanced Perspective
+            [questKeys.startedBy] = {{55583,65558}},
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29779,29780,29781},
-            [questKeys.startedBy] = {{55583,65558}},
         },
         [29785] = { -- Dafeng, the Spirit of Air
             [questKeys.requiredLevel] = 5,
@@ -314,6 +316,7 @@ function MopQuestFixes.Load()
         [29796] = { -- Urgent News
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29793,30590},
         },
         [29797] = { -- Medical Supplies
@@ -324,6 +327,7 @@ function MopQuestFixes.Load()
         [29798] = { -- An Ancient Evil
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29665,29794,29797},
         },
         [29799] = { -- The Healing of Shen-zin Su
@@ -497,6 +501,7 @@ function MopQuestFixes.Load()
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29795,30591},
         },
         [30590] = { -- Handle With Care
