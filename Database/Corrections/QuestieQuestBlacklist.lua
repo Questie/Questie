@@ -6185,7 +6185,12 @@ function QuestieQuestBlacklist:Load()
 
         ----- MoP -------------- MoP quests --------------- MoP -----
         ----- MoP ------------- starting here -------------- MoP -----
-
+        [31887] = true, -- Pet Battle Trainers: Kalimdor
+        [31888] = true, -- Pet Battle Trainers: Kalimdor
+        [31890] = true, -- Pet Battle Trainers: Kalimdor
+        [31892] = true, -- Battle Pet Trainers: Kalimdor
+        [31893] = true, -- Battle Pet Trainers: Kalimdor
+        [31940] = true, -- Battle Pet Trainers: Pandaria
         [31489] = true, -- Stranger in a Strange Land (Rogue only version of 31488. For those who know Wrathion already from the Fangs quest chain)
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
