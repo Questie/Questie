@@ -854,6 +854,12 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{66126,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31818] = { -- Zunta
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31819] = { -- Dagra the Fierce
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [31821] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -888,6 +894,18 @@ function MopQuestFixes.Load()
         },
         [31832] = { -- Level Up!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [31854] = { -- Analynn
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31862] = { -- Zonya the Sadist
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31871] = { -- Traitor Gluk
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31872] = { -- Merda Stronghoof
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31876] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
@@ -926,6 +944,21 @@ function MopQuestFixes.Load()
         [31903] = { -- Battle Pet Tamers: Eastern Kingdoms
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {31918},
+        },
+        [31904] = { -- Cassandra Kaboom
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31905] = { -- Grazzle the Great
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31906] = { -- Kela Grimtotem
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31907] = { -- Zoltan
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31908] = { -- Elena Flutterfly
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31917] = { -- A Tamer's Homecoming
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

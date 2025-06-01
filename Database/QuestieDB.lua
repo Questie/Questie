@@ -1727,6 +1727,21 @@ local questsRequiringNewbieAchievement = {
     [32009] = true, -- Varzok
 }
 
+local questsRequiringTamingKalimdorAchievement = {
+    [31818] = true, -- Zunta
+    [31819] = true, -- Dagra the Fierce
+    [31854] = true, -- Analynn
+    [31862] = true, -- Zonya the Sadist
+    [31871] = true, -- Traitor Gluk
+    [31872] = true, -- Merda Stronghoof
+    [31904] = true, -- Cassandra Kaboom
+    [31905] = true, -- Grazzle the Great
+    [31906] = true, -- Kela Grimtotem
+    [31907] = true, -- Zoltan
+    [31908] = true, -- Elena Flutterfly
+    [31909] = true, -- Grand Master Trixxy
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1745,6 +1760,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringNewbieAchievement[questId] then
         return select(13, GetAchievementInfo(7433)) -- Newbie
+    end
+
+    if questsRequiringTamingKalimdorAchievement[questId] then
+        return select(13, GetAchievementInfo(6602)) -- Taming Kalimdor
     end
 end
 
