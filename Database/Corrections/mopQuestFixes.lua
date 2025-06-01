@@ -664,7 +664,6 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.nextQuestInChain] = 31012,
         },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
