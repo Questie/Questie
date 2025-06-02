@@ -92,7 +92,11 @@ class QuestSpider(scrapy.Spider):
 
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
-            result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
+            spell_objective_match = re.search(r'spell=(\d+)', spell_objective)
+            if spell_objective_match is None:
+                print("Quest with ID {questId} has invalid spell objective. Skipping.".format(questId=result["questId"]))
+                return None
+            result["spellObjective"] = spell_objective_match.group(1)
 
         # example quest: https://www.wowhead.com/classic/quest=85611/paragons-of-power-the-haruspexs-tunic
         reputation_data = response.xpath('//tr[@data-icon-list-quantity]/td[a[contains(@href, "/faction=")]]')
