@@ -542,6 +542,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [148421] = "Chama Eterna",
 [148498] = "Altar de Suntara",
 [148499] = "Caixa do Félix",
+[148501] = "Poço Lunar Corrompido",
 [148504] = "Lápide Evidente",
 [148506] = "Artefato do Crepúsculo",
 [148512] = "Fonte de Essência",
