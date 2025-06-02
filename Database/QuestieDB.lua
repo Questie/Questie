@@ -864,6 +864,11 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- IsDoableVerbose is only called manually by the user.
 
     -- These are localized in the init function
+    if Questie.db.char.complete[questId] then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is already finished!") end
+        return false
+    end
+
     if QuestieCorrectionshiddenQuests[questId] then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is hidden automatically!") end
         return false
@@ -1000,6 +1005,35 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    -- Check if this quest is a breadcrumb
+    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
+    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+        -- Check the target quest of this breadcrumb
+        if Questie.db.char.complete[breadcrumbForQuestId] or QuestiePlayer.currentQuestlog[breadcrumbForQuestId] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Target of breadcrumb quest already completed or in the quest log for quest " .. questId) end
+            return false
+        end
+        -- Check if the other breadcrumbs are active
+        local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
+        for breadcrumbId, _ in pairs(otherBreadcrumbs) do
+            if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
+                return false
+            end
+        end
+    end
+
+    -- Check if this quest has active breadcrumbs
+    local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
+    if breadcrumbs then
+        for breadcrumbId, _ in pairs(breadcrumbs) do
+            if QuestiePlayer.currentQuestlog[breadcrumbId] then
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest in the quest log for quest " .. questId) end
+                return false
+            end
+        end
+    end
+
     return true
 end
 
@@ -1024,6 +1058,14 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- because IsDoable is often called in a loop through every
     -- quest in the DB in order to update icons, while
     -- IsDoableVerbose is only called manually by the user.
+
+    if Questie.db.char.complete[questId] then
+        if returnText and returnBrief then
+            return "Ineligible: Already complete"
+        elseif returnText then
+            return "Player has already completed quest " .. questId .. "!"
+        end
+    end
 
     if C_QuestLog.IsOnQuest(questId) == true then
         local msg = "Quest " .. questId .. " is active!"
@@ -1178,7 +1220,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
             local msg = "Follow up quests already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
-                return "Ineligible: Later quest completed"
+                return "Ineligible: Later quest completed or active " .. nextQuestInChain
             elseif returnText and not returnBrief then
                 return msg
             end
@@ -1254,16 +1296,46 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    if returnText then
-        if IsQuestFlaggedCompleted(questId) then
-            if returnBrief then
-                return "Already complete"
-            else
-                return "Player has already completed quest " .. questId .. "!"
+    -- Check if this quest is a breadcrumb
+    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
+    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+        -- Check the target quest of this breadcrumb
+        if Questie.db.char.complete[breadcrumbForQuestId] or QuestiePlayer.currentQuestlog[breadcrumbForQuestId] then
+            if returnText and returnBrief then
+                return "Ineligible: Breadcrumb target " .. breadcrumbForQuestId .. " active or finished"
+            elseif returnText and not returnBrief then
+                return "Target of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId
             end
-        else
-            return "Player is eligible for quest " .. questId .. "!"
         end
+        -- Check if the other breadcrumbs are active
+        local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
+        for breadcrumbId, _ in pairs(otherBreadcrumbs) do
+            if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
+                if returnText and returnBrief then
+                    return "Ineligible: Another breadcrumb is active: " .. breadcrumbId
+                elseif returnText and not returnBrief then
+                    return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId
+                end
+            end
+        end
+    end
+
+    -- Check if this quest has active breadcrumbs
+    local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
+    if breadcrumbs then
+        for breadcrumbId, _ in pairs(breadcrumbs) do
+            if QuestiePlayer.currentQuestlog[breadcrumbId] then
+                if returnText and returnBrief then
+                    return "Ineligible: A breadcrumb is active: " .. breadcrumbId
+                elseif returnText and not returnBrief then
+                    return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId
+                end
+            end
+        end
+    end
+
+    if returnText then
+        return "Player is eligible for quest " .. questId .. "!"
     else
         return ""
     end
@@ -1368,6 +1440,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public requiredMaxLevel Level
     ---@field public isComplete boolean
     ---@field public Color Color
+    ---@field public breacrumbForQuestId number
+    ---@field public breacrumbs QuestId[]
     local QO = {
         Id = questId
     }

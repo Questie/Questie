@@ -41,10 +41,12 @@ local questKeys = {
     ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
-    ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
-    ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
-    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
-    ['requiredMaxLevel'] = 30, -- int: quest is only available up to a certain level
+    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to
+    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest
+    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
+    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level
 }
 
 for questId, data in pairs(trinity) do
@@ -68,6 +70,8 @@ for questId, data in pairs(trinity) do
         data[questKeys.preQuestSingle] = quest[questKeys.preQuestSingle]
         data[questKeys.preQuestGroup] = quest[questKeys.preQuestGroup]
         data[questKeys.questFlags] = quest[questKeys.questFlags]
+        data[questKeys.childQuests] = quest[questKeys.childQuests]
+        data[questKeys.parentQuest] = quest[questKeys.parentQuest]
     end
 end
 
@@ -404,11 +408,22 @@ for questId, data in pairsByKeys(trinity) do
     else
         printString = printString .. "nil,"
     end
+    printString = printString .. (data[questKeys.breadcrumbForQuestId] or "nil")..","
+    if data[questKeys.breadcrumbs] then
+        printString = printString .. "{"
+        for i, questID in ipairs(data[questKeys.breadcrumbs]) do
+            printString = printString .. questID .. ","
+        end
+        printString = printString .. "},"
+    else
+        printString = printString .. "nil,"
+    end
+    printString = printString .. "},"
     printString = printString .. "nil,"
     printString = printString .. (data[questKeys.requiredSpell] or "nil") .. ","
     printString = printString .. (data[questKeys.requiredSpecialization] or "nil") .. ","
-    printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")
-    printString = printString .. "},"
+    printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")..","
+    -- TODO: replace ,} and ,nil} and so on with }
     file:write(printString .. "\n")
 end
 print("Done")
