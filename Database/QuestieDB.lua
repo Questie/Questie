@@ -1831,6 +1831,40 @@ local questsRequiringTamingEasternKingdomsAchievement = {
     [31916] = true, -- Grand Master Lydia Accoste
 }
 
+local questsRequiringTamingOutlandAchievement = {
+    [31922] = true, -- Nicki Tinytech
+    [31923] = true, -- Ras'an
+    [31924] = true, -- Narrok
+    [31925] = true, -- Morulu The Elder
+    [31926] = true, -- Grand Master Antari
+}
+
+local questsRequiringTamingNorthrendAchievement = {
+    [31931] = true, -- Beegle Blastfuse
+    [31932] = true, -- Nearly Headless Jacob
+    [31933] = true, -- Okrut Dragonwaste
+    [31934] = true, -- Gutretch
+    [31935] = true, -- Grand Master Payne
+}
+
+local questsRequiringTamingCataclysmAchievement = {
+    [31971] = true, -- Grand Master Obalis
+    [31972] = true, -- Brok
+    [31973] = true, -- Bordin Steadyfist
+    [31974] = true, -- Goz Banefury
+}
+
+local questsRequiringTamingPandariaAchievement = {
+    [31953] = true, -- Grand Master Hyuna
+    [31954] = true, -- Grand Master Mo'ruk
+    [31955] = true, -- Grand Master Nishi
+    [31956] = true, -- Grand Master Yon
+    [31957] = true, -- Grand Master Shu
+    [31958] = true, -- Grand Master Aki
+    [31991] = true, -- Grand Master Zusshi
+    [33222] = true, -- Little Tommy Newcomer
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1857,6 +1891,22 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringTamingEasternKingdomsAchievement[questId] then
         return select(13, GetAchievementInfo(6603)) -- Taming Eastern Kingdoms
+    end
+
+    if questsRequiringTamingOutlandAchievement[questId] then
+        return select(13, GetAchievementInfo(6604)) -- Taming Outland
+    end
+
+    if questsRequiringTamingNorthrendAchievement[questId] then
+        return select(13, GetAchievementInfo(6605)) -- Taming Northrend
+    end
+
+    if questsRequiringTamingCataclysmAchievement[questId] then
+        return select(13, GetAchievementInfo(7525)) -- Taming Cataclysm
+    end
+
+    if questsRequiringTamingPandariaAchievement[questId] then
+        return select(13, GetAchievementInfo(6606)) -- Taming Pandaria
     end
 end
 
