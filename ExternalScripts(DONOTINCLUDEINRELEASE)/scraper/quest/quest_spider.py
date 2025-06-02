@@ -44,6 +44,9 @@ class QuestSpider(scrapy.Spider):
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.find('$.extend(g_quests') >= 0 and script.endswith('//]]>'):
                 result["questId"] = re.search(r'g_quests\[(\d+)]', script).group(1)
                 name_match = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script)
+                if name_match is None:
+                    print("Quest with ID {questId} has no name. Skipping.".format(questId=result["questId"]))
+                    return None
                 result["name"] = name_match.group(1)
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
