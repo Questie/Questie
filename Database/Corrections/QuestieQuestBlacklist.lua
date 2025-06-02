@@ -6185,6 +6185,13 @@ function QuestieQuestBlacklist:Load()
 
         ----- MoP -------------- MoP quests --------------- MoP -----
         ----- MoP ------------- starting here -------------- MoP -----
+        [9754] = true, -- Not in the game
+        [9755] = true, -- Not in the game
+        [10215] = true, -- Not in the game
+        [11522] = true, -- Not in the game
+        [12445] = true, -- Not in the game
+        [12731] = true, -- Not in the game
+        [13541] = true, -- Not in the game
         [31533] = true, -- The Perfect Feathe (not in the game)
         [31887] = true, -- Pet Battle Trainers: Kalimdor
         [31888] = true, -- Pet Battle Trainers: Kalimdor
@@ -6195,6 +6202,7 @@ function QuestieQuestBlacklist:Load()
         [31489] = true, -- Stranger in a Strange Land (Rogue only version of 31488. For those who know Wrathion already from the Fangs quest chain)
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
+        [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
         [33121] = true, -- DEPRECATED The Celestial Tournament
         [33122] = true, -- DEPRECATED Great Job, You Won
 
