@@ -6185,6 +6185,8 @@ function QuestieQuestBlacklist:Load()
 
         ----- MoP -------------- MoP quests --------------- MoP -----
         ----- MoP ------------- starting here -------------- MoP -----
+        [29773] = true, -- Wugou, the Spirit of Earth (not in the game)
+        [31533] = true, -- The Perfect Feathe (not in the game)
         [31887] = true, -- Pet Battle Trainers: Kalimdor
         [31888] = true, -- Pet Battle Trainers: Kalimdor
         [31890] = true, -- Pet Battle Trainers: Kalimdor
