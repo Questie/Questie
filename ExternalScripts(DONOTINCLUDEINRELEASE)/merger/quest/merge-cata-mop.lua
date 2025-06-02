@@ -61,6 +61,7 @@ for questId, data in pairs(mop) do
     else
         local trinityQuest = mopTrinity[questId]
         if trinityQuest then
+            mop[questId][questKeys.requiredRaces] = trinityQuest[questKeys.requiredRaces] -- Always take Trinity requiredRaces, because it has actual data.
             -- iterate questKeys and take the values from mopTrinity if mop doesn't have them
             for _, index in pairs(questKeys) do
                 if not data[index] and trinityQuest[index] and index ~= questKeys.requiredRaces then
