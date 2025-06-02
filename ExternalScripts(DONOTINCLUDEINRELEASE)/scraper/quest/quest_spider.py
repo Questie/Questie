@@ -43,7 +43,8 @@ class QuestSpider(scrapy.Spider):
         for script in response.xpath('//script/text()').extract():
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.find('$.extend(g_quests') >= 0 and script.endswith('//]]>'):
                 result["questId"] = re.search(r'g_quests\[(\d+)]', script).group(1)
-                result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
+                name_match = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script)
+                result["name"] = name_match.group(1)
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
