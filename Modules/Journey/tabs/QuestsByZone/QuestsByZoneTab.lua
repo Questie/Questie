@@ -157,6 +157,10 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetList(relevantProfessions)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
+    elseif (key.value == QuestieJourney.questCategoryKeys.PET_BATTLES) then
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(QuestieDB.sortKeys.PET_BATTLE)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)

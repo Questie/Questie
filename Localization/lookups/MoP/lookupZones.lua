@@ -20,6 +20,7 @@ l10n.continentLookup = {
     [10] = "Class",
     [11] = "Professions",
     [12] = "Events",
+    [13] = "Pet Battle",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -4671,11 +4672,13 @@ l10n.zoneCategoryLookup = {
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
         --[-400] = "Love is in the Air", -- Needed before WotLK
-        [-394] = "Battle Pets",
         [-400] = "Proving Grounds",
         [-401] = "Children's Week",
         [-402] = "Harvest Festival",
         [-403] = "Hallow's End",
         [-404] = "Winter Veil",
+    },
+    [13] = {
+        [-394] = "Battle Pets",
     },
 }
