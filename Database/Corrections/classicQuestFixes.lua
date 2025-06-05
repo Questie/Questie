@@ -2713,6 +2713,87 @@ function QuestieQuestFixes:Load()
         [8044] = {
             [questKeys.name] = "The Rage of Mugamba",
         },
+        [8053] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8054] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8055] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8056] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8057] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8058] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8059] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8060] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8061] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8062] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8063] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8064] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8065] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8066] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8067] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8068] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8069] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8070] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8071] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8072] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8073] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8074] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8075] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8076] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8077] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8078] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8079] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [8105] = {
             [questKeys.specialFlags] = 0,
         },
@@ -2777,6 +2858,9 @@ function QuestieQuestFixes:Load()
         [8171] = {
             [questKeys.specialFlags] = 0,
         },
+        [8181] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [8183] = { -- The Heart of Hakkar
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -2807,8 +2891,35 @@ function QuestieQuestFixes:Load()
         [8192] = {
             [questKeys.requiredClasses] = classIDs.DRUID,
         },
+        [8195] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8196] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8201] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8227] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
+        },
+        [8238] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8239] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8240] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8243] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8246] = {
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [8250] = {
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
