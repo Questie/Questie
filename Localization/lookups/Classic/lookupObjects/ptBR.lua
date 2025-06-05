@@ -806,6 +806,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [176159] = "Braseiro da Malícia",
 [176160] = "Braseiro do Sofrimento",
 [176161] = "Braseiro do Ódio",
+[176184] = "Poço Lunar Corrompido de Jaedenar",
 [176188] = "Vela Ritual",
 [176189] = "Tartaruga Marinha Descarnada",
 [176190] = "Tartaruga Marinha Encalhada",
