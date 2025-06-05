@@ -1415,6 +1415,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [12898] = "Tercer trozo de reliquia",
 [12899] = "Cuarto trozo de reliquia",
 [12900] = "Crónicas de Villa Darrow",
+[12906] = "Agua de la Poza de la Luna purificada",
 [12907] = "Agua de la Poza de la Luna corrupta",
 [12922] = "Cantimplora vacía",
 [12925] = "Piel de serpiente de Arikara",
