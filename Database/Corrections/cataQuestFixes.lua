@@ -8601,9 +8601,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44996,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.startedBy] = {{44365}},
         },
-        [27100] = { -- Twilight Research
-            [questKeys.preQuestSingle] = {26247},
-        },
         [27103] = { -- Shards of the Felvine
             [questKeys.requiredSourceItems] = {18501},
         },
