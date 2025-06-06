@@ -34,40 +34,31 @@ jobs:
           sudo luarocks install busted
 
       - name: Run busted Unit Tests
-        run: |
-          busted -p ".test.lua" .
+        run: busted -p ".test.lua" .
 
       - name: Validate Era database
-        run: |
-          lua cli/validate-era.lua
+        run: lua cli/validate-era.lua
 
       - name: Validate SoD database
-        run: |
-          lua cli/validate-sod.lua
+        run: lua cli/validate-sod.lua
 
 #      - name: Validate TBC database
-#        run: |
-#          lua cli/validate-tbc.lua
+#        run: lua cli/validate-tbc.lua
 
       - name: Validate WotLK database
-        run: |
-          lua cli/validate-wotlk.lua
+        run: lua cli/validate-wotlk.lua
 
       - name: Validate Cata database
-        run: |
-          lua cli/validate-cata.lua
+        run: lua cli/validate-cata.lua
 
       - name: Validate MoP database
-        run: |
-          lua cli/validate-mop.lua
+        run: lua cli/validate-mop.lua
 
       - name: Validate Localized database
-        run: |
-          lua cli/validate-localization.lua
+        run: lua cli/validate-localization.lua
 
       - name: Run Luacheck
-        run: |
-            luacheck --no-color -q -- Database Localization Modules Questie.lua
+        run: luacheck --no-color -q -- Database Localization Modules Questie.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
