@@ -35,28 +35,7 @@ jobs:
 
       - name: Run Luacheck
         run: |
-          annotate() {
-            case "none" in
-              warning|error)
-              # Search for "<path>:<line>:<col>: <message>" lines in the output,
-              # trim whitespace, and reformat them to workflow commands.
-              awk -F':' -v level="none" '
-                { print $0 }
-
-                /^\s+.+?:[0-9]+:[0-9]+:/ {
-                gsub(/^\s+|\s+$/, "")
-                gsub(/^\s+/, "", $4)
-
-                printf "::%s file=%s,line=%s,col=%s::%s\n", level, $1, $2, $3, $4
-                }'
-                ;;
-              *)
-              cat
-              ;;
-            esac
-            }
-
-            luacheck --no-color -q -- Database Localization Modules Questie.lua | annotate
+            luacheck --no-color -q -- Database Localization Modules Questie.lua
 
       - name: Run busted Unit Tests
         run: |
