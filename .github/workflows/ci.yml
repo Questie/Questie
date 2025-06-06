@@ -19,7 +19,7 @@ on:
       - reopened
 
 jobs:
-  lua-check:
+  ci:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
@@ -28,247 +28,66 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install and run Luacheck
-        uses: nebularg/actions-luacheck@v1.1.2
-        with:
-          files: Database Localization Modules Questie.lua
-          args: "--no-color -q"
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  unit-tests:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
-
-      - name: Run Unit Tests
         run: |
-          luarocks install bit32
-          luarocks install busted
+          sudo apt-get install lua5.1 lua-check luarocks
+          sudo luarocks install bit32
+          sudo luarocks install busted
+
+      - name: Run Luacheck
+        run: |
+          annotate() {
+            case "none" in
+              warning|error)
+              # Search for "<path>:<line>:<col>: <message>" lines in the output,
+              # trim whitespace, and reformat them to workflow commands.
+              awk -F':' -v level="none" '
+                { print $0 }
+
+                /^\s+.+?:[0-9]+:[0-9]+:/ {
+                gsub(/^\s+|\s+$/, "")
+                gsub(/^\s+/, "", $4)
+
+                printf "::%s file=%s,line=%s,col=%s::%s\n", level, $1, $2, $3, $4
+                }'
+                ;;
+              *)
+              cat
+              ;;
+            esac
+            }
+
+            luacheck --no-color -q -- Database Localization Modules Questie.lua | annotate
+
+      - name: Run busted Unit Tests
+        run: |
           busted -p ".test.lua" .
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  validate-era-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4.2.2
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Era database
         run: |
-          luarocks install bit32
           lua cli/validate-era.lua
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  validate-sod-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4.2.2
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate SoD database
         run: |
-          luarocks install bit32
           lua cli/validate-sod.lua
 
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-#  validate-tbc-db:
-#    needs: lua-check
-#    runs-on: ubuntu-latest
-#    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-#
-#    steps:
-#      - name: Checkout project
-#        uses: actions/checkout@v4
-#
-#      - name: Install Lua
-#        uses: leafo/gh-actions-lua@v11.0.0
-#        with:
-#          luaVersion: "5.1"
-#
-#      - name: Install Luarocks
-#        uses: leafo/gh-actions-luarocks@v5.0.0
-#
 #      - name: Validate TBC database
 #        run: |
-#          luarocks install bit32
 #          lua cli/validate-tbc.lua
-#
-#      - name: Send CI failure to Discord
-#        uses: nebularg/actions-discord-webhook@v1.0.0
-#        with:
-#          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-#          status: ${{ job.status }}
-#        if: ${{ failure() }}
-
-  validate-wotlk-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate WotLK database
         run: |
-          luarocks install bit32
           lua cli/validate-wotlk.lua
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  validate-cata-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Cata database
         run: |
-          luarocks install bit32
           lua cli/validate-cata.lua
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  validate-mop-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate MoP database
         run: |
-          luarocks install bit32
           lua cli/validate-mop.lua
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
-
-  validate-localized-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v11.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v5.0.0
 
       - name: Validate Localized database
         run: |
-          luarocks install bit32
           lua cli/validate-localization.lua
 
       - name: Send CI failure to Discord
