@@ -1197,6 +1197,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10694] = "Vial lleno etiquetado como n.º 4",
 [10695] = "Caja de viales vacíos",
 [10699] = "Zarza de Yeh'kinya",
+[10712] = "Elixir de Cuely",
 [10714] = "Azsharita cristalizada",
 [10715] = "Mira de Kim'jael",
 [10717] = "Brújula de Kim'jael",
