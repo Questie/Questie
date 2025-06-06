@@ -1460,6 +1460,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [13542] = "Caja de demonio",
 [13545] = "Marisco",
 [13546] = "Panzasangre",
+[13562] = "Restos de Trey Forjaluz",
 [13585] = "Libro de los Recuerdos",
 [13626] = "Cabeza humana de Ras Murmuhielo",
 [13702] = "Apocalíseas",
