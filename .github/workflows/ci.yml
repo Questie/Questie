@@ -33,10 +33,6 @@ jobs:
           sudo luarocks install bit32
           sudo luarocks install busted
 
-      - name: Run Luacheck
-        run: |
-            luacheck --no-color -q -- Database Localization Modules Questie.lua
-
       - name: Run busted Unit Tests
         run: |
           busted -p ".test.lua" .
@@ -68,6 +64,10 @@ jobs:
       - name: Validate Localized database
         run: |
           lua cli/validate-localization.lua
+
+      - name: Run Luacheck
+        run: |
+            luacheck --no-color -q -- Database Localization Modules Questie.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
