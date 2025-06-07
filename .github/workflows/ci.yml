@@ -58,7 +58,7 @@ jobs:
         run: lua cli/validate-localization.lua
 
       - name: Run Luacheck
-        run: luacheck --no-color -q -- Database Localization Modules Questie.lua
+        run: luacheck -q -- Database Localization Modules Questie.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
