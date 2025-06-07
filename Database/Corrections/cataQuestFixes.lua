@@ -1189,8 +1189,17 @@ function CataQuestFixes.Load()
         [9623] = { -- Coming of Age
             [questKeys.zoneOrSort] = zoneIDs.AZUREMYST_ISLE,
         },
+        [9625] = { -- Elekks Are Serious Business
+            [questKeys.exclusiveTo] = {28559},
+            [questKeys.nextQuestInChain] = 9634,
+            [questKeys.breadcrumbForQuestId] = 9634,
+        },
         [9626] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
+        },
+        [9634] = { -- Alien Predators
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9625,28559},
         },
         [9672] = { -- The Bloodcurse Legacy
             [questKeys.exclusiveTo] = {9751},
@@ -12327,6 +12336,9 @@ function CataQuestFixes.Load()
         },
         [28559] = { -- Hero's Call: Bloodmyst Isle!
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.exclusiveTo] = {9625},
+            [questKeys.nextQuestInChain] = 9634,
+            [questKeys.breadcrumbForQuestId] = 9634,
         },
         [28560] = { -- Warchief's Command: Ghostlands!
             [questKeys.exclusiveTo] = {9144,9329},
