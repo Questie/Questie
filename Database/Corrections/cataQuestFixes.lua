@@ -1126,7 +1126,7 @@ function CataQuestFixes.Load()
         },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.startedBy] = {{16483}},
+            [questKeys.startedBy] = {{16502}},
         },
         [9294] = { -- Healing the Lake
             [questKeys.objectives] = {nil,{{181433,nil,Questie.ICON_TYPE_EVENT}}},
