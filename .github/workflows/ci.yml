@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: Install Lua
+        uses: actions/cache@v4
         run: |
           sudo apt-get install lua5.1 lua-check luarocks
           sudo luarocks install bit32
