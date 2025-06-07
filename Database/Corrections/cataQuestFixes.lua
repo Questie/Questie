@@ -14572,7 +14572,6 @@ function CataQuestFixes.Load()
         },
         [29642] = { -- Trouble at Auchindoun
             [questKeys.exclusiveTo] = {10094},
-            [questKeys.nextQuestInChain] = 29643,
         },
         [29649] = { -- How to Save a Life
             [questKeys.requiredSourceItems] = {23735},
