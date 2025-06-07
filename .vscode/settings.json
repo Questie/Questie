@@ -6150,6 +6150,7 @@
         "GetAutoQuestPopUp",
         "ImmersionFrame",
         "ImmersionContentFrame",
+        "C_Item",
     ],
     "Lua.workspace.ignoreDir": [
         "Database/Cata/**",
