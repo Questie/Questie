@@ -239,7 +239,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         AddLinkedParagraph(details, "npc", startedBy[1], l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
         AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
         -- TODO change to linked paragraph once item details page exists
-        AddParagraph(details, startedBy, 3, l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
+        AddLinkedParagraph(details, "item", startedBy[3], l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
     end
     if finishedBy then
         -- quest finishers
