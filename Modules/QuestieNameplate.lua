@@ -199,7 +199,7 @@ function _QuestieNameplate.GetFrame(guid)
 
     local iconScale = Questie.db.profile.nameplateScale
 
-    frame:SetFrameStrata("LOW")
+    frame:SetFrameStrata("HIGH")
     frame:SetFrameLevel(10)
     frame:SetWidth(16 * iconScale)
     frame:SetHeight(16 * iconScale)
