@@ -1015,7 +1015,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
         -- Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
-        for breadcrumbId, _ in pairs(otherBreadcrumbs) do
+        for _, breadcrumbId in ipairs(otherBreadcrumbs) do
             if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
                 return false
@@ -1026,7 +1026,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- Check if this quest has active breadcrumbs
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
-        for breadcrumbId, _ in pairs(breadcrumbs) do
+        for _, breadcrumbId in ipairs(breadcrumbs) do
             if QuestiePlayer.currentQuestlog[breadcrumbId] then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest in the quest log for quest " .. questId) end
                 return false
@@ -1309,7 +1309,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
         -- Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
-        for breadcrumbId, _ in pairs(otherBreadcrumbs) do
+        for _, breadcrumbId in ipairs(otherBreadcrumbs) do
             if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
                     return "Ineligible: Another breadcrumb is active: " .. breadcrumbId
@@ -1323,7 +1323,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check if this quest has active breadcrumbs
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
-        for breadcrumbId, _ in pairs(breadcrumbs) do
+        for _, breadcrumbId in ipairs(breadcrumbs) do
             if QuestiePlayer.currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
                     return "Ineligible: A breadcrumb is active: " .. breadcrumbId
