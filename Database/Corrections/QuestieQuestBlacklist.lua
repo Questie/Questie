@@ -5196,6 +5196,7 @@ function QuestieQuestBlacklist:Load()
         [11345] = true, -- Not in the game
         [11347] = true, -- Not in the game
         [11353] = true, -- Not in the game
+        [11419] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [11435] = true, -- Not in the game
         [11488] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11492] = Expansions.Current >= Expansions.Cata, -- Removed with cata

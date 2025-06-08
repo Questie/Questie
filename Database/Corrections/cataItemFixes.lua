@@ -313,6 +313,9 @@ function CataItemFixes.Load()
         [33833] = { -- Nazan's Riding Crop
             [itemKeys.npcDrops] = {17307},
         },
+        [34028] = { -- "Honorary Brewer" Hand Stamp
+            [itemKeys.npcDrops] = {},
+        },
         [34130] = { -- Recovery Diver's Potion
             [itemKeys.class] = itemClasses.QUEST,
         },
