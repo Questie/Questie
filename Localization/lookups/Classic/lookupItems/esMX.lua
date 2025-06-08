@@ -1618,6 +1618,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [17203] = "Lingote de sulfuron",
 [17306] = "Sangre de Soldado Pico Tormenta",
 [17309] = "Brazales discordantes",
+[17310] = "Aspecto de Neptulon",
 [17322] = "Ojo del Brasadivino",
 [17329] = "Mano de Lucifron",
 [17330] = "Mano de Sulfuron",
