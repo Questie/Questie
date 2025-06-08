@@ -749,7 +749,6 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
 end
 
 -- The "Advanced Search" tab
-local typeDropdown
 local searchBox
 local searchGroup
 local searchButton
@@ -832,7 +831,6 @@ end
 function QuestieSearchResults:SetSearch(detailType, id)
     _selected = id
     searchBox:SetText(tostring(id))
-    typeDropdown:SetValue(BY_ID)
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)
 end
