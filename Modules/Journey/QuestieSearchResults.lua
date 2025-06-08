@@ -653,7 +653,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             if stringsub(searchText, 1, 4) == "|cff" and itemName then
                 -- An itemLink was added to the searchBox
                 searchBox:SetText(itemName)
-                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, itemName, false)
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_NAME, itemName, false)
             elseif stringsub(searchText, 1, 4) == "|cff" then
                 -- This should be impossible to reach, since when you see an item link in the game the item should
                 -- be cached already which would be caught by the condition above
@@ -661,7 +661,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             else
                 -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");
-                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, text, false)
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, tonumber(text) and BY_ID or BY_NAME, text, false)
             end
             searchBox:ClearFocus()
         end
@@ -759,19 +759,10 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchGroup = AceGUI:Create("SimpleGroup");
     searchButton = AceGUI:Create("Button");
 
-    typeDropdown = AceGUI:Create("Dropdown");
-    typeDropdown:SetList({
-        [1] = l10n("Search By Name"),
-        [2] = l10n("Search By ID"),
-    });
-    typeDropdown:SetValue(Questie.db.profile.searchType);
-    typeDropdown:SetCallback("OnValueChanged", function(key, _)
-        Questie.db.profile.searchType = key.value;
-        searchGroup:ReleaseChildren();
-        searchBox:HighlightText();
-        searchBox:SetFocus();
-    end)
-    container:AddChild(typeDropdown);
+    searchButton:SetText(l10n("Search"));
+    searchButton:SetDisabled(true);
+    searchButton:SetCallback("OnClick", _GetSearchFunction(searchBox, searchGroup));
+    container:AddChild(searchButton);
 
     searchBox:SetFocus();
     searchBox:SetRelativeWidth(0.6);
@@ -791,11 +782,6 @@ function QuestieSearchResults:DrawSearchTab(container)
     end
     container:AddChild(searchBox);
 
-    searchButton:SetText(l10n("Search"));
-    searchButton:SetDisabled(true);
-    searchButton:SetCallback("OnClick", _GetSearchFunction(searchBox, searchGroup));
-    container:AddChild(searchButton);
-
     searchGroup:SetFullHeight(true);
     searchGroup:SetFullWidth(true);
     searchGroup:SetLayout("fill");
@@ -804,7 +790,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     if QuestieSearch.LastResult.query ~= "" then
         searchButton:SetDisabled(false)
         local text = string.trim(searchBox:GetText(), " \n\r\t[]")
-        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, text, true)
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, tonumber(text) and BY_ID or BY_NAME, text, true)
     end
 end
 
@@ -840,7 +826,6 @@ end
 function QuestieSearchResults:SetSearch(detailType, id)
     _selected = id
     searchBox:SetText(tostring(id))
-    Questie.db.profile.searchType = BY_ID
     typeDropdown:SetValue(BY_ID)
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)
