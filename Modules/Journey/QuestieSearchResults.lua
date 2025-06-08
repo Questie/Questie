@@ -477,6 +477,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             showHideButton.idsToShow = npcIdsWithSpawns
             f:AddChild(showHideButton)
         end
+        AddLinkedParagraph(f, "npc", npcIdsWithSpawns, l10n("NPCs dropping this item:"), QuestieDB.QueryNPCSingle)
     end
 
     local objectSpawnsHeading = AceGUI:Create("Heading")
@@ -507,6 +508,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             showHideButton.idsToShow = objectIdsWithSpawns
             f:AddChild(showHideButton)
         end
+        AddLinkedParagraph(f, "object", objectIdsWithSpawns, l10n("Objects containing this item:"), QuestieDB.QueryObjectSingle)
     end
 
     local vendorSpawnsHeading = AceGUI:Create("Heading")
@@ -538,6 +540,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             showHideButton.idsToShow = vendorIdsWithSpawns
             f:AddChild(showHideButton)
         end
+        AddLinkedParagraph(f, "npc", vendorIdsWithSpawns, l10n("Vendors selling this item:"), QuestieDB.QueryNPCSingle)
     end
 
     if Questie.db.profile.debugEnabled then
@@ -749,6 +752,7 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
 end
 
 -- The "Advanced Search" tab
+local typeDropdown
 local searchBox
 local searchGroup
 local searchButton
