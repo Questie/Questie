@@ -565,22 +565,28 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     else
         return
     end
+    local max=0
     for k,_ in pairs(QuestieSearch.LastResult[resultType]) do
-        local name = database(k, "name")
-        if name then
-            local complete = ''
-            if Questie.db.char.complete[k] and resultType == "quest" then
-                complete = Questie:Colorize("(" .. l10n("Complete") .. ")" , "green")
+        if k > max then max = k end
+    end
+    for k=1, max do
+        if QuestieSearch.LastResult[resultType][k] then
+            local name = database(k, "name")
+            if name then
+                local complete = ''
+                if Questie.db.char.complete[k] and resultType == "quest" then
+                    complete = Questie:Colorize("(" .. l10n("Complete") .. ")" , "green")
+                end
+                -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
+                local id = ''
+                if Questie.db.profile.enableTooltipsQuestID then
+                    id = ' (' .. k .. ')'
+                end
+                table.insert(results, {
+                    ["text"] = complete .. name .. id,
+                    ["value"] = tonumber(k)
+                })
             end
-            -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
-            local id = ''
-            if Questie.db.profile.enableTooltipsQuestID then
-                id = ' (' .. k .. ')'
-            end
-            table.insert(results, {
-                ["text"] = complete .. name .. id,
-                ["value"] = tonumber(k)
-            })
         end
     end
     local resultFrame = AceGUI:Create("SimpleGroup");
