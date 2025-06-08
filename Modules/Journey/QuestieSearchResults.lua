@@ -271,30 +271,124 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local id = 0
     local typeLabel = ""
     local query
+    local spawnObject
     if spawnType == "npc" then
         id = spawn
         typeLabel = "NPC"
-        query = QuestieDB.QueryNPCSingle
+        spawnObject = QuestieDB:GetNPC(id)
     elseif spawnType == "object" then
         id = -spawn
         typeLabel = "Object"
-        query = QuestieDB.QueryObjectSingle
+        spawnObject = QuestieDB:GetObject(id)
     end
 
-    header:SetText(query(spawn, "name"));
+    header:SetText(spawnObject.name);
     f:AddChild(header);
 
     QuestieJourneyUtils:Spacer(f);
 
-    local spawnID = AceGUI:Create("Label");
-    spawnID:SetText(typeLabel.." ID: "..spawn);
-    spawnID:SetFullWidth(true);
-    f:AddChild(spawnID);
+    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel).." ID", "yellow")..": "..spawn)
+    if spawnType == "npc" then
+        if spawnObject.subName then
+            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"), "yellow")..": "..spawnObject.subName)
+        end
+        local minLevel = spawnObject.minLevel
+        local maxLevel = spawnObject.maxLevel
+        local level
+        if minLevel == maxLevel then level = minLevel else level = minLevel.." - "..maxLevel end
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"), "yellow")..": "..level)
+        local minLevelHealth = spawnObject.minLevelHealth
+        local maxLevelHealth = spawnObject.maxLevelHealth
+        local health
+        if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth.." - "..maxLevelHealth end
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"), "yellow")..": "..health)
+        local friendlyTo = l10n("no faction")
+        if spawnObject.friendlyToFaction == "AH" then
+            friendlyTo = l10n("both factions")
+        elseif spawnObject.friendlyToFaction == "A" then
+            friendlyTo = l10n("Alliance")
+        elseif spawnObject.friendlyToFaction == "h" then
+            friendlyTo = l10n("Horde")
+        end
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"), "yellow")..": "..friendlyTo)
+    end
 
     QuestieJourneyUtils:Spacer(f);
 
+    -- Also Starts
+    if spawnObject.questStarts then
+        local startGroup = AceGUI:Create("InlineGroup");
+        startGroup:SetFullWidth(true);
+        startGroup:SetLayout("flow");
+        startGroup:SetTitle(l10n("Starts the following quests:"));
+        f:AddChild(startGroup);
+
+        local startQuests = {};
+        local counter = 1;
+        for _, v in pairs(spawnObject.questStarts) do
+            local quest = QuestieDB.GetQuest(v)
+            local frame = AceGUI:Create("InteractiveLabel")
+            frame:SetUserData("id", v)
+            frame:SetUserData("name", quest.name)
+            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
+
+            startQuests[counter] = {
+                frame = frame,
+                quest = quest
+            }
+            startGroup:AddChild(frame)
+            counter = counter + 1
+        end
+
+        if #startQuests == 0 then
+            local noquest = AceGUI:Create("Label");
+            noquest:SetText(l10n("No quests to list."));
+            noquest:SetFullWidth(true);
+            startGroup:AddChild(noquest);
+        end
+    end
+
+    -- Also ends
+    if spawnObject.questEnds then
+        local endGroup = AceGUI:Create("InlineGroup");
+        endGroup:SetFullWidth(true);
+        endGroup:SetLayout("flow");
+        endGroup:SetTitle(l10n("Ends the following quests:"));
+        f:AddChild(endGroup);
+
+        local endQuests = {};
+        local counter = 1;
+        for _, v in ipairs(spawnObject.questEnds) do
+            local quest = QuestieDB.GetQuest(v)
+            local frame = AceGUI:Create("InteractiveLabel")
+            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
+            frame:SetUserData("id", v)
+            frame:SetUserData("name", quest.name)
+            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
+            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+
+            endQuests[counter] = {
+                frame = frame,
+                quest = quest
+            }
+            endGroup:AddChild(frame)
+            counter = counter + 1
+        end
+
+        if #endQuests == 0 then
+            local noquest = AceGUI:Create("Label");
+            noquest:SetText(l10n("No quests to list."));
+            noquest:SetFullWidth(true);
+            endGroup:AddChild(noquest);
+        end
+    end
+
     local spawnZone = AceGUI:Create("Label");
-    local spawns = query(spawn, "spawns")
+    local spawns = spawnObject.spawns
 
     if spawns then
         f:AddChild(CreateShowHideButton(id))
@@ -329,89 +423,13 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         f:AddChild(spawnZone);
     end
 
-    -- Also Starts
-    local questStarts = query(spawn, "questStarts")
-    if questStarts then
-        local startGroup = AceGUI:Create("InlineGroup");
-        startGroup:SetFullWidth(true);
-        startGroup:SetLayout("flow");
-        startGroup:SetTitle(l10n("Starts the following quests:"));
-        f:AddChild(startGroup);
-
-        local startQuests = {};
-        local counter = 1;
-        for _, v in pairs(questStarts) do
-            local quest = QuestieDB.GetQuest(v)
-            local frame = AceGUI:Create("InteractiveLabel")
-            frame:SetUserData("id", v)
-            frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
-            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
-
-            startQuests[counter] = {
-                frame = frame,
-                quest = quest
-            }
-            startGroup:AddChild(frame)
-            counter = counter + 1
-        end
-
-        if #startQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(l10n("No quests to list."));
-            noquest:SetFullWidth(true);
-            startGroup:AddChild(noquest);
-        end
-    end
-
-    QuestieJourneyUtils:Spacer(f);
-
-    -- Also ends
-    local questEnds = query(spawn, "questEnds")
-    if questEnds then
-        local endGroup = AceGUI:Create("InlineGroup");
-        endGroup:SetFullWidth(true);
-        endGroup:SetLayout("flow");
-        endGroup:SetTitle(l10n("Ends the following quests:"));
-        f:AddChild(endGroup);
-
-        local endQuests = {};
-        local counter = 1;
-        for _, v in ipairs(questEnds) do
-            local quest = QuestieDB.GetQuest(v)
-            local frame = AceGUI:Create("InteractiveLabel")
-            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
-            frame:SetUserData("id", v)
-            frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
-
-            endQuests[counter] = {
-                frame = frame,
-                quest = quest
-            }
-            endGroup:AddChild(frame)
-            counter = counter + 1
-        end
-
-        if #endQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(l10n("No quests to list."));
-            noquest:SetFullWidth(true);
-            endGroup:AddChild(noquest);
-        end
-    end
-
     QuestieJourneyUtils:Spacer(f);
 
     if Questie.db.profile.debugEnabled then
         if spawnType == "npc" then
-            QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetNPC(spawn), QuestieDB.npcKeys))
+            QuestieJourneyUtils:AddLine(f, recurseTable(spawnObject, QuestieDB.npcKeys))
         elseif spawnType == "object" then
-            QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetObject(spawn), QuestieDB.objectKeys))
+            QuestieJourneyUtils:AddLine(f, recurseTable(spawnObject, QuestieDB.objectKeys))
         end
     end
 
