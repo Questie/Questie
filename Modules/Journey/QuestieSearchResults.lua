@@ -25,6 +25,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
+local abs = math.abs
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -56,14 +57,33 @@ end
 ---@param query function The function used to get link name from
 local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
     if lookupObject and #lookupObject > 0 then
-        QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header, "yellow"))
+        local group = AceGUI:Create("InlineGroup");
+        group:SetFullWidth(true);
+        group:SetLayout("flow");
+        group:SetTitle(header);
+        frame:AddChild(group);
+
         for _,id in pairs(lookupObject) do
-            id = math.abs(id)
-            -- QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
+            id = abs(id)
             local link = AceGUI:Create("InteractiveLabel")
-            link:SetText(query(id, "name").." ("..id..")");
+            local name = query(id, "name")
+            local text
+            if linkType == 'quest' then
+                text = QuestieLib:GetColoredQuestName(id,  true, true)
+            elseif linkType == 'npc' then
+                local lvl = query(id, 'maxLevel')
+                text = QuestieLib:PrintDifficultyColor(lvl, '['..lvl..'] '..name..' ('..id..')')
+            else
+                text = name.." ("..id..")"
+            end
+            link:SetText(text);
+            link:SetUserData("id", id)
+            link:SetUserData("type", linkType)
+            link:SetUserData("name", name)
             link:SetCallback("OnClick", function() QuestieSearchResults:SetSearch(linkType, id) end)
-            frame:AddChild(link);
+            link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+            group:AddChild(link);
         end
     end
 end
@@ -277,7 +297,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         typeLabel = "NPC"
         spawnObject = QuestieDB:GetNPC(id)
     elseif spawnType == "object" then
-        id = -spawn
+        id = abs(spawn)
         typeLabel = "Object"
         spawnObject = QuestieDB:GetObject(id)
     end
@@ -307,7 +327,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             friendlyTo = l10n("both factions")
         elseif spawnObject.friendlyToFaction == "A" then
             friendlyTo = l10n("Alliance")
-        elseif spawnObject.friendlyToFaction == "h" then
+        elseif spawnObject.friendlyToFaction == "H" then
             friendlyTo = l10n("Horde")
         end
         QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"), "yellow")..": "..friendlyTo)
@@ -317,74 +337,12 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     -- Also Starts
     if spawnObject.questStarts then
-        local startGroup = AceGUI:Create("InlineGroup");
-        startGroup:SetFullWidth(true);
-        startGroup:SetLayout("flow");
-        startGroup:SetTitle(l10n("Starts the following quests:"));
-        f:AddChild(startGroup);
-
-        local startQuests = {};
-        local counter = 1;
-        for _, v in pairs(spawnObject.questStarts) do
-            local quest = QuestieDB.GetQuest(v)
-            local frame = AceGUI:Create("InteractiveLabel")
-            frame:SetUserData("id", v)
-            frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
-            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
-
-            startQuests[counter] = {
-                frame = frame,
-                quest = quest
-            }
-            startGroup:AddChild(frame)
-            counter = counter + 1
-        end
-
-        if #startQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(l10n("No quests to list."));
-            noquest:SetFullWidth(true);
-            startGroup:AddChild(noquest);
-        end
+        AddLinkedParagraph(f, "quest", spawnObject.questStarts, l10n("Starts the following quests:"), QuestieDB.QueryQuestSingle)
     end
 
     -- Also ends
     if spawnObject.questEnds then
-        local endGroup = AceGUI:Create("InlineGroup");
-        endGroup:SetFullWidth(true);
-        endGroup:SetLayout("flow");
-        endGroup:SetTitle(l10n("Ends the following quests:"));
-        f:AddChild(endGroup);
-
-        local endQuests = {};
-        local counter = 1;
-        for _, v in ipairs(spawnObject.questEnds) do
-            local quest = QuestieDB.GetQuest(v)
-            local frame = AceGUI:Create("InteractiveLabel")
-            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
-            frame:SetUserData("id", v)
-            frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
-            frame:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
-            frame:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
-
-            endQuests[counter] = {
-                frame = frame,
-                quest = quest
-            }
-            endGroup:AddChild(frame)
-            counter = counter + 1
-        end
-
-        if #endQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(l10n("No quests to list."));
-            noquest:SetFullWidth(true);
-            endGroup:AddChild(noquest);
-        end
+        AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests:"), QuestieDB.QueryQuestSingle)
     end
 
     local spawnZone = AceGUI:Create("Label");

@@ -86,15 +86,33 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
         return
     end
 
-    local qid = self:GetUserData('id')
-    local quest = QuestieDB.GetQuest(tonumber(qid))
-    if quest then
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
-        GameTooltip:AddLine("[".. quest.level .."] ".. quest.name)
-        GameTooltip:AddLine("|cFFFFFFFF" .. QuestieJourneyUtils.CreateObjectiveText(quest.Description))
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
+    local id = tonumber(self:GetUserData('id'))
+    local type = self:GetUserData('type')
+    GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
+    if type == "quest" then
+        local quest = QuestieDB.GetQuest(id)
+        GameTooltip:AddLine("["..quest.level.."] "..quest.name.." ("..id..")")
+        if quest.Description and quest.Description ~= {} then
+            for _, line in pairs(quest.Description) do
+                for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
+                    GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
+                end
+            end
+        end
+    elseif type == "npc" then
+        local npc = QuestieDB:GetNPC(id)
+        GameTooltip:AddLine("[".. npc.minLevel .."] ".. npc.name .." (".. id ..")")
+        if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    "..npc.subName.."|r") end
+    elseif type == "object" then
+        local object = QuestieDB.QueryObjectSingle(id, "name")
+        GameTooltip:AddLine(object.." ("..id..")")
+    elseif type == "item" then
+        local item = QuestieDB.QueryItemSingle(id, "name")
+        GameTooltip:AddLine(item.." ("..id..")")
     end
+    GameTooltip:AddLine("\n"..l10n("Click to show"))
+    GameTooltip:SetFrameStrata("TOOLTIP")
+    GameTooltip:Show()
 end
 
 function QuestieJourneyUtils.HideJourneyTooltip()
@@ -112,6 +130,7 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
 
     label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false, true))
     label:SetUserData('id', questId)
+    label:SetUserData('type', 'quest')
     label:SetUserData('name', quest.name)
     label:SetCallback("OnClick", function()
         ItemRefTooltip:SetHyperlink("%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]")
