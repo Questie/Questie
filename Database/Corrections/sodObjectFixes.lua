@@ -552,6 +552,13 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.BURNING_STEPPES] = {{17,46}},
             },
         },
+        [518117] = { -- Skull
+            [objectKeys.name] = "Skull",
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [objectKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{39.5,27.96}},
+            },
+        },
         [525416] = {
             [objectKeys.name] = "Heart of Doom",
             [objectKeys.spawns] = {

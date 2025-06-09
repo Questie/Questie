@@ -278,6 +278,9 @@ function SeasonOfDiscovery:LoadItems()
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
         },
+        [237163] = { -- Ancient Hero's Skull
+            [itemKeys.objectDrops] = {518117},
+        },
         [238811] = { -- Juicy Apple
             [itemKeys.npcDrops] = {240998,240978},
         },
