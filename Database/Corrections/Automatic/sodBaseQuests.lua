@@ -10022,6 +10022,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the New Plague Samples on the Dark Summoners and Necromancers found throughout Eastern Plaguelands and observe the effects."},
             [questKeys.objectives] = {{{243630}}},
         },
+        [90107] = {
+            [questKeys.name] = "The Blade Reformed",
+            [questKeys.startedBy] = {{242125}},
+            [questKeys.finishedBy] = {{242125}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Stand back as Master Craftsman Omarion attempts to craft the Reforged Blade of the Ashbringer."},
+            [questKeys.objectives] = {{{241829}}},
+        },
         [90116] = {
             [questKeys.name] = "Holy Threads",
             [questKeys.startedBy] = {{240631}},
