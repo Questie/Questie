@@ -316,6 +316,9 @@ function SeasonOfDiscovery:LoadItems()
         [239764] = { -- Crimson Bladeleaf
             [itemKeys.objectDrops] = {528481},
         },
+        [240835] = { -- Crate of Moonglade Supplies
+            [itemKeys.objectDrops] = {529731},
+        },
         [240848] = { -- Nordrassil Detritus
             [itemKeys.objectDrops] = {529720},
         },
