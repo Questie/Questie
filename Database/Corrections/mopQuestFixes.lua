@@ -275,7 +275,7 @@ function MopQuestFixes.Load()
         },
         [29792] = { -- Bidden to Greatness
             [questKeys.requiredLevel] = 5,
-            [questKeys.objectives] = {nil,{{210965},{210964}}},
+            [questKeys.objectives] = {nil,{{210965,nil,Questie.ICON_TYPE_EVENT},{210964,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29793] = { -- Evil from the Seas
             [questKeys.requiredLevel] = 5,
