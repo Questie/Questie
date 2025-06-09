@@ -29,8 +29,9 @@ function MopNpcFixes.Load()
         [54567] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
-                    {55.46,34.65,phases.AYSA_CLOUDSINGER_IN_POOL},
+                    {55.46,34.65,phases.DRIVER_NOT_RESCUED},
                     {55.1,32.55,phases.AYSA_CLOUDSINGER_ON_LAND},
+                    {57.89,36.55,phases.AYSA_CLOUDSINGER_IN_CAVE},
                 }
             },
         },
