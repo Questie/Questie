@@ -630,6 +630,13 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{39.93,80.71},{40.55,81.42},{41.53,80.29},{40.45,78.64},{39.91,78.81}}},
             [objectKeys.zoneID] = zoneIDs.AZSHARA,
         },
+        [518117] = { -- Fallen World Tree Branch
+            [objectKeys.name] = "Fallen World Tree Branch",
+            [objectKeys.zoneID] = zoneIDs.KALIMDOR,
+            [objectKeys.spawns] = {
+                [zoneIDs.KALIMDOR] = {{55.9,30.5}},
+            },
+        },
         [529383] = { -- Unattended Pile of Mail, SoD New Avalon Mailbox
             [objectKeys.name] = "Unattended Pile of Mail",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
