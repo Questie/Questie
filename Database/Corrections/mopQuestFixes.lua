@@ -252,6 +252,7 @@ function MopQuestFixes.Load()
         },
         [29786] = { -- Battle for the Skies
             [questKeys.requiredLevel] = 5,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the Firework Launcher"),0,{{"monster",64507}}}},
         },
         [29787] = { -- Worthy of Passing
             [questKeys.requiredLevel] = 5,

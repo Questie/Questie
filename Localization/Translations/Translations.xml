@@ -4,6 +4,7 @@
     <Script file="ExtraObjectives\SeasonObjectives.lua"/>
     <Script file="ExtraObjectives\TbcObjectives.lua"/>
     <Script file="ExtraObjectives\WotlkObjectives.lua"/>
+    <Script file="ExtraObjectives\MopObjectives.lua"/>
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
