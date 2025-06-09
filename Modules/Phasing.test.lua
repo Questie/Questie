@@ -977,4 +977,70 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.THORDUN_IN_KEEP))
         end)
     end)
+
+    describe("Aysa Cloudsinger", function()
+        it("should return true for pool phase when 29424 and 29419 are not complete and not in the quest log", function()
+            Questie.db.char.complete[29424] = false
+            Questie.db.char.complete[29419] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_IN_POOL))
+        end)
+
+        it("should return true for pool phase when 29424 and 29419 are in quest log but not complete", function()
+            Questie.db.char.complete[29424] = false
+            Questie.db.char.complete[29419] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29424]={isComplete=0}, [29419]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_IN_POOL))
+        end)
+
+        it("should return false for pool phase when 29424 is complete", function()
+            Questie.db.char.complete[29424] = true
+            Questie.db.char.complete[29419] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_IN_POOL))
+        end)
+
+        it("should return false for pool phase when 29419 is complete", function()
+            Questie.db.char.complete[29424] = false
+            Questie.db.char.complete[29419] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_IN_POOL))
+        end)
+
+        it("should return false for pool phase when 29424 and 29419 are in the quest log and complete", function()
+            Questie.db.char.complete[29424] = true
+            Questie.db.char.complete[29419] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29424]={isComplete=1}, [29419]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_IN_POOL))
+        end)
+
+        it("should return true for land phase when 29424 is complete", function()
+            Questie.db.char.complete[29424] = true
+            Questie.db.char.complete[29419] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_ON_LAND))
+        end)
+
+        it("should return true for land phase when 29419 is complete", function()
+            Questie.db.char.complete[29424] = false
+            Questie.db.char.complete[29419] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_ON_LAND))
+        end)
+
+        it("should return true for land phase when 29424 and 29419 are in the quest log and complete", function()
+            Questie.db.char.complete[29424] = true
+            Questie.db.char.complete[29419] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29424]={isComplete=1}, [29419]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AYSA_CLOUDSINGER_ON_LAND))
+        end)
+    end)
 end)

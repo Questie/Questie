@@ -251,6 +251,8 @@ local phases = {
     AYSA_CAVE = 1179,
     SKYFIRE_STORMWIND = 1180,
     SKYFIRE_JADE_FOREST = 1181,
+    AYSA_CLOUDSINGER_IN_POOL = 1182,
+    AYSA_CLOUDSINGER_ON_LAND = 1183,
 }
 Phasing.phases = phases
 
@@ -1061,6 +1063,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SKYFIRE_JADE_FOREST then
         return complete[29548] or (questLog[29548] and questLog[29548].isComplete == 1) or false
+    end
+
+    if phase == phases.AYSA_CLOUDSINGER_IN_POOL then
+        return (not complete[29424]) and (not complete[29419]) and (not questLog[29424] or questLog[29424].isComplete == 0) and (not questLog[29419] or questLog[29419].isComplete == 0) or false
+    end
+
+    if phase == phases.AYSA_CLOUDSINGER_ON_LAND then
+        return complete[29424] or (questLog[29424] and questLog[29424].isComplete == 1) or complete[29419] or (questLog[29419] and questLog[29419].isComplete == 1) or false
     end
 
     return false

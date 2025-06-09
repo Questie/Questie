@@ -26,6 +26,14 @@ function MopNpcFixes.Load()
         [54135] = { -- Master Li Fei
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{38.81,25.51}}},
         },
+        [54567] = { -- Aysa Cloudsinger
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_WANDERING_ISLE] = {
+                    {55.46,34.65,phases.AYSA_CLOUDSINGER_IN_POOL},
+                    {55.1,32.55,phases.AYSA_CLOUDSINGER_ON_LAND},
+                }
+            },
+        },
         [54631] = { -- Living Air
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{48.02,31.39}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
