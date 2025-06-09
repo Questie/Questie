@@ -26,6 +26,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Bring the Injured Sailor to Delora Lionheart"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Bringe den verletzten Matrosen zu Delora Löwenherz",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do

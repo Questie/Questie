@@ -286,6 +286,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55999,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29796},
             [questKeys.nextQuestInChain] = 29798,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Bring the Injured Sailor to Delora Lionheart"),0,{{"monster",55944}}}},
         },
         [29795] = { -- Stocking Stalks
             [questKeys.requiredLevel] = 5,
