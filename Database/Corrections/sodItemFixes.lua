@@ -240,7 +240,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [234006] = { -- Monstrous Silithid Chitin
-            [itemKeys.npcDrops] = {11698,11724,11727,13136,15240,15286,15288,15341,15348,234798},
+            [itemKeys.npcDrops] = {11698,11722,11724,11727,11729,13136,15240,15286,15288,15341,15348,234798},
         },
         [234007] = { -- Spiked Silithid Chitin
             [itemKeys.npcDrops] = {11698,11722,11723,11724,11727,13136,15230,15233,15235,15236,15240,15318,15319,15320,15323,15324,15325,15327,15336,234798},
