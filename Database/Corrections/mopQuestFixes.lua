@@ -90,6 +90,11 @@ function MopQuestFixes.Load()
         [29548] = { -- The Mission
             [questKeys.objectives] = {{{66292,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [29552] = { -- Critical Condition
+            [questKeys.preQuestGroup] = {31736,31737},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{61492,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29576] = { -- An Air of Worry
             [questKeys.nextQuestInChain] = 29578,
             [questKeys.breadcrumbForQuestId] = 29578,
@@ -377,6 +382,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {nil,{210051}},
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+        },
+        [30069] = { -- No Plan Survives Contact with the Enemy
+            [questKeys.preQuestSingle] = {31733},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
@@ -677,6 +685,30 @@ function MopQuestFixes.Load()
         },
         [31732] = { -- Unleash Hell
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",66297}}}},
+        },
+        [31733] = { -- Touching Ground
+            [questKeys.objectives] = {nil,{{215682}}},
+        },
+        [31734] = { -- Welcome Wagons
+            [questKeys.preQuestSingle] = {31733},
+        },
+        [31735] = { -- The Right Tool For The Job
+            [questKeys.preQuestGroup] = {30069,31734},
+            [questKeys.objectives] = {nil,{{215390},{215390}},nil,nil,{{{66396},66396,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [31736] = { -- Envoy of the Alliance
+            [questKeys.preQuestSingle] = {31735},
+            [questKeys.objectives] = {{{65910,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [31737] = { -- The Cost of War
+            [questKeys.preQuestSingle] = {31735},
+        },
+        [31738] = { -- Pillaging Peons
+            [questKeys.preQuestGroup] = {31736,31737},
+        },
+        [31739] = { -- The Cost of War
+            [questKeys.preQuestSingle] = {31737},
+            [questKeys.objectives] = {{{215133}}},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},

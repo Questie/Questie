@@ -35,6 +35,23 @@ function MopNpcFixes.Load()
                 }
             },
         },
+        [54616] = { -- Sully "The Pickle" McLeary
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {43.62,90.68,phases.SULLY_BELOW_SKYFIRE},
+                    --{51.59,48.34,phases.SHANG_XI_TEMPLE_SOUTH},
+                },
+            },
+        },
+        [54617] = { -- Rell Nightwind
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {45.17,94.98,phases.RELL_ON_BARRELS},
+                    {46.47,96.3,phases.RELL_ON_DOCKS},
+                    {46.47,96.41,phases.RELL_ON_DOCKS_2},
+                },
+            },
+        },
         [54631] = { -- Living Air
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{48.02,31.39}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
@@ -441,6 +458,15 @@ function MopNpcFixes.Load()
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [64596] = { -- Teng Applebloom
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {46.22,84.68,phases.TENG_VILLAGE},
+                    --{46.47,96.3,phases.RELL_ON_DOCKS},
+                    --{46.47,96.41,phases.RELL_ON_DOCKS_2},
+                },
+            },
         },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
