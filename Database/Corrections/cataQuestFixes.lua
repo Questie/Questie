@@ -8184,6 +8184,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28786,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 375}}}},
         },
+        [26922] = { -- The Endless Flow
+            [questKeys.objectives] = {{{44329}},{{204966}}},
+        },
         [26924] = { -- Scholomancer (Horde)
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestGroup] = {26921,26923},
