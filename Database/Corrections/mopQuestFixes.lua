@@ -490,6 +490,7 @@ function MopQuestFixes.Load()
         [31013] = { -- The Horde Way
             [questKeys.startedBy] = {{39605}},
             [questKeys.requiredLevel] = 5,
+            [questKeys.objectives] = {{{62087,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 31014,
         },
         [31014] = { -- Hellscream's Gift
