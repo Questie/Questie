@@ -146,6 +146,18 @@ local zoneSectionLocales = {
         ["zhCN"] = "地下城",
         ["zhTW"] = "副本",
     },
+    ["Unknown Zone"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Unbekannte Zone",
+        ["esES"] = "Zona desconocida",
+        ["esMX"] = "Zona desconocida",
+        ["frFR"] = "Zone inconnue",
+        ["koKR"] = "알 수 없는 지역",
+        ["ptBR"] = "Zona desconhecida",
+        ["ruRU"] = "Неизвестная зона",
+        ["zhCN"] = "未知区域",
+        ["zhTW"] = "未知區域",
+    },
 }
 
 for k, v in pairs(zoneSectionLocales) do
