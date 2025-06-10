@@ -1225,6 +1225,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11127] = "Mercancías extraviadas",
 [11129] = "Esencia de los elementos",
 [11131] = "Muestra de pared de colmena",
+[11132] = "Vial de raspadura sin usar",
 [11142] = "Churumbele roto",
 [11143] = "Engranaje",
 [11146] = "Churumbele roto y maltrecho",
