@@ -62,6 +62,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57779,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29423] = { -- The Passion of Shen-zin Su
+            [questKeys.startedBy] = {{54787,54135}},
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {{{54786,nil,Questie.ICON_TYPE_EVENT}}},
         },
