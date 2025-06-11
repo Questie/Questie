@@ -51,6 +51,13 @@ for objId, data in pairs(cata) do
     end
 end
 
+-- add wowhead objects that are not in mop
+for objId, data in pairs(wowhead) do
+    if not mop[objId] then
+        mop[objId] = data
+    end
+end
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
