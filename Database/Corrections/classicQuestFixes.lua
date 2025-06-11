@@ -1019,7 +1019,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [1919] = { -- Report to Jennea
-            [questKeys.startedBy] = {{328,7312}},
+            [questKeys.startedBy] = {{328,1228,7312}},
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
