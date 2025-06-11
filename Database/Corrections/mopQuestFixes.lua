@@ -724,7 +724,7 @@ function MopQuestFixes.Load()
         },
         [31739] = { -- The Cost of War
             [questKeys.preQuestSingle] = {31737},
-            [questKeys.objectives] = {{{215133}}},
+            [questKeys.objectives] = {nil,{{215133}}},
         },
         [31743] = { -- Smoke Before Fire
             [questKeys.objectives] = {nil,{{215275,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{66279},66279,nil,Questie.ICON_TYPE_EVENT},{{66277},66277,nil,Questie.ICON_TYPE_EVENT},{{66278},66278,nil,Questie.ICON_TYPE_EVENT}}},
