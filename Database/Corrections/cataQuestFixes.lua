@@ -1149,6 +1149,10 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{16818}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [9340] = { -- The Great Fissure
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9498,9499},
+        },
         [9365] = { -- A Thief's Reward
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -1161,6 +1165,12 @@ function CataQuestFixes.Load()
         },
         [9455] = { -- Strange Findings
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9498] = { -- Falcon Watch
+            [questKeys.breadcrumbForQuestId] = 9340,
+        },
+        [9499] = { -- Falcon Watch
+            [questKeys.breadcrumbForQuestId] = 9340,
         },
         [9514] = { -- Rune Covered Tablet
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
