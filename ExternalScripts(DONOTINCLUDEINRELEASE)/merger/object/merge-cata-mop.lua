@@ -1,6 +1,7 @@
 local cata = require('cataObjectDB')
 local mop = require('mopObjectDB')
 local mopTrinity = require('mopObjectDB-trinity')
+local wowhead = require('wowheadObjectDB')
 
 local objectKeys = {
     ['name'] = 1, -- string
@@ -21,13 +22,23 @@ for objId, data in pairs(mop) do
         if trinityObject then
             -- iterate objectKeys and take the values from mopTrinity if mop doesn't have them
             for _, index in pairs(objectKeys) do
-                if not data[index] and trinityObject[index] then
+                if ((not data[index]) or data[index] == "") and trinityObject[index] and trinityObject[index] ~= "" then
                     mop[objId][index] = trinityObject[index]
                 end
             end
 
             if data[objectKeys.name] == "unk name" then
                 mop[objId][objectKeys.name] = trinityObject[objectKeys.name]
+            end
+        end
+
+        local wowheadObject = wowhead[objId]
+        if wowheadObject then
+            -- iterate objectKeys and take the values from wowhead if mop doesn't have them
+            for _, index in pairs(objectKeys) do
+                if ((not data[index]) or data[index] == "") and wowheadObject[index] and wowheadObject[index] ~= "" then
+                    mop[objId][index] = wowheadObject[index]
+                end
             end
         end
     end
