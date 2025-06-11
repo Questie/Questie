@@ -322,6 +322,9 @@ function CataItemFixes.Load()
         [38567] = { -- Maraudine Prisoner Manifest
             [itemKeys.startQuest] = 14330,
         },
+        [38575] = { -- Shiny Treasures
+            [itemKeys.npcDrops] = {},
+        },
         [39684] = { -- Hair Trigger
             [itemKeys.npcDrops] = {},
         },
