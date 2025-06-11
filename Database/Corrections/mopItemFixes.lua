@@ -49,5 +49,8 @@ function MopItemFixes.Load()
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [89603] = { -- Encoded Captain's Log
+            [itemKeys.npcDrops] = {66148},
+        },
     }
 end
