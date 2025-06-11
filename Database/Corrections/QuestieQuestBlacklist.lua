@@ -5751,8 +5751,10 @@ function QuestieQuestBlacklist:Load()
         [29485] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29507
         [29532] = true, -- Not in the game
         [29533] = true, -- Not in the game
+        [29534] = true, -- Not in the game
         [29544] = true, -- Not in the game
         [29545] = true, -- Not in the game
+        [29554] = true, -- Not in the game
         [29592] = true, -- Hidden quest
         [29597] = true, -- Not in the game
         [29601] = Expansions.Current >= Expansions.Cata, -- Not in the game
@@ -5767,6 +5769,7 @@ function QuestieQuestBlacklist:Load()
         [29773] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30110] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [30111] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [30173] = true, -- Not in the game
         [30454] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30455] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30537] = true, -- Not in the game
@@ -5795,8 +5798,10 @@ function QuestieQuestBlacklist:Load()
         [30560] = true, -- Hidden quest
         [30561] = true, -- Hidden quest
         [30562] = true, -- Hidden quest
+        [30759] = true, -- Not in the game
         [30817] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [30818] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [30934] = true, -- Not in the game
         [32396] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
@@ -6203,6 +6208,7 @@ function QuestieQuestBlacklist:Load()
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
+        [32482] = true, -- Test Your Chicken Guardian [PH]
         [33121] = true, -- DEPRECATED The Celestial Tournament
         [33122] = true, -- DEPRECATED Great Job, You Won
 
