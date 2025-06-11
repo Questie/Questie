@@ -1126,6 +1126,10 @@ function CataItemFixes.Load()
         [65734] = { -- Twilight Documents
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [67419] = { -- Salvaged Metal
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {182937,182938},
+        },
         [68638] = { -- Frostsaber Cub
             [itemKeys.npcDrops] = {51681},
         },
