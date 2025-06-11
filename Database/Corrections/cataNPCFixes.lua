@@ -1968,6 +1968,9 @@ function CataNpcFixes.Load()
         [20201] = { -- Sa'at
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{49.29,6.47},{-1,-1}}},
         },
+        [20678] = { -- Akoru the Firecaller
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{15.59,58.75}}},
+        },
         [20735] = { -- Archmage Lan'dalock
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{57.29,66.71}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
