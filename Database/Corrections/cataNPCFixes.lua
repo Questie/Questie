@@ -1672,6 +1672,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.SILVERMOON_CITY] = {{69.84,42.97}},
             },
         },
+        [16915] = { -- Foreman Razelcraz
+            [npcKeys.waypoints] = {},
+        },
         [17082] = { -- Rifleman Torrig
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{54.48,32.94}}},
         },
@@ -1929,6 +1932,12 @@ function CataNpcFixes.Load()
         },
         [19220] = { -- Pathaleon the Calculator
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR_CALCULATION_CHAMBER] = {{27.39,60.62}},[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
+        },
+        [19255] = { -- General Krakork
+            [npcKeys.waypoints] = {},
+        },
+        [19256] = { -- Sergeant Shatterskull
+            [npcKeys.waypoints] = {},
         },
         [19428] = { -- Cobalt Serpent
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.46,67.08}},[zoneIDs.SETHEKK_HALLS] = {{48.97,94.83},{52.1,85.87},{-1,-1}}},
