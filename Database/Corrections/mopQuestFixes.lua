@@ -787,6 +787,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{63194,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31853] = { -- All Aboard!
+            [questKeys.objectives] = {},
+        },
         [31854] = { -- Analynn
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{66136,nil,Questie.ICON_TYPE_PET_BATTLE}}},
