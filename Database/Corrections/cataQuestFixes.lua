@@ -1159,6 +1159,9 @@ function CataQuestFixes.Load()
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE - raceIDs.DRAENEI,
         },
+        [9407] = { -- Through the Dark Portal
+            [questKeys.breadcrumbForQuestId] = 10120,
+        },
         [9436] = { -- Bloodscalp Insight
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26280,26321},
@@ -1313,6 +1316,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15283}},
             [questKeys.zoneOrSort] = 6455,
+        },
+        [10120] = { -- Arrival in Outland
+            [questKeys.breadcrumbs] = {9407,28705},
         },
         [10186] = { -- You're Hired!
             [questKeys.preQuestSingle] = {},
@@ -12753,6 +12759,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 67,
             [questKeys.zoneOrSort] = zoneIDs.BLASTED_LANDS,
             [questKeys.nextQuestInChain] = 10120,
+            [questKeys.breadcrumbForQuestId] = 10120,
         },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
