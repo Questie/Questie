@@ -1353,6 +1353,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 1941,
             [questKeys.nextQuestInChain] = 0,
         },
+        [10291] = { -- Report to Nazgrel
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [10296] = { -- The Black Morass
             [questKeys.zoneOrSort] = 1941,
             [questKeys.preQuestSingle] = {},
