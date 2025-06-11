@@ -179,4 +179,61 @@ function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
     end
 end
 
+function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
+    print("\n\27[36mSearching for invalid quest objectives...\27[0m")
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        local objectives = questData[questKeys.objectives]
+        if objectives then
+            for _, npcObjective in pairs(objectives[1] or {}) do
+                local npcId = npcObjective[1]
+                if not npcs[npcId] then
+                    if not invalidQuests[questId] then
+                        invalidQuests[questId] = {}
+                    end
+                    table.insert(invalidQuests[questId], "NPC objective " .. npcId .. " is missing in the database")
+                end
+            end
+            for _, objectObjective in pairs(objectives[2] or {}) do
+                local objectId = objectObjective[1]
+                if not objects[objectId] then
+                    if not invalidQuests[questId] then
+                        invalidQuests[questId] = {}
+                    end
+                    table.insert(invalidQuests[questId], "Object objective " .. objectId .. " is missing in the database")
+                end
+            end
+            for _, itemObjective in pairs(objectives[3] or {}) do
+                local itemId = itemObjective[1]
+                if not items[itemId] then
+                    if not invalidQuests[questId] then
+                        invalidQuests[questId] = {}
+                    end
+                    table.insert(invalidQuests[questId], "Item objective " .. itemId .. " is missing in the database")
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid objectives:\27[0m")
+        for questId, reasons in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid objectives\27[0m")
+        return nil
+    end
+end
+
 return Validators
