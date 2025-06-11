@@ -1387,7 +1387,8 @@ function CataQuestFixes.Load()
             [questKeys.requiredMinRep] = {932,0},
         },
         [10450] = { -- Bonechewer Blood
-            [questKeys.preQuestSingle] = {10291,10875},
+            --[questKeys.preQuestSingle] = {10291,10875}, -- those are probably breadcrumbs
+            [questKeys.preQuestSingle] = {},
         },
         [10460] = { -- Defender's Pledge
             [questKeys.startedBy] = {{19935}},
