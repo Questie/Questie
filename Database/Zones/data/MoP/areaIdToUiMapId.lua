@@ -11,6 +11,8 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [4131] = 349, -- Magisters' Terrace - Dungeon (override wrong ID)
     [4277] = 159, -- Azjol-Nerub (override wrong ID)
     [4416] = 154, -- Gundrak (override wrong ID)
+    [4560] = 126, -- The Underbelly - Sub zone of Dalaran (override wrong ID)
+
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
     [10002] = 243, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
