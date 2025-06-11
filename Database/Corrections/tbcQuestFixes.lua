@@ -1251,7 +1251,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9498] = {
             [questKeys.preQuestSingle] = {10124},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,
         },
         [9499] = {
             [questKeys.preQuestSingle] = {10124},
