@@ -12,6 +12,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+QuestieCorrections.killCreditObjectiveFirst[29555] = true
+
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
@@ -94,6 +96,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31736,31737},
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{61492,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [29555] = { -- The White Pawn
+            [questKeys.preQuestSingle] = {31745},
+            [questKeys.objectives] = {nil,nil,{{89603}},nil,{{{55155,55167,55168},55155,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {73410},
+        },
+        [29556] = { -- Hozen Aren't Your Friends, Hozen Are Your Enemies
+            [questKeys.preQuestSingle] = {31745},
         },
         [29576] = { -- An Air of Worry
             [questKeys.nextQuestInChain] = 29578,
@@ -388,6 +398,9 @@ function MopQuestFixes.Load()
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
+        [30070] = { -- The Fall of Ga'trul
+            [questKeys.preQuestGroup] = {31741,31742,31743,31744},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
@@ -512,6 +525,9 @@ function MopQuestFixes.Load()
         [31289] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
         },
+        [31309] = { -- On The Mend
+            [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
         },
@@ -525,6 +541,9 @@ function MopQuestFixes.Load()
         },
         [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
+        },
+        [31316] = { -- Julia, The Pet Tamer
+            [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
@@ -583,12 +602,6 @@ function MopQuestFixes.Load()
         },
         [31528] = {-- A Worthy Challenge: Darkmaster Gandling
             [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31527},
-        },
-        [31309] = { -- On The Mend
-            [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
-        },
-        [31316] = { -- Julia, The Pet Tamer
-            [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
@@ -712,6 +725,15 @@ function MopQuestFixes.Load()
         [31739] = { -- The Cost of War
             [questKeys.preQuestSingle] = {31737},
             [questKeys.objectives] = {{{215133}}},
+        },
+        [31743] = { -- Smoke Before Fire
+            [questKeys.objectives] = {nil,{{215275,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{66279},66279,nil,Questie.ICON_TYPE_EVENT},{{66277},66277,nil,Questie.ICON_TYPE_EVENT},{{66278},66278,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [31744] = { -- Unfair Trade
+            [questKeys.objectives] = {{{66366,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [31745] = { -- Onward and Inward
+            [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},

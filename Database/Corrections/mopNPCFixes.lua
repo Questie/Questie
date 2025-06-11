@@ -33,7 +33,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.THE_JADE_FOREST] = {
                     {43.62,90.68,phases.SULLY_BELOW_SKYFIRE},
-                    --{51.59,48.34,phases.SHANG_XI_TEMPLE_SOUTH},
+                    {41.39,79.57,phases.SULLY_TWINSPIRE_KEEP},
                 },
             },
         },
@@ -43,6 +43,8 @@ function MopNpcFixes.Load()
                     {45.17,94.98,phases.RELL_ON_BARRELS},
                     {46.47,96.3,phases.RELL_ON_DOCKS},
                     {46.47,96.41,phases.RELL_ON_DOCKS_2},
+                    {46.2,84.81,phases.RELL_PAWDON_VILLAGE},
+                    {45.17,94.98,phases.RELL_TWINSPIRE_KEEP},
                 },
             },
         },
@@ -484,6 +486,7 @@ function MopNpcFixes.Load()
                 },
                 [zoneIDs.THE_JADE_FOREST] = {
                     {42.04,92.75,phases.SKYFIRE_JADE_FOREST},
+                    {48.05,88.39,phases.ADMIRAL_ROGERS_PAWDON_VILLAGE},
                 },
             },
         },
@@ -501,8 +504,14 @@ function MopNpcFixes.Load()
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
         },
+        [66581] = { -- Rell Nightwind
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.17,94.98}}},
+        },
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84,28.6}}},
+        },
+        [67067] = { -- Rell's Gyrocopter
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
