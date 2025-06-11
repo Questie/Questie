@@ -2247,5 +2247,10 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [74034] = {
         [itemKeys.startQuest] = 29760,
       },
+      --* Item 77957 https://wotlk.wowhead.com/wotlk/item=77957
+      --* Starts: The Twilight Prophet(30105)(https://wotlk.wowhead.com/wotlk/quest=30105)
+      [77957] = {
+        [itemKeys.startQuest] = 30105,
+      },
     }
 end
