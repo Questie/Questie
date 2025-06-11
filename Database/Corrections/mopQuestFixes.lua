@@ -24,6 +24,12 @@ function MopQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [13408] = { -- Hellfire Fortifications
+            [questKeys.requiredClasses] = 2015, -- all classes except DK
+        },
+        [13409] = { -- Hellfire Fortifications
+            [questKeys.requiredClasses] = 2015, -- all classes except DK
+        },
         [29406] = { -- The Lesson of the Sandy Fist
             [questKeys.requiredLevel] = 1,
         },

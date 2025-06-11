@@ -1353,8 +1353,13 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 1941,
             [questKeys.nextQuestInChain] = 0,
         },
+        [10289] = { -- Journey to Thrallmar
+            [questKeys.breadcrumbForQuestId] = 10291,
+        },
         [10291] = { -- Report to Nazgrel
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbs] = {10289},
+            [questKeys.nextQuestInChain] = 0,
         },
         [10296] = { -- The Black Morass
             [questKeys.zoneOrSort] = 1941,
@@ -1370,6 +1375,12 @@ function CataQuestFixes.Load()
         },
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
+        },
+        [10346] = { -- Return to the Abyssal Shelf
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [10347] = { -- Return to the Abyssal Shelf
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [10388] = { -- Return to Thrallmar
             [questKeys.startedBy] = {{19273}},
@@ -1387,7 +1398,6 @@ function CataQuestFixes.Load()
             [questKeys.requiredMinRep] = {932,0},
         },
         [10450] = { -- Bonechewer Blood
-            --[questKeys.preQuestSingle] = {10291,10875}, -- those are probably breadcrumbs
             [questKeys.preQuestSingle] = {},
         },
         [10460] = { -- Defender's Pledge
@@ -1959,6 +1969,20 @@ function CataQuestFixes.Load()
         },
         [13337] = { -- The Ironwall Rampart
             [questKeys.preQuestSingle] = {},
+        },
+        [13408] = { -- Hellfire Fortifications
+            [questKeys.requiredClasses] = 1503, -- all classes except DK
+            [questKeys.nextQuestInChain] = 10106,
+        },
+        [13409] = { -- Hellfire Fortifications
+            [questKeys.requiredClasses] = 1503, -- all classes except DK
+            [questKeys.nextQuestInChain] = 10110,
+        },
+        [13410] = { -- Hellfire Fortifications
+            [questKeys.nextQuestInChain] = 10106,
+        },
+        [13411] = { -- Hellfire Fortifications
+            [questKeys.nextQuestInChain] = 10110,
         },
         [13432] = { -- The Vials of Eternity
             [questKeys.startedBy] = {{19935}},
