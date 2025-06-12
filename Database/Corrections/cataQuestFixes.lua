@@ -1159,6 +1159,10 @@ function CataQuestFixes.Load()
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE - raceIDs.DRAENEI,
         },
+        [9372] = { -- Demonic Contamination
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10442,10443},
+        },
         [9407] = { -- Through the Dark Portal
             [questKeys.breadcrumbForQuestId] = 10120,
         },
@@ -1317,6 +1321,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{15283}},
             [questKeys.zoneOrSort] = 6455,
         },
+        [10103] = { -- Report to Zurai
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_PENINSULA,
+        },
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
         },
@@ -1328,6 +1335,9 @@ function CataQuestFixes.Load()
         },
         [10228] = { -- Ezekiel
             [questKeys.zoneOrSort] = 3688,
+        },
+        [10229] = { -- Decipher the Tome
+            [questKeys.preQuestSingle] = {10242}, -- only start dropping while on quest 10220, so we do this instead
         },
         [10231] = { -- What Book? I Don't See Any Book.
             [questKeys.zoneOrSort] = zoneIDs.SHATTRATH_CITY,
@@ -1382,8 +1392,14 @@ function CataQuestFixes.Load()
         [10347] = { -- Return to the Abyssal Shelf
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [10367] = { -- A Traitor Among Us
+            [questKeys.breadcrumbs] = {10403},
+        },
         [10388] = { -- Return to Thrallmar
             [questKeys.startedBy] = {{19273}},
+        },
+        [10403] = { -- Naladu
+            [questKeys.breadcrumbForQuestId] = 10367,
         },
         [10416] = { -- Synthesis of Power
             [questKeys.requiredMinRep] = {934,0},
@@ -1396,6 +1412,12 @@ function CataQuestFixes.Load()
         },
         [10421] = { -- Fel Armaments
             [questKeys.requiredMinRep] = {932,0},
+        },
+        [10442] = { -- Helping the Cenarion Post
+            [questKeys.breadcrumbForQuestId] = 9372,
+        },
+        [10443] = { -- Helping the Cenarion Post
+            [questKeys.breadcrumbForQuestId] = 9372,
         },
         [10450] = { -- Bonechewer Blood
             [questKeys.preQuestSingle] = {},

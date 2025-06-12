@@ -1172,7 +1172,7 @@ function QuestieTBCQuestFixes:Load()
         [9400] = {
             [questKeys.preQuestSingle] = {10124},
             [questKeys.triggerEnd] = nil,
-            [questKeys.objectives] = {{{17062,"Find Krun Spinebreaker"}}},
+            [questKeys.objectives] = {{{17062,"Find Krun Spinebreaker",Questie.ICON_TYPE_EVENT}}},
         },
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
@@ -1227,6 +1227,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
+            [questKeys.objectives] = {{{17226,"Carinda's Scroll of Retribution used",Questie.ICON_TYPE_INTERACT}}},
         },
         [9484] = {
             [questKeys.triggerEnd] = {"Tame a Crazed Dragonhawk", {[zoneIDs.EVERSONG_WOODS]={{60.39,59.09},{61.23,65.08}}}},
@@ -2081,6 +2082,9 @@ function QuestieTBCQuestFixes:Load()
         [10367] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10368] = {
+            [questKeys.objectives] = {{{20677,"Morod Freed",Questie.ICON_TYPE_TALK},{20678,"Akoru Freed",Questie.ICON_TYPE_TALK},{20679,"Aylaan Freed",Questie.ICON_TYPE_TALK}}},
+        },
         [10369] = {
             [questKeys.objectives] = {{{19354}}},
         },
@@ -2559,6 +2563,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10792] = {
             [questKeys.requiredSourceItems] = {31347,31346},
+            [questKeys.objectives] = {{{20813,"Barracks Burned", Questie.ICON_TYPE_EVENT},{20815,"Eastern Hovel Burned", Questie.ICON_TYPE_EVENT},{20816,"Western Hovel Burned", Questie.ICON_TYPE_EVENT},{20814,"Stable Burned", Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
         [10793] = {

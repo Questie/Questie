@@ -280,6 +280,9 @@ function CataObjectFixes.Load()
         [181252] = { -- Fresh Fish Rack
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{68.24,57.78}}},
         },
+        [181449] = { -- Altar of Aggonar
+            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{39.04,40.32}}},
+        },
         [181597] = { -- Silithyst Mound
             [objectKeys.spawns] = {},
         },
