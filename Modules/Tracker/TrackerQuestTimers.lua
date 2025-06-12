@@ -125,7 +125,7 @@ function TrackerQuestTimers:UpdateTimerFrame()
 
             QuestieCombatQueue:Queue(function()
                 timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
-                timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
+                timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
                 timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)
             end)
         else

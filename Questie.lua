@@ -72,7 +72,7 @@ function Questie:Colorize(str, color)
     elseif color == "purple" then
         c = "|cFFB900FF";
     elseif color == "blue" then
-        c = "|cB900FFFF";
+        c = "|cFF0000FF";
     elseif color == "lightBlue" then
         c = "|cB900FFFF";
     elseif color == "reputationBlue" then

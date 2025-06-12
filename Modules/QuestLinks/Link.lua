@@ -123,7 +123,7 @@ _AddQuestTitle = function(quest)
 
     local titleColor = "gold"
     if quest.specialFlags == 1 then
-        titleColor = "blue"
+        titleColor = "lightBlue"
     end
 
     if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
@@ -323,7 +323,7 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
                         local year = tonumber(date("%Y", Questie.db.char.journey[i].Timestamp))
                         local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date("%w", Questie.db.char.journey[i].Timestamp)) + 1 ]
                         local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date("%m", Questie.db.char.journey[i].Timestamp)) ]
-                        timestamp = Questie:Colorize(date( "[ "..day ..", ".. month .." %d, "..year.." @ %H:%M ]  " , Questie.db.char.journey[i].Timestamp), "blue")
+                        timestamp = Questie:Colorize(date( "[ "..day ..", ".. month .." %d, "..year.." @ %H:%M ]  " , Questie.db.char.journey[i].Timestamp), "lightBlue")
                     end
                 end
                 if timestamp then
