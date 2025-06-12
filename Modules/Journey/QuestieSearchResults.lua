@@ -25,7 +25,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
-local abs = math.abs
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -293,13 +292,11 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local query
     local spawnObject
     if spawnType == "npc" then
-        id = spawn
         typeLabel = "NPC"
-        spawnObject = QuestieDB:GetNPC(id)
+        spawnObject = QuestieDB:GetNPC(spawn)
     elseif spawnType == "object" then
-        id = abs(spawn)
         typeLabel = "Object"
-        spawnObject = QuestieDB:GetObject(id)
+        spawnObject = QuestieDB:GetObject(spawn)
     end
 
     header:SetText(spawnObject.name);
@@ -349,7 +346,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local spawns = spawnObject.spawns
 
     if spawns then
-        f:AddChild(CreateShowHideButton(id))
+        f:AddChild(CreateShowHideButton(spawnType == "npc" and spawn or -spawn))
         local startindex = 0;
         for i in pairs(spawns) do
             if spawns[i][1] then
