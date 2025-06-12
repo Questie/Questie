@@ -6184,7 +6184,7 @@
     "files.exclude": {
         ".types/.SubModules/BlizzardInterfaceCode": true,
         ".types/.SubModules/vscode-wow-api": true,
-        "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
+        "ExternalScripts(DONOTINCLUDEINRELEASE)": false, // Who added this?! I need to edit this!
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true,
