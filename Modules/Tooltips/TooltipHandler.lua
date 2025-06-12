@@ -101,7 +101,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
     for _, gameObjectId in pairs(lookup) do
-        if count > 10 and addedObjects >= 10 and (not Questie.db.profile.debugEnabled) then
+        if count > 10 and addedObjects >= 10 then
             -- only show 10 tooltips
             break
         end
