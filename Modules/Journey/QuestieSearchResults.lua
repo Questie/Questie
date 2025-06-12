@@ -39,7 +39,7 @@ local BY_ID = 2
 
 local function AddParagraph(frame, lookupObject, secondKey, header, query)
     if lookupObject[secondKey] then
-        QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header, "yellow"))
+        QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header))
         for _,id in pairs(lookupObject[secondKey]) do
             local name = query(id, "name")
             if name then
@@ -235,19 +235,19 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     details:AddChild(hiddenQuests)
 
     -- general info
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID"), "yellow") .. ": " .. id)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level"), "yellow") .. ": " .. questLevel)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level"), "yellow") .. ": " .. requiredLevel)
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. ": " .. id)
+    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level")) .. ": " .. questLevel)
+    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level")) .. ": " .. requiredLevel)
     local reqRaces = QuestieLib:GetRaceString(requiredRaces)
     if (reqRaces ~= "") then
-        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race"), "yellow") .. ": " .. reqRaces)
+        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. ": " .. reqRaces)
     end
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable"), "yellow") .. ": " .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. ": " .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
 
     -- objectives text
     if objectivesText then
         QuestieJourneyUtils:AddLine(details, "")
-        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives"), "yellow") .. ":")
+        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives")) .. ":")
         for _, v in pairs(objectivesText) do
             QuestieJourneyUtils:AddLine(details, v)
         end
@@ -307,21 +307,21 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     QuestieJourneyUtils:Spacer(f);
 
-    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel).." ID", "yellow")..": "..spawn)
+    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel).." ID")..": "..spawn)
     if spawnType == "npc" then
         if spawnObject.subName then
-            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"), "yellow")..": "..spawnObject.subName)
+            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"))..": "..spawnObject.subName)
         end
         local minLevel = spawnObject.minLevel
         local maxLevel = spawnObject.maxLevel
         local level
         if minLevel == maxLevel then level = minLevel else level = minLevel.." - "..maxLevel end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"), "yellow")..": "..level)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"))..": "..level)
         local minLevelHealth = spawnObject.minLevelHealth
         local maxLevelHealth = spawnObject.maxLevelHealth
         local health
         if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth.." - "..maxLevelHealth end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"), "yellow")..": "..health)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"))..": "..health)
         local friendlyTo = l10n("no faction")
         if spawnObject.friendlyToFaction == "AH" then
             friendlyTo = l10n("both factions")
@@ -330,7 +330,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         elseif spawnObject.friendlyToFaction == "H" then
             friendlyTo = l10n("Horde")
         end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"), "yellow")..": "..friendlyTo)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"))..": "..friendlyTo)
     end
 
     QuestieJourneyUtils:Spacer(f);

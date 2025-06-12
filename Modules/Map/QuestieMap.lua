@@ -129,6 +129,7 @@ end
 
 function QuestieMap:ResetManualFrames(typ)
     typ = typ or "any"
+    if not QuestieMap.manualFrames[typ] then return end
     for id, _ in pairs(QuestieMap.manualFrames[typ]) do
         QuestieMap:UnloadManualFrames(id, typ)
     end

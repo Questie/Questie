@@ -62,6 +62,7 @@ end
 ---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
+    if not color then color = "yellow" end
     local c = "|cFF" .. color;
 
     if color == "red" then

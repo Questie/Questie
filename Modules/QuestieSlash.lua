@@ -22,24 +22,42 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
+local stringtrim, stringgmatch, stringmatch = string.trim, string.gmatch, string.match
 
 function QuestieSlash.RegisterSlashCommands()
     Questie:RegisterChatCommand("questieclassic", QuestieSlash.HandleCommands)
     Questie:RegisterChatCommand("questie", QuestieSlash.HandleCommands)
+    Questie:RegisterChatCommand("q", QuestieSlash.HandleCommands)
 end
 
 function QuestieSlash.HandleCommands(input)
-    input = string.trim(input, " ");
+    if not Questie.started then
+        print(Questie:Colorize("/questie "..input..":"), l10n("Please wait a moment for Questie to finish loading"))
+        return
+    end
 
+    input = stringtrim(input, " ");
     local commands = {}
-    for c in string.gmatch(input, "([^%s]+)") do
+    for c in stringgmatch(input, "([^%s]+)") do
         table.insert(commands, c)
     end
 
     local mainCommand = commands[1]
     local subCommand = commands[2]
 
-    -- /questie
+    -- lazy match commands
+    -- command priority is last match in the table
+    -- NEW COMMANDS SHOULD BE ADDED HERE
+    local ctypes = {"doable", "flex", "help", "journey", "minimap", "search", "tracker", "toggle", "tomap"}
+    local tempCommand
+    for i=1, #ctypes do
+        local partialMatch = stringmatch(ctypes[i], "^"..mainCommand)
+        if partialMatch then
+            tempCommand = ctypes[i]
+        end
+    end
+    if tempCommand then mainCommand = tempCommand end
+
     if mainCommand == "" or not mainCommand then
         QuestieCombatQueue:Queue(function()
             QuestieOptions:OpenConfigWindow();
@@ -51,22 +69,20 @@ function QuestieSlash.HandleCommands(input)
         return ;
     end
 
-    -- /questie help || /questie ?
     if mainCommand == "help" or mainCommand == "?" then
-        print(Questie:Colorize(l10n("Questie Commands"), "yellow"));
-        print(Questie:Colorize("/questie - " .. l10n("Toggles the Config window"), "yellow"));
-        print(Questie:Colorize("/questie toggle - " .. l10n("Toggles showing questie on the map and minimap"), "yellow"));
-        print(Questie:Colorize("/questie tomap [<npcId>/<npcName>/reset] - " .. l10n("Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
-        print(Questie:Colorize("/questie minimap - " .. l10n("Toggles the Minimap Button for Questie"), "yellow"));
-        print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
-        print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
-        print(Questie:Colorize("/questie flex - " .. l10n("Flex the amount of quests you have completed so far"), "yellow"));
-        print(Questie:Colorize("/questie doable [questID] - " .. l10n("Prints whether you are eligibile to do a quest"), "yellow"));
-        print(Questie:Colorize("/questie version - " .. l10n("Prints Questie and client version info"), "yellow"));
+        print(Questie:Colorize(l10n("Questie Commands")));
+        print(Questie:Colorize("/questie"), l10n("Toggles the Config window"));
+        print(Questie:Colorize("/questie toggle"), ("Toggles showing questie on the map and minimap"));
+        print(Questie:Colorize("/questie tomap reset||npc|object [ID or name]"), l10n("Try to add markers for NPCs or objects to the map by search. If the \"tomap\" command is entered without subcommand it will attempt to mark the currently selected target. Searches by ID return exact matches, searches by name return partial matches. The \"reset\" subcommand does not accept additional parameters and just removes all markers."));
+        print(Questie:Colorize("/questie minimap"), l10n("Toggles the Minimap Button for Questie"));
+        print(Questie:Colorize("/questie journey"), l10n("Toggles the My Journey window"));
+        print(Questie:Colorize("/questie tracker reset|show||hide"), ("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"));
+        print(Questie:Colorize("/questie flex"), l10n("Flex the amount of quests you have completed so far"));
+        print(Questie:Colorize("/questie doable [questID]"), l10n("Prints whether you are eligibile to do a quest"));
+        print(Questie:Colorize("/questie version"), l10n("Prints Questie and client version info"));
         return;
     end
 
-    -- /questie toggle
     if mainCommand == "toggle" then
         Questie.db.profile.enabled = (not Questie.db.profile.enabled)
         QuestieQuest:ToggleNotes(Questie.db.profile.enabled);
@@ -81,7 +97,6 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
-    -- /questie minimap
     if mainCommand == "minimap" then
         Questie.db.profile.minimap.hide = not Questie.db.profile.minimap.hide;
 
@@ -93,7 +108,6 @@ function QuestieSlash.HandleCommands(input)
         return;
     end
 
-    -- /questie journey (or /questie journal, because of a typo)
     if mainCommand == "journey" or mainCommand == "journal" then
         QuestieJourney:ToggleJourneyWindow();
         QuestieOptions:HideFrame();
@@ -113,36 +127,96 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
-    if mainCommand == "tomap" then
+    if mainCommand == "tomap" or mainCommand == "search" then
+        -- TODO using this command can affect search history for the UI window through the QuestieSearch:Search calls, that should be prevented
+        local searchType
+        local numCommands = #commands
+        -- no subcommand received, try to search for current target by name
         if not subCommand then
-            subCommand = UnitName("target")
+            local unit = UnitName("target")
+            if not unit then
+                print(Questie:Colorize("/questie "..input..":"), l10n("An active target or search parameters are required."))
+                return
+            end
+            searchType = "npc"
+            commands[3] = unit
+            numCommands = 3
+        -- subcommand received,  check it
+        else
+            local types = {"npc", "item", "object", "quest", "reset"}
+            for i=1, #types do
+                local partialMatch = stringmatch(types[i], "^"..subCommand)
+                if partialMatch then
+                    searchType = types[i]
+                end
+            end
         end
-
-        if subCommand ~= nil then
-            if subCommand == "reset" then
+        -- known command found
+        if searchType then
+            -- reset command
+            if searchType == "reset" then
                 QuestieMap:ResetManualFrames()
+                print(Questie:Colorize("/questie "..input..":"), l10n("All map markers cleared."))
                 return
             end
-
-            local conversionTry = tonumber(subCommand)
-            if conversionTry then -- We've got an ID
-                subCommand = conversionTry
-                local result = QuestieSearch:Search(subCommand, "npc", "int")
-                if result then
-                    for npcId, _ in pairs(result) do
-                        QuestieMap:ShowNPC(npcId)
-                    end
-                end
-                return
-            elseif type(subCommand) == "string" then
-                local result = QuestieSearch:Search(subCommand, "npc")
-                if result then
-                    for npcId, _ in pairs(result) do
-                        QuestieMap:ShowNPC(npcId)
-                    end
-                end
+            -- no search term provided
+            if numCommands < 3 then
+                print(Questie:Colorize("/questie "..input..":"), l10n("Search term required."))
                 return
             end
+            -- TODO
+            if searchType == "item" or searchType == "quest" then
+                print(Questie:Colorize("/questie "..input..":"), "TODO: Implement ShowItem and ShowQuest functions.")
+                return
+            end
+            local isid = tonumber(commands[3])
+            local result
+            -- Search term is an ID
+            if isid and numCommands == 3 then
+                -- Look for an exact match and fake the result table if found
+                local name
+                if searchType == "npc" then
+                    name = QuestieDB.QueryNPCSingle(isid, "name")
+                elseif searchType == "object" then
+                    name = QuestieDB.QueryObjectSingle(isid, "name")
+                end
+                if name then
+                    result = {[isid]=true}
+                    print(Questie:Colorize("/questie "..input..":"), l10n("Exact match found, added %s to map.", name))
+                end
+            -- Search term is not an ID
+            else
+                -- glue search terms back together if needed
+                local search = ""
+                for i=3, numCommands do
+                    search = search .. commands[i]
+                    if i < numCommands then
+                        search = search .. " "
+                    end
+                end
+                -- perform search
+                result = QuestieSearch:Search(search, searchType)
+                local results = QuestieLib:Count(result)
+                if results ~= 0 then
+                    print(Questie:Colorize("/questie "..input..":"), l10n("%d matches found and added to map.", results))
+                else
+                    result = nil
+                end
+            end
+            -- if either of the searches above found something then add it to the map
+            if result then
+                for resultid, _ in pairs(result) do
+                    if searchType == "npc" then
+                        QuestieMap:ShowNPC(resultid)
+                    elseif searchType == "object" then
+                        QuestieMap:ShowObject(resultid)
+                    end
+                end
+            -- if nothing was found inform the user
+            else
+                print(Questie:Colorize("/questie "..input..":"), l10n("No match found, nothing added to map."))
+            end
+            return
         end
     end
 
@@ -181,10 +255,10 @@ function QuestieSlash.HandleCommands(input)
 
     if mainCommand == "doable" or mainCommand == "eligible" or mainCommand == "eligibility" then
         if not subCommand then
-            print(Questie:Colorize("[Questie] ", "yellow") .. "Usage: /questie " .. mainCommand .. " <questID>")
+            print(Questie:Colorize("/questie "..input..":"), "Usage: /questie", mainCommand, "<questID>")
             do return end
         elseif QuestieDB.QueryQuestSingle(tonumber(subCommand), "name") == nil then
-            print(Questie:Colorize("[Questie] ", "yellow") .. "Invalid quest ID")
+            print(Questie:Colorize("/questie "..input..":"), "Invalid quest ID")
             return
         end
 
@@ -193,5 +267,6 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
-    print(Questie:Colorize("[Questie] ", "yellow") .. l10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help", "yellow"));
+    -- if no condition returned so far we have received an invalid command
+    print(Questie:Colorize("/questie "..input..":"), l10n("Invalid command. For a list of options please type:"), Questie:Colorize("/questie help"))
 end
