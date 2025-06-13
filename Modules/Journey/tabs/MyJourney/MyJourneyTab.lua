@@ -38,7 +38,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         local day = CALENDAR_WEEKDAY_NAMES[tonumber(date('%w', Questie.db.char.journey[i].Timestamp)) + 1];
         local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date('%m', Questie.db.char.journey[i].Timestamp))];
 
-        local timestamp = Questie:Colorize(date( '[ '..day ..', '.. month ..' %d @ %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'blue');
+        local timestamp = Questie:Colorize(date( '[ '..day ..', '.. month ..' %d @ %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
 
         -- if it's a quest event
         if Questie.db.char.journey[i].Event == "Quest" then

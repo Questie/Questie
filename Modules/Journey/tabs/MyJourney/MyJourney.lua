@@ -57,7 +57,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 local entry = Questie.db.char.journey[tonumber(e)];
                 local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date('%w', entry.Timestamp)) + 1 ];
                 local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date('%m', entry.Timestamp)) ];
-                local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'blue');
+                local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
                     header:SetText(l10n('Note: %s', entry.Title));

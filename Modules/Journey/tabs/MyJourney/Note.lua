@@ -107,7 +107,7 @@ _CreateNoteAddButton = function ()
 end
 
 _HandleNoteEntry = function ()
-    local error = Questie:Colorize('[Questie] ', 'blue')
+    local error = Questie:Colorize('[Questie] ', 'lightBlue')
     if titleBox:GetText() == '' then
         print (error .. l10n('No Title was entered. You must enter a title before submitting your note.'))
         return
