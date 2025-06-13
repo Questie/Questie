@@ -9,6 +9,9 @@ function MopItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [74033] = { -- Ancient Hozen Skull
+            [itemKeys.objectDrops] = {209595}
+        },
         [74160] = { -- Zin\'Jun\'s Rifle
             [itemKeys.npcDrops] = {55470,66917}
         },
