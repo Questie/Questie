@@ -24,6 +24,9 @@ function MopItemFixes.Load()
         [74163] = { -- Snuff\'s Corpse
             [itemKeys.npcDrops] = {55470,66917}
         },
+        [74260] = { -- Bamboo Key
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [74296] = { -- Stolen Carrot
             [itemKeys.npcDrops] = {55504},
         },
