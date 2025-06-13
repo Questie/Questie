@@ -103,6 +103,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{61492,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29553] = { -- The Missing Admiral
+            [questKeys.preQuestGroup] = {29555,29556},
+            [questKeys.preQuestSingle] = {},
+        },
         [29555] = { -- The White Pawn
             [questKeys.preQuestSingle] = {31745},
             [questKeys.objectives] = {nil,nil,{{89603}},nil,{{{55155,55167,55168},55155,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -110,6 +114,18 @@ function MopQuestFixes.Load()
         },
         [29556] = { -- Hozen Aren't Your Friends, Hozen Are Your Enemies
             [questKeys.preQuestSingle] = {31745},
+        },
+        [29558] = { -- The Path of War
+            [questKeys.preQuestSingle] = {29553},
+        },
+        [29559] = { -- Freeing Our Brothers
+            [questKeys.preQuestSingle] = {29553},
+            [questKeys.requiredSourceItems] = {74260},
+            [questKeys.objectives] = {{{55490,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 209586}}}},
+        },
+        [29560] = { -- Ancient Power
+            [questKeys.preQuestSingle] = {29553},
         },
         [29576] = { -- An Air of Worry
             [questKeys.nextQuestInChain] = 29578,
