@@ -392,7 +392,41 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     f.content:SetHeight(10000);
 end
 
-function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+--- Used for pre-caching item data, see the function below
+---@type GameTooltip
+local QuestieScanningTooltip = CreateFrame("GameTooltip", "QuestieScanningTooltip", nil, "GameTooltipTemplate")
+QuestieScanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+
+--- This function queries an item tooltip from the server, waits for the result, then calls the following function to draw an item info frame to a given parent frame.
+---@param f Frame The frame to attach the created item details frame to
+---@param itemId ItemID The ID for the item to show details about
+---@return nil
+ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+    -- Caching an item creates visible lag of 2 or 3 seconds at times (e.g. 13490, 13492 on Era)
+    -- So we need to make sure the item data is *sufficiently* cached before we draw the frame
+    -- We can't use the following because it creates a delay in the tooltip being drawn:
+    -- C_Item.RequestLoadItemDataByID(itemId)
+
+    -- Instead we use this:
+    QuestieScanningTooltip:SetItemByID(itemId)
+
+    -- Then we wait for client to say it cached the item
+    local ticker
+    ticker = C_Timer.NewTicker(0.05, function()
+        -- When it does...
+        if C_Item.IsItemDataCachedByID(itemId) then
+            ticker:Cancel()
+            -- We still need another tiny delay because the following content might still clip the last few lines otherwise
+            C_Timer.After(0.05, function() QuestieSearchResults:ItemsFrameAfterTicker(f, itemId) end)
+        end
+    end)
+end
+
+--- This function draws an item info frame to a given parent frame after the previous function made sure its data is cached.
+---@param f Frame The frame to attach the created item details frame to
+---@param itemId ItemID The ID for the item to show details about
+---@return nil
+function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(true)
 
@@ -401,12 +435,25 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     header:SetText(query(itemId, "name"))
     f:AddChild(header)
 
+    local grp = AceGUI:Create("SimpleGroup")
+    grp:SetFullWidth(true)
+    grp:SetLayout("Flow")
+
     local itemIcon = QuestieJourneyUtils.GetItemIcon(itemId)
-    f:AddChild(itemIcon)
+    grp:AddChild(itemIcon)
 
     local spawnIdLabel = AceGUI:Create("Label")
     spawnIdLabel:SetText("  Item ID: " .. itemId)
-    f:AddChild(spawnIdLabel)
+    grp:AddChild(spawnIdLabel)
+
+    f:AddChild(grp)
+
+    local tooltip = AceGUI:Create("GameTooltipWidget", itemId)
+    tooltip:SetOwner(itemIcon.frame, "ANCHOR_BOTTOMRIGHT")
+    tooltip:SetItemByID(itemId)
+    tooltip:ShowTooltip()
+
+    f:AddChild(tooltip)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
         QuestieJourneyUtils:Spacer(f)
