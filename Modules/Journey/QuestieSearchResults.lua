@@ -186,7 +186,18 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     finished:SetDisabled(true)
     -- reduce offset to next checkbox
     finished:SetHeight(16)
+    finished:SetFullWidth(true);
     details:AddChild(finished)
+
+    -- hidden by Questie
+    local hiddenQuests = AceGUI:Create("CheckBox")
+    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
+    hiddenQuests:SetLabel(l10n("Hidden by Questie"))
+    hiddenQuests:SetDisabled(true)
+    -- reduce offset to next checkbox
+    hiddenQuests:SetHeight(16)
+    hiddenQuests:SetFullWidth(true);
+    details:AddChild(hiddenQuests)
 
     -- hidden by user
     local hiddenByUser = AceGUI:Create("CheckBox")
@@ -221,17 +232,10 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
             GameTooltip:Hide();
         end
     end)
-    -- reduce offset to next checkbox
-    hiddenByUser:SetHeight(16)
+    hiddenByUser:SetFullWidth(true);
     details:AddChild(hiddenByUser)
 
-    -- hidden by Questie
-    local hiddenQuests = AceGUI:Create("CheckBox")
-    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
-    hiddenQuests:SetLabel(l10n("Hidden by Questie"))
-    hiddenQuests:SetDisabled(true)
     -- do not reduce offset, as checkbox is followed by text
-    details:AddChild(hiddenQuests)
 
     -- general info
     QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. ": " .. id)
