@@ -2866,30 +2866,40 @@ function QuestieQuestFixes:Load()
         },
         [8184] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {},
         },
         [8185] = {
             [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {},
         },
         [8186] = {
             [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {},
         },
         [8187] = {
             [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {},
         },
         [8188] = {
             [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {},
+        },
         },
         [8189] = {
             [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {},
         },
         [8190] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {},
         },
         [8191] = {
             [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {},
         },
         [8192] = {
             [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {},
         },
         [8195] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
