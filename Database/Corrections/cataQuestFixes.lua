@@ -1224,14 +1224,30 @@ function CataQuestFixes.Load()
         [9693] = { -- What Argus Means to Me
             [questKeys.preQuestSingle] = {},
         },
+        [9697] = { -- Watcher Leesa'oh
+            [questKeys.breadcrumbForQuestId] = 9701,
+        },
+        [9701] = { -- Observing the Sporelings
+            [questKeys.breadcrumbs] = {9697},
+        },
         [9731] = { -- Drain Schematics
-            [questKeys.preQuestSingle] = {9720},
+            [questKeys.startedBy] = {nil,nil,{24330}},
+            [questKeys.preQuestSingle] = {9718},
         },
         [9751] = { -- The Bloodcurse Legacy
             [questKeys.exclusiveTo] = {9672},
         },
         [9753] = { -- What We Know
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [9769] = { -- There's No Explanation for Fashion
+            [questKeys.preQuestSingle] = {},
+        },
+        [9796] = { -- News from Zangarmarsh
+            [questKeys.zoneOrSort] = zoneIDs.ZANGARMARSH,
+        },
+        [9797] = { -- Reinforcements for Garadar
+            [questKeys.zoneOrSort] = zoneIDs.ZANGARMARSH,
         },
         [9811] = { -- Friend of the Sin'dorei
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,
@@ -13621,6 +13637,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
+            [questKeys.breadcrumbs] = {29452},
         },
         [29131] = { -- Defend the Rebel Camp
             [questKeys.parentQuest] = 29100,
@@ -13631,6 +13648,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
+            [questKeys.breadcrumbs] = {29453},
         },
         [29133] = { -- To the Digsite
             [questKeys.parentQuest] = 29100,
@@ -14483,11 +14501,13 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29129,
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbForQuestId] = 29129,
         },
         [29453] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29132,
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 29132,
         },
         [29455] = { -- Target: Turtle
             [questKeys.objectives] = {{{54490}}},

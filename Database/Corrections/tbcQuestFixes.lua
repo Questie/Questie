@@ -1455,6 +1455,9 @@ function QuestieTBCQuestFixes:Load()
         [9718] = {
             [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{76.8,44.1}}}},
         },
+        [9720] = {
+            [questKeys.objectives] = {{{17998,"Umbrafen Lake Controls Disabled",Questie.ICON_TYPE_EVENT},{18002,"Marshlight Lake Controls Disabled",Questie.ICON_TYPE_EVENT},{18000,"Serpent Lake Controls Disabled",Questie.ICON_TYPE_EVENT},{17999,"Lagoon Controls Disabled",Questie.ICON_TYPE_EVENT}}},
+        },
         [9728] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1503,6 +1506,9 @@ function QuestieTBCQuestFixes:Load()
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
         },
+        [9785] = {
+            [questKeys.objectives] = {{{17900,nil,Questie.ICON_TYPE_TALK},{17901,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97}}}},
         },
@@ -1519,6 +1525,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9808] = {
             [questKeys.requiredMinRep] = {970,0},
+        },
+        [9816] = {
+            [questKeys.objectives] = {nil,{{182164,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9824] = {
             [questKeys.objectives] = {{{18161,nil,Questie.ICON_TYPE_EVENT},{18162,nil,Questie.ICON_TYPE_EVENT}}},
