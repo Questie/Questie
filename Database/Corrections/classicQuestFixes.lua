@@ -76,9 +76,6 @@ function QuestieQuestFixes:Load()
         [30] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
-        [32] = { -- Rise of the Silithid
-            [questKeys.nextQuestInChain] = 4494,
-        },
         [33] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1588,10 +1585,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {162,4267},
         },
         [4494] = {
-            [questKeys.preQuestSingle] = {32,7732},
-        },
-        [4496] = {
-            [questKeys.preQuestSingle] = {4493,4494},
+            [questKeys.preQuestSingle] = {7732},
         },
         [4506] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
@@ -1726,6 +1720,9 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshod Pike."),0,{{"object", 175621}}},
                                            {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 175584}}},
             },
+        },
+        [4882] = {
+            [questKeys.preQuestSingle] = {4741},
         },
         [4901] = {
             [questKeys.triggerEnd] = {"Discover the secret of the Altar of Elune", {[zoneIDs.WINTERSPRING]={{64.85,63.73}}}},

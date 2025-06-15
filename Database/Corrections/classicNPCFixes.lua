@@ -1388,6 +1388,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{36.88,54.9}}},
         },
         [11058] = {
+            [npcKeys.name] = "Ezra Grimm",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
@@ -2059,6 +2060,9 @@ function QuestieNPCFixes:Load()
         },
         [14693] = {
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [14721] = {
+            [npcKeys.name] = "Field Marshal Stonebridge",
         },
         [14748] = {
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{84.6,41.2}}},

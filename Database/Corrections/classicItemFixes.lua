@@ -944,6 +944,9 @@ function QuestieItemFixes:Load()
         [13156] = {
             [itemKeys.class] = 12,
         },
+        [13172] = {
+            [itemKeys.name] = "Grimm's Premium Tobacco",
+        },
         [13422] = {
             [itemKeys.objectDrops] = {},
         },
@@ -1124,6 +1127,9 @@ function QuestieItemFixes:Load()
         },
         [18335] = {
             [itemKeys.class] = 12,
+        },
+        [18401] = {
+            [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
         },
         [18605] = {
             [itemKeys.npcDrops] = {12396}, -- #7583
