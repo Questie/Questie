@@ -2884,7 +2884,6 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectivesText] = {},
         },
-        },
         [8189] = {
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.objectivesText] = {},
