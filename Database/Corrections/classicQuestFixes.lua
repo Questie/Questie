@@ -1587,6 +1587,9 @@ function QuestieQuestFixes:Load()
         [4494] = {
             [questKeys.preQuestSingle] = {7732},
         },
+        [4496] = {
+            [questKeys.preQuestSingle] = {4493,4494},
+        }
         [4506] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32}}}},
