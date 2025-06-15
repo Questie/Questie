@@ -1251,6 +1251,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11267] = "Muestra de fragmento elemental",
 [11268] = "Cabeza de Argelmach",
 [11269] = "Núcleo de elemental intacto",
+[11286] = "Grilletes de torio",
 [11309] = "El corazón de la montaña",
 [11312] = "Receta de Cebatruenos perdida",
 [11313] = "Cabeza de Ribbly",

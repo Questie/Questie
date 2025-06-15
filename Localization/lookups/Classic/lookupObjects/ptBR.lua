@@ -678,6 +678,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [173325] = "Dragão Noturno Purificado",
 [173326] = "Botão Selvagem Purificado",
 [173327] = "Botão Selvagem Corrompido",
+[174045] = "A Forja Negra",
 [174594] = "Flor da Canção Corrompida",
 [174595] = "Flor da Canção Corrompida",
 [174596] = "Flor da Canção Corrompida",

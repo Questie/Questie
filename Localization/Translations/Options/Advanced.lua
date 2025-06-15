@@ -262,7 +262,7 @@ local advancedOptionsLocales = {
         ["frFR"] = "Réinitialiser le voyage",
         ["koKR"] = "Questie 여정 초기화",
         ["ptBR"] = "Redefinir jornada",
-        ["ruRU"] = "Сбросить Путешествие",
+        ["ruRU"] = "Сброс Путешествия",
         ["zhCN"] = "重置 Questie 任务历程",
         ["zhTW"] = "重置 Questie 冒險日記",
     },
