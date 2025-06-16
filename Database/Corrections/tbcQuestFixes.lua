@@ -1378,14 +1378,33 @@ function QuestieTBCQuestFixes:Load()
         [9629] = {
             [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [9630] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
         },
         [9636] = {
             [questKeys.requiredSkill] = {202,305},
         },
+        [9637] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9638] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9639] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9640] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9644] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [9663] = {
             [questKeys.objectives] = {{{17440,"High Chief Stillpine Warned",Questie.ICON_TYPE_TALK},{17116,"Exarch Menelaous Warned",Questie.ICON_TYPE_TALK},{17240,"Admiral Odesyus Warned",Questie.ICON_TYPE_TALK}}},
@@ -1531,6 +1550,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [9824] = {
             [questKeys.objectives] = {{{18161,nil,Questie.ICON_TYPE_EVENT},{18162,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9825] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1552,6 +1575,18 @@ function QuestieTBCQuestFixes:Load()
         },
         [9836] = {
             [questKeys.objectives] = {{{15608,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [9838] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9840] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9843] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9844] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [9847] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Feralfen Totem on the ground"), 0, {{"object", 182176}}}},
@@ -2042,11 +2077,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [10326] = {
             [questKeys.requiredMaxRep] = {932,9000},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10551,10325},
+            [questKeys.preQuestSingle] = {},
         },
         [10327] = {
             [questKeys.requiredMaxRep] = {932,9000},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10551,10325},
+            [questKeys.preQuestSingle] = {},
         },
         [10329] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
@@ -2155,11 +2192,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [10414] = {
             [questKeys.requiredMaxRep] = {934,9000},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10412,10552},
+            [questKeys.preQuestSingle] = {},
         },
         [10415] = {
             [questKeys.requiredMaxRep] = {934,9000},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10412,10552},
+            [questKeys.preQuestSingle] = {},
         },
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
@@ -2435,11 +2474,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [10654] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10551,10653},
+            [questKeys.preQuestSingle] = {},
         },
         [10655] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10551,10653},
+            [questKeys.preQuestSingle] = {},
         },
         [10656] = {
             [questKeys.requiredMaxRep] = {},
@@ -2450,11 +2491,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [10658] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10656,10552},
+            [questKeys.preQuestSingle] = {},
         },
         [10659] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10656,10552},
+            [questKeys.preQuestSingle] = {},
         },
         [10668] = {
             [questKeys.preQuestSingle] = {10640,10689},
@@ -2527,15 +2570,55 @@ function QuestieTBCQuestFixes:Load()
         },
         [10725] = {
             [questKeys.nextQuestInChain] = 11031,
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10726] = {
             [questKeys.nextQuestInChain] = 11034,
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10727] = {
             [questKeys.nextQuestInChain] = 11033,
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10728] = {
             [questKeys.nextQuestInChain] = 11032,
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10729] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10730] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10731] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10732] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10733] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10734] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10735] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10736] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10738] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10739] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10740] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [10741] = {
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10742] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rexxar's Battle Horn at the Altar of Goc"), 0, {{"object", 185309}}}},
@@ -2998,15 +3081,19 @@ function QuestieTBCQuestFixes:Load()
         },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11032] = {
             [questKeys.preQuestSingle] = {10728},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11033] = {
             [questKeys.preQuestSingle] = {10727},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11034] = {
             [questKeys.preQuestSingle] = {10726},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11035] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3331,6 +3418,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11219] = {
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
