@@ -1886,6 +1886,9 @@ function CataNpcFixes.Load()
         [18524] = { -- Angered Skeleton
             [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{62.64,87.12},{63.32,85.08},{62.11,84.35},{60.1,92.61},{61.77,90.5},{61.08,88.64},{58.68,85.85},{56.19,86.32}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
         },
+        [18530] = { -- Voren'thal the Seer
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{42.79,91.71}}},
+        },
         [18667] = { -- Blackheart the Inciter
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{26.6,69.63},{-1,-1}}},
         },
