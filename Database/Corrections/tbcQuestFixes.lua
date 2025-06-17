@@ -2398,6 +2398,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
+        [10566] = { -- Trial and Error
+            [questKeys.objectives] = {{{21254},{21254},{21254},{21254}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
+        },
         [10567] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven at the Ruuan'ok Oracle Circle"), 0, {{"object", 184943}}}},
         },
