@@ -39,7 +39,7 @@ describe("MinimapIcon", function()
         QuestieQuest.ToggleNotes = spy.new(function() end)
         QuestieOptions = require("Modules.Options.QuestieOptions")
         QuestieOptions.HideFrame = spy.new(function() end)
-        QuestieOptions.OpenConfigWindow = spy.new(function() end)
+        QuestieOptions.ToggleConfigWindow = spy.new(function() end)
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
@@ -57,6 +57,7 @@ describe("MinimapIcon", function()
         assert.spy(QuestieQuest.SmoothReset).was_not_called()
         assert.spy(QuestieQuest.ToggleNotes).was_not_called()
         assert.spy(QuestieOptions.HideFrame).was_not_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was_not_called()
     end)
 
     it("should open My Journey on left click", function()
@@ -73,7 +74,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.OpenConfigWindow).was_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was_called()
     end)
 
     it("should open Questie on left click with Shift key down after combat", function()
@@ -83,7 +84,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.OpenConfigWindow).was_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was_called()
     end)
 
     it("should reset Questie on left click with CTRL key down", function()

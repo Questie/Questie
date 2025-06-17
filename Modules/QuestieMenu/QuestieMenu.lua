@@ -327,7 +327,7 @@ function QuestieMenu:Show(hideDelay)
     end})
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
         QuestieCombatQueue:Queue(function()
-            QuestieOptions:OpenConfigWindow()
+            QuestieOptions:ToggleConfigWindow()
         end)
     end})
 

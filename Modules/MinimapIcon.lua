@@ -71,7 +71,7 @@ function _MinimapIcon.OnClick(_, button)
             end
 
             QuestieCombatQueue:Queue(function()
-                QuestieOptions:OpenConfigWindow()
+                QuestieOptions:ToggleConfigWindow()
             end)
             return
         end

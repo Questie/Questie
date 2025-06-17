@@ -60,7 +60,7 @@ function QuestieSlash.HandleCommands(input)
 
     if mainCommand == "" or not mainCommand then
         QuestieCombatQueue:Queue(function()
-            QuestieOptions:OpenConfigWindow();
+            QuestieOptions:ToggleConfigWindow();
         end)
 
         if QuestieJourney:IsShown() then
