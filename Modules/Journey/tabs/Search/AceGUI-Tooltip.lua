@@ -107,7 +107,7 @@ local function Constructor()
     local frame = CreateFrame("GameTooltip", name, nil, "GameTooltipTemplate")
     frame:Hide() -- Widgets are hidden by default
 
-    print("GameTooltipWidget Constructor called")
+    Questie:Debug(Questie.DEBUG_INFO, "GameTooltipWidget Constructor called")
 
     -- GameTooltips don't typically need mouse enabled on the tooltip frame itself for interaction.
     -- frame:EnableMouse(true)
