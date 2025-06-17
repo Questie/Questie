@@ -1,17 +1,17 @@
 ---@class MinimapIcon
-local MinimapIcon = QuestieLoader:CreateModule("MinimapIcon");
+local MinimapIcon = QuestieLoader:CreateModule("MinimapIcon")
 local _MinimapIcon = {}
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
-local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieCombatQueue
@@ -19,10 +19,10 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _LibDBIcon = LibStub("LibDBIcon-1.0");
+local _LibDBIcon = LibStub("LibDBIcon-1.0")
 
 function MinimapIcon:Init()
-    _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap);
+    _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
     Questie.minimapConfigIcon = _LibDBIcon
 end
 
@@ -46,8 +46,8 @@ function _MinimapIcon:CreateDataBrokerObject()
                     QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
 
                     -- Close config window if it's open to avoid desyncing the Checkbox
-                    QuestieOptions:HideFrame();
-                    return;
+                    QuestieOptions:HideFrame()
+                    return
                 elseif IsControlKeyDown() then
                     QuestieQuest:SmoothReset()
                     return
@@ -56,37 +56,37 @@ function _MinimapIcon:CreateDataBrokerObject()
                 QuestieMenu:Show()
 
                 if QuestieJourney:IsShown() then
-                    QuestieJourney:ToggleJourneyWindow();
+                    QuestieJourney:ToggleJourneyWindow()
                 end
-                return;
+                return
             elseif button == "RightButton" then
                 if (not IsModifierKeyDown()) then
                     -- CLose config window if it's open to avoid desyncing the Checkbox
-                    QuestieOptions:HideFrame();
+                    QuestieOptions:HideFrame()
                     if InCombatLockdown() then
                         Questie:Print(l10n("Questie will open after combat ends."))
                     end
                     QuestieCombatQueue:Queue(function()
                         QuestieOptions:OpenConfigWindow()
                     end)
-                    return;
+                    return
                 elseif IsControlKeyDown() then
-                    Questie.db.profile.minimap.hide = true;
-                    Questie.minimapConfigIcon:Hide("Questie");
-                    return;
+                    Questie.db.profile.minimap.hide = true
+                    Questie.minimapConfigIcon:Hide("Questie")
+                    return
                 end
             end
         end,
 
         OnTooltipShow = function (tooltip)
-            tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
-            tooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Menu'));
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'));
-            tooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Questie Options'));
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Right Click') , 'gray') .. ": ".. l10n('Hide Minimap Button'));
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'));
+            tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
+            tooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
+            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
+            tooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Questie Options'))
+            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Right Click') , 'gray') .. ": ".. l10n('Hide Minimap Button'))
+            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'))
         end,
-    });
+    })
 
     self.LDBDataObject = LDBDataObject
 
