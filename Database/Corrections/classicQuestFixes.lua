@@ -4176,6 +4176,7 @@ function QuestieQuestFixes:Load()
         },
         [9415] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [9416] = {
             [questKeys.exclusiveTo] = {},
