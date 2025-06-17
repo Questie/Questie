@@ -139,3 +139,5 @@ _CreateOptionsTable = function()
         }
     }
 end
+
+return QuestieOptions
