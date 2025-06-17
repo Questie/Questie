@@ -108,7 +108,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "嘗試透過搜尋將 NPC 或物件圖示加到地圖上。若輸入 tomap 指令但未附加子指令，則會嘗試標記當前選取目標。依 ID 搜尋會得到完全符合的結果，依名稱搜尋則會得到部分符合的結果。reset 子指令不接受其他參數，只會移除所有標記。",
     },
     ["Invalid command. For a list of options please type:"] = {
         ["enUS"] = true,
@@ -132,7 +132,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "需要有選取的目標或是搜尋參數。",
     },
     ["All map markers cleared."] = {
         ["enUS"] = true,
@@ -144,7 +144,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "所有地圖標記都已清除。",
     },
     ["Search term required."] = {
         ["enUS"] = true,
@@ -156,7 +156,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "必須提供搜尋詞。",
     },
     ["Exact match found, added %s to map."] = {
         ["enUS"] = true,
@@ -168,7 +168,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "找到完全符合的項目，已將 %s 加到地圖上。",
     },
     ["No exact matches, %d partial matches found and added to map."] = {
         ["enUS"] = true,
@@ -180,7 +180,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "沒有完全符合的項目，已找到 %d 個部分符合的項目並加入地圖。",
     },
     ["%d matches found and added to map."] = {
         ["enUS"] = true,
@@ -192,7 +192,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "已找到 %d 個符合的項目並加入地圖。",
     },
     ["No match found, nothing added to map."] = {
         ["enUS"] = true,
@@ -204,7 +204,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "沒有找到符合的項目，沒有東西加到地圖。",
     },
     ["Please wait a moment for Questie to finish loading"] = {
         ["enUS"] = true,
@@ -216,7 +216,7 @@ local debugMessagesLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "請稍候，讓 Questie 完成載入。",
     },
     ["There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."] = {
         ["enUS"] = true,

@@ -552,7 +552,7 @@ local searchLocales = {
         ["ptBR"] = "Objeto",
         ["ruRU"] = "Объект",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "物件",
     },
     ["Friendly to"] = {
         ["enUS"] = true,
@@ -564,7 +564,7 @@ local searchLocales = {
         ["ptBR"] = "Amigável com",
         ["ruRU"] = "Дружественный к",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "友好於",
     },
     ["both factions"] = {
         ["enUS"] = true,
@@ -576,7 +576,7 @@ local searchLocales = {
         ["ptBR"] = "ambas as facções",
         ["ruRU"] = "обеим фракциям",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "雙方陣營",
     },
     ["no faction"] = {
         ["enUS"] = true,
@@ -588,7 +588,7 @@ local searchLocales = {
         ["ptBR"] = "nenhuma facção",
         ["ruRU"] = "ни к одной фракции",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "沒有陣營",
     },
     ["Level"] = {
         ["enUS"] = true,
@@ -600,7 +600,7 @@ local searchLocales = {
         ["ptBR"] = "Nível",
         ["ruRU"] = "Уровень",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "等級",
     },
     ["Health"] = {
         ["enUS"] = true,
@@ -612,7 +612,7 @@ local searchLocales = {
         ["ptBR"] = "Vida",
         ["ruRU"] = "Здоровье",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "血量",
     },
     ["Click to show"] = {
         ["enUS"] = true,
@@ -624,7 +624,7 @@ local searchLocales = {
         ["ptBR"] = "Clique para exibir",
         ["ruRU"] = "Клик для отображения",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "點一下顯示",
     },
 }
 
