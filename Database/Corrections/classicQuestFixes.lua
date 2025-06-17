@@ -3075,7 +3075,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 19,
         },
         [8387] = { -- Invaders of Alterac Valley
-            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_VALLEY,
             [questKeys.objectivesText] = {},
         },
         [8388] = { -- For Great Honor
