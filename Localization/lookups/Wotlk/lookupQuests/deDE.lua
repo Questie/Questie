@@ -9305,4 +9305,6 @@ l10n.questLookup["deDE"] = loadstring([[return {
 [70344] = {"Zorn (80) E", nil, nil},
 [70347] = {"Zorn (80) E", nil, nil},
 [70348] = {"Zorn (80) E", nil, nil},
+[78752] = {"Todesbeweise: Titanenrune mit Protokoll Gamma", nil, {"Erzmagier Lan'dalock in Dalaran möchte, dass Ihr ihm ein Medaillon der Entweihten von einem beliebigen, finalen Dungeonboss bringt.\n\nDiese Quest kann nur in einem Titanenrunendungeon mit aktivem Protokoll Gamma abgeschlossen werden."}},
+[78753] = {"Todesbeweise: Bedrohungen für Azeroth", nil, {"Erzmagier Lan'dalock in Dalaran möchte, dass Ihr ihm ein geheimnisvolles Artefakt von einem beliebigen, finalen Dungeonboss bringt.\n\nDiese Quest kann nur in einem heroischen Dungeon abgeschlossen werden."}},
 }]])
