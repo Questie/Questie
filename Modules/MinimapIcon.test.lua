@@ -12,6 +12,8 @@ describe("MinimapIcon", function()
     local QuestieQuest
     ---@type QuestieOptions
     local QuestieOptions
+    ---@type QuestieCombatQueue
+    local QuestieCombatQueue
 
     local match = require("luassert.match")
     local _ = match._ -- any match
@@ -28,6 +30,7 @@ describe("MinimapIcon", function()
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
         dofile("Modules/QuestieProfessions.lua")
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Localization/l10n.lua")
         QuestieMenu = require("Modules.QuestieMenu.QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
         QuestieMenu.Hide = spy.new(function() end)
@@ -36,6 +39,9 @@ describe("MinimapIcon", function()
         QuestieQuest.ToggleNotes = spy.new(function() end)
         QuestieOptions = require("Modules.Options.QuestieOptions")
         QuestieOptions.HideFrame = spy.new(function() end)
+        QuestieOptions.OpenConfigWindow = spy.new(function() end)
+        QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function(_, callback) callback() end
 
         MinimapIcon = require("Modules.MinimapIcon")
     end)
@@ -59,6 +65,25 @@ describe("MinimapIcon", function()
         MinimapIcon.private:OnClick(button)
 
         assert.spy(QuestieJourney.ToggleJourneyWindow).was_called()
+    end)
+
+    it("should open Questie on left click with Shift key down", function()
+        local button = "LeftButton"
+        _G.IsShiftKeyDown = function() return true end
+
+        MinimapIcon.private:OnClick(button)
+
+        assert.spy(QuestieOptions.OpenConfigWindow).was_called()
+    end)
+
+    it("should open Questie on left click with Shift key down after combat", function()
+        local button = "LeftButton"
+        _G.IsShiftKeyDown = function() return true end
+        _G.InCombatLockdown = function() return true end
+
+        MinimapIcon.private:OnClick(button)
+
+        assert.spy(QuestieOptions.OpenConfigWindow).was_called()
     end)
 
     it("should reset Questie on left click with CTRL key down", function()
