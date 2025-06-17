@@ -3059,10 +3059,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 29,
         },
         [8375] = { -- Remember Alterac Valley!
-            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_VALLEY,
         },
         [8383] = { -- Remember Alterac Valley!
-            [questKeys.zoneOrSort] = sortKeys.ALTERAC_VALLEY,
+            [questKeys.zoneOrSort] = zoneIDs.ALTERAC_VALLEY,
             [questKeys.objectivesText] = {},
         },
         [8384] = { -- Claiming Arathi Basin
