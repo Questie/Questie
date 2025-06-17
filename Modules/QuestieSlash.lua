@@ -45,6 +45,17 @@ function QuestieSlash.HandleCommands(input)
     local mainCommand = commands[1]
     local subCommand = commands[2]
 
+    if mainCommand == "" or not mainCommand then
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:ToggleConfigWindow();
+        end)
+
+        if QuestieJourney:IsShown() then
+            QuestieJourney:ToggleJourneyWindow();
+        end
+        return ;
+    end
+
     -- lazy match commands
     -- command priority is last match in the table
     -- NEW COMMANDS SHOULD BE ADDED HERE
@@ -57,17 +68,6 @@ function QuestieSlash.HandleCommands(input)
         end
     end
     if tempCommand then mainCommand = tempCommand end
-
-    if mainCommand == "" or not mainCommand then
-        QuestieCombatQueue:Queue(function()
-            QuestieOptions:ToggleConfigWindow();
-        end)
-
-        if QuestieJourney:IsShown() then
-            QuestieJourney:ToggleJourneyWindow();
-        end
-        return ;
-    end
 
     if mainCommand == "help" or mainCommand == "?" then
         print(Questie:Colorize(l10n("Questie Commands")));
