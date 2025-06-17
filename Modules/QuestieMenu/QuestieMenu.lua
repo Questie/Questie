@@ -56,6 +56,7 @@ local _townsfolk_texturemap = {
     ["Barber"] = QuestieLib.AddonPath.."Icons\\barber.png",
     ["Arcane Reforger"] = QuestieLib.AddonPath.."Icons\\reforge.png",
     ["Transmogrifier"] = QuestieLib.AddonPath.."Icons\\transmogrify.png",
+    ["Battle Pet Trainer"] = QuestieLib.AddonPath.."Icons\\petbattle.png",
     ["Reagents"] = (function()
         if playerClass == "ROGUE" then
             return "Interface\\Minimap\\tracking\\poisons"

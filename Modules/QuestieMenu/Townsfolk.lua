@@ -206,6 +206,16 @@ function Townsfolk.Initialize()
         end
     end
 
+    if Expansions.Current >= Expansions.MoP then
+        townfolk["Battle Pet Trainer"] = {}
+        for id, npcData in pairs(QuestieDB.npcData) do
+            local subName = npcData[QuestieDB.npcKeys.subName]
+            if subName and subName == "Battle Pet Trainer" then
+                tinsert(townfolk["Battle Pet Trainer"], id)
+            end
+        end
+    end
+
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
     local classSpecificTownsfolk = {}
