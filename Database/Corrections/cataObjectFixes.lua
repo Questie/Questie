@@ -316,6 +316,9 @@ function CataObjectFixes.Load()
         [182198] = { -- Arcane Container
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS] = {{59.05,24.12}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [182542] = { -- Sealed Box
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{54.0,30.0}}},
+        },
         [182589] = { -- Barrel
             [objectKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{76.60,68.80},{77.14,66.30},{74.68,68.79},{69.09,62.61},{68.03,59.82},{-1,-1}}},
         },

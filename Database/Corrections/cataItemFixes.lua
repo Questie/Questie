@@ -301,6 +301,9 @@ function CataItemFixes.Load()
         [27480] = { -- Soul Device
             [itemKeys.objectDrops] = {182940},
         },
+        [31697] = { -- Dread Relic
+            [itemKeys.npcDrops] = {},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },

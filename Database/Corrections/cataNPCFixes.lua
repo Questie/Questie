@@ -1889,14 +1889,24 @@ function CataNpcFixes.Load()
         [18530] = { -- Voren'thal the Seer
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{42.79,91.71}}},
         },
+        [18566] = { -- Shadowstalker Kaide
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{63.39,42.72}}},
+        },
         [18667] = { -- Blackheart the Inciter
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{26.6,69.63},{-1,-1}}},
+        },
+        [18670] = { -- Ironjaw
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{65.48,34.92}}},
+            [npcKeys.waypoints] = {[zoneIDs.TEROKKAR_FOREST] = {{{68.22,34.09},{68.29,33.53},{68.45,33.15},{68.7,32.84},{69.0,32.94},{69.25,33.1},{68.99,32.95},{68.69,32.86},{68.45,33.16},{68.29,33.55},{68.22,34.11},{68.25,34.63},{68.27,35.18},{68.07,35.36},{67.81,35.29},{67.49,35.0},{67.13,34.88},{66.81,35.02},{66.57,35.08},{66.4,34.98},{66.18,34.9},{65.95,34.84},{65.59,34.98},{65.4,34.98},{65.25,35.04},{65.04,35.12},{65.04,35.12},{64.87,35.1},{64.65,35.15},{64.45,35.26},{64.23,35.37},{63.95,35.35},{63.78,35.32},{63.97,35.36},{64.24,35.36},{64.47,35.25},{64.67,35.15},{64.88,35.1},{65.05,35.11},{65.26,35.03},{65.4,34.97},{65.6,34.96},{65.95,34.84},{66.19,34.88},{66.41,34.95},{66.59,35.07},{66.81,35.02},{67.14,34.87},{67.5,34.99},{67.81,35.27},{68.08,35.36},{68.27,35.16},{68.25,34.61}}}},
         },
         [18702] = { -- Auchenai Necromancer
             [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{71.06,65},{76.41,59.27},{76.46,65.73},{71.63,71.03}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
         },
         [18708] = { -- Murmur
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{81.07,39.3},{-1,-1}}},
+        },
+        [18714] = { -- Scout Neftis
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{39.03,43.75}}},
         },
         [18723] = { -- Erozion
             [npcKeys.spawns] = {
@@ -2008,6 +2018,9 @@ function CataNpcFixes.Load()
         [20977] = { -- Millhouse Manastorm
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_CONTAINMENT_CORE] = {{57.13,37.16}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [21007] = { -- Sergeant Chawni
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{63.21,42.3}}},
+        },
         [21212] = { -- Lady Vashj
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},
         },
@@ -2020,8 +2033,20 @@ function CataNpcFixes.Load()
         [21962] = { -- Udalo
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_CONTAINMENT_CORE] = {{31.67,25.08}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [22314] = { -- Captive Child
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{30.61,43.88},{30.61,43.9},{30.6,43.87},{31.14,40.66},{31.13,40.67},{29.6,42.91},{29.61,42.93},{30.6,43.89},{31.45,42.39},{31.46,42.41},{31.46,42.4},{31.46,42.37},{31.47,42.38},{31.47,42.4}}},
+        },
+        [22364] = { -- Scout Navrin
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{31.44,75.66}}},
+        },
         [22421] = { -- Skar'this the Heretic
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{57.57,83.85},{-1,-1}}},
+        },
+        [22424] = { -- Skywing
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{53.85,72.38}}},
+        },
+        [22462] = { -- Vindicator Haylen
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.71,76.19}}},
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{75.07,47.88}}},

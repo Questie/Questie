@@ -1280,8 +1280,18 @@ function CataQuestFixes.Load()
         [9934] = { -- Message to Garadar
             [questKeys.preQuestSingle] = {},
         },
+        [9957] = { -- What's Wrong at Cenarion Thicket?
+            [questKeys.breadcrumbForQuestId] = 9968,
+        },
+        [9960] = { -- What's Wrong at Cenarion Thicket?
+            [questKeys.breadcrumbForQuestId] = 9968,
+        },
+        [9961] = { -- What's Wrong at Cenarion Thicket?
+            [questKeys.breadcrumbForQuestId] = 9968,
+        },
         [9968] = { -- Strange Energy
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9957,9960,9961},
         },
         [9978] = { -- By Any Means Necessary
             [questKeys.preQuestSingle] = {},
@@ -1339,6 +1349,9 @@ function CataQuestFixes.Load()
         },
         [10103] = { -- Report to Zurai
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_PENINSULA,
+        },
+        [10105] = { -- News for Rakoria
+            [questKeys.zoneOrSort] = zoneIDs.ZANGARMARSH,
         },
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
@@ -1522,6 +1535,23 @@ function CataQuestFixes.Load()
         },
         [10847] = { -- The Eyes of Skettis
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10862,10863,10908},
+        },
+        [10862] = { -- Surrender to the Horde
+            [questKeys.breadcrumbForQuestId] = 10847,
+        },
+        [10863] = { -- Secrets of the Arakkoa
+            [questKeys.breadcrumbForQuestId] = 10847,
+        },
+        [10880] = { -- Cabal Orders
+            [questKeys.startedBy] = {nil,nil,{31707}},
+        },
+        [10887] = { -- Escaping the Tomb
+            [questKeys.extraObjectives] = {},
+            [questKeys.triggerEnd] = {"Akuno escorted",{[zoneIDs.TEROKKAR_FOREST] = {{33.77,51.62}}}},
+        },
+        [10908] = { -- Speak with Rilak the Redeemed
+            [questKeys.breadcrumbForQuestId] = 10847,
         },
         [10942] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
@@ -1580,6 +1610,14 @@ function CataQuestFixes.Load()
         },
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
+        },
+        [10983] = { -- Mog'dorg the Wizened
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10984},
+        },
+        [10984] = { -- Speak with the Ogre
+            [questKeys.nextQuestInChain] = 10983,
+            [questKeys.breadcrumbForQuestId] = 10983,
         },
         [10998] = { -- Grim(oire) Business
             [questKeys.preQuestSingle] = {},

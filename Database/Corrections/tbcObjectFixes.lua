@@ -94,6 +94,11 @@ function QuestieTBCObjectFixes:Load()
         [185200] = {
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
         },
+        [185202] = {
+            [objectKeys.name] = "Veil Skith Cage",
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{30.61,43.88},{30.61,43.9},{30.6,43.87},{31.14,40.66},{31.13,40.67},{29.6,42.91},{29.61,42.93},{30.6,43.89},{31.45,42.39},{31.46,42.41},{31.46,42.4},{31.46,42.37},{31.47,42.38},{31.47,42.4}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
         [185322] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7}}},
         },

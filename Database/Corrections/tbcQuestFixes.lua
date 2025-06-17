@@ -1793,10 +1793,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 62,
         },
         [10040] = {
-            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"}},nil,nil,nil},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To",Questie.ICON_TYPE_TALK},{18717,"Shadowy Laborer Spoken To",Questie.ICON_TYPE_TALK},{18719,"Shadowy Advisor Spoken To",Questie.ICON_TYPE_TALK}}},
         },
         [10041] = {
-            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"}},nil,nil,nil},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To",Questie.ICON_TYPE_TALK},{18717,"Shadowy Laborer Spoken To",Questie.ICON_TYPE_TALK},{18719,"Shadowy Advisor Spoken To",Questie.ICON_TYPE_TALK}}},
         },
         [10044] = {
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
@@ -1948,6 +1948,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10200] = {
             [questKeys.requiredMinRep] = {934,3000},
+        },
+        [10201] = {
+            [questKeys.objectives] = {{{19606,"Have Grek Test Olemba Oil",Questie.ICON_TYPE_TALK}}},
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73}}}},
@@ -2221,7 +2224,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
         },
         [10446] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Mana Bomb Activated"), 0, {{"object", 184725}}}},
+            [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10447] = {
+            [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
@@ -2653,6 +2659,9 @@ function QuestieTBCQuestFixes:Load()
         [10788] = {
             [questKeys.startedBy] = {{5675,5875},nil,nil},
         },
+        [10791] = {
+            [questKeys.objectives] = {{{18384,"Help Malukaz Summon the Wolf Spirit",Questie.ICON_TYPE_INTERACT}}},
+        },
         [10792] = {
             [questKeys.requiredSourceItems] = {31347,31346},
             [questKeys.objectives] = {{{20813,"Barracks Burned", Questie.ICON_TYPE_EVENT},{20815,"Eastern Hovel Burned", Questie.ICON_TYPE_EVENT},{20816,"Western Hovel Burned", Questie.ICON_TYPE_EVENT},{20814,"Stable Burned", Questie.ICON_TYPE_EVENT}}},
@@ -2735,13 +2744,17 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[3483]={{44,51}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Demoniac Scryer")}},
         },
         [10839] = {
-            [questKeys.triggerEnd] = {"Attempt to purify the Darkstone of Terrok", {[zoneIDs.TEROKKAR_FOREST]={{30.84,42.03}}}},
+            [questKeys.objectives] = {nil,{{185191}}},
         },
         [10840] = {
             [questKeys.preQuestSingle] = {10915,10852},
         },
         [10842] = {
             [questKeys.preQuestSingle] = {10915,10852},
+        },
+        [10852] = {
+            [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",185202}}}},
         },
         [10854] = {
             [questKeys.objectives] = {{{21722,"Enslaved Netherwing Drake freed"}}},
@@ -2831,6 +2844,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10911] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon"), 0, {{"object", 185306}}}},
+        },
+        [10913] = {
+            [questKeys.objectives] = {{{21859,"Slain Sha'tar Vindicator corpse burned",Questie.ICON_TYPE_EVENT},{21846,"Slain Auchenai Warrior corpse burned",Questie.ICON_TYPE_EVENT}}},
         },
         [10915] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the coffin and kill its contents"), 0, {{"object", 184999}}}},

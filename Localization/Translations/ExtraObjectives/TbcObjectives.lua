@@ -614,18 +614,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "虚空幼龙会将你送到乌提斯上空，然后你要对准空灵管道投掷相位扰流器",
         ["zhTW"] = false,
     },
-    ["Mana Bomb Activated"] = { -- 10446
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Use the Totem of Spirits on Enraged Earth and Fiery Spirits"] = { -- 10458
         ["enUS"] = true,
         ["deDE"] = "Benutzt das Totem der Geister an den wütenden Erd- und Feuergeistern.",
