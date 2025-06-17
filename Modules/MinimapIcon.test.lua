@@ -6,10 +6,6 @@ describe("MinimapIcon", function()
 
     ---@type QuestieJourney
     local QuestieJourney
-    ---@type QuestieLib
-    local QuestieProfessions
-    ---@type QuestieProfessions
-    local QuestieLib
     ---@type QuestieMenu
     local QuestieMenu
     ---@type QuestieQuest
@@ -30,8 +26,8 @@ describe("MinimapIcon", function()
 
         QuestieJourney = require("Modules.Journey.QuestieJourney")
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
-        QuestieProfessions = require("Modules.QuestieProfessions")
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/QuestieProfessions.lua")
+        dofile("Modules/Libs/QuestieLib.lua")
         QuestieMenu = require("Modules.QuestieMenu.QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
         QuestieMenu.Hide = spy.new(function() end)
