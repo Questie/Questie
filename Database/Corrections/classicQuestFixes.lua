@@ -4180,6 +4180,7 @@ function QuestieQuestFixes:Load()
         },
         [9416] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [9419] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
