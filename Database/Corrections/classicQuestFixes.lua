@@ -3034,6 +3034,9 @@ function QuestieQuestFixes:Load()
         [8361] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),0,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
         },
+        [8363] = { -- Abyssal Signets
+            [questKeys.requiredMinRep] = {609,3000},
+        },
         [8367] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
