@@ -177,6 +177,7 @@ _AutoQuesting.disallowedQuests = {
         [13927] = true, -- Little Orphan Kekek of the Wolvar (exclusive to the Oracles)
         [27022] = true, -- Extinguishing the Idol
         ---
+        [26099] = true, -- Is This Justice?
         [29205] = true, -- The Forlorn Spire
         [29206] = true, -- Into the Fire
     },
