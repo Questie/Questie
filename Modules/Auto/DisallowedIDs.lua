@@ -178,6 +178,7 @@ _AutoQuesting.disallowedQuests = {
         [27022] = true, -- Extinguishing the Idol
         ---
         [26099] = true, -- Is This Justice?
+        [26115] = true, -- To Be Horde...
         [29205] = true, -- The Forlorn Spire
         [29206] = true, -- Into the Fire
     },
