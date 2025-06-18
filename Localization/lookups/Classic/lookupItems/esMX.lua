@@ -1440,6 +1440,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [12907] = "Agua de la Poza de la Luna corrupta",
 [12922] = "Cantimplora vacía",
 [12925] = "Piel de serpiente de Arikara",
+[12928] = "Yeti mecánico de Umi",
 [12938] = "Sangre de héroes",
 [12942] = "Llave de la jaula de pantera",
 [12946] = "Hipercondensador",
