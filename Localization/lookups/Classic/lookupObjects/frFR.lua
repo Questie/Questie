@@ -629,6 +629,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [154357] = "Boue luisante",
 [156561] = "Avis de recherche",
 [157936] = "Tas de poussière d'Un'Goro",
+[157937] = "Lac de Lave de la Crête de la Fournaise",
 [160445] = "Restes de Sha'ni Proudtusk",
 [160836] = "Coffre aux reliques",
 [160840] = "Monticule de terre",

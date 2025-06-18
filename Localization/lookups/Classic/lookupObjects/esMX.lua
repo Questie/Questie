@@ -2832,6 +2832,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [156561] = "Cartel de Se busca",
 [157636] = "Hoguera",
 [157936] = "Montón de porquería de Un'Goro",
+[157937] = "Lago de lava de la Cresta del Penacho en Llamas",
 [157968] = "Hoguera",
 [157969] = "Caldera",
 [160411] = "Estufa",

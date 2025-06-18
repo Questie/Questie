@@ -627,6 +627,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [154357] = "Barro centelleante",
 [156561] = "Cartel de Se busca",
 [157936] = "Montón de porquería de Un'Goro",
+[157937] = "Lago de lava de la Cresta del Penacho en Llamas",
 [160445] = "Restos de Sha'ni Colminilludo",
 [160836] = "Arca de reliquias",
 [160840] = "Montículo de tierra blanda",

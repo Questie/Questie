@@ -611,6 +611,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [154357] = "Lama Irisada",
 [156561] = "Pôster de Procura-se",
 [157936] = "Monte de Terra de Un'Goro",
+[157937] = "Lago de Lava do Pico Penacho de Fogo",
 [160445] = "Restos de Sha'ni Altapresa",
 [160836] = "Arca de Relíquia",
 [160840] = "Monturo de Terra Macia",
