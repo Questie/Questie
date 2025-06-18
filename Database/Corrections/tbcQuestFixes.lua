@@ -1684,9 +1684,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [9935] = {
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.objectives] = {{{18391}},nil,nil,nil,{{{17146,17147,17148,18658,21276},21276}}},
         },
         [9936] = {
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.objectives] = {{{18391}},nil,nil,nil,{{{17146,17147,17148,18658,21276},21276}}},
         },
         [9939] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -1864,6 +1866,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {8330},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+        },
+        [10074] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [10075] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [10076] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [10077] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483},
