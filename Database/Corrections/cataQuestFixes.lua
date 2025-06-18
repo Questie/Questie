@@ -1630,6 +1630,24 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_PENINSULA,
         },
+        [11004] = { -- World of Shadows
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11005] = { -- Secrets of the Talonpriests
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11008] = { -- Fires Over Skettis
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11021] = { -- Ishaal's Almanac
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11028] = { -- Countdown to Doom
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11029] = { -- A Shabby Disguise
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
         [11031] = { -- Archmage No More
             [questKeys.specialFlags] = 1,
         },
@@ -1641,6 +1659,24 @@ function CataQuestFixes.Load()
         },
         [11034] = { -- Restorer No More
             [questKeys.specialFlags] = 1,
+        },
+        [11056] = { -- Hazzik's Bargain
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11073] = { -- Terokk's Downfall
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11074] = { -- Tokens of the Descendants
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11085] = { -- Escape from Skettis
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11093] = { -- Hungry Nether Rays
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11098] = { -- To Skettis!
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
         [11103] = { -- Sage No More
             [questKeys.startedBy] = {{19935}},
@@ -1770,6 +1806,9 @@ function CataQuestFixes.Load()
                 [zoneIDs.THE_EXODAR]={{40.09,28.3}},
             }},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11885] = { -- Adversarial Blood
+            [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
         [11905] = { -- Postponing the Inevitable
             [questKeys.startedBy] = {{55535}},
