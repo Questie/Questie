@@ -1542,6 +1542,9 @@ function QuestieTBCQuestFixes:Load()
         [9802] = {
             [questKeys.requiredMaxRep] = {},
         },
+        [9805] = {
+            [questKeys.objectives] = {{{18110,"Large Hut Destroyed",Questie.ICON_TYPE_EVENT},{18142,"Western Hut Destroyed",Questie.ICON_TYPE_EVENT},{18143,"Southern Hut Destroyed",Questie.ICON_TYPE_EVENT},{18144,"Eastern Hut Destroyed",Questie.ICON_TYPE_EVENT}}},
+        },
         [9808] = {
             [questKeys.requiredMinRep] = {970,0},
         },
