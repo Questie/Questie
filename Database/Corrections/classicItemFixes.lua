@@ -17,8 +17,14 @@ function QuestieItemFixes:Load()
         [730] = {
             [itemKeys.npcDrops] = {1418,127,2206,2207,517,2203,456,1958,2202,2205,1027,513,2208,2204,2201,126,515,458,1028,171,1767,1025,3739,1024,3737,1026,3742,3740,422,578,545,548,1083,544},
         },
+        [769] = {
+            [itemKeys.npcDrops] = {113,119,157,330,390,454,524,547,1125,1126,1127,1190,1191,1192,1689,1985,3098,3099,3100,3225},
+        },
         [858] = {
             [itemKeys.vendors] = {844,958,1257,1453,2140,2380,2480,2481,2812,3548,3658,3956,4226,5178,8157,8177,8178,14847},
+        },
+        [910] = {
+            [itemKeys.objectDrops] = {1560},
         },
         [929] = {
             [itemKeys.vendors] = {1307,1453,1457,2481,2805,3134,3534,3956,4083,4878,8305,13476},
@@ -35,6 +41,9 @@ function QuestieItemFixes:Load()
             [itemKeys.vendors] = {239},
             [itemKeys.class] = 12,
             [itemKeys.name] = 'Keg of Thunderbrew',
+        },
+        [1357] = {
+            [itemKeys.npcDrops] = {126,127,171,391,456,458,513,515,517},
         },
         [1524] = {
             [itemKeys.npcDrops] = {667,669,670,672,696,780,781,782,783,784,1059,1061,1062},
@@ -81,15 +90,6 @@ function QuestieItemFixes:Load()
         [2633] = {
             [itemKeys.npcDrops] = {940,941,942}, -- #2433
         },
-        [2659] = {
-            [itemKeys.objectDrops] = {333},
-        },
-        [2661] = {
-            [itemKeys.objectDrops] = {333},
-        },
-        [2665] = {
-            [itemKeys.relatedQuests] = {90},
-        },
         [2686] = {
             [itemKeys.relatedQuests] = {308},
             [itemKeys.npcDrops] = {1247,1682,7744},
@@ -101,6 +101,9 @@ function QuestieItemFixes:Load()
         },
         [2856] = {
             [itemKeys.npcDrops] = {426,430,446,580}, -- Remove rare mob #903
+        },
+        [2859] = { -- Vile Fin Scale
+            [itemKeys.npcDrops] = {1543,1544,1545},
         },
         [2886] = {
             [itemKeys.npcDrops] = {1125,1126,1127,1689},
@@ -150,6 +153,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {407},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [3317] = {
+            [itemKeys.npcDrops] = {1939,1940,1942,1943},
         },
         [3340] = {
             [itemKeys.npcDrops] = {},
@@ -299,6 +305,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {793,717},
             [itemKeys.npcDrops] = {},
         },
+        [4854] = {
+            [itemKeys.npcDrops] = {3056},
+        },
         [4904] = {
             [itemKeys.relatedQuests] = {812},
             [itemKeys.npcDrops] = {3189},
@@ -312,8 +321,8 @@ function QuestieItemFixes:Load()
         [5051] = {
             [itemKeys.relatedQuests] = {862},
         },
-        [5056] = {
-            [itemKeys.objectDrops] = {1619,3726,1618,3724,1620,3727},
+        [5056] = { -- Root Sample
+            [itemKeys.objectDrops] = {3724,3725,3726,3727,3729,3730}, -- only drops from these and we can remove from blacklist
         },
         [5058] = {
             [itemKeys.npcDrops] = {},
@@ -327,6 +336,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {890,892},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [5086] = {
+            [itemKeys.npcDrops] = {3242,3426,3466},
         },
         [5088] = {
             [itemKeys.relatedQuests] = {894},
@@ -359,11 +371,14 @@ function QuestieItemFixes:Load()
         [5251] = {
             [itemKeys.questRewards] = {960,961},
         },
+        [5359] = {
+            [itemKeys.objectDrops] = {13949}
+        },
         [5411] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
         [5445] = {
-            [itemKeys.npcDrops] = {3943,10559},
+            [itemKeys.npcDrops] = {3943},
             [itemKeys.relatedQuests] = {1009},
         },
         [5455] = {
@@ -382,6 +397,9 @@ function QuestieItemFixes:Load()
         [5519] = {
             [itemKeys.npcDrops] = {3928},
             [itemKeys.objectDrops] = {},
+        },
+        [5535] = {
+            [itemKeys.objectDrops] = {19283},
         },
         [5619] = {
             [itemKeys.relatedQuests] = {929},
@@ -423,6 +441,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {1195},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {20806},
+        },
+        [5877] = {
+            [itemKeys.npcDrops] = {4130,4131,4133},
         },
         [5880] = {
             [itemKeys.class] = 12,
@@ -472,6 +493,9 @@ function QuestieItemFixes:Load()
         },
         [6992] = {
             [itemKeys.npcDrops] = {},
+        },
+        [7067] = {
+            [itemKeys.npcDrops] = {92,2258,2359,2592,2735,2736,2752,2755,2791,2919,4034,4035,4120,4499,5465,7031,7032,7135,7136,7137,8278,9396,10119,11658,11659,11665,11746,11747,11777,11778,11781,11782,11783,11784,12076,12100,12101,13256,14462,14464,15205,15208,15307},
         },
         [7070] = {
             [itemKeys.objectDrops] = {},
@@ -564,6 +588,9 @@ function QuestieItemFixes:Load()
         },
         [7972] = {
             [itemKeys.npcDrops] = {1488,1489,1783,1784,1785,1787,1788,1789,1791,1793,1794,1795,1796,1802,1804,1805,3094,4472,4474,4475,6116,6117,7370,7523,7524,7864,8523,8524,8525,8526,8527,8528,8529,8530,8531,8532,8538,8539,8540,8541,8542,8543,8545,10500,10580,10816,11873,12262,12263,12377,12378,12379,12380},
+        },
+        [7974] = {
+            [itemKeys.itemDrops] = {7973},
         },
         [8072] = {
             [itemKeys.relatedQuests] = {},
@@ -678,11 +705,20 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [10515] = { -- Torch of Retribution
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [10575] = {
             [itemKeys.npcDrops] = {9461}, -- #1216
         },
+        [10589] = {
+            [itemKeys.npcDrops] = {5353},
+        },
         [10639] = {
             [itemKeys.npcDrops] = {1988,1989},
+        },
+        [10663] = { -- Essence of Hakkar
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [10691] = { -- #1396
             [itemKeys.relatedQuests] = {3568},
@@ -715,6 +751,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [11078] = {
+            [itemKeys.class] = 12,
+        },
         [11113] = {
             [itemKeys.objectDrops] = {161526},
         },
@@ -725,6 +764,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {3883},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {174793},
+        },
+        [11148] = {
+            [itemKeys.class] = 12,
         },
         [11149] = {
             [itemKeys.relatedQuests] = {3924},
@@ -769,18 +811,29 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
         },
-        [7067] = {
-            [itemKeys.npcDrops] = {92,2258,2359,2592,2735,2736,2752,2755,2791,2919,4034,4035,4120,4499,5465,7031,7032,7135,7136,7137,8278,9396,10119,11658,11659,11665,11746,11747,11777,11778,11781,11782,11783,11784,12076,12100,12101,13256,14462,14464,15205,15208,15307},
+        [11818] = {
+            [itemKeys.npcDrops] = {5840,5844,5846,8504,8566,15692},
+        },
+        [11914] = {
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = 12,
         },
         [11947] = { -- #1315
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7086},
             [itemKeys.objectDrops] = {},
         },
+        [11948] = {
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = 12,
+        },
         [11949] = { -- #1315
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7092},
             [itemKeys.objectDrops] = {},
+        },
+        [11953] = {
+            [itemKeys.class] = 12,
         },
         [11954] = { -- #1070
             [itemKeys.relatedQuests] = {4513},
@@ -796,9 +849,6 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4294},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {175265},
-        },
-        [12283] = {
-            [itemKeys.npcDrops] = {7047,7048,7049},
         },
         [12291] = {
             [itemKeys.npcDrops] = {6557,9621},
@@ -859,20 +909,26 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {176344},
         },
         [12766] = {
-            [itemKeys.objectDrops] = {190483},
+            [itemKeys.objectDrops] = {176344},
         },
         [12768] = {
-            [itemKeys.objectDrops] = {190484},
+            [itemKeys.objectDrops] = {176344},
         },
         [12813] = { -- #1313
             [itemKeys.relatedQuests] = {5085},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [12847] = {
+            [itemKeys.npcDrops] = {10899},
+        },
         [12885] = { -- #1148
             [itemKeys.relatedQuests] = {5149},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [12886] = {
+            [itemKeys.class] = 12,
         },
         [12907] = { -- #1083
             [itemKeys.relatedQuests] = {5157},
@@ -887,6 +943,9 @@ function QuestieItemFixes:Load()
         },
         [13156] = {
             [itemKeys.class] = 12,
+        },
+        [13172] = {
+            [itemKeys.name] = "Grimm's Premium Tobacco",
         },
         [13422] = {
             [itemKeys.objectDrops] = {},
@@ -995,22 +1054,22 @@ function QuestieItemFixes:Load()
         [16967] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500000},
+            [itemKeys.objectDrops] = {400006},
         },
         [16968] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500002},
+            [itemKeys.objectDrops] = {400008},
         },
         [16969] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500003},
+            [itemKeys.objectDrops] = {400009},
         },
         [16970] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500001},
+            [itemKeys.objectDrops] = {400007},
         },
         [16973] = { -- #1156
             [itemKeys.relatedQuests] = {5247},
@@ -1036,7 +1095,7 @@ function QuestieItemFixes:Load()
         [17696] = {
             [itemKeys.relatedQuests] = {7029,7041},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400061},
+            [itemKeys.objectDrops] = {178907},
         },
         [17761] = {
             [itemKeys.npcDrops] = {12240},
@@ -1062,6 +1121,15 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {7383},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [18240] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [18335] = {
+            [itemKeys.class] = 12,
+        },
+        [18401] = {
+            [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
         },
         [18605] = {
             [itemKeys.npcDrops] = {12396}, -- #7583
@@ -1223,6 +1291,15 @@ function QuestieItemFixes:Load()
         [21228] = {
             [itemKeys.objectDrops] = {},
         },
+        [21314] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [21232] = { -- Imperial Qiraji Armaments
+            [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
+        },
+        [21237] = { -- Imperial Qiraji Regalia
+            [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
+        },
         [21557] = {
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
@@ -1253,6 +1330,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
+        [21711] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [22094] = {
             [itemKeys.npcDrops] = {4364,4366,4368,4370,4371,16072},
         },
@@ -1264,6 +1344,24 @@ function QuestieItemFixes:Load()
         },
         [22527] = {
             [itemKeys.npcDrops] = {6520,6521,7031,7032,7132,8519,8520,8521,8522,8909,8910,8911,9017,9025,9026,9816,9878,9879,11480,11483,11484,11744,11745,11746,11747,13279,13280,14399,14400,14455,14458,14460,14462},
+        },
+        [23179] = {
+            [itemKeys.objectDrops] = {181336},
+        },
+        [23180] = {
+            [itemKeys.objectDrops] = {181337},
+        },
+        [23181] = {
+            [itemKeys.objectDrops] = {181335},
+        },
+        [23182] = {
+            [itemKeys.objectDrops] = {181332},
+        },
+        [23183] = {
+            [itemKeys.objectDrops] = {181333},
+        },
+        [23184] = {
+            [itemKeys.objectDrops] = {181334},
         },
         [190179] = {
             [itemKeys.name] = "Avelina's Heart",
@@ -1294,7 +1392,7 @@ function QuestieItemFixes:Load()
         },
         [190307] = {
             [itemKeys.name] = "Unlit Torch",
-            [itemKeys.objectDrops] = {400014},
+            [itemKeys.objectDrops] = {400001},
             [itemKeys.flags] = 2, -- Conjured
             [itemKeys.relatedQuests] = {65602},
         },
@@ -1302,6 +1400,15 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Wooden Figurine",
             [itemKeys.objectDrops] = {375544},
             [itemKeys.relatedQuests] = {65602},
+        },
+        ----------------
+        [227911] = {
+            [itemKeys.name] = "Head of Rend Blackhand",
+            [itemKeys.npcDrops] = {10429},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 84377,
         },
     }
 end

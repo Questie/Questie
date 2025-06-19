@@ -1,4 +1,4 @@
----@type QuestieFramePool
+---@class QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -22,6 +22,7 @@ local _Qframe = {}
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
+    ---@field isManualIcon boolean
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
@@ -55,6 +56,13 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newTexture:SetAllPoints(newFrame)
     newTexture:SetTexelSnappingBias(0)
     newTexture:SetSnapToPixelGrid(false)
+
+    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+    newFrame.overlayTexture:SetWidth(16)
+    newFrame.overlayTexture:SetHeight(16)
+    newFrame.overlayTexture:SetAllPoints(newFrame)
+    newFrame.overlayTexture:SetTexelSnappingBias(0)
+    newFrame.overlayTexture:SetSnapToPixelGrid(false)
 
     local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
@@ -153,45 +161,45 @@ function _Qframe:OnLeave()
 end
 
 function _Qframe:OnClick(button)
-    if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and not IsModifierKeyDown() and not self.miniMapIcon then
-        if button == "RightButton" then
-            local currentMapParent = WorldMapFrame:GetMapID()
-            if currentMapParent then
-                local mapInfo = C_Map.GetMapInfo(currentMapParent)
-                currentMapParent = mapInfo.parentMapID
+    local uiMapId = self.UiMapID
 
-                if currentMapParent and currentMapParent > 0 then
-                    WorldMapFrame:SetMapID(currentMapParent)
-                end
+    if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
+        local currentMapId = WorldMapFrame:GetMapID()
+        if button == "RightButton" then
+            local mapInfo = C_Map.GetMapInfo(currentMapId)
+            local currentMapParent = mapInfo.parentMapID
+
+            if currentMapParent and currentMapParent > 0 then
+                WorldMapFrame:SetMapID(currentMapParent)
             end
         else
-            if self.UiMapID ~= WorldMapFrame:GetMapID() then
-                WorldMapFrame:SetMapID(self.UiMapID);
+            if uiMapId ~= currentMapId then
+                WorldMapFrame:SetMapID(uiMapId);
             end
         end
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
-        if self and self.UiMapID and button == "LeftButton" then
-            if (not ChatEdit_GetActiveWindow()) then
-                if self.data.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
-                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
-                elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
-                    QuestieMap:UnloadManualFrames(self.data.id)
+        if uiMapId and button == "LeftButton" then
+            local frameData = self.data
+            if ChatEdit_GetActiveWindow() and frameData.QuestData then
+                if Questie.db.profile.trackerShowQuestLevel then
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
+                else
+                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
                 end
             else
-                if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
-                else
-                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
+                if frameData.Type == "available" and IsShiftKeyDown() then
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
+                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
+                    QuestieMap:UnloadManualFrames(frameData.id)
                 end
             end
         end
     end
 
     -- TomTom integration
-    if self and self.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
-        local m = self.UiMapID
+    if uiMapId and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
         local x = self.x / 100
         local y = self.y / 100
         local title = self.data.Name
@@ -201,15 +209,15 @@ function _Qframe:OnClick(button)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
             local waypoint = Questie.db.char._tom_waypoint
             TomTom:RemoveWaypoint(waypoint)
-            add = (waypoint[1] ~= m or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
+            add = (waypoint[1] ~= uiMapId or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
         end
 
         -- Add waypoint
-        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(m, x, y, { title = title, crazy = true, from = "Questie" })
+        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, { title = title, crazy = true, from = "Questie" })
     end
 
     -- Make sure we don't break the map ping feature - this allows us to ping our own icons.
-    if self.miniMapIcon and button == "RightButton" and not IsModifierKeyDown() then
+    if self.miniMapIcon and button == "RightButton" and (not IsModifierKeyDown()) then
         local _, _, _, x, y = self:GetPoint()
         Minimap:PingLocation(x, y)
     end
@@ -258,6 +266,11 @@ function _Qframe:BaseOnShow()
 end
 
 function _Qframe:BaseOnHide()
+    local data = self.data
+
+    if data and data.Type and data.Type == "complete" then
+        self:SetFrameLevel(self:GetFrameLevel() - 1)
+    end
     self.glow:Hide()
 end
 
@@ -280,6 +293,16 @@ function _Qframe:UpdateTexture(texture)
     self.texture:SetTexture(texture)
     --self.data.Icon = texture;
     local colors = { 1, 1, 1 }
+
+    if self.data.StarterType then
+        if self.data.StarterType == "itemFromMonster" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
+        elseif self.data.StarterType == "itemFromObject" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
+        end
+    else
+        self.overlayTexture:SetTexture("")
+    end
 
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
@@ -309,6 +332,7 @@ function _Qframe:Unload()
     self:SetScript("OnHide", nil)
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
+    self.isManualIcon = false
 
     -- Reset questIdFrames so they won't be toggled again
     local frameName = self:GetName()
@@ -456,6 +480,8 @@ function _Qframe:ShouldBeHidden()
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
+    local IsSoD = Questie.IsSoD
+
     --investigate quest and cache results to minimize DB lookups
     local repeatable = QuestieDB.IsRepeatable(questId)
     local event = QuestieDB.IsActiveEventQuest(questId)
@@ -463,10 +489,7 @@ function _Qframe:ShouldBeHidden()
     local raid = QuestieDB.IsRaidQuest(questId)
     local pvp = QuestieDB.IsPvPQuest(questId)
     local normal = not (repeatable or event or dungeon or raid or pvp)
-    local rune = false
-    if Questie.IsSoD then
-        rune = QuestieDB.IsSoDRuneQuest(questId)
-    end
+    local itemStart = (data.StarterType ~= nil)
 
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
@@ -480,14 +503,16 @@ function _Qframe:ShouldBeHidden()
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
-            and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+            and (
+                    (not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
                 or ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)
                 or ((not profile.showRaidQuests) and raid)
                 or ((not profile.showPvPQuests) and pvp)
-                or ((not profile.showSoDRunes) and rune)
+                or ((not profile.enableAvailableItems) and itemStart)
+                or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )

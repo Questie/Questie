@@ -14,6 +14,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
 --Import Questie modules.
 -------------------------
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
@@ -24,8 +26,17 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local GetItemCount = C_Item.GetItemCount or GetItemCount
+local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
+local IsEquippableItem = C_Item.IsEquippableItem or IsEquippableItem
 
 local tinsert = table.insert
 
@@ -106,9 +117,9 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
----@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
+---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
-    local spawn, zone = QuestieMap:GetNearestSpawn(objective)
+    local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -117,12 +128,12 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
----@param quest table The table provided by QuestieDB.GetQuest(questId)
+---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
-    local spawn, zone = QuestieMap:GetNearestQuestSpawn(quest)
+    local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
         WorldMapFrame:Show()
-        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
         WorldMapFrame:SetMapID(uiMapId)
         TrackerUtils:FlashFinisher(quest)
     end
@@ -141,6 +152,11 @@ function TrackerUtils:FlashObjective(objective)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
@@ -200,6 +216,11 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
+                                            if icon.data.lineFrames then
+                                                for _, line in pairs(icon.data.lineFrames) do
+                                                    line:Show()
+                                                end
+                                            end
                                         end
                                     end
                                 end
@@ -226,11 +247,16 @@ function TrackerUtils:FlashFinisher(quest)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
         else
-            for _, frameName in ipairs(framelist) do
+            for _, frameName in pairs(framelist) do
                 local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
@@ -279,6 +305,11 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
+                                        if icon.data.lineFrames then
+                                            for _, line in pairs(icon.data.lineFrames) do
+                                                line:Show()
+                                            end
+                                        end
                                     end
                                 end
                             end
@@ -314,8 +345,11 @@ end
 ---@param quest table Quest Table
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
-    local questIndex = GetQuestLogIndexByID(quest.Id)
-    local completionText = GetQuestLogCompletionText(questIndex)
+    local completionText
+    if GetQuestLogCompletionText then
+        local questIndex = GetQuestLogIndexByID(quest.Id)
+        completionText = GetQuestLogCompletionText(questIndex)
+    end
 
     if completionText then
         return completionText
@@ -482,12 +516,6 @@ function TrackerUtils:FocusQuest(questId)
     end
 end
 
----@param zoneOrSort string The name of the Zone
-function TrackerUtils:ReportErrorMessage(zoneOrSort)
-    Questie:Error("SortID: |cffffbf00" .. zoneOrSort .. "|r was not found in the Database. Please file a bugreport at:")
-    Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
-end
-
 ---@return table|nil position Returns Players current X/Y coordinates or nil if a Players postion can't be determined
 local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
@@ -503,67 +531,6 @@ local function _GetWorldPlayerPosition()
     }
 
     return position
-end
-
----@param x1 number Current Position X
----@param y1 number Current Position Y
----@param x2 number Previous Position X
----@param y2 number Previous Position Y
----@return number Distance @Distance between Current and Previous X/Y coordinates
-local function _GetDistance(x1, y1, x2, y2)
-    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-end
-
----@param questId number Quest ID number
----@return number|nil closestDistance Returns X/Y coordinates to closest Objective or nil if nothing is found
-local function _GetDistanceToClosestObjective(questId)
-    -- main function for proximity sorting
-    local player = _GetWorldPlayerPosition()
-
-    if (not player) then
-        return nil
-    end
-
-    local coordinates = {}
-    local quest = QuestieDB.GetQuest(questId)
-
-    if (not quest) then
-        return nil
-    end
-
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-
-    if (not spawn) or (not zone) or (not name) then
-        return nil
-    end
-
-    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-    if not uiMapId then
-        return nil
-    end
-    local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, {
-        x = spawn[1] / 100,
-        y = spawn[2] / 100
-    })
-
-    tinsert(coordinates, {
-        x = worldPosition.x,
-        y = worldPosition.y
-    })
-
-    if (not coordinates) then
-        return nil
-    end
-
-    local closestDistance
-    for _, _ in pairs(coordinates) do
-        local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y)
-        if (not closestDistance) or (distance < closestDistance) then
-            closestDistance = distance
-        end
-    end
-
-    return closestDistance
 end
 
 ---@param uiMapId number Continent ID number
@@ -587,7 +554,7 @@ local function _GetContinent(uiMapId)
     end
 end
 
-local function _GetZoneName(zoneOrSort)
+local function _GetZoneName(zoneOrSort, questId)
     if not zoneOrSort then return end
     local zoneName
     local sortObj = Questie.db.profile.trackerSortObjectives
@@ -599,16 +566,16 @@ local function _GetZoneName(zoneOrSort)
             -- Valid CategoryID
             zoneName = TrackerUtils:GetCategoryNameByID(zoneOrSort)
         else
-            -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
-            zoneName = tostring(zoneOrSort)
-            TrackerUtils:ReportErrorMessage(zoneName)
+            -- The quest has no explicit zone or category. Fallback to "Unknown Zone"
+            zoneName = "Unknown Zone"
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[TrackerUtils:_GetZoneName] zoneOrSort", zoneOrSort, "of quest", questId, "is not in the Database!")
         end
     else
         -- Let's create custom Zones based on Sorting type.
         if sortObj == "byComplete" then
-            zoneName = "Quests (By % Complete)"
+            zoneName = "Quests (By %% Complete)"
         elseif sortObj == "byCompleteReversed" then
-            zoneName = "Quests (By % Complete Reversed)"
+            zoneName = "Quests (By %% Complete Reversed)"
         elseif sortObj == "byLevel" then
             zoneName = "Quests (By Level)"
         elseif sortObj == "byLevelReversed" then
@@ -637,7 +604,7 @@ function TrackerUtils:GetSortedQuestIds()
             -- Create questDetails table keys and insert values
             questDetails[quest.Id] = {}
             questDetails[quest.Id].quest = quest
-            questDetails[quest.Id].zoneName = _GetZoneName(quest.zoneOrSort)
+            questDetails[quest.Id].zoneName = _GetZoneName(quest.zoneOrSort, quest.Id)
 
             if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
                 questDetails[quest.Id].questCompletePercent = 1
@@ -706,11 +673,11 @@ function TrackerUtils:GetSortedQuestIds()
         for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
             sortData.questId = questId
-            sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
+            sortData.distance = distance
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
@@ -806,7 +773,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Updated!")
                             playerPosition = position
@@ -844,11 +811,11 @@ function TrackerUtils:GetSortedQuestIds()
         for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
             sortData.questId = questId
-            sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
+            sortData.distance = distance
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
@@ -916,7 +883,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Updated!")
                             playerPosition = position
@@ -1044,3 +1011,168 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
     end
 end
+
+---@param quest Quest @The quest to add the quest item buttons for
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@param line table @The line to add the quest item buttons to
+---@param questItemButtonSize number @The size of the quest item buttons
+---@param trackerQuestFrame table @The tracker quest frame
+---@param isMinimizable boolean @true if the quest is minimizable
+---@param rePositionLine function @Callback function to reposition the line
+---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
+    local usableQuestItems = {}
+
+    local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
+    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
+    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+        tinsert(usableQuestItems, sourceItemId)
+    end
+
+    for _, itemId in pairs(quest.requiredSourceItems or {}) do
+        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+            tinsert(usableQuestItems, itemId)
+        end
+    end
+
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
+            tinsert(usableQuestItems, objective.Id)
+        end
+    end
+
+    if complete ~= 1 and #usableQuestItems > 0 then
+        -- Get button from buttonPool
+        local button = TrackerLinePool.GetNextItemButton()
+        if not button then
+            return false -- stop populating the tracker
+        end
+
+        local questId = quest.Id
+
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize)
+
+        -- Setup button and set attributes
+        if primaryButtonAdded then
+            local height = 0
+            local frame = line
+            while frame and frame ~= trackerQuestFrame do
+                local _, parent, _, _, yOff = frame:GetPoint()
+                height = height - (frame:GetHeight() - yOff)
+                frame = parent
+            end
+
+            -- If the Quest is minimized show the Expand Quest button
+            if Questie.db.char.collapsedQuests[questId] then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
+                    line.expandQuest:Hide()
+                else
+                    line.expandQuest:Show()
+                end
+            else
+                line.expandQuest:Hide()
+            end
+
+            -- Attach button to Quest Title linePool
+            button:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+            button:SetParent(line)
+            button:Show()
+
+            -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
+            -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
+            -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
+            if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
+                button:SetParent(UIParent)
+                button:Hide()
+            end
+
+            if #usableQuestItems > 1 then
+                local secondaryButton = TrackerLinePool.GetNextItemButton()
+                if not secondaryButton then
+                    return false -- stop populating the tracker
+                end
+
+                -- We add the altButton to be able to position things correctly in QuestieTracker.lua
+                line.altButton = secondaryButton
+
+                -- TODO: Handle more than 2 buttons if required
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize)
+
+                if secondaryButtonAdded then
+                    height = 0
+                    frame = line
+
+                    while frame and frame ~= trackerQuestFrame do
+                        local _, parent, _, _, yOff = frame:GetPoint()
+                        height = height - (frame:GetHeight() - yOff)
+                        frame = parent
+                    end
+
+                    rePositionLine(secondaryButton:GetAlpha())
+
+                    -- Attach button to Quest Title linePool
+                    secondaryButton:SetPoint("TOPLEFT", line, "TOPLEFT", 2 + questItemButtonSize, 0)
+                    secondaryButton:SetParent(line)
+                    secondaryButton:Show()
+
+                    if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
+                        secondaryButton:SetParent(UIParent)
+                        secondaryButton:Hide()
+                    end
+                end
+            end
+        -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
+        else
+            line.expandQuest:Show()
+        end
+    -- Hide button if quest complete or failed
+    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
+        line.expandQuest:Hide()
+    else
+        line.expandQuest:Show()
+    end
+
+    return true
+end
+
+---@return boolean @true if the Tracker tracks a quest, false if not
+function TrackerUtils.HasQuest()
+    local hasQuest
+
+    if (GetNumQuestWatches(true) == 0) then
+        if Expansions.Current >= Expansions.Wotlk then
+            if (GetNumTrackedAchievements(true) == 0) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = false
+        end
+    else
+        if not Questie.db.profile.trackerShowCompleteQuests then
+            local isTrackingIncompleteQuest = false
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if not quest then break end
+                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                    isTrackingIncompleteQuest = true
+                    break
+                end
+            end
+
+            -- This hides the Tracker when all tracked Quests are complete
+            if (not isTrackingIncompleteQuest) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = true
+        end
+    end
+
+    Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)
+    return hasQuest
+end
+
+return TrackerUtils

@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["ptBR"] = {
+l10n.itemLookup["ptBR"] = loadstring([[return {
 [159] = "Água Refrescante da Fonte",
 [182] = "Cabeça do Garrick",
 [723] = "Fígado de Goretusco",
@@ -1209,7 +1209,7 @@ l10n.itemLookup["ptBR"] = {
 [12957] = "Espada Estilhaçada de Marduk",
 [13140] = "Chave Vermelho Sangue",
 [13157] = "Crânio Fétido",
-[13172] = "Tabaco da Lata do Fras Siabi",
+[13172] = "Tabaco da Lata do Carranca",
 [13174] = "Amostra de Carne Infectada",
 [13176] = "Dados do Flagelo",
 [13180] = "Água Benta de Stratholme",
@@ -1602,6 +1602,7 @@ l10n.itemLookup["ptBR"] = {
 [21230] = "Artefato Qiraji Antigo",
 [21377] = "Pena do Cocar de Lenha Morta",
 [21383] = "Contas Espirituais de Invernoso",
+[21545] = "Suprimento do Bosque Defumado",
 [21557] = "Foguete Vermelho Pequeno",
 [21558] = "Foguete Azul Pequeno",
 [21559] = "Foguete Verde Pequeno",
@@ -1674,4 +1675,4 @@ l10n.itemLookup["ptBR"] = {
 [22734] = "Base de Atiesh",
 [22892] = "Pedra Necrótica Opaca",
 [23250] = "Concha Prismática",
-}
+}]])

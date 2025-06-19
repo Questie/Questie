@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["esMX"] = {
+l10n.npcNameLookup["esMX"] = loadstring([[return {
 [3] = {"Comecarnes",nil},
 [6] = {"Alimaña kóbold",nil},
 [30] = {"Araña del bosque",nil},
@@ -4278,7 +4278,7 @@ l10n.npcNameLookup["esMX"] = {
 [5768] = {"Ebru","Discípulo de Naralex"},
 [5769] = {"Archidruida Hamuul Runatótem",nil},
 [5770] = {"Nara Bravacrín",nil},
-[5771] = {"Jugkar Grim'rod",nil},
+[5771] = {"Jugkar Lug'vara",nil},
 [5772] = {"Imagen de Lord Azrethoc",nil},
 [5773] = {"Imagen de Jugkar Grim'rod",nil},
 [5774] = {"Lobo de montar",nil},
@@ -9194,4 +9194,4 @@ l10n.npcNameLookup["esMX"] = {
 [19280] = {"Durotar, Durotar Norte",nil},
 [19282] = {"Las Tierras Devastadas, Bastión Machacamiedo",nil},
 [19283] = {"Marjal Revolcafango, Isla Theramore",nil},
-}
+}]])

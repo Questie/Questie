@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["zhCN"] = { 
+l10n.npcNameLookup["zhCN"] = loadstring([[return {
 [3] = {"食腐者",nil},
 [6] = {"狗头人歹徒",nil},
 [19] = {"Benny Questgiver","NPC"},
@@ -21322,9 +21322,9 @@ l10n.npcNameLookup["zhCN"] = {
 [29191] = {"阿彻鲁斯通灵师",nil},
 [29192] = {"[Chapter IV] Chapter IV Dummy",nil},
 [29193] = {"血色逃兵",nil},
-[29194] = {"阿曼萨加德",nil},
-[29195] = {"奥莉丝塔夫人",nil},
-[29196] = {"索瓦尔勋爵",nil},
+[29194] = {"阿曼萨加德","死亡骑士训练师"},
+[29195] = {"奥莉丝塔夫人","死亡骑士训练师"},
+[29196] = {"索瓦尔勋爵","死亡骑士训练师"},
 [29197] = {"冰冻之影",nil},
 [29198] = {"莫格莱尼的坐骑",nil},
 [29199] = {"库尔迪拉·织亡者",nil},
@@ -26456,4 +26456,4 @@ l10n.npcNameLookup["zhCN"] = {
 [40842] = {"红玉龙兽",nil},
 [40870] = {"红玉巨龙",nil},
 [42078] = {"迷你雷神","无坚不摧"},
-}
+}]])

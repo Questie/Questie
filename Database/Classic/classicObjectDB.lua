@@ -10,6 +10,7 @@ QuestieDB.objectKeys = {
     ['spawns'] = 4, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
     ['zoneID'] = 5, -- guess as to where this object is most common
     ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
+    ['waypoints'] = 7, -- waypoints for objects on ships/zeppelins/etc
 }
 
 QuestieDB.objectData = [[return {

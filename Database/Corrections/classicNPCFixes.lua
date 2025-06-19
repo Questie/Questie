@@ -20,6 +20,8 @@ function QuestieNPCFixes:Load()
     return {
         [300] = {
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{35,80},{36.81,83.79},{38,80}}}, -- #1047
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
         },
         [314] = {
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
@@ -37,6 +39,12 @@ function QuestieNPCFixes:Load()
         },
         [446] = {
             [npcKeys.waypoints] = {},
+        },
+        [448] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{25.02,92.9}}},
+        },
+        [572] = {
+            [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{41.93,29.24},{64.71,66.7}}},
         },
         [580] = {
             [npcKeys.waypoints] = {},
@@ -136,6 +144,11 @@ function QuestieNPCFixes:Load()
         [1516] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85}}},
         },
+        [1721] = {
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{73.34,50.7}}},
+            [npcKeys.waypoints] = {[zoneIDs.STORMWIND_CITY]={{{70.26,40.3},{70.93,41.1},{71.47,42.0},{72.18,43.06},{72.69,43.74},{73.02,44.76},{73.28,45.54},{73.22,46.21},{73.57,46.53},{73.57,46.53},{72.85,46.81},{72.47,48.95},{72.47,49.72},{73.34,50.7},{72.57,49.9},{71.26,49.69},{68.81,48.66},{66.63,44.9},{65.69,43.28},{66.57,41.67},{68.1,39.87},{68.76,39.44},{69.25,40.16},{69.25,40.16},{69.8,39.55},{70.26,40.3}}}},
+        },
         [1755] = {
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.22,14.34}}},
@@ -170,6 +183,9 @@ function QuestieNPCFixes:Load()
         },
         [1983] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{44,21},{45,20},{45,21}}},
+        },
+        [2041] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [2044] = {
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
@@ -314,6 +330,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{36.16,57.91}}},
         },
+        [2779] = {
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{19.8,88.8},{20.2,82.4},{20.6,83.4},{20.8,84},{21.2,84.6},{21.2,89.2},{21.2,89.6},{21.6,82.8},{21.6,86},{21.6,89},{21.8,83.6},{21.8,84.8},{22.4,89.6},{22.8,84.4},{23,84.8},{23,86.2},{23,88},{23.2,82.2},{23.2,83.2},{23.4,89},{23.6,83.8},{23.6,89.4},{23.6,89.8},{24,88.4}}},
+        },
         [2783] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{29.62,62.97},{29.47,64.14}}},
         },
@@ -355,6 +374,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{54.2,73.2},{54.4,74.2},{54.4,75},{54,76.2},{54.4,75},{54.4,74.2},{54.2,73.2}}}},
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.4,75}}},
         },
+        [3204] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
+        },
         [3237] = {
             [npcKeys.waypoints] = {},
         },
@@ -364,6 +386,9 @@ function QuestieNPCFixes:Load()
         },
         [3257] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{59.8,30.6}}},
+        },
+        [3297] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [3352] = {
             [npcKeys.questStarts] = {8151},
@@ -607,6 +632,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_KRAUL,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1}}},
         },
+        [4643] = {
+            [npcKeys.waypoints] = {},
+        },
         [4660] = {
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{39.65,61.37}}},
@@ -721,14 +749,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{-1,-1}}},
         },
-        [5767] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.99,35.66}}},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-        },
-        [5768] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46.01,35.74}}},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-        },
         [5797] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46,70}}},
         },
@@ -739,6 +759,9 @@ function QuestieNPCFixes:Load()
         [5895] = {
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58}}},
+        },
+        [5952] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [5955] = {
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{29.48,60.51},{30,65},{30,70},{31.8,74.15}}}, -- #1462
@@ -990,6 +1013,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8443] = { -- Avatar of Hakkar
+            [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
+        },
         [8477] = {
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
@@ -1008,6 +1035,15 @@ function QuestieNPCFixes:Load()
         },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
+        },
+        [8888] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93}}},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
+        [8917] = {
+            -- Quarry Slave (not inside BRD, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
         [8925] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
@@ -1037,6 +1073,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{59.3,37.95}}},
         },
+        [9026] = {
+            -- Overmaster Pyron (not inside BRD, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [9027] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
@@ -1060,6 +1101,11 @@ function QuestieNPCFixes:Load()
         [9032] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [9046] = {
+            -- Scarshield Quartermaster (not inside UBRS, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [9077] = {
             [npcKeys.waypoints] = {},
@@ -1253,6 +1299,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
+        [10682] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [10683] = {
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
@@ -1266,7 +1315,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
         },
         [10740] = {
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1, -1}}},
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
         },
         [10741] = {
@@ -1289,7 +1338,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{36.2,56.6},{36.6,57.6},{37,57.2},{37.2,55.4},{37.4,55.6},{37.8,57.6},{38,56.4},{38,56.6},{38.4,55.4},{38.6,55.2},{38.6,56.2}}},
         },
         [10806] = {
-            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING]={{54.2,34.0},{54.8,35.4},{56.0,32.6},{56.2,29.8},{56.4,36.4},{57.2,31.4},{57.4,33.6},{57.6,27.8},{58.0,35.6},{58.2,30.0},{58.8,36.8},{59.0,38.6},{59.2,23.4},{59.2,32.4},{59.4,34.6},{60.0,21.6},{60.0,36.0},{60.4,33.4},{60.8,28.8},{61.0,24.6},{61.0,31.4},{61.2,27.0},{61.2,38.6},{61.4,23.0},{61.6,34.8},{62.2,21.2},{62.2,29.8},{62.4,33.6},{62.6,36.4},{63.4,24.4},{63.6,26.4},{63.6,31.4},{63.8,28.2},{64.0,20.8},{64.6,22.8},{64.6,33.6},{65.2,25.8},{65.2,29.0},{65.6,27.4},{65.8,32.2},{67.4,26.0}}},
+            [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING]={{{54.2,34.0},{54.8,35.4},{56.0,32.6},{56.2,29.8},{56.4,36.4},{57.2,31.4},{57.4,33.6},{57.6,27.8},{58.0,35.6},{58.2,30.0},{58.8,36.8},{59.0,38.6},{59.2,23.4},{59.2,32.4},{59.4,34.6},{60.0,21.6},{60.0,36.0},{60.4,33.4},{60.8,28.8},{61.0,24.6},{61.0,31.4},{61.2,27.0},{61.2,38.6},{61.4,23.0},{61.6,34.8},{62.2,21.2},{62.2,29.8},{62.4,33.6},{62.6,36.4},{63.4,24.4},{63.6,26.4},{63.6,31.4},{63.8,28.2},{64.0,20.8},{64.6,22.8},{64.6,33.6},{65.2,25.8},{65.2,29.0},{65.6,27.4},{65.8,32.2},{67.4,26.0}}}},
         },
         [10807] = {
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING]={{{58,62.1},{59.9,61.5},{61.6,61.5},{62.1,59},{62.6,57.2},{60.3,55.9},{58.4,54.7},{56.3,52.6},{55,50.2},{54.2,47.3},{54.2,44.8}}}},
@@ -1339,6 +1388,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{36.88,54.9}}},
         },
         [11058] = {
+            [npcKeys.name] = "Ezra Grimm",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
@@ -1385,6 +1435,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
+        [11190] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [11284] = {
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{69.01,72.8}}},
@@ -1421,6 +1474,7 @@ function QuestieNPCFixes:Load()
         },
         [11626] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{45.4,75.29}}},
+            [npcKeys.waypoints] = {[zoneIDs.DESOLACE]={{{66.77,58.12},{66.9,57.7},{67.03,57.27},{67.37,56.11},{67.33,55.65},{67.29,55.19},{67.3,54.71},{67.56,54.14},{67.64,53.62},{67.68,52.69},{67.71,52.23},{67.78,50.8},{67.84,49.68},{67.96,48.29},{67.9,47.83},{67.87,46.86},{67.86,46.28},{67.86,45.82},{67.83,44.42},{67.82,43.73},{67.91,42.71},{68,41.76},{67.66,40.33},{67.29,39.49},{67.16,39.07},{67.03,38.64},{66.84,38.09},{66.64,37.73},{66.42,37.14},{66.18,36.28},{65.92,35.58},{65.81,35.1},{65.75,34.64},{65.53,33.3},{65.24,33.13},{64.95,32.96},{64.38,32.6},{64,32.39},{63.12,32.32},{62.22,32.39},{61.99,32.61},{61.62,33.21},{61.44,33.68},{61.28,34.58},{61.23,35.04},{61,36.16},{60.84,36.57},{60.17,37.48},{59.34,37.97},{59.3,39.18},{59.44,40.11},{60.04,39.76},{60.26,38.88},{60.33,38.6},{60.38,38.36},{60.44,38.09},{60.66,36.89},{60.76,36.67},{60.99,36.11},{61.17,35.22},{61.32,34.31},{61.44,33.66},{61.58,33.34},{61.91,32.74},{62.27,32.35},{62.89,32.36},{63.52,32.36},{64.12,32.47},{64.7,32.81},{64.98,33.01},{65.6,33.49},{65.72,34.36},{65.76,34.83},{65.89,35.49},{66.05,35.89},{66.36,36.87},{66.48,37.31},{66.76,37.92},{66.9,38.23},{67.03,38.65},{67.29,39.5},{67.36,39.71},{67.61,40.24},{67.75,40.65},{67.98,41.52},{68.01,41.85},{67.94,42.49},{67.87,42.95},{67.81,43.4},{67.8,43.81},{67.84,44.74},{67.86,45.21},{67.87,46.14},{67.87,46.61},{67.87,47.07},{67.85,47.58},{67.96,48.49},{67.97,48.83},{67.86,49.54},{67.77,50.89},{67.75,51.83},{67.69,52.76},{67.64,53.57},{67.6,54},{67.39,54.6},{67.29,55.16},{67.37,55.96},{67.32,56.29},{67.06,57.14},{66.81,58},{66.73,58.67},{66.72,59.49},{66.86,60.11},{67.19,61.42},{67.42,62.31},{67.54,62.59},{67.73,63.42},{67.77,64.27},{67.71,64.84},{67.51,65.21},{67.26,65.52},{66.88,65.79},{66.5,65.87},{66.19,65.81},{65.84,65.73},{65.45,65.65},{65.11,65.61},{64.61,65.5},{64.32,65.31},{63.75,64.93},{63.18,64.64},{62.87,64.63},{62.25,64.7},{61.94,64.76},{61.48,64.77},{61.19,64.57},{60.64,64.16},{60.36,63.95},{59.8,63.52},{58.91,63.21},{58.33,63.54},{57.65,63.92},{57.52,64.28},{57.28,65.14},{56.97,65.84},{56.53,66.49},{56.31,66.82},{55.87,67.5},{55.48,68.22},{55.06,68.89},{54.56,69.46},{54.05,69.98},{53.53,70.51},{52.83,71.17},{52.41,71.33},{51.92,71.52},{51.72,71.77},{51.55,72.35},{51.51,73.05},{51.48,73.69},{51.31,74.21},{51.02,74.85},{50.75,75.21},{50.48,75.45},{50.19,75.63},{49.48,75.71},{48.95,75.89},{48.74,75.85},{48.15,75.56},{47.84,75.47},{47.54,75.35},{47.19,75.19},{47.19,75.19},{46.54,75.17},{46.54,75.17},{46.23,75.2},{45.6,75.22},{45.07,75.4},{44.79,75.88},{44.5,76.35},{44.22,76.57},{43.74,76.61},{43.43,76.67},{43.13,76.79},{42.64,77.28},{42.39,77.55},{41.96,77.96},{41.79,78.03},{41.24,78.25},{40.96,78.46},{40.75,78.59},{40.03,78.25},{39.69,79.27},{40.44,79.89},{40.5,79.68},{40.58,79.39},{40.64,79.15},{41.32,78.19},{41.96,77.97},{42.13,77.83},{42.63,77.27},{43,76.88},{43.27,76.69},{43.8,76.6},{44.27,76.54},{44.39,76.46},{44.64,76.14},{45.02,75.46},{45.36,75.22},{45.67,75.14},{45.98,75.13},{46.36,75.18},{46.68,75.16},{47.23,75.2},{47.53,75.32},{47.83,75.43},{48.13,75.54},{48.43,75.68},{48.96,75.89},{49.07,75.88},{49.6,75.64},{50.05,75.6},{50.41,75.52},{50.75,75.23},{50.97,74.9},{51.3,74.32},{51.48,73.79},{51.52,73.52},{51.52,73.05},{51.57,72.19},{51.65,71.84},{51.81,71.59},{52.2,71.36},{52.51,71.26},{53.12,70.89},{53.64,70.37},{53.89,70.11},{54.41,69.59},{54.67,69.33},{55.22,68.64},{55.42,68.28},{55.81,67.56},{56.25,66.9},{56.48,66.57},{56.9,65.89},{57.24,65.28},{57.41,64.78},{57.81,63.79},{58.1,63.55},{58.61,63.34},{59.17,63.14},{59.6,63.31},{59.88,63.51},{60.15,63.73},{60.7,64.17},{60.98,64.38},{61.54,64.78},{61.79,64.84},{62.41,64.72},{62.72,64.66},{63.28,64.7},{63.58,64.84},{64.15,65.21},{64.43,65.4},{64.64,65.5},{64.93,65.58},{65.24,65.61},{65.55,65.65},{65.86,65.73},{66.47,65.89},{66.7,65.87},{66.99,65.71},{67.29,65.51},{67.55,65.16},{67.72,64.81},{67.79,64.31},{67.74,63.53},{67.61,62.89},{67.39,62.26},{67.17,61.39},{67.07,60.95},{66.88,60.06},{66.75,59.09}}}},
         },
         [11627] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{51.41,58.29},{49.45,59.73},{52.42,62.2},{53.94,60.99},{52.61,57.46},{50.51,56.63},{48.29,60.25},{52.24,60.64},{50.82,61.17},{53.65,56.69},{51.95,56.1},{58.03,34.84},{58.63,34.44},{58.93,34.32},{49.36,41.23},{49.37,40.48},{49.37,40.17},{57.76,71.05},{56.74,82.06},{56.79,82.99},{56.94,82.97},{51.47,59.16},{47.0,58.86},{48.52,56.9},{53.65,58.03},{49.13,55.62},{49.57,58.32},{46.48,60.66},{50.3,58.31},{54.97,58.23},{54.27,63.24},{58.42,34.24},{55.68,62.65},{49.49,40.82},{54.2,61},{60.4,62},{60.6,62}}},
@@ -1454,6 +1508,12 @@ function QuestieNPCFixes:Load()
         },
         [11783] = {
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
+        },
+        [11798] = {
+            [npcKeys.npcFlags] = 11,
+        },
+        [11800] = {
+            [npcKeys.npcFlags] = 11,
         },
         [11836] = {
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
@@ -1701,7 +1761,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [13431] = {
-            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{43.8,58.8}}},
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{42.46,55.28}}},
             [npcKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
         [13433] = {
@@ -1795,6 +1855,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{42.1,17.18}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
+        [13602] = {
+            [npcKeys.spawns] = {[36]={{37.26,71.16},{29.92,61.01},{41.44,63.57},{31.62,50.84},{32.18,47.29},{30.05,64.27},{40.83,67.68},{39.61,62.91},{30.85,54.63},{45.11,63.02},{39.67,73.5},{34.34,67.9}}},
+        },
         [13696] = {
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
@@ -1863,12 +1926,39 @@ function QuestieNPCFixes:Load()
         [14233] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{37.8,50.29},{49.06,57.33},{44.08,50.17},{42.35,55},{47.26,54.65}}},
         },
+        [14304] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [14305] = {
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}}}, -- only SW for consistency
         },
+        [14351] = {
+            [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
+        [14353] = { -- Mizzle the Crafty
+            [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
+        },
+        [14375] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14376] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14377] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14387] = { -- Lothos Riftwaker
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
         [14444] = {
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR, -- default zone where you start the chain
@@ -1964,8 +2054,15 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{39.9,21.9},{40.44,22.43},{40.32,24.63},{40.72,24.44},{38.69,23.6},{39.67,22.3},{38.78,21.93},{38.23,20.59},{38.17,21.4},{41.05,22.62},{39.62,22.23}}},
             [npcKeys.zoneID] = zoneIDs.FERALAS,
         },
+        [14661] = { -- Stinglasher
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{75.58,60.85}}},
+            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{73.81,63.45},{73.78,63.74},{73.71,63.86},{73.60,63.98},{73.55,64.00},{73.37,63.93},{73.29,63.80},{73.24,63.55},{73.28,63.40},{73.36,63.22},{73.43,63.16},{73.50,63.13},{73.61,63.10},{73.64,63.10},{73.81,63.15},{73.93,63.19},{74.05,63.08},{74.05,63.07},{74.11,62.97},{74.17,62.88},{74.25,62.76},{74.30,62.68},{74.37,62.59},{74.53,62.42},{74.63,62.35},{74.76,62.26},{74.85,62.19},{74.88,62.17},{74.98,62.09},{75.08,61.98},{75.15,61.84},{75.23,61.69},{75.33,61.48},{75.36,61.36},{75.39,61.19},{75.41,61.03},{75.46,60.85},{75.58,60.85},{75.68,60.87},{75.77,60.90},{75.89,60.94},{75.97,60.98},{76.11,61.07},{76.12,61.08},{76.25,61.17},{76.28,61.19},{76.40,61.26},{76.55,61.34},{76.62,61.38},{76.66,61.40},{76.84,61.49},{76.92,61.53},{77.00,61.56},{77.09,61.60},{77.15,61.65},{77.16,61.66},{77.25,61.77},{77.32,61.89},{77.42,62.04},{77.43,62.05},{77.54,62.02},{77.74,62.07},{77.88,62.21},{78.03,62.44},{78.14,62.48},{78.15,62.47},{78.32,62.38},{78.42,62.48},{78.49,62.72},{78.47,62.87},{78.46,62.89},{78.42,62.95},{78.19,63.07},{78.09,63.01},{78.02,62.84},{78.06,62.53},{77.97,62.35}}}},
+        },
         [14693] = {
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [14721] = {
+            [npcKeys.name] = "Field Marshal Stonebridge",
         },
         [14748] = {
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{84.6,41.2}}},
@@ -2007,7 +2104,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{29.65,75.25}}},
         },
         [14843] = {
-            [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR] = {{{52.9,66.56},{52.18,65.03},{50.65,63.06},{49.57,61.45},{48.8,59.66},{47.62,59.31},{46.42,59.55},{45.38,60.66},{44.61,61.93},{44.18,62.91},{44.06,64.4},{44.46,66.06},{45.59,68.07},{46.15,69.06},{46.51,70.88},{47.32,72.9},{48.54,74.38},{49.63,75.51},{50.66,76.29},{51.66,76.39},{52.63,76.48},{53.79,74.35},{54.1,72.74},{53.82,71.14},{53.24,68.91}},[17]={{68.64,0.02},{68.76,0.3},{68.92,0.51},{69.07,0.67},{69.22,0.77},{69.36,0.79},{69.49,0.8},{69.65,0.5},{69.69,0.28},{69.65,0.06}}}},
+            [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR] = {{{52.9,66.56},{52.18,65.03},{50.65,63.06},{49.57,61.45},{48.8,59.66},{47.62,59.31},{46.42,59.55},{45.38,60.66},{44.61,61.93},{44.18,62.91},{44.06,64.4},{44.46,66.06},{45.59,68.07},{46.15,69.06},{46.51,70.88},{47.32,72.9},{48.54,74.38},{49.63,75.51},{50.66,76.29},{51.66,76.39},{52.63,76.48},{53.79,74.35},{54.1,72.74},{53.82,71.14},{53.24,68.91}}}},
         },
         [14845] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
@@ -2375,30 +2472,6 @@ function QuestieNPCFixes:Load()
         [15712] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{28.09,86.15}}},
         },
-        [15731] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{59.1,65.5}}},
-        },
-        [15733] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{63.3,73.7}}},
-        },
-        [15734] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{61.0,77.1}}},
-        },
-        [15735] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{59.3,64.1}}},
-        },
-        [15736] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.0,72.2}}},
-        },
-        [15737] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.4,75.4}}},
-        },
-        [15738] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{28.8,65.7}}},
-        },
-        [15739] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.1,71.5}}},
-        },
         [15797] = {
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{49.47,37.3}}},
         },
@@ -2436,8 +2509,15 @@ function QuestieNPCFixes:Load()
             },
         },
         [16031] = {
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{48.31,21.93},{31.14,15.84}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+        },
+        [16033] = { -- Bodley
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
         [16042] = {
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
@@ -2466,8 +2546,15 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [16143] = {
-            [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{73.9,55.2},{77.9,67.8},{67.1,68.3},{24.7,72.5},{15.3,75.3},{20.4,79.8}},
+                [zoneIDs.BURNING_STEPPES]={{77.2,30.5},{67.4,34},{71.7,49.2},{36.2,70.6},{23.6,70.6},{23.5,48.7}},
+                [zoneIDs.BLASTED_LANDS]={{60.1,43.4},{63,28.3},{56.9,29.2},{47.2,35.6},{51.2,26.5},{45.9,19}},
+                [zoneIDs.WINTERSPRING]={{50.9,14.3},{45.3,37.8},{64.1,50.5}},
+                [zoneIDs.AZSHARA]={{46.3,56.6},{22.1,60.5},{16.9,68.5},{17.1,52.5}},
+                [zoneIDs.TANARIS]={{48.1,29.8},{54.2,29.9},{50.6,34.2},{51.9,50.3},{55.9,52},{53.8,54.4},{35.3,56.8},{33.5,66.6},{29.7,57.5}},
+            },
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,57.8}}},
@@ -2684,3 +2771,5 @@ function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
         }
     end
 end
+
+return QuestieNPCFixes

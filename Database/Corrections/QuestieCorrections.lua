@@ -3,6 +3,8 @@ local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieLib
@@ -21,9 +23,13 @@ local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
 local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type BlacklistFilter
+local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
+---@type QuestieClassicQuestReputationFixes
+local QuestieClassicQuestReputationFixes = QuestieLoader:ImportModule("QuestieClassicQuestReputationFixes")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type QuestieItemFixes
@@ -49,6 +55,24 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
+---@type CataQuestFixes
+local CataQuestFixes = QuestieLoader:ImportModule("CataQuestFixes")
+---@type CataNpcFixes
+local CataNpcFixes = QuestieLoader:ImportModule("CataNpcFixes")
+---@type CataItemFixes
+local CataItemFixes = QuestieLoader:ImportModule("CataItemFixes")
+---@type CataObjectFixes
+local CataObjectFixes = QuestieLoader:ImportModule("CataObjectFixes")
+
+---@type MopQuestFixes
+local MopQuestFixes = QuestieLoader:ImportModule("MopQuestFixes")
+---@type MopNpcFixes
+local MopNpcFixes = QuestieLoader:ImportModule("MopNpcFixes")
+---@type MopItemFixes
+local MopItemFixes = QuestieLoader:ImportModule("MopItemFixes")
+---@type MopObjectFixes
+local MopObjectFixes = QuestieLoader:ImportModule("MopObjectFixes")
+
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
@@ -69,58 +93,12 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
     https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
--- flags that can be used in corrections (currently only blacklists)
-QuestieCorrections.TBC_ONLY = 1 -- Hide only in TBC
-QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
-QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
-QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
-QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
+local filterExpansion = BlacklistFilter.filterExpansion
 
-QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
-
--- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
----@generic T
----@param values T
----@return T
-local function filterExpansion(values)
-    local isTBC = Questie.IsTBC
-    local isWotlk = Questie.IsWotlk
-    local isSoD = Questie.IsSoD
-    for k, v in pairs(values) do
-        if v == QuestieCorrections.WOTLK_ONLY then
-            if isWotlk then
-                values[k] = true
-            else
-                values[k] = nil
-            end
-        elseif v == QuestieCorrections.TBC_ONLY then
-            if isTBC then
-                values[k] = true
-            else
-                values[k] = nil
-            end
-        elseif v == QuestieCorrections.CLASSIC_ONLY then
-            if isTBC or isWotlk then
-                values[k] = nil
-            else
-                values[k] = true
-            end
-        elseif v == QuestieCorrections.TBC_AND_WOTLK then
-            if isTBC or isWotlk then
-                values[k] = true
-            else
-                values[k] = nil
-            end
-        elseif v == QuestieCorrections.SOD_ONLY then
-            if not isSoD then
-                values[k] = true
-            else
-                values[k] = nil
-            end
-        end
-    end
-    return values
-end
+QuestieCorrections.killCreditObjectiveFirst = {}
+QuestieCorrections.objectObjectiveFirst = {}
+QuestieCorrections.itemObjectiveFirst = {}
+QuestieCorrections.eventObjectiveFirst = {}
 
 do
     local type, assert = type, assert
@@ -146,7 +124,6 @@ do
     end
 
     function QuestieCorrections:MinimalInit() -- db already compiled
-
         -- Classic Era Corrections
         addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
         addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
@@ -154,24 +131,31 @@ do
         addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
 
         -- TBC Corrections
-        if (Questie.IsTBC or Questie.IsWotlk) then
+        if (Expansions.Current >= Expansions.Tbc) then
             addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
         end
 
         -- WOTLK Corrections
-        if (Questie.IsWotlk) then
+        if (Expansions.Current >= Expansions.Wotlk) then
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
+        end
+
+        -- CATA Corrections
+        if (Expansions.Current >= Expansions.Cata) then
+            addOverride(QuestieDB.questDataOverrides, CataQuestFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, CataNpcFixes:LoadFactionFixes())
+            addOverride(QuestieDB.itemDataOverrides, CataItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, CataObjectFixes:LoadFactionFixes())
         end
 
         -- Season of Discovery Corrections
         if Questie.IsSoD then
-            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
-            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
-            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
@@ -189,7 +173,7 @@ do
         end
 
         -- Wotlk Blacklist
-        if (Questie.IsWotlk) then
+        if (Expansions.Current >= Expansions.Wotlk) then
             -- We only add blacklist if no blacklist entry for the quest already exists
             for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
                 -- This has to be a nil-check, because the value could be false
@@ -220,7 +204,7 @@ end
 ---@param databaseTableName string The name of the QuestieDB field that should be manipulated (e.g. "itemData", "questData")
 ---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
----@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+---@param validationTables table Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 ---@param noOverwrites true? Do not overwrite existing values
 ---@param noNewEntries true? Do not create new entries in the database
 local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
@@ -248,27 +232,46 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
     end
 end
 
----@param validationTables table? Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+---@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
+    QuestieQuestFixes:LoadMissingQuests()
+
     -- Classic Corrections
+    if Expansions.Current < Expansions.Cata then
+        _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+    end
     _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
     _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
     _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
 
-    if Questie.IsTBC or Questie.IsWotlk then
+    if Expansions.Current >= Expansions.Tbc then
         _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    if Questie.IsWotlk then
+    if Expansions.Current >= Expansions.Wotlk then
         _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Expansions.Current >= Expansions.Cata then
+        _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Expansions.Current >= Expansions.MoP then
+        _LoadCorrections("questData", MopQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", MopNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", MopItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", MopObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     if Questie.IsSoD then
@@ -282,7 +285,6 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    --- Corrections that apply to all versions
     _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
 
     local patchCount = 0
@@ -391,6 +393,7 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
 end
 
 function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
+    local yieldLimit = 500 -- 500 seems like a good number
     local waypointKey = QuestieDB.npcKeys["waypoints"]
     local npcData = QuestieDB.npcData
 
@@ -401,10 +404,26 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
             npcData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
         end
 
-        if count > 500 then -- 500 seems like a good number
+        if count > yieldLimit then
             count = 0
             coroutine.yield()
         end
         count = count + 1
     end
+
+    waypointKey = QuestieDB.objectKeys["waypoints"]
+    local objData = QuestieDB.objectData
+    for id, data in pairs(objData) do
+        local way = data[waypointKey]
+        if way then
+            objData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
+        end
+
+        if count > yieldLimit then
+             count = 0
+             coroutine.yield()
+        end
+    end
 end
+
+return QuestieCorrections

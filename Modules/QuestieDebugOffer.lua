@@ -3,13 +3,12 @@ local QuestieDebugOffer = QuestieLoader:CreateModule("QuestieDebugOffer")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-
 ---@type QuestLogCache
-local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
-
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
@@ -20,8 +19,10 @@ local DebugInformation = {} -- stores text of debug data dump per session
 local debugIndex = 0 -- current debug index, used so we can still retrieve info from previous offers
 local openDebugWindows = {} -- determines if existing debug window is already open, prevents duplicates
 
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
+local strsplit, tContains, tostring, tonumber = strsplit, tContains, tostring, tonumber
 local PosX = 0
 local PosY = 0
 local target = "target"
@@ -31,13 +32,20 @@ local questnpc = "questnpc"
 local _, playerRace = UnitRace(player)
 local playerClass = UnitClassBase(player)
 
+-- By checking each object in Questie
+-- We can find out which version is currently running.
 local gameType = ""
-if Questie.IsWotlk then
-    gameType = "Wrath"
-elseif Questie.IsSoD then -- seasonal checks must be made before non-seasonal for that client, since IsEra resolves true in SoD
-    gameType = "SoD"
-elseif Questie.IsEra then
-    gameType = "Era"
+do
+    for k, v in pairs(Questie) do
+        if type(k) == "string" then
+            if k:sub(1, 2) == "Is" and type(v) == "boolean" then
+                if v then
+                    gameType = gameType .. k:sub(3) .. "-"
+                end
+            end
+        end
+    end
+    gameType = gameType:sub(1, -2) -- remove last dash
 end
 
 -- determines what level is required to receive debug offers
@@ -45,49 +53,121 @@ end
 -- entries on whitelist ignore this value
 local minLevelForDebugOffers = 10
 
-local itemBlacklist = {
-    210771, -- Waylaid Supplies 10-25
-    211315, -- Waylaid Supplies 10-25
-    211316, -- Waylaid Supplies 10-25
-    211317, -- Waylaid Supplies 10-25
-    211318, -- Waylaid Supplies 10-25
-    211319, -- Waylaid Supplies 10-25
-    211320, -- Waylaid Supplies 10-25
-    211321, -- Waylaid Supplies 10-25
-    211322, -- Waylaid Supplies 10-25
-    211323, -- Waylaid Supplies 10-25
-    211324, -- Waylaid Supplies 10-25
-    211325, -- Waylaid Supplies 10-25
-    211326, -- Waylaid Supplies 10-25
-    211327, -- Waylaid Supplies 10-25
-    211328, -- Waylaid Supplies 10-25
-    211329, -- Waylaid Supplies 10-25
-    211330, -- Waylaid Supplies 10-25
-    211331, -- Waylaid Supplies 10-25
-    211332, -- Waylaid Supplies 10-25
-    211819, -- Waylaid Supplies 10-25
-    211820, -- Waylaid Supplies 10-25
-    211821, -- Waylaid Supplies 10-25
-    211822, -- Waylaid Supplies 10-25
-    211823, -- Waylaid Supplies 10-25
-    211824, -- Waylaid Supplies 10-25
-    211825, -- Waylaid Supplies 10-25
-    211826, -- Waylaid Supplies 10-25
-    211827, -- Waylaid Supplies 10-25
-    211828, -- Waylaid Supplies 10-25
-    211829, -- Waylaid Supplies 10-25
-    211830, -- Waylaid Supplies 10-25
-    211831, -- Waylaid Supplies 10-25
-    211832, -- Waylaid Supplies 10-25
-    211833, -- Waylaid Supplies 10-25
-    211834, -- Waylaid Supplies 10-25
-    211835, -- Waylaid Supplies 10-25
-    211836, -- Waylaid Supplies 10-25
-    211837, -- Waylaid Supplies 10-25
-    211838, -- Waylaid Supplies 10-25
-    211933, -- Waylaid Supplies 10-25
-    211934, -- Waylaid Supplies 10-25
-    211935, -- Waylaid Supplies 10-25
+local sodItemBlacklist = {
+    11078, -- Relic Coffer Key
+    209027, -- Crap Treats (these are also looted from fishing, for which no real "objects" exists)
+    215430, -- gnomeregan fallout, drops from nearly every mob in gnomeregan
+    -- Waylaid Supplies level 10
+    211316, -- peacebloom
+    211933, -- rough stone
+    211331, -- brilliant smallfish
+    210771, -- copper bars
+    211934, -- healing potions
+    211315, -- light leather
+    211317, -- silverleaf
+    211327, -- brown linen pants
+    211328, -- brown linen robes
+    211332, -- heavy linen bandages
+    211324, -- rough boomsticks
+    211330, -- spiced wolf meat
+    211329, -- herb baked eggs
+    211325, -- handstitched leather belts
+    211321, -- lesser magic wands
+    211320, -- runed copper pants
+    211323, -- rough copper bombs
+    211319, -- copper shortswords
+    211326, -- embossed leather vests
+    211318, -- minor healing potions
+    211322, -- minor wizard oil
+    -- Waylaid Supplies level 25
+    211823, -- swiftthistle
+    211834, -- pearl clasped cloaks
+    211832, -- hillmans shoulders
+    211827, -- runed silver rods
+    211935, -- elixir of firepower
+    211833, -- gray woolen shirts
+    211821, -- medium leather
+    211819, -- bronze bars
+    211826, -- silver skeleton keys
+    211831, -- dark leather cloaks
+    211836, -- smoked bear meat
+    211830, -- ornate spyglasses
+    211820, -- silver bars
+    211837, -- goblin deviled clams
+    211822, -- bruiseweed
+    211825, -- rough bronze boots
+    211835, -- smoked sagefish
+    211824, -- lesser mana potions
+    211838, -- heavy wool bandages
+    211829, -- small bronze bombs
+    211828, -- minor mana oil
+    -- Waylaid Supplies level 30
+    215408, -- guardian gloves
+    215413, -- formal white shirts
+    215421, -- fire oil
+    215420, -- rockscale cod
+    215411, -- frost leather cloaks
+    215398, -- green iron bracers
+    215387, -- heavy hide
+    215402, -- big iron bombs
+    215391, -- wintersbite
+    215389, -- fadeleaf
+    215403, -- deadly scopes
+    215400, -- solid grinding stones
+    -- Waylaid Supplies level 35
+    215415, -- rich purple silk shirts
+    215414, -- crimson silk pantaloons
+    215407, -- barbaric shoulders
+    215410, -- dusky belts
+    215418, -- spider sausages
+    215417, -- soothing turtle bisque
+    215412, -- shadowskin gloves
+    215419, -- heavy silk bandages
+    215401, -- compact harvest reaper kits
+    215385, -- gold bars
+    215399, -- heavy mithril gauntlets
+    215388, -- thick leather
+    215395, -- elixirs of agility
+    215386, -- mithril bars
+    215393, -- greater healing potions
+    215390, -- khadgars whisker
+    215392, -- purple lotus
+    -- Waylaid Supplies level 40
+    215416, -- white bandit masks
+    215409, -- turtle scale bracers
+    215397, -- massive iron axes
+    215394, -- lesser stoneshield potions
+    215404, -- mithril blunderbuss
+    215396, -- elixirs of greater defense
+    215405, -- gnomish rocket boots
+    215406, -- goblin mortars
+    -- Waylaid Supplies level 50
+    220918, -- undermine clam chowder
+    220919, -- nightfin soup
+    220920, -- tender wolf steaks
+    220921, -- heavy mageweave bandages
+    220922, -- sungrass
+    220923, -- dreamfoil
+    220924, -- truesilver bars
+    220925, -- thorium bars
+    220926, -- rugged leather
+    220927, -- thick hide
+    220928, -- enchanted thorium bars
+    220929, -- superior mana potions
+    220930, -- major healing potions
+    220931, -- hi-explosive bombs
+    220932, -- thorium grenades
+    220933, -- thorium rifles
+    220934, -- mithril coifs
+    220935, -- thorium belts
+    220936, -- truesilver gauntlets
+    220937, -- rugged armor kits
+    220938, -- wicked leather bracers
+    220939, -- runic leather bracers
+    220940, -- black mageweave headbands
+    220941, -- runecloth belts
+    220942, -- tuxedo shirts
+
     203753, -- Mage encoded spell notes
     203752, -- Mage encoded spell notes
     208754, -- Mage encoded spell notes
@@ -95,20 +175,86 @@ local itemBlacklist = {
     203751, -- Mage encoded spell notes
     209028, -- Mage encoded spell notes
     210655, -- Mage encoded spell notes
-    210179, -- Mage encoded spell notes
-    211786, -- Mage encoded scrolls
-    211785, -- Mage encoded scrolls
-    211787, -- Mage encoded scrolls
-    211780, -- Mage encoded scrolls
-    211784, -- Mage encoded scrolls
-    211854, -- Mage encoded scrolls
-    211855, -- Mage encoded scrolls
-    211853, -- Mage encoded scrolls
+    213543, -- Scroll: UPDOG
+    213544, -- Scroll: TOPAZ YORAK
+    211785, -- Scroll: CWAL
+    213547, -- Scroll: THAW WORDS
+    211787, -- Scroll: LOWER PING WHOMEVER
+    213545, -- Scroll: PEATCHY ATTAX
+    213546, -- Scroll: SHOOBEEDOOP
+    211780, -- Scroll: KWYJIBO
+    211786, -- Scroll: CHAP BALK WELLES
+    211855, -- Scroll: STHENIC LUNATE
+    211784, -- Scroll: WUBBA WUBBA
+    211854, -- Scroll: OMIT KESA
+    211853, -- Scroll: VOCE WELL
+
+    -- Dalaran Relics
+    216945, -- Curious Dalaran Relic
+    216946, -- Glittering Dalaran Relic
+    216947, -- Whirring Dalaran Relic
+    216948, -- Odd Dalaran Relic
+    216949, -- Heavy Dalaran Relic
+    216950, -- Creepy Dalaran Relic
+    216951, -- Slippery Dalaran Relic
+
+    -- Updates Profession Recipes
+    217249, -- Pattern: Earthen Silk Belt
+    217251, -- Pattern: Crimson Silk Shoulders
+    217254, -- Pattern: Boots of the Enchanter
+    217260, -- Pattern: Big Voodoo Mask
+    217262, -- Pattern: Big Voodoo Robe
+    217264, -- Pattern: Guardian Leather Bracers
+    217266, -- Pattern: Guardian Belt
+    217271, -- Pattern: Turtle Scale Gloves
+    217274, -- Plans: Golden Scale Gauntlets
+    217276, -- Plans: Golden Scale Boots
+    217278, -- Plans: Golden Scale Cuirass
+    217280, -- Plans: Golden Scale Coif
+    217282, -- Plans: Moonsteel Broadsword
+    217284, -- Plans: Golden Scale Shoulders
+    217286, -- Plans: Golden Scale Leggings
+
+    -- New Darkmoon Cards
+    221271, -- Ace of Wilds
+    221273, -- Two of Wilds
+    221274, -- Three of Wilds
+    221275, -- Four of Wilds
+    221276, -- Five of Wilds
+    221277, -- Six of Wilds
+    221278, -- Seven of Wilds
+    221279, -- Eight of Wilds
+    221281, -- Ace of Plagues
+    221282, -- Two of Plagues
+    221283, -- Three of Plagues
+    221284, -- Four of Plagues
+    221285, -- Five of Plagues
+    221286, -- Six of Plagues
+    221287, -- Seven of Plagues
+    221288, -- Eight of Plagues
+    221290, -- Ace of Dunes
+    221291, -- Two of Dunes
+    221292, -- Three of Dunes
+    221293, -- Four of Dunes
+    221294, -- Five of Dunes
+    221295, -- Six of Dunes
+    221296, -- Seven of Dunes
+    221297, -- Eight of Dunes
+    221298, -- Ace of Nightmares
+    221300, -- Two of Nightmares
+    221301, -- Three of Nightmares
+    221302, -- Four of Nightmares
+    221303, -- Five of Nightmares
+    221304, -- Six of Nightmares
+    221305, -- Seven of Nightmares
+    221306, -- Eight of Nightmares
+
 }
 
 local itemWhitelist = {
-    208609, -- glade flower for druid living seed
-    206469, -- prairie flower for druid living seed
+    -- TODO: Add distance check for these
+    --208609, -- glade flower for druid living seed
+    --206469, -- prairie flower for druid living seed
 }
 
 local itemTripCodes = {
@@ -130,16 +276,16 @@ local itemTripCodes = {
 ---@param itemInfo table -- subset from GetLootInfo()
 local function filterItem(itemID, itemInfo, containerGUID)
     -- return true if we should create debug offer, false if not
-    if itemID <= 0 or itemID == nil then -- if itemID invalid don't bother going further
+    if itemID <= 0 or itemID == nil or containerGUID == nil then -- if itemID or containerGUID is invalid don't bother going further
         return nil
-    elseif itemID < 190000 then
+    elseif itemID < 190000 and (not Questie.db.profile.enableBugHintsForAllFlavors) then
         -- temporary catch-all for any item added before SoD so we only get SoD reports;
         -- OG chronoboon displacer was 184937 so safe to say any SoD items are higher than 190000
         return nil
     else
         if tContains(itemWhitelist, itemID) then -- if item is in our whitelist, we want it no matter what
             return itemTripCodes.ItemWhitelisted
-        elseif tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
+        elseif tContains(sodItemBlacklist, itemID) or QuestieCorrections.questItemBlacklist[itemID] then -- if item is in our blacklist, ignore it
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is in debug offer item blacklist, ignoring")
             return nil
         elseif UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
@@ -168,6 +314,20 @@ local function filterItem(itemID, itemInfo, containerGUID)
         -- check if item is even in our DB
         if itemID <= 0 or not QuestieDB.QueryItemSingle(itemID, "name") then
             return itemTripCodes.ItemMissingFromDB
+        end
+
+        if itemQuality == Enum.ItemQuality.Poor then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is poor quality, ignoring")
+            return nil
+        elseif classID == Enum.ItemClass.Consumable then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is a Consumable, ignoring")
+            return nil
+        elseif classID == Enum.ItemClass.Weapon then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is a Weapon, ignoring")
+            return nil
+        elseif classID == Enum.ItemClass.Armor then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is Armor, ignoring")
+            return nil
         end
 
         -- check matching questID for quest start items
@@ -210,9 +370,10 @@ local function filterItem(itemID, itemInfo, containerGUID)
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Object drop data for item " .. itemID .. " OK, ignoring")
                 end
             end
-        elseif containerType == "Item" then -- if container is an item
-            -- first check if container item is even in our DB
-            if not QuestieDB.QueryItemSingle(containerID, "name") then
+        elseif containerType == "Item" and containerID > 0 then -- if container is an item and there is an containerID for it
+            -- TODO: I am quite sure this case can never happen, because the containerID is always 0 for items. Is there a different way?
+            -- first check if container item is even in our DB.
+            if (not QuestieDB.QueryItemSingle(containerID, "name")) then
                 return itemTripCodes.ContainerMissingFromItemDB
             end
 
@@ -243,10 +404,20 @@ local function _AppendUniversalText(input)
     text = text .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel(player) .. " " .. string.upper(playerRace) .. " " .. playerClass
 
     local mapID = GetBestMapForUnit(player)
-    local pos = GetPlayerMapPosition(mapID, player);
-    PosX = pos.x * 100
-    PosY = pos.y * 100
-    text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+
+    if mapID then
+        local pos = GetPlayerMapPosition(mapID, player);
+        PosX = pos.x * 100
+        PosY = pos.y * 100
+        text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+    else
+        local instanceId = select(8, GetInstanceInfo())
+        local zoneId = ZoneDB.instanceIdToUiMapId[instanceId]
+        if (not zoneId) then
+            zoneId = "Unknown instanceId " .. instanceId
+        end
+        text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. zoneId .. "]  -1, -1"
+    end
 
     local questLog = ""
     for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
@@ -274,7 +445,10 @@ function QuestieDebugOffer.LootWindow()
         local itemLink = GetLootSlotLink(i)
         local itemID = 0
         if itemLink then
-            itemID = GetItemInfoFromHyperlink(itemLink)
+            local itemIdFromLink = GetItemInfoFromHyperlink(itemLink)
+            if itemIdFromLink then
+                itemID = itemIdFromLink
+            end
         end
 
         local tripCode = filterItem(itemID, itemInfo, debugContainer)
@@ -491,7 +665,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
     debugFrame.dataEditBox:SetMultiLine(true)
     debugFrame.dataEditBox:SetPoint("TOP", debugFrame.title, "BOTTOM", 0, -10)
     debugFrame.dataEditBox:SetJustifyH("CENTER")
-    debugFrame.dataEditBox:SetJustifyV("CENTER")
+    debugFrame.dataEditBox:SetJustifyV("MIDDLE")
     debugFrame.dataEditBox:SetSize(270, 1) -- Height of a multiline EditBox is automatically adjusted
     debugFrame.dataEditBox:SetFocus()
     debugFrame.dataEditBox:SetScript("OnCursorChanged", function(self)
@@ -537,15 +711,8 @@ end
 -- generates dialog based on link clicked
 ---@param link string
 function QuestieDebugOffer.ShowOffer(link)
-    -- The questie.dev domain was purchased by Logon
-    local discordURL = "https://discord.gg/txNSuwyBQ8" -- redirect to #bug-reports
-    if Questie.IsWotlk then
-        discordURL = "https://questie.dev/wotlk" -- redirect to #wotlk-bug-reports
-    elseif Questie.IsSoD then
-        discordURL = "https://questie.dev/sod" -- redirect to #sod-bug-reports
-    elseif Questie.IsClassic then
-        discordURL = "https://questie.dev/era" -- redirect to #era-bug-reports
-    end
+    -- We also have access to the questie.dev domain (purchased by Logon)
+    local discordURL = "https://discord.gg/Q6j4qByndw" -- redirect to #bug-redirect
     local i = tonumber(string.sub(link,21))
     local popupText = DebugInformation[i]
 

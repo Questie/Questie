@@ -1,21 +1,33 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
+-- IMPORTANT: This file is only used for Pre-MoP content.
+
+-- This file contains all zones which are used in Era, TBC and WotLK.
+-- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
+
+-- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
     [3] = "Outland",
     [4] = "Northrend",
-    [5] = "Dungeons",
-    [6] = "Battlegrounds",
-    [7] = "Class",
-    [8] = "Professions",
-    [9] = "Events",
+    [5] = "Cataclysm",
+    [6] = "The Maelstrom",
+    [7] = "Pandaria",
+    [8] = "Dungeons",
+    [9] = "Battlegrounds",
+    [10] = "Class",
+    [11] = "Professions",
+    [12] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
 l10n.zoneLookup = {
     [0]={
+        [0]="Eastern Kingdoms",
         [1]="Dun Morogh",
         [2]="Longshore",
         [3]="Badlands",
@@ -28,7 +40,7 @@ l10n.zoneLookup = {
         [12]="Elwynn Forest",
         [13]="The World Tree",
         [18]="Crystal Lake",
-        [19]="Zul'Gurub",
+        --[19]="Zul'Gurub",
         [20]="Moonbrook",
         [21]="Kul Tiras",
         [23]="Northshire River",
@@ -649,6 +661,11 @@ l10n.zoneLookup = {
         [4636]="The Noxious Pass",
         [4668]="The Cooper Residence",
         [4679]="The Forlorn Cavern",
+        [6170]="Northshire",
+        [6176]="Coldridge Valley",
+        [6454]="Deathknell",
+        [6455]="Sunstrider Isle",
+        [6457]="New Tinkertown",
     },
     [1]={
         [14]="Durotar",
@@ -887,7 +904,7 @@ l10n.zoneLookup = {
         [986]="Zalashji's Den",
         [987]="Land's End Beach",
         [988]="Wavestrider Beach",
-        [989]="Uldum",
+        [989]="Ruins of Uldum",
         [990]="Valley of the Watchers",
         [991]="Gunstan's Post",
         [992]="Southmoon Ruins",
@@ -1053,8 +1070,8 @@ l10n.zoneLookup = {
         [2361]="Nighthaven",
         [2362]="Shrine of Remulos",
         [2363]="Stormrage Barrow Dens",
-        [2366]="The Black Morass",
-        [2367]="Old Hillsbrad Foothills",
+        --[2366]="The Black Morass",
+        --[2367]="Old Hillsbrad Foothills",
         [2368]="Tarren Mill",
         [2369]="Southshore",
         [2370]="Durnholde Keep",
@@ -1221,6 +1238,11 @@ l10n.zoneLookup = {
         --[4100]="The Culling of Stratholme",
         [4381]="Waygate",
         [4382]="The Shaper's Terrace",
+        [6450]="Shadowglen",
+        [6451]="Valley of Trials",
+        [6452]="Camp Narache",
+        [6453]="Echo Isles",
+        [6456]="Ammen Vale",
     },
     [13]={
         [3817]="Test Dungeon",
@@ -1306,6 +1328,7 @@ l10n.zoneLookup = {
     [229]={
         [1583]="Blackrock Spire",
         [4628]="Halls of Binding",
+        [7307]="Upper Blackrock Spire",
     },
     [230]={
         [1584]="Blackrock Depths",
@@ -1318,6 +1341,8 @@ l10n.zoneLookup = {
     },
     [329]={
         [2017]="Stratholme",
+        [5916]="Stratholme - Main Gate",
+        [5917]="Stratholme - Service Entrance",
     },
     [349]={
         [2100]="Maraudon",
@@ -1352,6 +1377,9 @@ l10n.zoneLookup = {
         [4096]="Claytön's WoWEdit Land",
         [4471]="Bernau's Happy Fun Land",
         [4688]="claytonio test area",
+        [4719]="Familiars",
+        [5068]="Pattymack Land",
+        [5727]="Scott's Spooky Area",
     },
     [469]={
         [2677]="Blackwing Lair",
@@ -2400,6 +2428,10 @@ l10n.zoneLookup = {
     [572]={
         [3968]="Ruins of Lordaeron",
     },
+    [573]={
+        [5894]="Testing02",
+        [5895]="Testing SubZone A",
+    },
     [574]={
         [206]="Utgarde Keep",
     },
@@ -2476,22 +2508,192 @@ l10n.zoneLookup = {
     [642]={
         [4764]="Transport: Horde Gunship",
     },
+    [643]={
+        [4738]="Abyssal Maw",
+        [5004]="Throne of the Tides",
+    },
+    [644]={
+        [4945]="Halls of Origination",
+        [5130]="Seat of Life",
+        [5610]="Tomb of the Earthrager",
+    },
+    [645]={
+        [4926]="Blackrock Caverns",
+    },
+    [646]={
+        [5042]="Deepholm",
+        [5291]="Jagged Wastes",
+        [5292]="Scoured Reach",
+        [5293]="Crumbling Depths",
+        [5294]="Shuddering Spires",
+        [5295]="The Pale Roost",
+        [5296]="Therazane's Throne",
+        [5297]="Halcyon Egress",
+        [5298]="Twilight Precipice",
+        [5299]="Lorthuna's Gate",
+        [5300]="Verlok Stand",
+        [5301]="Grolluk's Grave",
+        [5302]="Crimson Expanse",
+        [5303]="Temple of Earth",
+        [5313]="Storm's Fury Wreckage",
+        [5315]="Llane's Oath",
+        [5328]="Upper Silvermarsh",
+        [5329]="Lower Silvermarsh",
+        [5330]="Stonehearth",
+        [5331]="Fractured Front",
+        [5335]="Quartzite Basin",
+        [5338]="Fungal Deep",
+        [5349]="Needlerock Slag",
+        [5350]="Needlerock Chasm",
+        [5352]="Alabaster Shelf",
+        [5354]="Twilight Overlook",
+        [5355]="Abyssion's Lair",
+        [5357]="The Quaking Fields",
+        [5358]="Deathwing's Fall",
+        [5368]="Avalanchion's Vault",
+        [5394]="Masters' Gate",
+        [5395]="Chamber of Respite",
+        [5410]="Silverlight Cavern",
+        [5418]="The Blood Trail",
+        [5581]="The Stonecore Entrance",
+        [5797]="The Staidridge",
+    },
+    [648]={
+        [4720]="The Lost Isles",
+        [4721]="Shipwreck Shore",
+        [4737]="Kezan",
+        [4765]="KTC Headquarters",
+        [4766]="Kaja'mine",
+        [4767]="Bilgewater Port",
+        [4768]="Gallywix's Villa",
+        [4770]="First Bank of Kezan",
+        [4771]="Drudgetown",
+        [4772]="The Slick",
+        [4773]="Swindle Street",
+        [4778]="Kaja'mite Cavern",
+        [4779]="Horde Base Camp",
+        [4780]="The Vicious Vale",
+        [4781]="Wild Overlook",
+        [4782]="The Savage Glen",
+        [4783]="Alliance Beachhead",
+        [4784]="Vengeance Wake",
+        [4785]="The Great Sea",
+        [4802]="Draka's Fury",
+        [4816]="Dire Strait",
+        [4822]="Kajaro Field",
+        [4823]="South Seas",
+        [4838]="Gallywix's Yacht",
+        [4840]="The Pipe",
+        [4870]="Landing Site",
+        [4871]="Town-In-A-Box",
+        [4873]="Raptor Rise",
+        [4874]="Scorched Gully",
+        [4876]="Ruins of Vashj'elan",
+        [4877]="Vashj'elan Spawning Pool",
+        [4886]="Oomlot Village",
+        [4899]="Lost Peak",
+        [4900]="Oostan Nord",
+        [4901]="Oostan Sor",
+        [4902]="Oostan Ost",
+        [4903]="Oostan",
+        [4909]="Lost Caldera",
+        [4911]="Volcanoth's Lair",
+        [4912]="Warchief's Lookout",
+        [4914]="Tranquil Coast",
+        [4923]="Sky Falls",
+        [4924]="Gallywix Labor Mine",
+        [4951]="Bilgewater Lumber Yard",
+        [4952]="KTC Oil Platform",
+        [4954]="Gallywix Docks",
+        [4956]="The Slave Pits",
+        [4958]="Verdant Highlands",
+    },
     [649]={
         [4722]="Trial of the Crusader",
     },
     [650]={
         [4723]="Trial of the Champion",
     },
+    [654]={
+        [4774]="Gilneas (Do Not Reuse)",
+    },
+    [657]={
+        [5035]="The Vortex Pinnacle",
+    },
     [668]={
         [4820]="Halls of Reflection",
         [4906]="The Shadow Throne",
         [4908]="The Hidden Passage",
+    },
+    [669]={
+        [5094]="Blackwing Descent",
+        [5383]="Den of the Devourer",
+    },
+    [670]={
+        [4950]="Grim Batol",
+        [5447]="Scarred Terrace",
+    },
+    [671]={
+        [5334]="The Bastion of Twilight",
     },
     [672]={
         [4832]="Transport: Alliance Gunship (IGB)",
     },
     [673]={
         [4833]="Transport: Horde Gunship (IGB)",
+    },
+    [674]={
+        [5348]="Alliance Mercenary Ship to Vashj'ir",
+    },
+    [725]={
+        [5088]="The Stonecore",
+    },
+    [728]={
+        [5108]="The Battle for Gilneas (Old City Map)",
+        [5109]="Cathedral Quarter",
+        [5110]="Greymane Court",
+        [5111]="Light's Dawn Cathedral",
+        [5112]="Stoneward Prison",
+        [5113]="Merchant Square",
+    },
+    [730]={
+        [5416]="The Maelstrom",
+        [5630]="The Maelstrom",
+    },
+    [734]={
+        [5288]="Ahn'Qiraj Terrace",
+    },
+    [748]={
+        [5311]="Transport: Onyxia/Nefarian Elevator",
+    },
+    [754]={
+        [5638]="Throne of the Four Winds",
+    },
+    [757]={
+        [5600]="Baradin Hold",
+    },
+    [870] = {
+        [5736] = "The Wandering Isle",
+    },
+    [930]={
+        [5783]="Alcaz Island",
+    },
+    [951]={
+        [5786]="The Nexus",
+    },
+    [967]={
+        [5806]="Spine of the Destroyer UNUSED",
+    },
+    [974]={
+        [5861]="Darkmoon Island",
+        [5869]="The Great Sea",
+        [5870]="The Darkmoon Faire",
+        [5877]="Darkmoon Deathmatch",
+        [5902]="Darkmoon Path",
+        [5904]="Darkmoon Boardwalk",
+    },
+    [977]={
+        [5880]="Maelstrom Deathwing Fight",
     },
     [2118]={
         [14284]="Borean Tundra",
@@ -2554,14 +2756,46 @@ l10n.zoneLookup = {
         [14341]="Angrathar the Wrathgate",
         [14483]="Uncharted Territory",
     },
+    [2755]={
+        [15307]="Tol Barad Peninsula",
+        [15308]="Baradin Base Camp",
+        [15309]="Hellscream's Grasp",
+        [15310]="The Restless Front",
+        [15311]="Largo's Overlook",
+        [15312]="Farson Hold",
+        [15313]="Rustberg Village",
+        [15314]="The Darkwood",
+        [15315]="Forgotten Hill",
+        [15316]="Cape of Lost Hope",
+        [15317]="Wellson Shipyard",
+    },
 }
 
+local maelstromZones = {}
+if Expansions.Current >= Expansions.Cata then
+    for id, name in pairs(l10n.zoneLookup[646]) do -- Deepholm
+        maelstromZones[id] = name
+    end
+    for id, name in pairs(l10n.zoneLookup[648]) do -- Kezan & The Lost Isles
+        maelstromZones[id] = name
+    end
+end
+
+-- The keys need to match with QuestieJourney.questCategoryKeys
 l10n.zoneCategoryLookup = {
     [1] = l10n.zoneLookup[0],
     [2] = l10n.zoneLookup[1],
     [3] = l10n.zoneLookup[530],
     [4] = l10n.zoneLookup[571],
     [5] = {
+        [-381] = "Elemental Bonds",
+        [-379] = "Firelands Invasion",
+        [-380] = "The Zandalari",
+        [5733] = "Molten Front",
+    },
+    [6] = maelstromZones,
+    [7] = {}, -- Empty because this file is only for Pre-MoP
+    [8] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2574,13 +2808,14 @@ l10n.zoneCategoryLookup = {
         [1176] = "Zul'Farrak",
         [1196] = "Utgarde Pinnacle",
         [1337] = "Uldaman",
+        [1417] = "Sunken Temple",
         [1477] = "The Temple of Atal'Hakkar",
         [1581] = "The Deadmines",
         [1583] = "Blackrock Spire",
         [1584] = "Blackrock Depths",
         [1585] = "Blackrock Depths",
         [1941] = "Caverns of Time",
-        [1977]="Zul'Gurub",
+        [1977] = "Zul'Gurub",
         [2017] = "Stratholme",
         [2057] = "Scholomance",
         [2100] = "Maraudon",
@@ -2588,7 +2823,7 @@ l10n.zoneCategoryLookup = {
         [2367] = "Old Hillsbrad Foothills",
         [2437] = "Ragefire Chasm",
         [2557] = "Dire Maul",
-        [3429]="Ruins of Ahn'Qiraj",
+        [3429] = "Ruins of Ahn'Qiraj",
         [3456] = "Naxxramas",
         [3457] = "Karazhan",
         [3477] = "Azjol-Nerub",
@@ -2603,33 +2838,50 @@ l10n.zoneCategoryLookup = {
         [3790] = "Auchenai Crypts",
         [3791] = "Sethekk Halls",
         [3792] = "Mana-Tombs",
-        [3805]="Zul'Aman",
+        [3805] = "Zul'Aman",
         [3842] = "Tempest Keep",
         [3847] = "The Botanica",
         [3848] = "The Arcatraz",
         [3849] = "The Mechanar",
         [3789] = "Shadow Labyrinth",
         [3905] = "Coilfang Reservoir",
-        [3917]="Auchindoun",
-        [3959]="Black Temple",
-        [4075]="Sunwell Plateau",
+        [3917] = "Auchindoun",
+        [3959] = "Black Temple",
+        [4075] = "Sunwell Plateau",
         [4100] = "The Culling of Stratholme",
-        [4120] = "The Nexus",
+        [4131] = "Magisters' Terrace",
         [4196] = "Drak'Tharon Keep",
+        [4265] = "The Nexus",
         [4228] = "The Oculus",
         [4264] = "Halls of Stone",
         [4272] = "Halls of Lightning",
         [4375] = "Gundrak",
         [4415] = "The Violet Hold",
-        [4416]="Gundrak",
+        [4416] = "Gundrak",
         [4493] = "The Obsidian Sanctum",
         [4494] = "Ahn'kahet",
         [4500] = "The Eye of Eternity",
         [4812] = "Icecrown Citadel",
-        [4813]="Pit of Saron",
-        [4987]="The Ruby Sanctum",
+        [4813] = "Pit of Saron",
+        [4987] = "The Ruby Sanctum",
+        [4926] = "Blackrock Caverns",
+        [4950] = "Grim Batol",
+        [4945] = "Halls of Origination",
+        [5004] = "Throne of the Tides",
+        [5035] = "The Vortex Pinnacle",
+        [5088] = "The Stonecore",
+        [5094] = "Blackwing Descent",
+        [5334] = "The Bastion of Twilight",
+        [5396] = "Lost City of the Tol'vir",
+        [5600] = "Baradin Hold",
+        [5638] = "Throne of the Four Winds",
+        [5723] = "Firelands",
+        [5788] = "Well of Eternity",
+        [5789] = "End Time",
+        [5844] = "Hour of Twilight",
+        [5892] = "Dragon Soul",
     },
-    [6] = {
+    [9] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2643,7 +2895,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [7] = {
+    [10] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2655,7 +2907,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [8] = {
+    [11] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2671,7 +2923,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [9] = {
+    [12] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",
@@ -2688,7 +2940,9 @@ l10n.zoneCategoryLookup = {
         [-370] = "Brewfest",
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
-        [-376] = "Love is in the Air", -- Catergory added in WotLK
+        [-376] = "Love is in the Air", -- Category added in WotLK
+        [-641] = "Nightmare Incursions", -- Category added in SoD P3
+        [-644] = "Blackrock Eruption", -- Category added in SoD P4
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID

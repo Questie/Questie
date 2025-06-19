@@ -20,14 +20,30 @@ def get_commit_changelog():
     git_log = get_chronological_git_log(last_tag)
     categories = get_sorted_categories(git_log)
 
-    return get_changelog_string(categories)
+    contributors = get_contributors(last_tag)
+
+    return get_changelog_string(categories, contributors)
 
 
 def get_last_git_tag():
-    return subprocess.run(
-        ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
+    # get the tag this changelog is meant for
+    latest_tag = subprocess.run(
+        ["git", "describe", "--tags", "--abbrev=0", "HEAD"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
+
+    if "-b" in latest_tag:
+        # If the latest tag is a beta release, get the previous tag
+        return subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0", f"{latest_tag}^"],
+            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+        ).stdout.decode().strip('\n')
+    else:
+        # If the latest tag is a stable release, get the previous non-beta tag
+        return subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0", "--exclude", "*-b*", "HEAD^"],
+            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+        ).stdout.decode().strip('\n')
 
 
 def get_chronological_git_log(last_tag):
@@ -63,6 +79,25 @@ def get_sorted_categories(git_log):
 
     return categories
 
+def get_contributors(last_tag):
+    log_output = subprocess.run(
+        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an <%ae>"],
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+    ).stdout.decode().strip().split('\n')
+
+    # Use a dictionary to ensure uniqueness by email
+    unique_contributors = {}
+    for entry in log_output:
+        username, email = entry.split(' <')
+        email = email.rstrip('>')
+        if email not in unique_contributors or len(username) < len(unique_contributors[email]):
+            unique_contributors[email] = username
+
+    # Extract unique usernames
+    contributors = list(unique_contributors.values())
+
+    return contributors
+
 
 def replace_start(line, a, b):
     if line.strip().startswith(a):
@@ -82,8 +117,9 @@ def transform_lines_into_past_tense(line):
     return line
 
 
-def get_changelog_string(categories):
+def get_changelog_string(categories, contributors):
     changelog = ''
+
     for key_header in commit_keys_and_header:
         key = key_header[0]
         if len(categories[key]) > 0:
@@ -92,6 +128,11 @@ def get_changelog_string(categories):
             for line in categories[key]:
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
+
+    changelog += '## Contributors\n\n'
+    for contributor in contributors:
+        changelog += f'@{contributor}, '
+    changelog = changelog[:-2] + '\n\n'
 
     return changelog
 

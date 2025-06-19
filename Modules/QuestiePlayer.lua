@@ -1,5 +1,6 @@
 ---@class QuestiePlayer
----@field numberOfGroupMembers number ---The number of players currently in the group
+---@field numberOfGroupMembers number @The number of players currently in the group
+---@field faction number @"Horde" or "Alliance"
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
 local _QuestiePlayer = QuestiePlayer.private
 -------------------------
@@ -10,6 +11,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+---@type table<QuestId, Quest>
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
 local playerRaceId = -1
@@ -35,6 +37,8 @@ function QuestiePlayer:Initialize()
     local classId = select(3, UnitClass("player"))
     playerClassFlag = 2 ^ (classId - 1)
     playerClassFlagX2 = 2 * playerClassFlag
+
+    QuestiePlayer.faction = UnitFactionGroup("player")
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
@@ -56,12 +60,7 @@ end
 ---@return boolean isMaxLevel
 function QuestiePlayer.IsMaxLevel()
     local level = QuestiePlayer.GetPlayerLevel()
-    return (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
-end
-
----@return number
-function QuestiePlayer:GetRaceId()
-    return playerRaceId
+    return (Questie.IsMoP and level == 90) or (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
 end
 
 ---@return string
@@ -94,7 +93,12 @@ function QuestiePlayer.HasRequiredClass(requiredClasses)
 end
 
 function QuestiePlayer:GetCurrentZoneId()
-    return ZoneDB:GetAreaIdByUiMapId(C_Map.GetBestMapForUnit("player"))
+    local uiMapId = C_Map.GetBestMapForUnit("player")
+    if uiMapId then
+        return ZoneDB:GetAreaIdByUiMapId(uiMapId)
+    end
+
+    return ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
 end
 
 ---@return number
@@ -116,28 +120,14 @@ function QuestiePlayer:GetCurrentContinentId()
     return currentContinentId
 end
 
-function QuestiePlayer:GetPartyMembers()
-    local partyMembers = GetHomePartyInfo()
-    if partyMembers then
-        local party = {}
-        for _, v in pairs(partyMembers) do
-            local member = {}
-            member.Name = v;
-            local class, _, _ = UnitClass(v)
-            member.Class = class
-            member.Level = UnitLevel(v);
-            table.insert(party, member);
-        end
-        return party
-    end
-    return nil
-end
-
 function QuestiePlayer:GetPartyMemberByName(playerName)
     if(UnitInParty("player") or UnitInRaid("player")) then
         local player = {}
         for index=1, 40 do
-            local name = UnitName("party"..index);
+            local name, realmName = UnitName("party"..index);
+            if realmName then
+                name = name .. "-" .. realmName
+            end
             local _, classFilename = UnitClass("party"..index);
             if name == playerName then
                 player.name = playerName;
@@ -157,18 +147,4 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     return nil;
 end
 
-function QuestiePlayer:GetPartyMemberList()
-    local members = {}
-    if(UnitInParty("player") or UnitInRaid("player")) then
-        for index=1, 40 do
-            local name = UnitName("party"..index)
-            if name then
-                members[name] = true
-            end
-            if(index > 6 and not UnitInRaid("player")) then
-                break
-            end
-        end
-    end
-    return members
-end
+return QuestiePlayer

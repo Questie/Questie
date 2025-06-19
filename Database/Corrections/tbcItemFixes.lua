@@ -15,7 +15,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {3943},
         },
         [5959] = {
-            [itemKeys.npcDrops] = {4376,4378,4379,4411,4412,4413,4414,4415,4380},
+            [itemKeys.npcDrops] = {4376,4378,4379,4380},
         },
         [6083] = {
             [itemKeys.npcDrops] = {},
@@ -28,9 +28,6 @@ function QuestieTBCItemFixes:Load()
         },
         [20023] = {
             [itemKeys.npcDrops] = {6375,6377,6378,6379,6380,8759,8761,8762,8763,8764,8766,},
-        },
-        [21771] = {
-            [itemKeys.npcDrops] = {15668,15669},
         },
         [22435] = {
             [itemKeys.npcDrops] = {6551,6552,6553,6554,6555,10040,10041},
@@ -60,7 +57,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.class] = 12,
         },
         [23486] = {
-            [itemKeys.objectDrops] = {181582},
+            [itemKeys.npcDrops] = {17034},
         },
         [23552] = {
             [itemKeys.objectDrops] = {184079},
@@ -125,6 +122,9 @@ function QuestieTBCItemFixes:Load()
         [24286] = {
             [itemKeys.npcDrops] = {16611},
         },
+        [24287] = {
+            [itemKeys.class] = 12,
+        },
         [24289] = {
             [itemKeys.class] = 12,
         },
@@ -147,6 +147,9 @@ function QuestieTBCItemFixes:Load()
         [24226] = {
             [itemKeys.npcDrops] = {17832},
         },
+        [24246] = {
+            [itemKeys.npcDrops] = {},
+        },
         [24355] = {
             [itemKeys.class] = 12,
         },
@@ -161,6 +164,9 @@ function QuestieTBCItemFixes:Load()
         },
         [25461] = {
             [itemKeys.npcDrops] = {18472},
+        },
+        [24483] = { -- Withered Basidium
+            [itemKeys.startQuest] = 9827,
         },
         [25462] = {
             [itemKeys.npcDrops] = {16807},
@@ -183,10 +189,13 @@ function QuestieTBCItemFixes:Load()
         [25642] = {
             [itemKeys.objectDrops] = {185201},
         },
+        [25658] = {
+            [itemKeys.class] = 12,
+        },
         [25807] = {
             [itemKeys.npcDrops] = {18476,18477},
         },
-        [25658] = {
+        [25853] = {
             [itemKeys.class] = 12,
         },
         [28038] = {
@@ -204,9 +213,6 @@ function QuestieTBCItemFixes:Load()
         [29112] = {
             [itemKeys.npcDrops] = {18907},
         },
-        [29162] = {
-            [itemKeys.objectDrops] = {184162},
-        },
         [29324] = {
             [itemKeys.class] = 12,
         },
@@ -223,6 +229,9 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.class] = 12,
         },
         [29778] = {
+            [itemKeys.class] = 12,
+        },
+        [29795] = {
             [itemKeys.class] = 12,
         },
         [29796] = {
@@ -313,10 +322,16 @@ function QuestieTBCItemFixes:Load()
         [31518] = {
             [itemKeys.class] = 12,
         },
+        [31607] = {
+            [itemKeys.npcDrops] = {22258},
+        },
         [31655] = {
             [itemKeys.class] = 12,
         },
         [31664] = {
+            [itemKeys.class] = 12,
+        },
+        [31702] = {
             [itemKeys.class] = 12,
         },
         [31708] = {
@@ -337,9 +352,6 @@ function QuestieTBCItemFixes:Load()
         [31722] = {
             [itemKeys.npcDrops] = {18708},
         },
-        [31941] = {
-            [itemKeys.objectDrops] = {185460},
-        },
         [31951] = {
             [itemKeys.vendors] = {21643},
         },
@@ -350,12 +362,6 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {185566},
             [itemKeys.npcDrops] = {23002},
         },
-        [32385] = {
-            [itemKeys.npcDrops] = {21174},
-        },
-        [32386] = {
-            [itemKeys.npcDrops] = {21174},
-        },
         [32406] = {
             [itemKeys.class] = 12,
         },
@@ -364,6 +370,7 @@ function QuestieTBCItemFixes:Load()
         },
         [32971] = {
             [itemKeys.class] = 12,
+            [itemKeys.objectDrops] = {186234},
         },
         [33071] = {
             [itemKeys.npcDrops] = {},
@@ -455,11 +462,8 @@ function QuestieTBCItemFixes:Load()
         [34477] = {
             [itemKeys.class] = 12,
         },
-        [34864] = {
-            [itemKeys.objectDrops] = {500004,500005,500006},
-        },
         [35229] = {
-            [itemKeys.objectDrops] = {400013},
+            [itemKeys.objectDrops] = {410014},
         },
         [35277] = {
             [itemKeys.npcDrops] = {25866,25863,25924},

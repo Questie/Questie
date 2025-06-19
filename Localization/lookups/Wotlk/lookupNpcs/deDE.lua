@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["deDE"] = { 
+l10n.npcNameLookup["deDE"] = loadstring([[return {
 [3] = {"Fleischfresser",nil},
 [6] = {"Koboldgezücht",nil},
 [19] = {"Benny Questgeber","NPC"},
@@ -21322,9 +21322,9 @@ l10n.npcNameLookup["deDE"] = {
 [29191] = {"Nekromant von Acherus",nil},
 [29192] = {"[Chapter IV] Chapter IV Dummy",nil},
 [29193] = {"Scharlachroter Deserteur",nil},
-[29194] = {"Amal'thazad",nil},
-[29195] = {"Lady Alistra",nil},
-[29196] = {"Lord Thorval",nil},
+[29194] = {"Amal'thazad","Todesritterlehrer"},
+[29195] = {"Lady Alistra","Todesritterlehrerin"},
+[29196] = {"Lord Thorval","Todesritterlehrer"},
 [29197] = {"Gefrorener Schemen, Höhepunkt",nil},
 [29198] = {"Mograines Reittier",nil},
 [29199] = {"Koltira Todesweber",nil},
@@ -26456,4 +26456,4 @@ l10n.npcNameLookup["deDE"] = {
 [40842] = {"Rubindrache",nil},
 [40870] = {"Rubindrache",nil},
 [42078] = {"Mini-Thor","Der Zerstörer"},
-}
+}]])

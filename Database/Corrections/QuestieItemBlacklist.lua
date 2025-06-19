@@ -8,10 +8,13 @@ function QuestieItemBlacklist:Load()
         [774] = true, -- malachite
         [785] = true, -- mageroyal
         [929] = true, -- Healing Potion
+        [1179] = true, -- ice cold milk
         [1206] = true, -- moss agate
         [1210] = true, -- shadowgem
         [1529] = true, -- jade
         [1705] = true, -- lesser moonstone
+        [2318] = true, -- Light Leather
+        [2319] = true, -- Medium Leather
         [2447] = true, -- peacebloom
         [2449] = true, -- earthroot
         [2450] = true, -- briarthorn
@@ -21,6 +24,7 @@ function QuestieItemBlacklist:Load()
         [2589] = true, -- linen cloth
         [2592] = true, -- wool cloth
         [2842] = true, -- Silver Bar
+        [2934] = true, -- Ruined Leather Scraps
         [2997] = true, -- bolt of wool
         [3355] = true, -- wild steelbloom
         [3356] = true, -- kingsblood
@@ -32,14 +36,17 @@ function QuestieItemBlacklist:Load()
         [3820] = true, -- stranglekelp
         [3821] = true, -- goldthorn
         [3864] = true, -- citrine
+        [3927] = true, -- fine aged cheddar
+        [4234] = true, -- Heavy Leather
+        [4304] = true, -- Thick Leather
         [4306] = true, -- silk cloth
         [4338] = true, -- mageweave
         [4625] = true, -- firebloom
-        [5056] = true, -- root sample
         [7079] = true, -- globe of water
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
         [8153] = true, -- wildvine
+        [8170] = true, -- Rugged Leather
         [8244] = true, -- flawless-draenethyst-sphere
         [8831] = true, -- purple lotus
         [8836] = true, -- arthas tears
@@ -78,6 +85,14 @@ function QuestieItemBlacklist:Load()
         [15992] = true, -- Dense Blasting Powder
         [18335] = true, -- Pristine Black Diamond
         [19440] = true, -- Powerful Anti-Venom
+        [15417] = true, -- Devilsaur Leather
+        [15419] = true, -- Warbear Leather
+        [15422] = true, -- Frostsaber Leather
+        [15423] = true, -- Chimera Leather
+        [17012] = true, -- Core Leather
+        [19767] = true, -- Primal Bat Leather
+        [19768] = true, -- Primal Tiger Leather
+
         [20452] = true, -- Smoked Desert Dumplings
 
         -- stranglethorn pages
@@ -204,7 +219,6 @@ function QuestieItemBlacklist:Load()
         [22832] = true, -- Super Mana Potion
         [23445] = true, -- Fel Iron Bar
         [23793] = true, -- Heavy Knothide Leather
-        [24246] = true, -- Sanguine Hibiscus
         [24368] = true, -- Coilfang Armaments
         [24401] = true, -- Unidentified Plant Parts
         [26042] = true, -- Oshu'gun Crystal Powder Sample
@@ -223,5 +237,7 @@ function QuestieItemBlacklist:Load()
         [42780] = true, -- Relic of Ulduar
         [43013] = true, -- Chilled Meat
 
+        -- SoD
+        [231313] = true, -- Grimy Rune (dropped by any level 55+ mob)
     }
 end

@@ -1,5 +1,5 @@
 ---@class QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 QuestieJourneyFrame = nil
 -------------------------
@@ -15,6 +15,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -35,37 +37,46 @@ _QuestieJourney.lastZoneSelection = {}
 local notesPopupWin
 local notesPopupWinIsOpen = false
 
-QuestieJourney.questCategoryKeys = {
+-- These need to match with l10n.continentLookup
+local questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
     OUTLAND = 3,
     NORTHREND = 4,
-    DUNGEONS = 5,
-    BATTLEGROUNDS = 6,
-    CLASS = 7,
-    PROFESSIONS = 8,
-    EVENTS = 9,
+    CATACLYSM = 5,
+    THE_MAELSTROM = 6,
+    PANDARIA = 7,
+    DUNGEONS = 8,
+    BATTLEGROUNDS = 9,
+    CLASS = 10,
+    PROFESSIONS = 11,
+    EVENTS = 12,
+    PET_BATTLES = 13,
 }
+QuestieJourney.questCategoryKeys = questCategoryKeys
 
 
 function QuestieJourney:Initialize()
-    if not JourneyInitializd then
-        local continents = {}
-        for id, name in pairs(l10n.continentLookup) do
-            if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
-                continents[id] = l10n(name)
-            end
+    local continents = {}
+    for id, name in pairs(l10n.continentLookup) do
+        if not (questCategoryKeys.OUTLAND == id and Expansions.Current < Expansions.Tbc) and
+            not (questCategoryKeys.NORTHREND == id and Expansions.Current < Expansions.Wotlk) and
+            not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) then
+            continents[id] = l10n(name)
         end
-        continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
-
-
-        self.continents = continents
-        self.zoneMap = ZoneDB:GetZonesWithQuests(false)
-        self.zones = ZoneDB:GetRelevantZones()
-
-        self:BuildMainFrame()
-        JourneyInitializd = true
     end
+    coroutine.yield()
+    continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+
+    coroutine.yield()
+    self.continents = continents
+    self.zoneMap = ZoneDB.GetZonesWithQuests(true)
+    self.zones = ZoneDB.GetRelevantZones()
+    coroutine.yield()
+    self:BuildMainFrame()
 end
 
 function QuestieJourney:BuildMainFrame()
@@ -81,22 +92,24 @@ function QuestieJourney:BuildMainFrame()
         end)
         journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
-        journeyFrame:EnableResize(false)
-        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400)
+        journeyFrame:EnableResize(true)
+        journeyFrame:SetWidth(1000)
+        journeyFrame:SetHeight(650)
+        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400, 0, 0)
 
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")
         tabGroup:SetTabs({
             {
-                text = l10n('My Journey'),
+                text = l10n("My Journey"),
                 value="journey"
             },
             {
-                text = l10n('Quests by Zone'),
+                text = l10n("Quests by Zone"),
                 value="zone"
             },
             {
-                text = l10n('Advanced Search'),
+                text = l10n("Advanced Search"),
                 value="search"
             }
         })
@@ -109,11 +122,11 @@ function QuestieJourney:BuildMainFrame()
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(l10n('Questie Options'))
+        settingsButton:SetText(l10n("Questie Options"))
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()
                 QuestieJourney:ToggleJourneyWindow()
-                QuestieOptions:OpenConfigWindow()
+                QuestieOptions:ToggleConfigWindow()
             end)
         end)
         journeyFrame:AddChild(settingsButton)
@@ -154,7 +167,13 @@ end
 
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
-    ---@type JourneyEntry
+    ---@class JourneyEntry
+    ---@field Event string?
+    ---@field SubType string?
+    ---@field NewLevel number?
+    ---@field Level number?
+    ---@field Quest number?
+    ---@field Timestamp number
     local entry = {
         Event = "Level",
         NewLevel = level,
@@ -221,3 +240,5 @@ function QuestieJourney:CompleteQuest(questId)
 
     tinsert(Questie.db.char.journey, entry)
 end
+
+return QuestieJourney

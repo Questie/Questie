@@ -1,7 +1,11 @@
+if GetLocale() ~= "zhCN" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["zhCN"] = {
+l10n.questLookup["zhCN"] = loadstring([[return {
 [1] = {"Kanrethad's Quest", nil, {"Speak to Kanrethad to restore your talents, weapon and mount."}},
 [2] = {"沙普塔隆的爪子", nil, {"将沙普塔隆的爪子交给灰谷碎木哨岗的塞娜尼·雷心。"}},
 [5] = {"饥肠辘辘的基特斯", nil, {"和厨师格鲁奥谈一谈。"}},
@@ -9300,4 +9304,6 @@ l10n.questLookup["zhCN"] = {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
-}
+[78752] = {"死亡证明：泰坦符文协议伽马", nil, {"达拉然的大法师兰达洛克要你从任意地下城的最终首领处取回污染者的勋章。\n\n该任务必须在泰坦符文协议伽马难度的地下城中完成。"}},
+[78753] = {"死亡证明：艾泽拉斯的威胁", nil, {"达拉然的大法师兰达洛克要你从任意地下城的最终首领处取回神秘的古器。\n\n该任务必须在英雄难度的地下城中完成。"}},
+}]])

@@ -79,7 +79,8 @@ function QuestieProfessions:Update()
 
             --? Reset all autoBlacklisted quests if a new skill is learned
             QuestieQuest.ResetAutoblacklistCategory("skill")
-        elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] then
+        elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] and(temporaryPlayerProfessions[professionId][2] % 5 == 0) then
+            -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
             Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
             hasProfessionUpdate = true -- A profession leveled up, not something like "Defense"
         end
@@ -190,6 +191,7 @@ QuestieProfessions.professionKeys = {
     JEWELCRAFTING = 755,
     INSCRIPTION = 773,
     RIDING = 762,
+    ARCHAEOLOGY = 794,
 }
 
 professionNames = {
@@ -206,6 +208,7 @@ professionNames = {
     [QuestieProfessions.professionKeys.FISHING] = "Fishing",
     [QuestieProfessions.professionKeys.SKINNING] = "Skinning",
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting",
+    [QuestieProfessions.professionKeys.ARCHAEOLOGY] = "Archaeology",
     [QuestieProfessions.professionKeys.INSCRIPTION] = "Inscription",
     [QuestieProfessions.professionKeys.RIDING] = "Riding",
 }
@@ -225,6 +228,7 @@ local sortIds = {
     [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
     [QuestieProfessions.professionKeys.INSCRIPTION] = -371,
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
+    [QuestieProfessions.professionKeys.ARCHAEOLOGY] = -377,
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
@@ -311,3 +315,5 @@ alternativeProfessionNames = {
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
 }
+
+return QuestieProfessions

@@ -1,7 +1,11 @@
+if GetLocale() ~= "zhCN" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["zhCN"] = {
+l10n.questLookup["zhCN"] = loadstring([[return {
 [1] = {"Alexander's Quest",nil, {"Kill 2 Koboldz."}},
 [2] = {"沙普塔隆的爪子",nil, {"将沙普塔隆的爪子交给灰谷碎木哨岗的塞娜尼·雷心。"}},
 [5] = {"饥肠辘辘的基特斯",nil, {"和厨师格鲁奥谈一谈。"}},
@@ -6340,4 +6344,4 @@ l10n.questLookup["zhCN"] = {
 [64063] = {"黑暗之门",nil, {"找到诅咒之地的督军达图恩。他就在黑暗之门前等你。"}},
 [64064] = {"东瘟疫之地",nil, {"前往东瘟疫之地，找到莱尼德·巴萨罗梅。他在圣光之愿礼拜堂等你。"}},
 [64217] = {"黑暗之门",nil, {"找到诅咒之地的督军达图恩。他就在黑暗之门前等你。"}},
-}
+}]])

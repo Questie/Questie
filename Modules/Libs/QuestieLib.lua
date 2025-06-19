@@ -133,7 +133,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
-        name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
+        name = QuestieLib:GetLevelString(questId, level, blizzLike) .. name
     end
 
     if Questie.db.profile.enableTooltipsQuestID then
@@ -203,55 +203,6 @@ function QuestieLib:GetRandomColor()
     return colors[math_random(numColors)]
 end
 
----@param questId number
----@param name string @The (localized) name of the quest
----@param level number @The quest level
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetQuestString(questId, name, level, blizzLike)
-    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
-
-    if questType and questTag then
-        local char = "+"
-        if (not blizzLike) then
-            char = stringSub(questTag, 1, 1)
-        end
-
-        -- The string.sub above doesn't work for multi byte characters in Chinese
-        local langCode = l10n:GetUILocale()
-        if questType == 1 then
-            -- Elite quest
-            name = "[" .. level .. "+" .. "] " .. name
-        elseif questType == 81 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "D"
-            end
-            -- Dungeon quest
-            name = "[" .. level .. char .. "] " .. name
-        elseif questType == 62 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "R"
-            end
-            -- Raid quest
-            name = "[" .. level .. char .. "] " .. name
-        elseif questType == 41 then
-            -- Which one? This is just default.
-            name = "[" .. level .. "] " .. name
-            -- PvP quest
-            -- name = "[" .. level .. questTag .. "] " .. name
-        elseif questType == 83 then
-            -- Legendary quest
-            name = "[" .. level .. "++" .. "] " .. name
-        else
-            -- Some other irrelevant type
-            name = "[" .. level .. "] " .. name
-        end
-    else
-        name = "[" .. level .. "] " .. name
-    end
-
-    return name
-end
-
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
@@ -278,7 +229,7 @@ end
 ---@param level Level @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 ---@return string levelString @String of format "[40+]"
-function QuestieLib:GetLevelString(questId, _, level, blizzLike)
+function QuestieLib:GetLevelString(questId, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
     local retLevel = tostring(level)
@@ -346,7 +297,8 @@ function QuestieLib:GetRaceString(raceMask)
             l10n('Troll'),
             l10n('Goblin'),
             l10n('Blood Elf'),
-            l10n('Draenei')
+            l10n('Draenei'),
+            l10n('Worgen'),
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -389,7 +341,7 @@ function QuestieLib:CacheItemNames(questId)
     end
 end
 
-function QuestieLib:Euclid(x, y, i, e)
+function QuestieLib.Euclid(x, y, i, e)
     -- No need for absolute values as these are used only as squared
     local xd = x - i
     local yd = y - e
@@ -466,32 +418,6 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 
     return sortedQuestsByLevel
-end
-
-local randomSeed = 0
-function QuestieLib:MathRandomSeed(seed)
-    randomSeed = seed
-end
-
-function QuestieLib:MathRandom(low_or_high_arg, high_arg)
-    local low
-    local high
-    if low_or_high_arg ~= nil then
-        if high_arg ~= nil then
-            low = low_or_high_arg
-            high = high_arg
-        else
-            low = 1
-            high = low_or_high_arg
-        end
-    end
-
-    randomSeed = (randomSeed * 214013 + 2531011) % 2 ^ 32
-    local rand = (math.floor(randomSeed / 2 ^ 16) % 2 ^ 15) / 0x7fff
-    if not high then
-        return rand
-    end
-    return low + math.floor(rand * high)
 end
 
 function QuestieLib:UnpackBinary(val)
@@ -593,7 +519,7 @@ end
 --- Wow's own unpack stops at first nil. this version is not speed optimized.
 --- Supports just above QuestieLib.tpack func as it requires the 'n' field.
 ---@param tbl table A table packed with QuestieLib.tpack
----@return table 'n' values of the tbl
+---@return table|nil 'n' values of the tbl
 function QuestieLib.tunpack(tbl)
     if tbl.n == 0 then
         return nil
@@ -727,3 +653,39 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         return { useLine }
     end
 end
+
+function QuestieLib.GetSpawnDistance(spawnA, spawnB)
+    local x1, y1 = spawnA[1], spawnA[2]
+    local x2, y2 = spawnB[1], spawnB[2]
+
+    -- Adjust the x-coordinate to account the map scale
+    local distanceX = (x1 - x2) * 1.5
+    local distanceY = y1 - y2
+
+    return math_sqrt(distanceX * distanceX + distanceY * distanceY)
+end
+
+---@param quest Quest
+---@return number iconType The number representing the type of icon
+function QuestieLib.GetQuestIcon(quest)
+    if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
+        return Questie.ICON_TYPE_SODRUNE
+    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
+        return Questie.ICON_TYPE_EVENTQUEST
+    end
+    if QuestieDB.IsPvPQuest(quest.Id) then
+        return Questie.ICON_TYPE_PVPQUEST
+    end
+    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    if quest.IsRepeatable then
+        return Questie.ICON_TYPE_REPEATABLE
+    end
+    if QuestieDB.IsTrivial(quest.level) then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    return Questie.ICON_TYPE_AVAILABLE
+end
+
+return QuestieLib

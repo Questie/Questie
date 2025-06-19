@@ -17,11 +17,22 @@ local GetMinimapZoneText = GetMinimapZoneText;
 local IsInInstance = IsInInstance;
 local format = format;
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 
 local function GetMapTitleText()
     local regions = {WorldMapFrame.BorderFrame:GetRegions()}
     for i = 1, #regions do
         if (regions[i].SetText) then
+            return regions[i]
+        end
+    end
+end
+
+local function GetMiniWorldMapTitleText()
+    local regions = {WorldMapFrame.MiniBorderFrame:GetRegions()}
+    for i = 1, #regions do
+        if regions[i].SetText then
             return regions[i]
         end
     end
@@ -55,7 +66,8 @@ function QuestieCoords:WriteCoords()
         end
     end
     -- if main map
-    if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
+    local mapTitleText = GetMapTitleText()
+    if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() and mapTitleText then
         -- get cursor position
         local curX, curY = GetCursorPosition();
 
@@ -78,11 +90,17 @@ function QuestieCoords:WriteCoords()
 
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
-        GetMapTitleText():SetText(worldmapCoordsText)
+        mapTitleText:SetText(worldmapCoordsText)
+
+        -- Adding text to mini world map
+        local miniWorldMapTitleText = GetMiniWorldMapTitleText()
+        if miniWorldMapTitleText then
+            miniWorldMapTitleText:SetText(worldmapCoordsText)
+        end
     end
 end
 
----@return table<{x: number, y: number}>, number | nil
+---@return Coordinates|nil, number | nil
 function QuestieCoords.GetPlayerMapPosition()
     local mapID = GetBestMapForUnit("player")
     if (not mapID) then
@@ -106,7 +124,7 @@ end
 
 function QuestieCoords:Update()
     if (Questie.db.profile.minimapCoordinatesEnabled) or (Questie.db.profile.mapCoordinatesEnabled) then
-        QuestieCoords.WriteCoords();
+        QuestieCoords:WriteCoords();
     end
 end
 
@@ -116,4 +134,14 @@ end
 
 function QuestieCoords:ResetMapText()
     GetMapTitleText():SetText(WORLD_MAP);
+end
+
+function QuestieCoords:ResetMiniWorldMapText()
+    local currentMapId = WorldMapFrame:GetMapID();
+    if currentMapId then
+        local info = C_Map.GetMapInfo(currentMapId);
+        if info then
+            GetMiniWorldMapTitleText():SetText(info.name);
+        end
+    end
 end

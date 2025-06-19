@@ -3,6 +3,14 @@
 LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
+if echo "$LATEST_GIT_TAG" | grep -q "^.*-b.*$"; then
+  RELEASE_TYPE="beta"
+else
+  RELEASE_TYPE="release"
+fi
+
+echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to CurseForge"
+
 #### CurseForge Upload
 # Docs: https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
 
@@ -10,13 +18,14 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 # You can do so by opening the API in your browser and manually add the X-API-TOKEN Header with an API-Token to the request (https://authors-old.curseforge.com/account/api-tokens).
 # Check the answer for the required version (e.g. name = "1.14.4") and take the "id" field for the gameVersions.
 
+# The order of the "gameVersions" below is: WotLK, Era/SoD, Cata
 CF_METADATA=$(cat <<-EOF
 {
     "displayName": "$LATEST_GIT_TAG",
-    "releaseType": "release",
+    "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
-    "gameVersions": [10272, 10341],
+    "gameVersions": [12910, 12919, 12494],
     "relations": {
         "projects": [
             {slug: "Ace3", type: "embeddedLibrary"},

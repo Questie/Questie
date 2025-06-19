@@ -51,6 +51,10 @@ function QuestieTBCObjectFixes:Load()
         [182116] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{61.5,56.1},{62.4,53.0},{62.4,59.2},{62.5,53.0},{62.5,59.2},{62.9,45.5},{63.0,45.4},{64.1,51.2},{64.8,49.3},{64.8,49.5},{65.0,53.8},{65.4,50.6},{65.6,50.7},{65.8,47.5},{65.9,47.4},{66.0,62.2},{66.1,46.4},{66.4,52.1},{66.5,52.1},{66.6,47.9},{67.3,50.1},{67.3,54.7},{67.7,53.4},{68.0,48.3},{68.3,44.7},{68.3,53.7},{68.6,54.4},{68.6,54.5},{68.8,47.8},{70.2,47.9},{70.7,50.2},{71.0,53.9},{71.1,51.7},{71.2,47.2},{71.6,45.4},{71.6,45.5},{73.1,46.8}}},
         },
+        [182198] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
+        },
         [182950] = {
             [objectKeys.factionID] = 80,
         },
@@ -72,6 +76,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Ethereum Prison",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
         },
+        [185001] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
@@ -79,14 +88,27 @@ function QuestieTBCObjectFixes:Load()
         [185033] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{66.39,44.08}}},
         },
+        [185144] = {
+            [objectKeys.name] = "Bleeding Hollow Forge",
+        },
         [185200] = {
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
+        },
+        [185202] = {
+            [objectKeys.name] = "Veil Skith Cage",
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{30.61,43.88},{30.61,43.9},{30.6,43.87},{31.14,40.66},{31.13,40.67},{29.6,42.91},{29.61,42.93},{30.6,43.89},{31.45,42.39},{31.46,42.41},{31.46,42.4},{31.46,42.37},{31.47,42.38},{31.47,42.4}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
         },
         [185322] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7}}},
         },
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
+        },
+        [185519] = {
+            [objectKeys.name] = "Mana-Tombs Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MANA_TOMBS,
         },
         [185562] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.53,31.2}}},
@@ -112,16 +134,6 @@ function QuestieTBCObjectFixes:Load()
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
         },
-        [186887] = {
-            [objectKeys.spawns] = {
-                [zoneIDs.DUROTAR]={{52.6,42.5}},
-                [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
-                [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
-                [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
-                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
-                [zoneIDs.EVERSONG_WOODS]={{47.5,46.3}},
-            },
-        },
         [187039] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{50.0,12.4},{50.7,13.3},{50.7,13.9},{50.47,19.23},{49.27,19.97},{49.08,19.02},{49.31,17.77},{49.48,17.03},{50.91,17.26},{50.18,16.55},{51.15,16.75},{51.98,15.68},{50.7,13.34},{51.94,13.16},{51.02,11.97},{51.6,13.9},{54.13,18.84},},},
         },
@@ -133,6 +145,11 @@ function QuestieTBCObjectFixes:Load()
         },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
+        },
+        [187578] = {
+            [objectKeys.name] = "Scrying Orb",
+            [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
         },
         [187892] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{-1,-1}}},
@@ -562,111 +579,108 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{56.37,59.82}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
-        [190483] = {
-            [objectKeys.name] = "Document Chest",
-            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{33.76,39.99}}},
-            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
-        },
-        [190484] = {
-            [objectKeys.name] = "Document Chest",
-            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{39.34,41.53}}},
-            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
-        },
 
         -- Below are fake objects
-        [400000] = {
+        -- For TBC fixes 410001-419999
+        [410001] = {
             [objectKeys.name] = "Mailbox",
             [objectKeys.questStarts] = {9672},
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
-        [400001] = {
+        [410002] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40.5,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400002] = {
+        [410003] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{39.5,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400003] = {
+        [410004] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400004] = {
+        [410005] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400005] = {
+        [410006] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400006] = {
+        [410007] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400007] = {
+        [410008] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400008] = {
+        [410009] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400009] = {
+        [410010] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{83.5,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400010] = {
+        [410011] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84.5,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400011] = {
+        [410012] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400012] = {
+        [410013] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400013] = {
+        [410014] = {
             [objectKeys.name] = "Gather Nether Residue from any Herb or Ore Deposit in Outland",
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.9,44.8}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
-        [400014] = {
+        --[[[410015] = { -- REUSE
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
-        },
-        [400058] = {
+        },]]
+        [410016] = {
             [objectKeys.name] = "Portal to Socrethar's Seat",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
-        [400059] = {
+        [410017] = {
             [objectKeys.name] = "Portal to Netherstorm",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{30.56,17.69}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
-        [400060] = {
+        [410018] = {
             [objectKeys.name] = "Ethereum Transponder Zeta",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{56.81,38.7}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
-        [500007] = {
-            [objectKeys.name] = "Alcaz Survey Credit", -- 4391
+        [410019] = {
+            [objectKeys.name] = "Bristlelimb Cage",
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{26.87,62.99},{27.99,63.44},{28.56,67.02},{27.7,65.43},{28.17,67.44},{27.7,62.24},{27.35,62.2},{27.25,66.91},{28.11,65.84},{25.7,67.77},{25.45,68.37},{24.41,67.84},{24.53,67.21},{25.04,66.59},{25.47,66.6}}},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
+        [410020] = {
+            [objectKeys.name] = "Blackhoof Cage",
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{40.7,11.9},{40.89,12.43},{40.63,11.5},{41.62,10.8},{41.93,13.22},{41.48,12.98},{42.39,11.76}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
     }
@@ -685,6 +699,11 @@ function QuestieTBCObjectFixes:LoadFactionFixes()
                 [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
             },
         },
+        [187236] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{52.43,69.27}},
+            },
+        },
     }
 
     local objectFixesAlliance = {
@@ -693,6 +712,11 @@ function QuestieTBCObjectFixes:LoadFactionFixes()
                 [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
                 [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
                 [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+            },
+        },
+        [187236] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{33.71,65.85}},
             },
         },
     }

@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["frFR"] = {
+l10n.itemLookup["frFR"] = loadstring([[return {
 [159] = "Eau de source",
 [182] = "Tête de Garrick",
 [723] = "Foie de Broche-tripes",
@@ -1209,7 +1209,7 @@ l10n.itemLookup["frFR"] = {
 [12957] = "Epée brisée de Marduk",
 [13140] = "Clé rouge sang",
 [13157] = "Crâne fétide",
-[13172] = "Tabac de Siabi",
+[13172] = "Tabac de Grimm",
 [13174] = "Echantillon de chair pestiférée",
 [13176] = "Donnée du Fléau",
 [13180] = "Eau sacrée de Stratholme",
@@ -1602,6 +1602,7 @@ l10n.itemLookup["frFR"] = {
 [21230] = "Ancien artefact qiraji",
 [21377] = "Coiffure de plumes mort-bois",
 [21383] = "Perles d'esprit tombe-hiver",
+[21545] = "Marchandises des Gourmandises Fumebois",
 [21557] = "Petite comète rouge",
 [21558] = "Petite comète bleue",
 [21559] = "Petite comète verte",
@@ -1674,4 +1675,4 @@ l10n.itemLookup["frFR"] = {
 [22734] = "Talon d'Atiesh",
 [22892] = "Pierre nécrotique pâle",
 [23250] = "Coquille prismatique",
-}
+}]])

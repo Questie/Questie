@@ -1,7 +1,11 @@
+if GetLocale() ~= "ptBR" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["ptBR"] = {
+l10n.questLookup["ptBR"] = loadstring([[return {
 [1] = {"Missão do Alexandre",nil, {"Encontre um lugar esquecido e lance o feitiço."}},
 [2] = {"Garra de Garraguda",nil, {"Leve a Garra de Garraguda para Senani Coração Trovejante no Posto Machadada, Vale Gris."}},
 [5] = {"A barriga roncante de Medrisco",nil, {"Fale com o Chef Goroba."}},
@@ -6534,4 +6538,4 @@ l10n.questLookup["ptBR"] = {
 [64053] = {"Talento é para quem tem",nil, {"Ative a interface de Talentos e atribua 5 Pontos de Talento."}},
 [64063] = {"Portal Negro",nil, {"Fale com o Senhor da Guerra Dar'tun na Barreira do Inferno. Ele aguarda você junto ao Portal Negro."}},
 [64064] = {"Terras Pestilentas Orientais",nil, {"Vá até as Terras Pestilentas Orientais e fale com Leonid Bartolomeu. Ele aguarda sua chegada na Capela Esperança da Luz."}},
-}
+}]])

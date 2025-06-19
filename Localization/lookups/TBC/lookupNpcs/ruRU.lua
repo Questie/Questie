@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "ruRU" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["ruRU"] = {
+l10n.npcNameLookup["ruRU"] = loadstring([[return {
 [1] = {"Waypoint (Only GM can see it)",nil},
 [3] = {"Плотояд",nil},
 [6] = {"Кобольд-вредитель",nil},
@@ -17435,4 +17435,4 @@ l10n.npcNameLookup["ruRU"] = {
 [29093] = {"Иан Дрейк","Старейшина"},
 [29095] = {"Эдвард Кэрн","Старейшина"},
 [39623] = {"Гном-горожанин",nil},
-}
+}]])

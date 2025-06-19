@@ -2,6 +2,8 @@
 local Migration = QuestieLoader:CreateModule("Migration")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
@@ -13,7 +15,91 @@ local migrationFunctions = {
         end
         -- theres no need to delete old settings, since we read/write to different addresses now;
         -- old settings can linger unused unless you roll back versions, no harm no foul
-    end
+    end,
+    [2] = function()
+        -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
+        local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
+            objectiveSound == "Explosion" or
+            objectiveSound == "Shing!" or
+            objectiveSound == "Wham!" or
+            objectiveSound == "Simon Chime" or
+            objectiveSound == "War Drums" or
+            objectiveSound == "Humm" or
+            objectiveSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveCompleteSoundChoiceName = "ObjectiveDefault"
+        end
+
+        local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
+            progressSound == "Explosion" or
+            progressSound == "Shing!" or
+            progressSound == "Wham!" or
+            progressSound == "Simon Chime" or
+            progressSound == "War Drums" or
+            progressSound == "Humm" or
+            progressSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveProgressSoundChoiceName = "ObjectiveProgress"
+        end
+    end,
+    [3] = function()
+        if Questie.IsSoD then
+            if Questie.db.profile.showSoDRunes then
+                Questie.db.profile.showRunesOfPhase = {
+                    phase1 = true,
+                    phase2 = false,
+                    phase3 = false,
+                    phase4 = false,
+                }
+            else
+                Questie.db.profile.showRunesOfPhase = {
+                    phase1 = false,
+                    phase2 = false,
+                    phase3 = false,
+                    phase4 = false,
+                }
+            end
+        end
+    end,
+    [4] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
+    [5] = function()
+        Questie.db.profile.enableTooltipsNextInChain = true
+    end,
+    [6] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
+    [7] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
+    [8] = function()
+        if Questie.IsSoD then
+            Questie.db.profile.showAQWarEffortQuests = true
+        end
+    end,
+    [9] = function()
+        Questie.db.profile.autoAccept = {
+            enabled = Questie.db.profile.autoaccept,
+            trivial = Questie.db.profile.acceptTrivial,
+            repeatable = true,
+        }
+        Questie.db.profile.autoaccept = nil
+        Questie.db.profile.acceptTrivial = nil
+    end,
+    [10] = function()
+        -- The previous release had the default value set to "true", which was incorrect.
+        Questie.db.profile.autoAccept.enabled = false
+    end,
+    [11] = function()
+        Questie.db.profile.autoAccept.pvp = true
+    end,
+    [12] = function()
+        Questie.db.profile.autoAccept.rejectSharedInBattleground = false
+        Questie.db.profile.tutorialRejectInBattlegroundsDone = false
+    end,
 }
 
 function Migration:Migrate()

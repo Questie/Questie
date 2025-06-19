@@ -1,7 +1,11 @@
+if GetLocale() ~= "esMX" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["esMX"] = {
+l10n.questLookup["esMX"] = loadstring([[return {
 [1] = {"Misión de Kanrethad", nil, {"Habla con Kanrethad para que restaure tus talentos, armas y montura."}},
 [2] = {"La garfa de Garrafilada", nil, {"Llévale la garfa de Garfafilada a Senani Corazón Atronador en el Puesto del Hachazo, Vallefresno."}},
 [5] = {"La hambruna de Alterio", nil, {"Habla con el Chef Grual."}},
@@ -9302,4 +9306,6 @@ l10n.questLookup["esMX"] = {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
-}
+[78752] = {"Prueba de defunción: Protocolo gamma de runa titánica", nil, {"El archimago Lan'dalock de Dalaran quiere que vuelvas con el medallón de profanador de cualquier jefe final de calabozo. \n\nEsta misión solo se puede completar en cualquier calabozo de dificultad Protocolo gamma de runa titánica."}},
+[78753] = {"Prueba de defunción: Amenazas contra Azeroth", nil, {"El archimago Lan'dalock de Dalaran quiere que vuelvas con el artefacto misterioso de cualquier jefe final de calabozo. \n\nEsta misión solo se puede completar en cualquier calabozo de dificultad heroica."}},
+}]])

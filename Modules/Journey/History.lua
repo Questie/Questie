@@ -1,5 +1,5 @@
 ---@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 
 ---@type QuestieDB
@@ -14,7 +14,9 @@ function _QuestieJourney:GetHistory()
     for k in pairs(journeyEntries) do
         table.insert(years, k)
     end
-    table.sort(years)
+
+    -- Sort descending to show newest first
+    table.sort(years, function(a, b) return a > b end)
 
     local history = {}
     for _, year in pairs(years) do

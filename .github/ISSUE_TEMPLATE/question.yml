@@ -1,0 +1,26 @@
+name: Question
+description: >
+  If you have a question about Questie in general choose this issue type.
+labels: ["Question"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## READ THIS FIRST
+        Hello, thanks for taking the time to report a bug!
+
+        Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Curseforge client, but you can also download the latest version here: [Questie on CurseForge](https://www.curseforge.com/wow/addons/questie)
+
+        Questie is one of the most popular Classic WoW addons. However, like almost all WoW addons, it's built and maintained by a team of volunteers.
+
+        Feel free to reach out to us on the [Questie Discord](https://discord.gg/s33MAYKeZd)
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Question
+      description: >
+        Let us know what's on your heart.
+    validations:
+      required: true

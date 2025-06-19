@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["deDE"] = {
+l10n.itemLookup["deDE"] = loadstring([[return {
 [159] = "Erfrischendes Quellwasser",
 [182] = "Garricks Kopf",
 [723] = "Geiferzahnleber",
@@ -1209,7 +1209,7 @@ l10n.itemLookup["deDE"] = {
 [12957] = "Zertrümmertes Schwert von Marduk",
 [13140] = "Blutroter Schlüssel",
 [13157] = "Stinkender Schädel",
-[13172] = "Siabis Toller Tabak",
+[13172] = "Grimms Toller Tabak",
 [13174] = "Verseuchte Fleischprobe",
 [13176] = "Geißeldaten",
 [13180] = "Heiliges Wasser von Stratholme",
@@ -1602,6 +1602,7 @@ l10n.itemLookup["deDE"] = {
 [21230] = "Uraltes Qirajiartefakt",
 [21377] = "Kopfputzfeder der Totenwaldfelle",
 [21383] = "Geisterperlen der Winterfelle",
+[21545] = "Vorräte der Kokelwälder",
 [21557] = "Kleine rote Rakete",
 [21558] = "Kleine blaue Rakete",
 [21559] = "Kleine grüne Rakete",
@@ -1674,4 +1675,4 @@ l10n.itemLookup["deDE"] = {
 [22734] = "Stabfuß von Atiesh",
 [22892] = "Dunkler nekrotischer Stein",
 [23250] = "Prismatische Muschel",
-}
+}]])

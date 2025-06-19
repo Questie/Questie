@@ -9,16 +9,18 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 
-local type = type
+local pcall, type, next = pcall, type, next
+local coYield = coroutine.yield
 local abs, min, floor = math.abs, math.min, math.floor
-local lshift = bit.lshift
 
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD = 48
-local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
+local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 10
 
 ---@alias CompilerTypes
 ---| "u8"
@@ -36,6 +38,7 @@ local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
 ---| "u16u16array"
 ---| "u8s24pairs"
 ---| "u8u24array"
+---| "u8s24array"
 ---| "u16u24array"
 ---| "u8u16stringarray"
 ---| "faction"
@@ -43,6 +46,7 @@ local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
 ---| "trigger"
 ---| "questgivers"
 ---| "objective"
+---| "spellobjective"
 ---| "objectives"
 ---| "reflist"
 ---| "extraobjective
@@ -61,10 +65,12 @@ QuestieDBCompiler.supportedTypes = {
         ["trigger"] = true,
         ["questgivers"] = true,
         ["objective"] = true,
+        ["spellobjective"] = true,
         ["objectives"] = true,
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
+        ["u8s24array"] = true,
         ["u16u24array"] = true,
         ["extraobjectives"] = true,
         ["reflist"] = true
@@ -208,6 +214,16 @@ readers["u8u24array"] = function(stream)
     end
     return list
 end
+readers["u8s24array"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24() - 8388608
+    end
+    return list
+end
 readers["u16u24array"] = function(stream)
     local count = stream:ReadShort()
     if count == 0 then return nil end
@@ -251,10 +267,13 @@ readers["spawnlist"] = function(stream)
         local list = {}
         for i = 1, spawnCount do
             local x, y = stream:ReadInt12Pair()
+            local phase = stream:ReadShort()
             if x == 0 and y == 0 then
                 list[i] = {-1, -1}
-            else
+            elseif phase == 0 then
                 list[i] = {x / 40.90, y / 40.90}
+            else
+                list[i] = {x / 40.90, y / 40.90, phase}
             end
         end
         spawnlist[zone] = list
@@ -283,7 +302,17 @@ readers["objective"] = function(stream)
 
     local ret = {}
     for i = 1, count do
-        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadByte()}
+    end
+    return ret
+end
+readers["spellobjective"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local ret = {}
+    for i = 1, count do
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadInt24()}
     end
     return ret
 end
@@ -298,19 +327,21 @@ readers["objectives"] = function(stream)
 
     local count = stream:ReadByte()
     if count == 0 then
-        return ret
+        ret[5] = nil
+    else
+        local killobjectives = {}
+        for i=1, count do
+            local creditCount = stream:ReadByte()
+            local creditList = {}
+            for j=1, creditCount do
+                creditList[j] = stream:ReadInt24()
+            end
+            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadByte()}
+        end
+        ret[5] = killobjectives
     end
 
-    local killobjectives = {}
-    for i=1, count do
-        local creditCount = stream:ReadByte()
-        local creditList = {}
-        for j=1, creditCount do
-            creditList[j] = stream:ReadInt24()
-        end
-        killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
-    end
-    ret[5] = killobjectives
+    ret[6] = readers["spellobjective"](stream)
 
     return ret
 end
@@ -492,6 +523,17 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["u8s24array"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24(v + 8388608)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["u16u24array"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -540,6 +582,7 @@ QuestieDBCompiler.writers = {
                     else
                         stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                     end
+                    stream:WriteShort(spawn[3] or 0) -- spawn phase
                 end
             end
         else
@@ -575,6 +618,20 @@ QuestieDBCompiler.writers = {
             for _, pair in pairs(value) do
                 stream:WriteInt24(pair[1])
                 stream:WriteTinyString(pair[2] or "")
+                stream:WriteByte(pair[3] or 0)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
+    ["spellobjective"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _, data in pairs(value) do
+                stream:WriteInt24(data[1])
+                stream:WriteTinyString(data[2] or "")
+                stream:WriteInt24(data[3] or 0)
             end
         else
             stream:WriteByte(0)
@@ -594,17 +651,20 @@ QuestieDBCompiler.writers = {
                     local killobjective = killobjectives[i]
                     local npcIds = killobjective[1]
                     assert(type(npcIds) == "table", "killobjective's npcids is not a table.")
-                    assert(#npcIds > 0, "killOojective has 0 npcIDs.")
+                    assert(#npcIds > 0, "killobjective has 0 npcIDs.")
                     stream:WriteByte(#npcIds) -- write count of creatureIDs
                     for j=1, #npcIds do
                         stream:WriteInt24(npcIds[j]) -- write creatureID
                     end
                     stream:WriteInt24(killobjective[2]) -- write baseCreatureID
                     stream:WriteTinyString(killobjective[3] or "") -- write baseCreatureText
+                    stream:WriteByte(killobjective[4] or 0) -- write icon override index
                 end
             else
                 stream:WriteByte(0)
             end
+
+            QuestieDBCompiler.writers["spellobjective"](stream, value[6])
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -612,6 +672,7 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
             stream:WriteInt24(0)
             stream:WriteInt24(0)
+            stream:WriteByte(0)
             stream:WriteByte(0)
         end
     end,
@@ -680,6 +741,7 @@ skippers["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 
 skippers["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end
 skippers["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end
 skippers["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end
+skippers["u8s24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end
 skippers["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end
 skippers["waypointlist"]  = function(stream)
     local count = stream:ReadByte()
@@ -702,7 +764,9 @@ skippers["spawnlist"] = function(stream)
     local count = stream:ReadByte()
     for _ = 1, count do
         stream._pointer = stream._pointer + 2
-        stream._pointer = stream:ReadShort() * 3 + stream._pointer
+        -- Skip over the 5 bytes of each spawn
+        -- 3 bytes for the spawn-pair of 12-bit integers and 2 byte for the phase
+        stream._pointer = stream:ReadShort() * 5 + stream._pointer
     end
 end
 local spawnlistSkipper = skippers["spawnlist"]
@@ -721,9 +785,19 @@ skippers["objective"] = function(stream)
     for _=1,count do
         stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 1
+    end
+end
+skippers["spellobjective"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream._pointer + 3
+        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 3
     end
 end
 local objectiveSkipper = skippers["objective"]
+local spellObjectiveSkipper = skippers["spellobjective"]
 local u24pairSkipper = skippers["u24pair"]
 skippers["objectives"] = function(stream)
     objectiveSkipper(stream)
@@ -735,8 +809,10 @@ skippers["objectives"] = function(stream)
         for _=1, count do
             stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
+            stream._pointer = stream._pointer + 1
         end
     end
+    spellObjectiveSkipper(stream)
 end
 skippers["reflist"] = function(stream)
     stream._pointer = stream:ReadByte() * 4 + stream._pointer
@@ -763,6 +839,7 @@ QuestieDBCompiler.dynamics = {
     ["u16u16array"] = true,
     ["u8s24pairs"] = true,
     ["u8u24array"] = true,
+    ["u8s24array"] = true,
     ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
@@ -834,7 +911,7 @@ end
 
 function QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
     stream:reset()
-    stream:WriteShort(0) -- placeholder
+    stream:WriteInt24(0) -- placeholder
     local count = 0
     for id, ptrs in pairs(pointerMap) do
         stream:WriteInt24(id)
@@ -842,12 +919,12 @@ function QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
         count = count + 1
     end
     stream._pointer = 1
-    stream:WriteShort(count)
+    stream:WriteInt24(count)
     return stream:Save()
 end
 
 function QuestieDBCompiler:DecodePointerMap(stream)
-    local count = stream:ReadShort()
+    local count = stream:ReadInt24()
     local ret = {}
     local i = 0
     while i < count do
@@ -855,7 +932,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
-        coroutine.yield()
+        coYield()
     end
     return ret
 end
@@ -898,17 +975,21 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local stream = Questie.db.profile.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
 
     -- Localize functions
-    local pcall, type = pcall, type
     local writers = QuestieDBCompiler.writers
     local supportedTypes = QuestieDBCompiler.supportedTypes
 
     while true do
-        coroutine.yield()
+        coYield()
         for _=0,Questie.db.profile.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
             index = index + 1
             if index == count then
-                Questie.db.global[databaseKey.."Bin"] = stream:Save()
-                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                if Questie.IsSoD then
+                    Questie.db.global.sod[databaseKey.."Bin"] = stream:Save()
+                    Questie.db.global.sod[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                else
+                    Questie.db.global[databaseKey.."Bin"] = stream:Save()
+                    Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                end
                 stream:finished() -- relief memory pressure
                 return
             end
@@ -924,17 +1005,16 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                 local t = types[key]
 
                 if v and not supportedTypes[type(v)][t] then
-                    Questie:Error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
+                    error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     return
                 end
                 if not writers[t] then
-                    Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
+                    error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
                 local result, errorMessage = pcall(writers[t], stream, v)
                 if not result then
-                    Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(errorMessage)
+                    error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
                     error(errorMessage)
                 end
             end
@@ -997,15 +1077,31 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
-    Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-    Questie.db.global.dbCompiledLang = l10n:GetUILocale()
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
-    Questie.db.global.dbIsCompiled = true
-    Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
+
+    if Questie.IsSoD then
+        Questie.db.global.sod.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+        Questie.db.global.sod.dbCompiledLang = l10n:GetUILocale()
+        Questie.db.global.sod.dbIsCompiled = true
+        Questie.db.global.sod.dbCompiledCount = (Questie.db.global.sod.dbCompiledCount or 0) + 1
+    else
+        Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+        Questie.db.global.dbCompiledLang = l10n:GetUILocale()
+        Questie.db.global.dbIsCompiled = true
+        Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
+    end
 end
 
 function QuestieDBCompiler:ValidateNPCs()
-    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
+    local npcBin, npcPtrs
+    if Questie.IsSoD then
+        npcBin = Questie.db.global.sod.npcBin
+        npcPtrs = Questie.db.global.sod.npcPtrs
+    else
+        npcBin = Questie.db.global.npcBin
+        npcPtrs = Questie.db.global.npcPtrs
+    end
+    local validator = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     local count = 0
     for npcId, nonCompiledData in pairs(QuestieDB.npcData) do
@@ -1035,7 +1131,7 @@ function QuestieDBCompiler:ValidateNPCs()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1045,7 +1141,15 @@ function QuestieDBCompiler:ValidateNPCs()
 end
 
 function QuestieDBCompiler:ValidateObjects()
-    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
+    local objBin, objPtrs
+    if Questie.IsSoD then
+        objBin = Questie.db.global.sod.objBin
+        objPtrs = Questie.db.global.sod.objPtrs
+    else
+        objBin = Questie.db.global.objBin
+        objPtrs = Questie.db.global.objPtrs
+    end
+    local validator = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
     local count = 0
     for objectId, nonCompiledData in pairs(QuestieDB.objectData) do
@@ -1073,9 +1177,9 @@ function QuestieDBCompiler:ValidateObjects()
             end
         end
 
-        if count == TICKS_PER_YIELD_DEBUG then
-            count = 0
-            coroutine.yield()
+    if count == TICKS_PER_YIELD_DEBUG then
+        count = 0
+        coYield()
         end
         count = count + 1
     end
@@ -1086,9 +1190,26 @@ end
 
 
 function QuestieDBCompiler:ValidateItems()
-    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.itemBin, Questie.db.global.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
-    local obj = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
-    local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
+    local itemBin, objBin, npcBin, objPtrs, itemPtrs, npcPtrs
+    if Questie.IsSoD then
+        itemBin = Questie.db.global.sod.itemBin
+        itemPtrs = Questie.db.global.sod.itemPtrs
+        objBin = Questie.db.global.sod.objBin
+        objPtrs = Questie.db.global.sod.objPtrs
+        npcBin = Questie.db.global.sod.npcBin
+        npcPtrs = Questie.db.global.sod.npcPtrs
+    else
+        itemBin = Questie.db.global.itemBin
+        itemPtrs = Questie.db.global.itemPtrs
+        objBin = Questie.db.global.objBin
+        objPtrs = Questie.db.global.objPtrs
+        npcBin = Questie.db.global.npcBin
+        npcPtrs = Questie.db.global.npcPtrs
+    end
+
+    local validator = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
+    local obj = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
+    local npc = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     local count = 0
     for id, _ in pairs(validator.pointers) do
@@ -1143,7 +1264,7 @@ function QuestieDBCompiler:ValidateItems()
         --end
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1175,7 +1296,7 @@ function QuestieDBCompiler:ValidateItems()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1187,7 +1308,15 @@ function QuestieDBCompiler:ValidateItems()
 end
 
 function QuestieDBCompiler:ValidateQuests()
-    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
+    local questBin, questPtrs
+    if Questie.IsSoD then
+        questBin = Questie.db.global.sod.questBin
+        questPtrs = Questie.db.global.sod.questPtrs
+    else
+        questBin = Questie.db.global.questBin
+        questPtrs = Questie.db.global.questPtrs
+    end
+    local validator = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     local playerLevel = UnitLevel("player")
 
@@ -1216,7 +1345,7 @@ function QuestieDBCompiler:ValidateQuests()
             local b = nonCompiledData[QuestieDB.questKeys[key]]
 
             --Special case for questLevel
-            if (Questie.IsTBC or Questie.IsWotlk) and (key == "questLevel" or key == "requiredLevel") then
+            if (Expansions.Current >= Expansions.Tbc) and (key == "questLevel" or key == "requiredLevel") then
                 local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
                 if (key == "questLevel") then
                     a = questLevel
@@ -1264,7 +1393,7 @@ function QuestieDBCompiler:ValidateQuests()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1278,12 +1407,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     local map, lastIndex, lastPtr, types, _, indexToKey, keyToIndex = unpack(skipMap)
 
     local stream = QuestieStream:GetStream("raw")
-    coroutine.yield()
+    coYield()
     stream:Load(pointers)
-    coroutine.yield()
+    coYield()
     pointers = QuestieDBCompiler:DecodePointerMap(stream)
     --Questie.db.global.__pointers = pointers
-    coroutine.yield()
+    coYield()
     stream:Load(data)
     handle.stream = stream
 
@@ -1295,7 +1424,14 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             local override = overrides[id]
             if override then
                 local kti = keyToRootIndex[key]
-                if kti and override[kti] ~= nil then return override[kti] end
+                if kti and override[kti] ~= nil then
+                    if type(override[kti]) ~= "table" or next(override[kti]) then
+                        return override[kti]
+                    else
+                        -- We want to return nil if the table is empty, to match the compiler behavior
+                        return nil
+                    end
+                end
             end
             local ptr = pointers[id]
             if not ptr then

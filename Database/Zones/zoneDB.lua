@@ -1,7 +1,5 @@
 ---@class ZoneDB
 local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
----@type ZoneDBPrivate
-ZoneDB.private = ZoneDB.private or {}
 
 local _ZoneDB = ZoneDB.private
 
@@ -21,37 +19,56 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
-local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
-local dungeons = ZoneDB.private.dungeons or {}
-local dungeonLocations = ZoneDB.private.dungeonLocations or {}
-local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
-local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+local areaIdToUiMapId
+local uiMapIdToAreaId
+local dungeons
+local subZoneToParentZone
 
----Zone ids enum
-ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
+-- Generated from alternativeAreaId in dungeons
+-- [alternativeDungeonAreaId] = dungeonZone
+---@type table<AreaId, AreaId>
+local alternativeDungeonAreaIdToDungeonAreaId = {}
 
-
--- Overrides for UiMapId to AreaId
-local UiMapIdOverrides = {
-    [246] = 3713
-}
-local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
 
 
-function ZoneDB:Initialize()
-    _ZoneDB:GenerateParentZoneToStartingZoneTable()
+function ZoneDB.Initialize()
+    areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local areaIdToUiMapIdOverride = loadstring(ZoneDB.private.areaIdToUiMapIdOverride)()
+    for areaId, uiMapId in pairs(areaIdToUiMapIdOverride) do
+        areaIdToUiMapId[areaId] = uiMapId
+    end
+
+    uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local uiMapIdToAreaIdOverride = loadstring(ZoneDB.private.uiMapIdToAreaIdOverride)()
+    for areaId, uiMapId in pairs(uiMapIdToAreaIdOverride) do
+        uiMapIdToAreaId[areaId] = uiMapId
+    end
+
+    dungeons = ZoneDB.private.dungeons
+
+    subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
+
+    -- Override subZoneToParentZone with manual overrides
+    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
+    for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
+        subZoneToParentZone[areaId] = parentZoneId
+    end
 
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
     end
-end
 
-function _ZoneDB:GenerateParentZoneToStartingZoneTable()
-    for startingZone, parentZone in pairs(subZoneToParentZone) do
-        parentZoneToSubZone[parentZone] = startingZone
+    for areaId, dungeonZoneEntry in pairs(dungeons) do
+        local alternativeDungeonZone = dungeonZoneEntry[2]
+        if alternativeDungeonZone then
+            alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+        end
     end
 end
 
@@ -69,11 +86,6 @@ end
 ---@param uiMapId UiMapId
 ---@return AreaId
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    --? Some areas have multiple areaIds, so we return the correct AreaId
-    if UiMapIdOverrides[uiMapId] then
-        return UiMapIdOverrides[uiMapId]
-    end
-
     local foundId
     -- First we look for a direct match
     for AreaUiMapId, lAreaId in pairs(uiMapIdToAreaId) do
@@ -116,33 +128,29 @@ end
 
 
 ---@param areaId AreaId
+---@return AreaCoordinate?
 function ZoneDB:GetDungeonLocation(areaId)
-    return dungeonLocations[areaId]
-end
-
----@param areaId AreaId
-function ZoneDB.IsDungeonZone(areaId)
-    return dungeonLocations[areaId] ~= nil
-end
-
----@param areaId AreaId
-function ZoneDB:GetAlternativeZoneId(areaId)
-    local entry = dungeons[areaId]
-    if entry then
-        return entry[2]
+    local dungeon = dungeons[areaId]
+    if dungeon then
+        return dungeon[4]
+    else
+        local alternativeDungeonAreaId = alternativeDungeonAreaIdToDungeonAreaId[areaId]
+        if alternativeDungeonAreaId then
+            return dungeons[alternativeDungeonAreaId][4]
+        end
     end
-
-    entry = parentZoneToSubZone[areaId]
-    if entry then
-        return entry
-    end
-
     return nil
 end
 
 ---@param areaId AreaId
+---@return boolean
+function ZoneDB.IsDungeonZone(areaId)
+    return dungeons[areaId] ~= nil
+end
+
+---@param areaId AreaId
 function ZoneDB:GetParentZoneId(areaId)
-    return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
+    return alternativeDungeonAreaIdToDungeonAreaId[areaId] or subZoneToParentZone[areaId]
 end
 
 
@@ -156,18 +164,22 @@ do
 
     ---@param yield boolean?
     ---@return table
-    function ZoneDB:GetZonesWithQuests(yield)
+    function ZoneDB.GetZonesWithQuests(yield)
         local count = 0
+        local ridingProfession = QuestieProfessions.professionKeys.RIDING
+        local hiddenQuests = QuestieCorrections.hiddenQuests
+        local _HasRequiredRace = QuestiePlayer.HasRequiredRace
+        local _HasRequiredClass = QuestiePlayer.HasRequiredClass
+        local _QueryQuestSingle = QuestieDB.QueryQuestSingle
 
         local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds()
         for questIdIndex = 1, #questIds do
             local questId = questIds[questIdIndex]
-            if (not QuestieCorrections.hiddenQuests[questId]) then
-                if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-                    and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
+            if (not hiddenQuests[questId]) then
+                if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
 
-                    local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
-                    if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
+                    local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
+                    if requiredSkill and requiredSkill[1] ~= ridingProfession then
                         zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
                         if (not zoneMap[zoneOrSort]) then
@@ -188,18 +200,18 @@ do
                             end
                             zoneMap[zoneOrSort][questId] = true
                         end
-                    elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
+                    elseif _ZoneDB.IsSpecialQuest(zoneOrSort) then
                         if (not zoneMap[zoneOrSort]) then
                             zoneMap[zoneOrSort] = {}
                         end
                         zoneMap[zoneOrSort][questId] = true
                     else
                         -- This branch is kind of expensive so yield more often if it happens a lot
-                        local startedBy = QuestieDB.QueryQuestSingle(questId, "startedBy")
+                        local startedBy = _QueryQuestSingle(questId, "startedBy")
 
                         if startedBy then
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
                         end
                         if yield then
                             count = count + extraYield
@@ -209,10 +221,10 @@ do
                             end
                         end
 
-                        local finishedBy = QuestieDB.QueryQuestSingle(questId, "finishedBy")
+                        local finishedBy = _QueryQuestSingle(questId, "finishedBy")
                         if finishedBy then
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                         end
                         if yield then count = count + extraYield end
                     end
@@ -228,7 +240,7 @@ do
             end
         end
         if yield then coroutine.yield() end
-        zoneMap = _ZoneDB:SplitSeasonalQuests()
+        zoneMap = _ZoneDB.SplitSeasonalQuests()
 
         return zoneMap
     end
@@ -236,7 +248,7 @@ end
 
 
 ---@param zoneOrSort ZoneOrSort
-function _ZoneDB:IsSpecialQuest(zoneOrSort)
+function _ZoneDB.IsSpecialQuest(zoneOrSort)
     for _, v in pairs(QuestieDB.sortKeys) do
         if zoneOrSort == v then
             return true
@@ -248,7 +260,7 @@ end
 ---@param zones any @ I have no idea what this is does or looks
 ---@param npcIds NpcId[]
 ---@return any @ Ditto
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
+function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
     if (not npcIds) then
         return zones
     end
@@ -268,7 +280,7 @@ end
 ---@param zones any @ I have no idea what this is does or looks
 ---@param objectIds ObjectId[]
 ---@return any @ Ditto
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
+function _ZoneDB.GetZonesWithQuestsFromObjects(zones, objectIds)
     if (not objectIds) then
         return zones
     end
@@ -287,7 +299,7 @@ function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
 end
 
 ---@return table
-function _ZoneDB:SplitSeasonalQuests()
+function _ZoneDB.SplitSeasonalQuests()
     if (not zoneMap[QuestieDB.sortKeys.SPECIAL]) or (not zoneMap[QuestieDB.sortKeys.SEASONAL]) then
         return zoneMap
     end
@@ -322,7 +334,7 @@ function _ZoneDB:SplitSeasonalQuests()
     return updatedZoneMap
 end
 
-function ZoneDB:GetRelevantZones()
+function ZoneDB.GetRelevantZones()
     local zones = {}
     for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
@@ -346,7 +358,7 @@ end
 function _ZoneDB:RunTests()
     -- Fetch all UiMapIds (WOTLK/TBC, ERA)
     local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB")
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
     local buggedMaps = {
         [306] = true, -- ScholomanceOLD
         [307] = true, -- ScholomanceOLD
@@ -363,5 +375,7 @@ function _ZoneDB:RunTests()
 
         end
     end
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB done")
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
 end
+
+return ZoneDB

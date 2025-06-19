@@ -62,18 +62,19 @@ end
 
 -- Called directly and OnEvent.
 local function OnQuestLogUpdate()
-    local numEntries, numQuests = GetNumQuestLogEntries()
 
     -- Player can have 0 quests in quest log for real OR game's cached quest log can be empty while cache is still invalid
     -- This is to wait until cache has atleast some refreshed data from a game server.
     if numberOfQuestLogUpdatesToSkip > 0 then
         numberOfQuestLogUpdatesToSkip = numberOfQuestLogUpdatesToSkip - 1
+        local numEntries, numQuests = GetNumQuestLogEntries()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Skipping a QUEST_LOG_UPDATE event. Quest log has entries, quests:", numEntries, numQuests)
         return
     end
 
     local isQuestLogGood = true
-    local goodQuestsCount = 0 -- for debug stats
+    local totalQuestCount = 0 -- We don't use GetNumQuestLogEntries because it is not reliable
+    local goodQuestsCount = 0
 
     for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
@@ -81,6 +82,7 @@ local function OnQuestLogUpdate()
             break -- We exceeded the data in the quest log
         end
         if (not isHeader) then
+            totalQuestCount = totalQuestCount + 1
             if (not HaveQuestData(questId)) then
                 isQuestLogGood = false
             else
@@ -113,20 +115,20 @@ local function OnQuestLogUpdate()
     end
 
     if not isQuestLogGood then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount.."/"..numQuests )
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount.."/".. totalQuestCount)
         return
     end
 
-    if goodQuestsCount ~= numQuests then
+    if goodQuestsCount ~= totalQuestCount then
         -- This shouldn't be possible
 
-        Questie:Error("Game Cache has still a broken quest log. Good quest: "..goodQuestsCount.."/"..numQuests..". Please report this on Github or Discord!") -- Translations might not be available yet.
+        Questie:Error("Game Cache has still a broken quest log. Good quest: "..goodQuestsCount.."/".. totalQuestCount ..". Please report this on Github or Discord!") -- Translations might not be available yet.
         -- TODO should we stop whole addon loading progress?
     end
 
     DestroyEventFrame()
 
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount.."/"..numQuests )
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount.."/".. totalQuestCount)
 
     isCacheGood = true
 

@@ -1,7 +1,7 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-
+---@class DatabaseItemKeys
 QuestieDB.itemKeys = {
     ['name'] = 1, -- string
     ['npcDrops'] = 2, -- table or nil, NPC IDs
@@ -102,7 +102,7 @@ QuestieDB.itemCompilerTypes = {
     ["npcDrops"] = "u16u24array",
     ["objectDrops"] = "u8u24array",
     ["itemDrops"] = "u8u24array",
-    ["vendors"] = "u8u24array",
+    ["vendors"] = "u16u24array",
     ["relatedQuests"] = "u8u24array",
     ["questRewards"] = "u8u24array",
     ["name"] = "u8string",

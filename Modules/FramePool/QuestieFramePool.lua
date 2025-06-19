@@ -80,6 +80,7 @@ function QuestieFramePool:GetFrame()
         returnFrame._show = nil
         returnFrame._hide = nil
     end
+    returnFrame.isManualIcon = false
     returnFrame.FadeLogic = nil
     returnFrame.faded = nil
     returnFrame.miniMapIcon = nil

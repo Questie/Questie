@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "zhCN" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["zhCN"] = {
+l10n.itemLookup["zhCN"] = loadstring([[return {
 [25] = "破损的短剑",
 [35] = "弯曲的法杖",
 [36] = "用旧的钉锤",
@@ -25523,4 +25523,4 @@ l10n.itemLookup["zhCN"] = {
 [39476] = "新鲜的地精美酒节蛇麻草",
 [39477] = "新鲜的矮人美酒节蛇麻草",
 [39656] = "泰瑞尔的剑柄",
-}
+}]])

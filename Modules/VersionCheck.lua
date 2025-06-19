@@ -46,7 +46,14 @@ Questie.db = {profile={minimap={hide=false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
-local clientVersion = GetBuildInfo()
+--- Addon is running on Classic MoP client
+---@type boolean
+Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
+
+--- Addon is running on Classic Cata client
+---@type boolean
+Questie.IsCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
+
 --- Addon is running on Classic Wotlk client
 ---@type boolean
 Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
@@ -63,9 +70,7 @@ Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 ---@type boolean
 Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
 
---- Addon is running on Classic "Vanilla" client and on any Seasonal realm (see: https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason )
----@type boolean
-Questie.IsEraSeasonal = Questie.IsClassic and C_Seasons.HasActiveSeason()
+-- See https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason
 
 --- Addon is running on Classic "Vanilla" client and on Season of Mastery realm specifically
 ---@type boolean
@@ -73,7 +78,15 @@ Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons
 
 --- Addon is running on Classic "Vanilla" client and on Season of Discovery realm specifically
 ---@type boolean
-Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() ~= Enum.SeasonID.Hardcore)
+Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
+
+--- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
+---@type boolean
+Questie.IsAnniversary = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 11) -- TODO: Use Enum or new API if there will be one
+
+--- Addon is running on Classic "Vanilla" client and on Classic Anniversary Hardcore realm
+---@type boolean
+Questie.IsAnniversaryHardcore = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 12) -- TODO: Use Enum or new API if there will be one
 
 --- Addon is running on a HardCore realm specifically
 ---@type boolean

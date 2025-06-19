@@ -8,6 +8,11 @@
 --------------------------------------------------------------------------------
 -- Starters
 
+---@class Starters
+---@field NPC StartedByNpc
+---@field GameObject StartedByObject
+---@field Item StartedByItem
+
 --  ['startedBy'] = 2, -- table
 --    ['creatureStart'] = 1, -- table {creature(int),...}
 --    ['objectStart'] = 2, -- table {object(int),...}
@@ -21,11 +26,6 @@
 --------------------------------------------------------------------------------
 -- Finishers
 
----@class Finisher
----@field Type "monster"|"object"
----@field Id NpcId|ObjectId
----@field Name Name
-
 -- ['finishedBy'] = 3, -- table
 --   ['creatureEnd'] = 1, -- table {creature(int),...}
 --   ['objectEnd'] = 2, -- table {object(int),...}
@@ -33,6 +33,10 @@
 ---@alias FinishedBy {[1]: FinishedByNpc, [2]: FinishedByObject}
 ---@alias FinishedByNpc NpcId[]
 ---@alias FinishedByObject ObjectId[]
+
+---@class Finisher
+---@field NPC FinishedByNpc
+---@field GameObject FinishedByObject
 
 
 --------------------------------------------------------------------------------
@@ -88,7 +92,7 @@
 ---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
 ---@field Coordinates table<AreaId, CoordPair[]> @ Only used for type "event"
 ---@field RequiredRepValue number @ Only used for type "reputation"
----@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation" Added in _QuestieQuest.ObjectiveUpdate
+---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell" Added in _QuestieQuest.ObjectiveUpdate
 ---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective
