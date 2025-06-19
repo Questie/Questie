@@ -1,4 +1,4 @@
-local mangos = require('cataNpcDB')
+local mangos = require('data.cataNpcDB')
 
 local npcIds = {}
 for npcId, data in pairs(mangos) do

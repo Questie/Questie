@@ -1,5 +1,5 @@
-local cata = require('cataItemDB')
-local mop = require('mopItemDB')
+local cata = require('data.cataItemDB')
+local mop = require('data.mopItemDB')
 
 local printToFile = require('printToFile')
 

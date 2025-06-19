@@ -1,6 +1,6 @@
-local cata = require('cataQuestDB')
-local mop = require('mopQuestDB')
-local mopTrinity = require('mopQuestDB-trinity')
+local cata = require('data.cataQuestDB')
+local mop = require('data.mopQuestDB')
+local mopTrinity = require('data.mopQuestDB-trinity')
 
 local printToFile = require('printToFile')
 

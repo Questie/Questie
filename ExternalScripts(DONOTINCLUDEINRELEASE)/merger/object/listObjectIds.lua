@@ -1,4 +1,4 @@
-local mangos = require('cataObjectDB')
+local mangos = require('data.cataObjectDB')
 
 local objectIds = {}
 for objectId, data in pairs(mangos) do

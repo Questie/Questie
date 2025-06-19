@@ -1,7 +1,7 @@
-local cata = require('cataNpcDB')
-local mop = require('mopNpcDB')
-local mopTrinity = require('mopNpcDB-trinity')
-local mopWowhead = require('wowheadNpcDB')
+local cata = require('data.cataNpcDB')
+local mop = require('data.mopNpcDB')
+local mopTrinity = require('data.mopNpcDB-trinity')
+local mopWowhead = require('data.wowheadNpcDB')
 
 local printToFile = require('printToFile')
 

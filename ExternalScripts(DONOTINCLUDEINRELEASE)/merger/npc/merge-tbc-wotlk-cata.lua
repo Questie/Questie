@@ -1,7 +1,7 @@
-local classic = require('classicNpcDB')
-local tbc = require('tbcNpcDB')
-local wotlk = require('wotlkNpcDB')
-local cata = require('cataNpcDB')
+local classic = require('data.classicNpcDB')
+local tbc = require('data.tbcNpcDB')
+local wotlk = require('data.wotlkNpcDB')
+local cata = require('data.cataNpcDB')
 
 local printToFile = require('printToFile')
 

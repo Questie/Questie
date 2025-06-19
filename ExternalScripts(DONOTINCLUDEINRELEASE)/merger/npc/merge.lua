@@ -1,6 +1,6 @@
-local trinity =  require('cataNpcDB-trinity')
-local mangos = require('cataNpcDB')
-local wotlk = require('wotlkNpcDB')
+local trinity =  require('data.cataNpcDB-trinity')
+local mangos = require('data.cataNpcDB')
+local wotlk = require('data.wotlkNpcDB')
 
 local printToFile = require('printToFile')
 

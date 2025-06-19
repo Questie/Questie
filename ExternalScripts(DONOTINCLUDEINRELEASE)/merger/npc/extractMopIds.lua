@@ -1,5 +1,5 @@
-local cata = require('cataNpcDB')
-local mop = require('mopNpcDB')
+local cata = require('data.cataNpcDB')
+local mop = require('data.mopNpcDB')
 
 -- iterate mop NPCs and write all IDs that are not in cata to "mopNpcIds.txt"
 local mopIds = {}

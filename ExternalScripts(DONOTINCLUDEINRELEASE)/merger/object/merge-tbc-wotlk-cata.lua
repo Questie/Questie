@@ -1,7 +1,7 @@
-local classic = require('classicObjectDB')
-local tbc = require('tbcObjectDB')
-local wotlk = require('wotlkObjectDB')
-local cata = require('cataObjectDB')
+local classic = require('data.classicObjectDB')
+local tbc = require('data.tbcObjectDB')
+local wotlk = require('data.wotlkObjectDB')
+local cata = require('data.cataObjectDB')
 
 local printToFile = require('printToFile')
 
