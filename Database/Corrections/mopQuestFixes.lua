@@ -763,6 +763,9 @@ function MopQuestFixes.Load()
         [31745] = { -- Onward and Inward
             [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [31768] = { -- Fire Is Always the Answer
+            [questKeys.preQuestSingle] = {31766},
+        },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
