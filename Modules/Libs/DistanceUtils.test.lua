@@ -179,6 +179,15 @@ describe("DistanceUtils", function()
             assert.equals("Objective 2", bestSpawnName)
             assert.equals(0, bestDistance)
         end)
+
+        it("should handle nil objectiveSpawnList", function()
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestObjective(nil)
+
+            assert.is_nil(bestSpawn)
+            assert.is_nil(bestSpawnZone)
+            assert.is_nil(bestSpawnName)
+            assert.equals(999999999, bestDistance)
+        end)
     end)
 
     describe("GetNearestFinisherOrStarter", function()
