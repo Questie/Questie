@@ -89,6 +89,10 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [55054] = { -- General Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.KALIMDOR]={{61.2,44.6}}},
+            [npcKeys.zoneID] = zoneIDs.KALIMDOR,
+        },
         [55205] = { -- Water Spirit Coaxed Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,

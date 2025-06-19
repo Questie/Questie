@@ -192,6 +192,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 3,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",57710}}}},
         },
+        [29690] = { -- Into the Mists
+            [questKeys.objectives] = {{{55054,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29744] = { -- Some "Pupil of Nature"
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 29745,
