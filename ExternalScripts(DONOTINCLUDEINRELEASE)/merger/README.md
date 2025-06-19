@@ -6,9 +6,12 @@ This collection of scripts was created to merge the database files from mangos a
 
 1. Check the `require` statements at the top of the `merge.lua` script you want to run and add the required files to the folder.
     - e.g. `cataNpcDB.lua` (which is the current cata DB), while `cataNpcDB-trinity.lua` is the trinity output which should be merged.
+    - The `printToFile` import is an exception
 2. Modify the DB files, so they actually return the database tables
     - They need to start with `return {` and end with a `}`
 3. Run the `merge.lua` script
+4. The output will be in the `merged-file.lua`
+5. Take the content of the `merged-file.lua` and replace the base DB data for the correct expansion with it
 
 ### Update with TBC and WotLK data
 
