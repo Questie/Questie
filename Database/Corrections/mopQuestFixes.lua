@@ -772,6 +772,9 @@ function MopQuestFixes.Load()
         [31771] = { -- Face to Face With Consequence
             [questKeys.preQuestSingle] = {29694},
         },
+        [31776] = { -- Strongarm Tactics
+            [questKeys.preQuestSingle] = {31775},
+        },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
