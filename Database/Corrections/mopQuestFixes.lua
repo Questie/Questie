@@ -798,6 +798,7 @@ function MopQuestFixes.Load()
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
+            [questKeys.preQuestSingle] = {31776},
         },
         [31778] = { -- Unreliable Allies
             [questKeys.preQuestSingle] = {31777},
