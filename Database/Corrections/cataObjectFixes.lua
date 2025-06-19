@@ -250,38 +250,11 @@ function CataObjectFixes.Load()
                 [zoneIDs.ELWYNN_FOREST] = {{34.7,50.81},{34.49,50.86},{34.57,50.58}},
             },
         },
-        [180916] = { -- Duskwither Spire Power Source
-            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{68.96,51.95}}},
-        },
-        [180919] = { -- Duskwither Spire Power Source
-            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{68.97,51.94}}},
-        },
-        [180920] = { -- Duskwither Spire Power Source
-            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{69.64,53.35}}},
-        },
         [181085] = { -- Stratholme Supply Crate
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{39.86,28.07},{50.01,23.34},{37.81,14.14},{-1,-1}}},
         },
         [181110] = { -- Soaked Tome
             [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{44.34,61.99}}},
-        },
-        [181148] = { -- Mummified Troll Remains
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{62.62,32.58},{61.03,30.84},{58.59,27.51},{58.44,28.21},{64.19,28.26},{63.52,31.74},{62.37,31.34},{63.96,28.97},{64.43,28.28},{64.69,28.93},{64.94,28.96},{65.67,28.89},{65.91,28.26},{61.26,27.43},{58.81,28.72},{59.08,28.35},{58.62,28.47},{65.42,28.25},{60.3,30.84},{58.75,27.8},{59.76,27.54},{65.17,28.27},{65.92,28.88},{65.43,28.91},{58.31,27.9},{62.39,32.25},{62.3,31.8},{62.92,32.59},{63.23,32.56},{63.43,31.29},{62.59,30.99},{63.22,30.97},{63.45,32.21},{63.71,28.96},{63.69,28.27},{65.18,28.91},{65.66,28.24},{64.94,28.26},{64.68,28.33},{64.45,28.98},{63.94,28.29},{63.14,30.71},{61.84,30.34},{61.86,27.93},{61.86,29.98},{61.5,27.43},{61.85,29.61},{61.81,29.24},{61.28,30.84},{61.52,30.83},{61.01,27.51},{59.8,30.87},{60.05,30.88},{59.25,30.05},{59.23,30.41},{60.02,27.55},{59.22,28.03},{59.25,29.67},{59.22,29.32},{59.53,27.57},{58.91,28.06},{59.55,30.9}}},
-        },
-        [181151] = { -- Glistening Mud
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{73.5,21.1},{73.7,22.23},{73.71,21.51},{73.43,22.85},{72.78,23.65},{73.42,24.66},{71.44,22.18},{70.17,22.01},{71.3,15.25},{70.63,13.7},{71.17,13.77},{72.79,26.41},{72.56,27.62},{71.99,28.39},{71.26,29.02},{69.94,19.86},{69.59,18.8},{70.45,17.2},{73.49,18.42},{71.1,15.37}}},
-        },
-        [181250] = { -- Raw Meat Rack
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{65.11,66.74}}},
-        },
-        [181251] = { -- Smoked Meat Rack
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{63.03,74.99}}},
-        },
-        [181252] = { -- Fresh Fish Rack
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{68.24,57.78}}},
-        },
-        [181449] = { -- Altar of Aggonar
-            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{39.04,40.32}}},
         },
         [181597] = { -- Silithyst Mound
             [objectKeys.spawns] = {},
@@ -295,17 +268,11 @@ function CataObjectFixes.Load()
         [181679] = { -- Fel Brazier
             [objectKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{31.71,60.44},{31.71,63.29},{-1,-1}}},
         },
-        [181748] = { -- Blood Crystal
-            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{50.58,11.57}}},
-        },
         [181758] = { -- Mound of Dirt
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{61.17,49.64}}},
         },
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
-        },
-        [181892] = { -- Aquatic Stinkhorn
-            [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{64.48,62.54},{61.04,68.68},{57.86,73.45},{57.24,75.25},{56.02,79.56},{55.09,82.45},{54.99,81.9},{61.35,67.99},{56.75,79.14},{58.17,72.75},{57.41,75.72},{66.2,59.95}}},
         },
         [182196] = { -- Arcane Container
             [objectKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{82.62,30.44},{-1,-1}}},
@@ -315,9 +282,6 @@ function CataObjectFixes.Load()
         },
         [182198] = { -- Arcane Container
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS] = {{59.05,24.12}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
-        },
-        [182542] = { -- Sealed Box
-            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{54.0,30.0}}},
         },
         [182589] = { -- Barrel
             [objectKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{76.60,68.80},{77.14,66.30},{74.68,68.79},{69.09,62.61},{68.03,59.82},{-1,-1}}},
@@ -330,9 +294,6 @@ function CataObjectFixes.Load()
         },
         [183385] = { -- Sanguine Hibiscus
             [objectKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{39.11,74.94},{26.41,51.51},{34.7,46.7},{51.08,54.69},{40.74,21.52},{52.87,29.72},{56.42,27.85},{51.22,95.38},{52.45,61.34},{71.93,58.57},{59.92,53.31},{64.87,67.28},{55.35,86.49},{61.79,87.46},{61.34,96.42},{53.73,82.18},{54.49,70.69},{34.84,57.46},{47.95,62.17},{-1,-1}}},
-        },
-        [185309] = { -- Altar of Goc
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.15,18.5}}},
         },
         [185519] = { -- Mana-Tombs Stasis Chamber
             [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{60.7,14.98},{-1,-1}}},
@@ -351,9 +312,6 @@ function CataObjectFixes.Load()
         },
         [187965] = { -- Horde Bonfire - Mulgore
             [objectKeys.spawns] = {[zoneIDs.MULGORE] = {{51.93,59.46}}},
-        },
-        [188418] = { -- Wanted!
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{37.68,46.55}}},
         },
         [189989] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{56.01,37.07}}},
@@ -406,9 +364,6 @@ function CataObjectFixes.Load()
         [190069] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{53.92,78.93}}},
         },
-        [190070] = { -- Candy Bucket
-            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{45.62,64.92}}},
-        },
         [190074] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.45,42.9}}},
         },
@@ -457,9 +412,6 @@ function CataObjectFixes.Load()
         [190099] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{53.43,55.55}}},
         },
-        [190100] = { -- Candy Bucket
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{76.22,60.39}}},
-        },
         [190101] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{30.27,27.69}}},
         },
@@ -491,9 +443,6 @@ function CataObjectFixes.Load()
         [194070] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.92,37.16}}},
         },
-        [194071] = { -- Candy Bucket
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{48.15,41.31}}},
-        },
         [194072] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_UNDERBELLY] = {{38.22,59.57}}},
             [objectKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
@@ -501,14 +450,11 @@ function CataObjectFixes.Load()
         [194080] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{67.65,50.69}}},
         },
-        [194081] = { -- Candy Bucket
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{66.85,29.6}}},
-        },
         [194102] = { -- Shatterspear Armaments
-            [objectKeys.spawns] = {[141] = {{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148] = {{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},
-        },
-        [194238] = { -- Blade of Drak'Mar
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{93.19,25.98}}},
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{90.96,99.06},{87.07,99.87},{91.69,98.44}},
+                [zoneIDs.DARKSHORE] = {{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}},
+            },
         },
         [195001] = { -- Wolf Chains
             [objectKeys.name] = "Wolf Chains",
@@ -661,10 +607,10 @@ function CataObjectFixes.Load()
             [objectKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
         },
         [204281] = { -- Worm Mound
-            [objectKeys.spawns] = {[1519] = {{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
         },
         [204360] = { -- Monstrous Clam
-            [objectKeys.spawns] = {[14] = {{59.03,14.08},{59.42,9.93},{59.37,12.45},{58.24,11.4},{58.08,13.54},{57.51,10.09},{56.24,9.64},{58.2,3.99},{58.96,5.17},{58.49,6.23},{56.88,6.68},{58.26,8.28}}},
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR] = {{59.03,14.08},{59.42,9.93},{59.37,12.45},{58.24,11.4},{58.08,13.54},{57.51,10.09},{56.24,9.64},{58.2,3.99},{58.96,5.17},{58.49,6.23},{56.88,6.68},{58.26,8.28}}},
         },
         [204432] = { -- Lime Crate
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{38.57,87.36},{44.76,79.66},{46.03,80.32},{49.31,81.74},{51.61,88.91},{53.68,90.6},{56.63,84.74},{52.62,87.72},{46.18,90.14},{43.75,90.23},{40.41,83.05},{41.1,82.51},{41.93,83}}},
@@ -975,14 +921,8 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{51.19,49.9}}},
         },
         [208316] = { -- Hero's Call Board -- Dalaran
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{37.41,63.21}}},
-            [objectKeys.zoneID] = zoneIDs.DALARAN,
             [objectKeys.questStarts] = {29071},
             [objectKeys.questEnds] = {29071},
-        },
-        [208317] = { -- Warchief's Command Board -- Dalaran
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{58.8,27.49}}},
-            [objectKeys.zoneID] = zoneIDs.DALARAN,
         },
         [208321] = { -- Shrine of the Soulflayer
             [objectKeys.name] = "Shrine of the Soulflayer",
@@ -995,7 +935,7 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [208442] = { -- Blueroot Vine
-            [objectKeys.spawns] = {[616] = {{26.85,54.58},{34.19,65.22},{26.47,64.54},{28.84,51.87},{27.95,51.29},{30.21,56.93},{33.57,65.24},{27.32,59.67},{27.13,58.83},{24.57,62.74},{37.74,50.71},{24.97,61.86},{33.15,64.61},{35.17,53.14},{29.55,50.79},{28.53,57.15},{34.19,65.21},{41.84,57.54},{40.56,57.17},{40.54,56.65},{39.90,56.90},{39.36,56.71},{40.17,56.32}}},
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{26.85,54.58},{34.19,65.22},{26.47,64.54},{28.84,51.87},{27.95,51.29},{30.21,56.93},{33.57,65.24},{27.32,59.67},{27.13,58.83},{24.57,62.74},{37.74,50.71},{24.97,61.86},{33.15,64.61},{35.17,53.14},{29.55,50.79},{28.53,57.15},{34.19,65.21},{41.84,57.54},{40.56,57.17},{40.54,56.65},{39.90,56.90},{39.36,56.71},{40.17,56.32}}},
         },
         [208551] = { -- Lucifern
             [objectKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.9,63.2},{52.51,63.32},{51.83,59.66},{52.47,62.19},{48.87,57.88},{48.37,58.2},{49.86,57.03},{50.08,56.45},{49.71,55.71},{48.04,53.36},{47.6,53.06},{46.9,53.33},{46.96,41.86},{47.41,41.39},{47.8,43.74},{48.98,44.41},{47.3,37.42},{48.28,35.65},{48.35,36.98},{47.48,36.67},{51.26,34.03},{51.71,31.69},{53.13,34.97},{52.77,35.88},{54.21,39.29},{53.48,39.27},{54.64,42.05},{54.83,43.45},{55.03,51.91},{54.51,54.62},{53.82,58.38},{52.23,58.79},{52.27,60.68}}},
@@ -1038,13 +978,9 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.35,45.38}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
-        [278575] = { -- Hero's Call Board -- Twilight Highlands
-            [objectKeys.spawns] = {[4922] = {{49.32,30.05,169}}},
-            [objectKeys.zoneID] = 4922,
-        },
         [281339] = { -- Hero's Call Board -- Deepholm
-            [objectKeys.spawns] = {[5042] = {{48.82,53.06,169}}},
-            [objectKeys.zoneID] = 5042,
+            [objectKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{48.82,53.06,169}}},
+            [objectKeys.zoneID] = zoneIDs.DEEPHOLM,
         },
         [300246] = { -- Flat Un'Goro Rock
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},

@@ -51,9 +51,7 @@ for npcId, data in pairs(cata) do
         if tbcData[npcKeys.waypoints] then
             cata[npcId][npcKeys.waypoints] = tbcData[npcKeys.waypoints]
         end
-    end
-
-    if wotlkIds[npcId] then
+    elseif wotlkIds[npcId] then
         local wotlkData = wotlk[npcId]
         if wotlkData[npcKeys.spawns] then
             cata[npcId][npcKeys.spawns] = wotlkData[npcKeys.spawns]
