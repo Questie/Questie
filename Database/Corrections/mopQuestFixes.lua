@@ -775,6 +775,9 @@ function MopQuestFixes.Load()
         [31765] = { -- Paint it Red!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
         },
+        [31766] = { -- Touching Ground
+            [questKeys.objectives] = {nil,{{210039}}},
+        },
         [31768] = { -- Fire Is Always the Answer
             [questKeys.preQuestSingle] = {31766},
         },
