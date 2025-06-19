@@ -1267,9 +1267,15 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {},
         },
+        [9854] = { -- Windroc Mastery
+            [questKeys.breadcrumbs] = {10114},
+        },
         [9872] = { -- Murkblood Invaders
             [questKeys.startedBy] = {nil,nil,{24558}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [9888] = { -- The Impotent Leader
+            [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
         [9931] = { -- Returning the Favor
             [questKeys.preQuestSingle] = {},
@@ -1352,6 +1358,9 @@ function CataQuestFixes.Load()
         },
         [10105] = { -- News for Rakoria
             [questKeys.zoneOrSort] = zoneIDs.ZANGARMARSH,
+        },
+        [10114] = { -- The Nesingwary Safari
+            [questKeys.breadcrumbForQuestId] = 9854,
         },
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
@@ -1659,6 +1668,12 @@ function CataQuestFixes.Load()
         },
         [11034] = { -- Restorer No More
             [questKeys.specialFlags] = 1,
+        },
+        [11037] = { -- A Strange Vision
+            [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
+        },
+        [11048] = { -- Kroghan's Report
+            [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
         },
         [11056] = { -- Hazzik's Bargain
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
