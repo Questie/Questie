@@ -781,6 +781,9 @@ function MopQuestFixes.Load()
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
+        [31778] = { -- Unreliable Allies
+            [questKeys.preQuestSingle] = {31777},
+        },
         [31779] = { -- The Darkness Within
             [questKeys.preQuestSingle] = {31778},
         },
