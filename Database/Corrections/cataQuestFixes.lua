@@ -1277,6 +1277,12 @@ function CataQuestFixes.Load()
         [9888] = { -- The Impotent Leader
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
+        [9889] = { -- Don't Kill the Fat One
+            [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [9890] = { -- Success!
+            [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
+        },
         [9931] = { -- Returning the Favor
             [questKeys.preQuestSingle] = {},
         },
@@ -1285,6 +1291,12 @@ function CataQuestFixes.Load()
         },
         [9934] = { -- Message to Garadar
             [questKeys.preQuestSingle] = {},
+        },
+        [9944] = { -- Missing Mag'hari Procession
+            [questKeys.breadcrumbForQuestId] = 9945,
+        },
+        [9945] = { -- War on the Warmaul
+            [questKeys.breadcrumbs] = {9944},
         },
         [9957] = { -- What's Wrong at Cenarion Thicket?
             [questKeys.breadcrumbForQuestId] = 9968,
@@ -1301,6 +1313,21 @@ function CataQuestFixes.Load()
         },
         [9978] = { -- By Any Means Necessary
             [questKeys.preQuestSingle] = {},
+        },
+        [9982] = { -- He Called Himself Altruis...
+            [questKeys.breadcrumbForQuestId] = 9991,
+        },
+        [9983] = { -- He Called Himself Altruis...
+            [questKeys.breadcrumbForQuestId] = 9991,
+        },
+        [9991] = { -- Survey the Land
+            [questKeys.breadcrumbs] = {9982,9983},
+        },
+        [10009] = { -- Crackin' Some Skulls
+            [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [10010] = { -- It's Just That Easy?
+            [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
         [10066] = { -- Oh, the Tangled Webs They Weave
             [questKeys.startedBy] = {{17986}},
@@ -14735,9 +14762,11 @@ function CataQuestFixes.Load()
         [29595] = { -- Everything Will Be Alright
             [questKeys.nextQuestInChain] = 29596,
             [questKeys.preQuestSingle] = {10253},
+            [questKeys.breadcrumbForQuestId] = 29596,
         },
         [29596] = { -- The End of the Exarch
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29595},
         },
         [29598] = { -- Taretha's Diversion
             [questKeys.zoneOrSort] = 1941,

@@ -1636,7 +1636,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.57,38.78}}}},
         },
         [9889] = {
-            [questKeys.triggerEnd] = {"Unkor Submits", {[zoneIDs.TEROKKAR_FOREST]={{20.02,63.05}}}},
+            [questKeys.objectives] = {{{18260},{18262}}},
         },
         [9898] = {
             [questKeys.name] = "The Respect of Another",
@@ -1646,6 +1646,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9905] = {
             [questKeys.requiredMinRep] = {978,0},
+        },
+        [9910] = {
+            [questKeys.objectives] = {nil,{{182261},{182264},{182262}}},
         },
         [9911] = {
             [questKeys.startedBy] = {nil,nil,{25459}},
@@ -1664,14 +1667,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {25509},
         },
         [9927] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9928] = {
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9931] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,"Expedition Researcher Freed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,"Kil'sorrow Banner Planted",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
@@ -1708,6 +1711,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
         [9955] = {
             [questKeys.objectives] = {{{18445,"Corki Freed"}}},
@@ -1719,22 +1724,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {942,3000},
         },
         [9962] = {
-            [questKeys.triggerEnd] = {"Brokentoe Defeated", {[zoneIDs.NAGRAND]={{43.32,20.72}}}},
+            [questKeys.nextQuestInChain] = 9967,
         },
         [9967] = {
-            [questKeys.triggerEnd] = {"The Blue Brothers Defeated", {[zoneIDs.NAGRAND]={{43.26,20.76}}}},
+            [questKeys.nextQuestInChain] = 9970,
         },
         [9970] = {
-            [questKeys.triggerEnd] = {"Rokdar the Sundered Lord Defeated", {[zoneIDs.NAGRAND]={{43.34,20.71}}}},
+            [questKeys.nextQuestInChain] = 9972,
         },
         [9972] = {
-            [questKeys.triggerEnd] = {"Skra'gath Defeated", {[zoneIDs.NAGRAND]={{43.26,20.77}}}},
+            [questKeys.nextQuestInChain] = 9973,
         },
         [9973] = {
-            [questKeys.triggerEnd] = {"The Warmaul Champion Defeated", {[zoneIDs.NAGRAND]={{43.37,20.69}}}},
-        },
-        [9977] = {
-            [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72}}}},
+            [questKeys.nextQuestInChain] = 9977,
         },
         [9982] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1804,7 +1806,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To",Questie.ICON_TYPE_TALK},{18717,"Shadowy Laborer Spoken To",Questie.ICON_TYPE_TALK},{18719,"Shadowy Advisor Spoken To",Questie.ICON_TYPE_TALK}}},
         },
         [10044] = {
-            [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
+            [questKeys.objectives] = {{{18141,"Listen to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {9934,9868,10011},
             [questKeys.preQuestSingle] = {},
         },
@@ -1885,6 +1887,9 @@ function QuestieTBCQuestFixes:Load()
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
+        [10085] = {
+            [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
@@ -1893,10 +1898,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {},
         },
         [10107] = {
-            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster",Questie.ICON_TYPE_TALK}}},
         },
         [10108] = {
-            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster",Questie.ICON_TYPE_TALK}}},
         },
         [10110] = {
             [questKeys.questLevel] = -1,
@@ -1937,7 +1942,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits."), 0, {{"monster", 18688}}}},
         },
         [10172] = {
-            [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
+            [questKeys.objectives] = {{{18141,"Speak to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
         },
         [10182] = {
             [questKeys.startedBy] = {{19543},nil,nil},

@@ -1465,6 +1465,9 @@ function CataNpcFixes.Load()
         [17082] = { -- Rifleman Torrig
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{54.48,32.94}}},
         },
+        [17098] = { -- Ambassador Dawnsinger
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{49.37,70.88}}},
+        },
         [17105] = { -- Emissary Valustraa
             [npcKeys.subName] = nil,
         },
@@ -1672,6 +1675,9 @@ function CataNpcFixes.Load()
         [19256] = { -- Sergeant Shatterskull
             [npcKeys.waypoints] = {},
         },
+        [19412] = { -- D'ore
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{73.71,55.41}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        },
         [19428] = { -- Cobalt Serpent
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.46,67.08}},[zoneIDs.SETHEKK_HALLS] = {{48.97,94.83},{52.1,85.87},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{{30.54,88.73},{28.54,86.74},{25.94,83.42},{25.94,81.48},{31.01,74.91},{31.56,72.68},{32.46,67.08}},{{44.09,96.18},{44.13,84.84},{44.86,82.77},{49.21,82.28},{51.94,82.87},{53.05,84.3},{53.14,92.67},{51.85,94.9},{51.4,94.9}}},[zoneIDs.SETHEKK_HALLS] = {{{51.4,94.9},{48.97,94.83}},{{52.1,85.87},{49.43,85.31},{48.85,88.04},{47.57,90.98},{45,89.08}}}},
@@ -1763,6 +1769,9 @@ function CataNpcFixes.Load()
         },
         [23042] = { -- Severin
             [npcKeys.waypoints] = {},
+        },
+        [23128] = { -- Master Pyreanor
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{49.28,71.14}}},
         },
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{48.48,61.57}}},
@@ -2151,6 +2160,9 @@ function CataNpcFixes.Load()
         },
         [35054] = { -- Chip Endale
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{56.32,76.77}}},
+        },
+        [35068] = { -- Gotura Fourwinds
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{47.63,71.22}}},
         },
         [35086] = { -- Labor Captain Grabbit
             [npcKeys.spawns] = {

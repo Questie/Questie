@@ -53,9 +53,6 @@ function QuestieTBCItemFixes:Load()
         [23417] = {
             [itemKeys.class] = 12,
         },
-        [23645] = {
-            [itemKeys.class] = 12,
-        },
         [23486] = {
             [itemKeys.npcDrops] = {17034},
         },
@@ -64,6 +61,9 @@ function QuestieTBCItemFixes:Load()
         },
         [23614] = {
             [itemKeys.objectDrops] = {181616},
+        },
+        [23645] = {
+            [itemKeys.class] = 12,
         },
         [23670] = {
             [itemKeys.objectDrops] = {181632},
@@ -113,6 +113,12 @@ function QuestieTBCItemFixes:Load()
         [24156] = {
             [itemKeys.npcDrops] = {17544},
         },
+        [24226] = {
+            [itemKeys.npcDrops] = {17832},
+        },
+        [24246] = {
+            [itemKeys.npcDrops] = {},
+        },
         [24278] = {
             [itemKeys.class] = 12,
         },
@@ -134,7 +140,19 @@ function QuestieTBCItemFixes:Load()
         [24335] = {
             [itemKeys.class] = 12,
         },
+        [24355] = {
+            [itemKeys.class] = 12,
+        },
+        [24467] = {
+            [itemKeys.class] = 12,
+        },
         [24474] = {
+            [itemKeys.class] = 12,
+        },
+        [24483] = { -- Withered Basidium
+            [itemKeys.startQuest] = 9827,
+        },
+        [24501] = {
             [itemKeys.class] = 12,
         },
         [24502] = {
@@ -144,19 +162,7 @@ function QuestieTBCItemFixes:Load()
         [24573] = {
             [itemKeys.npcDrops] = {18197},
         },
-        [24226] = {
-            [itemKeys.npcDrops] = {17832},
-        },
-        [24246] = {
-            [itemKeys.npcDrops] = {},
-        },
-        [24355] = {
-            [itemKeys.class] = 12,
-        },
-        [24467] = {
-            [itemKeys.class] = 12,
-        },
-        [24501] = {
+        [25458] = {
             [itemKeys.class] = 12,
         },
         [25460] = {
@@ -164,9 +170,6 @@ function QuestieTBCItemFixes:Load()
         },
         [25461] = {
             [itemKeys.npcDrops] = {18472},
-        },
-        [24483] = { -- Withered Basidium
-            [itemKeys.startQuest] = 9827,
         },
         [25462] = {
             [itemKeys.npcDrops] = {16807},
@@ -184,6 +187,9 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [25555] = {
+            [itemKeys.class] = 12,
+        },
+        [25604] = {
             [itemKeys.class] = 12,
         },
         [25642] = {

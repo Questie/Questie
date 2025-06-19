@@ -295,6 +295,9 @@ function CataObjectFixes.Load()
         [183385] = { -- Sanguine Hibiscus
             [objectKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{39.11,74.94},{26.41,51.51},{34.7,46.7},{51.08,54.69},{40.74,21.52},{52.87,29.72},{56.42,27.85},{51.22,95.38},{52.45,61.34},{71.93,58.57},{59.92,53.31},{64.87,67.28},{55.35,86.49},{61.79,87.46},{61.34,96.42},{53.73,82.18},{54.49,70.69},{34.84,57.46},{47.95,62.17},{-1,-1}}},
         },
+        [183441] = { -- Soul Mirror
+            [objectKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{74.99,49.99}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        }, 
         [185519] = { -- Mana-Tombs Stasis Chamber
             [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{60.7,14.98},{-1,-1}}},
         }, 
