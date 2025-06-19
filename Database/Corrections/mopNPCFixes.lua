@@ -482,6 +482,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [66190] = { -- General Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{31.4,11.2}}},
+        },
         [66292] = { -- Sky Admiral Rogers
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
             [npcKeys.spawns] = {
