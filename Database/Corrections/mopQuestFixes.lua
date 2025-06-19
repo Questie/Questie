@@ -781,6 +781,9 @@ function MopQuestFixes.Load()
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
+        [31779] = { -- The Darkness Within
+            [questKeys.preQuestSingle] = {31778},
+        },
         [31780] = { -- Old MacDonald
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},
