@@ -1,4 +1,4 @@
----@meta
+---@meta _
 ---@class AceConsole-3.0
 ---@field embeds table ---table containing objects AceConsole is embedded in.
 ---@field commands table ---table containing commands registered
@@ -7,18 +7,29 @@
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0)
 local AceConsole = {}
 
----@param chatframe string|Frame? Custom ChatFrame to print to (or any frame with an .AddMessage function)
+---@param chatframe Frame Custom ChatFrame to print to (or any frame with an .AddMessage function)
 ---@param ... any List of any values to be printed
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-3)
+---@diagnostic disable-next-line: duplicate-set-field
 function AceConsole:Print(chatframe, ...) end
 
+---@param ... any List of any values to be printed
+---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-3)
+---@diagnostic disable-next-line: duplicate-set-field
+function AceConsole:Print(...) end
 
 ---@param chatframe? Frame Custom ChatFrame to print to (or any frame with an .AddMessage function)
 ---@param format string same syntax as standard Lua format()
 ---@param ...? any Arguments to the format string
---- ---
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-4)
+---@diagnostic disable-next-line: duplicate-set-field
 function AceConsole:Printf(chatframe, format, ...) end
+
+---@param format string same syntax as standard Lua format()
+---@param ...? any Arguments to the format string
+---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-4)
+---@diagnostic disable-next-line: duplicate-set-field
+function AceConsole:Printf(format, ...) end
 
 ---@param command string Chat command to be registered WITHOUT leading "/"
 ---@param func function|string Function to call when the slash command is being used (funcref or methodname)
@@ -31,9 +42,9 @@ function AceConsole:RegisterChatCommand(command, func, persist) end
 ---@param command string Chat command to be unregistered WITHOUT leading "/"
 --- ---
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-6)
-function AceConsole:UnregisterChatCommand( command )end
+function AceConsole:UnregisterChatCommand(command) end
 
----@return table -- Iterator (pairs) over all commands
+---@return fun(table: table<string, string>, index?: string): string, string -- Iterator (pairs) over all commands
 --- ---
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-2)
 function AceConsole:IterateChatCommands() end
@@ -41,7 +52,7 @@ function AceConsole:IterateChatCommands() end
 ---@param str string The raw argument string
 ---@param numargs? number How many arguments to get (default 1)
 ---@param startpos? number Where in the string to start scanning (default  1)
----@return table
+---@return ...
 --- ---
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-1)
 function AceConsole:GetArgs(str, numargs, startpos) end
