@@ -31,3 +31,6 @@ releases/
 #Log files
 *.log
 *.bak
+
+# WoW Api
+WoW-API

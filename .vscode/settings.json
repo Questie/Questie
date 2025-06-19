@@ -6157,6 +6157,7 @@
         "Database/Corrections/Automatic/**",
         "Database/TBC/**",
         "Database/Wotlk/**",
+        "Database/MoP/**",
         "Database/QuestXP/**",
         "Localization/lookups/**",
         ".types",
@@ -6165,13 +6166,14 @@
         "Libs",
         "setupTests.lua",
         "*test.lua",
-        "**/_data/**",
+        "WoW-API",
     ],
 
     "Lua.workspace.library": [
         ".types/blizzardFunctions",
         ".types/Ace3",
-        ".types/data"
+        ".types/data",
+        "WoW-API"
     ],
 
     "Lua.workspace.preloadFileSize": 3000,
@@ -6180,7 +6182,8 @@
     "search.exclude": {
         ".github/**": true,
         ".vscode/**": true,
-        "README.md": true
+        "README.md": true,
+        "WoW-API": true
     },
     "files.exclude": {
         ".types/.SubModules/BlizzardInterfaceCode": true,
@@ -6192,6 +6195,7 @@
         "releases": true,
         "**/.git": true,
         "**/.cache": true,
+        "WoW-API": true,
     },
 
     // Removes trailing whitespaces
@@ -6213,21 +6217,9 @@
     // Default end of line
     "files.eol": "\n",
     "Lua.diagnostics.disable": [
-        "undefined-field",
-        "need-check-nil",
-        "deprecated",
-        "missing-parameter",
-        "invisible",
-        "redundant-parameter",
-        "missing-return-value",
         "assign-type-mismatch",
-        "duplicate-doc-param",
         "param-type-mismatch",
         "return-type-mismatch",
-        "undefined-doc-class",
-        "undefined-doc-name",
-        "unused-local",
-        "cast-local-type"
     ],
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"
