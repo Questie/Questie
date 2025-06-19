@@ -772,6 +772,9 @@ function MopQuestFixes.Load()
         [31771] = { -- Face to Face With Consequence
             [questKeys.preQuestSingle] = {29694},
         },
+        [31775] = { -- Assault on the Airstrip
+            [questKeys.preQuestSingle] = {29804},
+        },
         [31776] = { -- Strongarm Tactics
             [questKeys.preQuestSingle] = {31775},
         },
