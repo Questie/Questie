@@ -5549,6 +5549,7 @@ function QuestieQuestBlacklist:Load()
         [27149] = true, -- Not in the game
         [27250] = true, -- Not in the game
         [27289] = true, -- Not in the game
+        [27309] = true, -- Duplicate version of 27293
         [27419] = true, -- Not in the game
         [27543] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [27552] = Expansions.Current >= Expansions.Cata, -- Hidden quest
