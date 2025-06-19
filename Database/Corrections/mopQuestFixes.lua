@@ -766,6 +766,9 @@ function MopQuestFixes.Load()
         [31768] = { -- Fire Is Always the Answer
             [questKeys.preQuestSingle] = {31766},
         },
+        [31770] = { -- You're Either With Us Or...
+            [questKeys.preQuestSingle] = {31769},
+        },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
