@@ -769,6 +769,9 @@ function MopQuestFixes.Load()
         [31770] = { -- You're Either With Us Or...
             [questKeys.preQuestSingle] = {31769},
         },
+        [31771] = { -- Face to Face With Consequence
+            [questKeys.preQuestSingle] = {29694},
+        },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
         },
