@@ -544,6 +544,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31013},
         },
+        [31152] = { -- Peering Into the Past
+            [questKeys.preQuestSingle] = {31167},
+        },
         [31167] = { -- Family Tree
             [questKeys.preQuestSingle] = {31134},
         },
