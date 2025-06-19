@@ -772,6 +772,9 @@ function MopQuestFixes.Load()
         [31745] = { -- Onward and Inward
             [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [31765] = { -- Paint it Red!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
+        },
         [31768] = { -- Fire Is Always the Answer
             [questKeys.preQuestSingle] = {31766},
         },
