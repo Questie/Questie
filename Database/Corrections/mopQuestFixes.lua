@@ -363,6 +363,9 @@ function MopQuestFixes.Load()
         [29821] = { -- Missed Me By... That Much!
             [questKeys.preQuestSingle] = {29827},
         },
+        [29822] = { -- Lay of the Land
+            [questKeys.preQuestSingle] = {29827},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
