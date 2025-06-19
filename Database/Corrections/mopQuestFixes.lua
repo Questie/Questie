@@ -195,6 +195,9 @@ function MopQuestFixes.Load()
         [29690] = { -- Into the Mists
             [questKeys.objectives] = {{{55054,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [29694] = { -- Regroup!
+            [questKeys.preQuestSingle] = {31770},
+        },
         [29744] = { -- Some "Pupil of Nature"
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 29745,
