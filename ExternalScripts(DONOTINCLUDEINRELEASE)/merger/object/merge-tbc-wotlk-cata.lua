@@ -4,6 +4,7 @@ local wotlk = require('data.wotlkObjectDB')
 local cata = require('data.cataObjectDB')
 
 local printToFile = require('printToFile')
+local tbcAndWotlkZoneIds = dofile('../tbcAndWotlkZoneIds.lua')
 
 local objectKeys = {
     ['name'] = 1, -- string
@@ -34,13 +35,13 @@ end
 for objectId, data in pairs(cata) do
     if tbcIds[objectId] then
         local tbcData = tbc[objectId]
-        if tbcData[objectKeys.spawns] then
+        if tbcData[objectKeys.spawns] and tbcAndWotlkZoneIds[tbcData[objectKeys.zoneID]] then
             cata[objectId][objectKeys.spawns] = tbcData[objectKeys.spawns]
             cata[objectId][objectKeys.zoneID] = tbcData[objectKeys.zoneID]
         end
     elseif wotlkIds[objectId] then
         local wotlkData = wotlk[objectId]
-        if wotlkData[objectKeys.spawns] then
+        if wotlkData[objectKeys.spawns] and tbcAndWotlkZoneIds[wotlkData[objectKeys.zoneID]] then
             cata[objectId][objectKeys.spawns] = wotlkData[objectKeys.spawns]
             cata[objectId][objectKeys.zoneID] = wotlkData[objectKeys.zoneID]
         end
