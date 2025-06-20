@@ -1465,9 +1465,6 @@ function CataNpcFixes.Load()
         [17082] = { -- Rifleman Torrig
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{54.48,32.94}}},
         },
-        [17098] = { -- Ambassador Dawnsinger
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{49.37,70.88}}},
-        },
         [17105] = { -- Emissary Valustraa
             [npcKeys.subName] = nil,
         },
@@ -1769,9 +1766,6 @@ function CataNpcFixes.Load()
         },
         [23042] = { -- Severin
             [npcKeys.waypoints] = {},
-        },
-        [23128] = { -- Master Pyreanor
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{49.28,71.14}}},
         },
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{48.48,61.57}}},
@@ -2160,9 +2154,6 @@ function CataNpcFixes.Load()
         },
         [35054] = { -- Chip Endale
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{56.32,76.77}}},
-        },
-        [35068] = { -- Gotura Fourwinds
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{47.63,71.22}}},
         },
         [35086] = { -- Labor Captain Grabbit
             [npcKeys.spawns] = {
