@@ -1584,6 +1584,9 @@ function QuestieQuestFixes:Load()
         [4491] = {
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}},
         },
+        [4492] = {
+            [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}}, -- needed for deDE blizzard spaghetti
+        },
         [4493] = { -- March of the Silithid
             [questKeys.preQuestSingle] = {162,4267},
         },
