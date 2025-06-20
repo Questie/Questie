@@ -1,4 +1,4 @@
 data/*
 !data/.gitkeep
-merged-file.lua
+output/
 corrections.lua

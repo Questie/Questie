@@ -1,4 +1,6 @@
-local function pairsByKeys (t, f)
+local lfs = require("lfs")
+
+local function pairsByKeys(t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
     table.sort(a, f)
@@ -12,10 +14,11 @@ local function pairsByKeys (t, f)
     return iter
 end
 
--- print to "merged-file.lua"
 local function printToFile(objectData, objectKeys)
-    local file = io.open("merged-file.lua", "w")
-    print("writing to merged-file.lua")
+    lfs.mkdir("output")
+
+    local file = io.open("output/merged-file.lua", "w")
+    print("writing to output/merged-file.lua")
 
     for objId, data in pairsByKeys(objectData) do
         -- build print string with npcId and data
