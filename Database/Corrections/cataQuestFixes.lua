@@ -1274,6 +1274,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,nil,{24558}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [9882] = { -- Stealing from Thieves
+            [questKeys.breadcrumbs] = {9913},
+        },
         [9888] = { -- The Impotent Leader
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
@@ -1282,6 +1285,9 @@ function CataQuestFixes.Load()
         },
         [9890] = { -- Success!
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [9913] = { -- The Consortium Needs You!
+            [questKeys.breadcrumbForQuestId] = 9882,
         },
         [9931] = { -- Returning the Favor
             [questKeys.preQuestSingle] = {},
