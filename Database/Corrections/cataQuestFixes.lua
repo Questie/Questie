@@ -1575,6 +1575,12 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {10729,10730,10731},
             [questKeys.reputationReward] = {{967,5}},
         },
+        [10771] = { -- From the Ashes
+            [questKeys.preQuestSingle] = {},
+        },
+        [10825] = { -- The Truth Unorbed
+            [questKeys.startedBy] = {nil,nil,{31489}},
+        },
         [10847] = { -- The Eyes of Skettis
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10862,10863,10908},
@@ -1656,10 +1662,16 @@ function CataQuestFixes.Load()
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10984},
+            [questKeys.exclusiveTo] = {10989,11057},
+            [questKeys.nextQuestInChain] = 10995,
         },
         [10984] = { -- Speak with the Ogre
             [questKeys.nextQuestInChain] = 10983,
             [questKeys.breadcrumbForQuestId] = 10983,
+        },
+        [10989] = { -- Mog'dorg the Wizened
+            [questKeys.exclusiveTo] = {10983,11057},
+            [questKeys.nextQuestInChain] = 10995,
         },
         [10998] = { -- Grim(oire) Business
             [questKeys.preQuestSingle] = {},
@@ -1683,6 +1695,9 @@ function CataQuestFixes.Load()
         },
         [11021] = { -- Ishaal's Almanac
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11025] = { -- The Crystals
+            [questKeys.preQuestSingle] = {},
         },
         [11028] = { -- Countdown to Doom
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
@@ -1710,6 +1725,10 @@ function CataQuestFixes.Load()
         },
         [11056] = { -- Hazzik's Bargain
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11057] = { -- The Trouble Below
+            [questKeys.exclusiveTo] = {10983,10989},
+            [questKeys.nextQuestInChain] = 10995,
         },
         [11073] = { -- Terokk's Downfall
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
