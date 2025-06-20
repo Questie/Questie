@@ -4764,6 +4764,9 @@ function CataNpcFixes.Load()
         [52314] = { -- Master Caravan Kodo
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{47.81,39.53}}},
         },
+        [52442] = { -- Florawing Hive Queen
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{31.57,39.15},{-1,-1}}},
+        },
         [52477] = { -- Tholo Whitehoof
             [npcKeys.spawns] = {
                 [zoneIDs.MOLTEN_FRONT] = {
@@ -4854,6 +4857,15 @@ function CataNpcFixes.Load()
         [53009] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{46.53,35.51}}},
         },
+        [53023] = { -- Bloodslayer Zala
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{30.73,47.08},{-1,-1}}},
+        },
+        [53024] = { -- Bloodslayer Zala
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{30.56,47.29},{-1,-1}}},
+        },
+        [53043] = { -- Briney Boltcutter
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{30.5,50.92},{-1,-1}}},
+        },
         [53079] = { -- Crimson Lasher
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{53.53,90.74}}},
             [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
@@ -4866,6 +4878,9 @@ function CataNpcFixes.Load()
         },
         [53149] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{30.93,24.01}}},
+        },
+        [53151] = { -- Overseer Blingbang
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{30.81,47.56},{-1,-1}}},
         },
         [53215] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{23.17,30.79}}},
