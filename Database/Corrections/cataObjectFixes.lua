@@ -307,6 +307,9 @@ function CataObjectFixes.Load()
         [187578] = { -- Scrying Orb
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.44,26.71},{-1,-1}}},
         },
+        [187892] = { -- Ice Chest
+            [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{29.95,50.28},{-1,-1}}},
+        },
         [187922] = { -- Alliance Bonfire - Burning Steppes
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.57,60.2}}},
         },
