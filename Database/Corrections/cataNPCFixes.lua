@@ -1862,6 +1862,9 @@ function CataNpcFixes.Load()
         [25636] = { -- Captured Tuskarr Prisoner
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44.10,77.90}}},
         },
+        [25697] = { -- Luma Skymother
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{18.48,49.53},{-1,-1}}},
+        },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
         },
