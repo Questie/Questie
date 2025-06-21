@@ -1138,6 +1138,12 @@ function CataQuestFixes.Load()
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
         },
+        [9325] = { -- Stealing Thunder Bluff's Flame
+            [questKeys.startedBy] = {nil,nil,{23180}},
+        },
+        [9326] = { -- Stealing Thunder Bluff's Flame
+            [questKeys.startedBy] = {nil,nil,{23181}},
+        },
         [9327] = { -- The Forsaken
             [questKeys.preQuestSingle] = {},
         },
