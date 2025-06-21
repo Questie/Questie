@@ -474,6 +474,12 @@ function QuestieTBCItemFixes:Load()
         [35277] = {
             [itemKeys.npcDrops] = {25866,25863,25924},
         },
+        [35568] = {
+            [itemKeys.objectDrops] = {188129},
+        },
+        [35569] = {
+            [itemKeys.objectDrops] = {188128},
+        },
         [37736] = { -- 2021 Brewfest item (Alliance)
             [itemKeys.name] = '"Brew of the Month" Club Membership Form',
             [itemKeys.startQuest] = 12420,
