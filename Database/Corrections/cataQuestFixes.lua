@@ -6015,7 +6015,7 @@ function CataQuestFixes.Load()
         },
         [25776] = { -- Sethria's Demise
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25761,25764},
+            [questKeys.preQuestGroup] = {25746,25761,25764},
         },
         [25777] = { -- Onwards to Menethil
             [questKeys.nextQuestInChain] = 25780,
