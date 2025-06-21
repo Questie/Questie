@@ -1865,6 +1865,9 @@ function CataNpcFixes.Load()
         [25697] = { -- Luma Skymother
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{18.48,49.53},{-1,-1}}},
         },
+        [25740] = { -- Ahune
+            [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{32.56,50.45},{-1,-1}}},
+        },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
         },
