@@ -1781,7 +1781,8 @@ function QuestieQuestFixes:Load()
         [5063] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
-        [5067] = {
+        [5067] = { -- Leggings of Arcana
+            [questKeys.requiredLevel] = 60,
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
         [5068] = {
