@@ -5853,6 +5853,9 @@ function CataQuestFixes.Load()
         [25679] = { -- Into the Mountain
             [questKeys.preQuestGroup] = {25677,25678},
         },
+        [25681] = { -- Some People Just Need Killing
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the Box to avoid enemies"),0,{{"object",203192}}}},
+        },
         [25688] = { -- The Altar of Storms
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Start the event"),0,{{"object",203196}}}},
             [questKeys.objectives] = {{{41193,nil,Questie.ICON_TYPE_EVENT}}},

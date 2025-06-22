@@ -3986,6 +3986,18 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Use the Box to avoid enemies"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Benutze die Kiste, um Feinden auszuweichen",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 
