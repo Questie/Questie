@@ -124,10 +124,15 @@ local dungeons = {
     [16236] = {"Scarlet Enclave",nil,139,{{139, 68.67, 87.84}}},
 }
 
+if Expansions.Current >= Expansions.Wotlk then
+    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
+    dungeons[2257][4] = {{1519, 72, 28}, {1537, 84.1, 53.1}} -- Deeprun Tram
+    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
+end
+
 if Expansions.Current >= Expansions.Cata then
     dungeons[491][3] = 4709 -- Utgarde Keep
     dungeons[491][4] = {{4709, 41, 94.6}} -- Utgarde Keep
-    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
     dungeons[718][4] = {{17, 38.9, 69.1}} -- Wailing Caverns
     dungeons[719][4] = {{331, 14.2, 13.9}} -- Blackfathom Deeps
     dungeons[721][4] = {{1, 31.1, 37.9}} -- Gnomeregan
@@ -153,14 +158,9 @@ if Expansions.Current >= Expansions.Cata then
     dungeons[2717][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Molten Core
     dungeons[3428][4] = {{1377, 24.4, 87.5}} -- Temple of Ahn'Qiraj
     dungeons[3429][4] = {{1377, 36.5, 93.9}} -- Ruins of Ahn'Qiraj
-    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
     dungeons[3606][4] = {{440, 64.8, 50}} -- Hyjal Summit
     dungeons[4100][4] = {{440, 64.8, 50}} -- The Culling of Stratholme
     dungeons[7307][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Upper Blackrock Spire
-elseif Questie.IsWotlk then
-    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
-    dungeons[2257][4] = {{1519, 72, 28}, {1537, 84.1, 53.1}} -- Deeprun Tram
-    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
 end
 
 ZoneDB.private.dungeons = dungeons
