@@ -2005,12 +2005,18 @@ function CataQuestFixes.Load()
         [11978] = { -- Into the Fold
             [questKeys.preQuestSingle] = {},
         },
+        [11981] = { -- Find Kurun!
+            [questKeys.exclusiveTo] = {12074},
+        },
         [11999] = { -- Rifle the Bodies
             [questKeys.preQuestSingle] = {},
         },
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
+        },
+        [12074] = { -- An Expedient Ally
+            [questKeys.exclusiveTo] = {11981},
         },
         [12088] = { -- Thassarian, the Death Knight
             [questKeys.nextQuestInChain] = 11956,
