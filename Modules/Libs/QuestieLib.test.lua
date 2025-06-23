@@ -43,12 +43,28 @@ describe("QuestieLib", function()
             assert.are_same("[60D] ", levelString)
         end)
 
+        it("should handle Dungeon quests blizzLike", function()
+            QuestieDB.GetQuestTagInfo = function() return 81, "Dungeon" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, true)
+
+            assert.are_same("[60+] ", levelString)
+        end)
+
         it("should handle Raid quests", function()
             QuestieDB.GetQuestTagInfo = function() return 62, "Raid" end
 
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
 
             assert.are_same("[60R] ", levelString)
+        end)
+
+        it("should handle Raid quests blizzLike", function()
+            QuestieDB.GetQuestTagInfo = function() return 62, "Raid" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, true)
+
+            assert.are_same("[60+] ", levelString)
         end)
 
         it("should handle PvP quests", function()
