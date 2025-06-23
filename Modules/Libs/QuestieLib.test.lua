@@ -155,8 +155,52 @@ describe("QuestieLib", function()
             assert.are_same("[60++] ", levelString)
         end)
 
+        it("should handle Account quests", function()
+            QuestieDB.GetQuestTagInfo = function() return 102, "Account" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60A] ", levelString)
+        end)
+
+        it("should handle Account quests for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuestTagInfo = function() return 102, "账号" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60A] ", levelString)
+        end)
+
+        it("should handle Account quests for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            QuestieDB.GetQuestTagInfo = function() return 102, "帳號" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60A] ", levelString)
+        end)
+
+        it("should handle Account quests for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            QuestieDB.GetQuestTagInfo = function() return 102, "레이드" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60A] ", levelString)
+        end)
+
+        it("should handle Account quests for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            QuestieDB.GetQuestTagInfo = function() return 102, "Аккаунт" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60A] ", levelString)
+        end)
+
         it("should handle unknown quests", function()
-            QuestieDB.GetQuestTagInfo = function() return 99, "Unknown" end
+            QuestieDB.GetQuestTagInfo = function() return 999, "Unknown" end
 
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
 

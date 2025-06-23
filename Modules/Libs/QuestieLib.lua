@@ -263,6 +263,12 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
         elseif questType == 83 then
             -- Legendary quest
             retLevel = "[" .. retLevel .. "++" .. "] "
+        elseif questType == 102 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "A"
+            end
+            -- Account quest
+            retLevel = "[" .. retLevel .. char .. "] "
         else
             -- Some other irrelevant type
             retLevel = "[" .. retLevel .. "] "

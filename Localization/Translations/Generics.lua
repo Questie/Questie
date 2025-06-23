@@ -422,6 +422,18 @@ local genericsLocales = {
         ["zhCN"] = "团队",
         ["zhTW"] = "團隊",
     },
+    ["Account"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = "Cuenta",
+        ["esMX"] = "Cuenta",
+        ["frFR"] = "Compte",
+        ["koKR"] = "계정",
+        ["ptBR"] = "Conta",
+        ["ruRU"] = "Аккаунт",
+        ["zhCN"] = "账号",
+        ["zhTW"] = "帳號",
+    },
     ["Vendors"] = {
         ["enUS"] = true,
         ["deDE"] = "Händler",
