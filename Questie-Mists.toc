@@ -1,5 +1,5 @@
 ## Interface: 50500
-## Title: Questie|cFF00FF00 v10.21.2|r
+## Title: Questie|cFF00FF00 v10.23.2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
