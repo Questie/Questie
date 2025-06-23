@@ -13473,6 +13473,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Supply Caravan Escorted",{[zoneIDs.TWILIGHT_HIGHLANDS]={{56.05,20.4}}}},
             [questKeys.objectives] = {},
         },
+        [28865] = { -- Call of the Warmatron
+            [questKeys.exclusiveTo] = {28553,28858,28671},
+        },
         [28866] = { -- Into the Stonecore
             [questKeys.preQuestSingle] = {27061},
         },
