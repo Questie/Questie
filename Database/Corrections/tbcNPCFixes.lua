@@ -610,6 +610,10 @@ function QuestieTBCNpcFixes:Load()
         [20520] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
         },
+        [20555] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{63.79,19.43}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [20600] = {
             [npcKeys.waypoints] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{{58.08,64.77},{58.59,60.8},{59.37,57.56},{59.88,56.51},{60.85,55.47},{61.49,55.45},{62.31,55.97},{63.47,55.79},{64.11,55.01},{64.87,54.74},{65.45,54.8},{66.23,56.32},{66.73,57.29},{67.71,58.45},{67.92,59.64},{67.96,61.14},{68.2,62.06},{68.33,63.37},{67.94,64.46},{68.15,66.08},{68.22,67.54},{68.02,69.14},{68.06,70.5},{68.17,71.93},{68.17,73.35},{67.99,75.05},}}},
         },
@@ -663,11 +667,19 @@ function QuestieTBCNpcFixes:Load()
         [21118] = {
             [npcKeys.waypoints] = {},
         },
+        [21319] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{39.75,85.53}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [21446] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{38.8,56},{39,57.6},{39.2,57.4},{39.4,53},{40.2,50},{40.4,57.8},{42,57.2},{42,57.6},{42.4,53.8},{43,47.2},{43,50}}},
         },
         [21452] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{47.0,77.8},{46.6,79.2}}},
+        },
+        [21514] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{30.65,22.1}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76}}},
@@ -683,6 +695,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [21763] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{61,78.8},{61.4,75.4},{61.4,75.6},{61.4,78},{61.6,78},{61.8,75.6},{62,75},{62.2,74.4},{65.8,79.4},{66,79.6},{68,80.2},{68.4,85.2},{68.6,74.4},{69,85.6},{69.2,85.4},{69.4,74.8},{69.4,75.6},{69.6,74.4},{69.6,74.8},{69.6,76},{69.6,84.8},{69.8,79.6},{70,79.4},{70,83.6},{70.2,83.4},{70.4,82},{70.6,82.2},{71.8,85.6},{72,85.4},{72.2,88},{72.8,87.8},{73,84.4},{73,84.8},{73.4,82},{73.6,87.8},{73.8,83.2},{73.8,86},{73.8,86.6},{74.4,81},{74.4,84.2},{74.6,83},{74.6,87.4},{74.6,87.6},{75.2,81.2},{75.2,81.6}}},
+        },
+        [21767] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.47,33.14}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [21784] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{34.10,47.35}}},
@@ -818,7 +834,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
         [23053] = {
-            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{55,45}}},
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{55.78,46.39}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [23061] = {

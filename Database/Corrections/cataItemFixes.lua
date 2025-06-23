@@ -310,6 +310,9 @@ function CataItemFixes.Load()
         [31881] = { -- Draenei Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [32358] = { -- Vim'gol's Vile Grimoire
+            [itemKeys.npcDrops] = {},
+        },
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
         },

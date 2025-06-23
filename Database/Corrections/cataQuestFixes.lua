@@ -1547,6 +1547,12 @@ function CataQuestFixes.Load()
         [10475] = { -- Defender's Covenant
             [questKeys.startedBy] = {{19935}},
         },
+        [10567] = { -- Creating the Pendant
+            [questKeys.breadcrumbs] = {10615},
+        },
+        [10615] = { -- Ruuan Weald
+            [questKeys.breadcrumbForQuestId] = 10567,
+        },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
         },
@@ -1586,6 +1592,9 @@ function CataQuestFixes.Load()
         },
         [10825] = { -- The Truth Unorbed
             [questKeys.startedBy] = {nil,nil,{31489}},
+        },
+        [10846] = { -- Understanding the Mok'Nathal
+            [questKeys.preQuestSingle] = {10565},
         },
         [10847] = { -- The Eyes of Skettis
             [questKeys.preQuestSingle] = {},
@@ -1699,8 +1708,14 @@ function CataQuestFixes.Load()
         [11008] = { -- Fires Over Skettis
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
+        [11009] = { -- Ogre Heaven
+            [questKeys.breadcrumbs] = {11022},
+        },
         [11021] = { -- Ishaal's Almanac
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11022] = { -- Speak with Mog'dorg
+            [questKeys.breadcrumbForQuestId] = 11009,
         },
         [11025] = { -- The Crystals
             [questKeys.preQuestSingle] = {},
@@ -1736,6 +1751,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {10983,10989},
             [questKeys.nextQuestInChain] = 10995,
         },
+        [11059] = { -- Guardian of the Monument
+            [questKeys.preQuestSingle] = {11062},
+        },
         [11073] = { -- Terokk's Downfall
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
@@ -1744,6 +1762,9 @@ function CataQuestFixes.Load()
         },
         [11085] = { -- Escape from Skettis
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
+        },
+        [11091] = { -- A Special Thank You
+            [questKeys.requiredMinRep] = {1038,3000},
         },
         [11093] = { -- Hungry Nether Rays
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
