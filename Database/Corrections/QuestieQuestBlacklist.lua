@@ -3029,6 +3029,7 @@ function QuestieQuestBlacklist:Load()
         [2607] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2608] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2609] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
