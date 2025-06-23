@@ -227,7 +227,7 @@ end
 
 ---@param questId QuestId
 ---@param level Level @The quest level
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@param blizzLike boolean @True = [40+], false = [40D/R]
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
