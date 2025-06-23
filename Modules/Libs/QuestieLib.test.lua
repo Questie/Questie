@@ -51,8 +51,80 @@ describe("QuestieLib", function()
             assert.are_same("[60+] ", levelString)
         end)
 
+        it("should handle Dungeon quests for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuestTagInfo = function() return 81, "地下城" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60D] ", levelString)
+        end)
+
+        it("should handle Dungeon quests for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            QuestieDB.GetQuestTagInfo = function() return 81, "地城" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60D] ", levelString)
+        end)
+
+        it("should handle Dungeon quests for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            QuestieDB.GetQuestTagInfo = function() return 81, "던전" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60D] ", levelString)
+        end)
+
+        it("should handle Dungeon quests for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            QuestieDB.GetQuestTagInfo = function() return 81, "Подземелье" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60D] ", levelString)
+        end)
+
         it("should handle Raid quests", function()
             QuestieDB.GetQuestTagInfo = function() return 62, "Raid" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60R] ", levelString)
+        end)
+
+        it("should handle Raid quests for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuestTagInfo = function() return 62, "团队" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60R] ", levelString)
+        end)
+
+        it("should handle Raid quests for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            QuestieDB.GetQuestTagInfo = function() return 62, "團隊" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60R] ", levelString)
+        end)
+
+        it("should handle Raid quests for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            QuestieDB.GetQuestTagInfo = function() return 62, "레이드" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60R] ", levelString)
+        end)
+
+        it("should handle Raid quests for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            QuestieDB.GetQuestTagInfo = function() return 62, "Рейд" end
 
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
 
