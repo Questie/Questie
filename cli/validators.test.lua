@@ -3,6 +3,7 @@ local exitMock
 
 local questKeys = {
     startedBy = "startedBy",
+    finishedBy = "finishedBy",
     sourceItemId = "sourceItemId",
     requiredSourceItems = "requiredSourceItems",
     objectives = "objectives",
@@ -518,7 +519,7 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {"questEnd 3 is not in the database"},
@@ -527,6 +528,52 @@ describe("Validators", function()
                     "questEnd 6 is not in the database",
                 },
             }, invalidQuests)
+        end)
+
+        it("should find NPCs which have missing questEnds entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questEnds = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    finishedBy = {{1}},
+                },
+                [4] = {
+                    finishedBy = {{2}},
+                },
+                [5] = {
+                    finishedBy = {{3}},
+                },
+                [6] = {
+                    finishedBy = {{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questEnds",
+                    "questEnd 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questEnds"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestStarts)
         end)
 
         it("should not report anything when all questEnds are valid", function()
@@ -543,7 +590,7 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
         end)
