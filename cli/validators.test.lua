@@ -11,6 +11,11 @@ local questKeys = {
     parentQuest = "parentQuest",
     childQuests = "childQuests",
 }
+local npcKeys = {
+    name = "name",
+    questStarts = "questStarts",
+    questEnds = "questEnds",
+}
 
 describe("Validators", function()
     before_each(function()
@@ -386,6 +391,111 @@ describe("Validators", function()
 
             assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkNpcQuestStarts", function()
+        it("should find NPCs which have invalid questStarts entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questStarts = {2, 3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questStarts = {5, 6},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
+
+            assert.are.same({
+                [1] = {"questStart 3 is not in the database"},
+                [3] = {
+                    "questStart 5 is not in the database",
+                    "questStart 6 is not in the database"
+                },
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when all questStarts and questEnds are valid", function()
+            local npcs = {
+                [1] = {
+                    questStarts = {2},
+                },
+                [2] = {
+                    questStarts = {4},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+
+    describe("checkNpcQuestEnds", function()
+        it("should find NPCs which have invalid questEnds entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {2, 3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questEnds = {5, 6},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+
+            assert.are.same({
+                [1] = {"questEnd 3 is not in the database"},
+                [3] = {
+                    "questEnd 5 is not in the database",
+                    "questEnd 6 is not in the database",
+                },
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when all questEnds are valid", function()
+            local npcs = {
+                [1] = {
+                    questEnds = {3},
+                },
+                [2] = {
+                    questEnds = {4},
+                },
+            }
+            local quests = {
+                [3] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+
+            assert.are.same(nil, invalidQuests)
         end)
     end)
 end)

@@ -236,4 +236,92 @@ function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
     end
 end
 
+function Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
+    print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
+    local invalidQuestStarts = {}
+    local goodQuestStarts = {}
+    for npcId, npcData in pairs(npcs) do
+        local questStarts = npcData[npcKeys.questStarts]
+        if questStarts then
+            for _, questId in ipairs(questStarts) do
+                if not quests[questId] then
+                    if not invalidQuestStarts[npcId] then
+                        invalidQuestStarts[npcId] = {}
+                    end
+                    table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
+                else
+                    if not goodQuestStarts[npcId] then
+                        goodQuestStarts[npcId] = {}
+                    end
+                    table.insert(goodQuestStarts[npcId], questId)
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuestStarts) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " NPCs with invalid questStarts:\27[0m")
+        for npcId, reasons in pairs(invalidQuestStarts) do
+            print("\27[31m- NPC " .. npcId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuestStarts
+    else
+        print("\27[32mNo NPCs found with invalid questStarts\27[0m")
+        return nil
+    end
+end
+
+function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+    print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
+    local invalidQuestEnds = {}
+    local goodQuestEnds = {}
+    for npcId, npcData in pairs(npcs) do
+        local questEnds = npcData[npcKeys.questEnds]
+        if questEnds then
+            for _, questId in ipairs(questEnds) do
+                if not quests[questId] then
+                    if not invalidQuestEnds[npcId] then
+                        invalidQuestEnds[npcId] = {}
+                    end
+                    table.insert(invalidQuestEnds[npcId], "questEnd " .. questId .. " is not in the database")
+                else
+                    if not goodQuestEnds[npcId] then
+                        goodQuestEnds[npcId] = {}
+                    end
+                    table.insert(goodQuestEnds[npcId], questId)
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuestEnds) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " NPCs with invalid questEnds:\27[0m")
+        for npcId, reasons in pairs(invalidQuestEnds) do
+            print("\27[31m- NPC " .. npcId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuestEnds
+    else
+        print("\27[32mNo NPCs found with invalid questEnds\27[0m")
+        return nil
+    end
+end
+
 return Validators
