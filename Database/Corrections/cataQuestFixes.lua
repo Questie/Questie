@@ -1404,8 +1404,18 @@ function CataQuestFixes.Load()
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
         },
+        [10182] = { -- Battle-Mage Dathric
+            [questKeys.startedBy] = {nil,nil,{29233}},
+        },
+        [10183] = { -- Off To Area 52
+            [questKeys.breadcrumbForQuestId] = 10186,
+        },
         [10186] = { -- You're Hired!
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10183,11036,11037,11040,11042},
+        },
+        [10189] = { -- Manaforge B'naar
+            [questKeys.breadcrumbs] = {11039},
         },
         [10227] = { -- I See Dead Draenei
             [questKeys.zoneOrSort] = 3688,
@@ -1418,6 +1428,9 @@ function CataQuestFixes.Load()
         },
         [10231] = { -- What Book? I Don't See Any Book.
             [questKeys.zoneOrSort] = zoneIDs.SHATTRATH_CITY,
+        },
+        [10241] = { -- Distraction at Manaforge B'naar
+            [questKeys.breadcrumbs] = {11038},
         },
         [10251] = { -- The Master's Grand Design?
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
@@ -1459,6 +1472,15 @@ function CataQuestFixes.Load()
         },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
+        },
+        [10305] = { -- Abjurist Belmara
+            [questKeys.startedBy] = {nil,nil,{29234}},
+        },
+        [10306] = { -- Conjurer Luminrath
+            [questKeys.startedBy] = {nil,nil,{29235}},
+        },
+        [10307] = { -- Cohlien Frostweaver
+            [questKeys.startedBy] = {nil,nil,{29236}},
         },
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
@@ -1738,8 +1760,24 @@ function CataQuestFixes.Load()
         [11034] = { -- Restorer No More
             [questKeys.specialFlags] = 1,
         },
+        [11036] = { -- Out of This World Produce!
+            [questKeys.breadcrumbForQuestId] = 10186,
+        },
         [11037] = { -- A Strange Vision
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
+            [questKeys.breadcrumbForQuestId] = 10186,
+        },
+        [11038] = { -- Assist Exarch Orelis
+            [questKeys.breadcrumbForQuestId] = 10241,
+        },
+        [11039] = { -- Report to Spymaster Thalodien
+            [questKeys.breadcrumbForQuestId] = 10189,
+        },
+        [11040] = { -- Parts for the Rocket-Chief
+            [questKeys.breadcrumbForQuestId] = 10186,
+        },
+        [11042] = { -- A Mystifying Vision
+            [questKeys.breadcrumbForQuestId] = 10186,
         },
         [11048] = { -- Kroghan's Report
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
@@ -1847,9 +1885,11 @@ function CataQuestFixes.Load()
         },
         [11481] = { -- Crisis at the Sunwell
             [questKeys.nextQuestInChain] = 0,
+            [questKeys.exclusiveTo] = {},
         },
         [11482] = { -- Duty Calls
             [questKeys.nextQuestInChain] = 0,
+            [questKeys.exclusiveTo] = {},
         },
         [11490] = { -- The Scryer's Scryer
             [questKeys.preQuestSingle] = {29684},

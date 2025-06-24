@@ -1945,7 +1945,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{18141,"Speak to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
         },
         [10182] = {
-            [questKeys.startedBy] = {{19543},nil,nil},
             [questKeys.objectives] = {nil,{{183269,"Put Dathric's Spirit to Rest"}}},
         },
         [10183] = {
@@ -2069,15 +2068,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [10305] = {
-            [questKeys.startedBy] = {{19546},nil,nil},
             [questKeys.objectives] = {nil,{{183268,"Put Belmara's Spirit to Rest"}}},
         },
         [10306] = {
-            [questKeys.startedBy] = {{19544},nil,nil},
             [questKeys.objectives] = {nil,{{183267,"Put Luminrath's Spirit to Rest"}}},
         },
         [10307] = {
-            [questKeys.startedBy] = {{19545},nil,nil},
             [questKeys.objectives] = {nil,{{183266,"Put Cohlien's Spirit to Rest"}}},
         },
         [10308] = {
@@ -2211,9 +2207,6 @@ function QuestieTBCQuestFixes:Load()
         [10412] = {
             [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestSingle] = {10551,10552},
-        },
-        [10413] = {
-            [questKeys.startedBy] = {{20779},nil,nil},
         },
         [10414] = {
             [questKeys.requiredMaxRep] = {934,9000},
@@ -3153,7 +3146,7 @@ function QuestieTBCQuestFixes:Load()
         [11038] = {
             [questKeys.startedBy] = {{23270,23271},nil,nil},
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042},
-            [questKeys.preQuestSingle] = {10551},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [11039] = {
             [questKeys.preQuestSingle] = {10551,10552},
