@@ -220,6 +220,7 @@ function CataObjectFixes.Load()
         },
         [180746] = { -- Gently Shaken Gift
             [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
         },
         [180771] = { -- Firework Launcher
             [objectKeys.spawns] = {
@@ -309,6 +310,7 @@ function CataObjectFixes.Load()
         },
         [187236] = { -- Winter Veil Gift
             [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
         },
         [187578] = { -- Scrying Orb
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.44,26.71},{-1,-1}}},
