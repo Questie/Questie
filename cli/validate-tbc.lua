@@ -215,6 +215,9 @@ local function _CheckTBCDatabase()
 
     print("\n\27[32mTBC database compiled successfully\27[0m\n")
 
+    -- We accept blacklisted quests as questStarts and questEnds for now
+    Validators.checkNpcQuestStarts(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData)
+
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil

@@ -269,6 +269,8 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
             for _, reason in ipairs(reasons) do
                 print("  - " .. reason)
             end
+            print("\27[31m  - Correction:\27[0m")
+            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(goodQuestStarts[npcId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
         end
 
