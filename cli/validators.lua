@@ -355,11 +355,42 @@ end
 ---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
 ---@return table<NpcId, string>
-function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
+
     local invalidQuestEnds = {}
-    local goodQuestEnds = {}
+    local targetQuestEnds = {}
+    for questId, questData in pairs(quests) do
+        local finishedBy = questData[questKeys.finishedBy]
+        if finishedBy then
+            for _, npcEnderId in pairs(finishedBy[1] or {}) do
+                if not targetQuestEnds[npcEnderId] then
+                    targetQuestEnds[npcEnderId] = {}
+                end
+                table.insert(targetQuestEnds[npcEnderId], questId)
+
+                local npcQuestEnds = npcs[npcEnderId][npcKeys.questEnds]
+
+                local enderFound = false
+                for _, enderQuestId in pairs(npcQuestEnds or {}) do
+                    if enderQuestId == questId then
+                        enderFound = true
+                        break
+                    end
+                end
+
+                if (not enderFound) then
+                    if not invalidQuestEnds[npcEnderId] then
+                        invalidQuestEnds[npcEnderId] = {}
+                    end
+                    table.insert(invalidQuestEnds[npcEnderId], "quest " .. questId .. " is missing in questEnds")
+                end
+            end
+        end
+    end
+
     for npcId, npcData in pairs(npcs) do
         local questEnds = npcData[npcKeys.questEnds]
         if questEnds then
@@ -369,11 +400,15 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
                         invalidQuestEnds[npcId] = {}
                     end
                     table.insert(invalidQuestEnds[npcId], "questEnd " .. questId .. " is not in the database")
-                else
-                    if not goodQuestEnds[npcId] then
-                        goodQuestEnds[npcId] = {}
-                    end
-                    table.insert(goodQuestEnds[npcId], questId)
+                end
+            end
+
+            -- Check if the NPCs questStarts match with the targetQuestEnds given by the quests.
+            -- If they do match, then remove the NPC from targetQuestEnds, otherwise do nothing.
+            if targetQuestEnds[npcId] then
+                if tableContainsAll(questEnds, targetQuestEnds[npcId]) then
+                    -- Remove the NPC from targetQuestEnds, because it matches the questStarts.
+                    targetQuestEnds[npcId] = nil
                 end
             end
         end
@@ -390,12 +425,12 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
                 print("  - " .. reason)
             end
             print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(goodQuestEnds[npcId] or {}, ",") .. "},\n        },\27[0m")
+            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(targetQuestEnds[npcId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
         end
 
         os.exit(1)
-        return invalidQuestEnds
+        return invalidQuestEnds, targetQuestEnds
     else
         print("\27[32mNo NPCs found with invalid questEnds\27[0m")
         return nil
