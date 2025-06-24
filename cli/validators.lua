@@ -1,5 +1,21 @@
 local Validators = {}
 
+---@param t1 table<number, number>
+---@param t2 table<number, number>
+---@return boolean
+local function tableContainsAll(t1, t2)
+    local t1Set = {}
+    for _, v in ipairs(t1) do
+        t1Set[v] = true
+    end
+    for _, v in ipairs(t2) do
+        if not t1Set[v] then
+            return false
+        end
+    end
+    return true
+end
+
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@return table<QuestId, string>
@@ -302,22 +318,10 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
                 end
             end
 
-            -- Check if the NPCs questStarts match with the targetQuestStarts given by the quests. If they do match, then remove the NPC from targetQuestStarts, otherwise do nothing.
+            -- Check if the NPCs questStarts match with the targetQuestStarts given by the quests.
+            -- If they do match, then remove the NPC from targetQuestStarts, otherwise do nothing.
             if targetQuestStarts[npcId] then
-                local questStartsSet = {}
-                for _, questId in ipairs(questStarts) do
-                    questStartsSet[questId] = true
-                end
-
-                local allMatch = true
-                for _, targetQuestId in ipairs(targetQuestStarts[npcId]) do
-                    if not questStartsSet[targetQuestId] then
-                        allMatch = false
-                        break
-                    end
-                end
-
-                if allMatch then
+                if tableContainsAll(questStarts, targetQuestStarts[npcId]) then
                     -- Remove the NPC from targetQuestStarts, because it matches the questStarts.
                     targetQuestStarts[npcId] = nil
                 end
