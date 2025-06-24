@@ -328,4 +328,96 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
     end
 end
 
+function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
+    print("\n\27[36mSearching for invalid questStarts in objects...\27[0m")
+    local invalidQuestStarts = {}
+    local goodQuestStarts = {}
+    for npcId, npcData in pairs(objects) do
+        local questStarts = npcData[objectKeys.questStarts]
+        if questStarts then
+            for _, questId in ipairs(questStarts) do
+                if not quests[questId] then
+                    if not invalidQuestStarts[npcId] then
+                        invalidQuestStarts[npcId] = {}
+                    end
+                    table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
+                else
+                    if not goodQuestStarts[npcId] then
+                        goodQuestStarts[npcId] = {}
+                    end
+                    table.insert(goodQuestStarts[npcId], questId)
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuestStarts) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " objects with invalid questStarts:\27[0m")
+        for objectId, reasons in pairs(invalidQuestStarts) do
+            print("\27[31m- object " .. objectId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[31m  - Correction:\27[0m")
+            print("\27[31m        [" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questStarts] = {" .. table.concat(goodQuestStarts[objectId] or {}, ",") .. "},\n        },\27[0m")
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuestStarts
+    else
+        print("\27[32mNo objects found with invalid questStarts\27[0m")
+        return nil
+    end
+end
+
+function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+    print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
+    local invalidQuestEnds = {}
+    local goodQuestEnds = {}
+    for objectId, npcData in pairs(objects) do
+        local questEnds = npcData[objectKeys.questEnds]
+        if questEnds then
+            for _, questId in ipairs(questEnds) do
+                if not quests[questId] then
+                    if not invalidQuestEnds[objectId] then
+                        invalidQuestEnds[objectId] = {}
+                    end
+                    table.insert(invalidQuestEnds[objectId], "questEnd " .. questId .. " is not in the database")
+                else
+                    if not goodQuestEnds[objectId] then
+                        goodQuestEnds[objectId] = {}
+                    end
+                    table.insert(goodQuestEnds[objectId], questId)
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuestEnds) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " objects with invalid questEnds:\27[0m")
+        for objectId, reasons in pairs(invalidQuestEnds) do
+            print("\27[31m- object " .. objectId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[31m  - Correction:\27[0m")
+            print("\27[31m        [" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questEnds] = {" .. table.concat(goodQuestEnds[objectId] or {}, ",") .. "},\n        },\27[0m")
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuestEnds
+    else
+        print("\27[32mNo objects found with invalid questEnds\27[0m")
+        return nil
+    end
+end
+
 return Validators

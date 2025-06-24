@@ -218,6 +218,7 @@ local function _CheckTBCDatabase()
     -- We accept blacklisted quests as questStarts and questEnds for now
     Validators.checkNpcQuestStarts(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData)
     Validators.checkNpcQuestEnds(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData)
+    Validators.checkObjectQuestStarts(QuestieDB.objectData, QuestieDB.objectKeys, QuestieDB.questData)
 
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do

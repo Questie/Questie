@@ -16,6 +16,11 @@ local npcKeys = {
     questStarts = "questStarts",
     questEnds = "questEnds",
 }
+local objectKeys = {
+    name = "name",
+    questStarts = "questStarts",
+    questEnds = "questEnds",
+}
 
 describe("Validators", function()
     before_each(function()
@@ -494,6 +499,111 @@ describe("Validators", function()
             }
 
             local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+    describe("checkObjectQuestStarts", function()
+        it("should find objects which have invalid questStarts entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questStarts = {2, 3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questStarts = {5, 6},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkObjectQuestStarts(objects, objectKeys, quests)
+
+            assert.are.same({
+                [1] = {"questStart 3 is not in the database"},
+                [3] = {
+                    "questStart 5 is not in the database",
+                    "questStart 6 is not in the database"
+                },
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when all questStarts and questEnds are valid", function()
+            local objects = {
+                [1] = {
+                    questStarts = {2},
+                },
+                [2] = {
+                    questStarts = {4},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkObjectQuestStarts(objects, objectKeys, quests)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+
+    describe("checkObjectQuestEnds", function()
+        it("should find objects which have invalid questEnds entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questEnds = {2, 3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questEnds = {5, 6},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+
+            assert.are.same({
+                [1] = {"questEnd 3 is not in the database"},
+                [3] = {
+                    "questEnd 5 is not in the database",
+                    "questEnd 6 is not in the database",
+                },
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when all questEnds are valid", function()
+            local objects = {
+                [1] = {
+                    questEnds = {3},
+                },
+                [2] = {
+                    questEnds = {4},
+                },
+            }
+            local quests = {
+                [3] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests)
 
             assert.are.same(nil, invalidQuests)
         end)
