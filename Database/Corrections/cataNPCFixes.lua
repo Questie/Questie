@@ -1348,8 +1348,6 @@ function CataNpcFixes.Load()
         },
         [15295] = { -- Well Watcher Solanian
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{38.97,20.26}}},
-        },
-        [15295] = { -- Well Watcher Solanian
             [npcKeys.questStarts] = {},
             [npcKeys.questEnds] = {},
         },
