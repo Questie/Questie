@@ -60,6 +60,13 @@ jobs:
       - name: Run Luacheck
         run: luacheck -q -- Database Localization Modules Questie.lua
 
+      - name: Upload correction files
+        uses: actions/upload-artifact@v4
+        with:
+          name: correction-files
+          path: cli/output/
+        if: success() || failure()
+
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
         with:
