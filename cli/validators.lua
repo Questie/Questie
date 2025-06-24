@@ -1,7 +1,8 @@
 local Validators = {}
 
----@param quests table
+---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
+---@return table<QuestId, string> | nil
 function Validators.checkRequiredSourceItems(quests, questKeys)
     print("\n\27[36mSearching for sourceItemId and itemObjectiveId entries in quest.requiredSourceItems...\27[0m")
     local matchingQuests = {}
@@ -47,8 +48,9 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
     end
 end
 
----@param quests table
+---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
+---@return table<QuestId, string> | nil
 function Validators.checkPreQuestExclusiveness(quests, questKeys)
     print("\n\27[36mSearching for quests with preQuestSingle and preQuestGroup entries...\27[0m")
     local invalidQuests = {}
@@ -79,8 +81,9 @@ end
 
 ---If a quest has a parent quest, then the parent quest must have the child quest in its childQuests list.
 ---This also must hold vice versa: If a quest has child quests, then each child quest must have the parent quest set.
----@param quests table
+---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
+---@return table<QuestId, string> | nil
 function Validators.checkParentChildQuestRelations(quests, questKeys)
     print("\n\27[36mSearching for parent and child quest relations...\27[0m")
     local invalidQuests = {}
@@ -138,6 +141,12 @@ function Validators.checkParentChildQuestRelations(quests, questKeys)
     end
 end
 
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param npcs table<NpcId, NPC>
+---@param objects table<ObjectId, Object>
+---@param items table<ItemId, Item>
+---@return table<QuestId, string> | nil
 function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
     print("\n\27[36mSearching for quest starters...\27[0m")
     local invalidQuests = {}
@@ -179,6 +188,12 @@ function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
     end
 end
 
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param npcs table<NpcId, NPC>
+---@param objects table<ObjectId, Object>
+---@param items table<ItemId, Item>
+---@return table<QuestId, string> | nil
 function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
     print("\n\27[36mSearching for invalid quest objectives...\27[0m")
     local invalidQuests = {}
@@ -236,6 +251,10 @@ function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
     end
 end
 
+---@param npcs table<NpcId, NPC>
+---@param npcKeys DatabaseNpcKeys
+---@param quests table<QuestId, Quest>
+---@return table<NpcId, string> | nil
 function Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
     print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
     local invalidQuestStarts = {}
@@ -282,6 +301,10 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
     end
 end
 
+---@param npcs table<NpcId, NPC>
+---@param npcKeys DatabaseNpcKeys
+---@param quests table<QuestId, Quest>
+---@return table<NpcId, string> | nil
 function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
     print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
     local invalidQuestEnds = {}
@@ -328,6 +351,10 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests)
     end
 end
 
+---@param objects table<ObjectId, Object>
+---@param objectKeys DatabaseObjectKeys
+---@param quests table<QuestId, Quest>
+---@return table<NpcId, string> | nil
 function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
     print("\n\27[36mSearching for invalid questStarts in objects...\27[0m")
     local invalidQuestStarts = {}
@@ -374,6 +401,10 @@ function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
     end
 end
 
+---@param objects table<ObjectId, Object>
+---@param objectKeys DatabaseObjectKeys
+---@param quests table<QuestId, Quest>
+---@return table<NpcId, string> | nil
 function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
     local invalidQuestEnds = {}
