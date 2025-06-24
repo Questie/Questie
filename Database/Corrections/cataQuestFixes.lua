@@ -2131,9 +2131,6 @@ function CataQuestFixes.Load()
         [12535] = { -- Mischief in the Making
             [questKeys.preQuestSingle] = {12532},
         },
-        [12539] = { -- Hoofing It
-            [questKeys.preQuestGroup] = {},
-        },
         [12547] = { -- The Activation Rune
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
