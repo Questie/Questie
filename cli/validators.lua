@@ -255,36 +255,25 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string> | nil
+---@return table<NpcId, string>, table<NpcId, QuestId[]>
 function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
-    local invalidQuestStarts = {}
-    local goodQuestStarts = {}
-    for npcId, npcData in pairs(npcs) do
-        local questStarts = npcData[npcKeys.questStarts]
-        if questStarts then
-            for _, questId in ipairs(questStarts) do
-                if not quests[questId] then
-                    if not invalidQuestStarts[npcId] then
-                        invalidQuestStarts[npcId] = {}
-                    end
-                    table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
-                else
-                    if not goodQuestStarts[npcId] then
-                        goodQuestStarts[npcId] = {}
-                    end
-                    table.insert(goodQuestStarts[npcId], questId)
-                end
-            end
-        end
-    end
 
+    local invalidQuestStarts = {}
+    local targetQuestStarts = {}
     for questId, questData in pairs(quests) do
         local startedBy = questData[questKeys.startedBy]
         if startedBy then
             for _, npcStarterId in pairs(startedBy[1] or {}) do
+                if not targetQuestStarts[npcStarterId] then
+                    targetQuestStarts[npcStarterId] = {}
+                end
+                table.insert(targetQuestStarts[npcStarterId], questId)
+
+                local npcQuestStarters = npcs[npcStarterId][npcKeys.questStarts]
+
                 local starterFound = false
-                for _, starterQuestId in pairs(goodQuestStarts[npcStarterId] or {}) do
+                for _, starterQuestId in pairs(npcQuestStarters or {}) do
                     if starterQuestId == questId then
                         starterFound = true
                         break
@@ -301,6 +290,44 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
         end
     end
 
+    for npcId, npcData in pairs(npcs) do
+        local questStarts = npcData[npcKeys.questStarts]
+        if questStarts then
+            for _, questId in ipairs(questStarts) do
+                if not quests[questId] then
+                    if not invalidQuestStarts[npcId] then
+                        invalidQuestStarts[npcId] = {}
+                    end
+                    table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
+                end
+            end
+
+            -- Check if the NPCs questStarts match with the targetQuestStarts given by the quests. If they do match, then remove the NPC from targetQuestStarts, otherwise do nothing.
+            if targetQuestStarts[npcId] then
+                local questStartsSet = {}
+                for _, questId in ipairs(questStarts) do
+                    questStartsSet[questId] = true
+                end
+
+                local allMatch = true
+                for _, targetQuestId in ipairs(targetQuestStarts[npcId]) do
+                    if not questStartsSet[targetQuestId] then
+                        allMatch = false
+                        break
+                    end
+                end
+
+                if allMatch then
+                    -- Remove the NPC from targetQuestStarts, because it matches the questStarts.
+                    targetQuestStarts[npcId] = nil
+                end
+            --else
+            --    targetQuestStarts[npcId] = nil
+            end
+
+        end
+    end
+
     local count = 0
     for _ in pairs(invalidQuestStarts) do count = count + 1 end
 
@@ -312,12 +339,12 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
                 print("  - " .. reason)
             end
             print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(goodQuestStarts[npcId] or {}, ",") .. "},\n        },\27[0m")
+            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(targetQuestStarts[npcId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
         end
 
         os.exit(1)
-        return invalidQuestStarts
+        return invalidQuestStarts, targetQuestStarts
     else
         print("\27[32mNo NPCs found with invalid questStarts\27[0m")
         return nil

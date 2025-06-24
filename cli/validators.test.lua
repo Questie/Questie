@@ -443,7 +443,7 @@ describe("Validators", function()
                 },
                 [3] = {
                     name = "Third NPC",
-                    questStarts = {},
+                    questStarts = {5},
                 },
             }
             local quests = {
@@ -461,18 +461,20 @@ describe("Validators", function()
                 },
             }
 
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {
-                    "questStart 3 is not in the database",
                     "quest 2 is missing in questStarts",
+                    "questStart 3 is not in the database",
                 },
-                [3] = {
-                    "quest 5 is missing in questStarts",
-                    "quest 6 is missing in questStarts",
-                },
+                [3] = {"quest 6 is missing in questStarts"},
             }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestStarts)
         end)
 
         it("should not report anything when all questStarts and questEnds are valid", function()
@@ -494,7 +496,6 @@ describe("Validators", function()
             assert.are.same(nil, invalidQuests)
         end)
     end)
-
 
     describe("checkNpcQuestEnds", function()
         it("should find NPCs which have invalid questEnds entries", function()
@@ -599,7 +600,6 @@ describe("Validators", function()
             assert.are.same(nil, invalidQuests)
         end)
     end)
-
 
     describe("checkObjectQuestEnds", function()
         it("should find objects which have invalid questEnds entries", function()
