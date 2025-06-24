@@ -35,7 +35,9 @@ jobs:
           sudo luarocks install luafilesystem
 
       - name: Run busted Unit Tests
-        run: busted -p ".test.lua" .
+        run: |
+          busted -p ".test.lua" .
+          rm -rf cli/output
 
       - name: Validate Era database
         run: lua cli/validate-era.lua
