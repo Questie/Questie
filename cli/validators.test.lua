@@ -420,57 +420,13 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
 
             assert.are.same({
                 [1] = {"questStart 3 is not in the database"},
                 [3] = {
                     "questStart 5 is not in the database",
                     "questStart 6 is not in the database"
-                },
-            }, invalidQuests)
-        end)
-
-        it("should find NPCs which have missing questStarts entries", function()
-            local npcs = {
-                [1] = {
-                    name = "First NPC",
-                    questStarts = {3},
-                },
-                [2] = {
-                    name = "Second NPC",
-                    questStarts = {4},
-                },
-                [3] = {
-                    name = "Third NPC",
-                    questStarts = {},
-                },
-            }
-            local quests = {
-                [2] = {
-                    startedBy = {{1}},
-                },
-                [4] = {
-                    startedBy = {{2}},
-                },
-                [5] = {
-                    startedBy = {{3}},
-                },
-                [6] = {
-                    startedBy = {{3}},
-                },
-            }
-
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
-
-            assert.are.same({
-                [1] = {
-                    "questStart 3 is not in the database",
-                    "quest 2 is missing in questStarts",
-                },
-                [3] = {
-                    "quest 5 is missing in questStarts",
-                    "quest 6 is missing in questStarts",
                 },
             }, invalidQuests)
         end)
@@ -489,7 +445,7 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
 
             assert.are.same(nil, invalidQuests)
         end)

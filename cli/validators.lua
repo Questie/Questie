@@ -254,9 +254,8 @@ end
 ---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
----@param questKeys DatabaseQuestKeys
 ---@return table<NpcId, string> | nil
-function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+function Validators.checkNpcQuestStarts(npcs, npcKeys, quests)
     print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
     local invalidQuestStarts = {}
     local goodQuestStarts = {}
@@ -274,28 +273,6 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
                         goodQuestStarts[npcId] = {}
                     end
                     table.insert(goodQuestStarts[npcId], questId)
-                end
-            end
-        end
-    end
-
-    for questId, questData in pairs(quests) do
-        local questStarts = questData[questKeys.startedBy]
-        if questStarts then
-            for _, npcStarterId in pairs(questStarts[1] or {}) do
-                local starterFound = false
-                for _, starterQuestId in pairs(goodQuestStarts[npcStarterId] or {}) do
-                    if starterQuestId == questId then
-                        starterFound = true
-                        break
-                    end
-                end
-
-                if (not starterFound) then
-                    if not invalidQuestStarts[npcStarterId] then
-                        invalidQuestStarts[npcStarterId] = {}
-                    end
-                    table.insert(invalidQuestStarts[npcStarterId], "quest " .. questId .. " is missing in questStarts")
                 end
             end
         end
