@@ -2313,7 +2313,8 @@ function QuestieWotlkQuestFixes:Load()
         [12538] = {
             [questKeys.requiredSourceItems] = {38512},
         },
-        [12539] = {
+        [12539] = { -- Hoofing It
+            [questKeys.preQuestGroup] = {12537,12538},
             [questKeys.requiredSourceItems] = {38512},
         },
         [12540] = {
