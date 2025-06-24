@@ -1,5 +1,11 @@
 local Validators = {}
 
+local lfs = require("lfs")
+
+local projectDir = os.getenv("PWD")
+local outputDir = projectDir .. "/cli/output"
+lfs.mkdir(outputDir)
+
 ---@param t1 table<number, number>
 ---@param t2 table<number, number>
 ---@return boolean
@@ -14,6 +20,27 @@ local function tableContainsAll(t1, t2)
         end
     end
     return true
+end
+
+---@param t table<number, any>
+---@param f? fun(a: any, b: any): boolean
+---@return fun(): number, any
+local function pairsByKeys(t, f)
+    local a = {}
+    for n in pairs(t) do
+        table.insert(a, n)
+    end
+    table.sort(a, f)
+    local i = 0
+    local iter = function()
+        i = i + 1
+        if a[i] == nil then
+            return nil
+        else
+            return a[i], t[a[i]]
+        end
+    end
+    return iter
 end
 
 ---@param quests table<QuestId, Quest>
@@ -333,16 +360,23 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
     for _ in pairs(invalidQuestStarts) do count = count + 1 end
 
     if count > 0 then
+        local correctionFile = io.open(outputDir .. "/npcQuestStartsCorrections.lua", "w")
+        correctionFile:write("return {\n")
+
         print("\27[31mFound " .. count .. " NPCs with invalid questStarts:\27[0m")
-        for npcId, reasons in pairs(invalidQuestStarts) do
+        for npcId, reasons in pairsByKeys(invalidQuestStarts) do
             print("\27[31m- NPC " .. npcId .. ":")
             for _, reason in ipairs(reasons) do
                 print("  - " .. reason)
             end
-            print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(targetQuestStarts[npcId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
+
+            table.sort(targetQuestStarts[npcId] or {})
+            local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(targetQuestStarts[npcId] or {}, ",") .. "},\n        },"
+            correctionFile:write("        " .. correctionString .. "\n")
         end
+        correctionFile:write("}\n")
+        correctionFile:close()
 
         os.exit(1)
         return invalidQuestStarts, targetQuestStarts
@@ -418,16 +452,23 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
     for _ in pairs(invalidQuestEnds) do count = count + 1 end
 
     if count > 0 then
+        local correctionFile = io.open(outputDir .. "/npcQuestEndsCorrections.lua", "w")
+        correctionFile:write("return {\n")
+
         print("\27[31mFound " .. count .. " NPCs with invalid questEnds:\27[0m")
-        for npcId, reasons in pairs(invalidQuestEnds) do
+        for npcId, reasons in pairsByKeys(invalidQuestEnds) do
             print("\27[31m- NPC " .. npcId .. ":")
             for _, reason in ipairs(reasons) do
                 print("  - " .. reason)
             end
-            print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(targetQuestEnds[npcId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
+
+            table.sort(targetQuestEnds[npcId] or {})
+            local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(targetQuestEnds[npcId] or {}, ",") .. "},\n        },"
+            correctionFile:write("        " .. correctionString .. "\n")
         end
+        correctionFile:write("}\n")
+        correctionFile:close()
 
         os.exit(1)
         return invalidQuestEnds, targetQuestEnds
