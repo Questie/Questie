@@ -576,6 +576,23 @@ describe("Validators", function()
             }, targetQuestStarts)
         end)
 
+        it("should skip finishedBy entries of quests", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {2},
+                },
+            }
+            local quests = {
+                [2] = {finishedBy={{1}}},
+                [4] = {finishedBy={{3}}},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+
         it("should not report anything when all questEnds are valid", function()
             local npcs = {
                 [1] = {
