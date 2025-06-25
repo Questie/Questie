@@ -20,8 +20,15 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {5053,5101,11578,11579},
         },
         [197] = { -- Marshal McBride
-            [npcKeys.questStarts] = {54,26389,26390,28757,28759,28762,28763,28764,28765,28766,28767,28769,28770,28771,28772,28773,28774,28780,28784,28785,28786,28787,28788,28789,29078,29079,29080},
-            [npcKeys.questEnds] = {26389,26390,28757,28759,28762,28763,28764,28765,28766,28767,28769,28770,28771,28772,28773,28774,28817,28818,28819,28820,28821,28822,28823,29078,29079,29083},
+            [npcKeys.questStarts] = {54,3100,3101,3102,3103,3104,3105,26389,26390,26910,28757,28759,28762,28763,28764,28765,28766,28767,28769,28770,28771,28772,28773,28774,28780,28784,28785,28786,28787,28788,28789,29078,29079,29080},
+            [npcKeys.questEnds] = {14032,26389,26390,28757,28759,28762,28763,28764,28765,28766,28767,28769,28770,28771,28772,28773,28774,28817,28818,28819,28820,28821,28822,28823,29078,29079,29083},
+        },
+        [198] = { -- Khelden Bremen
+            [npcKeys.questStarts] = {26916},
+            [npcKeys.questEnds] = {3104,26916},
+        },
+        [233] = { -- Farmer Saldean
+            [npcKeys.questStarts] = {109,26237,26257,26270},
         },
         [234] = { -- Marshal Gryan Stoutmantle
             [npcKeys.spawns] = {
@@ -31,8 +38,20 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [237] = { -- Farmer Furlbrow
+            [npcKeys.questStarts] = {109},
+        },
+        [240] = { -- Marshal Dughan
+            [npcKeys.questStarts] = {35,62,76,109,239,26378},
+        },
+        [261] = { -- Guard Thomas
+            [npcKeys.questStarts] = {37,52,59,109,26378},
+        },
         [272] = { -- Chef Grual
             [npcKeys.waypoints] = {},
+        },
+        [294] = { -- Marshal Haggard
+            [npcKeys.questStarts] = {109,26378},
         },
         [295] = { -- Innkeeper Farley
             [npcKeys.questEnds] = {69,2158},
@@ -46,11 +65,25 @@ function CataNpcFixes.Load()
         [330] = { -- Princess
             [npcKeys.waypoints] = {[zoneIDs.ELWYNN_FOREST] = {{{32.47,86.71},{32.54,86.67},{32.61,86.64},{32.67,86.60},{32.74,86.56},{32.81,86.52},{32.87,86.48},{32.94,86.44},{33.01,86.41},{33.08,86.37},{33.15,86.33},{33.21,86.30},{33.28,86.26},{33.35,86.22},{33.38,86.14},{33.38,86.03},{33.38,85.92},{33.38,85.81},{33.37,85.70},{33.37,85.60},{33.36,85.49},{33.35,85.38},{33.35,85.27},{33.34,85.17},{33.34,85.06},{33.31,84.96},{33.27,84.88},{33.21,84.82},{33.14,84.76},{33.08,84.70},{33.02,84.65},{32.96,84.59},{32.90,84.53},{32.84,84.48},{32.78,84.42},{32.71,84.36},{32.65,84.31},{32.59,84.27},{32.53,84.33},{32.48,84.41},{32.43,84.50},{32.39,84.58},{32.34,84.66},{32.29,84.74},{32.24,84.82},{32.20,84.90},{32.15,84.99},{32.10,85.07},{32.07,85.16},{32.07,85.27},{32.10,85.37},{32.12,85.47},{32.15,85.57},{32.18,85.67},{32.21,85.77},{32.24,85.87},{32.26,85.97},{32.29,86.07},{32.32,86.17},{32.34,86.27},{32.37,86.37},{32.40,86.47},{32.43,86.57},{32.47,86.71}}}},
         },
+        [331] = { -- Maginor Dumas
+            [npcKeys.questStarts] = {8250,27354,28398},
+        },
+        [332] = { -- Master Mathias Shaw
+            [npcKeys.questStarts] = {2206,6681,27072},
+        },
         [334] = { -- Gath'Ilzogg
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{57.76,56.3}}},
         },
         [379] = { -- Darcy Parker
             [npcKeys.waypoints] = {},
+        },
+        [375] = { -- Priestess Anetta
+            [npcKeys.questStarts] = {26919},
+            [npcKeys.questEnds] = {3103,26919},
+        },
+        [376] = { -- High Priestess Laurena
+            [npcKeys.questStarts] = {5631,5634,5645,5673,27361,28328,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5669,5670,5671,5676,5677,5678,5686,5687,5699,5700,27268,28285,28328,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
         },
         [382] = { -- Marshal Marris
             [npcKeys.spawns] = {
@@ -59,6 +92,17 @@ function CataNpcFixes.Load()
                     {29.73,44.52,phases.MARRIS_STABLES},
                 },
             },
+        },
+        [384] = { -- Katie Hunter
+            [npcKeys.questStarts] = {7677,7678},
+            [npcKeys.questEnds] = {7677,7678},
+        },
+        [459] = { -- Drusilla La Salle
+            [npcKeys.questStarts] = {26914},
+            [npcKeys.questEnds] = {1598,3105,26914},
+        },
+        [461] = { -- Demisette Cloyce
+            [npcKeys.questStarts] = {4488,8419,27355,28399},
         },
         [464] = { -- Watch Captain Parker
             [npcKeys.waypoints] = {},
@@ -123,6 +167,29 @@ function CataNpcFixes.Load()
         [881] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
         },
+        [911] = { -- Llane Beshere
+            [npcKeys.questStarts] = {26913},
+            [npcKeys.questEnds] = {3100,26913},
+        },
+        [914] = { -- Ander Germaine
+            [npcKeys.questStarts] = {27337,28393,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {27225,28258,28393,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [915] = { -- Jorik Kerridan
+            [npcKeys.questStarts] = {26915},
+            [npcKeys.questEnds] = {3102,26915},
+        },
+        [925] = { -- Brother Sammuel
+            [npcKeys.questStarts] = {26918},
+            [npcKeys.questEnds] = {3101,26918},
+        },
+        [928] = { -- Lord Grayson Shadowbreaker
+            [npcKeys.questStarts] = {8415,27343,28405,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {7638,7639,7640,7644,7646,7648,7666,7670,27265,28268,28405,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [963] = { -- Deputy Rainer
+            [npcKeys.questStarts] = {11,109,26378},
+        },
         [1073] = { -- Ashlan Stonesmirk
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{64.13,26.61}}},
         },
@@ -132,16 +199,39 @@ function CataNpcFixes.Load()
         [1139] = { -- Magistrate Bluntnose
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{34.6,44.47}}},
         },
+        [1153] = { -- Torren Squarejaw
+            [npcKeys.questStarts] = {13661},
+        },
         [1225] = { -- Ol' Sooty
             [npcKeys.waypoints] = {},
+        },
+        [1252] = { -- Senir Whitebeard
+            [npcKeys.questStarts] = {287,291},
+        },
+        [1261] = { -- Veron Amberstill
+            [npcKeys.questStarts] = {7673,7674,25905},
+            [npcKeys.questEnds] = {7673,7674,25905},
+        },
+        [1266] = { -- Tundra MacGrann
+            [npcKeys.questStarts] = {312},
         },
         [1340] = { -- Mountaineer Kadrell
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
+            [npcKeys.questStarts] = {467,13636,26842,26927,26932},
         },
         [1380] = { -- Saean
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{56.51,65.94}}},
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
+        },
+        [1373] = { -- Jarven Thunderbrew
+            [npcKeys.questStarts] = {308},
+        },
+        [1374] = { -- Rejold Barleybrew
+            [npcKeys.questStarts] = {315,319,320,413},
+        },
+        [1375] = { -- Marleth Barleybrew
+            [npcKeys.questStarts] = {310},
         },
         [1388] = { -- Vagash
             [npcKeys.waypoints] = {},
@@ -153,6 +243,12 @@ function CataNpcFixes.Load()
         [1422] = { -- Corporal Sethman
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46.98,10.84,phases.SETHMAN_VISIBLE}}},
         },
+        [1435] = { -- Zardeth of the Black Claw
+            [npcKeys.questStarts] = {335,336,397},
+        },
+        [1449] = { -- Witch Doctor Unbagwa
+            [npcKeys.questStarts] = {349,26598},
+        },
         [1490] = { -- Zanzil Witch Doctor
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.8,40.9},{62.14,41.76},{59.46,48.72},{60.38,43.09}}},
         },
@@ -161,6 +257,9 @@ function CataNpcFixes.Load()
         },
         [1514] = { -- Mokk the Savage
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{52.99,50.22}}},
+        },
+        [1515] = { -- Executor Zygand
+            [npcKeys.questStarts] = {24981,24992,24993,26964},
         },
         [1543] = { -- Vile Fin Puddlejumper
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{34.31,44.17},{30.12,43.61},{34.91,44.7},{30.7,44.6},{36.14,43.03},{29.65,44.95},{63.12,27.52},{35.92,43.02},{30.34,45.59},{30.45,43.29},{35.61,42.16},{60.71,27.18},{61.84,26.94},{34.59,41.28},{30.13,44.64},{63.21,27.91},{34.66,40.92},{30.65,45.02},{29.44,45.08},{36.18,39.21},{61.66,27.86},{58.51,28.79},{58.57,28.83},{37.0,41.93},{57.7,28.3},{61.57,29.4},{62.63,30.69},{57.69,26.06},{58.58,26.86},{58.11,26.5},{58.91,27.1},{58.56,28.13},{60.77,28.36},{59.71,28.85}}},
@@ -177,6 +276,9 @@ function CataNpcFixes.Load()
         [1554] = { -- Vampiric Duskbat
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{71.91,33.74},{65.79,34.95},{66.16,31.68},{73.69,33.91},{76.39,30.31},{72.81,30.56},{49.12,59.82},{44.43,62.56},{43.12,67.06},{71.24,46.76},{80.08,62.34},{78.58,73.42},{81.94,74.25},{74.75,44.22},{83.58,48.38},{67.49,34.01},{69.66,34.79},{41.63,63.35},{47.52,62.19},{48.62,63.57},{44.72,60.3},{78.7,69.73},{75.65,55.78},{82.23,66.0},{71.15,36.91},{73.44,36.09},{72.68,65.31},{83.74,51.59},{71.06,34.61},{70.44,33.73},{68.55,28.26},{76.8,31.63},{43.95,68.04},{44.93,63.15},{48.38,63.21},{45.34,66.28},{45.55,62.82},{72.77,58.29},{78.19,70.24},{80.68,66.42},{70.96,58.38},{90.39,44.81},{74.16,32.65},{71.84,31.55},{69.7,30.47},{45.88,67.28},{42.07,59.36},{44.88,69.1},{80.18,64.27},{74.19,71.5},{72.64,37.19},{74.58,58.68},{78.61,71.69},{88.7,42.83},{71.24,30.5},{68.19,32.83},{69.71,32.85},{65.48,33.81},{64.49,36.56},{41.63,60.87},{46.27,61.55},{43.24,63.05},{76.14,63.72},{75.78,51.26},{79.34,70.72},{69.79,60.66},{74.99,52.96},{78.84,62.44},{82.82,46.29},{87.29,38.45},{84.85,39.1},{73.27,29.22},{40.62,60.04},{47.95,67.82},{73.04,39.29},{82.03,64.61},{76.41,66.18},{71.18,48.21},{79.58,69.23},{70.52,61.23},{80.5,59.27},{81.28,66.52},{72.69,47.08},{75.45,47.13},{83.06,44.32},{73.97,67.34},{75.72,47.92},{83.65,66.33},{80.7,70.51},{72.08,59.83},{75.47,72.43},{72.77,62.58},{80.08,72.81},{87.28,40.63},{90.37,42.78},{84.63,40.78},{71.7,49.04},{74.55,47.25},{76.95,71.27},{80.36,67.74},{71.26,50.06},{73.37,59.35},{78.73,64.6},{73.26,40.59},{46.85,66.39},{48.71,61.97},{72.86,42.64},{75.38,35.09},{50.71,61.71},{79.25,58.98},{80.66,46.27},{73.2,44.29},{76.61,72.33},{73.67,57.12},{42.17,58.58},{51.39,61.76},{52.88,63.65},{51.92,63.37},{70.18,53.68},{75.44,46.14},{84.13,43.06},{79.28,48.69},{82.9,42.61},{82.52,42.77},{84.37,44.89},{78.98,45.89},{82.22,52.76},{78.64,44.93},{81.14,48.19},{80.04,44.52},{74.89,64.03},{77.67,46.19},{76.79,48.29},{74.88,33.72}}},
         },
+        [1569] = { -- Shadow Priest Sarvis
+            [npcKeys.questStarts] = {3095,3096,3097,3098,3099,24962,24972,26801},
+        },
         [1654] = { -- Gregor Agamand
             [npcKeys.waypoints] = {},
         },
@@ -186,6 +288,9 @@ function CataNpcFixes.Load()
         [1661] = { -- Novice Elreth
             [npcKeys.questEnds] = {376,6395,24961,28651},
         },
+        [1694] = { -- Loslor Rudge
+            [npcKeys.questStarts] = {5541},
+        },
         [1750] = { -- Grand Admiral Jes-Tereth
             [npcKeys.questStarts] = {26370,27241},
             [npcKeys.questEnds] = {26322,27240},
@@ -193,8 +298,20 @@ function CataNpcFixes.Load()
         [1853] = { -- Darkmaster Gandling
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{68.52,30.14}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [1872] = { -- Tharek Blackstone
+            [npcKeys.questStarts] = {400,415},
+        },
+        [1959] = { -- Mountaineer Barleybrew
+            [npcKeys.questStarts] = {414,26131},
+        },
         [2039] = { -- Ursal the Mauler
             [npcKeys.waypoints] = {},
+        },
+        [2055] = { -- Master Apothecary Faranell
+            [npcKeys.questStarts] = {515},
+        },
+        [2077] = { -- Melithar Staghelm
+            [npcKeys.questStarts] = {3116,3117,3118,3119,3120,26841,28715},
         },
         [2079] = { -- Ilthalaine
             [npcKeys.spawns] = {
@@ -204,17 +321,50 @@ function CataNpcFixes.Load()
                 },
             },
             [npcKeys.waypoints] = {},
+            [npcKeys.questStarts] = {3116,3117,3118,3119,3120,26841,28713,28714,28734},
         },
         [2070] = { -- Moonstalker Runt
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.27,61.66},{41.75,63.49},{43.12,63.94},{41.47,65.86},{39.22,69.96},{39.94,70.13},{41.28,88.16},{45.73,89.78},{38.47,90.28}}},
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
         },
+        [2081] = { -- Sentinel Kyra Starsong
+            [npcKeys.questStarts] = {13945},
+        },
+        [2119] = { -- Dannal Stern
+            [npcKeys.questStarts] = {24969,28651},
+            [npcKeys.questEnds] = {3095,24969},
+        },
+        [2122] = { -- David Trias
+            [npcKeys.questStarts] = {3096,24967,28651},
+            [npcKeys.questEnds] = {3096,24967},
+        },
+        [2123] = { -- Dark Cleric Duesten
+            [npcKeys.questStarts] = {24966,28651},
+            [npcKeys.questEnds] = {3097,24966},
+        },
+        [2124] = { -- Isabella
+            [npcKeys.questStarts] = {24965,28651},
+            [npcKeys.questEnds] = {3098,24965},
+        },
+        [2126] = { -- Maximillion
+            [npcKeys.questStarts] = {24968,28651},
+            [npcKeys.questEnds] = {3099,24968},
+        },
         [2151] = { -- Moon Priestess Amara
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{49.35,44.67}}},
             [npcKeys.waypoints] = {},
         },
+        [2198] = { -- Crier Goodman
+            [npcKeys.questStarts] = {7494},
+        },
+        [2229] = { -- Krusk
+            [npcKeys.questStarts] = {1361,28620},
+        },
         [2249] = { -- Ferocious Yeti
             [npcKeys.name] = "Ferocious Yeti",
+        },
+        [2373] = { -- Mudsnout Shaman
+            [npcKeys.questStarts] = {28355},
         },
         [2487] = { -- Fleet Master Seahorn
             [npcKeys.spawns] = {
@@ -231,6 +381,9 @@ function CataNpcFixes.Load()
                     {39.97,67.32,phases.BOOTY_BAY_ATTACK},
                 },
             },
+        },
+        [2504] = { -- Donyal Tovald
+            [npcKeys.questStarts] = {579},
         },
         [2542] = { -- Catelyn the Blade
             [npcKeys.questEnds] = {603,610,612},
@@ -262,6 +415,12 @@ function CataNpcFixes.Load()
         [2635] = { -- Elder Snapjaw Crocolisk
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.34,56.16},{49.29,55.17},{50.4,53.29},{48.74,50.01},{48.5,52.19},{50.83,50.83},{50.82,49.58},{50.9,48.22},{49.79,44.5}}},
         },
+        [2670] = { -- Xizk Goodstitch
+            [npcKeys.questStarts] = {4785},
+        },
+        [2696] = { -- Foggy MacKreel
+            [npcKeys.questStarts] = {647},
+        },
         [2714] = { -- Forsaken Courier
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.03,64.80}}},
             [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{51.03,64.80},{51.17,64.82},{51.32,64.77},{51.45,64.70},{51.66,64.61},{52.06,64.53},{52.22,64.58},{52.38,64.64},{52.70,64.76},{53.06,64.85}}}},
@@ -288,9 +447,28 @@ function CataNpcFixes.Load()
             },
         },
         [2988] = { -- Morin Cloudstalker
-            [npcKeys.questStarts] = {749,26179,26180},
-            [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
+            [npcKeys.questStarts] = {749,764,765,26179,26180},
+            [npcKeys.questEnds] = {751,764,765,24459,26179,26180},
+        },
+        [2993] = { -- Baine Bloodhoof
+            [npcKeys.questStarts] = {746},
+        },
+        [3032] = { -- Beram Skychaser
+            [npcKeys.questStarts] = {8410},
+        },
+        [3036] = { -- Kym Wildmane
+            [npcKeys.questStarts] = {64049,64051,64053,64128,64217,70761,70764,70765,70865,78151,78158,78167,78168,82989,88782,88785,88793,88801},
+            [npcKeys.questEnds] = {64047,64049,64051,64053,70761,70762,70764,70765,78138,78151,78158,78167,88779,88782,88785,88793},
+        },
+        [3039] = { -- Holt Thunderhorn
+            [npcKeys.questStarts] = {8151,27278,28297},
+        },
+        [3045] = { -- Malakai Cross
+            [npcKeys.questStarts] = {27331,27332,27334,27335,28164,28304,28307,28308,28309,28323},
+        },
+        [3047] = { -- Archmage Shymm
+            [npcKeys.questStarts] = {8250,27277,28300},
         },
         [3056] = { -- Ghost Howl
             [npcKeys.waypoints] = {},
@@ -299,8 +477,70 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{55.42,75.1}}},
             [npcKeys.waypoints] = {},
         },
+        [3143] = { -- Gornek
+            [npcKeys.questStarts] = {2383,3087,3088,3089,3090,25126,25127,25138,25172},
+        },
+        [3145] = { -- Zureetha Fargaze
+            [npcKeys.questEnds] = {1499,25131,25132},
+        },
+        [3153] = { -- Frang
+            [npcKeys.questStarts] = {25147},
+            [npcKeys.questEnds] = {2383,25147},
+        },
+        [3154] = { -- Jen'shan
+            [npcKeys.questEnds] = {3087},
+        },
+        [3155] = { -- Rwag
+            [npcKeys.questStarts] = {25141},
+            [npcKeys.questEnds] = {3088,25141},
+        },
+        [3156] = { -- Nartok
+            [npcKeys.questStarts] = {25145},
+            [npcKeys.questEnds] = {3090,25145},
+        },
+        [3157] = { -- Shikrik
+            [npcKeys.questStarts] = {25143},
+            [npcKeys.questEnds] = {3089,25143},
+        },
         [3203] = { -- Fizzle Darkclaw
             [npcKeys.waypoints] = {},
+        },
+        [3230] = { -- Nazgrel
+            [npcKeys.questStarts] = {9400,9405,9495,10121,10136,10390,10391,10392,10756,10876},
+            [npcKeys.questEnds] = {9401,9406,9495,9588,9608,10046,10135,10136,10291,10388,10390,10391,10392,10401,10559,10755,10875,10876,11003},
+        },
+        [3233] = { -- Lorekeeper Raintotem
+            [npcKeys.questStarts] = {773,833},
+        },
+        [3324] = { -- Grol'dar
+            [npcKeys.questStarts] = {64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
+        },
+        [3326] = { -- Zevrost
+            [npcKeys.questStarts] = {3631,8419,27402,28459},
+            [npcKeys.questEnds] = {27282,28299,28459},
+        },
+        [3328] = { -- Ormok
+            [npcKeys.questStarts] = {6681,8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
+        },
+        [3344] = { -- Kardris Dreamseeker
+            [npcKeys.questStarts] = {27397,28465,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {27280,28301,28465,64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
+        },
+        [3352] = { -- Ormak Grimshot
+            [npcKeys.questStarts] = {8151,27395,28461},
+        },
+        [3353] = { -- Grezz Ragefist
+            [npcKeys.questStarts] = {27365,28457,64048,64050,64052,64063,64064,70734,70735,70736,70737,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {27281,28290,28457,64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
+        },
+        [3354] = { -- Sorek
+            [npcKeys.questStarts] = {1718,1823,8417},
+        },
+        [3362] = { -- Ogunaro Wolfrunner
+            [npcKeys.questStarts] = {7660,7661},
+            [npcKeys.questEnds] = {7660,7661},
         },
         [3266] = { -- Razormane Defender
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{65.28,56.26},{65.19,54.06},{65.12,53.88},{64.28,54.68},{64.24,55.58},{63.77,54.4},{66.12,52.2},{66.04,52.19},{64.94,52.21},{63.87,55.36},{66.05,52.43},{64.36,54.28},{65.23,54.48},{63.95,53.95},{66.08,52.52},{65,53.19},{65.02,52.77},{63.75,54.38},{64.51,54.48},{66.15,52.31},{64.91,53.95},{64.15,55.48},{65.4,54.7},{65.25,54.28},{64.97,52.63}}},
@@ -338,6 +578,9 @@ function CataNpcFixes.Load()
         [3475] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.82,47.71}}},
         },
+        [3494] = { -- Tinkerwiz
+            [npcKeys.questStarts] = {3635},
+        },
         [3515] = { -- Corithras Moonrage
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {
@@ -354,15 +597,33 @@ function CataNpcFixes.Load()
         },
         [3593] = { -- Alyissia
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.74}}},
+            [npcKeys.questStarts] = {26945,28723},
+            [npcKeys.questEnds] = {3116,26945},
         },
         [3594] = { -- Frahun Shadewhisper
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.92}}},
+            [npcKeys.questStarts] = {26946,28723},
+            [npcKeys.questEnds] = {3118,26946},
         },
         [3595] = { -- Shanda
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.45,35.47}}},
+            [npcKeys.questStarts] = {26949,28723},
+            [npcKeys.questEnds] = {3119,26949},
         },
         [3596] = { -- Ayanna Everstride
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,35.74}}},
+            [npcKeys.questStarts] = {26947,28723},
+            [npcKeys.questEnds] = {3117,26947},
+        },
+        [3597] = { -- Mardant Strongoak
+            [npcKeys.questStarts] = {26948,28723},
+            [npcKeys.questEnds] = {3120,26948},
+        },
+        [3598] = { -- Kyra Windblade
+            [npcKeys.questStarts] = {1684},
+        },
+        [3600] = { -- Laurna Morninglight
+            [npcKeys.questStarts] = {5629},
         },
         [3630] = { -- Deviate Coiler
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{38.91,64.37},{39.23,65.56},{38.96,67.35},{39.2,66.28}}},
@@ -385,6 +646,9 @@ function CataNpcFixes.Load()
         [3637] = { -- Deviate Guardian
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{41.95,39.96},{47.02,42.99},{36.67,32.34},{41.42,28.63},{33.92,27.65},{30.51,30.14},{28.72,32.69},{32.63,41.75},{38.4,46.09},{36.99,45.76},{35,51.77},{33.92,51.32},{-1,-1}}},
         },
+        [3649] = { -- Thundris Windweaver
+            [npcKeys.questStarts] = {1442},
+        },
         [3653] = { -- Kresh
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{37.81,35.43},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.WAILING_CAVERNS] = {{{14.2,43.5},{15.69,46.26},{17.65,46.19},{19.84,45.63},{21.57,45.68},{23.06,46.14},{24.37,46.62},{25.11,46.24},{25.72,44.99},{26.7,42.51},{27.81,40.42},{29.42,38.71},{30.94,37.3},{32.37,36.57},{33.97,35.84},{36.16,35.49},{37.81,35.43},{40.09,35.65},{42.47,36.31},{44.26,37.3},{45.87,38.63},{47.53,40.3},{49.31,42.15},{50.64,43},{51.43,43.3},{52,44.52},{52.24,47.12},{52.85,48.7},{52.75,49.85},{52.39,51.58},{52.16,53.91},{52.27,56.27},{52.79,57.56},{53.97,58.66},{55.13,59.21},{56.19,59.09},{56.77,59.09},{58.43,59.18},{59.4,59.68},{59.79,60.95},{60.4,63.08},{60.96,65.24}}}},
@@ -394,6 +658,9 @@ function CataNpcFixes.Load()
         },
         [3664] = { -- Ilkrud Magthrull
             [npcKeys.name] = "Ilkrud Magthrull",
+        },
+        [3665] = { -- Crane Operator Bigglefuzz
+            [npcKeys.questStarts] = {959},
         },
         [3669] = { -- Lord Cobrahn
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{15.57,58.42},{-1,-1}}},
@@ -409,6 +676,10 @@ function CataNpcFixes.Load()
         },
         [3674] = { -- Skum
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{61.09,71.6},{-1,-1}}},
+        },
+        [3685] = { -- Harb Clawhoof
+            [npcKeys.questStarts] = {7662,7663},
+            [npcKeys.questEnds] = {7662,7663},
         },
         [3690] = { -- Kar Stormsinger
             [npcKeys.questEnds] = {14087},
@@ -431,6 +702,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHADOWFANG_KEEP] = {{-1,-1}},
                 [zoneIDs.SHADOWFANG_KEEP_DINING_HALL] = {{31.14,74.22}},
             },
+        },
+        [3894] = { -- Pelturas Whitemoon
+            [npcKeys.questStarts] = {13919,14018,26475},
         },
         [3901] = { -- Illiyana
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{87.1,43.49}}},
@@ -456,6 +730,18 @@ function CataNpcFixes.Load()
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
+        },
+        [4090] = { -- Astarii Starseeker
+            [npcKeys.questStarts] = {28285},
+        },
+        [4205] = { -- Dorion
+            [npcKeys.questStarts] = {8151},
+        },
+        [4214] = { -- Erion Shadewhisper
+            [npcKeys.questStarts] = {6681,27267,28262},
+        },
+        [4217] = { -- Mathrengyl Bearwalker
+            [npcKeys.questStarts] = {26,9063,27273,28289},
         },
         [4260] = { -- Venture Co. Shredder
             [npcKeys.waypoints] = {},
@@ -511,6 +797,9 @@ function CataNpcFixes.Load()
         [4479] = { -- Fardel Dabyrie
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.08,39.78},{51.14,41.5},{48.94,39.5}}},
         },
+        [4484] = { -- Feero Ironhand
+            [npcKeys.questStarts] = {976},
+        },
         [4508] = { -- Willix the Importer
             [npcKeys.spawns] = {
                 [zoneIDs.RAZORFEN_KRAUL] = {
@@ -534,6 +823,29 @@ function CataNpcFixes.Load()
         },
         [4563] = { -- Kaal Soulreaper
             [npcKeys.questEnds] = {},
+            [npcKeys.questStarts] = {4489,8419,27282,28299},
+        },
+        [4567] = { -- Pierce Shackleton
+            [npcKeys.questStarts] = {8250},
+        },
+        [4568] = { -- Anastasia Hartwell
+            [npcKeys.questStarts] = {2861},
+        },
+        [4584] = { -- Gregory Charles
+            [npcKeys.questStarts] = {6681,27279,28298},
+        },
+        [4586] = { -- Graham Van Talen
+            [npcKeys.questStarts] = {3637},
+        },
+        [4593] = { -- Christoph Walker
+            [npcKeys.questStarts] = {8417,27281,28290},
+        },
+        [4606] = { -- Aelthalyste
+            [npcKeys.questStarts] = {27331,27332,27334,27335,28164,28304,28307,28308,28309,28323},
+        },
+        [4730] = { -- Lelanai
+            [npcKeys.questStarts] = {7671,7672},
+            [npcKeys.questEnds] = {7671,7672},
         },
         [4732] = { -- Randal Hunter
             [npcKeys.questEnds] = {14079},
@@ -552,6 +864,7 @@ function CataNpcFixes.Load()
         },
         [4787] = { -- Scout Thaelrid
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{20.81,75.24},{-1,-1}}},
+            [npcKeys.questEnds] = {1198,26460,26881},
         },
         [4798] = { -- Fallenroot Shadowstalker
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{38.09,48.3},{38.47,40.96},{38.99,35.33},{38.91,30.84}},[zoneIDs.BLACKFATHOM_DEEPS] = {{54.71,71.17},{56.97,82.12},{51.18,85.22},{46.9,92.22},{30.89,88.02},{29.3,90.52},{-1,-1}}},
@@ -599,6 +912,9 @@ function CataNpcFixes.Load()
         [4887] = { -- Ghamoo-ra
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{32.88,59.94},{-1,-1}}},
         },
+        [4968] = { -- Lady Jaina Proudmoore
+            [npcKeys.questStarts] = {1267,27239,27240},
+        },
         [5048] = { -- Deviate Adder
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{16.32,54.48},{9.34,47.05},{8.09,37.88},{4.18,29.95},{13.2,24.1},{-1,-1}}},
         },
@@ -608,11 +924,50 @@ function CataNpcFixes.Load()
         [5056] = { -- Deviate Dreadfang
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{53.77,66.55},{55.33,66.13},{73.01,72.46},{-1,-1}}},
         },
+        [5113] = { -- Kelv Sternhammer
+            [npcKeys.questStarts] = {1718,8417},
+        },
+        [5165] = { -- Hulfdan Blackbeard
+            [npcKeys.questStarts] = {6681,8233,27267,28262},
+        },
         [5173] = { -- Alexander Calder
             [npcKeys.questEnds] = {},
         },
+        [5174] = { -- Springspindle Fizzlegear
+            [npcKeys.questStarts] = {3632},
+        },
+        [5479] = { -- Wu Shen
+            [npcKeys.questStarts] = {1718,8417},
+        },
+        [5489] = { -- Brother Joshua
+            [npcKeys.questStarts] = {8254},
+        },
+        [5495] = { -- Ursula Deline
+            [npcKeys.questStarts] = {64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
         [5496] = { -- Sandahl
             [npcKeys.questEnds] = {},
+        },
+        [5497] = { -- Jennea Cannon
+            [npcKeys.questStarts] = {1939,2861,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {1860,1861,1919,1920,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [5515] = { -- Einris Brightspear
+            [npcKeys.questStarts] = {6073,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [5638] = { -- Kreldig Ungor
+            [npcKeys.questStarts] = {1454,1456,1467},
+        },
+        [5639] = { -- Craven Drok
+            [npcKeys.questStarts] = {1431},
+        },
+        [5640] = { -- Keldran
+            [npcKeys.questStarts] = {1432},
+        },
+        [5641] = { -- Takata Steelblade
+            [npcKeys.questStarts] = {1433,1434,1436},
         },
         [5709] = { -- Shade of Eranikus
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{68.56,87.31},{-1,-1}}},
@@ -648,11 +1003,17 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{73.49,82.39}}},
             [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE] = {{{73.49,82.39},{73.45,82.23},{73.41,82.08},{73.37,81.92},{73.33,81.76},{73.27,81.49},{73.14,81.02},{73.01,80.54},{72.90,80.07},{72.78,79.59},{72.68,79.11},{72.73,78.61},{72.80,78.27},{72.83,78.13},{72.87,77.97},{72.92,77.81},{72.96,77.65},{73.00,77.50},{73.04,77.34},{73.08,77.19},{73.12,77.03},{73.16,76.87},{73.20,76.71},{73.23,76.55},{73.25,76.39},{73.26,76.22},{73.27,76.05},{73.28,75.89},{73.28,75.72},{73.28,75.55},{73.28,75.38},{73.28,75.21},{73.27,75.04},{73.28,74.87},{73.28,74.78},{73.28,74.69},{73.29,74.52},{73.29,74.35},{73.28,74.19},{73.26,74.02},{73.19,73.90},{73.09,73.83},{72.98,73.79},{72.83,73.74},{72.49,73.64},{72.32,73.60},{72.21,73.56},{72.10,73.53},{71.99,73.50},{71.88,73.46},{71.77,73.42},{71.66,73.39},{71.55,73.35},{71.44,73.31},{71.33,73.28},{71.22,73.24},{71.11,73.21},{71.00,73.17},{70.89,73.14},{70.78,73.08},{70.68,73.02},{70.57,72.96},{70.47,72.89},{70.37,72.82},{70.27,72.75},{70.16,72.68},{70.06,72.61},{69.96,72.54},{69.86,72.47},{69.75,72.40},{69.65,72.33},{69.55,72.26},{69.45,72.19},{69.35,72.12},{69.25,72.04},{69.15,71.96},{69.11,71.94}}}},
         },
+        [5887] = { -- Canaga Earthcaller
+            [npcKeys.questEnds] = {1516,1518},
+        },
         [5912] = { -- Deviate Faerie Dragon
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{72.67,74.57},{-1,-1}}},
         },
         [5992] = { -- Ashmane Boar
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{55.86,71.38},{69.24,56.82},{72.99,54.57},{67.72,58.18},{70.5,55.62},{41.52,19.73},{70.02,51.59},{48.02,12.71},{46.26,15.89},{45.59,19.35},{46.48,20.72},{61.36,39.82},{50.69,38.36},{49.37,37.17},{57.98,24.52},{56.56,25.64},{55.45,23.36},{57.13,35.6},{48.63,24.94},{48.85,26.73},{51.41,36.53},{51.28,27.56},{51.81,25.52},{54.1,25.43},{51.46,30.04},{53.54,29.24},{57.55,33.02},{53.17,32.63},{49.29,32.46},{49.36,31.28},{44.05,33.5},{45.02,33.3},{46.83,21.04},{45.1,18.83},{48.04,12.99},{43.73,19.99},{46.09,15.85},{48.9,25.02},{48.89,27.18},{50.66,27.32},{53.37,32.84},{51.31,33.33},{48.75,32.99},{47.51,33.62},{49.23,31.43},{53.22,29.4},{51.71,25.3},{55.01,31.66},{57.07,32.91},{56.95,35.66},{57.2,39.6},{55.36,37.89},{51.8,25.43},{51.51,29.44},{57.09,35.61},{56.98,38.3},{46.54,33.71},{49.21,37.12},{51.42,36.53},{51.46,29.61},{50.77,33.55},{49.2,31.19},{53.36,32.87},{48.98,33.04},{53.26,29.31}}},
+        },
+        [6018] = { -- Ur'kyo
+            [npcKeys.questStarts] = {5680,8254},
         },
         [6072] = { -- Diathorus the Seeker
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.47,83.9}}},
@@ -669,14 +1030,32 @@ function CataNpcFixes.Load()
         [6487] = { -- Arcanist Doan
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{83.4,74.4}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
+        [6522] = { -- Andron Gant
+            [npcKeys.questStarts] = {3564},
+        },
+        [6546] = { -- Tabetha
+            [npcKeys.questStarts] = {4976,11211,27296,27297,27429,27430},
+        },
         [6566] = { -- Estelle Gendry
             [npcKeys.questEnds] = {},
         },
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
+        [6735] = { -- Innkeeper Saelienne
+            [npcKeys.questStarts] = {3763,8357},
+        },
+        [6766] = { -- Ravenholdt Guard
+            [npcKeys.questStarts] = {6701},
+        },
         [6768] = { -- Lord Jorach Ravenholdt
             [npcKeys.questEnds] = {8233,8236,8237},
+        },
+        [6826] = { -- Talvash del Kissel
+            [npcKeys.questStarts] = {2199,2948,3375,8355},
+        },
+        [7010] = { -- Zilzibin Drumlore
+            [npcKeys.questStarts] = {4494,4511},
         },
         [7023] = { -- Obsidian Sentinel
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{28.74,61.66},{-1,-1}}},
@@ -714,6 +1093,9 @@ function CataNpcFixes.Load()
         },
         [7291] = { -- Galgann Firehammer
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{25.76,35.92},{-1,-1}}},
+        },
+        [7315] = { -- Darnath Bladesinger
+            [npcKeys.questStarts] = {8417},
         },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{45.75,52.82}}},
@@ -758,11 +1140,89 @@ function CataNpcFixes.Load()
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
         },
+        [7406] = { -- Oglethorpe Obnoticus
+            [npcKeys.questStarts] = {3642,3721},
+        },
         [7407] = { -- Chief Engineer Bilgewhizzle
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{58.18,89.1},{-1,-1}}},
         },
+        [7428] = { -- Frostmaul Giant
+            [npcKeys.questStarts] = {28656},
+        },
+        [7429] = { -- Frostmaul Preserver
+            [npcKeys.questStarts] = {28656},
+        },
+        [7430] = { -- Young Frostsaber
+            [npcKeys.questStarts] = {28656},
+        },
+        [7431] = { -- Frostsaber
+            [npcKeys.questStarts] = {28656},
+        },
+        [7432] = { -- Frostsaber Stalker
+            [npcKeys.questStarts] = {28656},
+        },
+        [7433] = { -- Frostsaber Huntress
+            [npcKeys.questStarts] = {28656},
+        },
+        [7434] = { -- Frostsaber Pride Watcher
+            [npcKeys.questStarts] = {28656},
+        },
+        [7438] = { -- Winterfall Ursa
+            [npcKeys.questStarts] = {28656},
+        },
+        [7439] = { -- Winterfall Shaman
+            [npcKeys.questStarts] = {28656},
+        },
+        [7440] = { -- Winterfall Den Watcher
+            [npcKeys.questStarts] = {28656},
+        },
+        [7441] = { -- Winterfall Totemic
+            [npcKeys.questStarts] = {28656},
+        },
+        [7442] = { -- Winterfall Pathfinder
+            [npcKeys.questStarts] = {28656},
+        },
+        [7443] = { -- Shardtooth Mauler
+            [npcKeys.questStarts] = {28656},
+        },
+        [7444] = { -- Shardtooth Bear
+            [npcKeys.questStarts] = {28656},
+        },
+        [7446] = { -- Rabid Shardtooth
+            [npcKeys.questStarts] = {28656},
+        },
+        [7448] = { -- Chillwind Chimaera
+            [npcKeys.questStarts] = {28656},
+        },
+        [7450] = { -- Ragged Owlbeast
+            [npcKeys.questStarts] = {28656},
+        },
+        [7451] = { -- Raging Owlbeast
+            [npcKeys.questStarts] = {28656},
+        },
+        [7452] = { -- Crazed Owlbeast
+            [npcKeys.questStarts] = {28656},
+        },
+        [7453] = { -- Moontouched Owlbeast
+            [npcKeys.questStarts] = {28656},
+        },
+        [7454] = { -- Berserk Owlbeast
+            [npcKeys.questStarts] = {28656},
+        },
+        [7458] = { -- Ice Thistle Yeti
+            [npcKeys.questStarts] = {28656},
+        },
+        [7459] = { -- Ice Thistle Matriarch
+            [npcKeys.questStarts] = {28656},
+        },
+        [7460] = { -- Ice Thistle Patriarch
+            [npcKeys.questStarts] = {28656},
+        },
         [7505] = { -- Bloodmage Drazial
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.2,36.2}}},
+        },
+        [7740] = { -- Gracina Spiritmight
+            [npcKeys.questStarts] = {4493,4510},
         },
         [7795] = { -- Hydromancer Velratha
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{32.33,40.32},{-1,-1}}},
@@ -777,14 +1237,40 @@ function CataNpcFixes.Load()
         [7800] = { -- Mekgineer Thermaplugg
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{31.35,29.74}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
+        [7937] = { -- High Tinker Mekkatorque
+            [npcKeys.questStarts] = {25229},
+        },
+        [7952] = { -- Zjolnir
+            [npcKeys.questStarts] = {7664,7665},
+            [npcKeys.questEnds] = {7664,7665},
+        },
         [7953] = { -- Xar'Ti
             [npcKeys.questEnds] = {14088},
         },
         [7954] = { -- Binjy Featherwhistle
             [npcKeys.questEnds] = {14084},
         },
+        [7955] = { -- Milli Featherwhistle
+            [npcKeys.questStarts] = {7675,7676},
+            [npcKeys.questEnds] = {7675,7676},
+        },
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{69.02,25.55},{-1,-1}}},
+        },
+        [8379] = { -- Archmage Xylem
+            [npcKeys.questStarts] = {3565,9362,9364},
+        },
+        [8380] = { -- Captain Vanessa Beltis
+            [npcKeys.questStarts] = {3382},
+        },
+        [8395] = { -- Sanath Lim-yo
+            [npcKeys.questStarts] = {3503},
+        },
+        [8399] = { -- Nyrill
+            [npcKeys.questStarts] = {3421},
+        },
+        [8420] = { -- Kim'jael
+            [npcKeys.questStarts] = {3601,5534},
         },
         [8440] = { -- Shade of Hakkar
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{24.35,45.71},{-1,-1}}},
@@ -809,6 +1295,12 @@ function CataNpcFixes.Load()
                     {42.35,15.17,phases.THE_BARRENS_KADRAK_MORSHAN},
                 },
             },
+        },
+        [8587] = { -- Jediga
+            [npcKeys.questStarts] = {3517,3518,3541,3542,3561},
+        },
+        [8659] = { -- Jes'rimon
+            [npcKeys.questStarts] = {3563},
         },
         [8886] = { -- Deviate Python
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{9.36,42.38},{13.53,51.55},{13.28,52.14},{13.67,52.14},{9.27,42.19},{9.25,42.49},{8.46,27.72},{8.93,27.58},{8.64,27.25},{17.03,25.62},{17.32,26.33},{-1,-1}}},
@@ -843,6 +1335,9 @@ function CataNpcFixes.Load()
         [9046] = { -- Scarshield Quartermaster
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{43.34,99.17}}},
+        },
+        [9119] = { -- Muigin
+            [npcKeys.questStarts] = {4141},
         },
         [9156] = { -- Ambassador Flamelash
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{53.8,48.79}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
@@ -880,6 +1375,9 @@ function CataNpcFixes.Load()
         [9524] = { -- Kolkar Invader
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{36.24,54.52},{36.53,53.95},{36.6,54.5},{36.48,54.15},{37.03,53.05},{36.19,54.68},{36.57,53.97},{36.05,54.77},{36.09,56.1},{36.29,54.4},{36.19,54.69},{37.14,52.99}}},
         },
+        [9529] = { -- Maybess Riverbreeze
+            [npcKeys.questStarts] = {4107,4108,4109,4110,4111,4112,5887,5888,5889,5890,5891},
+        },
         [9537] = { -- Hurley Blackbreath
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{47.71,59.93}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
@@ -896,6 +1394,9 @@ function CataNpcFixes.Load()
         [9684] = { -- Lar'korwi
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{69.98,40.96}}},
         },
+        [9836] = { -- Mathredis Firestar
+            [npcKeys.questStarts] = {4463,4481,4482,4483,4484},
+        },
         [10051] = { -- Seriadne
             [npcKeys.questEnds] = {},
         },
@@ -904,6 +1405,11 @@ function CataNpcFixes.Load()
         },
         [10299] = { -- Acride
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{30.48,39.73},{-1,-1}}},
+            [npcKeys.questStarts] = {4742,4743,27440,27444,27445},
+            [npcKeys.questEnds] = {4742,4743,27440,27444,27445,27469,27470,27471,28070,28071},
+        },
+        [10307] = { -- Witch Doctor Mau'ari
+            [npcKeys.questEnds] = {969,975,4801,4802,4803,4804,4805,4806,4807,6606,28540,28541,28546,28547,28656},
         },
         [10363] = { -- General Drakkisath
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{32.6,45.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
@@ -942,6 +1448,9 @@ function CataNpcFixes.Load()
         [10541] = { -- Krakle's Thermometer
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.47}}},
         },
+        [10618] = { -- Rivern Frostwind
+            [npcKeys.questStarts] = {4970,5201,5981,29032,29034},
+        },
         [10665] = { -- Junior Apothecary Holland
             [npcKeys.waypoints] = {},
         },
@@ -954,6 +1463,10 @@ function CataNpcFixes.Load()
         },
         [10737] = { -- Shy-Rotam
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{46.1,17.6}}},
+            [npcKeys.questStarts] = {28656},
+        },
+        [10738] = { -- High Chief Winterfall
+            [npcKeys.questStarts] = {28656},
         },
         [10741] = { -- Sian-Rotam
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{45.7,17.63}}},
@@ -961,9 +1474,11 @@ function CataNpcFixes.Load()
         [10806] = { -- Ursius
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{59.68,40.81}}},
             [npcKeys.waypoints] = {},
+            [npcKeys.questStarts] = {28656},
         },
         [10807] = { -- Brumeran
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{51.89,58.59},{52.09,59.01},{52.27,59.44},{52.37,59.71},{52.38,59.74},{52.46,60.05},{52.50,60.21},{52.57,60.69},{52.58,61.18},{52.58,61.63},{52.58,61.87},{52.65,62.08},{52.73,62.26},{52.83,62.42},{52.90,62.51},{53.16,62.83},{53.34,62.91},{53.45,62.91},{53.76,63.06},{53.82,63.30},{53.85,63.41},{53.86,63.46},{53.94,63.93},{53.99,64.44},{54.05,64.83},{54.11,65.19},{54.20,65.69},{54.24,65.91},{54.26,66.05},{54.38,66.42},{54.58,66.67},{54.72,66.87},{54.80,67.00},{55.04,67.35},{55.06,67.37},{55.07,67.38},{55.35,67.67},{55.65,67.89},{55.94,68.17},{56.14,68.42},{56.29,68.56},{56.59,68.81},{56.91,68.98},{56.96,69.00},{57.21,69.11},{57.54,69.25},{57.62,69.29},{57.91,69.47},{58.15,69.65},{58.41,69.88},{58.71,70.13},{58.77,70.18},{59.03,70.41},{59.29,70.68},{59.41,70.84},{59.61,71.09},{59.79,71.27},{59.93,71.37},{60.23,71.59},{60.46,71.72},{60.66,71.79},{60.91,72.11},{60.99,72.34},{61.08,72.60},{61.18,72.91},{61.15,73.25},{61.14,73.27},{61.01,73.65},{60.91,73.96},{60.74,74.41},{60.72,74.48},{60.63,74.68},{60.45,75.04},{60.32,75.23},{60.21,75.40},{60.12,75.54},{59.82,75.79},{59.78,75.81},{59.56,75.93},{59.30,76.22},{59.30,76.22},{59.07,76.60},{58.80,76.92},{58.67,77.03},{58.59,77.08},{58.26,77.24},{57.93,77.37},{57.62,77.56},{57.53,77.63},{57.49,77.67},{57.35,77.80},{57.26,77.92},{57.01,78.28},{56.96,78.78},{56.96,78.89}}}},
+            [npcKeys.questStarts] = {28656},
         },
         [10808] = { -- Timmy the Cruel
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{48.98,16.08},{-1,-1}}},
@@ -971,22 +1486,44 @@ function CataNpcFixes.Load()
         [10813] = { -- Balnazzar
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{18.83,83.59},{-1,-1}}},
         },
+        [10837] = { -- High Executor Derrington
+            [npcKeys.questStarts] = {5238,25009,25010,25011,26920,26930,26936,26979,27083},
+            [npcKeys.questEnds] = {105,356,5093,5094,5095,5096,5098,5238,10374,25007,25009,25046,26926,26930,26936},
+        },
+        [10838] = { -- Commander Ashlam Valorfist
+            [npcKeys.questStarts] = {5237,27158,27166,27169,27172},
+            [npcKeys.questEnds] = {211,5066,5090,5091,5092,5097,5237,8415,8416,8418,10373,27165,27166,27171,27206},
+        },
+        [10839] = { -- Argent Officer Garush
+            [npcKeys.questStarts] = {5503,26952},
+        },
+        [10877] = { -- Courier Hammerfall
+            [npcKeys.questStarts] = {7494},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {},
+            [npcKeys.questStarts] = {7494},
+        },
+        [10880] = { -- Warcaller Gorlach
+            [npcKeys.questStarts] = {7492},
         },
         [10916] = { -- Winterfall Runner
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{21.24,46.13}},[zoneIDs.FELWOOD] = {{59.73,8.06}}},
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{21.24,46.13},{21.29,46.27},{21.38,46.62},{21.42,46.99},{21.41,47.36},{21.41,47.74},{21.40,48.12},{21.43,48.49},{21.52,48.84},{21.61,49.19},{21.71,49.56},{21.79,49.90},{21.85,50.26},{21.89,50.64},{21.93,51.01},{21.96,51.38},{21.96,51.70},{22.10,52.01},{22.24,52.32},{22.38,52.63},{22.54,52.92},{22.69,53.20},{22.97,53.75},{23.27,54.36},{23.58,54.98},{23.96,55.48},{24.47,55.49},{24.98,55.40},{25.49,55.30},{26.00,55.22},{26.51,55.14},{27.03,55.06},{27.54,54.98},{28.05,54.90},{28.56,54.82},{29.07,54.74},{29.58,54.66},{29.81,54.63},{30.10,54.95},{30.61,55.03},{30.75,55.05},{31.10,55.10},{31.16,55.10},{31.20,55.10},{31.65,55.08},{31.99,55.10},{32.49,54.94},{32.98,54.75},{33.47,54.50},{33.95,54.24},{34.44,53.99},{34.92,53.74},{35.41,53.51},{35.85,53.23},{36.23,53.11},{36.68,52.96},{37.16,52.84},{37.67,52.76},{38.18,52.68},{38.69,52.60},{39.20,52.53},{39.70,52.48},{40.20,52.42},{40.70,52.37},{41.20,52.31},{41.70,52.26},{42.20,52.20},{42.71,52.14},{43.22,52.09},{43.70,51.90},{44.17,51.60},{44.64,51.30},{45.11,51.00},{45.57,50.66},{45.99,50.23},{46.42,49.80},{46.84,49.37},{47.27,48.94},{47.76,48.72},{48.23,48.43},{48.70,48.11},{49.16,47.76},{49.60,47.38},{50.04,46.98},{50.42,46.47},{50.73,45.85},{50.99,45.27},{51.02,45.10},{51.11,44.46},{51.21,43.71},{51.31,42.96},{51.41,42.21},{51.48,41.45},{51.47,40.69},{51.46,39.92},{51.31,39.24},{51.32,38.95},{51.33,38.31},{51.32,37.55},{51.30,36.79},{51.52,36.41},{51.63,35.68},{51.73,34.94},{51.87,34.21},{52.08,33.55},{52.49,33.31},{52.70,33.36},{52.75,33.37},{53.26,33.43},{53.77,33.47},{54.28,33.54},{54.73,33.72},{55.21,33.92},{55.24,33.96},{55.14,34.51},{55.50,34.92},{55.95,35.12},{56.29,35.21},{56.33,35.22},{56.67,35.21},{57.07,34.92},{57.22,34.79},{57.29,34.76},{57.76,34.66},{58.26,34.68},{58.73,34.91},{59.22,34.80},{59.63,34.60},{60.02,34.16},{60.40,33.88},{60.80,33.96},{60.91,34.62},{61.00,35.33},{61.14,36.00},{61.47,36.53},{61.82,37.09},{62.13,37.70},{62.45,38.30},{62.76,38.82},{63.06,39.34},{63.45,39.85},{63.84,40.34},{64.21,40.80},{64.53,41.31},{64.88,41.86},{65.24,42.41},{65.55,42.99},{65.57,43.67},{65.47,44.38},{65.64,45.08},{65.89,45.74},{66.14,46.42},{66.33,47.03},{66.45,47.35}}}},
+            [npcKeys.questStarts] = {28656},
         },
         [10920] = { -- Kelek Skykeeper
             [npcKeys.questStarts] = {28479,28537,28848},
-            [npcKeys.questEnds] = {28471,28536,28537},
+            [npcKeys.questEnds] = {5128,7741,28472,28536,28537},
         },
         [10923] = { -- Tenell Leafrunner
             [npcKeys.waypoints] = {},
         },
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.87,51.96}}},
+        },
+        [11036] = { -- Leonid Barthalomew the Revered
+            [npcKeys.questEnds] = {5243,5462,5464,5522,27620,64037,64064,64128},
         },
         [11058] = { -- Ezra Grimm
             [npcKeys.name] = "Ezra Grimm",
@@ -1017,8 +1554,17 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{27.67,86.01},{32.91,55},{39.94,46.03},{47.34,60.78},{40.94,67.11},{32.16,68.09},{36.91,82.67},{-1,-1}}},
         },
         [11378] = { -- Foreman Thazz'ril
-            [npcKeys.questStarts] = {25135},
-            [npcKeys.questEnds] = {25135},
+            [npcKeys.questStarts] = {25134,25135},
+            [npcKeys.questEnds] = {25134,25135},
+        },
+        [11397] = { -- Nara Meideros
+            [npcKeys.questStarts] = {5632,5674},
+        },
+        [11401] = { -- Priestess Alathea
+            [npcKeys.questStarts] = {5627,5640,5647,5672,5678,27268,27269,27274,28285},
+        },
+        [11406] = { -- High Priest Rohan
+            [npcKeys.questStarts] = {5633,5641,5675,8254,27268,27269,27274,28285},
         },
         [11486] = { -- Prince Tortheldrin
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{59.83,23.43},{-1,-1}}},
@@ -1060,6 +1606,9 @@ function CataNpcFixes.Load()
         [11520] = { -- Taragaman the Hungerer
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{40.7,57.4},{-1,-1}}},
         },
+        [11548] = { -- Loh'atu
+            [npcKeys.questStarts] = {5535,5536},
+        },
         [11622] = { -- Rattlegore
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{30.39,62.84}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
@@ -1084,6 +1633,9 @@ function CataNpcFixes.Load()
         [11731] = { -- Hive'Regal Burrower
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{63.32,70.77},{66.68,64.4},{63.04,84.94},{61.66,89.55},{56.96,77.12},{67.12,67.52},{58.01,64.07},{66.27,72.64},{57.66,84.61},{55.46,72.82},{56.97,76.21},{56.21,91.09}}},
         },
+        [11801] = { -- Rabine Saturna
+            [npcKeys.questStarts] = {29302,29303,29331},
+        },
         [11804] = { -- Twilight Keeper Havunth
             [npcKeys.waypoints] = {},
         },
@@ -1098,12 +1650,21 @@ function CataNpcFixes.Load()
         [11858] = { -- Grundig Darkcloud
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{72.23,83.74}}},
         },
+        [11863] = { -- Azore Aldamort
+            [npcKeys.questStarts] = {5741},
+        },
         [11897] = { -- Duskwing
             [npcKeys.waypoints] = {},
         },
         [11937] = { -- Demon Portal Guardian
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{53.14,79.95},{53.93,79.2},{50.91,81.31},{52.65,81.86},{53.13,84.06},{55.07,79.4},{55.28,71.9},{50.65,70.78},{50.21,74.28},{49.89,77.3}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
+        },
+        [12031] = { -- Mai'Lahii
+            [npcKeys.questStarts] = {6142,14334},
+        },
+        [12042] = { -- Loganaar
+            [npcKeys.questStarts] = {9063,27356,27404,28343},
         },
         [12056] = { -- Baron Geddon
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{66.97,65.83},{-1,-1}}},
@@ -1125,6 +1686,9 @@ function CataNpcFixes.Load()
         [12258] = { -- Razorlash
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{16.2,33.98},{-1,-1}}},
         },
+        [12480] = { -- Melris Malagan
+            [npcKeys.questEnds] = {82948,82983,88796,88797},
+        },
         [12676] = { -- Sharptalon
             [npcKeys.waypoints] = {[zoneIDs.ASHENVALE] = {{{71.14,74.56},{71.03,74.88},{71.05,75.10},{71.19,75.35},{71.32,75.54},{71.44,75.61},{71.66,75.72},{71.74,75.76},{71.93,75.84},{72.10,75.93},{72.30,76.13},{72.41,76.26},{72.54,76.42},{72.66,76.60},{72.71,76.69},{72.87,76.97},{73.02,77.26},{73.13,77.49},{73.16,77.55},{73.26,77.71},{73.38,77.65},{73.61,77.50},{73.75,77.34},{73.80,77.17},{73.89,76.83},{73.89,76.65},{73.88,76.48},{73.87,76.12},{73.85,75.81},{73.87,75.69},{73.90,75.51},{73.97,75.16},{74.02,74.95},{74.07,74.67},{74.07,74.62},{74.00,74.44},{73.87,74.13},{73.75,73.89},{73.62,73.71},{73.44,73.52},{73.29,73.36},{73.23,73.30},{73.01,73.12},{72.85,72.99},{72.70,72.91},{72.54,72.93},{72.36,72.97},{72.25,73.01},{72.07,73.10},{71.92,73.20},{71.72,73.40},{71.61,73.57},{71.49,73.76},{71.41,73.88},{71.28,74.13},{71.14,74.56}}}},
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{71.14,74.56}}},
@@ -1138,6 +1702,8 @@ function CataNpcFixes.Load()
         },
         [12736] = { -- Je'neu Sancrea
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{48.48,11.74},{-1,-1}}},
+            [npcKeys.questStarts] = {6563,26888,26891},
+            [npcKeys.questEnds] = {824,908,909,6562,6563,6564,6565,6921,6922,26888,26891,26893,26894,28010},
         },
         [12759] = { -- Tideress
             [npcKeys.waypoints] = {},
@@ -1152,11 +1718,21 @@ function CataNpcFixes.Load()
         [12918] = { -- Chief Murgut
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{56.38,63.51}}},
         },
+        [12919] = { -- Nat Pagle
+            [npcKeys.questStarts] = {6607,13826,27220,27221},
+            [npcKeys.questEnds] = {6607,6608,6609,8227,11194,11209,13826,27219,27220},
+        },
         [12944] = { -- Lokhtos Darkbargainer
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{50.33,58.47}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
         [13136] = { -- Hive'Ashi Drone
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{64.05,49.7},{61.54,51.11},{66.47,49.72},{63.25,53.18},{63.36,50.91},{62.51,51},{64.96,46.81},{66.76,43.72},{65.78,53.26},{62.64,48.47},{62.64,48.24},{65.41,49.46},{67.78,46.05},{62.77,46.41},{64.81,51.09},{65.46,49.48},{62.53,51.94},{64.84,45.92},{66.39,48.33},{65.44,49.48},{64.93,48.34},{64.12,50.78},{65.65,48.82},{65.63,45.91},{65.59,47.45},{64.03,44.63},{64.86,44.55},{62.38,50.06},{65.49,49.93},{64.84,53.41},{64.78,46.78},{64.87,46.89},{63.91,53.52},{67.43,44.54},{65.49,49.46},{64.76,49.37},{64.75,46.84},{65.02,46.2},{66.43,52.93},{64.78,46.75},{65.78,44.7},{65.75,43.63},{64.11,48.63},{61.53,48.18},{63.26,49.75},{63.16,46.1}}},
+        },
+        [13153] = { -- Commander Mulfort
+            [npcKeys.questStarts] = {7302},
+        },
+        [13154] = { -- Commander Louis Philips
+            [npcKeys.questStarts] = {7281},
         },
         [13158] = { -- Lieutenant Sanders
             [npcKeys.waypoints] = {},
@@ -1167,12 +1743,62 @@ function CataNpcFixes.Load()
         [13282] = { -- Noxxion
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{34.74,10.67},{-1,-1}}},
         },
+        [13283] = { -- Lord Tony Romano
+            [npcKeys.questStarts] = {6681,27351,28406,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {28262,28406,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [13319] = { -- Commander Duffy
+            [npcKeys.questStarts] = {7301},
+        },
+        [13320] = { -- Commander Karl Philips
+            [npcKeys.questStarts] = {7282},
+        },
+        [13377] = { -- Master Engineer Zinfizzlex
+            [npcKeys.questStarts] = {6861,6862},
+        },
+        [13417] = { -- Sagorne Creststrider
+            [npcKeys.questEnds] = {6964,7667,7668,7669,8258,8259},
+        },
+        [13418] = { -- Kaymard Copperpinch
+            [npcKeys.questStarts] = {6961,6963,6983,6984,8799},
+        },
+        [13429] = { -- Nardstrum Copperpinch
+            [npcKeys.questStarts] = {7024},
+        },
+        [13431] = { -- Whulwert Copperpinch
+            [npcKeys.questStarts] = {7021},
+        },
+        [13433] = { -- Wulmort Jinglepocket
+            [npcKeys.questStarts] = {7022,7042,7043,7045,8763},
+        },
+        [13446] = { -- Field Marshal Teravaine
+            [npcKeys.questStarts] = {6846},
+        },
+        [13449] = { -- Warmaster Garrick
+            [npcKeys.questStarts] = {6901},
+        },
+        [13597] = { -- Frostwolf Explosives Expert
+            [npcKeys.questStarts] = {7368},
+        },
+        [13598] = { -- Stormpike Explosives Expert
+            [npcKeys.questStarts] = {7367},
+        },
+        [14733] = { -- Sentinel Farsong
+            [npcKeys.questEnds] = {7788,7871,7872,7873,7886,7887,7888,7921,8001,8266,8267,8289,8290,8291,8292,9521,26456},
+        },
+        [13841] = { -- Lieutenant Haggerdin
+            [npcKeys.questStarts] = {7162,7168,7169,7170,7171,7172,7202,7382},
+        },
+        [14305] = { -- Human Orphan
+            [npcKeys.questStarts] = {171,29093,29106,29107,29117,29119},
+        },
         [14321] = { -- Guard Fengus
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{49.11,78.94},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{{49.11,78.94},{49.28,84.42},{49.1,89.61},{43.84,88.13},{45.19,89.28},{49.09,89.52},{49.34,84.42},{49.43,78.86},{49.59,71.22},{49.39,75.34},{49.18,78.06},{45.02,77.95},{43.05,77.53},{43.14,70.16},{42.83,78.47},{42.91,82.81},{42.92,84},{42.93,86.3},{42.92,84},{42.91,82.81},{42.83,78.47},{44.59,78.24},{47.68,78.38},{49.11,78.94}}}},
         },
         [14322] = { -- Stomper Kreeg
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{61.93,65.73},{-1,-1}}},
+            [npcKeys.questStarts] = {27114},
         },
         [14323] = { -- Guard Slip'kik
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{24.55,63.94},{-1,-1}}},
@@ -1215,6 +1841,7 @@ function CataNpcFixes.Load()
         },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{58.18,57.5}}},
+            [npcKeys.questStarts] = {5502,29146,29167,29176,29190,29191},
         },
         [14479] = { -- Twilight Lord Everun
             [npcKeys.waypoints] = {},
@@ -1230,6 +1857,7 @@ function CataNpcFixes.Load()
                     {50.01,39.05,phases.SEARING_GORGE_CAVE_ASSAULT},
                 },
             },
+            [npcKeys.questStarts] = {27470,28052,28061,28062,28064,28099,28514,28515},
         },
         [14626] = { -- Taskmaster Scrange
             [npcKeys.spawns] = {
@@ -1262,6 +1890,27 @@ function CataNpcFixes.Load()
         [14720] = { -- High Overlord Saurfang
             [npcKeys.questEnds] = {7490,7783,9626,9813,13189,13841,13842,24612,25267,26294,26397,26398,26798,26830,28717},
         },
+        [14722] = { -- Clavicus Knavingham
+            [npcKeys.questStarts] = {7791,7793,7794,7795,7796},
+        },
+        [14723] = { -- Mistina Steelshield
+            [npcKeys.questStarts] = {7802,7803,7804,7805,7806},
+        },
+        [14724] = { -- Bubulo Acerbus
+            [npcKeys.questStarts] = {7807,7808,7809,7811,7812},
+        },
+        [14726] = { -- Rashona Straglash
+            [npcKeys.questStarts] = {7824,7826,7827,7831,7832},
+        },
+        [14727] = { -- Vehena
+            [npcKeys.questStarts] = {7833,7834,7835,7836,7837},
+        },
+        [14728] = { -- Rumstag Proudstrider
+            [npcKeys.questStarts] = {7820,7821,7822,7823,7825},
+        },
+        [14729] = { -- Ralston Farnsley
+            [npcKeys.questStarts] = {7813,7814,7817,7818,7819},
+        },
         [14822] = { -- Sayge
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{53.24,75.84},{-1,-1}}},
             [npcKeys.waypoints] = {},
@@ -1274,19 +1923,24 @@ function CataNpcFixes.Load()
         },
         [14828] = { -- Gelvas Grimegate
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.77,64.78},{-1,-1}}},
+            [npcKeys.questStarts] = {7940},
         },
         [14829] = { -- Yebb Neblegear
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{51.1,82.05},{-1,-1}}},
+            [npcKeys.questStarts] = {7899,7900,7901,7902,7903,8222,29508},
             [npcKeys.questEnds] = {7899,7900,7901,7902,7903,7943,8222,8223,29444,29448,29468,29508},
         },
         [14832] = { -- Kerri Hicks
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.9,67.12},{-1,-1}}},
+            [npcKeys.questStarts] = {7889,7890,7891,7892,7893,29433},
         },
         [14833] = { -- Chronos
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55,70.77},{-1,-1}}},
+            [npcKeys.questStarts] = {7881,7882,7883,7884,29512,29514,29516,29519},
         },
         [14841] = { -- Rinling
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{49.17,60.71},{-1,-1}}},
+            [npcKeys.questStarts] = {7894,7895,7896,7897,7898,29438,29511,29517,29518},
         },
         [14844] = { -- Sylannia
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{50.54,69.56},{-1,-1}}},
@@ -1328,14 +1982,55 @@ function CataNpcFixes.Load()
         [14871] = { -- Morja
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55.93,70.73},{-1,-1}}},
         },
+        [14902] = { -- Jin'rokh the Breaker
+            [npcKeys.questStarts] = {8041,8042,8043,8044,8045,8046,8047,8048,8053,8054,8055,8058,8078,8079},
+        },
+        [14903] = { -- Al'tabim the All-Seeing
+            [npcKeys.questStarts] = {8049,8050,8051,8052,8059,8060,8061,8068,8069,8070,8071,8076,8077,8101,8102,8103,8104,8106,8107,8108,8109},
+        },
+        [14904] = { -- Maywiki of Zuldazar
+            [npcKeys.questStarts] = {8056,8057,8064,8065,8074,8075,8110,8111,8112,8113,8116,8117,8118,8119},
+        },
+        [14905] = { -- Falthir the Sightless
+            [npcKeys.questStarts] = {8062,8063,8066,8067,8072,8073,8141,8142,8143,8144,8145,8146,8147,8148},
+        },
+        [14910] = { -- Exzhal
+            [npcKeys.questStarts] = {8201},
+        },
+        [14921] = { -- Rin'wosho the Trader
+            [npcKeys.questStarts] = {8196,8243,8246},
+        },
+        [14983] = { -- Field Marshal Oslight
+            [npcKeys.questStarts] = {8105,8114,8115,8166,8167,8168},
+        },
+        [15011] = { -- Wagner Hammerstrike
+            [npcKeys.questStarts] = {8149},
+        },
         [15012] = { -- Javnir Nashak
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{46.25,15.1}}},
+            [npcKeys.questStarts] = {8150},
+        },
+        [15021] = { -- Deathmaster Dwire
+            [npcKeys.questStarts] = {8120,8121,8122,8169,8170,8171},
+        },
+        [15042] = { -- Zanza the Restless
+            [npcKeys.questStarts] = {8184,8185,8186,8187,8188,8189,8190,8191,8192,9208,9209,9210},
+        },
+        [15070] = { -- Vinchaxa
+            [npcKeys.questStarts] = {8195,8238,8239,8240},
         },
         [15077] = { -- Riggle Bassbait
             [npcKeys.questEnds] = {8193},
         },
+        [15170] = { -- Rutgar Glyphshaper
+            [npcKeys.questStarts] = {8309,8314,8381},
+        },
+        [15183] = { -- Geologist Larksbane
+            [npcKeys.questStarts] = {8284,8285,8316,8376,8377,8378,8379,8380,8381,8382},
+        },
         [15192] = { -- Anachronos
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{58.1,56.16}}},
+            [npcKeys.questStarts] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,8764,8765,8766,9251,9257,9269,9270,9271,29134,29135,29193},
         },
         [15197] = { -- Darkcaller Yanka
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.12,67.83}}},
@@ -1346,18 +2041,38 @@ function CataNpcFixes.Load()
         [15270] = { -- Huum Wildmane
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{53.19,35.2}}},
         },
+        [15278] = { -- Magistrix Erona
+            [npcKeys.questStarts] = {8325,8326,8327,8328,8329,8563,8564,9392,9393,9676},
+        },
+        [15279] = { -- Julia Sunstriker
+            [npcKeys.questEnds] = {8328,10068},
+        },
+        [15280] = { -- Jesthenis Sunstriker
+            [npcKeys.questEnds] = {9676,10069},
+        },
+        [15283] = { -- Summoner Teli'Larien
+            [npcKeys.questStarts] = {10073},
+            [npcKeys.questEnds] = {8344,8563,10073},
+        },
+        [15284] = { -- Matron Arena
+            [npcKeys.questEnds] = {8564,10072},
+        },
+        [15285] = { -- Pathstalker Kariel
+            [npcKeys.questStarts] = {10071},
+            [npcKeys.questEnds] = {9392,10071},
+        },
         [15295] = { -- Well Watcher Solanian
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{38.97,20.26}}},
-            [npcKeys.questStarts] = {},
-            [npcKeys.questEnds] = {},
+            [npcKeys.questStarts] = {8330,8345},
+            [npcKeys.questEnds] = {8330,8345},
         },
         [15296] = { -- Arcanist Ithanas
-            [npcKeys.questStarts] = {},
-            [npcKeys.questEnds] = {},
+            [npcKeys.questStarts] = {8336},
+            [npcKeys.questEnds] = {8336},
         },
         [15297] = { -- Arcanist Helion
-            [npcKeys.questStarts] = {},
-            [npcKeys.questEnds] = {8338},
+            [npcKeys.questStarts] = {8346},
+            [npcKeys.questEnds] = {8338,8346},
         },
         [15303] = { -- Maxima Blastenheimer
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{52.5,56.14},{-1,-1}}},
@@ -1388,6 +2103,9 @@ function CataNpcFixes.Load()
         [15401] = { -- Ley-Keeper Velania
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{36.7,57.44}}},
         },
+        [15403] = { -- Aeldon Sunbrand
+            [npcKeys.questEnds] = {8463,8482,8483,8896,9357},
+        },
         [15502] = { -- Andorgos
             [npcKeys.spawns] = {[zoneIDs.AHN_QIRAJ] = {{59.59,68.12},{-1,-1}}},
         },
@@ -1397,50 +2115,172 @@ function CataNpcFixes.Load()
         [15504] = { -- Vethsera
             [npcKeys.spawns] = {[zoneIDs.AHN_QIRAJ] = {{59.5,68.69},{-1,-1}}},
         },
+        [15513] = { -- Ranger Sallina
+            [npcKeys.questEnds] = {9393,10070},
+        },
         [15541] = { -- Twilight Marauder Morna
             [npcKeys.waypoints] = {},
         },
         [15549] = { -- Elder Morndeep
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{50.5,62.7},{-1,-1}}},
+            [npcKeys.questStarts] = {8619},
         },
         [15556] = { -- Elder Splitrock
             [npcKeys.spawns] = {[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{51.4,93.7}},[zoneIDs.MARAUDON] = {{-1,-1}}},
+            [npcKeys.questStarts] = {8635},
         },
         [15557] = { -- Elder Rumblerock
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{70.11,45.39}}},
+            [npcKeys.questStarts] = {8636},
+        },
+        [15558] = { -- Elder Silvervein
+            [npcKeys.questStarts] = {8642},
+        },
+        [15559] = { -- Elder Highpeak
+            [npcKeys.questStarts] = {8643},
         },
         [15560] = { -- Elder Stonefort
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_TAZZ_ALOR] = {{61.7,39.9}},[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.questStarts] = {8644},
+        },
+        [15561] = { -- Elder Obsidian
+            [npcKeys.questStarts] = {8645},
+        },
+        [15562] = { -- Elder Hammershout
+            [npcKeys.questStarts] = {8646},
         },
         [15563] = { -- Elder Bellowrage
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{54.28,49.49}}},
+            [npcKeys.questStarts] = {8647},
+        },
+        [15564] = { -- Elder Darkcore
+            [npcKeys.questStarts] = {8648},
+        },
+        [15565] = { -- Elder Stormbrow
+            [npcKeys.questStarts] = {8649},
+        },
+        [15566] = { -- Elder Snowcrown
+            [npcKeys.questStarts] = {8650},
+        },
+        [15567] = { -- Elder Ironband
+            [npcKeys.questStarts] = {8651},
+        },
+        [15568] = { -- Elder Graveborn
+            [npcKeys.questStarts] = {8652},
+        },
+        [15569] = { -- Elder Goldwell
+            [npcKeys.questStarts] = {8653},
         },
         [15570] = { -- Elder Primestone
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{30.8,13.32}}},
+            [npcKeys.questStarts] = {8654},
+        },
+        [15572] = { -- Elder Runetotem
+            [npcKeys.questStarts] = {8670},
         },
         [15573] = { -- Elder Ragetotem
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{37.24,79.06}}},
+            [npcKeys.questStarts] = {8671},
+        },
+        [15574] = { -- Elder Stonespire
+            [npcKeys.questStarts] = {8672},
+        },
+        [15575] = { -- Elder Bloodhoof
+            [npcKeys.questStarts] = {8673},
         },
         [15576] = { -- Elder Winterhoof
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{39.96,72.51}}},
+            [npcKeys.questStarts] = {8674},
+        },
+        [15577] = { -- Elder Skychaser
+            [npcKeys.questStarts] = {8675},
         },
         [15578] = { -- Elder Wildmane
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{34.5,39.2},{-1,-1}}},
+            [npcKeys.questStarts] = {8676},
+        },
+        [15579] = { -- Elder Darkhorn
+            [npcKeys.questStarts] = {8677},
+        },
+        [15580] = { -- Elder Ezra Wheathoof
+            [npcKeys.questStarts] = {8678},
+        },
+        [15581] = { -- Elder Grimtotem
+            [npcKeys.questStarts] = {8679},
+        },
+        [15582] = { -- Elder Windtotem
+            [npcKeys.questStarts] = {8680},
+        },
+        [15583] = { -- Elder Thunderhorn
+            [npcKeys.questStarts] = {8681},
+        },
+        [15584] = { -- Elder Skyseer
+            [npcKeys.questStarts] = {8682},
         },
         [15585] = { -- Elder Dawnstrider
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{52.38,23.93}}},
+            [npcKeys.questStarts] = {8683},
         },
         [15586] = { -- Elder Dreamseer
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{51.4,28.81}}},
+            [npcKeys.questStarts] = {8684},
+        },
+        [15587] = { -- Elder Mistwalker
+            [npcKeys.questStarts] = {8685},
+        },
+        [15588] = { -- Elder High Mountain
+            [npcKeys.questStarts] = {8686},
+        },
+        [15592] = { -- Elder Windrun
+            [npcKeys.questStarts] = {8688},
         },
         [15593] = { -- Elder Starsong
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{62.8,34.2},{-1,-1}}},
+            [npcKeys.questStarts] = {8713},
+        },
+        [15594] = { -- Elder Moonstrike
+            [npcKeys.questStarts] = {8714},
+        },
+        [15595] = { -- Elder Bladeleaf
+            [npcKeys.questStarts] = {8715},
+        },
+        [15596] = { -- Elder Starglade
+            [npcKeys.questStarts] = {8716},
+        },
+        [15597] = { -- Elder Moonwarden
+            [npcKeys.questStarts] = {8717},
+        },
+        [15598] = { -- Elder Bladeswift
+            [npcKeys.questStarts] = {8718},
+        },
+        [15599] = { -- Elder Bladesing
+            [npcKeys.questStarts] = {8719},
+        },
+        [15600] = { -- Elder Skygleam
+            [npcKeys.questStarts] = {8720},
+        },
+        [15601] = { -- Elder Starweave
+            [npcKeys.questStarts] = {8721},
+        },
+        [15602] = { -- Elder Meadowrun
+            [npcKeys.questStarts] = {8722},
+        },
+        [15603] = { -- Elder Nightwind
+            [npcKeys.questStarts] = {8723},
         },
         [15604] = { -- Elder Morningdew
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{77.09,75.61}}},
+            [npcKeys.questStarts] = {8724},
+        },
+        [15605] = { -- Elder Riversong
+            [npcKeys.questStarts] = {8725},
+        },
+        [15606] = { -- Elder Brightspear
+            [npcKeys.questStarts] = {8726},
         },
         [15607] = { -- Elder Farwhisper
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{78.5,22},{-1,-1}}},
+            [npcKeys.questStarts] = {8727},
         },
         [15608] = { -- Medivh
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{48.75,72.42},{-1,-1}}},
@@ -1451,6 +2291,13 @@ function CataNpcFixes.Load()
         [15664] = { -- Metzen the Reindeer
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.12,38.58}}},
             [npcKeys.waypoints] = {},
+        },
+        [15700] = { -- Warlord Gorchuk
+            [npcKeys.questStarts] = {8851,8852,8853,8854,8855},
+        },
+        [15701] = { -- Field Marshal Snowfall
+            [npcKeys.questStarts] = {8847,8848,8849,8850},
+            [npcKeys.questEnds] = {8795,8796,8797,8846,8847,8848,8849,8850,10501},
         },
         [15732] = { -- Wonderform Operator
             [npcKeys.spawns] = {
@@ -1466,6 +2313,13 @@ function CataNpcFixes.Load()
                 [zoneIDs.TANARIS] = {{52.57,28.06}},
                 -- [zoneIDs.SHATTRATH_CITY] = {{79.83,58.97}}, -- correct coords, but commented out because it's not offering the quest here
             },
+            [npcKeys.questStarts] = {8827,8828,8860,8861},
+        },
+        [15864] = { -- Valadar Starsong
+            [npcKeys.questStarts] = {8868,8883},
+        },
+        [15871] = { -- Elder Bronzebeard
+            [npcKeys.questStarts] = {8866},
         },
         [15891] = { -- Lunar Festival Herald
             [npcKeys.spawns] = {
@@ -1473,6 +2327,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.UNDERCITY] = {{66.74,43.39}},
                 [zoneIDs.THUNDER_BLUFF] = {{38.37,63.42}},
             },
+            [npcKeys.questStarts] = {8873},
         },
         [15892] = { -- Lunar Festival Emissary
             [npcKeys.spawns] = {
@@ -1480,6 +2335,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.IRONFORGE] = {{30.92,61.59}},
                 [zoneIDs.DARNASSUS] = {{45.16,52.24}},
             },
+            [npcKeys.questStarts] = {8870},
         },
         [15895] = { -- Lunar Festival Harbinger
             [npcKeys.spawns] = {
@@ -1494,6 +2350,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{53.29,33.1},{48.14,36.87}},
                 [zoneIDs.DALARAN] = {{47.65,43.76}},
             },
+            [npcKeys.questStarts] = {8867,8883},
         },
         [16089] = { -- Omar the Test Dragon
             [npcKeys.questEnds] = {9583},
@@ -1519,6 +2376,7 @@ function CataNpcFixes.Load()
         [16128] = { -- Rhonin
             [npcKeys.zoneID] = zoneIDs.DALARAN,
             [npcKeys.waypoints] = {},
+            [npcKeys.questStarts] = {13158,26012,29829},
         },
         [16280] = { -- Perascamin
             [npcKeys.questEnds] = {14081},
@@ -1544,12 +2402,53 @@ function CataNpcFixes.Load()
         [16403] = { -- Withered Grimscale
             [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{21.7,34.15},{22.32,33.5},{22.15,33.1},{18.64,8.29},{18.54,6.19},{19.31,6.95},{17.88,10.47},{18.3,8.59},{18.07,7.42},{19.01,11.24},{18.14,11.12},{19.16,13.01},{19.05,13.94},{19.04,17.3},{18.18,17.73},{18.85,18.4},{19.48,20.04},{21.06,23.64},{19.35,21.66},{18.4,18.71},{20.16,23.03},{18.15,21.96},{19.96,23.7},{18.13,26.11},{18.06,26.59},{16.93,29.2},{18.47,31.45},{19.08,31.37},{16.18,31.98},{13.72,31.36},{13.85,32.6},{12.04,33.85},{13.15,32.47},{14.83,32.35},{12.89,35.45},{14.12,38.43},{12.91,38.49},{13.02,34.0},{14.54,40.2},{13.19,41.47},{14.01,42.99},{14.22,44.48},{14.2,46.49},{14.23,47.65},{18.33,32.64},{17.11,32.71},{20.14,35.92},{21.0,34.78},{21.16,34.36},{20.99,34.93},{23.41,34.52}}},
         },
+        [16499] = { -- Keilnei
+            [npcKeys.questStarts] = {9288,26963},
+        },
+        [16500] = { -- Valaatu
+            [npcKeys.questStarts] = {9290,26968},
+            [npcKeys.questEnds] = {9290,26968},
+        },
+        [16501] = { -- Aurelon
+            [npcKeys.questStarts] = {9287,26966},
+        },
+        [16502] = { -- Zalduun
+            [npcKeys.questStarts] = {9283,9291,26970},
+            [npcKeys.questEnds] = {9283,9291,9409,26970},
+        },
+        [16503] = { -- Kore
+            [npcKeys.questStarts] = {9289,26958},
+        },
         [16535] = { -- Vindicator Aldar
             [npcKeys.questEnds] = {9303,9306,9307,9308,9311,9798,10304},
+        },
+        [16574] = { -- Far Seer Regulkut
+            [npcKeys.questStarts] = {9344,9410},
+        },
+        [16575] = { -- Shadow Hunter Ty'jin
+            [npcKeys.questStarts] = {9496,29688},
+        },
+        [16583] = { -- Rohok
+            [npcKeys.questStarts] = {10757,10758},
+        },
+        [16647] = { -- Talionia
+            [npcKeys.questStarts] = {9529},
+        },
+        [16658] = { -- Aldrae
+            [npcKeys.questStarts] = {27331,27332,27334,27335,28164,28304,28307,28308,28309,28323},
+        },
+        [16681] = { -- Champion Bachi
+            [npcKeys.questStarts] = {9601,27298,27304,28302,28303},
+        },
+        [16684] = { -- Zelanis
+            [npcKeys.questStarts] = {6681,10372,27279,28298},
         },
         [16700] = { -- Shattered Hand Legionnaire
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{44.28,14.01},{37.96,13.22},{34.5,77.17},{40.95,77.22},{43.04,77.21},{46.54,77.19},{52.4,75.73},{59.05,79.2},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_SHATTERED_HALLS] = {{{34.5,77.17},{33.91,78.13},{33.19,78.11},{32.99,77.05},{33.46,75.67},{34.24,74.5},{34.9,75.02},{35.05,76.16},{34.5,77.17}},{{59.05,79.2},{59.13,85.69}},{{52.39,75.73},{51.86,76.64},{51.86,78.15},{52.39,79.06}}}},
+        },
+        [16756] = { -- Caedmos
+            [npcKeys.questStarts] = {27268,27269,27274,28285},
         },
         [16802] = { -- Lor'themar Theron
             [npcKeys.questEnds] = {9328,9627,9811,24615},
@@ -1571,6 +2470,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{61.39,31.91}},
                 [zoneIDs.THE_EXODAR] = {{41.62,25.28}},
             },
+            [npcKeys.questStarts] = {9365,11964},
         },
         [16818] = { -- Festival Talespinner
             [npcKeys.spawns] = {
@@ -1580,6 +2480,13 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{62.16,32.04}},
                 [zoneIDs.SILVERMOON_CITY] = {{69.84,42.97}},
             },
+            [npcKeys.questStarts] = {9339,11966},
+        },
+        [16819] = { -- Force Commander Danath Trollbane
+            [npcKeys.questStarts] = {9492,10141,10160,10400,10558,10762,10937,29689},
+        },
+        [16841] = { -- Watch Commander Relthorn Netherwane
+            [npcKeys.questEnds] = {26173,26174,64038},
         },
         [16915] = { -- Foreman Razelcraz
             [npcKeys.waypoints] = {},
@@ -1587,14 +2494,26 @@ function CataNpcFixes.Load()
         [17071] = { -- Technician Zhanaa
             [npcKeys.questEnds] = {9305,9312},
         },
+        [17076] = { -- Lady Liadrin
+            [npcKeys.questEnds] = {9745,10960,64139,64140,64141,64142,64143,64144,64145},
+        },
         [17082] = { -- Rifleman Torrig
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{54.48,32.94}}},
         },
         [17105] = { -- Emissary Valustraa
             [npcKeys.subName] = nil,
         },
+        [17240] = { -- Admiral Odesyus
+            [npcKeys.questStarts] = {9506,9530,9531,9537,9602,9751},
+        },
         [17257] = { -- Magtheridon
             [npcKeys.spawns] = {[zoneIDs.MAGTHERIDONS_LAIR] = {{69.06,74.12},{-1,-1}}},
+        },
+        [17288] = { -- Randy Whizzlesprocket
+            [npcKeys.questStarts] = {9524},
+        },
+        [17294] = { -- Drisella
+            [npcKeys.questStarts] = {9525},
         },
         [17306] = { -- Watchkeeper Gargolmar
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{77.23,33.3},{-1,-1}}},
@@ -1619,14 +2538,38 @@ function CataNpcFixes.Load()
         [17465] = { -- Shattered Hand Centurion
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{45.65,18.22},{45.42,9.73},{37.37,9.21},{37.37,18.87},{-1,-1}}},
         },
+        [17479] = { -- Gunny
+            [npcKeys.questStarts] = {9589,9607},
+        },
+        [17481] = { -- Semid
+            [npcKeys.questStarts] = {9595},
+        },
+        [17493] = { -- Stone Guard Stok'ton
+            [npcKeys.questStarts] = {9572},
+        },
+        [17519] = { -- Hobahken
+            [npcKeys.questStarts] = {27270,28287},
+        },
         [17537] = { -- Vazruden
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{36.06,82.36},{-1,-1}}},
+        },
+        [17538] = { -- O'ros
+            [npcKeys.questStarts] = {10968},
         },
         [17555] = { -- Stephanos
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{54.49,36.27}}},
         },
+        [17557] = { -- Lieutenant Chadwick
+            [npcKeys.questStarts] = {9575},
+        },
+        [17558] = { -- Caza'rez
+            [npcKeys.questStarts] = {9590,9608},
+        },
         [17671] = { -- Shattered Hand Champion
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{67.73,47.09},{66.82,47.09},{60.02,33.58},{60.02,34.83},{53.45,23.8},{54.25,23.8},{51.17,13.2},{51.17,14.49},{-1,-1}}},
+        },
+        [17717] = { -- Knight-Lord Bloodvalor
+            [npcKeys.questEnds] = {9677,9678,9679,9684,9685,9691,9692,9712,63866},
         },
         [17770] = { -- Hungarfen
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{70.27,91.11},{-1,-1}}},
@@ -1647,17 +2590,31 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{42.85,59.39},{49.93,53.45},{57.05,63.59},{57.45,73.21},{-1,-1}}},
         },
         [17841] = { -- Ysiel Windsinger
+            [npcKeys.questStarts] = {9716,9718,9720,9724,9764,9765,9766,9778,9876,10459,29566,29616},
             [npcKeys.questEnds] = {9716,9718,9720,9731,9732,9734,9752,9764,9765,9766,9912,10459},
+        },
+        [17856] = { -- Gzhun'tt
+            [npcKeys.questStarts] = {9714,9715,9726,9727},
+        },
+        [17857] = { -- T'shu
+            [npcKeys.questStarts] = {9717},
+        },
+        [17866] = { -- Khn'nix
+            [npcKeys.questStarts] = {9719},
         },
         [17876] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{74.41,57.6},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
+            [npcKeys.questStarts] = {10283,10284,29599},
         },
         [17881] = { -- Aeonus
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{42.85,59.39},{49.93,53.45},{57.05,63.59},{57.45,73.21},{-1,-1}}},
         },
         [17882] = { -- The Black Stalker
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{25.32,43.99},{-1,-1}}},
+        },
+        [17884] = { -- Watcher Jhang
+            [npcKeys.questStarts] = {9738,9763},
         },
         [17885] = { -- Earthbinder Rayge
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{67.4,21.23},{-1,-1}}},
@@ -1756,6 +2713,10 @@ function CataNpcFixes.Load()
         [18473] = { -- Talon King Ikiss
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.48,27.48}},[zoneIDs.SETHEKK_HALLS] = {{-1,-1}}},
         },
+        [18481] = { -- A'dal
+            [npcKeys.questStarts] = {10167,10560,10704,10882,10884,10885,10886,10888,10949,13082,13430},
+            [npcKeys.questEnds] = {10102,10210,10280,10560,10704,10708,10781,10882,10883,10884,10885,10886,10888,10948,11007,11052,11116,13081,13430,29657,29658,29659,29660,29667,29669,29674,29675,29681},
+        },
         [18521] = { -- Raging Skeleton
             [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{64.35,85.57},{63.99,87.22},{60.1,90.57},{58.91,89.96},{57.14,87.87},{57.22,84.61}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
         },
@@ -1779,6 +2740,7 @@ function CataNpcFixes.Load()
                     {-1,-1},
                 },
             },
+            [npcKeys.questStarts] = {10283,10285,29598},
         },
         [18725] = { -- Brazen
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{29.24,47.93},{-1,-1}}},
@@ -1799,9 +2761,43 @@ function CataNpcFixes.Load()
         },
         [18891] = { -- Spy To'gun
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{17.11,22.1},{-1,-1}}},
+            [npcKeys.questStarts] = {10091,29641},
+        },
+        [18893] = { -- Spymistress Mehlisah Highcrown
+            [npcKeys.questStarts] = {10177,29642},
         },
         [18956] = { -- Lakka
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{50.98,71.42},{-1,-1}}},
+        },
+        [18933] = { -- Isfar
+            [npcKeys.questStarts] = {10097,10098},
+        },
+        [18940] = { -- Nutral
+            [npcKeys.questStarts] = {11497,11498},
+        },
+        [19148] = { -- Dwarf Commoner
+            [npcKeys.questStarts] = {11441,11970,12753,12772,12775,12777,12808,14022},
+        },
+        [19171] = { -- Draenei Commoner
+            [npcKeys.questStarts] = {11441,11970,12753,12772,12775,12777,12808,14022},
+        },
+        [19172] = { -- Gnome Commoner
+            [npcKeys.questStarts] = {11441,11970,12753,12772,12775,12777,12808,14022},
+        },
+        [19173] = { -- Night Elf Commoner
+            [npcKeys.questStarts] = {11441,11970,12753,12772,12775,12777,12808,14022},
+        },
+        [19175] = { -- Orc Commoner
+            [npcKeys.questStarts] = {11446,11971,12752,12782,12783,12784,12811,13483,14036},
+        },
+        [19176] = { -- Tauren Commoner
+            [npcKeys.questStarts] = {11446,11971,12752,12782,12783,12784,12811,13483,14036},
+        },
+        [19177] = { -- Troll Commoner
+            [npcKeys.questStarts] = {11446,11971,12752,12782,12783,12784,12811,13483,14036},
+        },
+        [19178] = { -- Forsaken Commoner
+            [npcKeys.questStarts] = {11446,11971,12752,12782,12783,12784,12811,13483,14036},
         },
         [19219] = { -- Mechano-Lord Capacitus
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{51.22,31.39},{-1,-1}}},
@@ -1809,11 +2805,17 @@ function CataNpcFixes.Load()
         [19220] = { -- Pathaleon the Calculator
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR_CALCULATION_CHAMBER] = {{27.39,60.62}},[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
         },
+        [19254] = { -- Warlord Dar'toon
+            [npcKeys.questEnds] = {25694,25695,64063,64217},
+        },
         [19255] = { -- General Krakork
             [npcKeys.waypoints] = {},
         },
         [19256] = { -- Sergeant Shatterskull
             [npcKeys.waypoints] = {},
+        },
+        [19310] = { -- Forward Commander Kingston
+            [npcKeys.questStarts] = {10144,10146,10187,10340},
         },
         [19412] = { -- D'ore
             [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{73.71,55.41}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
@@ -1822,12 +2824,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{32.46,67.08}},[zoneIDs.SETHEKK_HALLS] = {{48.97,94.83},{52.1,85.87},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING] = {{{30.54,88.73},{28.54,86.74},{25.94,83.42},{25.94,81.48},{31.01,74.91},{31.56,72.68},{32.46,67.08}},{{44.09,96.18},{44.13,84.84},{44.86,82.77},{49.21,82.28},{51.94,82.87},{53.05,84.3},{53.14,92.67},{51.85,94.9},{51.4,94.9}}},[zoneIDs.SETHEKK_HALLS] = {{{51.4,94.9},{48.97,94.83}},{{52.1,85.87},{49.43,85.31},{48.85,88.04},{47.57,90.98},{45,89.08}}}},
         },
+        [19496] = { -- Spy Grik'tha
+            [npcKeys.questStarts] = {10178},
+        },
         [19505] = { -- Sunseeker Channeler
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{8.12,45.09},{8.09,51.08},{19.09,53.12},{19.03,52.21},{19.06,50},{19.04,48.81},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_BOTANICA] = {{{8.09,51.08},{10.12,50.09}},{{8.12,45.09},{9.92,45.47}}}},
         },
         [19513] = { -- Mutate Fear-Shrieker
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{36.6,83.1},{36.01,80.37},{31.75,80.44},{32.52,79.53},{31.86,82.76},{31.12,84.36},{-1,-1}}},
+        },
+        [19542] = { -- Field Commander Mahfuun
+            [npcKeys.questStarts] = {10094},
         },
         [19570] = { -- Rocket-Chief Fuselage
             [npcKeys.questEnds] = {10183,10186,10237,10249,10701,11036,11037,11040,11042},
@@ -1838,12 +2846,28 @@ function CataNpcFixes.Load()
         [19622] = { -- Kael'thas Sunstrider
             [npcKeys.spawns] = {[zoneIDs.TEMPEST_KEEP] = {{50.04,14.67},{-1,-1}}},
         },
+        [19670] = { -- Artificer Morphalius
+            [npcKeys.questStarts] = {10216},
+        },
+        [19671] = { -- Cryo-Engineer Sha'heen
+            [npcKeys.questStarts] = {10218},
+        },
+        [19674] = { -- Nexus-Prince Haramad
+            [npcKeys.questStarts] = {10165},
+        },
+        [19698] = { -- Greatfather Aldrimus
+            [npcKeys.questStarts] = {10164,29595},
+        },
         [19865] = { -- Mutate Horror
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{35.19,82.6},{36.92,81.62},{31.04,79.11},{33.38,80.3},{30.43,83.45},{32.77,83.59},{-1,-1}}},
+        },
+        [19932] = { -- Andormu
+            [npcKeys.questStarts] = {10561},
         },
         [19935] = { -- Soridormi
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{58.61,54.05}}},
             [npcKeys.waypoints] = {[zoneIDs.TANARIS] = {{{58.61,54.05},{58.60,54.06},{58.53,54.09},{58.47,54.13},{58.40,54.17},{58.34,54.21},{58.27,54.25},{58.21,54.30},{58.15,54.35},{58.07,54.45},{57.98,54.57},{57.92,54.64},{57.87,54.70},{57.82,54.77},{57.76,54.84},{57.72,54.89},{57.68,55.08},{57.66,55.21},{57.64,55.31},{57.62,55.41},{57.60,55.51},{57.58,55.61},{57.57,55.71},{57.56,55.81},{57.55,55.92},{57.54,56.02},{57.53,56.12},{57.51,56.23},{57.50,56.33},{57.50,56.37},{57.51,56.45},{57.53,56.66},{57.54,56.76},{57.55,56.87},{57.56,56.97},{57.57,57.07},{57.58,57.17},{57.59,57.28},{57.60,57.38},{57.62,57.48},{57.63,57.58},{57.64,57.69},{57.66,57.79},{57.67,57.89},{57.69,57.99},{57.70,58.09},{57.72,58.16},{57.80,58.28},{57.88,58.40},{57.93,58.48},{57.98,58.54},{58.01,58.58},{58.05,58.66},{58.11,58.73},{58.14,58.77},{58.20,58.81},{58.30,58.86},{58.37,58.90},{58.43,58.93},{58.50,58.97},{58.56,59.00},{58.63,58.99},{58.70,58.98},{58.77,58.97},{58.83,58.96},{58.90,58.95},{58.95,58.94},{59.00,58.91},{59.17,58.81},{59.23,58.78},{59.30,58.74},{59.36,58.70},{59.43,58.66},{59.49,58.62},{59.54,58.59},{59.57,58.56},{59.68,58.42},{59.73,58.35},{59.78,58.28},{59.83,58.21},{59.89,58.15},{59.94,58.08},{59.99,58.01},{60.04,57.94},{60.08,57.90},{60.16,57.72},{60.20,57.64},{60.25,57.56},{60.29,57.48},{60.33,57.40},{60.38,57.31},{60.42,57.23},{60.45,57.14},{60.47,57.04},{60.49,56.94},{60.52,56.85},{60.54,56.75},{60.57,56.65},{60.59,56.55},{60.61,56.45},{60.64,56.35},{60.66,56.26},{60.68,56.16},{60.67,56.06},{60.67,55.95},{60.66,55.85},{60.66,55.75},{60.65,55.64},{60.64,55.54},{60.64,55.43},{60.63,55.33},{60.61,55.23},{60.61,55.23},{60.51,55.05},{60.47,54.97},{60.42,54.89},{60.38,54.81},{60.35,54.76},{60.31,54.72},{60.25,54.66},{60.20,54.59},{60.14,54.53},{60.05,54.42},{59.99,54.36},{59.94,54.30},{59.88,54.24},{59.86,54.21},{59.82,54.18},{59.71,54.11},{59.61,54.06},{59.55,54.02},{59.50,53.98},{59.44,53.95},{59.37,53.94},{59.24,53.93},{59.17,53.92},{59.10,53.92},{59.03,53.91},{58.96,53.93},{58.90,53.95},{58.83,53.97},{58.76,53.99},{58.69,54.01},{58.64,54.03},{58.61,54.05}}}},
+            [npcKeys.questStarts] = {10460,10461,10462,10463,10464,10465,10466,10467,10468,10469,10470,10471,10472,10473,10474,10475,11103,11104,11105,11106,13432},
         },
         [19936] = { -- Arazmodu
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{58.61,54.05}}},
@@ -1852,9 +2876,24 @@ function CataNpcFixes.Load()
         [20102] = { -- Goblin Commoner
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.77,84.45}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+            [npcKeys.questStarts] = {11356,11357,11441,11446,11970,11971,12752,12753,12772,12775,12777,12782,12783,12784,12808,12811,13483,13484,14022,14036,29074,29400},
         },
         [20201] = { -- Sa'at
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{49.29,6.47},{-1,-1}}},
+            [npcKeys.questStarts] = {10297,10298},
+        },
+        [20406] = { -- Champion Cyssa Dawnrose
+            [npcKeys.questStarts] = {9601,27298,27304,28302,28303},
+        },
+        [20407] = { -- Farseer Umbrua
+            [npcKeys.questStarts] = {8410,27353,28401,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {27270,28287,28401,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
+        },
+        [20448] = { -- Commander Ameer
+            [npcKeys.questStarts] = {10339,10970,10971,10972,10973,10974},
+        },
+        [20612] = { -- Sorim Lightsong
+            [npcKeys.questStarts] = {10359,10360,10361,10362,10363},
         },
         [20735] = { -- Archmage Lan'dalock
             [npcKeys.zoneID] = zoneIDs.DALARAN,
@@ -1886,6 +2925,9 @@ function CataNpcFixes.Load()
         [21183] = { -- Oronok Torn-heart
             [npcKeys.questEnds] = {10513,10514,10515,10519,10523,10541,10579},
         },
+        [21209] = { -- Dumphry
+            [npcKeys.questStarts] = {10055,10078,10763,10764},
+        },
         [21212] = { -- Lady Vashj
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},
         },
@@ -1895,14 +2937,28 @@ function CataNpcFixes.Load()
         [21694] = { -- Bog Overlord
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{29.62,17.23},{35.4,15.22},{40.88,17.61},{35.01,37.76},{30.59,34.45},{-1,-1}}},
         },
+        [21700] = { -- Akama
+            [npcKeys.questStarts] = {10705,10707,10708,10946,10947,10948,11052},
+        },
         [21962] = { -- Udalo
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_CONTAINMENT_CORE] = {{31.67,25.08}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [22112] = { -- Karynaku
+            [npcKeys.questStarts] = {10866,10870,10872},
+        },
         [22421] = { -- Skar'this the Heretic
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{57.57,83.85},{-1,-1}}},
+            [npcKeys.questStarts] = {10900,10901,13431},
+        },
+        [22433] = { -- Ja'y Nosliw
+            [npcKeys.questStarts] = {11063},
+        },
+        [22818] = { -- Draenei Orphan
+            [npcKeys.questStarts] = {10950,10952,10954,10956,10962,10966},
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{75.07,47.88}}},
+            [npcKeys.questStarts] = {10942,10943},
         },
         [22820] = { -- Seer Olum
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{48.02,18.42},{-1,-1}}},
@@ -1916,17 +2972,42 @@ function CataNpcFixes.Load()
         [22892] = { -- Third Fragment Guardian
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS] = {{59.05,24.12}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [23010] = { -- Wolgren Jinglepocket
+            [npcKeys.questStarts] = {7023},
+        },
         [23042] = { -- Severin
             [npcKeys.waypoints] = {},
         },
+        [23127] = { -- Farseer Javad
+            [npcKeys.questStarts] = {8410,27270,28287},
+        },
+        [23128] = { -- Master Pyreanor
+            [npcKeys.questStarts] = {27434,28473,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {27298,28303,28473,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
+        },
+        [23306] = { -- Hazzik
+            [npcKeys.questStarts] = {11029,11056,11074,11885},
+        },
+        [23558] = { -- Neill Ramstein
+            [npcKeys.questStarts] = {11122,11318,29394},
+        },
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{48.48,61.57}}},
+        },
+        [23627] = { -- Becan Barleybrew
+            [npcKeys.questStarts] = {11293},
+        },
+        [23628] = { -- Daran Thunderbrew
+            [npcKeys.questStarts] = {11294},
         },
         [23679] = { -- Garn Mathers
             [npcKeys.waypoints] = {[zoneIDs.DUSTWALLOW_MARSH] = {{{63.9,29.05},{63.73,28.66},{63.88,28.28},{64,27.85},{64.19,27.53},{64.35,27.1},{64.45,26.77},{64.64,26.83},{64.88,27.15},{64.93,27.65},{64.74,27.96},{64.44,28.78},{64.17,28.99},{63.9,29.05}}}},
         },
         [23843] = { -- Mordant Grimsby
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{55.58,26.14}}},
+        },
+        [23951] = { -- Lieutenant Aden
+            [npcKeys.questStarts] = {1220,27214,27247,27248},
         },
         [23973] = { -- Masked Orphan Matron
             [npcKeys.spawns] = {
@@ -1935,12 +3016,25 @@ function CataNpcFixes.Load()
                 [zoneIDs.EVERSONG_WOODS] = {{47.25,46.48}},
             },
         },
+        [24032] = { -- Celea Frozenmane
+            [npcKeys.questStarts] = {11266,11267},
+        },
         [24111] = { -- Defender Mordun
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP] = {{67.56,70.9},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+            [npcKeys.questStarts] = {11252,13205,29763,29764,29803},
+        },
+        [24125] = { -- Cormath the Courier
+            [npcKeys.questStarts] = {11411},
+        },
+        [24135] = { -- Greatmother Ankha
+            [npcKeys.questStarts] = {11260,11265,11268,11287},
         },
         [24364] = { -- Flynn Firebrew
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{53.01,51.1}}},
+        },
+        [24468] = { -- Pol Amberstill
+            [npcKeys.questStarts] = {11321,12193,13932,29397},
         },
         [24470] = { -- [PH] Maldonado's Test Creature
             [npcKeys.questEnds] = {},
@@ -1950,15 +3044,19 @@ function CataNpcFixes.Load()
         },
         [24497] = { -- Ram Master Ray
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{42.62,17.84}}},
+            [npcKeys.questStarts] = {11409,11412,29393},
         },
         [24498] = { -- Cort Gorestein
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.56,18.19}}},
+            [npcKeys.questStarts] = {11407},
         },
         [24499] = { -- Ja'ron
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.2,17.08}}},
+            [npcKeys.questStarts] = {11408},
         },
         [24510] = { -- Driz Tumblequick
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{42.69,17.71}}},
+            [npcKeys.questStarts] = {11413,12194,13931,29396},
         },
         [24519] = { -- Costumed Orphan Matron
             [npcKeys.spawns] = {
@@ -1966,6 +3064,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.DUN_MOROGH] = {{53.29,51.47}},
                 [zoneIDs.AZUREMYST_ISLE] = {{49.16,51.33}},
             },
+            [npcKeys.questEnds] = {11131,11242,11356,11360,11435,11439,11440,12133,12135},
         },
         [24527] = { -- Bok Dropcertain
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{50.61,13.48}}},
@@ -1982,8 +3081,12 @@ function CataNpcFixes.Load()
         [24697] = { -- Sister of Torment
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE_GRAND_MAGISTERS_ASYLUM] = {{15.1,50.22},{72.66,58.52},{64.13,52.66},{64.15,60.9},{47.81,60.16},{39.42,45.77}},[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
         },
+        [24710] = { -- Ipfelkofer Ironkeg
+            [npcKeys.questEnds] = {11437,11438,11441,11442,11486,12491},
+        },
         [24711] = { -- Tapper Swindlekeg
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
+            [npcKeys.questEnds] = {11444,11445,11446,11447,11487,12492},
         },
         [24723] = { -- Selin Fireheart
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{42.53,23.6},{-1,-1}}},
@@ -1994,11 +3097,24 @@ function CataNpcFixes.Load()
         [24744] = { -- Vexallus
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{82.65,26.47},{-1,-1}}},
         },
+        [24813] = { -- Exarch Larethor
+            [npcKeys.questStarts] = {11488},
+        },
         [24822] = { -- Tyrith
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{60.91,24.01},{-1,-1}}},
         },
         [24848] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.05,36.13},{-1,-1}}},
+            [npcKeys.questStarts] = {11492,29685},
+        },
+        [25034] = { -- Tradesman Portanuus
+            [npcKeys.questStarts] = {11517,11534},
+        },
+        [25061] = { -- Harbinger Inuuro
+            [npcKeys.questStarts] = {11537,11538},
+        },
+        [25167] = { -- General Tiras'alan
+            [npcKeys.questStarts] = {11550},
         },
         [25273] = { -- Warsong Recruitment Officer
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{41.62,53.99},{43.01,55.64}}},
@@ -2010,24 +3126,124 @@ function CataNpcFixes.Load()
                     {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
                 },
             },
+            [npcKeys.questStarts] = {11891,12012,29092},
+        },
+        [25450] = { -- Veehja
+            [npcKeys.questStarts] = {11625,11626,12490},
         },
         [25636] = { -- Captured Tuskarr Prisoner
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44.10,77.90}}},
         },
         [25697] = { -- Luma Skymother
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{18.48,49.53},{-1,-1}}},
+            [npcKeys.questStarts] = {11976},
         },
         [25740] = { -- Ahune
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{32.56,50.45},{-1,-1}}},
         },
+        [25809] = { -- Arch Druid Lathorius
+            [npcKeys.questStarts] = {11864,11866,11867,11876,11878,11892},
+        },
+        [25883] = { -- Ashenvale Flame Warden
+            [npcKeys.questStarts] = {11805},
+        },
+        [25887] = { -- Arathi Flame Warden
+            [npcKeys.questStarts] = {11804},
+        },
+        [25888] = { -- Azuremyst Isle Flame Warden
+            [npcKeys.questStarts] = {11806},
+        },
+        [25889] = { -- Blade's Edge Flame Warden
+            [npcKeys.questStarts] = {11807},
+        },
+        [25890] = { -- Blasted Lands Flame Warden
+            [npcKeys.questStarts] = {11808},
+        },
+        [25891] = { -- Bloodmyst Isle Flame Warden
+            [npcKeys.questStarts] = {11809},
+        },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
+            [npcKeys.questStarts] = {11810},
+        },
+        [25893] = { -- Darkshore Flame Warden
+            [npcKeys.questStarts] = {11811},
+        },
+        [25894] = { -- Desolace Flame Warden
+            [npcKeys.questStarts] = {11812},
+        },
+        [25895] = { -- Dun Morogh Flame Warden
+            [npcKeys.questStarts] = {11813},
+        },
+        [25896] = { -- Duskwood Flame Warden
+            [npcKeys.questStarts] = {11814},
+        },
+        [25897] = { -- Dustwallow Marsh Flame Warden
+            [npcKeys.questStarts] = {11815},
+        },
+        [25898] = { -- Elwynn Forest Flame Warden
+            [npcKeys.questStarts] = {11816},
         },
         [25899] = { -- Feralas Flame Warden
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{46.82,43.7}}},
+            [npcKeys.questStarts] = {11817},
         },
         [25936] = { -- Mulgore Flame Keeper
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{51.81,59.26}}},
+        },
+        [25900] = { -- Hellfire Peninsula Flame Warden
+            [npcKeys.questStarts] = {11818},
+        },
+        [25901] = { -- Hillsbrad Flame Warden
+            [npcKeys.questStarts] = {11819},
+        },
+        [25902] = { -- Loch Modan Flame Warden
+            [npcKeys.questStarts] = {11820},
+        },
+        [25903] = { -- Nagrand Flame Warden
+            [npcKeys.questStarts] = {11821},
+        },
+        [25904] = { -- Redridge Flame Warden
+            [npcKeys.questStarts] = {11822},
+        },
+        [25905] = { -- Shadowmoon Valley Flame Warden
+            [npcKeys.questStarts] = {11823},
+        },
+        [25906] = { -- Teldrassil Flame Warden
+            [npcKeys.questStarts] = {11824},
+        },
+        [25907] = { -- Terokkar Forest Flame Warden
+            [npcKeys.questStarts] = {11825},
+        },
+        [25908] = { -- The Hinterlands Flame Warden
+            [npcKeys.questStarts] = {11826},
+        },
+        [25909] = { -- Western Plaguelands Flame Warden
+            [npcKeys.questStarts] = {11827},
+        },
+        [25910] = { -- Westfall Flame Warden
+            [npcKeys.questStarts] = {11583},
+        },
+        [25911] = { -- Wetlands Flame Warden
+            [npcKeys.questStarts] = {11828},
+        },
+        [25912] = { -- Zangarmarsh Flame Warden
+            [npcKeys.questStarts] = {11829},
+        },
+        [25913] = { -- Netherstorm Flame Warden
+            [npcKeys.questStarts] = {11830},
+        },
+        [25914] = { -- Silithus Flame Warden
+            [npcKeys.questStarts] = {11831},
+        },
+        [25915] = { -- Stranglethorn Vale Flame Warden
+            [npcKeys.questStarts] = {11832},
+        },
+        [25916] = { -- Tanaris Flame Warden
+            [npcKeys.questStarts] = {11833},
+        },
+        [25917] = { -- Winterspring Flame Warden
+            [npcKeys.questStarts] = {11834},
         },
         [25975] = { -- Master Fire Eater
             [npcKeys.spawns] = {
@@ -2036,9 +3252,11 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{50.13,72.56}},
                 [zoneIDs.THE_EXODAR] = {{40.90,25.59}},
             },
+            [npcKeys.questStarts] = {11657,11731,11921,11924},
         },
         [26113] = { -- Frostwave Lieutenant
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.43,66.85}},[1637] = {{46.59,37.25}},[1638] = {{21,26.44}},[3487] = {{69.48,42.44}}},
+            [npcKeys.questStarts] = {11922,11923,11925,11926},
         },
         [26116] = { -- Frostwave Lieutenant
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.64,12.18},{9.26,11.46},{9.67,11.14}}},
@@ -2066,17 +3284,26 @@ function CataNpcFixes.Load()
         [26216] = { -- Glacial Templar
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{85.59,47.14},{84.19,47.1},{85.62,53.26},{84.13,53.4}}},
         },
+        [26221] = { -- Earthen Ring Elder
+            [npcKeys.questStarts] = {11886,11917,11947,11948,11952,11953,11954,11955},
+            [npcKeys.questEnds] = {9319,11917,11947,11948,11952,11953,11954,12012,29092},
+        },
         [26401] = { -- Summer Scorchling
             [npcKeys.spawns] = {[1] = {{53.8,45.14}},[3] = {{18.97,56.32}},[4] = {{55.55,14.76}},[8] = {{70.13,15.73}},[10] = {{73.77,54.5}},[11] = {{13.5,46.97}},[12] = {{43.48,62.5}},[15] = {{61.87,40.5}},[28] = {{43.43,82.24}},[38] = {{32.59,41.1}},[40] = {{44.8,62.18}},[44] = {{25.64,53.48}},[45] = {{44.22,46}},[46] = {{68.32,60.78}},[47] = {{14.93,50.5}},[65] = {{75.24,43.78}},[66] = {{40.38,61.39}},[67] = {{41.42,86.74}},[141] = {{54.83,52.77}},[148] = {{48.69,22.7}},[331] = {{86.89,41.85}},[357] = {{46.78,43.67}},[394] = {{33.94,60.51}},[405] = {{66.19,17.1}},[406] = {{49.35,51.34}},[440] = {{52.67,30.22}},[490] = {{59.78,63.26}},[495] = {{57.84,16.17}},[618] = {{61.36,47.31}},[1377] = {{60.38,33.5}},[2817] = {{78.07,74.91}},[3483] = {{62.45,57.99}},[3518] = {{49.57,69.4}},[3519] = {{54.01,55.57}},[3520] = {{39.63,54.56}},[3521] = {{68.73,51.95}},[3522] = {{41.52,65.87}},[3523] = {{31.16,62.65}},[3524] = {{44.41,52.47}},[3525] = {{55.82,67.75}},[3537] = {{55.15,19.91}},[3711] = {{48.37,65.53}},[4709] = {{48.34,72.29}},[4922] = {{47.32,28.94}},[5034] = {{53.6,31.92}},[5287] = {{52.03,67.71}},[33] = {{51.44,40.96}}},
         },
         [26471] = { -- Image of Archmage Aethas Sunreaver
             [npcKeys.questEnds] = {11996,11999,12005,12059,12061,12066,12084,12110,12173},
+            [npcKeys.questEnds] = {11996,11999,12005,12059,12061,12066,12084,12110,12173,78168,78225},
         },
         [26520] = { -- Festival Scorchling
             [npcKeys.spawns] = {[3] = {{23.19,37.42}},[4] = {{46.3,13.74}},[8] = {{76.29,13.59}},[14] = {{52.15,47.25}},[15] = {{33.49,30.92}},[16] = {{60.8,53.55}},[17] = {{49.96,54.54}},[28] = {{29.23,57.34}},[33] = {{40.51,50.96}},[45] = {{69.41,42.46}},[46] = {{51.2,29.24}},[47] = {{76.66,75.07}},[65] = {{38.31,48.45}},[66] = {{43.42,71.81}},[67] = {{40.27,85.41}},[85] = {{57.29,51.75}},[130] = {{49.59,38.31}},[215] = {{51.77,59.21}},[267] = {{54.71,50.15}},[331] = {{51.35,66.23}},[357] = {{72.41,47.75}},[394] = {{19.26,61.17}},[405] = {{26.13,77.01}},[406] = {{52.95,62.4}},[440] = {{49.8,27.93}},[490] = {{56.24,66.33}},[495] = {{48.64,13.08}},[618] = {{58.16,47.43}},[1377] = {{50.82,41.4}},[2817] = {{80.08,53.21}},[3430] = {{46.41,50.51}},[3433] = {{46.89,26.48}},[3483] = {{57.16,42}},[3518] = {{50.97,34.13}},[3519] = {{51.97,42.96}},[3520] = {{33.65,30.78}},[3521] = {{35.47,51.69}},[3522] = {{49.92,58.75}},[3523] = {{32.16,68.33}},[3537] = {{51.16,11.47}},[3711] = {{47.4,61.75}},[4709] = {{40.85,67.73}},[4922] = {{52.96,45.93}},[5034] = {{53.1,34.54}},[5287] = {{50.34,70.33}}},
         },
+        [26653] = { -- Kilix the Unraveler
+            [npcKeys.questStarts] = {12040,12041,13167,13182,13187,13190},
+        },
         [26673] = { -- Image of Archmage Modera
             [npcKeys.questEnds] = {11995,12000,12004,12055,12060,12065,12083,12107,12172,12440},
+            [npcKeys.questEnds] = {11995,12000,12004,12055,12060,12065,12083,12107,12172,12440,78166,78223},
         },
         [26860] = { -- Conqueror Krenna
             [npcKeys.questEnds] = {12178,12412,12413,12423,12487},
@@ -2084,14 +3311,27 @@ function CataNpcFixes.Load()
         [26875] = { -- Lieutenant Dumont
             [npcKeys.questEnds] = {12105,12156,12292,12294,12308,12310,12511,13524},
         },
+        [27215] = { -- Boxey Boltspinner
+            [npcKeys.questStarts] = {12022},
+        },
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.53,17.6}}},
+            [npcKeys.questStarts] = {12191},
+        },
+        [27584] = { -- Darna Honeybock
+            [npcKeys.questStarts] = {12318},
         },
         [27987] = { -- Monte Muzzleshot
             [npcKeys.questEnds] = {12521},
         },
+        [28039] = { -- Commander Kunz
+            [npcKeys.questStarts] = {12501,12505,12596,12604,12792},
+        },
         [28048] = { -- Dread Captain DeMeza
             [npcKeys.questEnds] = {},
+        },
+        [28070] = { -- Brann Bronzebeard
+            [npcKeys.questStarts] = {13207,13417},
         },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{47.38,9.21}}},
@@ -2100,18 +3340,62 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{36.2,57.83},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{{36.2,57.83},{36.84,57.55},{37.65,57.29},{38.71,56.75},{40,56.05},{41.24,55.37},{42.08,54.87},{42.96,54.61},{43.74,54.47},{44.45,54.67},{44.57,54.8},{45.45,55.65},{46.36,56.52},{46.88,57.2},{48.49,59.15},{48.98,59.73},{50.21,60.74}}}},
         },
+        [28329] = { -- Slurpo Fizzykeg
+            [npcKeys.questStarts] = {12318},
+        },
+        [28377] = { -- Prince Valanar
+            [npcKeys.questStarts] = {12678,12697,12701,12706},
+        },
+        [28401] = { -- Har'koa
+            [npcKeys.questStarts] = {12632,12642,12665,12666,12667,12684,12685,12712,12721,12730,13097,29833},
+        },
         [28518] = { -- Stefan Vadu
             [npcKeys.questEnds] = {12629,12630,12631,12633,12637,12638,12643,12648,12649,12661,12669,12676,12677,12713,12780,12884},
+        },
+        [28527] = { -- Chronicler To'kini
+            [npcKeys.questStarts] = {12635,12650,12709,13099,13549,29836},
+        },
+        [29110] = { -- The Lich King
+            [npcKeys.questStarts] = {12779,12800},
         },
         [29156] = { -- Archmage Celindra
             [npcKeys.questEnds] = {12790,12791,12794,12796},
         },
+        [29194] = { -- Amal'thazad
+            [npcKeys.questStarts] = {82983,82985},
+        },
+        [29195] = { -- Lady Alistra
+            [npcKeys.questStarts] = {82983,82985},
+        },
+        [29196] = { -- Lord Thorval
+            [npcKeys.questStarts] = {82983,82985,88781,88784,88787,88788,88797,88798},
+            [npcKeys.questEnds] = {88777,88781,88784,88787,88788},
+        },
         [29611] = { -- King Varian Wrynn
+            [npcKeys.questStarts] = {7496,7782,26365,26370,26960,26975,26977,27241,28238},
             [npcKeys.questEnds] = {396,4184,6186,6187,7495,7781,11222,12774,13188,13347,13370,13377,24597,25425,26322,26960,27106,27240,28716},
+        },
+        [30007] = { -- Gurgthock
+            [npcKeys.questStarts] = {12932,12933,12934,12935,12936,12948,12954},
+        },
+        [30105] = { -- King Jokkum
+            [npcKeys.questStarts] = {12966,12975,12976,13011,13108,13109,29863},
         },
         [30490] = { -- Rin Duoctane
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY] = {{31.27,49.62}}},
             [npcKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
+        },
+        [30671] = { -- Tol'mar
+            [npcKeys.questStarts] = {13096},
+        },
+        [30676] = { -- Chronicler Bah'Kini
+            [npcKeys.questStarts] = {13098,13111},
+        },
+        [31080] = { -- Warden Alturas
+            [npcKeys.questStarts] = {13159},
+        },
+        [31108] = { -- Siege Master Stouthandle
+            [npcKeys.questStarts] = {236,13197},
         },
         [32725] = { -- Warmage Silva
             [npcKeys.questEnds] = {},
@@ -2181,6 +3465,15 @@ function CataNpcFixes.Load()
         [33119] = { -- Aroom
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.59,48.47}}},
         },
+        [33131] = { -- Great Moonstalker Spirit
+            [npcKeys.questStarts] = {13568},
+        },
+        [33132] = { -- Great Thistle Bear Spirit
+            [npcKeys.questStarts] = {13597},
+        },
+        [33133] = { -- Great Stag Spirit
+            [npcKeys.questStarts] = {13567},
+        },
         [33232] = { -- Archaeologist Hollee
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {
@@ -2197,12 +3490,19 @@ function CataNpcFixes.Load()
         },
         [33260] = { -- Sentinel Aluwyn
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{48.47,12},{-1,-1}}},
+            [npcKeys.questEnds] = {1199,26458,26883,26897,26898,28011},
         },
         [33261] = { -- Sentinel-trainee Issara
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{48.48,11.58},{-1,-1}}},
         },
         [33302] = { -- Captain Elendilad
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{65.78,82.18}}},
+        },
+        [33532] = { -- Wolvar Orphan
+            [npcKeys.questStarts] = {13930,13934,13938,13951,13955,13957,13960,28880},
+        },
+        [33533] = { -- Oracle Orphan
+            [npcKeys.questStarts] = {13929,13933,13937,13950,13954,13956,13959,28879},
         },
         [33444] = { -- Harbinger Aphotic
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{20.34,42.47}}},
@@ -2215,6 +3515,9 @@ function CataNpcFixes.Load()
         },
         [34295] = { -- Lord Magmathar
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{48.14,39.22}}},
+        },
+        [34365] = { -- Orphan Matron Aria
+            [npcKeys.questStarts] = {13926,13927,13959},
         },
         [34398] = { -- Nightmare Guardian
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{49.33,55.7}}},
@@ -2339,6 +3642,7 @@ function CataNpcFixes.Load()
                     {21.62,12.91,phases.KEZAN_CHAPTER_7},
                 },
             },
+            [npcKeys.questStarts] = {14071,14121,24567,28606,28607},
         },
         [35053] = { -- Candy Cane
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{56.31,77.11}}},
@@ -2404,8 +3708,8 @@ function CataNpcFixes.Load()
         [35489] = { -- East Survey Marker Kill Credit
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{37.37,74.63}}},
         },
-        [35591] = { -- Lesser Infernal
-            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{54.22,80.89},{53.77,82.28},{57.59,77.08},{49.36,77.96},{54.43,83.62},{53.59,79.84},{53.03,86.05},{54.58,73.57},{52.73,72.21},{50.46,73.68},{54.31,71.14},{56.8,71.13},{55.17,79.52},{51.45,75.61},{48.89,77.0},{50.83,70.2}}},
+        [35557] = { -- The Black Knight
+            [npcKeys.questStarts] = {29853},
         },
         [35566] = { -- Lord Darius Crowley
             [npcKeys.spawns] = {
@@ -2414,6 +3718,9 @@ function CataNpcFixes.Load()
                     {48.9,52.8,phases.LOST_ISLES_CHAPTER_4},
                 },
             },
+        },
+        [35591] = { -- Lesser Infernal
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{54.22,80.89},{53.77,82.28},{57.59,77.08},{49.36,77.96},{54.43,83.62},{53.59,79.84},{53.03,86.05},{54.58,73.57},{52.73,72.21},{50.46,73.68},{54.31,71.14},{56.8,71.13},{55.17,79.52},{51.45,75.61},{48.89,77.0},{50.83,70.2}}},
         },
         [35628] = { -- Polymorphed Cockroach
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{59.93,24.16},{58.49,26.36},{59.62,22.84},{52.14,16.86},{60.79,23.68},{58.3,24.55},{54.46,24.57},{54.84,24.31},{54.98,24.4},{54.84,25.9},{55.07,26.7},{56.71,21.85},{57.16,24.07},{61.38,25.12},{61.28,26.71},{59,21.73},{53.4,24.95},{59.2,24.45},{57.73,26.11},{53.59,24.05},{53.04,19.64},{56.25,22.02},{53.83,22.37},{52.24,22.5},{56.29,25},{56.72,23.62},{55.68,26.47},{51.98,17.32},{56.22,24.93},{53.56,24.07},{52.67,22.33},{53.09,21.94},{56.09,24.81},{59.64,24.77},{58.93,26.59},{60.43,28.08},{51.72,16.48},{53.85,19.88},{55.31,25.12},{55.08,22.57},{55.37,23.4},{54.23,23.83},{54.86,20.68},{54.84,23.72},{54.43,23.11},{60.63,27.21},{55.25,25.15},{54.69,20.83},{55.12,22.29},{54.85,23.72},{55.04,22.34},{60.65,26.66}}},
@@ -2515,10 +3822,14 @@ function CataNpcFixes.Load()
         },
         [36608] = { -- Doc Zapnozzle
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{24.62,77.86}}},
+            [npcKeys.questStarts] = {14239},
+        },
+        [36642] = { -- Myralion Sunblaze
+            [npcKeys.questStarts] = {24555,24559,24560,24561,24562,24798,24799,24800,24801},
         },
         [36644] = { -- Ahmo Thunderhorn
             [npcKeys.questStarts] = {24459,14438,14491},
-            [npcKeys.questEnds] = {24215,14438,14491},
+            [npcKeys.questEnds] = {14436,14437,14438,14491,24215},
         },
         [36676] = { -- Azuregos
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{67.07,20.57}}},
@@ -2553,6 +3864,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{9.29,72.55}}},
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
         },
+        [37106] = { -- Coach Crosscheck
+            [npcKeys.questStarts] = {24488,24502,24503,24520,28414},
+        },
         [37114] = { -- Steamwheedle Shark
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{47.7,60.29},{47.1,62.41},{47.63,62.37},{48.33,62.33},{47.95,61.64},{47.55,61.67},{47.27,61.13},{48.11,61.07}}},
         },
@@ -2565,7 +3879,7 @@ function CataNpcFixes.Load()
         },
         [37172] = { -- Detective Snap Snagglebolt
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{50.8,75.24}}},
-            [npcKeys.questStarts] = {24536,24541,24850},
+            [npcKeys.questStarts] = {24536,24541,24638,24645,24647,24648,24649,24650,24651,24652,24850,28935},
             [npcKeys.questEnds] = {14483,24536,24541,24576,24638,24645,24647,24648,24649,24650,24651,24652,24805,28935},
         },
         [37487] = { -- Taurajo Refugee
@@ -2573,6 +3887,9 @@ function CataNpcFixes.Load()
         },
         [37513] = { -- Sabersnout
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{42.99,41.6}}},
+        },
+        [37527] = { -- Halduron Brightwing
+            [npcKeys.questStarts] = {24535,24553,24563,24564,24594,24595,24596,24598},
         },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
@@ -2584,6 +3901,7 @@ function CataNpcFixes.Load()
         [37675] = { -- Public Relations Agent
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{45.02,57.73}},[zoneIDs.IRONFORGE] = {{34.15,66.42}},[zoneIDs.STORMWIND_CITY] = {{62.41,75.38}},[zoneIDs.THE_EXODAR] = {{73.73,56.06}}, -- original data
                                [zoneIDs.THUNDER_BLUFF] = {{43.6,52.9}},[zoneIDs.ORGRIMMAR] = {{53.05,77.15}},[zoneIDs.UNDERCITY] = {{65.9,38.7}},[zoneIDs.SILVERMOON_CITY] = {{64.6,67.3}}}, -- corrections
+            [npcKeys.questStarts] = {24629,24635,24636},
         },
         [37733] = { -- Lord Walden
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{78.11,66.11}}},
@@ -2639,7 +3957,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{53,76.83}},},
         },
         [38066] = { -- Inspector Snip Snagglebolt
-            [npcKeys.questStarts] = {24655,24656,24848},
+            [npcKeys.questStarts] = {24655,24656,24658,24659,24660,24662,24663,24664,24665,24666,24848,28934},
             [npcKeys.questEnds] = {24655,24656,24657,24658,24659,24660,24662,24663,24664,24665,24666,24745,24804,28934},
         },
         [38120] = { -- Hobart Grapplehammer
@@ -2696,6 +4014,9 @@ function CataNpcFixes.Load()
         [38240] = { -- Dweller of the North
             [npcKeys.name] = "Dweller of the North"
         },
+        [38245] = { -- Tunari
+            [npcKeys.questStarts] = {24783,24784,24785,24786,24787},
+        },
         [38251] = { -- Bael'dun Escape Quest Credit
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.84,86.84}}},
             [npcKeys.zoneID] = zoneIDs.SOUTHERN_BARRENS,
@@ -2706,6 +4027,9 @@ function CataNpcFixes.Load()
         },
         [38307] = { -- Gormashh
             [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{59.97,29.88},{59.73,29.41},{59.47,29.25},{59.21,29.64},{58.97,30.41},{59.10,30.58},{59.32,31.02},{59.68,31.29},{59.99,31.45},{60.32,31.65},{60.62,31.90},{60.86,32.16},{60.82,32.31},{60.76,32.63},{60.89,32.87},{60.81,33.11},{60.72,33.33},{60.60,33.70},{60.70,33.88}}}},
+        },
+        [38316] = { -- Ormus the Penitent
+            [npcKeys.questEnds] = {24815,24818,24819,24820,24821,24822,24823,24825,24826,24827,24828,24829,24830,24831,24832,24833,24834,24835,24836,24837,24838,24839,24840,24841,24842,24843,24844,24845,24846,24847,25239,25240,25242},
         },
         [38328] = { -- Roka
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{57.59,60.81}}},
@@ -2863,6 +4187,10 @@ function CataNpcFixes.Load()
         [38872] = { -- Ambassador Gaines
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{53.12,46.67}}},
         },
+        [38911] = { -- Xavier the Huntsman
+            [npcKeys.questStarts] = {24964,28651},
+            [npcKeys.questEnds] = {24962,24964},
+        },
         [38935] = { -- Thrall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -2909,8 +4237,25 @@ function CataNpcFixes.Load()
         [39199] = { -- Assistant Greely
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{53.16,36.55}}},
         },
+        [39206] = { -- Acrypha
+            [npcKeys.questStarts] = {25149},
+            [npcKeys.questEnds] = {25138,25149},
+        },
+        [39214] = { -- Karranisha
+            [npcKeys.questStarts] = {3087,25139},
+            [npcKeys.questEnds] = {3087,25139},
+        },
         [39218] = { -- Bael'dun Survivor
             [npcKeys.spawns] = {[zoneIDs.SOUTHERN_BARRENS] = {{49.42,86.88}}},
+        },
+        [39270] = { -- Injured Razor Hill Grunt
+            [npcKeys.questStarts] = {25179},
+        },
+        [39271] = { -- High Tinker Mekkatorque
+            [npcKeys.questStarts] = {25393},
+        },
+        [39283] = { -- Earthmender Norsala
+            [npcKeys.questStarts] = {25181,27570,27572},
         },
         [39325] = { -- Grandmatron Tekla
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.49,35.36}}},
@@ -2942,6 +4287,9 @@ function CataNpcFixes.Load()
         [39385] = { -- Screamslash
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{35.83,29.09}}},
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR] = {{{35.50,33.06},{35.63,33.11},{35.76,33.15},{35.89,33.19},{36.02,33.20},{36.08,33.06},{36.09,32.86},{36.10,32.66},{36.12,32.46},{36.13,32.26},{36.14,32.07},{36.14,31.87},{36.11,31.67},{36.07,31.49},{36.00,31.31},{35.98,31.25},{35.95,31.19},{35.89,31.02},{35.82,30.85},{35.75,30.68},{35.75,30.67},{35.72,30.59},{35.69,30.53},{35.67,30.49},{35.61,30.34},{35.54,30.17},{35.47,30.00},{35.45,29.96},{35.46,29.84},{35.50,29.65},{35.54,29.46},{35.61,29.30},{35.72,29.19},{35.83,29.09}}}},
+        },
+        [39386] = { -- Pilot Muzzlesprock
+            [npcKeys.questStarts] = {25212},
         },
         [39407] = { -- Ysondre
             [npcKeys.spawns] = {[357] = {{81.54,42.44}}},
@@ -2978,7 +4326,11 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [39605] = { -- Garrosh Hellscream
-            [npcKeys.questEnds] = {},
+            [npcKeys.questStarts] = {7491,7784,9627,13842,25275,26293,26324,26830,26840,26865,28909},
+            [npcKeys.questEnds] = {7490,7783,9626,9813,13189,13841,13842,24612,25267,26294,26397,26398,26798,26830,28717},
+        },
+        [39609] = { -- Kor'kron Loyalist
+            [npcKeys.questEnds] = {25266},
         },
         [39622] = { -- Spirit of Lo'gosh
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {
@@ -2997,6 +4349,9 @@ function CataNpcFixes.Load()
         [39640] = { -- Kristoff Manheim
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{27.23,40.9}}},
         },
+        [39654] = { -- Vol'jin
+            [npcKeys.questStarts] = {25445},
+        },
         [39659] = { -- Spawn of Smolderos
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{89.72,56.35}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
@@ -3006,6 +4361,12 @@ function CataNpcFixes.Load()
         },
         [39664] = { -- Glimmerdeep Tidehunter
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{46.53,49.49},{45.63,48.12},{45.12,48.43},{45.48,48.94},{45.91,47.45},{43.48,46.69},{45.37,47.18},{44.53,47.94},{43.84,47.55},{44.16,46.96},{44.61,45.91},{43.65,46},{43.48,45.6},{42.86,45.83},{40.93,44.39},{41.36,45.34},{42.05,45.91},{42.3,47.49},{41.96,46.97},{41.28,46},{40.95,47.16},{41.44,47.14},{41.76,47.94},{43.33,48.1},{42.41,48.77},{42.87,48.39},{43.41,49.2},{44.42,50.26},{44.93,49.8},{45.2,51.86},{44.86,50.9},{45.42,50.39},{46,51.04},{46.17,51.79},{46.68,52.48},{45.46,47.1},{42.76,44.57},{42.26,45.19},{42.02,44.28},{49.81,48.45}}},
+        },
+        [39675] = { -- Captain Tread Sparknozzle
+            [npcKeys.questEnds] = {25199,25229,25285,25286,25289,25295,25306,25500},
+        },
+        [39678] = { -- Toby Zeigear
+            [npcKeys.questStarts] = {25283,25286,25500},
         },
         [39853] = { -- Taerar
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{81.37,42.53}}},
@@ -3033,6 +4394,9 @@ function CataNpcFixes.Load()
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
         },
+        [39933] = { -- Tyrus Blackhorn
+            [npcKeys.questStarts] = {25408,25411,25428,25443},
+        },
         [39964] = { -- Akasha
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{57.06,35.31}}},
             [npcKeys.waypoints] = {[zoneIDs.KELP_THAR_FOREST] = {{{57.06,35.31},{57.45,35.64},{57.79,36.06},{58.11,36.54},{58.39,37.05},{58.54,37.67},{58.46,38.32},{58.20,38.86},{57.86,39.28},{57.45,39.57},{57.03,39.76},{56.60,39.66},{56.37,39.10},{56.25,38.45},{56.12,37.81},{56.10,37.15},{56.29,36.56},{56.57,36.03},{56.87,35.54},{57.13,35.45}}}},
@@ -3049,12 +4413,24 @@ function CataNpcFixes.Load()
         [40178] = { -- Alysra
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{52.12,17.42}}},
         },
+        [40184] = { -- Vanira
+            [npcKeys.questStarts] = {25444,25446},
+        },
+        [40220] = { -- Mysterious Device
+            [npcKeys.questStarts] = {25571,25773},
+        },
+        [40253] = { -- Champion Uru'zin
+            [npcKeys.questStarts] = {25461,25495},
+        },
         [40282] = { -- Kliklak
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{46.59,32.37}}},
             [npcKeys.waypoints] = {[zoneIDs.KELP_THAR_FOREST] = {{{46.59,32.37},{46.46,33.51},{46.44,33.67},{46.33,34.55},{45.82,35.89},{45.47,36.41},{44.80,37.46},{44.73,37.56},{44.54,37.86},{44.04,38.65},{43.93,38.97},{43.92,39.75},{44.27,40.86},{44.72,41.45},{45.23,41.78},{45.43,41.91},{45.72,42.11},{46.46,42.93},{47.28,44.00},{47.77,45.07},{47.91,45.72},{47.96,46.03},{48.29,47.47},{48.56,47.84},{48.73,48.02},{49.54,48.82},{49.74,48.95},{49.97,49.11},{50.73,49.62},{51.00,49.72},{51.47,49.85},{51.80,49.89},{52.23,49.82},{52.77,49.25},{53.54,47.16},{52.90,45.69},{52.49,44.78},{52.07,43.83},{52.00,43.64},{51.67,41.86},{51.72,41.28},{52.16,40.01},{52.39,39.21},{52.38,38.19},{51.89,37.47},{51.11,36.74},{50.56,36.69},{49.99,36.69},{49.83,36.66},{48.56,36.24},{48.44,36.15},{47.55,35.45},{47.17,35.14},{47.01,35.10},{46.39,35.07},{46.06,35.22}}}},
         },
         [40340] = { -- Nemesis
             [npcKeys.waypoints] = {[zoneIDs.MOUNT_HYJAL] = {{{35.60,53.39},{35.93,52.85},{36.09,52.71},{36.25,52.62},{36.38,52.56},{36.75,52.39},{37.01,52.22},{37.39,52.10},{37.74,51.99},{38.40,52.01},{38.58,52.12},{38.86,52.31},{39.07,52.65},{39.16,52.79},{39.32,53.00},{39.55,53.33},{39.70,53.54},{39.81,53.71},{39.89,53.82},{40.14,54.19},{40.28,54.43},{40.30,54.60},{40.32,54.81},{40.23,55.19},{40.20,55.21},{40.10,55.29},{39.87,55.53},{39.81,55.60},{39.61,55.90},{39.53,56.23},{39.35,56.45},{39.17,56.57},{38.87,56.56},{38.50,56.39},{38.43,56.38},{38.08,56.28},{37.63,56.22},{37.56,56.26},{37.41,56.38},{37.36,56.43},{37.29,56.50},{37.15,56.72},{36.94,57.22},{36.92,57.29},{36.83,57.72},{36.65,58.27},{36.63,58.45},{36.76,59.02},{36.79,59.10},{36.80,59.38},{36.81,59.58},{36.97,59.96},{37.06,60.10},{37.26,60.19},{37.59,60.19},{37.83,60.19}}}},
+        },
+        [40391] = { -- Vol'jin
+            [npcKeys.questStarts] = {25480},
         },
         [40434] = { -- Blazing Trainer
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{89.54,58.46}}},
@@ -3147,6 +4523,12 @@ function CataNpcFixes.Load()
                 {72.22,74.69,phases.JAROD_NEAR_PORTAL},
                 {72.08,74.02,phases.JAROD_MIDDLE_ISLAND},
             }},
+        },
+        [40833] = { -- Tiala Whitemane
+            [npcKeys.questStarts] = {25985},
+        },
+        [40855] = { -- Slitherfin Eel
+            [npcKeys.questStarts] = {25474,27729},
         },
         [40916] = { -- Captain Vilethorn
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {
@@ -3378,6 +4760,12 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [42114] = { -- Alliance Sea-Scout
+            [npcKeys.questStarts] = {26124},
+        },
+        [42115] = { -- Hellscream Seadog
+            [npcKeys.questStarts] = {26105},
+        },
         [42135] = { -- Defend the Bridge Quad Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{38.49,78.6}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
@@ -3387,6 +4775,7 @@ function CataNpcFixes.Load()
         },
         [42197] = { -- L'ghorek
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{38.67,44.86},{38.75,44.75}}},
+            [npcKeys.questEnds] = {26140,26141,26142,26143,26144,26149,26154},
         },
         [42225] = { -- Alliance Prisoner
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{31.5,65.62},{32.04,64.44},{33.6,64.37},{27.49,62.49},{28.55,63.23},{35.18,63.06},{34.29,59.9},{31.26,61},{31.2,59.36},{30.1,60.09},{27.21,60.92},{26.28,55.96},{28.27,56.05},{29.22,57.71},{30.11,55.01},{27.08,54.66}}},
@@ -3396,6 +4785,9 @@ function CataNpcFixes.Load()
         },
         [42288] = { -- Robby Flay
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{50.56,71.89}}},
+        },
+        [42443] = { -- King Varian Wrynn
+            [npcKeys.questStarts] = {26054,27207},
         },
         [42470] = { -- Ma'haat the Indomitable
             [npcKeys.questEnds] = {},
@@ -3458,6 +4850,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [42600] = { -- Cairne Bloodhoof
+            [npcKeys.questStarts] = {26990,27209},
+        },
         [42641] = { -- Warlord Krogg
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{59.88,50.39}}},
         },
@@ -3510,6 +4905,11 @@ function CataNpcFixes.Load()
         },
         [43006] = { -- Rhyanda
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.39,35.53}}},
+            [npcKeys.questStarts] = {26940,28723},
+        },
+        [43010] = { -- Delios Silverblade
+            [npcKeys.questStarts] = {27091},
+            [npcKeys.questEnds] = {8329,27091},
         },
         [43082] = { -- First Mate Moody
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
@@ -3558,6 +4958,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.13,43.34}}},
             [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
+        [43278] = { -- Ashley Blank
+            [npcKeys.questStarts] = {26917},
+            [npcKeys.questEnds] = {26910,26917},
+        },
         [43300] = { -- Messner
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{47.65,41.8}}},
         },
@@ -3582,6 +4986,9 @@ function CataNpcFixes.Load()
         [43443] = { -- Keeshan's Riverboat
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{34.43,45.91}}},
             [npcKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+        },
+        [43454] = { -- "Good-Boy" Bruce
+            [npcKeys.questStarts] = {1036},
         },
         [43511] = { -- Deck Stain
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.67,92.92},{44.61,93.25},{44.39,92.59},{44.62,93.37},{44.87,93.36},{44.85,92.99},{44.68,93.09},{44.71,92.77},{44.61,92.64}}},
@@ -3651,6 +5058,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [43870] = { -- Seer Beryl
+            [npcKeys.questStarts] = {27331,27332,27334,27335,28164,28304,28307,28308,28309,28323},
+        },
         [43884] = { -- Osborn Obnoticus
             [npcKeys.spawns] = {
                 [zoneIDs.STRANGLETHORN_VALE] = {
@@ -3710,7 +5120,7 @@ function CataNpcFixes.Load()
         },
         [44217] = { -- Stone Guard Kurjack
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{68.6,11.5},{-1,-1}}},
-            [npcKeys.questEnds] = {26856,26858,26865,26866,26867},
+            [npcKeys.questEnds] = {26856,26858,26865,26866,26867,28003},
         },
         [44247] = { -- Wulf Hansreim
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{79.15,71.23}}},
@@ -3745,6 +5155,10 @@ function CataNpcFixes.Load()
         },
         [44387] = { -- Flaming Eradicator
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{31.83,67.03}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
+        [44395] = { -- Celestine of the Harvest
+            [npcKeys.questStarts] = {27273,28289,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questEnds] = {88776,88780,88783,88786,88790},
         },
         [44402] = { -- Auld Stonespire
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{68.17,82.96},{-1,-1}}},
@@ -3849,6 +5263,7 @@ function CataNpcFixes.Load()
         },
         [44837] = { -- Koristrasza
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{24.47,23.67},{-1,-1}}},
+            [npcKeys.questEnds] = {27009,27024,27029,27062,27063,28024,28025},
         },
         [44910] = { -- Anduin Farm Ambush Quest Tracker
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43.6,4.62}}},
@@ -3898,6 +5313,9 @@ function CataNpcFixes.Load()
         [44999] = { -- Shen'dralar Watcher
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{87.41,52.37},{-1,-1}}},
         },
+        [45009] = { -- King Magni Bronzebeard
+            [npcKeys.questStarts] = {27122},
+        },
         [45034] = { -- Yuldris Smolderfury
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.92,49.95}}},
         },
@@ -3906,6 +5324,9 @@ function CataNpcFixes.Load()
         },
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
+        },
+        [45046] = { -- Garrosh Hellscream
+            [npcKeys.questStarts] = {27127},
         },
         [45052] = { -- Stonemaul Ogre
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{71.67,91.91},{-1,-1}}},
@@ -4004,6 +5425,7 @@ function CataNpcFixes.Load()
                     {57.54,18.24,phases.RUINS_OF_GILNEAS_TEMPESTS_REACH},
                 },
             },
+            [npcKeys.questStarts] = {27333,27345,27349,27350,27364,27401,27405},
         },
         [45323] = { -- Packmaster Stonebruiser
             [npcKeys.spawns] = {
@@ -4049,6 +5471,13 @@ function CataNpcFixes.Load()
                     {-1,-1},
                 },
             },
+        },
+        [45339] = { -- Dark Cleric Cecille
+            [npcKeys.questStarts] = {27437,28474,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {27334,28304,28474,88778,88782,88785,88789},
+        },
+        [45341] = { -- Earthen Ring Emissary
+            [npcKeys.questStarts] = {27473,27566},
         },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
@@ -4148,6 +5577,15 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45665] = { -- Lady Cozwynn
+            [npcKeys.questStarts] = {27491,27497,27503,27609,27639},
+        },
+        [45669] = { -- Cassius the White
+            [npcKeys.questStarts] = {27490,27496,27502,27608,27637},
+        },
+        [45702] = { -- Erunak Stonespeaker
+            [npcKeys.questStarts] = {25180,27540,27546},
+        },
         [45708] = { -- Lirastrasza
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{27.6,21.01}}},
         },
@@ -4194,6 +5632,9 @@ function CataNpcFixes.Load()
         [45760] = { -- Northern Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{65.62,25.68},{63.38,25.68}}},
         },
+        [45765] = { -- Tormented Tomb-Robber
+            [npcKeys.questStarts] = {27517},
+        },
         [45796] = { -- Master Mathias Shaw
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.37,65.95}}},
         },
@@ -4233,6 +5674,9 @@ function CataNpcFixes.Load()
         [45865] = { -- "Call in the Artillery" Northern Building Bunny
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{39.21,62.05}}},
         },
+        [45874] = { -- Schnottz Scout
+            [npcKeys.questStarts] = {27541,27549},
+        },
         [45878] = { -- Lord Godfrey
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{47.91,72.22}}},
         },
@@ -4266,6 +5710,12 @@ function CataNpcFixes.Load()
         [45903] = { -- Morgan
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{36.03,77.63},{-1,-1}}},
         },
+        [45945] = { -- Earthen Ring Emissary
+            [npcKeys.questStarts] = {27473,27566},
+        },
+        [45946] = { -- Earthen Ring Emissary
+            [npcKeys.questStarts] = {27566},
+        },
         [46019] = { -- Cities in Dust Quest Credit
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.32,84.45}}},
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
@@ -4286,6 +5736,18 @@ function CataNpcFixes.Load()
                     {45.34,84.34,phases.SILVERPINE_FOREST_BATTLEFRONT},
                 },
             },
+        },
+        [46126] = { -- Turquoise Scarab
+            [npcKeys.questStarts] = {27627},
+        },
+        [46127] = { -- Sapphire Scarab
+            [npcKeys.questStarts] = {27627},
+        },
+        [46128] = { -- Emerald Scarab
+            [npcKeys.questStarts] = {27627},
+        },
+        [46129] = { -- Amethyst Scarab
+            [npcKeys.questStarts] = {27627},
         },
         [46174] = { -- Cayden Dunwald
             [npcKeys.spawns] = {
@@ -4375,6 +5837,9 @@ function CataNpcFixes.Load()
         },
         [46585] = { -- Eoin Dunwald
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{46,65.55}}},
+        },
+        [46591] = { -- Colin Thundermar
+            [npcKeys.questStarts] = {27754,28216,28294,28369,28860,28864},
         },
         [46599] = { -- Dunwald Hovel, South Credit
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{45.42,60.06}}},
@@ -4568,6 +6033,10 @@ function CataNpcFixes.Load()
         [47241] = { -- Mullan Gryphon Mount
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{60.87,58.14},{60.63,57.78},{60.82,58.06},{60.78,57.98},{60.7,57.94}}},
         },
+        [47246] = { -- Ureda
+            [npcKeys.questStarts] = {27400,28458,82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {27277,28300,28458,88778,88782,88785,88789},
+        },
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{24.49,64.46}}},
         },
@@ -4641,6 +6110,9 @@ function CataNpcFixes.Load()
         [47553] = { -- Rasha'krak
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{37.14,42.31}}},
             [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE] = {{{30.75,43.55},{30.93,43.62},{30.95,43.63},{31.29,43.73},{31.62,43.82},{31.96,43.88},{32.30,43.94},{32.64,43.97},{32.98,43.96},{33.32,43.94},{33.66,43.92},{33.99,43.86},{34.03,43.85},{34.31,43.75},{34.55,43.61},{34.83,43.55},{35.16,43.46},{35.36,43.40},{35.70,43.31},{35.95,43.16},{36.10,42.98},{36.16,42.90},{36.42,42.61},{36.50,42.55},{36.82,42.36},{37.13,42.18},{37.43,42.01},{37.63,41.89},{37.79,41.80},{38.02,41.66},{38.10,41.61},{38.32,41.49},{38.44,41.42},{38.42,41.43},{38.56,41.35},{38.87,41.17},{39.19,40.99},{39.50,40.76},{39.80,40.52},{40.09,40.28},{40.38,40.02},{40.41,39.99},{40.45,39.94},{40.73,39.65},{40.93,39.42},{41.07,39.30},{41.15,39.23},{41.35,39.02},{41.63,38.74},{41.92,38.46},{42.01,38.40},{42.50,37.77},{42.57,37.52}}}},
+        },
+        [47580] = { -- Lakota Windsong
+            [npcKeys.questStarts] = {28125,28127,28136,28139,28140,28143},
         },
         [47581] = { -- Archmage Aranhir Starsinger
             [npcKeys.npcFlags] = npcFlags.NONE,
@@ -4717,6 +6189,10 @@ function CataNpcFixes.Load()
         [47739] = { -- "Captain" Cookie
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES_IRONCLAD_COVE] = {{60.7,38.8}},[zoneIDs.THE_DEADMINES] = {{-1,-1}}},
         },
+        [47788] = { -- Guldor
+            [npcKeys.questStarts] = {82949,88782,88785,88789,88800},
+            [npcKeys.questEnds] = {88778,88782,88785,88789},
+        },
         [47789] = { -- Clerk Horrace Whitesteed
             [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{{37.29,63.27},{37.77,63.16},{37.81,63.17},{37.89,63.17},{38.03,63.17},{38.16,63.07},{38.38,62.80},{38.49,62.63},{38.67,62.40},{38.80,62.29},{38.80,62.29},{39.10,62.19},{39.47,62.13},{39.68,62.15},{39.94,62.46},{39.85,62.43},{39.65,62.26},{39.54,62.22},{39.32,62.22},{39.05,62.25},{38.88,62.29},{38.71,62.41},{38.71,62.41},{38.49,62.72},{38.48,62.74},{38.29,63.02},{38.18,63.18},{38.08,63.36},{38.02,63.57},{37.86,63.79},{37.73,63.83},{37.64,63.76},{37.52,63.60},{37.38,63.43},{37.23,63.36},{36.94,63.34},{37.29,63.27}}}},
         },
@@ -4790,10 +6266,12 @@ function CataNpcFixes.Load()
         [48042] = { -- Sapling Protector
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{48.34,28.73}}},
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.questStarts] = {28221,28222},
         },
         [48044] = { -- Flourishing Protector
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{49.48,21.79}}},
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.questStarts] = {28224,28228},
         },
         [48051] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.THE_MAELSTROM] = {{33.35,50.39}}},
@@ -4811,6 +6289,9 @@ function CataNpcFixes.Load()
         [48108] = { -- Iso'rath Nightmare Credit
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{48.27,14.49}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [48173] = { -- Colin Thundermar
+            [npcKeys.questEnds] = {28001,28216,28281,28282},
         },
         [48189] = { -- Firing Squad Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{23.67,60.99}}},
@@ -4849,6 +6330,9 @@ function CataNpcFixes.Load()
                     {44.08,10.54,phases.ISORATH_NIGHTMARE},
                 },
             },
+        },
+        [48307] = { -- Colonel Troteman
+            [npcKeys.questStarts] = {28311,28312,28313,28317,28318,28319,28321,28322,28326,28327},
         },
         [48312] = { -- High Warlock Xi'lun
             [npcKeys.spawns] = {
@@ -4895,6 +6379,9 @@ function CataNpcFixes.Load()
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
         },
+        [48569] = { -- Eitrigg
+            [npcKeys.questStarts] = {28443,28444,28445,28450,28451,28452,28453,28455,28456},
+        },
         [48836] = { -- Tamed Seahorse
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{40.59,74.94}}},
         },
@@ -4903,6 +6390,9 @@ function CataNpcFixes.Load()
         },
         [48880] = { -- Captain Iceheart
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{49.40,46.73}}},
+        },
+        [49000] = { -- Patch
+            [npcKeys.questStarts] = {28593,28594,28595},
         },
         [48901] = { -- Tamed Seahorse
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{29.51,79.01}}},
@@ -4918,9 +6408,15 @@ function CataNpcFixes.Load()
         [49177] = { -- Winterfall Earth Totem
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{66.12,49.23},{66.52,48.21},{65.9,47.83},{67.04,47.7}}},
         },
+        [49178] = { -- Grolnar the Berserk
+            [npcKeys.questStarts] = {28656},
+        },
         [49212] = { -- Skyshredder Bomb Controller Bunny
             [npcKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{81.33,80.21},{80.80,80.52},{80.19,80.70},{79.57,80.72},{79.01,80.58},{78.49,80.22},{78.05,79.59},{77.70,78.84},{77.44,78.08},{77.23,77.28},{77.11,76.40},{77.15,75.46},{77.32,74.70},{77.58,73.89},{77.90,73.09},{78.26,72.37},{78.64,71.72},{79.10,71.10},{79.59,70.56},{80.11,70.20},{80.66,70.09},{81.24,70.24},{81.82,70.57},{82.35,71.05},{82.78,71.61},{83.14,72.31},{83.45,73.12},{83.68,73.98},{83.80,74.80},{83.79,75.67},{83.65,76.54},{83.40,77.36},{83.08,78.11},{82.70,78.74},{82.24,79.35},{81.74,79.87},{81.33,80.21}}}},
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{77.17,75.31}}},
+        },
+        [49235] = { -- Icewhomp
+            [npcKeys.questStarts] = {28656},
         },
         [49358] = { -- Kurdran Wildhammer
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{55.25,17.33}}},
@@ -4928,6 +6424,7 @@ function CataNpcFixes.Load()
         [49378] = { -- Patch
             [npcKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{81.33,80.21},{80.80,80.52},{80.19,80.70},{79.57,80.72},{79.01,80.58},{78.49,80.22},{78.05,79.59},{77.70,78.84},{77.44,78.08},{77.23,77.28},{77.11,76.40},{77.15,75.46},{77.32,74.70},{77.58,73.89},{77.90,73.09},{78.26,72.37},{78.64,71.72},{79.10,71.10},{79.59,70.56},{80.11,70.20},{80.66,70.09},{81.24,70.24},{81.82,70.57},{82.35,71.05},{82.78,71.61},{83.14,72.31},{83.45,73.12},{83.68,73.98},{83.80,74.80},{83.79,75.67},{83.65,76.54},{83.40,77.36},{83.08,78.11},{82.70,78.74},{82.24,79.35},{81.74,79.87},{81.33,80.21}}}},
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{77.17,75.31}}},
+            [npcKeys.questStarts] = {28591,28593,28594,28595},
         },
         [49379] = { -- Ticker
             [npcKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{81.33,80.21},{80.80,80.52},{80.19,80.70},{79.57,80.72},{79.01,80.58},{78.49,80.22},{78.05,79.59},{77.70,78.84},{77.44,78.08},{77.23,77.28},{77.11,76.40},{77.15,75.46},{77.32,74.70},{77.58,73.89},{77.90,73.09},{78.26,72.37},{78.64,71.72},{79.10,71.10},{79.59,70.56},{80.11,70.20},{80.66,70.09},{81.24,70.24},{81.82,70.57},{82.35,71.05},{82.78,71.61},{83.14,72.31},{83.45,73.12},{83.68,73.98},{83.80,74.80},{83.79,75.67},{83.65,76.54},{83.40,77.36},{83.08,78.11},{82.70,78.74},{82.24,79.35},{81.74,79.87},{81.33,80.21}}}},
@@ -4948,6 +6445,15 @@ function CataNpcFixes.Load()
         [49748] = { -- Hero's Herald
             [npcKeys.questStarts] = {},
         },
+        [49537] = { -- Jeb Guthrie
+            [npcKeys.questStarts] = {28638,28745,28782},
+        },
+        [49749] = { -- Priestess Cocoa Anderson
+            [npcKeys.questStarts] = {5628},
+        },
+        [49750] = { -- Warchief's Herald
+            [npcKeys.questEnds] = {82949,82985,82989,88798,88800,88801},
+        },
         [49893] = { -- Lisa McKeever
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.62,72.38}}},
         },
@@ -4956,6 +6462,9 @@ function CataNpcFixes.Load()
         },
         [50044] = { -- Hell-Hoot
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{52.40,32.36},{52.05,33.17},{52.01,33.64},{52.45,35.00},{52.67,36.69},{52.88,36.25},{52.88,36.25},{52.41,35.52},{52.41,35.52},{53.00,34.77},{52.81,34.79}}}},
+        },
+        [50258] = { -- Frostmaul Tumbler
+            [npcKeys.questStarts] = {28656},
         },
         [50482] = { -- Marith Lazuria
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{72.6,34.4}}},
@@ -4974,8 +6483,12 @@ function CataNpcFixes.Load()
         [51934] = { -- Gretchen Fenlow
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.35,50.88}}},
         },
+        [51988] = { -- Orphan Matron Nightingale
+            [npcKeys.questStarts] = {1468},
+        },
         [51989] = { -- Orphan Matron Battlewail
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{57.96,57.62}}},
+            [npcKeys.questStarts] = {172},
         },
         [52064] = { -- Keira
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.09,50.59}}},
@@ -4997,6 +6510,12 @@ function CataNpcFixes.Load()
         },
         [52314] = { -- Master Caravan Kodo
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{47.81,39.53}}},
+        },
+        [52374] = { -- Panther Cub
+            [npcKeys.questStarts] = {29267,29268},
+        },
+        [52408] = { -- Coridormi
+            [npcKeys.questStarts] = {29132,30095},
         },
         [52442] = { -- Florawing Hive Queen
             [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{31.57,39.15},{-1,-1}}},
@@ -5024,6 +6543,9 @@ function CataNpcFixes.Load()
         [52548] = { -- Gertrude Fenlow
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.21,50.76}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+        },
+        [52654] = { -- Bwemba
+            [npcKeys.questStarts] = {29100,29102,29158},
         },
         [52661] = { -- Druid of the Flame
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{60.27,62.39},{68.1,56.15},{63,53.1},{64.2,44.2},{64.6,37.1},{69.3,34.1},{72.8,40.1},{76.5,40.9}}},
@@ -5103,6 +6625,7 @@ function CataNpcFixes.Load()
         [53079] = { -- Crimson Lasher
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{53.53,90.74}}},
             [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+            [npcKeys.questStarts] = {29254},
         },
         [53080] = { -- Captain Irontree
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{45.63,86.15}}},
@@ -5384,6 +6907,33 @@ function CataNpcFixes.Load()
         [55138] = { -- Advance Scout Chadwick
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{67.19,51.69,phases.KARGATH_DEAD},{-1,-1}}},
         },
+        [55210] = { -- Elder Sekhemi
+            [npcKeys.questStarts] = {29741},
+        },
+        [55211] = { -- Elder Menkhaf
+            [npcKeys.questStarts] = {29742},
+        },
+        [55216] = { -- Elder Deepforge
+            [npcKeys.questStarts] = {29734},
+        },
+        [55217] = { -- Elder Stonebrand
+            [npcKeys.questStarts] = {29735},
+        },
+        [55218] = { -- Elder Darkfeather
+            [npcKeys.questStarts] = {29736},
+        },
+        [55219] = { -- Elder Firebeard
+            [npcKeys.questStarts] = {29737},
+        },
+        [55224] = { -- Elder Windsong
+            [npcKeys.questStarts] = {29739},
+        },
+        [55227] = { -- Elder Evershade
+            [npcKeys.questStarts] = {29740},
+        },
+        [55228] = { -- Elder Moonlance
+            [npcKeys.questStarts] = {29738},
+        },
         [55382] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY] = {{61.87,47.34}},
@@ -5412,17 +6962,15 @@ function CataNpcFixes.Load()
         },
         [57770] = { -- Zazzo Twinklefingers
             [npcKeys.spawns] = {
-                [zoneIDs.RUINS_OF_GILNEAS] = {
-                    {70.07,40.73,phases.ZAZZO_GILNEAS},
-                },
-                [zoneIDs.DEADWIND_PASS] = {
-                    {52.48,77.73,phases.ZAZZO_DEADWIND},
-                },
+                [zoneIDs.RUINS_OF_GILNEAS] = {{70.07,40.73,phases.ZAZZO_GILNEAS}},
+                [zoneIDs.DEADWIND_PASS] = {{52.48,77.73,phases.ZAZZO_DEADWIND}},
             },
+            [npcKeys.questStarts] = {30093,30106,30109,30113},
         },
         [57777] = { -- Wrathion
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+            [npcKeys.questStarts] = {30092,30107,30108,30116,30118},
         },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
@@ -5516,7 +7064,7 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "!",
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{47.7,57.74}}},
             [npcKeys.zoneID] = zoneIDs.KEZAN,
-            [npcKeys.questStarts] = {28414},
+            [npcKeys.questStarts] = {24503,28414},
         },
         [100007] = { -- Defend the Gates!
             [npcKeys.name] = "?",
@@ -5576,7 +7124,7 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.95,66.19}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
-            [npcKeys.questEnds] = {27494},
+            [npcKeys.questEnds] = {27494,27495},
         },
         [100017] = { -- Signal the Attack
             [npcKeys.name] = "!",
@@ -5612,13 +7160,13 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{64.11,20.16}}},
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
-            [npcKeys.questEnds] = {29115},
+            [npcKeys.questEnds] = {29115,29227},
         },
         [100023] = { -- Follow That Cat
             [npcKeys.name] = "!",
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{64.11,20.16}}},
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
-            [npcKeys.questStarts] = {29116},
+            [npcKeys.questStarts] = {29116,29228},
         },
         [100024] = { -- Tragedy and Family
             [npcKeys.name] = "?",
@@ -5738,7 +7286,7 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{44.62,61.12}}},
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
-            [npcKeys.questEnds] = {28252},
+            [npcKeys.questEnds] = {28252,28436},
         },
         [100044] = { -- Step Two: The Bloodletter
             [npcKeys.name] = "?",
