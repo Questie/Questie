@@ -1660,7 +1660,7 @@ local tbcObjectiveLocales = {
     },
     ["Take a ride back to the isle"] = { -- 11532 & 11533 & 11542 & 11543
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kehre zur Insel zurück",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1816,7 +1816,7 @@ local tbcObjectiveLocales = {
     },
     ["Disturb the nest"] = { -- 9397
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Störe das Nest",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1864,7 +1864,7 @@ local tbcObjectiveLocales = {
     },
     ["Attempt to loot The Thunderspike"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Versuche die Donnerlanze zu plündern",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1876,7 +1876,7 @@ local tbcObjectiveLocales = {
     },
     ["Control the Marmot"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kontrolliere das Murmeltier",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1888,7 +1888,7 @@ local tbcObjectiveLocales = {
     },
     ["Take a ride"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Mach einen Ausflug",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
