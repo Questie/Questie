@@ -405,21 +405,24 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
                 end
                 table.insert(targetQuestEnds[npcEnderId], questId)
 
-                local npcQuestEnds = npcs[npcEnderId][npcKeys.questEnds]
+                local npcEnder = npcs[npcEnderId]
+                if npcEnder then
+                    local npcQuestEnds = npcEnder[npcKeys.questEnds]
 
-                local enderFound = false
-                for _, enderQuestId in pairs(npcQuestEnds or {}) do
-                    if enderQuestId == questId then
-                        enderFound = true
-                        break
+                    local enderFound = false
+                    for _, enderQuestId in pairs(npcQuestEnds or {}) do
+                        if enderQuestId == questId then
+                            enderFound = true
+                            break
+                        end
                     end
-                end
 
-                if (not enderFound) then
-                    if not invalidQuestEnds[npcEnderId] then
-                        invalidQuestEnds[npcEnderId] = {}
+                    if (not enderFound) then
+                        if not invalidQuestEnds[npcEnderId] then
+                            invalidQuestEnds[npcEnderId] = {}
+                        end
+                        table.insert(invalidQuestEnds[npcEnderId], "quest " .. questId .. " is missing in questEnds")
                     end
-                    table.insert(invalidQuestEnds[npcEnderId], "quest " .. questId .. " is missing in questEnds")
                 end
             end
         end
