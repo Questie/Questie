@@ -95,4 +95,11 @@ for questId, data in pairs(mop) do
     end
 end
 
-printToFile(mo, questKeys)
+-- add trinity quests that are not in Skyfire
+for questId, data in pairs(mopTrinity) do
+    if not mop[questId] then
+        mop[questId] = data
+    end
+end
+
+printToFile(mop, questKeys)

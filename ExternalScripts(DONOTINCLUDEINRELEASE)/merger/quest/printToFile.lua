@@ -54,7 +54,7 @@ local function printToFile(questData, questKeys)
                 end
                 printString = printString:sub(1, -2) -- remove trailing comma
                 printString = printString .. "},"
-            else
+            elseif starter[3] then
                 printString = printString .. "nil,"
             end
             if starter[3] then
@@ -287,12 +287,17 @@ local function printToFile(questData, questKeys)
         else
             printString = printString .. "nil,"
         end
-        printString = printString .. "},"
         printString = printString .. "nil,"
         printString = printString .. (data[questKeys.requiredSpell] or "nil") .. ","
         printString = printString .. (data[questKeys.requiredSpecialization] or "nil") .. ","
-        printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")..","
+        printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")
+        printString = printString .. "},"
         -- TODO: replace ,} and ,nil} and so on with }
+        -- Do we really want this?
+        --while printString:sub(-6) == ",nil}," do
+        --    printString = printString:sub(1, -7) .. "},"
+        --end
+
         file:write(printString .. "\n")
     end
     print("Done")
