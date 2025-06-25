@@ -342,13 +342,35 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
                         invalidQuestStarts[npcId] = {}
                     end
                     table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
+                    if not targetQuestStarts[npcId] then
+                        targetQuestStarts[npcId] = {}
+                    end
+                else
+                    local startedBy = quests[questId][questKeys.startedBy]
+                    if startedBy then
+                        local startEntryCorrect = false
+                        for _, npcStarterId in pairs(startedBy[1] or {}) do
+                            if npcStarterId == npcId then
+                                startEntryCorrect = true
+                                break
+                            end
+                        end
+
+                        if not startEntryCorrect then
+                            if not invalidQuestStarts[npcId] then
+                                invalidQuestStarts[npcId] = {}
+                            end
+                            table.insert(invalidQuestStarts[npcId], "quest " .. questId .. " is not started by this NPC")
+                        end
+                    end
                 end
             end
 
             -- Check if the NPCs questStarts match with the targetQuestStarts given by the quests.
             -- If they do match, then remove the NPC from targetQuestStarts, otherwise do nothing.
             if targetQuestStarts[npcId] then
-                if tableContainsAll(questStarts, targetQuestStarts[npcId]) then
+                -- TODO: Fix tableContainsAll to correctly compare tables.
+                if tableContainsAll(questStarts, targetQuestStarts[npcId]) and tableContainsAll(targetQuestStarts[npcId], questStarts) then
                     -- Remove the NPC from targetQuestStarts, because it matches the questStarts.
                     targetQuestStarts[npcId] = nil
                 end
@@ -437,13 +459,35 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
                         invalidQuestEnds[npcId] = {}
                     end
                     table.insert(invalidQuestEnds[npcId], "questEnd " .. questId .. " is not in the database")
+                    if not targetQuestEnds[npcId] then
+                        targetQuestEnds[npcId] = {}
+                    end
+                else
+                    local finishedBy = quests[questId][questKeys.finishedBy]
+                    if finishedBy then
+                        local endEntryCorrect = false
+                        for _, npcFinisherId in pairs(finishedBy[1] or {}) do
+                            if npcFinisherId == npcId then
+                                endEntryCorrect = true
+                                break
+                            end
+                        end
+
+                        if not endEntryCorrect then
+                            if not invalidQuestEnds[npcId] then
+                                invalidQuestEnds[npcId] = {}
+                            end
+                            table.insert(invalidQuestEnds[npcId], "quest " .. questId .. " is not finished by this NPC")
+                        end
+                    end
                 end
             end
 
             -- Check if the NPCs questStarts match with the targetQuestEnds given by the quests.
             -- If they do match, then remove the NPC from targetQuestEnds, otherwise do nothing.
             if targetQuestEnds[npcId] then
-                if tableContainsAll(questEnds, targetQuestEnds[npcId]) then
+                -- TODO: Fix tableContainsAll to correctly compare tables.
+                if tableContainsAll(questEnds, targetQuestEnds[npcId]) and tableContainsAll(targetQuestEnds[npcId], questEnds) then
                     -- Remove the NPC from targetQuestEnds, because it matches the questStarts.
                     targetQuestEnds[npcId] = nil
                 end

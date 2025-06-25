@@ -415,13 +415,19 @@ describe("Validators", function()
                     name = "Third NPC",
                     questStarts = {5, 6},
                 },
+                [4] = {
+                    name = "Fourth NPC",
+                    questStarts = {7,9},
+                },
             }
             local quests = {
-                [2] = {},
-                [4] = {},
+                [2] = {startedBy = {{1}}},
+                [4] = {startedBy = {{2}}},
+                [7] = {startedBy = {nil,{8}}},
+                [9] = {startedBy = {{4}}},
             }
 
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {"questStart 3 is not in the database"},
@@ -429,7 +435,14 @@ describe("Validators", function()
                     "questStart 5 is not in the database",
                     "questStart 6 is not in the database"
                 },
+                [4] = {"quest 7 is not started by this NPC"},
             }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestStarts)
         end)
 
         it("should find NPCs which have missing questStarts entries", function()
@@ -513,13 +526,19 @@ describe("Validators", function()
                     name = "Third NPC",
                     questEnds = {5, 6},
                 },
+                [4] = {
+                    name = "Fourth NPC",
+                    questEnds = {7,9},
+                },
             }
             local quests = {
-                [2] = {},
-                [4] = {},
+                [2] = {finishedBy = {{1}}},
+                [4] = {finishedBy = {{2}}},
+                [7] = {finishedBy = {nil,{8}}},
+                [9] = {finishedBy = {{4}}},
             }
 
-            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {"questEnd 3 is not in the database"},
@@ -527,7 +546,14 @@ describe("Validators", function()
                     "questEnd 5 is not in the database",
                     "questEnd 6 is not in the database",
                 },
+                [4] = {"quest 7 is not finished by this NPC"},
             }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestEnds)
         end)
 
         it("should find NPCs which have missing questEnds entries", function()
@@ -560,7 +586,7 @@ describe("Validators", function()
                 },
             }
 
-            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {
@@ -573,7 +599,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = {2},
                 [3] = {5,6},
-            }, targetQuestStarts)
+            }, targetQuestEnds)
         end)
 
         it("should skip finishedBy entries of quests", function()
