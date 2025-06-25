@@ -1590,6 +1590,9 @@ function CataQuestFixes.Load()
         [10648] = { -- Wanted: Uvuros, Scourge of Shadowmoon
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [10656] = { -- Sunfury Signets
+            [questKeys.exclusiveTo] = {10824},
+        },
         [10676] = { -- Bane of the Illidari
             [questKeys.preQuestSingle] = {},
         },
@@ -1611,6 +1614,21 @@ function CataQuestFixes.Load()
         },
         [10771] = { -- From the Ashes
             [questKeys.preQuestSingle] = {},
+        },
+        [10822] = { -- Single Sunfury Signet
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10552,10824}, -- could also be Turning Point (10507) instead of 10824
+        },
+        [10823] = { -- More Sunfury Signets
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10552,10824}, -- could also be Turning Point (10507) instead of 10824
+        },
+        [10824] = { -- Sunfury Signets
+            [questKeys.exclusiveTo] = {10656},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10552,10507}, -- not sure if 10507, but it has one more prequest to 10552
         },
         [10825] = { -- The Truth Unorbed
             [questKeys.startedBy] = {nil,nil,{31489}},
@@ -1885,11 +1903,11 @@ function CataQuestFixes.Load()
         },
         [11481] = { -- Crisis at the Sunwell
             [questKeys.nextQuestInChain] = 0,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {11488},
         },
         [11482] = { -- Duty Calls
             [questKeys.nextQuestInChain] = 0,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {11488},
         },
         [11490] = { -- The Scryer's Scryer
             [questKeys.preQuestSingle] = {29684},

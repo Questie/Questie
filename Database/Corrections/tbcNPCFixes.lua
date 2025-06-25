@@ -629,6 +629,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [20800] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{36.84,27.83}}},
+        },
         [20813] = {
             [npcKeys.name] = "Barracks",
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{69.49,76.36}}},

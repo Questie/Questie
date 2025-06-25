@@ -2062,7 +2062,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{15608,"The Dark Portal Opened"}}},
         },
         [10299] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
+            [questKeys.objectives] = {nil,{{183770}},{{29366}}},
         },
         [10302] = {
             [questKeys.preQuestSingle] = {},
@@ -2084,13 +2084,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38}}}},
         },
         [10321] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"), 0, {{"object", 183956}}}},
+            [questKeys.objectives] = {nil,{{183956}},{{29396}}},
         },
         [10322] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
+            [questKeys.objectives] = {nil,{{184311}},{{29397}}},
         },
         [10323] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"), 0, {{"object", 184312}}}},
+            [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
         [10325] = {
             [questKeys.requiredMaxRep] = {932,9000},
@@ -2107,16 +2107,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [10329] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
+            [questKeys.objectives] = {nil,{{183770}},{{29366}}},
         },
         [10330] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"), 0, {{"object", 183956}}}},
+            [questKeys.objectives] = {nil,{{183956}},{{29396}}},
         },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97}}}},
         },
         [10338] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
+            [questKeys.objectives] = {nil,{{184311}},{{29397}}},
         },
         [10339] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
@@ -2144,7 +2144,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10359,10360,10361},
         },
         [10365] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"), 0, {{"object", 184312}}}},
+            [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
@@ -2458,12 +2458,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185059}}}},
             [questKeys.objectives] = {nil,{{184979,"Deathforged Infernal Destroyed"}}},
         },
-        [10621] = {
-            [questKeys.startedBy] = {{21499},nil,nil},
-        },
-        [10623] = {
-            [questKeys.startedBy] = {{21499},nil,nil},
-        },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Felhound Whistle"), 0, {{"monster", 16915}}},
@@ -2492,6 +2486,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10646] = {
             [questKeys.objectives] = {{{18417,"Illidan's Pupil"}}},
+        },
+        [10652] = {
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",20162}}}},
         },
         [10653] = {
             [questKeys.requiredMaxRep] = {},
@@ -2731,6 +2728,7 @@ function QuestieTBCQuestFixes:Load()
         [10822] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.zoneOrSort] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [10823] = {
             [questKeys.requiredMaxRep] = {},

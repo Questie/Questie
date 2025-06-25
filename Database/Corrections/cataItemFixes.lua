@@ -301,6 +301,12 @@ function CataItemFixes.Load()
         [27480] = { -- Soul Device
             [itemKeys.objectDrops] = {182940},
         },
+        [28364] = { -- Etherlithium Matrix Crystal
+            [itemKeys.npcDrops] = {},
+        },
+        [28548] = { -- Elemental Power
+            [itemKeys.npcDrops] = {},
+        },
         [31697] = { -- Dread Relic
             [itemKeys.npcDrops] = {},
         },
