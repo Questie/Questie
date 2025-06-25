@@ -1177,6 +1177,12 @@ function QuestieTBCQuestFixes:Load()
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
         },
+        [9415] = { -- Report to Marshal Bluewall
+            [questKeys.nextQuestInChain] = 9419,
+        },
+        [9416] = { -- Report to General Kirika
+            [questKeys.nextQuestInChain] = 9422,
+        },
         [9417] = {
             [questKeys.preQuestSingle] = {},
         },

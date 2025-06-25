@@ -9123,6 +9123,7 @@ function CataQuestFixes.Load()
         },
         [27214] = { -- A Disturbing Development
             [questKeys.preQuestSingle] = {27213},
+            [questKeys.exclusiveTo] = {11136},
         },
         [27215] = { -- The Hermit of Swamplight Manor
             [questKeys.preQuestSingle] = {27213},
@@ -14994,6 +14995,9 @@ function CataQuestFixes.Load()
         },
         [29861] = { -- Whatever it Takes!
             [questKeys.preQuestSingle] = {},
+        },
+        [29863] = { -- Stormherald Eljrrin
+            [questKeys.nextQuestInChain] = 29861,
         },
         [29934] = { -- To Ravenholdt
             [questKeys.objectives] = {{{56314,nil,Questie.ICON_TYPE_TALK}}},

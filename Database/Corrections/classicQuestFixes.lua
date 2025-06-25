@@ -4181,11 +4181,11 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9415] = {
+        [9415] = { -- Report to Marshal Bluewall
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
-        [9416] = {
+        [9416] = { -- Report to General Kirika
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
