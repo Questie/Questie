@@ -404,7 +404,7 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
         return invalidQuestStarts, targetQuestStarts
     else
         print("\27[32mNo NPCs found with invalid questStarts\27[0m")
-        return nil
+        return nil, nil
     end
 end
 
@@ -521,7 +521,7 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
         return invalidQuestEnds, targetQuestEnds
     else
         print("\27[32mNo NPCs found with invalid questEnds\27[0m")
-        return nil
+        return nil, nil
     end
 end
 

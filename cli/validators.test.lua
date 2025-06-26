@@ -513,9 +513,10 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
+            assert.are.same(nil, targetQuestStarts)
         end)
     end)
 
@@ -641,9 +642,10 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
+            assert.are.same(nil, targetQuestEnds)
         end)
     end)
 
