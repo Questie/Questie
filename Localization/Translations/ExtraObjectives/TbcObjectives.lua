@@ -1934,6 +1934,18 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Benutze 6 Ruuan'ok Klauen um einen Herold des Raben zu beschwören.",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do

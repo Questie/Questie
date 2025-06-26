@@ -2429,8 +2429,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
             [questKeys.requiredSourceItems] = {30651,30652,30653,30654,30655},
         },
-        [10596] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
+        [10567] = { -- Creating the Pendant
+            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{64.48,33.11}}}, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven")}},
         },
         [10570] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bundle of Bloodthistle at the end of the bridge"), 0, {{"object", 184841}}}},
@@ -2461,6 +2461,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
+        },
+        [10596] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
         [10605] = {
             [questKeys.exclusiveTo] = {1472,1507},
