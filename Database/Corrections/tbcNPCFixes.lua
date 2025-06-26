@@ -89,6 +89,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
+        [3516] = { -- Arch Druid Fandral Staghelm
+            [npcKeys.questStarts] = {952,3764,3781,6761},
+        },
         [4163] = { -- Syurna
             [npcKeys.questStarts] = {2242,6681,8233},
         },
@@ -134,11 +137,20 @@ function QuestieTBCNpcFixes:Load()
         [4584] = { -- Gregory Charles
             [npcKeys.questStarts] = {6681},
         },
+        [4606] = { -- Aelthalyste
+            [npcKeys.questStarts] = {10379},
+        },
+        [4947] = { -- Theramore Lieutenant
+            [npcKeys.questStarts] = {},
+        },
         [4968] = { -- Lady Jaina Proudmoore
             [npcKeys.questStarts] = {1267,11142,11222},
         },
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8}}}, -- New position in TBC
+        },
+        [5149] = { -- Brandur Ironhammer
+            [npcKeys.questStarts] = {2999,3681,7670,8415},
         },
         [5165] = { -- Hulfdan Blackbeard
             [npcKeys.questStarts] = {2238,2298,6681,8233},
@@ -193,6 +205,9 @@ function QuestieTBCNpcFixes:Load()
         [6072] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.95,84.67},{78.8,82.4},{77.8,83.6},{78.6,85.6}}},
         },
+        [6179] = { -- Tiza Battleforge
+            [npcKeys.questStarts] = {1645,1647,1779,1789,1794},
+        },
         [6251] = { -- Strahad Farsan
             [npcKeys.questStarts] = {1758,1795,1801,4490},
             [npcKeys.questEnds] = {1795,1798,1804,1805,2996,3001,3631,4487,4488,4489,4490},
@@ -220,6 +235,9 @@ function QuestieTBCNpcFixes:Load()
         [10839] = { -- Argent Officer Garush
             [npcKeys.questStarts] = {5402,5403,5406,5503},
         },
+        [10857] = { -- Argent Quartermaster Lightspark
+            [npcKeys.questStarts] = {5507,5521},
+        },
         [11036] = { -- Leonid Barthalomew the Revered
             [npcKeys.questEnds] = {5243,5462,5464,5522,64037,64064,64128},
         },
@@ -233,6 +251,9 @@ function QuestieTBCNpcFixes:Load()
         [13283] = { -- Lord Tony Romano
             [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {64028,64031,64034,64035},
+        },
+        [13437] = { -- Wing Commander Ichman
+            [npcKeys.questStarts] = {6943},
         },
         [14725] = { -- Raedon Duskstriker
             [npcKeys.questStarts] = {7799,7800,7801,10352,10354},
@@ -347,8 +368,32 @@ function QuestieTBCNpcFixes:Load()
         [16576] = { -- Overlord Hun Maimfist
             [npcKeys.questStarts] = {10388},
         },
+        [16646] = { -- Alamma
+            [npcKeys.questStarts] = {10605},
+        },
+        [16647] = { -- Talionia
+            [npcKeys.questStarts] = {9529},
+        },
+        [16648] = { -- Zanien
+            [npcKeys.questStarts] = {},
+        },
         [16651] = { -- Zaedana
             [npcKeys.questStarts] = {2861},
+        },
+        [16652] = { -- Quithas
+            [npcKeys.questStarts] = {},
+        },
+        [16655] = { -- Harene Plainwalker
+            [npcKeys.questStarts] = {},
+        },
+        [16658] = { -- Aldrae
+            [npcKeys.questStarts] = {},
+        },
+        [16659] = { -- Lotheolan
+            [npcKeys.questStarts] = {},
+        },
+        [16673] = { -- Oninath
+            [npcKeys.questStarts] = {9617},
         },
         [16681] = { -- Champion Bachi
             [npcKeys.questStarts] = {9601},
@@ -366,8 +411,17 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
+        [16721] = { -- Shalannius
+            [npcKeys.questStarts] = {},
+        },
+        [16738] = { -- Deremiis
+            [npcKeys.questStarts] = {},
+        },
         [16739] = { -- Caregiver Breel
             [npcKeys.questStarts] = {10520},
+        },
+        [16756] = { -- Caedmos
+            [npcKeys.questStarts] = {},
         },
         [16807] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -390,7 +444,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.THE_EXODAR]={{41.62,25.28}},
             },
         },
-        [16818] = {
+        [16818] = { -- Festival Talespinner
             [npcKeys.spawns] = {
                 [zoneIDs.THUNDER_BLUFF]={{21.33,26.44}},
                 [zoneIDs.SHATTRATH_CITY]={{62.16,32.04}},
@@ -398,6 +452,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{46.7,38.0}},
                 [zoneIDs.SILVERMOON_CITY]={{69.83,42.99}},
             },
+            [npcKeys.questStarts] = {9339,11966},
         },
         [16841] = { -- Watch Commander Relthorn Netherwane
             [npcKeys.questEnds] = {64038},
@@ -449,6 +504,9 @@ function QuestieTBCNpcFixes:Load()
         [17119] = {
             [npcKeys.waypoints] = {},
         },
+        [17120] = { -- Behomat
+            [npcKeys.questStarts] = {},
+        },
         [17204] = {
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.8,32.8}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_EXODAR] = {{{29.8,32.8},{30.3,33.2},{31,32.4},{31,28.9},{31.3,27.7},{31,28.9},{31,32.4},{30.3,33.2},{29.8,32.8}}}},
@@ -460,6 +518,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [17214] = {
             [npcKeys.waypoints] = {},
+        },
+        [17219] = { -- Sulaa
+            [npcKeys.questStarts] = {9462,9500,9551},
         },
         [17240] = {
             [npcKeys.waypoints] = {},
@@ -559,6 +620,18 @@ function QuestieTBCNpcFixes:Load()
         },
         [17336] = {
             [npcKeys.waypoints] = {},
+        },
+        [17511] = { -- Fallat
+            [npcKeys.questStarts] = {},
+        },
+        [17513] = { -- Harnan
+            [npcKeys.questStarts] = {},
+        },
+        [17519] = { -- Hobahken
+            [npcKeys.questStarts] = {},
+        },
+        [17520] = { -- Gurrag
+            [npcKeys.questStarts] = {},
         },
         [17536] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
@@ -786,19 +859,15 @@ function QuestieTBCNpcFixes:Load()
         },
         [19543] = { -- Battle-Mage Dathric
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{60.4,88.01},{60.4,88.01}},{{56.74,86.64},{56.83,86.81},{56.85,86.83}}}},
-            [npcKeys.questStarts] = {10182},
         },
         [19544] = { -- Conjurer Luminrath
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.79,85.72},{59.82,85.65},{59.92,85.48},{60.29,84.92},{60.0,84.48},{59.76,84.54},{59.7,84.79},{59.76,84.56},{59.98,84.48},{60.29,84.9},{59.91,85.48},{59.83,85.66},{59.47,86.17},{59.76,85.75}},{{56.51,87.65},{56.39,87.75},{56.39,87.75}}}},
-            [npcKeys.questStarts] = {10306},
         },
         [19545] = { -- Cohlien Frostweaver
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.74,87.05},{59.87,86.87},{59.53,86.36},{58.93,85.67},{59.37,86.13},{59.87,86.85},{59.71,87.13},{59.83,87.44},{59.64,87.72},{59.52,87.55},{59.64,87.74},{59.86,87.46},{59.71,87.1}},{{55.32,87.28},{55.1,87.53},{55.1,87.53},{55.11,87.51}}}},
-            [npcKeys.questStarts] = {10307},
         },
         [19546] = { -- Abjurist Belmara
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{58.06,88.65},{58.09,88.7},{58.45,88.32},{59.07,88.35},{59.01,88.19},{59.07,88.3},{58.86,88.37},{58.4,88.35},{58.12,88.68},{57.74,88.08},{58.06,88.64}},{{55.43,86.62},{55.42,86.57},{55.46,86.51}}}},
-            [npcKeys.questStarts] = {10305},
         },
         [19622] = {
             [npcKeys.spawns] = {[zoneIDs.TEMPEST_KEEP] = {{-1,-1}}},
@@ -843,6 +912,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [19925] = {
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [19932] = { -- Andormu
+            [npcKeys.questStarts] = {},
         },
         [19936] = { -- Arazmodu
             [npcKeys.questStarts] = {10460,10461,10462,10463,10464,10465,10466,10467,10468,10469,10470,10471,10472,10473,10474,10475,11103,11104,11105,11106},
@@ -914,9 +986,6 @@ function QuestieTBCNpcFixes:Load()
         [20753] = { -- Dorgok
             [npcKeys.questStarts] = {10797},
         },
-        [20779] = { -- Congealed Void Horror
-            [npcKeys.questStarts] = {10413},
-        },
         [20787] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
@@ -971,9 +1040,6 @@ function QuestieTBCNpcFixes:Load()
         },
         [21452] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{47.0,77.8},{46.6,79.2}}},
-        },
-        [21499] = { -- Overseer Ripsaw
-            [npcKeys.questStarts] = {10621,10623},
         },
         [21514] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{30.65,22.1}}},
@@ -1135,6 +1201,9 @@ function QuestieTBCNpcFixes:Load()
         [22932] = {
             [npcKeys.waypoints] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{{29.54,59.72},{30.6,59.5},{31.5,58.1},{31.5,56.8},{30.5,56.2},{30.0,54.5},{30.5,56.2},{31.5,56.8},{31.5,58.1},{30.6,59.5},{29.54,59.72}}}},
         },
+        [23010] = { -- Wolgren Jinglepocket
+            [npcKeys.questStarts] = {},
+        },
         [23035] = {
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
@@ -1207,6 +1276,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [23383] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{75.07,86.3},{68.4,74.1},{61.0,75.5},},},
+        },
+        [23534] = { -- Babagaya Shadowcleft
+            [npcKeys.questStarts] = {},
         },
         [23786] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{40.6,68.0},{41.4,67.0},{42.2,65.8},{42.2,67.8},{42.4,67.2},{42.6,67.8},{43.0,65.4},{43.0,65.6},{43.4,67.0},{43.6,66.8},{43.8,67.6},{44.0,63.6},{44.0,65.2},{44.2,66.2},{44.6,65.6},{44.8,65.4},{44.8,66.6},{45.2,63.6},{45.6,68.4},{45.8,64.8},{46.0,66.2},{46.0,67.2},{46.2,69.0},{46.6,65.8}}},
@@ -1367,13 +1439,14 @@ function QuestieTBCNpcFixes:Load()
         [26204] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.17,22.74},{21.30,23.36},{21.26,24.30}}},
         },
-        [26113] = {
+        [26113] = { -- Master Flame Eater
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY]={{68.87,8.47}},
                 [zoneIDs.THUNDER_BLUFF]={{21.72,25.35}},
                 [zoneIDs.ORGRIMMAR]={{47.14,38.15}},
                 [zoneIDs.SILVERMOON_CITY]={{69.48,42.45}},
             },
+            [npcKeys.questEnds] = {11915,11922,11923,11925,11926},
         },
         [26123] = {
             [npcKeys.spawns] = {

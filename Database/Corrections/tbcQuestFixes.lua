@@ -371,6 +371,9 @@ function QuestieTBCQuestFixes:Load()
         [3741] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [3803] = { -- Morrowgrain to Darnassus
+            [questKeys.startedBy] = {{4217}},
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
@@ -5522,7 +5525,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [64038] = {
             [questKeys.name] = "The Dark Portal",
-            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.startedBy] = {{331,376,914,928,5495,5497,5505,5515,13283},nil,nil},
             [questKeys.finishedBy] = {{16841},nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
