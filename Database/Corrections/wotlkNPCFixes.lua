@@ -49,8 +49,15 @@ function QuestieWotlkNpcFixes:Load()
         [2079] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.62,44.71}}},
         },
-        [2142] = {
-            [npcKeys.questStarts] = nil, -- corrected children's week quest
+        [2142] = { -- Watcher Callahan
+            [npcKeys.questStarts] = {},
+        },
+        [2425] = { -- Varimathras
+            [npcKeys.questStarts] = {1048,5725,6145},
+            [npcKeys.questEnds] = {550,1048,1978,5725,6144},
+        },
+        [3030] = { -- Siln Skychaser
+            [npcKeys.questStarts] = {14100},
         },
         [3036] = { -- Kym Wildmane
             [npcKeys.questStarts] = {64049,64051,64053,64128,64217,70761,70764,70765,70865,78151,78158,78167,78168},
@@ -97,6 +104,9 @@ function QuestieWotlkNpcFixes:Load()
         [5111] = {
             [npcKeys.questStarts] = {3790,8353},
         },
+        [5149] = { -- Brandur Ironhammer
+            [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
+        },
         [5495] = { -- Ursula Deline
             [npcKeys.questStarts] = {64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
@@ -121,14 +131,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
+        [6179] = { -- Tiza Battleforge
+            [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
+        },
         [6467] = { -- Mennet Carkad
             [npcKeys.questStarts] = {1998,1999,2019,2378,6681,14418,14419,14420},
         },
         [6740] = {
             [npcKeys.questStarts] = {3789,8356},
         },
+        [6826] = { -- Talvash del Kissel
+            [npcKeys.questStarts] = {2199,2200,2361,2948,3375,8355},
+        },
         [7009] = { -- Arantir
             [npcKeys.questStarts] = {2358},
+        },
+        [7750] = { -- Corporal Thund Splithoof
+            [npcKeys.questEnds] = {2702},
         },
         [8125] = { -- Dirge Quikcleave
             [npcKeys.questStarts] = {6610,8585,8586,8587,13825},
@@ -181,6 +200,9 @@ function QuestieWotlkNpcFixes:Load()
         [13283] = { -- Lord Tony Romano
             [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
+        },
+        [13434] = { -- Macey Jinglepocket
+            [npcKeys.questStarts] = {},
         },
         [14305] = { -- Human Orphan
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{56.1,54.3}}},
@@ -260,19 +282,21 @@ function QuestieWotlkNpcFixes:Load()
         [15576] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.5,76.5}}},
         },
-        [15891] = {
+        [15891] = { -- Lunar Festival Herald
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR]={{50.98,70.57}},
                 [zoneIDs.UNDERCITY]={{66.74,43.39}},
                 [zoneIDs.THUNDER_BLUFF]={{38.37,63.42}},
             },
+            [npcKeys.questStarts] = {8873},
         },
-        [15892] = {
+        [15892] = { -- Lunar Festival Emissary
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{61.73,75.73}},
                 [zoneIDs.IRONFORGE]={{30.92,61.59}},
                 [zoneIDs.DARNASSUS]={{42.15,43.99}},
             },
+            [npcKeys.questStarts] = {8870},
         },
         [15895] = {
             [npcKeys.spawns] = {
@@ -355,6 +379,9 @@ function QuestieWotlkNpcFixes:Load()
         [17076] = { -- Lady Liadrin
             [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145},
         },
+        [17219] = { -- Sulaa
+            [npcKeys.questStarts] = {9462,9500,9551,14111},
+        },
         [17663] = {
             [npcKeys.name] = "Maatparm",
         },
@@ -363,6 +390,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [17977] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
+        },
+        [18024] = { -- Defender Sorli
+            [npcKeys.questStarts] = {},
         },
         [18481] = { -- A'dal
             [npcKeys.questEnds] = {10102,10210,10280,10560,10704,10708,10781,10882,10883,10884,10885,10886,10948,11007,11052,13081,13430},
@@ -427,9 +457,13 @@ function QuestieWotlkNpcFixes:Load()
         [22817] = { -- Blood Elf Orphan
             [npcKeys.questStarts] = {10945,10951,10953,10960,10963,10967,11975},
         },
-        [23010] = {
+        [22818] = { -- Draenei Orphan
+            [npcKeys.questEnds] = {10943,10950,10952,10962},
+        },
+        [23010] = { -- Wolgren Jinglepocket
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR]={{54.95,47.44}}},
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
+            [npcKeys.questStarts] = {7023},
         },
         [23128] = { -- Master Pyreanor
             [npcKeys.questStarts] = {70734,70735,70736,70737,70865,70869,78167,78168},
@@ -1499,6 +1533,9 @@ function QuestieWotlkNpcFixes:Load()
         [29597] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{60.55,60.22},{57.78,62.32},{60.8,58.67},{60.74,61.13},{59.01,61.85},{59.66,60.87},{58.57,62.99},{59.88,59.07},{58.15,63.85},{58.58,59.45},{56.69,64.95},{56.85,63.18},},},
         },
+        [29611] = { -- King Varian Wrynn
+            [npcKeys.questStarts] = {396,6182,6187,7496,13369,13371},
+        },
         [29650] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{29.61,74.07}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
@@ -1915,11 +1952,32 @@ function QuestieWotlkNpcFixes:Load()
         [31024] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME]={{83.8,59.9},{-1,-1}}},
         },
-        [31054] = {
+        [31036] = { -- Commander Zanneth
+            [npcKeys.questStarts] = {13179},
+            [npcKeys.questEnds] = {13177,13179},
+        },
+        [31051] = { -- Sorceress Kaylana
+            [npcKeys.questStarts] = {13198},
+        },
+        [31052] = { -- Bowyer Randolph
+            [npcKeys.questStarts] = {13196},
+        },
+        [31053] = { -- Primalist Mulfort
+            [npcKeys.questStarts] = {13201},
+        },
+        [31054] = { -- Anchorite Tessa
             [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{72.66,31.67},{43.73,17.01}}},
+            [npcKeys.questStarts] = {13195},
+        },
+        [31091] = { -- Commander Dardosh
+            [npcKeys.questStarts] = {13180},
+            [npcKeys.questEnds] = {13178,13180},
         },
         [31101] = {
             [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{21.86,35.43},{51.74,21.17}}},
+        },
+        [31102] = { -- Vieron Blazefeather
+            [npcKeys.questStarts] = {13199},
         },
         [31104] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_THE_OLD_KINGDOM]={{81.37,61.1},{82.39,60.19},{-1,-1}}},
@@ -1928,6 +1986,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_THE_OLD_KINGDOM]={{12.29,50.82},{-1,-1}}},
         },
         [31106] = { -- Siegesmith Stronghoof
+            [npcKeys.questStarts] = {13200},
             [npcKeys.questEnds] = {13191,13200},
         },
         [31108] = { -- Siege Master Stouthandle
@@ -2864,8 +2923,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{23.5,44.8},{23.2,43.4},{24.1,41.2},{23.9,38.8},{24.5,38},{25.6,34.9}}},
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
-        [39509] = {
+        [39509] = { -- Aronen
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},
+            [npcKeys.questStarts] = {25246,25247,25248,25249},
+            [npcKeys.questEnds] = {25246,25247,25248,25249},
         },
         [39654] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{64.5,74.1}}},
