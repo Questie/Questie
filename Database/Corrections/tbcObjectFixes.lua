@@ -11,6 +11,12 @@ function QuestieTBCObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [1738] = { -- Syndicate Documents
+            [objectKeys.questStarts] = {},
+        },
+        [1739] = { -- Syndicate Documents
+            [objectKeys.questStarts] = {},
+        },
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
         },
@@ -139,6 +145,12 @@ function QuestieTBCObjectFixes:Load()
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
         },
+        [186420] = { -- Syndicate Documents
+            [objectKeys.questStarts] = {510,511},
+        },
+        [186887] = { -- Large Jack-o'-Lantern
+            [objectKeys.questStarts] = {12133,12155},
+        },
         [187039] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{50.0,12.4},{50.7,13.3},{50.7,13.9},{50.47,19.23},{49.27,19.97},{49.08,19.02},{49.31,17.77},{49.48,17.03},{50.91,17.26},{50.18,16.55},{51.15,16.75},{51.98,15.68},{50.7,13.34},{51.94,13.16},{51.02,11.97},{51.6,13.9},{54.13,18.84},},},
         },
@@ -151,14 +163,24 @@ function QuestieTBCObjectFixes:Load()
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         },
+        [187559] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11580},
+        },
+        [187564] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11581},
+        },
         [187578] = {
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
         },
-        [187892] = {
+        [187892] = { -- Ice Chest
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_SLAVE_PENS,
+            [objectKeys.questStarts] = {11972},
+        },
+        [187914] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11732},
         },
         [187917] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -180,8 +202,14 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{80.5,62.2}}},
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
+        [187928] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11745},
+        },
         [187929] = {
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{28.2,44.1}}},
+        },
+        [187932] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11749},
         },
         [187933] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -197,6 +225,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Alliance Bonfire",
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{54.3,55.7}}},
             [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [187938] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11755},
         },
         [187939] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -264,9 +295,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{69.1,43.5}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
-        [189303] = {
+        [189303] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{43.74,65.89}}},
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+            [objectKeys.questStarts] = {12286},
+            [objectKeys.questEnds] = {12286},
         },
         [189989] = {
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.81}}},
@@ -276,313 +309,476 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
-        [190034] = {
+        [190034] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL]={{55.61,59.85}}},
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
+            [objectKeys.questStarts] = {12331},
+            [objectKeys.questEnds] = {12331},
         },
-        [190035] = {
+        [190035] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{37.01,49.26}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+            [objectKeys.questStarts] = {12345},
+            [objectKeys.questEnds] = {12345},
         },
-        [190036] = {
+        [190036] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47.38,52.45}}},
             [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [objectKeys.questStarts] = {12332},
+            [objectKeys.questEnds] = {12332},
         },
-        [190037] = {
+        [190037] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{48.49,49.04}}},
             [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+            [objectKeys.questStarts] = {12333},
+            [objectKeys.questEnds] = {12333},
         },
-        [190038] = {
+        [190038] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.46,16.06}}},
             [objectKeys.zoneID] = zoneIDs.DARNASSUS,
+            [objectKeys.questStarts] = {12334},
+            [objectKeys.questEnds] = {12334},
         },
-        [190039] = {
+        [190039] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{18.33,50.94}}},
             [objectKeys.zoneID] = zoneIDs.IRONFORGE,
+            [objectKeys.questStarts] = {12335},
+            [objectKeys.questEnds] = {12335},
         },
-        [190041] = {
+        [190040] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12336},
+            [objectKeys.questEnds] = {12336},
+        },
+        [190041] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_EXODAR]={{59.25,18.46}}},
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
+            [objectKeys.questStarts] = {12337},
+            [objectKeys.questEnds] = {12337},
         },
-        [190042] = {
+        [190042] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{37.04,44.04}}},
             [objectKeys.zoneID] = zoneIDs.DARKSHORE,
+            [objectKeys.questStarts] = {12338},
+            [objectKeys.questEnds] = {12338},
         },
-        [190043] = {
+        [190043] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.LOCH_MODAN]={{35.54,48.50}}},
             [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.questStarts] = {12339},
+            [objectKeys.questEnds] = {12339},
         },
-        [190044] = {
+        [190044] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.WETLANDS]={{10.83,60.99}}},
             [objectKeys.zoneID] = zoneIDs.WETLANDS,
+            [objectKeys.questStarts] = {12343},
+            [objectKeys.questEnds] = {12343},
         },
-        [190045] = {
+        [190045] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.69,59.97}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+            [objectKeys.questStarts] = {12341},
+            [objectKeys.questEnds] = {12341},
         },
-        [190046] = {
+        [190046] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{27.09,44.91}}},
             [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12342},
+            [objectKeys.questEnds] = {12342},
         },
-        [190047] = {
+        [190047] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.WESTFALL]={{52.91,53.74}}},
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.questStarts] = {12340},
+            [objectKeys.questEnds] = {12340},
         },
-        [190048] = {
+        [190048] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUSKWOOD]={{73.79,44.25}}},
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.questStarts] = {12344},
+            [objectKeys.questEnds] = {12344},
         },
-        [190049] = {
+        [190049] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{51.14,59.04}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+            [objectKeys.questStarts] = {12346},
+            [objectKeys.questEnds] = {12346},
         },
-        [190050] = {
+        [190050] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{35.52,6.40}}},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+            [objectKeys.questStarts] = {12347},
+            [objectKeys.questEnds] = {12347},
         },
-        [190051] = {
+        [190051] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{66.33,6.58}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.questStarts] = {12348},
+            [objectKeys.questEnds] = {12348},
         },
-        [190052] = {
+        [190052] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{66.60,45.28}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.questStarts] = {12349},
+            [objectKeys.questEnds] = {12349},
         },
-        [190053] = {
+        [190053] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{30.93,43.45}}},
             [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.questStarts] = {12350},
+            [objectKeys.questEnds] = {12350},
         },
-        [190054] = {
+        [190054] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{14.11,41.52}}},
             [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
+            [objectKeys.questStarts] = {12351},
+            [objectKeys.questEnds] = {12351},
         },
-        [190055] = {
+        [190055] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{54.25,63.68}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
+            [objectKeys.questStarts] = {12352},
+            [objectKeys.questEnds] = {12352},
         },
-        [190056] = {
+        [190056] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{23.42,36.37}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
+            [objectKeys.questStarts] = {12353},
+            [objectKeys.questEnds] = {12353},
         },
-        [190057] = {
+        [190057] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{67.17,48.94}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
+            [objectKeys.questStarts] = {12354},
+            [objectKeys.questEnds] = {12354},
         },
-        [190058] = {
+        [190058] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{41.90,26.17}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
+            [objectKeys.questStarts] = {12355},
+            [objectKeys.questEnds] = {12355},
         },
-        [190059] = {
+        [190059] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{56.60,53.22}}},
             [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+            [objectKeys.questStarts] = {12356},
+            [objectKeys.questEnds] = {12356},
         },
-        [190060] = {
+        [190060] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.NAGRAND]={{54.19,75.88}}},
             [objectKeys.zoneID] = zoneIDs.NAGRAND,
+            [objectKeys.questStarts] = {12357},
+            [objectKeys.questEnds] = {12357},
         },
-        [190061] = {
+        [190061] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{35.83,63.73}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12358},
+            [objectKeys.questEnds] = {12358},
         },
-        [190062] = {
+        [190062] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{61.06,68.08}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12359},
+            [objectKeys.questEnds] = {12359},
         },
-        [190063] = {
+        [190063] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{37.01,58.29}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+            [objectKeys.questStarts] = {12360},
+            [objectKeys.questEnds] = {12360},
         },
-        [190064] = {
+        [190064] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{51.6,41.6}}},
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.questStarts] = {12361},
+            [objectKeys.questEnds] = {12361},
         },
-        [190065] = {
+        [190065] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.MULGORE]={{46.6,61.0}}},
             [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.questStarts] = {12362},
+            [objectKeys.questEnds] = {12362},
         },
-        [190066] = {
+        [190066] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{61.8,52.2}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.questStarts] = {12363},
+            [objectKeys.questEnds] = {12363},
         },
-        [190067] = {
+        [190067] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{48.1,47.8}}},
             [objectKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+            [objectKeys.questStarts] = {12364},
+            [objectKeys.questEnds] = {12364},
         },
-        [190068] = {
+        [190068] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{43.7,71.1}}},
             [objectKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+            [objectKeys.questStarts] = {12365},
+            [objectKeys.questEnds] = {12365},
         },
-        [190069] = {
+        [190069] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.45,68.64}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [objectKeys.questStarts] = {12366},
+            [objectKeys.questEnds] = {12366},
         },
-        [190070] = {
+        [190070] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{45.6,64.4}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+            [objectKeys.questStarts] = {12367},
+            [objectKeys.questEnds] = {12367},
         },
-        [190071] = {
+        [190071] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{67.76,37.40}}},
             [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+            [objectKeys.questStarts] = {12368},
+            [objectKeys.questEnds] = {12368},
         },
-        [190072] = {
+        [190072] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{79.42,57.65}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [objectKeys.questStarts] = {12369},
+            [objectKeys.questEnds] = {12369},
         },
-        [190073] = {
+        [190073] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{67.58,72.88}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [objectKeys.questStarts] = {12370},
+            [objectKeys.questEnds] = {12370},
         },
-        [190074] = {
+        [190074] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{43.2,41.4}}},
             [objectKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+            [objectKeys.questStarts] = {12371},
+            [objectKeys.questEnds] = {12371},
         },
-        [190075] = {
+        [190075] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{48.7,32.0}}},
             [objectKeys.zoneID] = zoneIDs.GHOSTLANDS,
+            [objectKeys.questStarts] = {12373},
+            [objectKeys.questEnds] = {12373},
         },
-        [190076] = {
+        [190076] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{52.0,29.9}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.questStarts] = {12374},
+            [objectKeys.questEnds] = {12374},
         },
-        [190077] = {
+        [190077] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.6,59.0}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.questStarts] = {12375},
+            [objectKeys.questEnds] = {12375},
         },
-        [190078] = {
+        [190078] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{62.8,19.0}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+            [objectKeys.questStarts] = {12376},
+            [objectKeys.questEnds] = {12376},
         },
-        [190079] = {
+        [190079] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{73.9,60.7}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+            [objectKeys.questStarts] = {12377},
+            [objectKeys.questEnds] = {12377},
         },
-        [190080] = {
+        [190080] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{47.5,62.1}}},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+            [objectKeys.questStarts] = {12378},
+            [objectKeys.questEnds] = {12378},
         },
-        [190081] = {
+        [190081] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{46.1,51.4}}},
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [objectKeys.questStarts] = {12379},
+            [objectKeys.questEnds] = {12379},
         },
-        [190082] = {
+        [190082] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{73.9,32.6}}},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.questStarts] = {12380},
+            [objectKeys.questEnds] = {12380},
         },
-        [190083] = {
+        [190083] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{24.1,68.3}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.questStarts] = {12381},
+            [objectKeys.questEnds] = {12381},
         },
-        [190084] = {
+        [190084] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{31.5,29.7}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [objectKeys.questStarts] = {12382},
+            [objectKeys.questEnds] = {12382},
         },
-        [190085] = {
+        [190085] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{36.8,32.4}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.questStarts] = {12383},
+            [objectKeys.questEnds] = {12383},
         },
-        [190086] = {
+        [190086] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{45.1,56.6}}},
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.questStarts] = {12384},
+            [objectKeys.questEnds] = {12384},
         },
-        [190087] = {
+        [190087] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BADLANDS]={{2.9,46.0}}},
             [objectKeys.zoneID] = zoneIDs.BADLANDS,
+            [objectKeys.questStarts] = {12385},
+            [objectKeys.questEnds] = {12385},
         },
-        [190088] = {
+        [190088] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{74.8,45.1}}},
             [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.questStarts] = {12386},
+            [objectKeys.questEnds] = {12386},
         },
-        [190089] = {
+        [190089] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{78.2,81.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
+            [objectKeys.questStarts] = {12387},
+            [objectKeys.questEnds] = {12387},
         },
-        [190090] = {
+        [190090] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{56.8,37.5}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
+            [objectKeys.questStarts] = {12388},
+            [objectKeys.questEnds] = {12388},
         },
-        [190091] = {
+        [190091] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{26.9,59.6}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
+            [objectKeys.questStarts] = {12389},
+            [objectKeys.questEnds] = {12389},
         },
-        [190096] = {
+        [190096] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{30.7,50.9}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
+            [objectKeys.questStarts] = {12390},
+            [objectKeys.questEnds] = {12390},
         },
-        [190097] = {
+        [190097] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{48.8,45.2}}},
             [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+            [objectKeys.questStarts] = {12391},
+            [objectKeys.questEnds] = {12391},
         },
-        [190098] = {
+        [190098] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.NAGRAND]={{56.7,34.6}}},
             [objectKeys.zoneID] = zoneIDs.NAGRAND,
+            [objectKeys.questStarts] = {12392},
+            [objectKeys.questEnds] = {12392},
         },
-        [190099] = {
+        [190099] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{53.4,55.5}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12393},
+            [objectKeys.questEnds] = {12393},
         },
-        [190100] = {
+        [190100] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{76.2,60.4}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12394},
+            [objectKeys.questEnds] = {12394},
         },
-        [190101] = {
+        [190101] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{30.3,27.8}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+            [objectKeys.questStarts] = {12395},
+            [objectKeys.questEnds] = {12395},
         },
-        [190102] = {
+        [190102] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{62.07,39.41}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.questStarts] = {12396},
+            [objectKeys.questEnds] = {12396},
         },
-        [190103] = {
+        [190103] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.06,77.28}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [objectKeys.questStarts] = {12397},
+            [objectKeys.questEnds] = {12397},
         },
-        [190104] = {
+        [190104] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{41.86,74.09}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.questStarts] = {12398},
+            [objectKeys.questEnds] = {12398},
         },
-        [190105] = {
+        [190105] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{52.45,27.87}}},
             [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.questStarts] = {12399},
+            [objectKeys.questEnds] = {12399},
         },
-        [190106] = {
+        [190106] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.WINTERSPRING]={{61.33,38.86}}},
             [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [objectKeys.questStarts] = {12400},
+            [objectKeys.questEnds] = {12400},
         },
-        [190107] = {
+        [190107] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51.83,39.18}}},
-            [objectKeys.zoneID] = zoneIDs.SILITHUS,
+            [objectKeys.questEnds] = {12401},[objectKeys.zoneID] = zoneIDs.SILITHUS,
+            [objectKeys.questStarts] = {12401},
+
         },
-        [190109] = {
+        [190108] = {
+            [objectKeys.questStarts] = {12402},
+            [objectKeys.questEnds] = {12402},
+        },
+        [190109] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{78.45,62.89}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
+            [objectKeys.questStarts] = {12403},
+            [objectKeys.questEnds] = {12403},
         },
-        [190110] = {
+        [190110] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{28.24,49.10}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [objectKeys.questStarts] = {12404},
+            [objectKeys.questEnds] = {12404},
         },
-        [190111] = {
+        [190111] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{56.31,81.96}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [objectKeys.questStarts] = {12404},
+            [objectKeys.questEnds] = {12404},
         },
-        [190112] = {
+        [190112] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.91,38.33}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+            [objectKeys.questStarts] = {12406},
+            [objectKeys.questEnds] = {12406},
         },
-        [190113] = {
+        [190113] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{32.02,64.45}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+            [objectKeys.questStarts] = {12407},
+            [objectKeys.questEnds] = {12407},
         },
-        [190114] = {
+        [190114] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{43.31,36.10}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+            [objectKeys.questStarts] = {12408},
+            [objectKeys.questEnds] = {12408},
         },
-        [190115] = {
+        [190115] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{60.99,28.17}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+            [objectKeys.questStarts] = {12409},
+            [objectKeys.questEnds] = {12409},
         },
-        [190116] = {
+        [190116] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{56.37,59.82}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+            [objectKeys.questStarts] = {12409},
+            [objectKeys.questEnds] = {12409},
+
         },
 
         -- Below are fake objects
