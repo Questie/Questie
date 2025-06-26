@@ -528,25 +528,82 @@ end
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
----@return table<NpcId, string>
-function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
+---@param questKeys DatabaseQuestKeys
+---@return table<ObjectId, string>, table<ObjectId, QuestId[]>
+function Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in objects...\27[0m")
+
     local invalidQuestStarts = {}
-    local goodQuestStarts = {}
-    for npcId, npcData in pairs(objects) do
-        local questStarts = npcData[objectKeys.questStarts]
+    local targetQuestStarts = {}
+    for questId, questData in pairs(quests) do
+        local startedBy = questData[questKeys.startedBy]
+        if startedBy then
+            for _, objectStarterId in pairs(startedBy[2] or {}) do
+                if not targetQuestStarts[objectStarterId] then
+                    targetQuestStarts[objectStarterId] = {}
+                end
+                table.insert(targetQuestStarts[objectStarterId], questId)
+
+                local objectQuestStarters = objects[objectStarterId][objectKeys.questStarts]
+
+                local starterFound = false
+                for _, starterQuestId in pairs(objectQuestStarters or {}) do
+                    if starterQuestId == questId then
+                        starterFound = true
+                        break
+                    end
+                end
+
+                if (not starterFound) then
+                    if not invalidQuestStarts[objectStarterId] then
+                        invalidQuestStarts[objectStarterId] = {}
+                    end
+                    table.insert(invalidQuestStarts[objectStarterId], "quest " .. questId .. " is missing in questStarts")
+                end
+            end
+        end
+    end
+
+    for objectId, objectData in pairs(objects) do
+        local questStarts = objectData[objectKeys.questStarts]
         if questStarts then
             for _, questId in ipairs(questStarts) do
                 if not quests[questId] then
-                    if not invalidQuestStarts[npcId] then
-                        invalidQuestStarts[npcId] = {}
+                    if not invalidQuestStarts[objectId] then
+                        invalidQuestStarts[objectId] = {}
                     end
-                    table.insert(invalidQuestStarts[npcId], "questStart " .. questId .. " is not in the database")
+                    table.insert(invalidQuestStarts[objectId], "questStart " .. questId .. " is not in the database")
+                    if not targetQuestStarts[objectId] then
+                        targetQuestStarts[objectId] = {}
+                    end
                 else
-                    if not goodQuestStarts[npcId] then
-                        goodQuestStarts[npcId] = {}
+                    local startedBy = quests[questId][questKeys.startedBy]
+                    if startedBy then
+                        local startEntryCorrect = false
+                        for _, objectStarterId in pairs(startedBy[2] or {}) do
+                            if objectStarterId == objectId then
+                                startEntryCorrect = true
+                                break
+                            end
+                        end
+
+                        if not startEntryCorrect then
+                            if not invalidQuestStarts[objectId] then
+                                invalidQuestStarts[objectId] = {}
+                            end
+                            table.insert(invalidQuestStarts[objectId], "quest " .. questId .. " is not started by this object")
+                        end
                     end
-                    table.insert(goodQuestStarts[npcId], questId)
+                end
+            end
+
+            -- Check if the objects questStarts match with the targetQuestStarts given by the quests.
+            -- If they do match, then remove the object from targetQuestStarts, otherwise do nothing.
+            if targetQuestStarts[objectId] then
+                -- TODO: Fix tableContainsAll to correctly compare tables.
+                if tableContainsAll(questStarts, targetQuestStarts[objectId]) and tableContainsAll(targetQuestStarts[objectId], questStarts) then
+                    -- Remove the object from targetQuestStarts, because it matches the questStarts.
+                    targetQuestStarts[objectId] = nil
                 end
             end
         end
@@ -556,22 +613,29 @@ function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
     for _ in pairs(invalidQuestStarts) do count = count + 1 end
 
     if count > 0 then
+        local correctionFile = io.open(outputDir .. "/objectQuestStartsCorrections.lua", "w")
+        correctionFile:write("return {\n")
+
         print("\27[31mFound " .. count .. " objects with invalid questStarts:\27[0m")
-        for objectId, reasons in pairs(invalidQuestStarts) do
+        for objectId, reasons in pairsByKeys(invalidQuestStarts) do
             print("\27[31m- object " .. objectId .. ":")
             for _, reason in ipairs(reasons) do
                 print("  - " .. reason)
             end
-            print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questStarts] = {" .. table.concat(goodQuestStarts[objectId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
+
+            table.sort(targetQuestStarts[objectId] or {})
+            local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questStarts] = {" .. table.concat(targetQuestStarts[objectId] or {}, ",") .. "},\n        },"
+            correctionFile:write("        " .. correctionString .. "\n")
         end
+        correctionFile:write("}\n")
+        correctionFile:close()
 
         os.exit(1)
-        return invalidQuestStarts
+        return invalidQuestStarts, targetQuestStarts
     else
         print("\27[32mNo objects found with invalid questStarts\27[0m")
-        return nil
+        return nil, nil
     end
 end
 
