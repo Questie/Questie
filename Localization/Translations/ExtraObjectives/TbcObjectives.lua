@@ -1922,9 +1922,9 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven"] = {
+    ["Charge the Vekh'nir Crystal"] = {
         ["enUS"] = true,
-        ["deDE"] = "Benutze 6 Ruuan'ok Klauen um einen Herold des Raben zu beschwören.",
+        ["deDE"] = "Lade den Vekh'nir Kristall auf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
