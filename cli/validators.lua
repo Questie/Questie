@@ -575,6 +575,37 @@ function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
     end
 end
 
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param raceKeys RaceKeys
+---@return table<QuestId, string>
+function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+    print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        local requiredRaces = questData[questKeys.requiredRaces]
+        if requiredRaces > raceKeys.ALL_HORDE and requiredRaces > raceKeys.ALL_ALLIANCE then
+            invalidQuests[questId] = "quests' requiredRaces is too high"
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid requiredRaces entries:\27[0m")
+        for questId, reason in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid requiredRaces entries\27[0m")
+        return nil
+    end
+end
+
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>

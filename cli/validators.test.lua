@@ -4,6 +4,7 @@ local exitMock
 local questKeys = {
     startedBy = "startedBy",
     finishedBy = "finishedBy",
+    requiredRaces = "requiredRaces",
     sourceItemId = "sourceItemId",
     requiredSourceItems = "requiredSourceItems",
     objectives = "objectives",
@@ -21,6 +22,11 @@ local objectKeys = {
     name = "name",
     questStarts = "questStarts",
     questEnds = "questEnds",
+}
+
+local raceKeys = {
+    ALL_ALLIANCE = 18875469,
+    ALL_HORDE = 33555378,
 }
 
 describe("Validators", function()
@@ -738,6 +744,40 @@ describe("Validators", function()
             }
 
             local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+    describe("checkRequiredRaces", function()
+        it("should find quests with too high requiredRaces", function()
+            local quests = {
+                [1] = {
+                    requiredRaces = 54043195541028864
+                }
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+
+            assert.are.same({
+                [1] = "quests' requiredRaces is too high"
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when requiredRaces is fine", function()
+            local quests = {
+                [1] = {
+                    requiredRaces = 18875469
+                },
+                [2] = {
+                    requiredRaces = 0
+                },
+                [3] = {
+                    requiredRaces = 33555378
+                }
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
 
             assert.are.same(nil, invalidQuests)
         end)

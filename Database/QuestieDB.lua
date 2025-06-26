@@ -394,6 +394,7 @@ local questTagCorrections = {
 -- ? The PlayableRaceBit can be found in ChrRaces.dbc
 -- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
 -- ? The values below are calculated by 2^PlayableRaceBit
+---@class RaceKeys
 QuestieDB.raceKeys = {
     -- Allow all alliance races
     ALL_ALLIANCE = (function()
