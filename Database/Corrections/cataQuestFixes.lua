@@ -2138,6 +2138,9 @@ function CataQuestFixes.Load()
         [12325] = { -- Into Hostile Territory
             [questKeys.preQuestSingle] = {},
         },
+        [12410] = { -- Candy Bucket
+            [questKeys.finishedBy] = {},
+        },
         [12427] = { -- The Conquest Pit: Bear Wrestling!
             [questKeys.preQuestGroup] = {},
         },

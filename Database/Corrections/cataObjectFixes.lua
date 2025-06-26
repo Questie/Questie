@@ -13,6 +13,24 @@ function CataObjectFixes.Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [31] = { -- Old Lion Statue
+            [objectKeys.questStarts] = {249},
+        },
+        [59] = { -- Mound of loose dirt
+            [objectKeys.questEnds] = {95},
+        },
+        [270] = { -- Unguarded Thunder Ale Barrel
+            [objectKeys.questStarts] = {311},
+        },
+        [1593] = { -- Corpse Laden Boat
+            [objectKeys.questEnds] = {438},
+        },
+        [1599] = { -- Shallow Grave
+            [objectKeys.questEnds] = {460},
+        },
+        [1740] = { -- Syndicate Documents
+            [objectKeys.questStarts] = {510,511},
+        },
         [2086] = { -- Bloodsail Charts
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.05,82.46},{40.75,82.15},{45.01,79.4},{42,83.12}}},
         },
@@ -21,6 +39,9 @@ function CataObjectFixes.Load()
         },
         [2712] = { -- Calcified Elven Gem
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{16.86,90.08},{17.9,89.15},{10.7,91.52},{13.84,89.84},{17.68,87.3},{12.79,87.24},{14.29,93.01},{15.8,92.75},{16.21,95.14},{18.65,93.58},{14.25,95.1},{12.55,92.85},{18.32,92.14},{14.29,93.01},{18.32,92.14},{12.79,87.24},{16.21,95.14}}},
+        },
+        [2933] = { -- Seal of the Earth
+            [objectKeys.questEnds] = {779,795},
         },
         [3724] = { -- Peacebloom
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{65.8,44.9},{67.1,45.4},{67.1,45.5},{69.2,54.9},{69.7,55.3}}},
@@ -43,14 +64,23 @@ function CataObjectFixes.Load()
         [7510] = { -- Sprouted Frond
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
         },
+        [12666] = { -- Twilight Tome
+            [objectKeys.questEnds] = {949},
+        },
         [13891] = { -- Serpentbloom
             [objectKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{53.21,44.6},{63.97,52.16},{56.71,65.73},{70.75,62.74},{65.49,55.06},{55.19,92.06},{64.35,75.54},{64.99,71.55},{65.28,70.07},{64.4,67.94},{62.96,66.03},{10.73,24.5},{10.42,40.04},{3.09,31.89},{18.26,25.3},{20.51,39.85},{15.9,33.75},{11.71,41.47},{14.65,49.64},{47.72,47.24},{53.11,41.67},{44.17,29.69},{38.47,22.07},{30.41,26.86},{40.46,38.44},{31.19,39.34},{29.17,45.62},{-1,-1}}},
         },
         [13949] = { -- Pitted Iron Chest
             [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{32.87,41.17},{-1,-1}}},
         },
+        [17184] = { -- Buzzbox 323
+            [objectKeys.questEnds] = {1002},
+        },
         [19283] = { -- Compendium of the Fallen
             [objectKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_LIBRARY] = {{82.1,14.1}},[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+        },
+        [112877] = { -- Talvash's Scrying Bowl
+            [objectKeys.questStarts] = {2204},
         },
         [124371] = { -- Keystone
             [objectKeys.name] = "Keystone",
@@ -67,6 +97,9 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Altar of Archaedas",
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN_KHAZ_GOROTHS_SEAT] = {{55.98,52.97}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
+        },
+        [142071] = { -- Egg-O-Matic
+            [objectKeys.questEnds] = {2741,8893},
         },
         [141832] = { -- Gong of Zul'Farrak
             [objectKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{32.77,43.5},{-1,-1}}},
@@ -94,6 +127,13 @@ function CataObjectFixes.Load()
         },
         [148503] = { -- Fire Plume Ridge Hot Spot
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.48}}},
+        },
+        [150075] = { -- Wanted Poster
+            [objectKeys.questStarts] = {2781,2875},
+        },
+        [151286] = { -- Kaldorei Tome of Summoning
+            [objectKeys.questStarts] = {3506},
+            [objectKeys.questEnds] = {3505},
         },
         [152097] = { -- Belnistrasz's Brazier
             [objectKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{46.88,22.28},{-1,-1}}},
@@ -128,6 +168,15 @@ function CataObjectFixes.Load()
         [164781] = { -- Yellow Power Crystal
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{24.32,43.57},{42.98,45.54},{42.52,33.91},{38.13,41.81},{46.2,19.53},{39.74,26.91},{34.67,33.25},{27.74,46.43},{32.98,29.54},{37.82,20.53},{43.83,21.45},{46.21,19.69},{46.87,14.92},{47.35,12.89},{39.34,14.47},{37.75,20.61},{31.27,18.55},{30.13,21.21},{26.39,29.08},{19.61,38.82},{25.52,39.9},{24.73,40.49}}},
         },
+        [164886] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {2523,3363,4113},
+        },
+        [164887] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {996,998,4115},
+        },
+        [164909] = { -- Wrecked Row Boat
+            [objectKeys.questStarts] = {4127},
+        },
         [164911] = { -- Thunderbrew Lager Keg
             [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{47.68,58.26},{47.84,58.11},{47.99,57.96}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
@@ -137,8 +186,80 @@ function CataObjectFixes.Load()
         [169216] = { -- Preserved Threshadon Carcass
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{70.11,40.95}}},
         },
+        [171939] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {2878,4401},
+        },
         [172911] = { -- The Black Anvil
             [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{56.53,31.06},{-1,-1}}},
+        },
+        [173324] = { -- Corrupted Night Dragon
+            [objectKeys.questStarts] = {4448},
+        },
+        [173327] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {1514},
+        },
+        [174594] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {2878,4113},
+        },
+        [174595] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4114},
+        },
+        [174596] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4114,4116},
+        },
+        [174597] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4116,4118},
+        },
+        [174598] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4118,4401},
+        },
+        [174599] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {1514},
+        },
+        [174600] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4115},
+        },
+        [174601] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4221},
+        },
+        [174602] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4222},
+        },
+        [174603] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4343},
+        },
+        [174604] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4221,4403},
+        },
+        [174605] = { -- Corrupted Whipper Root
+            [objectKeys.questStarts] = {4444},
+        },
+        [174606] = { -- Corrupted Whipper Root
+            [objectKeys.questStarts] = {4445},
+        },
+        [174607] = { -- Corrupted Whipper Root
+            [objectKeys.questStarts] = {4446},
+        },
+        [174608] = { -- Corrupted Night Dragon
+            [objectKeys.questStarts] = {4462},
+        },
+        [174684] = { -- Corrupted Night Dragon
+            [objectKeys.questStarts] = {4462},
+        },
+        [174686] = { -- Corrupted Whipper Root
+            [objectKeys.questStarts] = {4461},
+        },
+        [174708] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4466},
+        },
+        [174709] = { -- Corrupted Windblossom
+            [objectKeys.questStarts] = {4467},
+        },
+        [174712] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4464},
+        },
+        [174713] = { -- Corrupted Songflower
+            [objectKeys.questStarts] = {4465},
         },
         [175484] = { -- Premium Grimm Tobacco
             [objectKeys.name] = "Premium Grimm Tobacco",
@@ -156,6 +277,12 @@ function CataObjectFixes.Load()
         },
         [176327] = { -- Blacksmithing Plans
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{72.72,52.33},{-1,-1}}},
+        },
+        [176361] = { -- Scourge Cauldron
+            [objectKeys.questEnds] = {5216,5218,5229},
+        },
+        [176393] = { -- Scourge Cauldron
+            [objectKeys.questEnds] = {5222,5224,5233},
         },
         [176484] = { -- The Deed to Brill
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_HEADMASTERS_STUDY] = {{37.44,85.82}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
@@ -178,11 +305,17 @@ function CataObjectFixes.Load()
         [177287] = { -- Unfinished Painting
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{27.38,76.13},{-1,-1}}},
         },
+        [177289] = { -- Scourge Cauldron
+            [objectKeys.questEnds] = {5219,5221,5231},
+        },
         [177964] = { -- Fathom Stone
             [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{41.41,75.37}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
         },
         [178227] = { -- Murgut's Totem Basket
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE] = {{56.38,63.51}}},
+        },
+        [179438] = { -- Wanted: DWARVES!
+            [objectKeys.questStarts] = {7401},
         },
         [179485] = { -- Broken Trap
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{26.44,57.77},{-1,-1}}},
@@ -209,6 +342,9 @@ function CataObjectFixes.Load()
         [179880] = { -- Drakkisath's Brand
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{32.6,43.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
+        [180366] = { -- Battered Tackle Box
+            [objectKeys.questStarts] = {8227},
+        },
         [180453] = { -- Hive'Regal Glyphed Crystal
             [objectKeys.spawns] = {[zoneIDs.SILITHUS] = {{55.61,90.54}}},
         },
@@ -219,8 +355,8 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{69.13,50.67}}},
         },
         [180746] = { -- Gently Shaken Gift
-            [objectKeys.questStarts] = {},
-            [objectKeys.questEnds] = {},
+            [objectKeys.questStarts] = {8767,8788},
+            [objectKeys.questEnds] = {8767,8788},
         },
         [180771] = { -- Firework Launcher
             [objectKeys.spawns] = {
@@ -253,6 +389,9 @@ function CataObjectFixes.Load()
                 [zoneIDs.DALARAN] = {{50.15,45.12},{48.93,45.25}},
                 [zoneIDs.ELWYNN_FOREST] = {{34.7,50.81},{34.49,50.86},{34.57,50.58}},
             },
+        },
+        [181073] = { -- Fragrant Cauldron
+            [objectKeys.questStarts] = {9029},
         },
         [181085] = { -- Stratholme Supply Crate
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{39.86,28.07},{50.01,23.34},{37.81,14.14},{-1,-1}}},
@@ -295,6 +434,7 @@ function CataObjectFixes.Load()
         },
         [182947] = { -- The Codex of Blood
             [objectKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{53.26,58.78},{-1,-1}}},
+            [objectKeys.questStarts] = {10095,29644},
         },
         [183385] = { -- Sanguine Hibiscus
             [objectKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{39.11,74.94},{26.41,51.51},{34.7,46.7},{51.08,54.69},{40.74,21.52},{52.87,29.72},{56.42,27.85},{51.22,95.38},{52.45,61.34},{71.93,58.57},{59.92,53.31},{64.87,67.28},{55.35,86.49},{61.79,87.46},{61.34,96.42},{53.73,82.18},{54.49,70.69},{34.84,57.46},{47.95,62.17},{-1,-1}}},
@@ -308,9 +448,18 @@ function CataObjectFixes.Load()
         [186273] = { -- Damaged Diving Gear
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{62.64,18.23},{62.33,18.88},{61.68,18.19}}},
         },
+        [186314] = { -- Loosely Turned Soil
+            [objectKeys.questEnds] = {11392,11401,11404,11405},
+        },
+        [186881] = { -- Dark Iron Sabotage Plans
+            [objectKeys.questStarts] = {11454},
+        },
         [187236] = { -- Winter Veil Gift
-            [objectKeys.questStarts] = {},
-            [objectKeys.questEnds] = {},
+            [objectKeys.questStarts] = {13966,28878,29385},
+            [objectKeys.questEnds] = {11528,13203,13966,28878,29385},
+        },
+        [187273] = { -- Suspicious Hoofprint
+            [objectKeys.questStarts] = {27259,27262},
         },
         [187578] = { -- Scrying Orb
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.44,26.71},{-1,-1}}},
@@ -318,20 +467,181 @@ function CataObjectFixes.Load()
         [187892] = { -- Ice Chest
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{29.95,50.28},{-1,-1}}},
         },
+        [187916] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11734},
+        },
+        [187917] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11735},
+        },
+        [187919] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11736},
+        },
+        [187920] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11737},
+        },
+        [187921] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11738},
+        },
         [187922] = { -- Alliance Bonfire - Burning Steppes
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.57,60.2}}},
+            [objectKeys.questStarts] = {11739},
+        },
+        [187923] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11740},
+        },
+        [187924] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11741},
+        },
+        [187925] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11742},
+        },
+        [187926] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11743},
+        },
+        [187927] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11744},
         },
         [187929] = { -- Alliance Bonfire - Feralas
             [objectKeys.spawns] = {[zoneIDs.FERALAS] = {{46.66,43.72}}},
+            [objectKeys.questStarts] = {11746},
+        },
+        [187930] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11747},
+        },
+        [187931] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11748},
+        },
+        [187933] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11750},
+        },
+        [187934] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11751},
+        },
+        [187935] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11752},
+        },
+        [187936] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11753},
+        },
+        [187937] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11754},
+        },
+        [187939] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11756},
+        },
+        [187940] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11757},
+        },
+        [187941] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11758},
+        },
+        [187942] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11759},
+        },
+        [187943] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11760},
+        },
+        [187944] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11761},
+        },
+        [187945] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11762},
+        },
+        [187946] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {11763},
+        },
+        [187947] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11764},
+        },
+        [187948] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11765},
+        },
+        [187949] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11799},
+        },
+        [187950] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11800},
+        },
+        [187951] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11801},
+        },
+        [187952] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11802},
+        },
+        [187953] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11803},
+        },
+        [187954] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11766},
+        },
+        [187955] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11767},
+        },
+        [187956] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11768},
+        },
+        [187957] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11769},
+        },
+        [187958] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11770},
+        },
+        [187959] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11771},
+        },
+        [187960] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11772},
+        },
+        [187961] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11773},
+        },
+        [187962] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11774},
+        },
+        [187963] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11775},
+        },
+        [187964] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11776},
         },
         [187965] = { -- Horde Bonfire - Mulgore
             [objectKeys.spawns] = {[zoneIDs.MULGORE] = {{51.93,59.46}}},
+            [objectKeys.questStarts] = {11777},
+        },
+        [187966] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11778},
+        },
+        [187967] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11779},
+        },
+        [187968] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11780},
+        },
+        [187969] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11781},
+        },
+        [187970] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11782},
+        },
+        [187971] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11783},
+        },
+        [187972] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11784},
+        },
+        [187974] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11786},
+        },
+        [187975] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {11787},
         },
         [189989] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{56.01,37.07}}},
+            [objectKeys.questStarts] = {12020},
         },
         [189990] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.64,17.47}}},
+            [objectKeys.questStarts] = {12192},
         },
         [190034] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{55.36,52.28}}},
@@ -648,15 +958,15 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [206109] = { -- Warchief's Command Board
-            [objectKeys.questStarts] = {27718,27721,27722,28493,28494,28496,28504,28509,28510,28526,28527,28532,28542,28545,28548,28549,28554,28557,28705,28711,28717,28790,29157,29388,29390},
+            [objectKeys.questStarts] = {27718,27721,27722,28493,28494,28496,28504,28509,28510,28526,28527,28532,28542,28545,28548,28549,28554,28557,28705,28711,28717,29157,29388,29390},
         },
         [206111] = { -- Hero's Call Board -- Stormwind AH
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{62.86,71.49}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
-            [objectKeys.questStarts] = {27724,27726,27727,28551,28552,28558,28562,28563,28564,28576,28578,28579,28582,28666,28673,28675,28699,28702,28708,28709,28716,28825,29156,29387,29391},
+            [objectKeys.questStarts] = {27724,27726,27727,28551,28552,28558,28562,28563,28564,28576,28578,28579,28582,28666,28673,28675,28699,28702,28708,28709,28716,29156,29387,29391},
         },
         [206116] = { -- Warchief's Command Board
-            [objectKeys.questStarts] = {27718,27721,27722,28493,28494,28496,28504,28509,28510,28526,28527,28532,28542,28545,28548,28549,28554,28557,28705,28711,28717,28790,29157,29388,29390},
+            [objectKeys.questStarts] = {27718,27721,27722,28493,28494,28496,28504,28509,28510,28526,28527,28532,28542,28545,28548,28549,28554,28557,28705,28711,28717,29157,29388,29390},
         },
         [206294] = { -- Hero's Call Board -- Stormwind North
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{62.23,29.86}}},
@@ -712,7 +1022,7 @@ function CataObjectFixes.Load()
         [207320] = { -- Hero's Call Board -- Ironforge
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE] = {{25.46,69.78}}},
             [objectKeys.zoneID] = zoneIDs.IRONFORGE,
-            [objectKeys.questStarts] = {26542,27724,27726,27727,28558,28565,28567,28573,28576,28578,28579,28582,28666,28673,28675,28708,28709,28716},
+            [objectKeys.questStarts] = {26542,27724,27726,27727,28558,28565,28567,28573,28576,28578,28579,28582,28666,28673,28675,28708,28709,28716,29156,29387,29391},
         },
         [207321] = { -- Hero's Call Board -- Darnassus
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS] = {{44.88,49.95}}},
@@ -722,10 +1032,16 @@ function CataObjectFixes.Load()
         [207322] = { -- Hero's Call Board -- Exodar
             [objectKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{55.36,47.23}}},
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
-            [objectKeys.questStarts] = {27724,27726,27727,28492,28503,28507,28511,28525,28528,28531,28539,28543,28544,28550,28552,28558,28559,28708},
+            [objectKeys.questStarts] = {27724,27726,27727,28492,28503,28507,28511,28525,28528,28531,28539,28543,28544,28550,28552,28558,28559,28708,28709,28716,29156,29387,29391},
         },
         [207323] = { -- Warchief's Command Board
             [objectKeys.questStarts] = {27718,27721,27722,28493,28494,28496,28504,28509,28510,28526,28527,28532,28542,28545,28548,28549,28554,28557,28705,28711,28717,29157,29388,29390},
+        },
+        [207324] = { -- Warchief's Command Board
+            [objectKeys.questStarts] = {27718,27721,27722,28557,28568,28571,28572,28574,28575,28577,28580,28581,28667,28671,28677,28688,28704,28705,28711,28717,29157,29388,29390},
+        },
+        [207325] = { -- Warchief's Command Board
+            [objectKeys.questStarts] = {27718,27721,27722,28557,28560,28571,28572,28574,28575,28577,28580,28581,28667,28671,28677,28688,28704,28705,28711,28717,29157,29388,29390},
         },
         [207327] = { -- Pip's Mole Machine
             [objectKeys.name] = "Pip's Mole Machine",
@@ -744,6 +1060,54 @@ function CataObjectFixes.Load()
         },
         [207384] = { -- Deep Garnet Crystal Chunk
             [objectKeys.spawns] = {},
+        },
+        [207982] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28910},
+        },
+        [207983] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28911},
+        },
+        [207984] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28912},
+        },
+        [207985] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28913},
+        },
+        [207986] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28914},
+        },
+        [207987] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28915},
+        },
+        [207988] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28916},
+        },
+        [207989] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28917},
+        },
+        [207990] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28918},
+        },
+        [207991] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28919},
+        },
+        [207992] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28920},
+        },
+        [207993] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28921},
+        },
+        [208089] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28943},
+        },
+        [208090] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28944},
+        },
+        [208093] = { -- Alliance Bonfire
+            [objectKeys.questStarts] = {28947},
+        },
+        [208094] = { -- Horde Bonfire
+            [objectKeys.questStarts] = {28948},
         },
         [208115] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DARKSHORE] = {{50.8,18.9}}},
@@ -974,12 +1338,14 @@ function CataObjectFixes.Load()
         },
         [209076] = { -- Anson's Crate
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{60.08,75.05},{65.07,33.52}}},
+            [objectKeys.questStarts] = {29413},
         },
         [209094] = { -- Stolen Crate
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{65.77,74.8}}},
         },
         [209095] = { -- Edgar's Crate
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{54.47,77.53},{71.75,49.88}}},
+            [objectKeys.questStarts] = {29429},
         },
         [209242] = { -- Windswept Balloon
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43,58.4},{46.1,64.8},{47.4,62.3},{50.7,43.3},{52.4,62.9},{55.2,58.7},{56,44.3},{56.4,63.1},{57.8,43},{59.7,68.7},{59.8,35.8},{60.1,69.8},{60.4,73.2},{61,43.2},{61.2,66.5},{61.3,33.4},{61.7,76.9},{62,51.6},{62.6,76.3},{62.8,68.6},{62.9,40.2},{63,28.9},{63,41.8},{63.3,65.6},{64.3,38.8},{64.4,44.4},{64.6,68.3},{64.8,51},{64.9,76.5},{65.6,46.3},{66.2,33.4},{66.8,38.9},{67.3,73.3},{67.9,44.2},{69.6,43.2},{70.4,57.4},{71.6,47.3},{72.9,67.9},{73,61.7},{73.6,54.3},{75.4,56.7},{75.4,64.3},{76.2,61.7}}},
