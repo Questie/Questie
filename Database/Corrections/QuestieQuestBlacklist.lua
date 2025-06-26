@@ -5111,6 +5111,7 @@ function QuestieQuestBlacklist:Load()
         [10831] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10832] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10833] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10890] = true, -- Not in the game
         [10891] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10892] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5140,6 +5141,7 @@ function QuestieQuestBlacklist:Load()
         [11087] = true, -- Not in the game
         [11088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11121] = true, -- Not in the game
         [11123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
