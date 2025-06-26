@@ -768,7 +768,8 @@ describe("Validators", function()
             local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
 
             assert.are.same({
-                [1] = "requiredRaces is too high"
+                [1] = "requiredRaces is too high",
+                [3] = "requiredRaces is too high"
             }, invalidQuests)
         end)
 
