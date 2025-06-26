@@ -27,6 +27,8 @@ local objectKeys = {
 local raceKeys = {
     ALL_ALLIANCE = 18875469,
     ALL_HORDE = 33555378,
+    PANDAREN_ALLIANCE = 16777216,
+    PANDAREN_HORDE = 33554432,
 }
 
 describe("Validators", function()
@@ -754,13 +756,28 @@ describe("Validators", function()
             local quests = {
                 [1] = {
                     requiredRaces = 54043195541028864
-                }
+                },
+                [2] = {
+                    requiredRaces = 16777216 + 33554432
+                },
             }
 
             local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
 
             assert.are.same({
-                [1] = "quests' requiredRaces is too high"
+                [1] = "requiredRaces is too high"
+            }, invalidQuests)
+        end)
+
+        it("should find quests with missing requiredRaces", function()
+            local quests = {
+                [1] = {}
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+
+            assert.are.same({
+                [1] = "no requiredRaces entry"
             }, invalidQuests)
         end)
 

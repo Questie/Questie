@@ -582,10 +582,19 @@ end
 function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
     local invalidQuests = {}
+
+    -- sum of all race IDs which is theoretically the highest combination value that can be used
+    local highestPossibleRaceCombination = 0
+    for _, raceId in pairs(raceKeys) do
+        highestPossibleRaceCombination = highestPossibleRaceCombination + raceId
+    end
+
     for questId, questData in pairs(quests) do
         local requiredRaces = questData[questKeys.requiredRaces]
-        if requiredRaces > raceKeys.ALL_HORDE and requiredRaces > raceKeys.ALL_ALLIANCE then
-            invalidQuests[questId] = "quests' requiredRaces is too high"
+        if not requiredRaces then
+            invalidQuests[questId] = "no requiredRaces entry"
+        elseif requiredRaces > highestPossibleRaceCombination then
+            invalidQuests[questId] = "requiredRaces is too high"
         end
     end
 
