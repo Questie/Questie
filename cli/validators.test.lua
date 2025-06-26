@@ -760,6 +760,9 @@ describe("Validators", function()
                 [2] = {
                     requiredRaces = 16777216 + 33554432
                 },
+                [3] = {
+                    requiredRaces = 4294967295
+                }
             }
 
             local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
