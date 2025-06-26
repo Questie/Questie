@@ -1429,6 +1429,10 @@ function CataQuestFixes.Load()
         [10231] = { -- What Book? I Don't See Any Book.
             [questKeys.zoneOrSort] = zoneIDs.SHATTRATH_CITY,
         },
+        [10234] = { -- One Demon's Trash...
+            [questKeys.breadcrumbs] = {10333},
+            [questKeys.preQuestSingle] = {},
+        },
         [10241] = { -- Distraction at Manaforge B'naar
             [questKeys.breadcrumbs] = {11038},
         },
@@ -1484,6 +1488,9 @@ function CataQuestFixes.Load()
         },
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
+        },
+        [10333] = { -- Help Mama Wheeler
+            [questKeys.breadcrumbForQuestId] = 10234,
         },
         [10346] = { -- Return to the Abyssal Shelf
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

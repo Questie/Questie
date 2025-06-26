@@ -2005,6 +2005,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
+            [questKeys.objectives] = {{{19866,"Activate Eastern Rune", Questie.ICON_TYPE_EVENT},{19867,"Activate Northeastern Rune", Questie.ICON_TYPE_EVENT},{19868,"Activate Western Rune", Questie.ICON_TYPE_EVENT}}},
         },
         [10242] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
@@ -2026,8 +2027,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{16880,"Administer Antidote"}}},
         },
         [10256] = {
-            [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"}},nil,nil,nil,nil},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
+            [questKeys.objectives] = {{{19938,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
         },
         [10263] = {
             [questKeys.preQuestGroup] = {10551,10186},

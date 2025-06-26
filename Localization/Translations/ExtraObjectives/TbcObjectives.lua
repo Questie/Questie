@@ -290,7 +290,7 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Use the Apex's Crystal Focus near Archmage Vargoth's Orb"] = { -- 10256
+    ["Use Apex's Crystal Focus near Archmage Vargoth's Orb"] = { -- 10256
         ["enUS"] = true,
         ["deDE"] = "Benutzt den Apex Crystal Focus nahe Erzmagier Vorgoth's Kugel",
         ["esES"] = false,

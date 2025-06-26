@@ -261,6 +261,8 @@ local phases = {
     ADMIRAL_ROGERS_PAWDON_VILLAGE = 1189,
     SASHA_AT_DUSKHOWL_DEN = 1190,
     SASHA_AT_BLOODMOON_ISLE = 1191,
+    FUSELAGE_ROCKET = 1192,
+    FUSELAGE_CITY_SAVED = 1193,
 }
 Phasing.phases = phases
 
@@ -1091,6 +1093,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SASHA_AT_BLOODMOON_ISLE then
         return complete[12164] or (questLog[12164] and questLog[12164].isComplete == 1) or false
+    end
+
+    if phase == phases.FUSELAGE_ROCKET then
+        return not complete[10248]
+    end
+
+    if phase == phases.FUSELAGE_CITY_SAVED then
+        return complete[10248] or false
     end
 
     return false

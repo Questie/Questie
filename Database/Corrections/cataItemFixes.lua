@@ -307,6 +307,12 @@ function CataItemFixes.Load()
         [28548] = { -- Elemental Power
             [itemKeys.npcDrops] = {},
         },
+        [28551] = { -- Fel Reaver Part
+            [itemKeys.npcDrops] = {},
+        },
+        [29338] = { -- Loathsome Remnant
+            [itemKeys.npcDrops] = {20480,20496,20512,21065},
+        },
         [31697] = { -- Dread Relic
             [itemKeys.npcDrops] = {},
         },

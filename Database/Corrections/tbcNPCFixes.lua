@@ -5,12 +5,15 @@ local QuestieTBCNpcFixes = QuestieLoader:CreateModule("QuestieTBCNpcFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 
 function QuestieTBCNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
     local waypointPresets = QuestieDB.waypointPresets
+    local phases = Phasing.phases
 
     return {
         [331] = {
@@ -869,6 +872,15 @@ function QuestieTBCNpcFixes:Load()
         [19546] = { -- Abjurist Belmara
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{58.06,88.65},{58.09,88.7},{58.45,88.32},{59.07,88.35},{59.01,88.19},{59.07,88.3},{58.86,88.37},{58.4,88.35},{58.12,88.68},{57.74,88.08},{58.06,88.64}},{{55.43,86.62},{55.42,86.57},{55.46,86.51}}}},
         },
+        [19570] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.NETHERSTORM] = {
+                    {32.73,64.96,phases.FUSELAGE_ROCKET},
+                    {32.68,64.41,phases.FUSELAGE_CITY_SAVED},
+                },
+            },
+            [npcKeys.waypoints] = {},
+        };
         [19622] = {
             [npcKeys.spawns] = {[zoneIDs.TEMPEST_KEEP] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.TEMPEST_KEEP,
