@@ -784,6 +784,10 @@ function QuestieTBCNpcFixes:Load()
         [18542] = {
             [npcKeys.npcFlags] = 128,
         },
+        [18544] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{72.33,44.98}}},
+            [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [18707] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{27.05,55.66}}},
         },

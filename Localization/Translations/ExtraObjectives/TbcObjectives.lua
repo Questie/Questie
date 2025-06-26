@@ -518,7 +518,19 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge"] = { -- 10411
+    ["Use Navuud's Concoction before attacking Void Wastes"] = { -- 10411
+        ["enUS"] = true,
+        ["deDE"] = "Benutzt Navuuds Gebräu bevor ihr Leerabschaumkugel oder Sickerschlamm angreift.",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "利用药剂强化你的电流攻击能力吧，如此一来，那些软泥怪就会衰变成原始的形态。消灭那些水珠！",
+        ["zhTW"] = false,
+    },
+    ["Use Navuud's Concoction before attacking Seeping Sludges"] = { -- 10411
         ["enUS"] = true,
         ["deDE"] = "Benutzt Navuuds Gebräu bevor ihr Leerabschaumkugel oder Sickerschlamm angreift.",
         ["esES"] = false,

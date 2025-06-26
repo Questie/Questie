@@ -1445,6 +1445,9 @@ function CataQuestFixes.Load()
         [10253] = { -- Levixus the Soul Caller
             [questKeys.zoneOrSort] = 3688,
         },
+        [10271] = { -- Getting Down to Business
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{18877,20332},18877,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [10277] = { -- The Caverns of Time
             [questKeys.zoneOrSort] = 1941,
             [questKeys.preQuestSingle] = {},
@@ -1485,6 +1488,12 @@ function CataQuestFixes.Load()
         },
         [10307] = { -- Cohlien Frostweaver
             [questKeys.startedBy] = {nil,nil,{29236}},
+        },
+        [10310] = { -- Sabotage the Warp-Gate!
+            [questKeys.breadcrumbs] = {10311},
+        },
+        [10311] = { -- Sabotage the Warp-Gate!
+            [questKeys.breadcrumbForQuestId] = 10310,
         },
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
@@ -1720,6 +1729,14 @@ function CataQuestFixes.Load()
         },
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
+        },
+        [10969] = { -- Seek Out Ameer
+            [questKeys.nextQuestInChain] = 10970,
+            [questKeys.breadcrumbForQuestId] = 10970,
+        },
+        [10970] = { -- A Mission of Mercy
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10969},
         },
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.preQuestSingle] = {},

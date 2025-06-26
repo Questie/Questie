@@ -2045,7 +2045,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85}}}},
         },
         [10270] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Wind Trader Marid"), 0, {{"object", 184073}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Wind Trader Marid"), 0, {{"object", 184073}}}},
         },
         [10274] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Challenge of the Blue Fight to challenge Veraku"), 0, {{"object", 184108}}}},
@@ -2124,6 +2124,9 @@ function QuestieTBCQuestFixes:Load()
         [10330] = {
             [questKeys.objectives] = {nil,{{183956}},{{29396}}},
         },
+        [10335] = {
+            [questKeys.objectives] = {{{20473,"Surveying Marker One placed",Questie.ICON_TYPE_EVENT},{20475,"Surveying Marker Two placed",Questie.ICON_TYPE_EVENT},{20476,"Surveying Marker Three placed",Questie.ICON_TYPE_EVENT}}},
+        },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97}}}},
         },
@@ -2131,7 +2134,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,{{184311}},{{29397}}},
         },
         [10339] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10340] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
@@ -2179,10 +2182,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
         },
         [10384] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10385] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10388] = {
             [questKeys.startedBy] = {{16576,19273},nil,nil},
@@ -2195,14 +2198,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil},
         },
         [10405] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10406] = {
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10408] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10409] = {
             [questKeys.objectives] = {{{20132,"Deathblow to the Legion"}}},
@@ -2214,7 +2217,9 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10411] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge"), 0, {{"monster", 20501}, {"monster", 20778}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Seeping Sludges"), 1, {{"monster", 20501}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes"), 2, {{"monster", 20778}}},
+            },
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {934,9000},
@@ -2233,7 +2238,7 @@ function QuestieTBCQuestFixes:Load()
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184588}}}},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,"Captain Tyralius Freed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,"Captain Tyralius Freed",Questie.ICON_TYPE_EVENT}}},
         },
         [10424] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"), 0, {{"object", 184609}}}},
@@ -2242,13 +2247,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43}}}},
         },
         [10426] = {
-            [questKeys.objectives] = {{{20774,"Test Energy Modulator"}},nil,nil,nil},
+            [questKeys.objectives] = {{{20774,"Test Energy Modulator",Questie.ICON_TYPE_INTERACT}}},
         },
         [10427] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged",Questie.ICON_TYPE_INTERACT}}},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
+        },
+        [10439] = {
+            [questKeys.objectives] = {{{19554},{20985,"Speak to Captain Saeed",Questie.ICON_TYPE_TALK}}},
         },
         [10446] = {
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2793,10 +2801,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [10854] = {
             [questKeys.objectives] = {{{21722,"Enslaved Netherwing Drake freed"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake"), 0, {{"monster", 21722}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake"), 0, {{"monster", 21722}}}},
+        },
+        [10855] = { -- Fel Reavers, No Thanks!
+            [questKeys.objectives] = {{{22293,"Inactive Fel Reaver Destroyed",Questie.ICON_TYPE_EVENT}}},
         },
         [10857] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943}}}},
+            [questKeys.objectives] = {{{22348,"Western Teleporter Destroyed",Questie.ICON_TYPE_EVENT},{22350,"Central Teleporter Destroyed",Questie.ICON_TYPE_EVENT},{22351,"Eastern Teleporter Destroyed",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943}}}},
         },
         [10859] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped",Questie.ICON_TYPE_EVENT}}},

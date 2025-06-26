@@ -313,6 +313,9 @@ function CataItemFixes.Load()
         [29338] = { -- Loathsome Remnant
             [itemKeys.npcDrops] = {20480,20496,20512,21065},
         },
+        [29798] = { -- Dome Generator Segment
+            [itemKeys.npcDrops] = {},
+        },
         [31697] = { -- Dread Relic
             [itemKeys.npcDrops] = {},
         },
