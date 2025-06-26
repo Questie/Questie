@@ -642,13 +642,47 @@ end
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
 ---@return table<NpcId, string>
-function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
+
     local invalidQuestEnds = {}
-    local goodQuestEnds = {}
-    for objectId, npcData in pairs(objects) do
-        local questEnds = npcData[objectKeys.questEnds]
+    local targetQuestEnds = {}
+    for questId, questData in pairs(quests) do
+        local finishedBy = questData[questKeys.finishedBy]
+        if finishedBy then
+            for _, objectEnderId in pairs(finishedBy[2] or {}) do
+                if not targetQuestEnds[objectEnderId] then
+                    targetQuestEnds[objectEnderId] = {}
+                end
+                table.insert(targetQuestEnds[objectEnderId], questId)
+
+                local objectEnder = objects[objectEnderId]
+                if objectEnder then
+                    local objectQuestEnds = objectEnder[objectKeys.questEnds]
+
+                    local enderFound = false
+                    for _, enderQuestId in pairs(objectQuestEnds or {}) do
+                        if enderQuestId == questId then
+                            enderFound = true
+                            break
+                        end
+                    end
+
+                    if (not enderFound) then
+                        if not invalidQuestEnds[objectEnderId] then
+                            invalidQuestEnds[objectEnderId] = {}
+                        end
+                        table.insert(invalidQuestEnds[objectEnderId], "quest " .. questId .. " is missing in questEnds")
+                    end
+                end
+            end
+        end
+    end
+
+    for objectId, objectData in pairs(objects) do
+        local questEnds = objectData[objectKeys.questEnds]
         if questEnds then
             for _, questId in ipairs(questEnds) do
                 if not quests[questId] then
@@ -656,11 +690,37 @@ function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
                         invalidQuestEnds[objectId] = {}
                     end
                     table.insert(invalidQuestEnds[objectId], "questEnd " .. questId .. " is not in the database")
-                else
-                    if not goodQuestEnds[objectId] then
-                        goodQuestEnds[objectId] = {}
+                    if not targetQuestEnds[objectId] then
+                        targetQuestEnds[objectId] = {}
                     end
-                    table.insert(goodQuestEnds[objectId], questId)
+                else
+                    local finishedBy = quests[questId][questKeys.finishedBy]
+                    if finishedBy then
+                        local endEntryCorrect = false
+                        for _, objectFinisherId in pairs(finishedBy[2] or {}) do
+                            if objectFinisherId == objectId then
+                                endEntryCorrect = true
+                                break
+                            end
+                        end
+
+                        if not endEntryCorrect then
+                            if not invalidQuestEnds[objectId] then
+                                invalidQuestEnds[objectId] = {}
+                            end
+                            table.insert(invalidQuestEnds[objectId], "quest " .. questId .. " is not finished by this object")
+                        end
+                    end
+                end
+            end
+
+            -- Check if the NPCs questStarts match with the targetQuestEnds given by the quests.
+            -- If they do match, then remove the NPC from targetQuestEnds, otherwise do nothing.
+            if targetQuestEnds[objectId] then
+                -- TODO: Fix tableContainsAll to correctly compare tables.
+                if tableContainsAll(questEnds, targetQuestEnds[objectId]) and tableContainsAll(targetQuestEnds[objectId], questEnds) then
+                    -- Remove the NPC from targetQuestEnds, because it matches the questStarts.
+                    targetQuestEnds[objectId] = nil
                 end
             end
         end
@@ -670,22 +730,29 @@ function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
     for _ in pairs(invalidQuestEnds) do count = count + 1 end
 
     if count > 0 then
+        local correctionFile = io.open(outputDir .. "/objectQuestEndsCorrections.lua", "w")
+        correctionFile:write("return {\n")
+
         print("\27[31mFound " .. count .. " objects with invalid questEnds:\27[0m")
-        for objectId, reasons in pairs(invalidQuestEnds) do
+        for objectId, reasons in pairsByKeys(invalidQuestEnds) do
             print("\27[31m- object " .. objectId .. ":")
             for _, reason in ipairs(reasons) do
                 print("  - " .. reason)
             end
-            print("\27[31m  - Correction:\27[0m")
-            print("\27[31m        [" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questEnds] = {" .. table.concat(goodQuestEnds[objectId] or {}, ",") .. "},\n        },\27[0m")
             print("\27[0m")
+
+            table.sort(targetQuestEnds[objectId] or {})
+            local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questEnds] = {" .. table.concat(targetQuestEnds[objectId] or {}, ",") .. "},\n        },"
+            correctionFile:write("        " .. correctionString .. "\n")
         end
+        correctionFile:write("}\n")
+        correctionFile:close()
 
         os.exit(1)
-        return invalidQuestEnds
+        return invalidQuestEnds, targetQuestEnds
     else
-        print("\27[32mNo objects found with invalid questEnds\27[0m")
-        return nil
+        print("\27[32mNo NPCs found with invalid questEnds\27[0m")
+        return nil, nil
     end
 end
 

@@ -776,13 +776,19 @@ describe("Validators", function()
                     name = "Third Object",
                     questEnds = {5, 6},
                 },
+                [4] = {
+                    name = "Fourth Object",
+                    questEnds = {7,9},
+                },
             }
             local quests = {
-                [2] = {},
-                [4] = {},
+                [2] = {finishedBy = {nil,{1}}},
+                [4] = {finishedBy = {nil,{2}}},
+                [7] = {finishedBy = {{8}}},
+                [9] = {finishedBy = {nil,{4}}},
             }
 
-            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+            local invalidQuests, targetQuestEnds = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
 
             assert.are.same({
                 [1] = {"questEnd 3 is not in the database"},
@@ -790,7 +796,60 @@ describe("Validators", function()
                     "questEnd 5 is not in the database",
                     "questEnd 6 is not in the database",
                 },
+                [4] = {"quest 7 is not finished by this object"},
             }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestEnds)
+        end)
+
+        it("should find objects which have missing questEnds entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questEnds = {3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questEnds = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    finishedBy = {nil,{1}},
+                },
+                [4] = {
+                    finishedBy = {nil,{2}},
+                },
+                [5] = {
+                    finishedBy = {nil,{3}},
+                },
+                [6] = {
+                    finishedBy = {nil,{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questEnds",
+                    "questEnd 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questEnds"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestEnds)
         end)
 
         it("should not report anything when all questEnds are valid", function()
@@ -807,7 +866,7 @@ describe("Validators", function()
                 [4] = {},
             }
 
-            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests)
+            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
         end)
