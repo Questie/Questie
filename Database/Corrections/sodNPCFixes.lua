@@ -1607,6 +1607,10 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {90003,90062,90219},
         },
+        [208518] = { -- Gaeriyan
+            [npcKeys.questStarts] = {},
+            [npcKeys.questEnds] = {},
+        },
         [208619] = { -- Dorac Graves
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{47.2, 71.2}},
@@ -1834,6 +1838,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{37.8, 80.2}},
             },
+            [npcKeys.questStarts] = {78124,78127,78142,78143,78145,78146,78147,78148,78149,78150,79097,79535,79536,79905,79947,79948,79949,79950,79951,79952,79953,81947,81949,81951,81952,81953,81954,81955,81956,82084,82208},
             [npcKeys.friendlyToFaction] = "A",
         },
         [211146] = { -- Lost Adventurer
@@ -2083,6 +2088,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7, 67.23}},
             },
+            [npcKeys.questStarts] = {79482,79486,79492,79501},
             [npcKeys.friendlyToFaction] = "AH",
         },
         [216915] = { -- Strange Snowman
@@ -2094,6 +2100,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR] = {{53.3, 66.47}},
             },
+            [npcKeys.questStarts] = {79483,79487,79495,79502},
             [npcKeys.friendlyToFaction] = "AH",
         },
         [217305] = { -- Ancient Fire Elemental
@@ -2227,6 +2234,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.DEADWIND_PASS] = {{52.1,34.12}},
             },
+            [npcKeys.questStarts] = {80120,86966,86969,86970},
         },
         [218931] = { -- Dark Rider Deadwind Pass
             [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
@@ -2497,14 +2505,20 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.THE_TAINTED_SCAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TAINTED_SCAR]={{-1,-1}}},
         },
+        [230317] = { -- Mokvar
+            [npcKeys.questStarts] = {84155,84156,84157,84158,84159,84160,84161,84162,84171,84172,84173,84174,84175,84176,84177,84178,84203,84204,84205,84206,84207,84208,84209,84210},
+            [npcKeys.questEnds] = {84155,84156,84157,84158,84159,84160,84161,84162,84171,84172,84173,84174,84175,84176,84177,84178,84187,84188,84189,84190,84191,84192,84193,84194,84203,84204,84205,84206,84207,84208,84209,84210},
+        },
+        [230319] = { -- Deliana
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{43.53,52.64}}},
+            [npcKeys.questStarts] = {84147,84148,84149,84150,84151,84152,84153,84154,84163,84164,84165,84166,84167,84168,84169,84170,84195,84196,84197,84198,84199,84200,84201,84202},
+            [npcKeys.questEnds] = {84147,84148,84149,84150,84151,84152,84153,84154,84163,84164,84165,84166,84167,84168,84169,84170,84179,84180,84181,84182,84183,84184,84185,84186,84195,84196,84197,84198,84199,84200,84201,84202},
+        },
         [230481] = { -- Earth Elemental Fragment
             [npcKeys.zoneID] = zoneIDs.MOONGLADE,
             [npcKeys.spawns] = {
                 [zoneIDs.MOONGLADE] = {{72.4,62.2}},
             },
-        },
-        [230319] = { -- Deliana
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{43.53,52.64}}},
         },
         [230775] = { -- Rage Talon Quartermaster
             [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
@@ -2553,9 +2567,15 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
             },
         },
+        [232924] = { -- Doan Karhan
+            [npcKeys.questStarts] = {},
+        },
         [232929] = { -- Gregory
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
+        },
+        [232932] = { -- Gregory
+            [npcKeys.questEnds] = {85066,85067,85090},
         },
         [233084] = { -- Estelenn
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
@@ -2599,13 +2619,6 @@ function SeasonOfDiscovery:LoadNPCs()
         [237820] = { -- Deceased Adventurer
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{39.99,74.16}}},
         },
-        [237957] = { -- Archmage Kir-Moldir
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
-            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
-            [npcKeys.questEnds] = {87283},
-        },
         [238376] = { -- Brother Luctus
             [npcKeys.spawns] = {
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{80.56,65.46}},
@@ -2636,7 +2649,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.8,83.3}}},
             [npcKeys.questStarts] = {87497,87516},
-            [npcKeys.questEnds] = {87493,87498,87506,87509,87516},
+            [npcKeys.questEnds] = {87493,87498,87506,87509},
         },
         [239047] = { -- Scarlet Siege Commander
             [npcKeys.name] = "Scarlet Siege Commander",
