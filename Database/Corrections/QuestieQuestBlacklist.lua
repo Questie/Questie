@@ -601,10 +601,12 @@ function QuestieQuestBlacklist:Load()
         [12402] = true,
         [12403] = true,
         [12404] = true,
+        [12405] = true, -- not in the game
         [12406] = true,
         [12407] = true,
         [12408] = true,
         [12409] = true,
+        [12410] = true, -- not in the game
         [12420] = true,
         [12421] = true,
         [13158] = Expansions.Current >= Expansions.Cata, -- replaced in Cata with 29829
