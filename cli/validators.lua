@@ -575,46 +575,6 @@ function Validators.checkObjectQuestStarts(objects, objectKeys, quests)
     end
 end
 
----@param quests table<QuestId, Quest>
----@param questKeys DatabaseQuestKeys
----@param raceKeys RaceKeys
----@return table<QuestId, string>
-function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
-    print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
-    local invalidQuests = {}
-
-    -- sum of all race IDs which is theoretically the highest combination value that can be used
-    local highestPossibleRaceCombination = 0
-    for _, raceId in pairs(raceKeys) do
-        highestPossibleRaceCombination = highestPossibleRaceCombination + raceId
-    end
-
-    for questId, questData in pairs(quests) do
-        local requiredRaces = questData[questKeys.requiredRaces]
-        if not requiredRaces then
-            invalidQuests[questId] = "no requiredRaces entry"
-        elseif requiredRaces > highestPossibleRaceCombination then
-            invalidQuests[questId] = "requiredRaces is too high"
-        end
-    end
-
-    local count = 0
-    for _ in pairs(invalidQuests) do count = count + 1 end
-
-    if count > 0 then
-        print("\27[31mFound " .. count .. " quests with invalid requiredRaces entries:\27[0m")
-        for questId, reason in pairs(invalidQuests) do
-            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
-        end
-
-        os.exit(1)
-        return invalidQuests
-    else
-        print("\27[32mNo quests found with invalid requiredRaces entries\27[0m")
-        return nil
-    end
-end
-
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
@@ -661,6 +621,46 @@ function Validators.checkObjectQuestEnds(objects, objectKeys, quests)
         return invalidQuestEnds
     else
         print("\27[32mNo objects found with invalid questEnds\27[0m")
+        return nil
+    end
+end
+
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param raceKeys RaceKeys
+---@return table<QuestId, string>
+function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+    print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
+    local invalidQuests = {}
+
+    -- sum of all race IDs which is theoretically the highest combination value that can be used
+    local highestPossibleRaceCombination = 0
+    for _, raceId in pairs(raceKeys) do
+        highestPossibleRaceCombination = highestPossibleRaceCombination + raceId
+    end
+
+    for questId, questData in pairs(quests) do
+        local requiredRaces = questData[questKeys.requiredRaces]
+        if not requiredRaces then
+            invalidQuests[questId] = "no requiredRaces entry"
+        elseif requiredRaces > highestPossibleRaceCombination then
+            invalidQuests[questId] = "requiredRaces is too high"
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid requiredRaces entries:\27[0m")
+        for questId, reason in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid requiredRaces entries\27[0m")
         return nil
     end
 end
