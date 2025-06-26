@@ -2422,6 +2422,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
+        [10565] = { -- The Stones of Vekh'nir
+            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.81,74.67}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Vekh'nir Crystal")}},
+        },
         [10566] = { -- Trial and Error
             [questKeys.objectives] = {{{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
             [questKeys.requiredSourceItems] = {30651,30652,30653,30654,30655},
