@@ -1588,8 +1588,16 @@ function CataQuestFixes.Load()
         [10567] = { -- Creating the Pendant
             [questKeys.breadcrumbs] = {10615},
         },
+        [10595] = { -- Besieged!
+            [questKeys.breadcrumbs] = {11048},
+            [questKeys.preQuestSingle] = {},
+        },
         [10615] = { -- Ruuan Weald
             [questKeys.breadcrumbForQuestId] = 10567,
+        },
+        [10624] = { -- A Haunted History
+            [questKeys.breadcrumbs] = {11046},
+            [questKeys.preQuestSingle] = {},
         },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
@@ -1821,8 +1829,15 @@ function CataQuestFixes.Load()
         [11042] = { -- A Mystifying Vision
             [questKeys.breadcrumbForQuestId] = 10186,
         },
+        [11046] = { -- Chief Apothecary Hildagard
+            [questKeys.breadcrumbForQuestId] = 10624,
+        },
+        [11047] = { -- The Apprentice's Request
+            [questKeys.zoneOrSort] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [11048] = { -- Kroghan's Report
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
+            [questKeys.breadcrumbForQuestId] = 10595,
         },
         [11056] = { -- Hazzik's Bargain
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
