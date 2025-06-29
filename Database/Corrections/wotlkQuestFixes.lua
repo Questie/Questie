@@ -2656,9 +2656,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28752,"High Priest Mu'funu hexed at death"},{28754,"High Priestess Tua-Tua hexed at death"},{28756,"High Priest Hawinni hexed at death"}}},
             [questKeys.requiredSourceItems] = {},
         },
-        [12676] = {
+        [12676] = { -- Sabotage
             [questKeys.requiredSourceItems] = {41390,38699},
-            [questKeys.objectives] = {nil,{{190731,"Scourgewagons destroyed"}},nil,nil,{{{28503},28503,"Drakuru's task complete"}}},
+            [questKeys.objectives] = {nil,{{190731,"Scourgewagons destroyed",Questie.ICON_TYPE_INTERACT}},nil,nil,{{{28503},28503,"Drakuru's task complete",Questie.ICON_TYPE_TALK}}},
             [questKeys.triggerEnd] = {"Learn Drakuru's secret",{[zoneIDs.ZUL_DRAK]={{27.07,46.16}}}},
         },
         [12677] = { -- Hazardous Materials
