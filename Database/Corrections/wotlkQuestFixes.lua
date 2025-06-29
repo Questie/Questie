@@ -2839,8 +2839,8 @@ function QuestieWotlkQuestFixes:Load()
         [12739] = { -- A Special Surprise (Tauren)
             [questKeys.preQuestSingle] = {12738}
         },
-        [12740] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
+        [12740] = { -- Parachutes for the Argent Crusade
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12741] = {
