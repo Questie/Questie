@@ -2678,8 +2678,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
             [questKeys.requiredSourceItems] = {},
         },
-        [12686] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Scepter of Empowerment to mind control Servant of Drakuru"), 0, {{"monster", 28802}}}},
+        [12686] = { -- Zero Tolerance
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Scepter of Empowerment to mind control Servant of Drakuru",Questie.ICON_TYPE_INTERACT), 0, {{"monster", 28802}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12687] = {
