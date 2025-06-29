@@ -2449,7 +2449,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12556,12558,12569},
         },
-        [12596] = {
+        [12596] = { -- Pa'Troll
+            [questKeys.objectives] = {{{28042,"Captain Brandon's Task",Questie.ICON_TYPE_TALK},{28044,"Captain Rupert's Task",Questie.ICON_TYPE_TALK},{28043,"Captain Grondel's Task",Questie.ICON_TYPE_TALK},{28205,"Alchemist Finklestein's Task",Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {12740},
             [questKeys.preQuestGroup] = {},
         },
