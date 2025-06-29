@@ -2767,10 +2767,10 @@ function QuestieWotlkQuestFixes:Load()
         [12712] = {
             [questKeys.requiredSourceItems] = {39313,39314,39315,39316},
         },
-        [12713] = {
+        [12713] = { -- Betrayal
             [questKeys.objectives] = {nil,nil,{{40425,"Overlord Drakuru Defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Scepter of Domination to control it"), 0, {{"monster", 28931}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Scepter of Domination to control it"), 0, {{"monster", 28931}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Go on top of the ziggurat with Drakuru"), 0, {{"monster", 28503}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Defeat Drakuru"), 0, {{"monster", 28998}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("After defeating Drakuru, go back down using this portal"), 0, {{"object", 202357}}},
