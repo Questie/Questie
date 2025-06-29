@@ -1849,6 +1849,9 @@ function CataQuestFixes.Load()
         [11059] = { -- Guardian of the Monument
             [questKeys.preQuestSingle] = {11062},
         },
+        [11062] = { -- The Skyguard Outpost
+            [questKeys.preQuestSingle] = {11030},
+        },
         [11073] = { -- Terokk's Downfall
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
