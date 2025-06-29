@@ -2661,9 +2661,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{190731,"Scourgewagons destroyed"}},nil,nil,{{{28503},28503,"Drakuru's task complete"}}},
             [questKeys.triggerEnd] = {"Learn Drakuru's secret",{[zoneIDs.ZUL_DRAK]={{27.07,46.16}}}},
         },
-        [12677] = {
+        [12677] = { -- Hazardous Materials
             [questKeys.requiredSourceItems] = {41390,38699},
-            [questKeys.objectives] = {{{28503,"Drakuru's task complete"}},nil,{{39159}}},
+            [questKeys.objectives] = {{{28503,"Drakuru's task complete",Questie.ICON_TYPE_TALK}},nil,{{39159}}},
         },
         [12680] = {
             [questKeys.objectives] = {{{28653,nil,Questie.ICON_TYPE_EVENT}}},
