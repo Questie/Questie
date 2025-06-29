@@ -374,6 +374,9 @@ function QuestieTBCItemFixes:Load()
         [32379] = { -- Grulloc's Dragon Skull
             [itemKeys.npcDrops] = {},
         },
+        [32383] = { -- Skulloc's Soul
+            [itemKeys.npcDrops] = {},
+        },
         [32406] = {
             [itemKeys.class] = 12,
         },
