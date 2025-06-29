@@ -1126,6 +1126,9 @@ function QuestieTBCNpcFixes:Load()
         [22275] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{60.02,9.5},{27.4,68.56},{31.76,63.8},{33.41,51.84},{28.8,46.51},{64.67,10.89},{69.01,13.89}}},
         },
+        [22268] = { -- Leokk
+            [npcKeys.waypoints] = {},
+        },
         [22281] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{37.76,41.43},{33.91,44.18},{35.59,36.7},{30.99,86.48},{26.79,83.57},{30.21,77.19},{27.07,75.62},{31.63,39.26}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
