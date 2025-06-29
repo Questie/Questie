@@ -2625,11 +2625,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 12661,
             [questKeys.objectives] = {{{28666,"Tour of Zul'Drak complete"}}},
         },
-        [12664] = {
+        [12664] = { -- Dark Horizon
             [questKeys.preQuestSingle] = {12648},
             [questKeys.exclusiveTo] = {12663,12649},
             [questKeys.parentQuest] = 12661,
-            [questKeys.objectives] = {{{28666,"Tour of Zul'Drak complete"}}},
+            [questKeys.objectives] = {{{28666,"Tour of Zul'Drak complete",Questie.ICON_TYPE_TALK}}},
         },
         [12665] = {
             [questKeys.objectives] = {{{28671,"Quetz'lun's fate revealed."}}},
