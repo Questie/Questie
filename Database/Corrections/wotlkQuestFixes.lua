@@ -2637,8 +2637,8 @@ function QuestieWotlkQuestFixes:Load()
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28747,28748},28747,"Trolls killed near a Soul Font"}}},
         },
-        [12669] = {
-            [questKeys.objectives] = {{{28503,"Drakuru's task complete"},{28739,"Blight Cauldrons diluted"}}},
+        [12669] = { -- So Far, So Bad
+            [questKeys.objectives] = {{{28503,"Drakuru's task complete",Questie.ICON_TYPE_TALK},{28739,"Blight Cauldrons diluted",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {38699,41390},
         },
         [12670] = {
