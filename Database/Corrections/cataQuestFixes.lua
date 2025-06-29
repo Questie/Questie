@@ -2108,6 +2108,9 @@ function CataQuestFixes.Load()
         [11981] = { -- Find Kurun!
             [questKeys.exclusiveTo] = {12074},
         },
+        [11984] = { -- Filling the Cages
+            [questKeys.preQuestSingle] = {},
+        },
         [11999] = { -- Rifle the Bodies
             [questKeys.preQuestSingle] = {},
         },
