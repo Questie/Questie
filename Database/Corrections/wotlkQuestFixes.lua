@@ -2605,14 +2605,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28465,28600},28622}}},
             [questKeys.requiredSourceItems] = {},
         },
-        [12661] = {
+        [12661] = { -- Infiltrating Voltarus
             [questKeys.preQuestSingle] = {12648,12649},
             [questKeys.preQuestGroup] = {},
             [questKeys.childQuests] = {12663,12664},
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 12669,
             [questKeys.requiredSourceItems] = {38699},
-            [questKeys.objectives] = {{{28503,"Overlord Drakuru's task complete"}}},
+            [questKeys.objectives] = {{{28503,"Overlord Drakuru's task complete",Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker")}},
         },
         [12662] = {
