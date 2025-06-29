@@ -2229,8 +2229,9 @@ function QuestieWotlkQuestFixes:Load()
         [12500] = {
             [questKeys.preQuestSingle] = {12498},
         },
-        [12501] = {
+        [12501] = { -- Troll Patrol
             [questKeys.finishedBy] = {{28039}},
+            [questKeys.objectives] = {{{28042,"Captain Brandon's Task",Questie.ICON_TYPE_TALK},{28044,"Captain Rupert's Task",Questie.ICON_TYPE_TALK},{28043,"Captain Grondel's Task",Questie.ICON_TYPE_TALK},{28205,"Alchemist Finklestein's Task",Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {12563,12587},
             [questKeys.childQuests] = {12502,12509,12519,12541},
         },
@@ -2364,8 +2365,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSpell] = 54197,
         },
-        [12563] = {
+        [12563] = { -- Troll Patrol
             [questKeys.finishedBy] = {{28039}},
+            [questKeys.objectives] = {{{28042,"Captain Brandon's Task",Questie.ICON_TYPE_TALK},{28044,"Captain Rupert's Task",Questie.ICON_TYPE_TALK},{28043,"Captain Grondel's Task",Questie.ICON_TYPE_TALK},{28205,"Alchemist Finklestein's Task",Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {12501,12587},
             [questKeys.childQuests] = {12541,12564,12568,12585},
         },
@@ -2427,7 +2429,8 @@ function QuestieWotlkQuestFixes:Load()
         [12585] = {
             [questKeys.parentQuest] = 12563,
         },
-        [12587] = {
+        [12587] = { -- Troll Patrol
+            [questKeys.objectives] = {{{28042,"Captain Brandon's Task",Questie.ICON_TYPE_TALK},{28044,"Captain Rupert's Task",Questie.ICON_TYPE_TALK},{28043,"Captain Grondel's Task",Questie.ICON_TYPE_TALK},{28205,"Alchemist Finklestein's Task",Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
