@@ -2545,6 +2545,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12637] = {
+            [questKeys.objectives] = {{{28532,"Choker's Purpose Exposed",Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {12631},
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12638},
