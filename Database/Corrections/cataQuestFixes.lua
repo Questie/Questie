@@ -1921,6 +1921,8 @@ function CataQuestFixes.Load()
         },
         [11354] = { -- Wanted: Nazan's Riding Crop
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [11356] = { -- Costumed Orphan Matron
             [questKeys.startedBy] = {{20102}},
@@ -1936,15 +1938,21 @@ function CataQuestFixes.Load()
         },
         [11362] = { -- Wanted: Keli'dan's Feathered Stave
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [11363] = { -- Wanted: Bladefist's Seal
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [11364] = { -- Wanted: Shattered Hand Centurions
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [11368] = { -- Wanted: The Heart of Quagmirran
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [11369] = { -- Wanted: A Black Stalker Egg
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
@@ -1955,11 +1963,17 @@ function CataQuestFixes.Load()
         [11371] = { -- Wanted: Coilfang Myrmidons
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
         },
+        [11372] = { -- Wanted: The Headfeathers of Ikiss
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
+        },
         [11378] = { -- Wanted: The Epoch Hunter's Head
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
         [11382] = { -- Wanted: Aeonus's Hourglass
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [11383] = { -- Wanted: Rift Lords
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
