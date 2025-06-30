@@ -1360,6 +1360,12 @@ function QuestieWotlkNpcFixes:Load()
         [28587] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{37.6,20.9}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
         },
+        [28636] = { -- Heb'Jin
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{65.64,50.46}}},
+        },
+        [28639] = { -- Heb'Jin's Bat
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{65.64,50.46}}},
+        },
         [28684] = {
             [npcKeys.spawns] = {[zoneIDs.AZJOL_NERUB]={{50.2,44.6},{-1,-1}}},
         },
