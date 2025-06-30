@@ -2650,8 +2650,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 12661,
             [questKeys.objectives] = {{{28666,"Tour of Zul'Drak complete",Questie.ICON_TYPE_TALK}}},
         },
-        [12665] = {
-            [questKeys.objectives] = {{{28671,"Quetz'lun's fate revealed."}}},
+        [12665] = { -- I Sense a Disturbance
+            [questKeys.objectives] = {{{28671,"Quetz'lun's fate revealed.",Questie.ICON_TYPE_EVENT}}},
         },
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28747,28748},28747,"Trolls killed near a Soul Font"}}},
