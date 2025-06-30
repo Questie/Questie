@@ -5535,7 +5535,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [25462] = { -- The Bears Up There
-            [questKeys.preQuestSingle] = {25428},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25428,25392,25382},
             [questKeys.objectives] = {{{40240,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",40190}}}},
         },
@@ -6482,7 +6483,7 @@ function CataQuestFixes.Load()
         },
         [25940] = { -- Last Stand at Whistling Grove
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25428,25392},
+            [questKeys.preQuestGroup] = {25428,25392,25382},
             [questKeys.exclusiveTo] = {25462},
         },
         [25942] = { -- Buy Us Some Time
