@@ -3190,6 +3190,10 @@ function CataNpcFixes.Load()
         [24364] = { -- Flynn Firebrew
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{53.01,51.1}}},
         },
+        [24369] = { -- Wind Trader Zhareem
+            [npcKeys.questStarts] = {11369,11370,11373,11374,11375,11378,11384,11386,11388,11499},
+            [npcKeys.questEnds] = {11369,11370,11373,11374,11375,11378,11384,11386,11388,11499},
+        },
         [24468] = { -- Pol Amberstill
             [npcKeys.questStarts] = {11321,12193,13932,29397},
         },
