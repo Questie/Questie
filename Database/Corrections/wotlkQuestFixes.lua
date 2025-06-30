@@ -940,6 +940,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
             [questKeys.requiredSourceItems] = {},
         },
+        [11372] = { -- Wanted: The Headfeathers of Ikiss
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [11373] = { -- Wanted: Shaffar's Wondrous Pendant
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [11374] = { -- Wanted: The Exarch's Soul Gem
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [11375] = { -- Wanted: Murmur's Whisper
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [11376] = { -- Wanted: Malicious Instructors
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
         [11390] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
