@@ -3577,6 +3577,7 @@ function CataNpcFixes.Load()
         },
         [30676] = { -- Chronicler Bah'Kini
             [npcKeys.questStarts] = {13098,13111},
+            [npcKeys.questEnds] = {13098,13099,13111},
         },
         [31080] = { -- Warden Alturas
             [npcKeys.questStarts] = {13159},
