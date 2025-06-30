@@ -1418,10 +1418,10 @@ function CataQuestFixes.Load()
             [questKeys.breadcrumbs] = {11039},
         },
         [10227] = { -- I See Dead Draenei
-            [questKeys.zoneOrSort] = 3688,
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
         },
         [10228] = { -- Ezekiel
-            [questKeys.zoneOrSort] = 3688,
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
         },
         [10229] = { -- Decipher the Tome
             [questKeys.preQuestSingle] = {10242}, -- only start dropping while on quest 10220, so we do this instead
@@ -1443,21 +1443,21 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
         },
         [10253] = { -- Levixus the Soul Caller
-            [questKeys.zoneOrSort] = 3688,
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
         },
         [10271] = { -- Getting Down to Business
             [questKeys.objectives] = {nil,nil,nil,nil,{{{18877,20332},18877,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10277] = { -- The Caverns of Time
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.56,54.14}}}},
         },
         [10279] = { -- To The Master's Lair
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
         [10282] = { -- Old Hillsbrad
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.nextQuestInChain] = 0,
         },
         [10289] = { -- Journey to Thrallmar
@@ -1469,12 +1469,12 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [10296] = { -- The Black Morass
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,
         },
         [10297] = { -- The Opening of the Dark Portal
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.preQuestSingle] = {},
         },
         [10302] = { -- Volatile Mutations
@@ -1919,6 +1919,9 @@ function CataQuestFixes.Load()
         [11294] = { -- Bark for the Thunderbrews!
             [questKeys.exclusiveTo] = {11293},
         },
+        [11354] = { -- Wanted: Nazan's Riding Crop
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
         [11356] = { -- Costumed Orphan Matron
             [questKeys.startedBy] = {{20102}},
         },
@@ -1930,6 +1933,54 @@ function CataQuestFixes.Load()
         },
         [11361] = { -- Fire Training
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [11362] = { -- Wanted: Keli'dan's Feathered Stave
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [11363] = { -- Wanted: Bladefist's Seal
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [11364] = { -- Wanted: Shattered Hand Centurions
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [11368] = { -- Wanted: The Heart of Quagmirran
+            [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+        },
+        [11369] = { -- Wanted: A Black Stalker Egg
+            [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+        },
+        [11370] = { -- Wanted: The Warlord's Treatise
+            [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+        },
+        [11371] = { -- Wanted: Coilfang Myrmidons
+            [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+        },
+        [11378] = { -- Wanted: The Epoch Hunter's Head
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [11382] = { -- Wanted: Aeonus's Hourglass
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [11383] = { -- Wanted: Rift Lords
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [11384] = { -- Wanted: A Warp Splinter Clipping
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+        },
+        [11385] = { -- Wanted: Sunseeker Channelers
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+        },
+        [11386] = { -- Wanted: Pathaleon's Projector
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+        },
+        [11387] = { -- Wanted: Tempest-Forge Destroyers
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+        },
+        [11388] = { -- Wanted: The Scroll of Skyriss
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+        },
+        [11389] = { -- Wanted: Arcatraz Sentinels
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
         },
         [11407] = { -- Bark for Drohn's Distillery!
             [questKeys.exclusiveTo] = {11408},
@@ -2195,10 +2246,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12513] = { -- Nice Hat...
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
         [12515] = { -- Nice Hat...
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
         [12535] = { -- Mischief in the Making
             [questKeys.preQuestSingle] = {12532},
@@ -14944,14 +14995,14 @@ function CataQuestFixes.Load()
             [questKeys.breadcrumbs] = {29595},
         },
         [29598] = { -- Taretha's Diversion
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.nextQuestInChain] = 29599,
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,{{182589,"Internment Lodges Set Ablaze"}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",18725}}}},
         },
         [29599] = { -- Escape from Durnholde
-            [questKeys.zoneOrSort] = 1941,
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
         [29605] = { -- Brother Against Brother
             [questKeys.objectives] = {{{18956,nil,Questie.ICON_TYPE_TALK}}},

@@ -3560,6 +3560,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11449,11450},
             [questKeys.requiredSourceItems] = {32971},
         },
+        [11372] = { -- Wanted: The Headfeathers of Ikiss
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
+        },
+        [11373] = { -- Wanted: Shaffar's Wondrous Pendant
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
+        },
+        [11374] = { -- Wanted: The Exarch's Soul Gem
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
+        },
+        [11375] = { -- Wanted: Murmur's Whisper
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
+        },
+        [11376] = { -- Wanted: Malicious Instructors
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
+        },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
         },
