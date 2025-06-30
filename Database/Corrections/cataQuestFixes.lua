@@ -15085,6 +15085,9 @@ function CataQuestFixes.Load()
         [29835] = { -- Gal'darah Must Pay
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [29836] = { -- Just Checkin'
+            [questKeys.finishedBy] = {{55737}},
+        },
         [29838] = { -- One of a Kind
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
