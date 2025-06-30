@@ -3309,9 +3309,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Harpoon Guns to burn Dry Haystacks"), 0, {{"monster", 30066}}}},
             [questKeys.requiredSourceItems] = {},
         },
-        [12954] = {
+        [12954] = { -- The Amphitheater of Anguish: Yggdras!
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
-            [questKeys.preQuestSingle] = {9977},
             [questKeys.exclusiveTo] = {12932},
             [questKeys.nextQuestInChain] = 12933,
         },
