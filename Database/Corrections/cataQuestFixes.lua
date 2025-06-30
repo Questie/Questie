@@ -15079,6 +15079,10 @@ function CataQuestFixes.Load()
         [29830] = { -- Containment
             [questKeys.preQuestSingle] = {},
         },
+        [29833] = { -- Unfinished Business
+            [questKeys.preQuestSingle] = {12730},
+            [questKeys.exclusiveTo] = {29836},
+        },
         [29834] = { -- Gal'darah Must Pay
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -15087,6 +15091,7 @@ function CataQuestFixes.Load()
         },
         [29836] = { -- Just Checkin'
             [questKeys.finishedBy] = {{55737}},
+            [questKeys.exclusiveTo] = {29833},
         },
         [29838] = { -- One of a Kind
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

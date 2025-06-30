@@ -3575,9 +3575,6 @@ function CataNpcFixes.Load()
         [30671] = { -- Tol'mar
             [npcKeys.questStarts] = {13096},
         },
-        [30676] = { -- Chronicler Bah'Kini
-            [npcKeys.questStarts] = {13098,13111},
-        },
         [31080] = { -- Warden Alturas
             [npcKeys.questStarts] = {13159},
         },
