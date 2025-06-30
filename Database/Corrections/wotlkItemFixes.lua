@@ -449,14 +449,14 @@ function QuestieWotlkItemFixes:Load()
         [38631] = {
             [itemKeys.objectDrops] = {191746},
         },
-        [38637] = {
-            [itemKeys.npcDrops] = {28494},
+        [38637] = { -- Treasure of Kutube'sa
+            [itemKeys.npcDrops] = {},
         },
-        [38638] = {
-            [itemKeys.npcDrops] = {28496},
+        [38638] = { -- Treasure of Chulo the Mad
+            [itemKeys.npcDrops] = {},
         },
-        [38639] = {
-            [itemKeys.npcDrops] = {28495},
+        [38639] = { -- Treasure of Gawanil
+            [itemKeys.npcDrops] = {},
         },
         [38657] = {
             [itemKeys.class] = 12,
