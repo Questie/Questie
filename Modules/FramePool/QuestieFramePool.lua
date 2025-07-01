@@ -5,8 +5,6 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieLib

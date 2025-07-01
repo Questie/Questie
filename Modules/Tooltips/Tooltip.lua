@@ -1,5 +1,6 @@
 ---@class QuestieTooltips
 local QuestieTooltips = QuestieLoader:CreateModule("QuestieTooltips");
+QuestieTooltips.private = QuestieTooltips.private or {}
 local _QuestieTooltips = QuestieTooltips.private
 -------------------------
 --Import modules.
