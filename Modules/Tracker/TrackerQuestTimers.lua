@@ -93,12 +93,12 @@ end
 function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
-        return nil
+        return nil, nil
     end
 
     local questTimers = GetQuestTimers(questId)
     if (not questTimers) then
-        return nil
+        return nil, nil
     end
 
     local currentQuestLogSelection = GetQuestLogSelection()
@@ -113,7 +113,7 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 
         return timeRemainingString, timeRemaining
     else
-        return nil
+        return nil, nil
     end
 end
 

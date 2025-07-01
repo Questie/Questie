@@ -84,7 +84,7 @@ function QuestEventHandler:Initialize()
                     quest = QuestieDB.GetQuest(questId)
 
                     if quest then
-                        local info = StaticPopupDialogs[which]
+                        -- local info = StaticPopupDialogs[which]
                         local sourceItemId, soureItemName, sourceItemType, soureClassID
                         local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
 
@@ -440,7 +440,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck, true)
 
     if next(changes) then
-        for questId, objIds in pairs(changes) do
+        for questId, _--[[ objIds ]] in pairs(changes) do
             --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)

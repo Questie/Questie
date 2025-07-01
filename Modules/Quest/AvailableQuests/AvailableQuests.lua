@@ -83,7 +83,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                     if limit == 0 or added < limit then
                         added = added + _AddStarter(no, quest, "im_"..npc, (limit == 0 and 0) or (limit - added))
                     else
-                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, no.name, npc, "m_"..npc)
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, no and no.name, npc, "m_"..npc)
                     end
                 end
             end
@@ -93,7 +93,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                     if limit == 0 or added < limit then
                         added = added + _AddStarter(oo, quest, "io_"..obj, (limit == 0 and 0) or (limit - added))
                     else
-                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, oo.name, obj, "o_"..obj)
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, oo and oo.name, obj, "o_"..obj)
                     end
                 end
             end
@@ -305,7 +305,7 @@ end
 _DrawAvailableQuest = function(questId)
     NewThread(function()
         local quest = QuestieDB.GetQuest(questId)
-        if (not quest.tagInfoWasCached) then
+        if (quest and not quest.tagInfoWasCached) then
             QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
 
             quest.tagInfoWasCached = true
