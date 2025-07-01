@@ -43,18 +43,18 @@ end
 ---@param frame frame
 ---@param minWidth number The minimum width the object can be resized to.
 ---@param minHeight number The minimum height the object can be resized to.
----@param maxWidth number The maximum width the object can be resized to.
----@param maxHeight number The maximum height the object can be resized to.
+---@param maxWidth number? The maximum width the object can be resized to.
+---@param maxHeight number? The maximum height the object can be resized to.
 function QuestieCompat.SetResizeBounds(frame, minWidth, minHeight, maxWidth, maxHeight)
     if frame.SetResizeBounds then
         frame:SetResizeBounds(minWidth, minHeight, maxWidth, maxHeight)
         return
     else
         if frame.SetMinResize and frame.SetMaxResize then
-            if minWidth and minWidth ~= 0 then
+            if minWidth and minWidth ~= 0 and minHeight and minHeight ~= 0 then
                 frame:SetMinResize(minWidth, minHeight)
             end
-            if maxWidth and maxWidth ~= 0 then
+            if maxWidth and maxWidth ~= 0 and maxHeight and maxHeight ~= 0 then
                 frame:SetMaxResize(maxWidth, maxHeight)
             end
             return
@@ -186,7 +186,7 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
                    containerInfo.itemID,
                    containerInfo.isBound
        else
-            return nil
+            return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
        end
     elseif GetContainerItemInfo then
         return GetContainerItemInfo(bagID, slot)
