@@ -6711,6 +6711,9 @@ function CataQuestFixes.Load()
         [25992] = { -- Hopelessly Gearless
             [questKeys.preQuestSingle] = {25991},
         },
+        [25993] = { -- Body Blows
+            [questKeys.objectives] = {nil,{{203309,nil,Questie.ICON_TYPE_SLAY}}},
+        },
         [25994] = { -- Still Valuable
             [questKeys.preQuestSingle] = {25991},
         },
