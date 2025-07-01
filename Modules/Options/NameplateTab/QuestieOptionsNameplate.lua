@@ -289,7 +289,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 desc = function() return l10n("Reset to default nameplate position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateEnabled; end,
-                func = function (info, value)
+                func = function (_, _)
                     Questie.db.profile.nameplateX = optionsDefaults.profile.nameplateX;
                     Questie.db.profile.nameplateY = optionsDefaults.profile.nameplateY;
                     Questie.db.profile.nameplateScale = optionsDefaults.profile.nameplateScale;
@@ -313,7 +313,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 desc = function() return l10n("Reset to default target frame position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
-                func = function (info, value)
+                func = function (_, _)
                     Questie.db.profile.nameplateTargetFrameX = optionsDefaults.profile.nameplateTargetFrameX;
                     Questie.db.profile.nameplateTargetFrameY = optionsDefaults.profile.nameplateTargetFrameY;
                     Questie.db.profile.nameplateTargetFrameScale = optionsDefaults.profile.nameplateTargetFrameScale;

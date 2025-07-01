@@ -266,7 +266,7 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieOptions:SetProfileValue(info, value)
 
                             if not value then
-                                QuestieCoords.ResetMapText();
+                                QuestieCoords:ResetMapText();
                                 QuestieCoords:ResetMiniWorldMapText();
                             end
                         end,
@@ -371,7 +371,7 @@ function QuestieOptions.tabs.general:Initialize()
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function() return Questie.db.profile.minLevelFilter; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             if value > Questie.db.profile.maxLevelFilter then
                                 value = Questie.db.profile.maxLevelFilter
                             end
