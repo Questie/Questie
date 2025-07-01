@@ -164,6 +164,7 @@ local function _CheckCataDatabase()
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning
 
+    ---@diagnostic disable-next-line: missing-fields
     Questie.db = {
         char = {
             showEventQuests = false
