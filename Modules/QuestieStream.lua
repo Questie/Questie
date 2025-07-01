@@ -54,6 +54,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         error("Stream encoding mode is not defined.")
     end
 
+    ---@class QuestieStreamLib
     local stream = tremove(StreamPool)
     if stream and stream._mode == mode then
         return stream

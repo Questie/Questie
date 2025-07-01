@@ -2,7 +2,7 @@
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
----@type QuestieOptionsUtils
+---@class QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
@@ -21,7 +21,12 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-QuestieOptions.tabs.icons = {...}
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsIconsTab
+QuestieOptions.tabs.icons = QuestieOptions.tabs.icons or { ... }
+
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local _GetIconTypes

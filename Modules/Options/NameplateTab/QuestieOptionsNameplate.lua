@@ -12,7 +12,12 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptions.tabs.nameplate = {...}
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsNameplateTab
+QuestieOptions.tabs.nameplate = QuestieOptions.tabs.nameplate or { ... }
+
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 

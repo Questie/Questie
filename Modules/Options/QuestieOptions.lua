@@ -12,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
+---@class QuestieOptionsTabs
 QuestieOptions.tabs = { ... }
 QuestieConfigFrame = nil
 

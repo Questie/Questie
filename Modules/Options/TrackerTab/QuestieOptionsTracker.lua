@@ -15,11 +15,16 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
-
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptions.tabs.tracker = { ... }
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsTrackerTab
+QuestieOptions.tabs.tracker = QuestieOptions.tabs.tracker or { ... }
+
+
 
 local _GetShortcuts
 local trackerOptions = {}

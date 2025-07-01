@@ -1,4 +1,4 @@
----@type QuestieOptions
+---@class QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
@@ -21,7 +21,12 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-QuestieOptions.tabs.general = { ... }
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsGeneralTab
+QuestieOptions.tabs.general = QuestieOptions.tabs.general or { ... }
+
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
