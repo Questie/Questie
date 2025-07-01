@@ -322,14 +322,15 @@ function TrackerUtils:FlashFinisher(quest)
     end)
 end
 
----@param bind string
----@param button string
----@return string bind The input keybind string
----@return string button The input button string
----@return string bindTruthTable.bind Returns matched bind string
----@return function|boolean bindTruthTable.bind.button Returns button function or false if there is no keybind set
+--- Checks if the given key bind is true for the button.
+---@param bind string The keybind, e.g. "left", "shiftleft"
+---@param button string The mouse button, e.g. "LeftButton", "RightButton"
+---@return boolean
 function TrackerUtils:IsBindTrue(bind, button)
-    return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
+    if bind and button and bindTruthTable[bind] then
+        return bindTruthTable[bind](button)
+    end
+    return false
 end
 
 ---@param itemId number
