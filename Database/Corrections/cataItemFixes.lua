@@ -316,6 +316,9 @@ function CataItemFixes.Load()
         [29798] = { -- Dome Generator Segment
             [itemKeys.npcDrops] = {},
         },
+        [31324] = { -- Sketh'lon Feather
+            [itemKeys.npcDrops] = {},
+        },
         [31697] = { -- Dread Relic
             [itemKeys.npcDrops] = {},
         },
