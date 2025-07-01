@@ -13,7 +13,7 @@ local newTicker = C_Timer.NewTicker
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param errorMessage string? @What is the "Prepend" of the error message
 ---@param callbackFunction function? @Function to call when the thread is done
----@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return TimerCallback Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
 function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
   if lType(threadFunction) ~= "function" then

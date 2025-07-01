@@ -36,6 +36,7 @@ local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
 
+---@param self IconFrame
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
@@ -48,6 +49,7 @@ function MapIconTooltip:Show()
     end
     lastTooltipShowTimestamp = GetTime()
 
+    ---@class GameTooltip
     local Tooltip = GameTooltip;
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)

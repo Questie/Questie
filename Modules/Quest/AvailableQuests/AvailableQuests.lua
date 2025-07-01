@@ -30,7 +30,7 @@ local NewThread = ThreadLib.ThreadSimple
 local QUESTS_PER_YIELD = 24
 
 --- Used to keep track of the active timer for CalculateAndDrawAll
----@type Ticker|nil
+---@type TimerCallback|nil
 local timer
 
 -- Keep track of all available quests to unload undoable when abandoning a quest

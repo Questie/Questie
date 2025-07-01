@@ -125,9 +125,9 @@ function QuestieLib:GetRGBForObjective(objective)
 end
 
 ---@param questId number
----@param showLevel number @ Whether the quest level should be included
----@param showState boolean @ Whether to show (Complete/Failed)
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@param showLevel boolean? @ Whether the quest level should be included
+---@param showState boolean? @ Whether to show (Complete/Failed)
+---@param blizzLike boolean? @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
     local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);

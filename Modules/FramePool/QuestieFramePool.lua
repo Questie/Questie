@@ -63,7 +63,7 @@ function QuestieFramePool:GetFrame()
     if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
-        returnFrame = nil
+        returnFrame = nil --[[@type IconFrame]]
     end
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
@@ -202,6 +202,7 @@ local lineFrameCount = 1
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
 ---@class LineFrame @A frame that contains the line used in waypoints.
+---@field FakeHide function @A function to fake hide the frame.
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
 
     --Create the framepool for lines if it does not already exist.

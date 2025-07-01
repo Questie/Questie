@@ -1441,6 +1441,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public Color Color
     ---@field public breacrumbForQuestId number
     ---@field public breacrumbs QuestId[]
+    ---@field public tagInfoWasCached boolean @Whether the tag info was cached
     local QO = {
         Id = questId
     }
@@ -1549,7 +1550,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             QO.ObjectiveData[#QO.ObjectiveData+1] = {
                 Type = "reputation",
                 Id = objectives[4][1],
-                RequiredRepValue = objectives[4][2]
+                RequiredRepValue = objectives[4][2],
+                Icon = objectives[4][3]
             }
         end
         if objectives[5] and type(objectives[5]) == "table" and #objectives[5] > 0 then
@@ -1576,7 +1578,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             end
         end
         if objectives[6] then
-            for index, spellObjective in pairs(objectives[6]) do
+            for _, spellObjective in pairs(objectives[6]) do
                 if spellObjective then
                     ---@type SpellObjective
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {

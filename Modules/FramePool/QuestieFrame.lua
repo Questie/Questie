@@ -23,6 +23,12 @@ local _Qframe = {}
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
+    ---@field x number
+    ---@field y number
+    ---@field AreaID AreaId
+    ---@field UiMapID UiMapId
+    ---@field miniMapIcon number|boolean
+    ---@field hidden boolean @Whether the frame is hidden
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
@@ -84,6 +90,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
     newFrame.texture:SetVertexColor(1, 1, 1, 1);
 
+    ---@type IconTexture
     newFrame.glowTexture = glowt
     newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
     function newFrame.glowTexture:SetVertexColor(r, g, b, a)
@@ -124,6 +131,12 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.OnShow = _Qframe.OnShow
     newFrame.OnHide = _Qframe.OnHide
     newFrame.ShouldBeHidden = _Qframe.ShouldBeHidden
+
+    -- Fadelogic
+    ---@type function
+    newFrame.FadeLogic = nil
+    ---@type function
+    newFrame.SetFade = nil
 
     newFrame.data = nil
     newFrame:Hide()
@@ -481,6 +494,11 @@ function _Qframe:ShouldBeHidden()
     local questId = data.Id
 
     local IsSoD = Questie.IsSoD
+
+    if not profile then
+        Questie:Error("Profile is nil in ShouldBeHidden function ", debugstack(1, 1, 1):match('(%w+%.lua)%"*%]:(%d+)'))
+        return false
+    end
 
     --investigate quest and cache results to minimize DB lookups
     local repeatable = QuestieDB.IsRepeatable(questId)
