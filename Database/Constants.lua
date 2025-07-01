@@ -1,7 +1,5 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieDB.sortKeys = {
     EPIC = -1,
