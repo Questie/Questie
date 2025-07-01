@@ -4447,6 +4447,9 @@ function CataNpcFixes.Load()
         [38996] = { -- Hazzali Hive Credit Bunny
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.67,72.11}}},
         },
+        [39034] = { -- Dr. Dealwell
+            [npcKeys.questStarts] = {25067,25094,25095,25513,25591},
+        },
         [39065] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {

@@ -2324,6 +2324,7 @@ function CataQuestFixes.Load()
         },
         [12932] = { -- The Amphitheater of Anguish: Yggdras!
             [questKeys.preQuestSingle] = {},
+            [questKeys.startedBy] = {{30007}},
         },
         [13078] = { -- Dahlia's Tears
             [questKeys.zoneOrSort] = zoneIDs.DRAGONBLIGHT,
