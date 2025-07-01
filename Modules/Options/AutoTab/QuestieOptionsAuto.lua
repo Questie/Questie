@@ -2,8 +2,6 @@
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -32,7 +30,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 width = 0.65,
                 --disabled = function() return (not Questie.db.profile.autocomplete) and (not Questie.db.profile.autoAccept.enabled) end,
                 get = function() return Questie.db.profile.autoModifier; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.profile.autoModifier = key
                 end,
             },
@@ -47,7 +45,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 name = function() return l10n("Auto Complete Quests"); end,
                 desc = function() return l10n("When enabled, Questie will automatically hand in finished quests when talking to NPCs."); end,
                 get = function () return Questie.db.profile.autocomplete; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.profile.autocomplete = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
@@ -64,7 +62,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 name = function() return l10n("Auto Accept Quests"); end,
                 desc = function() return l10n("When enabled, Questie will automatically accept quest dialogs when they appear, depending on the rules below."); end,
                 get = function () return Questie.db.profile.autoAccept.enabled; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.profile.autoAccept.enabled = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
@@ -89,7 +87,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_npc_normal; end,
                         -- END
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_npc_normal = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Normal toggled to:", value)
                         end,
@@ -117,7 +115,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_npc_dungeon; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_npc_dungeon = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Dungeon toggled to:", value)
                         end,
@@ -129,7 +127,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         desc = function() return l10n("Automatically accept PvP quests from NPCs."); end,
                         width = 1,
                         get = function () return Questie.db.profile.autoAccept.pvp; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoAccept.pvp = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC PvP toggled to:", value)
                         end,
@@ -145,7 +143,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_npc_event; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_npc_event = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Event toggled to:", value)
                         end,
@@ -163,7 +161,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         end,
                         -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_npc_trivial; end,
-                        -- set = function (info, value)
+                        -- set = function (_, value)
                         --     Questie.db.profile.autoaccept_npc_trivial = value
                         --     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Trivial toggled to:", value)
                         -- end,
@@ -189,7 +187,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_normal; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_normal = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Normal toggled to:", value)
                         end,
@@ -205,7 +203,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_repeatable; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_repeatable = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Repeatable toggled to:", value)
                         end,
@@ -221,7 +219,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_dungeon; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_dungeon = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Dungeon toggled to:", value)
                         end,
@@ -237,7 +235,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_pvp; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_pvp = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player PvP toggled to:", value)
                         end,
@@ -253,7 +251,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_event; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_event = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Event toggled to:", value)
                         end,
@@ -269,7 +267,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         get = function () return true; end,
                         -- -- AUTO 2.0
                         -- get = function () return Questie.db.profile.autoaccept_player_trivial; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.autoaccept_player_trivial = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Trivial toggled to:", value)
                         end,
@@ -318,7 +316,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 get = function () return false; end,
                 -- -- AUTO 2.0
                 -- get = function () return Questie.db.profile.autoreject_nonfriend; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.profile.autoreject_nonfriend = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Reject Nonfriend toggled to:", value)
                 end,

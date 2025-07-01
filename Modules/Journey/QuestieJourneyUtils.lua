@@ -27,6 +27,7 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
 end
 
 function QuestieJourneyUtils:Spacer(container, size)
+    ---@type AceGUILabel
     local spacer = AceGUI:Create("Label");
     spacer:SetFullWidth(true);
     spacer:SetText(" ");
@@ -41,6 +42,7 @@ function QuestieJourneyUtils:Spacer(container, size)
 end
 
 function QuestieJourneyUtils:AddLine(frame, text)
+    ---@type AceGUILabel
     local label = AceGUI:Create("Label")
     label:SetFullWidth(true);
     label:SetText(text)
@@ -82,6 +84,7 @@ function QuestieJourneyUtils.CreateObjectiveText(desc)
     return objText
 end
 
+---@param self AceGUIInteractiveLabel
 function QuestieJourneyUtils.ShowJourneyTooltip(self)
     if GameTooltip:IsShown() then
         return
@@ -93,26 +96,30 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
     GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
     if type == "quest" then
         local quest = QuestieDB.GetQuest(id)
-        GameTooltip:AddLine("["..quest.level.."] "..quest.name.." ("..id..")")
-        if quest.Description and quest.Description ~= {} then
-            for _, line in pairs(quest.Description) do
-                for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
-                    GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
+        if quest then
+            GameTooltip:AddLine("[" .. quest.level .. "] " .. quest.name .. " (" .. id .. ")")
+            if quest.Description and quest.Description ~= {} then
+                for _, line in pairs(quest.Description) do
+                    for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
+                        GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
+                    end
                 end
             end
         end
     elseif type == "npc" then
         local npc = QuestieDB:GetNPC(id)
-        GameTooltip:AddLine("[".. npc.minLevel .."] ".. npc.name .." (".. id ..")")
-        if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    "..npc.subName.."|r") end
+        if npc then
+            GameTooltip:AddLine("[" .. npc.minLevel .. "] " .. npc.name .. " (" .. id .. ")")
+            if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    " .. npc.subName .. "|r") end
+        end
     elseif type == "object" then
         local object = QuestieDB.QueryObjectSingle(id, "name")
-        GameTooltip:AddLine(object.." ("..id..")")
+        GameTooltip:AddLine(object .. " (" .. id .. ")")
     elseif type == "item" then
         local item = QuestieDB.QueryItemSingle(id, "name")
-        GameTooltip:AddLine(item.." ("..id..")")
+        GameTooltip:AddLine(item .. " (" .. id .. ")")
     end
-    GameTooltip:AddLine("\n"..l10n("Click to show"))
+    GameTooltip:AddLine("\n" .. l10n("Click to show"))
     GameTooltip:SetFrameStrata("TOOLTIP")
     GameTooltip:Show()
 end
@@ -124,9 +131,9 @@ function QuestieJourneyUtils.HideJourneyTooltip()
 end
 
 ---@param quest Quest
----@return AceInteractiveLabel
+---@return AceGUIInteractiveLabel
 function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
-    ---@class AceInteractiveLabel
+    ---@type AceGUIInteractiveLabel
     local label = AceGUI:Create("InteractiveLabel")
     local questId = quest.Id
 
@@ -144,11 +151,11 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
 end
 
 ---@param itemId ItemId
----@return AceIcon
+---@return AceGUIIcon
 function QuestieJourneyUtils.GetItemIcon(itemId)
     local itemLink = select(2, GetItemInfo(itemId))
 
-    ---@class AceIcon
+    ---@type AceGUIIcon
     local itemIcon = AceGUI:Create("Icon")
     itemIcon:SetWidth(25)
     itemIcon:SetHeight(25)
