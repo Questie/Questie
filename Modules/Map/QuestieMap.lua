@@ -734,6 +734,10 @@ end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
+    if not profile then
+        Questie:Error("Profile is nil in _MinimapIconFadeLogic function ", debugstack(1, 1, 1):match('(%w+%.lua)%"*%]:(%d+)'))
+        return
+    end
     if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y
