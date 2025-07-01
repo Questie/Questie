@@ -2465,6 +2465,9 @@ function QuestieTBCQuestFixes:Load()
         [10596] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
+        [10598] = {
+            [questKeys.objectives] = {{{21512,"Destroy Legion Hold Infernals",Questie.ICON_TYPE_EVENT}}},
+        },
         [10605] = {
             [questKeys.exclusiveTo] = {1472,1507},
         },
