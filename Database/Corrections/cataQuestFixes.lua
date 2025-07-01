@@ -2322,6 +2322,9 @@ function CataQuestFixes.Load()
         [12869] = { -- Pushed Too Far
             [questKeys.preQuestSingle] = {},
         },
+        [12932] = { -- The Amphitheater of Anguish: Yggdras!
+            [questKeys.preQuestSingle] = {},
+        },
         [13078] = { -- Dahlia's Tears
             [questKeys.zoneOrSort] = zoneIDs.DRAGONBLIGHT,
         },
