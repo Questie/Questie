@@ -108,7 +108,18 @@ local dungeons = {
     [5844] = {"Hour of Twilight",nil,440,{{440, 64.8, 50}}},
     [5861] = {"Darkmoon Faire Island",nil,440,{{12, 41.79, 69.52},{215, 36.85, 35.86}}},
     [5892] = {"Dragon Soul",nil,440,{{440, 64.8, 50}}},
+    [5918] = {"Shado-Pan Monastery",6173,5841,{{5841, 36.8, 47.5}}},
+    [5956] = {"Temple of the Jade Serpent",5975,5785,{{5785, 56.3, 58.2}}},
+    [5963] = {"Stormstout Brewery",6001,5805,{{5805, 36.3, 69.2}}},
+    [5976] = {"Gate of the Setting Sun",6396,5840,{{5840, 15.9, 74.2}}},
+    [6067] = {"Terrace of Endless Spring",nil,6006,{{6006, 48.6, 61.7}}},
+    [6125] = {"Mogu'shan Vaults",nil,5841,{{5841, 59.8, 39.5}}},
+    [6143] = {"Mogu'shan Palace",6182,5840,{{5840, 81, 32.6}}},
+    [6214] = {"Siege of Niuzao Temple",nil,5842,{{5842, 34.8, 81.5}}},
+    [6297] = {"Heart of Fear",6435,6138,{{6138, 39.1, 35}}},
     [6298] = {"Brawl'gar Arena",nil,1637,{{1637, 70.7, 30.6}}},
+    [6622] = {"Throne of Thunder",nil,6507,{{6507, 63.6, 32.2}}},
+    [6738] = {"Siege of Orgrimmar",nil,5840,{{5840, 72.5, 44.5}}},
     [7307] = {"Upper Blackrock Spire",nil,51,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
     [10001] = {"Stratholme",nil,139,{{139, 43.5, 19.4}}}, -- The Gauntlet
     [10022] = {"Dire Maul",nil,357,{{357, 62.5,24.9}}}, -- North
@@ -124,10 +135,15 @@ local dungeons = {
     [16236] = {"Scarlet Enclave",nil,139,{{139, 68.67, 87.84}}},
 }
 
+if Expansions.Current >= Expansions.Wotlk then
+    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
+    dungeons[2257][4] = {{1519, 72, 28}, {1537, 84.1, 53.1}} -- Deeprun Tram
+    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
+end
+
 if Expansions.Current >= Expansions.Cata then
     dungeons[491][3] = 4709 -- Utgarde Keep
     dungeons[491][4] = {{4709, 41, 94.6}} -- Utgarde Keep
-    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
     dungeons[718][4] = {{17, 38.9, 69.1}} -- Wailing Caverns
     dungeons[719][4] = {{331, 14.2, 13.9}} -- Blackfathom Deeps
     dungeons[721][4] = {{1, 31.1, 37.9}} -- Gnomeregan
@@ -153,14 +169,9 @@ if Expansions.Current >= Expansions.Cata then
     dungeons[2717][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Molten Core
     dungeons[3428][4] = {{1377, 24.4, 87.5}} -- Temple of Ahn'Qiraj
     dungeons[3429][4] = {{1377, 36.5, 93.9}} -- Ruins of Ahn'Qiraj
-    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
     dungeons[3606][4] = {{440, 64.8, 50}} -- Hyjal Summit
     dungeons[4100][4] = {{440, 64.8, 50}} -- The Culling of Stratholme
     dungeons[7307][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Upper Blackrock Spire
-elseif Questie.IsWotlk then
-    dungeons[717][4] = {{1519, 52.4, 70}} -- The Stockade
-    dungeons[2257][4] = {{1519, 72, 28}, {1537, 84.1, 53.1}} -- Deeprun Tram
-    dungeons[3456][4] = {{65, 87.4, 51.1}} -- Naxxramas
 end
 
 ZoneDB.private.dungeons = dungeons

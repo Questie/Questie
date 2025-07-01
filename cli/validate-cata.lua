@@ -217,6 +217,12 @@ local function _CheckCataDatabase()
 
     print("\n\27[32mCata database compiled successfully\27[0m")
 
+    -- We accept blacklisted quests as questStarts and questEnds for now
+    Validators.checkNpcQuestStarts(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkNpcQuestEnds(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkObjectQuestStarts(QuestieDB.objectData, QuestieDB.objectKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkObjectQuestEnds(QuestieDB.objectData, QuestieDB.objectKeys, QuestieDB.questData, QuestieDB.questKeys)
+
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil

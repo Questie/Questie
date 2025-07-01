@@ -11,6 +11,15 @@ function QuestieWotlkObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [269] = { -- Guarded Thunder Ale Barrel
+            [objectKeys.questStarts] = {403},
+        },
+        [141980] = { -- Spectral Lockbox
+            [objectKeys.questEnds] = {2701},
+        },
+        [156561] = { -- Wanted Poster
+            [objectKeys.questStarts] = {176},
+        },
         [176213] = {
             [objectKeys.spawns] = {
                 [zoneIDs.WESTERN_PLAGUELANDS]={{35.9,57.4},{35.9,57.5},{36.4,53.7},{36.5,53.6},{38.2,56.3},{39.7,69.4},{39.7,69.6},{40.6,73.1},{40.7,57.4},{40.8,57.5},{41.4,62.1},{41.5,62.1},{41.9,70.5},{42.2,54.9},{42.8,64.2},{43.3,68.3},{43.6,70.4},{43.7,70.5},{44.2,65},{44.4,71.6},{44.5,53.3},{44.5,71.7},{44.6,53.5},{45.8,71.5},{45.9,51.1},{45.9,71.4},{46.7,34.4},{46.8,34.5},{47,59.9},{47,67.1},{47.6,70},{47.9,53.1},{49.4,68.1},{49.8,33.3},{52.2,66.5},{52.3,55},{52.3,66.3},{53,64.2},{53.2,66.5},{53.3,65.1},{53.3,66.2},{53.4,63.4},{53.5,63.3},{53.5,63.5},{54.9,27.1},{55.2,69.4},{55.3,69.6},{56.7,34.7},{57.8,66.4},{57.8,66.5},{62,58.3},{62,58.5},{62.9,57.2},{62.9,57.9},{63.2,59.2},{63.6,75.4},{63.6,75.5},{64,48.7},{64.1,57.9},{64.9,74.4},{64.9,74.5},{65.8,76.8},{66.4,42.1},{66.5,42.2},{67,53.9},{67.8,84.6},{68,44.7},{68.3,81.4},{68.3,81.6},{68.4,77.1},{68.5,77.1},{68.7,49.2},{68.7,79.2},{68.9,73.8},{69.5,78.6},},
@@ -65,6 +74,12 @@ function QuestieWotlkObjectFixes:Load()
                 [zoneIDs.SHATTRATH_CITY]={{49.57,37.38},{48.74,38.4},{53.77,34.63},{52.78,34.99}},
                 [zoneIDs.DALARAN]={{48.93,45.25},{50.15,45.12}},
             },
+        },
+        [186267] = { -- Pumpkin Shrine
+            [objectKeys.questStarts] = {11392,11401,11405},
+        },
+        [186314] = { -- Loosely Turned Soil
+            [objectKeys.questEnds] = {11392,11401,11405},
         },
         [186325] = {
             [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{28.03,10.61},{28.88,12.86},{27.54,14.08},{31.44,14.83},{34.28,18.91},{29.98,15.54},{27.13,14.59},{27.98,15.12},{28.94,14.64},{28.6,16.93},{28.99,16.32},{31.18,15.05},{31.53,15.33},{29.77,20.04},{30.33,20.77},{30.16,20.15},{29.73,20.71},{29.4,19.81},{28.53,16.24},{28.86,15.48},{29.82,16.2},{29.84,17.67},{30.0,18.22},{28.49,15.65},{28.2,14.23},{29.55,17.85},{29.75,18.25},{29.04,16.97},{29.52,16.11},{29.75,15.39},{29.51,15.83},{32.68,21.82},{32.62,22.15},{32.42,22.5},{30.74,20.87},{30.56,20.37},{31.09,20.93},{30.96,20.58},{31.94,20.72},{31.3,18.91},{31.57,19.19},{31.46,19.58},{30.17,17.75},{31.56,18.95},{31.22,17.9},{31.07,18.14},{30.94,18.08},{31.08,17.77},{31.89,18.58},{32.05,17.1},{28.02,12.58},{27.5,12.63},{28.78,12.27},{26.95,11.59},{27.58,11.0},{33.76,20.46},{33.98,20.05}}},
@@ -177,8 +192,10 @@ function QuestieWotlkObjectFixes:Load()
         [191746] = {
             [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{50.42,28.18},{47.32,31.31},{47.83,27.42}}},
         },
-        [191761] = {
+        [191761] = { -- Prototype Console
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.54,46.9}}},
+            [objectKeys.questStarts] = {13843},
+            [objectKeys.questEnds] = {12889,13843},
         },
         [192124] = {
             [objectKeys.spawns] = {},
@@ -186,6 +203,48 @@ function QuestieWotlkObjectFixes:Load()
         [192127] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{73.4,62.9},{73.5,63.4},{75,63.5},{75.4,62.9},{75.6,63.6},{75.7,63},{75.9,64.5},{76.9,62.2},{76.9,63.1},{77,63.9},{77.6,62.4},{77.6,62.5},}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [191878] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{59.33,57.20}}}, -- Zim'Torga
+            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
+            [objectKeys.questStarts] = {12940},
+            [objectKeys.questEnds] = {12940},
+        },
+        [191879] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{40.79,66.01}}}, -- The Argent Stand
+            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
+            [objectKeys.questStarts] = {12941},
+            [objectKeys.questEnds] = {12941},
+        },
+        [191880] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12946},
+            [objectKeys.questEnds] = {12946},
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{20.56,64.36}}}, -- Conquest Hold
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [191881] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12947},
+            [objectKeys.questEnds] = {12947},
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{65.42,47.07}}}, -- Camp Oneqwah
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [191882] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12944},
+            [objectKeys.questEnds] = {12944},
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{31.94,60.21}}}, -- Amberpine Lodge
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [191883] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12945},
+            [objectKeys.questEnds] = {12945},
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{59.59,26.53}}}, -- Westfall Brigade Encampment
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [192018] = { -- Candy Bucket
+            [objectKeys.questStarts] = {12950},
+            [objectKeys.questEnds] = {12950},
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{26.71,59.85}}}, -- Nesingwary Base Camp
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
         [192536] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{52.36,73.26},{43.61,67.3},{43.76,67.21},{45.46,66.73},{43.87,67.74},{45.52,67.16},{45.19,66.82},{52.66,75.17},{52.36,75.08},{52.36,75.43},{53.28,75.10},{53.57,74.88},{53.53,74.64}}},
@@ -331,6 +390,154 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.questStarts] = {13449},
             [objectKeys.questEnds] = {13449},
         },
+        [194056] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13433},
+            [objectKeys.questEnds] = {13433},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{58.39,62.79}}}, -- Valgarde
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194057] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13434},
+            [objectKeys.questEnds] = {13434},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{30.81,41.47}}}, -- Westguard Keep
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194058] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13435},
+            [objectKeys.questEnds] = {13435},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{60.5,15.8}}}, -- Fort Wildervar
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194059] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13436},
+            [objectKeys.questEnds] = {13436},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{58.56,68.2}}}, -- Valiance Keep
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194060] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13437},
+            [objectKeys.questEnds] = {13437},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{57.06,18.77}}}, -- Fizzcrank Airstrip
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194061] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13438},
+            [objectKeys.questEnds] = {13438},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{29.33,55.96}}}, -- Stars' Rest
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194062] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13439},
+            [objectKeys.questEnds] = {13439},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{77.52,51.51}}}, -- Wintergarde Keep
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194063] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13448},
+            [objectKeys.questEnds] = {13448},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{28.84,74.31}}}, -- Frosthold
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194065] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13452},
+            [objectKeys.questEnds] = {13452},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{25.45,59.87}}}, -- Kamagua
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194066] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13456},
+            [objectKeys.questEnds] = {13456},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{60.1,53.52}}}, -- Wyrmrest Temple
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194067] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13459},
+            [objectKeys.questEnds] = {13459},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{48.13,74.86}}}, -- Moa'ki Harbor
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194068] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13460},
+            [objectKeys.questEnds] = {13460},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{78.42,49.2}}}, -- Unu'pe
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194069] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13461},
+            [objectKeys.questEnds] = {13461},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{41.14,85.92}}}, -- K3
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194070] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13462},
+            [objectKeys.questEnds] = {13462},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{30.86,37.41}}}, -- Bouldercrag's Refuge
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194073] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13464},
+            [objectKeys.questEnds] = {13464},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{49.56,10.81}}}, -- Camp Winterhoof
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194074] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13465},
+            [objectKeys.questEnds] = {13465},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{51.99,66.15}}}, -- New Agamand
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194075] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13466},
+            [objectKeys.questEnds] = {13466},
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{78.98,30.9}}}, -- Vengeance Landing
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [194076] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13467},
+            [objectKeys.questEnds] = {13467},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{76.61,37.33}}}, -- Taunka'le Village
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194077] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13468},
+            [objectKeys.questEnds] = {13468},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.9,54.56}}}, -- Warsong Hold
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194078] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13469},
+            [objectKeys.questEnds] = {13469},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{37.66,46.4}}}, -- Agmar's Hammer
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194079] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13470},
+            [objectKeys.questEnds] = {13470},
+            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{76.79,63.13}}}, -- Venomspite
+            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [194080] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13471},
+            [objectKeys.questEnds] = {13471},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{67.66,50.57}}}, -- Camp Tunka'lo
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194081] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13474},
+            [objectKeys.questEnds] = {13474},
+        },
+        [194084] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13501},
+            [objectKeys.questEnds] = {13501},
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{49.77,10.61}}}, -- Bor'gorok Outpost
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [194119] = { -- Candy Bucket
+            [objectKeys.questStarts] = {13548},
+            [objectKeys.questEnds] = {13548},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.1,49.63}}}, -- Grom'arsh Crash Site
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [194123] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
@@ -401,9 +608,10 @@ function QuestieWotlkObjectFixes:Load()
         [201592] = {
             [objectKeys.spawns] = {[4813]={{45.76,43.09},{49.18,40.72},{63.89,51.99},{47.4,36.08},{48.26,38.37},{43.1,67.65},{45.82,76.61},{45.12,49.64},{45.51,40.91},{48.7,40.28},{62.34,57.16},{46.55,52.52},{37.62,79.09},{63.72,58.71},{62.55,48.93},{42.18,67.15},{56.28,39.67},{45.72,38.59},{43.46,77.04},{46.95,35.44},{41.91,65.83},{-1,-1}}},
         },
-        [201742] = {
+        [201742] = { -- Runeforge
             [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{43,21.9},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+            [objectKeys.questEnds] = {24545},
         },
         [201794] = {
             [objectKeys.spawns] = {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}},
@@ -529,223 +737,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN]={{53.77,33.60}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [420002] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12941},
-            [objectKeys.questEnds] = {12941},
-            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{40.86,66.04}}}, -- Argent Stand
-            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
-        },
-        [420003] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12940},
-            [objectKeys.questEnds] = {12940},
-            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{59.33,57.20}}}, -- Zim'Torga
-            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
-        },
-        [420004] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12947},
-            [objectKeys.questEnds] = {12947},
-            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{65.35,47.00}}}, -- Camp Oneqwah
-            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
-        },
-        [420005] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12946},
-            [objectKeys.questEnds] = {12946},
-            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{20.89,64.77}}}, -- Conquest Hold
-            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
-        },
-        [420006] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13464},
-            [objectKeys.questEnds] = {13464},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{49.44,10.75}}}, -- Camp Winterhoof
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420007] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13466},
-            [objectKeys.questEnds] = {13466},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{79.27,30.62}}}, -- Vengeance Landing
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420008] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13465},
-            [objectKeys.questEnds] = {13465},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{52.10,66.14}}}, -- New Agamand
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420009] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13452},
-            [objectKeys.questEnds] = {13452},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{25.44,59.82}}}, -- Kamagua
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420010] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13470},
-            [objectKeys.questEnds] = {13470},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{76.82,63.29}}}, -- Venomspite
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420011] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13456},
-            [objectKeys.questEnds] = {13456},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{60.15,53.45}}}, -- Wyrmrest Temple
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420012] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13459},
-            [objectKeys.questEnds] = {13459},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{48.11,74.66}}}, -- Moa'ki Harbor
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420013] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13469},
-            [objectKeys.questEnds] = {13469},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{37.83,46.48}}}, -- Agmar's Hammer
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420014] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13460},
-            [objectKeys.questEnds] = {13460},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{78.45,49.16}}}, -- Unu'pe
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
-        [420015] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13467},
-            [objectKeys.questEnds] = {13467},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{76.66,37.47}}}, -- Taunka'le Village
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
-        [420016] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13468},
-            [objectKeys.questEnds] = {13468},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.71,54.40}}}, -- Warsong Hold
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
-        [420017] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13501},
-            [objectKeys.questEnds] = {13501},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{49.75,9.98}}}, -- Bor'gorok Outpost
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
-        [420018] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12950},
-            [objectKeys.questEnds] = {12950},
-            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{26.61,59.20}}}, -- Nesingwary Base Camp
-            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
-        },
-        [420019] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13461},
-            [objectKeys.questEnds] = {13461},
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{41.07,85.85}}}, -- K3
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
-        [420020] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13462},
-            [objectKeys.questEnds] = {13462},
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{30.92,37.16}}}, -- Bouldercrag's Refuge
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
-        [420021] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13471},
-            [objectKeys.questEnds] = {13471},
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{67.65,50.69}}}, -- Camp Tunka'lo
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
-        [420022] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13548},
-            [objectKeys.questEnds] = {13548},
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.09,49.50}}}, -- Grom'arsh Crash Site
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
-        [420023] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13448},
-            [objectKeys.questEnds] = {13448},
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{28.72,74.28}}}, -- Frosthold
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
-        [420024] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12944},
-            [objectKeys.questEnds] = {12944},
-            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{31.94,60.21}}}, -- Amberpine Lodge
-            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
-        },
-        [420025] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {12945},
-            [objectKeys.questEnds] = {12945},
-            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{59.63,26.36}}}, -- Westfall Brigade Encampment
-            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
-        },
-        [420026] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13435},
-            [objectKeys.questEnds] = {13435},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{60.47,15.91}}}, -- Fort Wildervar
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420027] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13433},
-            [objectKeys.questEnds] = {13433},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{58.32,62.82}}}, -- Valgarde
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420028] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13434},
-            [objectKeys.questEnds] = {13434},
-            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{30.83,41.42}}}, -- Westguard Keep
-            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
-        },
-        [420029] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13438},
-            [objectKeys.questEnds] = {13438},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{28.95,56.22}}}, -- Stars' Rest
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420030] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13439},
-            [objectKeys.questEnds] = {13439},
-            [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{77.50,51.28}}}, -- Wintergarde Keep
-            [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
-        },
-        [420031] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13437},
-            [objectKeys.questEnds] = {13437},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{57.12,18.81}}}, -- Fizzcrank Airstrip
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
-        [420032] = {
-            [objectKeys.name] = "Candy Bucket",
-            [objectKeys.questStarts] = {13436},
-            [objectKeys.questEnds] = {13436},
-            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{58.52,67.87}}}, -- Valiance Keep
-            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
-        },
+        -- TODO: Reuse 400002 - 420032
         [420033] = {
             [objectKeys.name] = "Drakuru's Brazier",
             [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{17.42,36.36}}}, -- Zeb'Halak

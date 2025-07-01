@@ -1,6 +1,6 @@
-local trinity =  require('cataObjectDB-trinity')
-local mangos = require('cataObjectDB')
-local wotlk = require('wotlkObjectDB')
+local trinity =  require('data.cataObjectDB-trinity')
+local mangos = require('data.cataObjectDB')
+local wotlk = require('data.wotlkObjectDB')
 
 local printToFile = require('printToFile')
 

@@ -5,6 +5,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [0] = 1415, -- Eastern Kingdoms (some things are so far off the map, we need to use this map)
+    [1977] = 337, -- Zul'Gurub - Dungeon (override wrong ID)
     [10073] = 1414, -- Kalimdor - the continent map
     [10074] = 1415, -- Eastern Kingdoms - the continent map
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
@@ -154,7 +155,6 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [1637] = 1454, -- Orgrimmar
     [1638] = 1456, -- Thunder Bluff
     [1657] = 1457, -- Darnassus
-    [1977] = 233, -- Zul'Gurub - Raid
     [2017] = 317, -- Stratholme - Dungeon
     [2057] = 306, -- Scholomance - Dungeon
     [2100] = 280, -- Maraudon - Dungeon

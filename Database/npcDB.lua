@@ -3,6 +3,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions");
 
+---@class DatabaseNpcKeys
 QuestieDB.npcKeys = {
     ['name'] = 1, -- string
     ['minLevelHealth'] = 2, -- int

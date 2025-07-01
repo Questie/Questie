@@ -1,7 +1,7 @@
-local cata = require('cataObjectDB')
-local mop = require('mopObjectDB')
-local mopTrinity = require('mopObjectDB-trinity')
-local wowhead = require('wowheadObjectDB')
+local cata = require('data.cataObjectDB')
+local mop = require('data.mopObjectDB')
+local mopTrinity = require('data.mopObjectDB-trinity')
+local wowhead = require('data.wowheadObjectDB')
 
 local printToFile = require('printToFile')
 

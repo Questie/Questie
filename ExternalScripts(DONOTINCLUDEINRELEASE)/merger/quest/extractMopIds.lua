@@ -1,5 +1,5 @@
-local cata = require('cataQuestDB')
-local mop = require('mopQuestDB')
+local cata = require('data.cataQuestDB')
+local mop = require('data.mopQuestDB')
 
 -- iterate mop quests and write all IDs that are not in cata to "mop-ids.txt"
 local mopIds = {}

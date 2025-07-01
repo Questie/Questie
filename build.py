@@ -82,7 +82,8 @@ def main():
         # If expansions go online/offline their major version needs to be added/removed here
         includedExpansions.append(1)
         includedExpansions.append(3)
-        includedExpansions.append(4) # TODO: Replace 4 with 5 once MoP goes live
+        includedExpansions.append(4) # TODO: Remove once MoP goes live
+        includedExpansions.append(5)
 
     release_dir = get_version_dir(isReleaseBuild, versionOverride)
 

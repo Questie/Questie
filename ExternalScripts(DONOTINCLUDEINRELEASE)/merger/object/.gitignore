@@ -1,11 +1,3 @@
-classicObjectDB.lua
-tbcObjectDB.lua
-cataObjectDB.lua
-cataObjectDB-trinity.lua
-merged-file.lua
-object_ids_complete.py
-wotlkObjectDB.lua
-mopObjectDB.lua
-mopObjectIds.txt
-mopObjectDB-trinity.lua
-wowheadObjectDB.lua
+data/*
+!data/.gitkeep
+output/

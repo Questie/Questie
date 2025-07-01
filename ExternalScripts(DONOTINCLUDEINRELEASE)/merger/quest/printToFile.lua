@@ -1,16 +1,5 @@
-local function pairsByKeys (t, f)
-    local a = {}
-    for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
-    local i = 0      -- iterator variable
-    local iter = function ()   -- iterator function
-        i = i + 1
-        if a[i] == nil then return nil
-        else return a[i], t[a[i]]
-        end
-    end
-    return iter
-end
+local lfs = require("lfs")
+local pairsByKeys = dofile("../pairsByKeys.lua")
 
 local function printObjective(objectives)
     local printString = "{"
@@ -34,10 +23,11 @@ local function printObjective(objectives)
     return printString
 end
 
--- print to "merged-file.lua"
 local function printToFile(questData, questKeys)
-    local file = io.open("merged-file.lua", "w")
-    print("writing to merged-file.lua")
+    lfs.mkdir("output")
+
+    local file = io.open("output/merged-file.lua", "w")
+    print("writing to output/merged-file.lua")
 
     for questId, data in pairsByKeys(questData) do
         --print("questId: " .. questId)
@@ -64,7 +54,7 @@ local function printToFile(questData, questKeys)
                 end
                 printString = printString:sub(1, -2) -- remove trailing comma
                 printString = printString .. "},"
-            else
+            elseif starter[3] then
                 printString = printString .. "nil,"
             end
             if starter[3] then
@@ -297,12 +287,17 @@ local function printToFile(questData, questKeys)
         else
             printString = printString .. "nil,"
         end
-        printString = printString .. "},"
         printString = printString .. "nil,"
         printString = printString .. (data[questKeys.requiredSpell] or "nil") .. ","
         printString = printString .. (data[questKeys.requiredSpecialization] or "nil") .. ","
-        printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")..","
+        printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")
+        printString = printString .. "},"
         -- TODO: replace ,} and ,nil} and so on with }
+        -- Do we really want this?
+        --while printString:sub(-6) == ",nil}," do
+        --    printString = printString:sub(1, -7) .. "},"
+        --end
+
         file:write(printString .. "\n")
     end
     print("Done")

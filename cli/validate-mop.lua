@@ -223,6 +223,7 @@ local function _CheckCataDatabase()
         QuestieDB.questData[questId] = nil
     end
 
+    Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)

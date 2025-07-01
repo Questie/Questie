@@ -1,5 +1,5 @@
-local db = require("cataItemDB")
-local ids = require("quest_item_ids")
+local db = require("data.cataItemDB")
+local ids = require("data.quest_item_ids")
 
 local itemKeys = {
     ['name'] = 1, -- string

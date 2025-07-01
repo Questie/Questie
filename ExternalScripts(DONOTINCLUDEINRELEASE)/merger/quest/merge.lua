@@ -1,7 +1,7 @@
-local trinity =  require('cataQuestDB-trinity')
-local mangos = require('cataQuestDB')
-local tbc = require('tbcQuestDB')
-local wotlk = require('wotlkQuestDB')
+local trinity =  require('data.cataQuestDB-trinity')
+local mangos = require('data.cataQuestDB')
+local tbc = require('data.tbcQuestDB')
+local wotlk = require('data.wotlkQuestDB')
 
 local printToFile = require('printToFile')
 

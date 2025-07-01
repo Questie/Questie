@@ -977,4 +977,66 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.THORDUN_IN_KEEP))
         end)
     end)
+
+    describe("Sasha in Grizzly Hills", function()
+        it("should return true for Duskhowl Den when 12411 is complete and 12164 is not in the quest log and not complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return true for Duskhowl Den when 12411 is complete and 12164 is in the quest log and not complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return false for Duskhowl Den when 12164 is in the quest log and complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return false for Duskhowl Den when 12164 is complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return true for Bloodmoon Isle when 12164 is complete", function()
+            Questie.db.char.complete[12164] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return true for Bloodmoon Isle when 12164 is in the quest log and complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return false for Bloodmoon Isle when 12164 is not in the quest log and not complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return false for Bloodmoon Isle when 12164 is in the quest log and not complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+    end)
 end)

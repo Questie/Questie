@@ -1584,6 +1584,9 @@ function QuestieQuestFixes:Load()
         [4491] = {
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}},
         },
+        [4492] = {
+            [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}}, -- needed for deDE blizzard spaghetti #2432
+        },
         [4493] = { -- March of the Silithid
             [questKeys.preQuestSingle] = {162,4267},
         },
@@ -1778,7 +1781,8 @@ function QuestieQuestFixes:Load()
         [5063] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
-        [5067] = {
+        [5067] = { -- Leggings of Arcana
+            [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
         [5068] = {
@@ -4177,11 +4181,11 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9415] = {
+        [9415] = { -- Report to Marshal Bluewall
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
-        [9416] = {
+        [9416] = { -- Report to General Kirika
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },

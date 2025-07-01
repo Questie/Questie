@@ -1,11 +1,3 @@
-classicNpcDB.lua
-tbcNpcDB.lua
-wotlkNpcDB.lua
-cataNpcDB.lua
-cataNpcDB-trinity.lua
-merged-file.lua
-npc_ids_complete.py
-mopNpcDB.lua
-mopNpcDB-trinity.lua
-mopNpcIds.txt
-wowheadNpcDB.lua
+data/*
+!data/.gitkeep
+output/
