@@ -119,7 +119,10 @@ function QuestieJourney:BuildMainFrame()
 
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
+
+        ---@diagnostic disable-next-line: invisible
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
+
         settingsButton:SetText(l10n("Questie Options"))
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()

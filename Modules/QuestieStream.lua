@@ -59,6 +59,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     if stream and stream._mode == mode then
         return stream
     else
+        ---@diagnostic disable-next-line: missing-fields
         stream = {}
     end
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object

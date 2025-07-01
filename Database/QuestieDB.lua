@@ -1042,6 +1042,7 @@ end
 ---@param returnText boolean? -- if true, IsDoable will return plaintext explanation instead of true/false
 ---@param returnBrief boolean? -- if true and returnText is true, IsDoable will return a very brief explanation instead of a verbose one
 ---@return string
+---@diagnostic disable-next-line: unused-local -- Due to debugPrint not being used in the function
 function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     --!  Before changing any logic in QuestieDB.IsDoable, make sure

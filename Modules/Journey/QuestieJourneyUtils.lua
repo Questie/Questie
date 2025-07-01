@@ -89,6 +89,7 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
 
     local id = tonumber(self:GetUserData('id'))
     local type = self:GetUserData('type')
+    ---@diagnostic disable-next-line: invisible
     GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
     if type == "quest" then
         local quest = QuestieDB.GetQuest(id)
