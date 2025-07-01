@@ -373,7 +373,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
     OnShow = function(self)
         local questID = self.text.text_arg1
         local quest_wow = QuestieDB.GetQuest(questID)
-        local name = quest_wow.name
+        local name = quest_wow and quest_wow.name
 
         self.text:SetFont("GameFontNormal", 12)
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
@@ -432,7 +432,7 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
     TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
+    TrackerMenu.addTomTomOptionForQuest(menu, quest)
     TrackerMenu.minMaxQuestOption(menu, quest)
     TrackerMenu.addShowHideQuestsOption(menu, quest)
     TrackerMenu.addShowFinisherOnMapOption(menu, quest)
