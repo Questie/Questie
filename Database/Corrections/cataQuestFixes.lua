@@ -6723,7 +6723,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{62.9,57.1}}}, Questie.ICON_TYPE_EVENT, l10n("Head to the top of Nespirah")}},
         },
         [25996] = { -- Waking the Beast
-            [questKeys.objectives] = {{{41531},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_EVENT},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [25997] = { -- Dark Iron Scheming
             [questKeys.preQuestGroup] = {25978,25979},
