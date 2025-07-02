@@ -1486,6 +1486,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [13207] = "Cabeza de Señor de las Sombras Fel'dan",
 [13250] = "Cabeza de Balnazzar",
 [13251] = "Cabeza de Barón Osahendido",
+[13289] = "Libertador de Egan",
 [13313] = "Sagradas escrituras de los Altonato",
 [13350] = "Insignia de La Guardia Negra",
 [13351] = "Delantal del forjamartillos Carmesí",
