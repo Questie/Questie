@@ -653,7 +653,7 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>, table<NpcId, QuestId[]>
 function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
 
