@@ -26,7 +26,7 @@ function AceGUILabel:SetFontObject(font) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-10-1)
 ---@param image string|number
----@param ... unknown
+---@param ... number Set the image of the label. Optionally you can pass parameters to be passed to SetTexCoords (4 or 8 argument version)
 function AceGUILabel:SetImage(image, ...) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-10-1)

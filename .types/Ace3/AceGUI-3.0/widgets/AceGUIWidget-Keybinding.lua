@@ -10,7 +10,7 @@ local AceGUIKeybinding = {}
 ---@param key string
 function AceGUIKeybinding:SetKey(key) end
 
---- ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-9-1)
+---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-9-1)
 ---@return string
 function AceGUIKeybinding:GetKey() end
 

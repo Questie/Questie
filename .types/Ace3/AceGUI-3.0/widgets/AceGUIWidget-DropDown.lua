@@ -13,9 +13,9 @@ local AceGUIDropdown = {}
 function AceGUIDropdown:SetValue(key) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-4-1)
----@param table table<unknown, string>
+---@param list table<unknown, string>
 ---@param order? unknown[]
-function AceGUIDropdown:SetList(table, order) end
+function AceGUIDropdown:SetList(list, order) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-4-1)
 ---@param text string

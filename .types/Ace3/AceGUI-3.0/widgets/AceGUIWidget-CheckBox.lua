@@ -16,8 +16,8 @@ function AceGUICheckBox:SetValue(flag) end
 function AceGUICheckBox:GetValue() end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-2-1)
----@param type "radio"|"checkbox"
-function AceGUICheckBox:SetType(type) end
+---@param checkType "radio"|"checkbox"
+function AceGUICheckBox:SetType(checkType) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-2-1)
 function AceGUICheckBox:ToggleChecked() end

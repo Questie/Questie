@@ -11,7 +11,7 @@ local AceGUIScrollFrame = {}
 function AceGUIScrollFrame:SetScroll(value) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-4-1)
----@param table table
+---@param statusTable table
 function AceGUIScrollFrame:SetStatusTable(table) end
 
 ---@param value number
@@ -35,4 +35,4 @@ function AceGUIScrollFrame:LayoutFinished(width, height) end
 
 ---@class AceGUIScrollFrameStatus
 ---@field scrollvalue number
----@field offset? integer
+---@field offset integer?
