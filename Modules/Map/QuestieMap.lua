@@ -225,7 +225,7 @@ function QuestieMap:ProcessShownMinimapIcons()
     while true do
         count = 0
 
-        playerX, playerY = getWorldPos()
+        playerX, playerY = getWorldPos(nil) -- Nil is set because it expects "self"
 
         --Calculate squared distance
         -- No need for absolute values as these are used only as squared
