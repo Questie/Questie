@@ -6239,8 +6239,11 @@
     "Lua.runtime.version": "Lua 5.1",
     "explorer.fileNesting.enabled": true,
     "Lua.format.defaultConfig": {
+        "indent_style": "space",
+        "indent_size": "4",
+        "end_of_line": "lf",
         "max_line_length": "800",
-        "align_continuous_assign_statement": "false"
+        "align_continuous_assign_statement": "false",
     },
 
     // Copilot settings
