@@ -25,7 +25,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 QuestieOptions.tabs = QuestieOptions.tabs or {}
 
 ---@class QuestieOptionsGeneralTab
-QuestieOptions.tabs.general = QuestieOptions.tabs.general or { ... }
+QuestieOptions.tabs.general = QuestieOptions.tabs.general or {}
 
 local optionsDefaults = QuestieOptionsDefaults:Load()
 

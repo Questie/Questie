@@ -16,7 +16,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptions.tabs = QuestieOptions.tabs or {}
 
 ---@class QuestieOptionsNameplateTab
-QuestieOptions.tabs.nameplate = QuestieOptions.tabs.nameplate or { ... }
+QuestieOptions.tabs.nameplate = QuestieOptions.tabs.nameplate or {}
 
 local optionsDefaults = QuestieOptionsDefaults:Load()
 

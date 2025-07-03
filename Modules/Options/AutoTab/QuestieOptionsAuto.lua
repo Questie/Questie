@@ -9,7 +9,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptions.tabs = QuestieOptions.tabs or {}
 
 ---@class QuestieOptionsAutoTab
-QuestieOptions.tabs.auto = QuestieOptions.tabs.auto or { ... }
+QuestieOptions.tabs.auto = QuestieOptions.tabs.auto or {}
 
 local _GetShortcuts
 

@@ -13,7 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 ---@class QuestieOptionsTabs
-QuestieOptions.tabs = { ... }
+QuestieOptions.tabs = QuestieOptions.tabs or {}
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
