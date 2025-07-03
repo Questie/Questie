@@ -94,7 +94,8 @@ function AceGUI:SetFocus(widget) end
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets)
 ---@class AceGUIWidget
 ---@field public type string
----@field protected frame Frame
+-----@field protected frame Frame -- We are using the frame so i removed protected so that we don't get errors.
+---@field frame Frame
 ---@field protected userdata table
 ---@field protected events table<string,function>
 ---@field protected width? string|number
@@ -198,7 +199,8 @@ function AceGUIWidget:IsReleasing() end
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets)
 ---@class AceGUIContainer : AceGUIWidget
 ---@field protected children AceGUIWidget[]
----@field protected content Frame
+-----@field protected content Frame -- We are using the frame so i removed protected so that we don't get errors.
+---@field content Frame -- We are using the frame so i removed protected so that we don't get errors.
 local AceGUIContainer = {}
 
 ---@param widget AceGUIWidget

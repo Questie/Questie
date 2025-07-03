@@ -5,7 +5,8 @@
 ---@field protected localstatus AceGUITreeGroupStatus
 ---@field protected status? AceGUITreeGroupStatus
 ---@field protected filter boolean
----@field protected treeframe Frame|BackdropTemplate
+-----@field protected treeframe Frame|BackdropTemplate -- We are using the frame so i removed protected so that we don't get errors.
+---@field treeframe Frame|BackdropTemplate
 ---@field protected dragger Frame|BackdropTemplate
 ---@field protected scrollbar Slider
 ---@field protected border Frame|BackdropTemplate

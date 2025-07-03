@@ -8,7 +8,8 @@
 ---@field protected sizer_se Frame
 ---@field protected sizer_s Frame
 ---@field protected sizer_e Frame
----@field protected frame Frame|BackdropTemplate
+-----@field protected frame Frame|BackdropTemplate -- We are using the frame so i removed protected so that we don't get errors.
+---@field frame Frame|BackdropTemplat
 local AceGUIFrame = {}
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-2-1)
