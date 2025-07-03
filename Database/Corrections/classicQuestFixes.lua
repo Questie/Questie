@@ -43,7 +43,7 @@ function QuestieQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
     local specialFlags = QuestieDB.specialFlags
-    local factionIDs = QuestieDB.factionIDs
+    -- local factionIDs = QuestieDB.factionIDs
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
