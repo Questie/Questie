@@ -471,8 +471,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                                             TrackerLinePool.SetAllExpandQuestAlpha(fadeTickerValue)
                                         end
                                     else
-                                        -- TODO: This is the old code, but it is wrong right?
-                                        -- fadeTickerValue:Cancel()
                                         if fadeTicker then
                                             fadeTicker:Cancel()
                                         end
@@ -513,8 +511,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                                             TrackerLinePool.SetAllItemButtonAlpha(fadeTickerValue)
                                         end
                                     else
-                                        -- TODO: This is the old code, but it is wrong right?
-                                        -- fadeTickerValue:Cancel()
                                         if fadeTicker then
                                             fadeTicker:Cancel()
                                         end
@@ -821,8 +817,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                                                     end
                                                 end
                                             else
-                                                -- TODO: This is the old code, but it is wrong right?
-                                                -- fadeTickerValue:Cancel()
                                                 if fadeTicker then
                                                     fadeTicker:Cancel()
                                                 end
