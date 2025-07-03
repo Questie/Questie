@@ -447,6 +447,7 @@ QuestieDB.raceKeys = {
 
 -- Combining these with "and" makes the order matter
 -- 1 and 2 ~= 2 and 1
+---@class ClassKeys
 QuestieDB.classKeys = {
     NONE = 0,
 
