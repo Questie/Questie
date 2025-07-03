@@ -6237,6 +6237,11 @@
     "Lua.format.defaultConfig": {
         "max_line_length": "800",
         "align_continuous_assign_statement": "false"
-    }
 
+    // Copilot settings
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+      {
+        "file": ".vscode/.copilot-commit-message-instruction.md"
+      },
+    ],
 }
