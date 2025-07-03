@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, unused-local
 --[[
 	Krowi's World Map Buttons License
 		Copyright ©2020 The contents of this library, excluding third-party resources, are
