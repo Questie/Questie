@@ -134,7 +134,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     e = e + 1
                 end
                 if e == max then
-                    timer:Cancel()
+                    if timer then
+                        timer:Cancel()
+                    end
                 end
             end)
         else
@@ -355,10 +357,10 @@ function QuestieMenu:Show(hideDelay)
 end
 
 function QuestieMenu:Hide()
-    LibDropDown:CloseDropDownMenus()    
+    LibDropDown:CloseDropDownMenus()
 end
 
-function QuestieMenu.IsOpen() 
+function QuestieMenu.IsOpen()
    return LibDropDown:getOpen()
 end
 
