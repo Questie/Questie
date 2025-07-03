@@ -487,7 +487,8 @@ function QuestieComms:YellProgress(questId)
     end
 end
 
-_DoYell = function() --function(questId)
+---@diagnostic disable-next-line: unused-local
+_DoYell = function(questId)
     --[[local data = {}
     local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
     if count > 0 then -- dont send quests with no objectives
