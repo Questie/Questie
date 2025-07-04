@@ -36,6 +36,7 @@ local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
 
+---@param self IconFrame
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
@@ -48,6 +49,7 @@ function MapIconTooltip:Show()
     end
     lastTooltipShowTimestamp = GetTime()
 
+    ---@class GameTooltip
     local Tooltip = GameTooltip;
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
@@ -248,7 +250,7 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
                             for _, line in pairs(lines) do
                                 self:AddLine(line, 0.86, 0.86, 0.86);
                             end
@@ -294,7 +296,7 @@ function MapIconTooltip:Show()
                                 nextQuestXpRewardString = string.format(" (%s%s)", FormatLargeNumber(nextQuestXpReward), xpString)
                             end
 
-                            local nextQuestMoneyReward = QuestXP:GetQuestRewardMoney(nextQuest.Id);
+                            local nextQuestMoneyReward = QuestXP.GetQuestRewardMoney(nextQuest.Id);
                             if nextQuestMoneyReward > 0 then
                                 nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)", GetCoinTextureString(nextQuestMoneyReward)), "white")
                             end
@@ -356,7 +358,7 @@ function MapIconTooltip:Show()
                         rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
                     end
 
-                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1)
                 end
             end
         end

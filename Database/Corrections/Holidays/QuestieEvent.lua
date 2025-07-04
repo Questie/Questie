@@ -100,13 +100,13 @@ function QuestieEvent:Load()
     end
 
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
-        local startDay, startMonth = strsplit("/", eventData.startDate)
-        local endDay, endMonth = strsplit("/", eventData.endDate)
+        local startDayString, startMonthString = strsplit("/", eventData.startDate)
+        local endDayString, endMonthString = strsplit("/", eventData.endDate)
 
-        startDay = tonumber(startDay)
-        startMonth = tonumber(startMonth)
-        endDay = tonumber(endDay)
-        endMonth = tonumber(endMonth)
+        local startDay = tonumber(startDayString)
+        local startMonth = tonumber(startMonthString)
+        local endDay = tonumber(endDayString)
+        local endMonth = tonumber(endMonthString)
 
         if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
             print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))

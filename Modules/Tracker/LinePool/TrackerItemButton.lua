@@ -176,12 +176,12 @@ function TrackerItemButton.New(buttonName)
         GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
         GameTooltip:Show()
 
-        TrackerFadeTicker.Unfade(self)
+        TrackerFadeTicker.Unfade()
     end
-    btn.OnLeave = function(self)
+    btn.OnLeave = function(_)
         GameTooltip:Hide()
 
-        TrackerFadeTicker.Fade(self)
+        TrackerFadeTicker.Fade()
     end
 
     btn.FakeHide = function(self)

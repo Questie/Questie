@@ -1,4 +1,4 @@
----@type AvailableQuests
+---@class AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 ---@type QuestieDB

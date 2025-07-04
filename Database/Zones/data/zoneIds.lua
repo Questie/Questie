@@ -1,4 +1,4 @@
----@type ZoneDB
+---@class ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Different source of zoneIds

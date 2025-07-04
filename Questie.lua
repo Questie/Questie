@@ -49,7 +49,7 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(_, db, profileName)
+function Questie:RefreshConfig(_, _, _) -- _, db, profileName
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
@@ -59,7 +59,7 @@ end
 --- Colorize a string with a color code
 ---@param str string @The string colorize
 --Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string|nil
 ---@return string
 function Questie:Colorize(str, color)
     if not color then color = "yellow" end

@@ -84,7 +84,7 @@ function QuestEventHandler:Initialize()
                     quest = QuestieDB.GetQuest(questId)
 
                     if quest then
-                        local info = StaticPopupDialogs[which]
+                        -- local info = StaticPopupDialogs[which]
                         local sourceItemId, soureItemName, sourceItemType, soureClassID
                         local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
 
@@ -193,6 +193,8 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 
     -- Timed quests do not need a full Quest Log Update.
     -- TODO: Add achievement timers later.
+    -- According to the Documentation this does not have a param, but from experiance that might not always be true
+    ---@diagnostic disable-next-line: redundant-parameter
     local questTimers = GetQuestTimers(questId)
     if type(questTimers) == "number" then
         skipNextUQLCEvent = false
@@ -272,6 +274,8 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
+    --- The enum Standard does exist...
+    ---@diagnostic disable-next-line: undefined-field
     if itemID ~= nil and quality == Enum.ItemQuality.Standard then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
@@ -436,7 +440,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck, true)
 
     if next(changes) then
-        for questId, objIds in pairs(changes) do
+        for questId, _--[[ objIds ]] in pairs(changes) do
             --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)

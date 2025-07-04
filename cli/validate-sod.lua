@@ -87,6 +87,7 @@ C_Timer = {
         else
             -- hack
             local finished = false
+            ---@diagnostic disable-next-line: inject-field
             QuestieLoader:ImportModule("DBCompiler").ticker = {
                 Cancel = function()
                     finished = true
@@ -133,6 +134,7 @@ end
 
 local function loadTOC(file)
     local rfile = io.open(file, "r")
+    assert(rfile, "Failed to open " .. file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 and (not string.find(line, ".xml")) then
             line = line:gsub("\\", "/")
@@ -171,6 +173,7 @@ local function _CheckSoDDatabase()
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning
 
+    ---@diagnostic disable-next-line: missing-fields -- Minimal setup does not need all fields
     Questie.db = {
         char = {
             showEventQuests = false
@@ -211,7 +214,7 @@ local function _CheckSoDDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     Questie.db.global.debugEnabled = true
-    QuestieDBCompiler:Compile(function() end)
+    QuestieDBCompiler:Compile()
 
     QuestieDB:Initialize()
 

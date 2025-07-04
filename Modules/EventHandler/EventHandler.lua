@@ -136,7 +136,7 @@ function EventHandler:RegisterLateEvents()
         end
     end)
     Questie:RegisterEvent("QUEST_REMOVED", function(_, questId) QuestEventHandler.QuestRemoved(questId) end)
-    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId) QuestEventHandler.QuestTurnedIn(questId) end)
+    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId) QuestEventHandler.QuestTurnedIn(questId, nil, nil) end)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
@@ -149,7 +149,7 @@ function EventHandler:RegisterLateEvents()
         -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
         -- backend Questie updates that occur when a player zones in/out of an instance. This
         -- is necessary to get everything back into it's "normal" state after all the updates.
-        local isInInstance, instanceType = IsInInstance()
+        local isInInstance = IsInInstance()
 
         if isInInstance then
             C_Timer.After(8, function()

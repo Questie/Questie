@@ -18,7 +18,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-QuestieOptions.tabs.advanced = {...}
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsAdvancedTab
+QuestieOptions.tabs.advanced = QuestieOptions.tabs.advanced or {}
+
 local optionsDefaults = QuestieOptionsDefaults:Load()
 local _GetLanguages
 

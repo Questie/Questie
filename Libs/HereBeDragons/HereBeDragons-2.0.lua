@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 30

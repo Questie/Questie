@@ -17,6 +17,14 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@param questId QuestId
 function DebugFunctions.ShowQuestObjectives(questId)
     local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "ShowQuestObjectives: Quest not found in DB:", questId)
+        return
+    end
+    if not quest.ObjectiveData or not next(quest.ObjectiveData) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "ShowQuestObjectives: Quest has no ObjectiveData:", questId)
+        return
+    end
 
     local objectives = C_QuestLog.GetQuestObjectives(questId)
     ---@type table<string, any>
@@ -34,7 +42,13 @@ function DebugFunctions.ShowQuestObjectives(questId)
             Update = QuestieQuest.private.ObjectiveUpdate,
             Coordinates = quest.ObjectiveData[i].Coordinates, -- Only for type "event"
             RequiredRepValue = quest.ObjectiveData[i].RequiredRepValue,
-            Icon = quest.ObjectiveData[i].Icon
+            Icon = quest.ObjectiveData[i].Icon,
+            -- Values below where never set
+            QuestData = nil,
+            Color = nil,
+            Type = nil,
+            isUpdated = nil,
+            Completed = nil,
         }
         questCacheObjectives[i] = {
             raw_text = objective.text,
@@ -51,7 +65,8 @@ function DebugFunctions.ShowQuestObjectives(questId)
     QuestLogCache.questLog_DO_NOT_MODIFY[questId] = {
         title = quest.name,
         isComplete = 0,
-        objectives = questCacheObjectives
+        objectives = questCacheObjectives,
+        questTag = nil,
     }
 
     for i, objective in pairs(quest.Objectives) do
