@@ -1663,6 +1663,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [16871] = "El cráneo de Chronalis",
 [16872] = "El cráneo de Axtroz",
 [16885] = "Caja de trastos pesada",
+[16888] = "Amuleto Pirodraco apagado",
 [16967] = "Ahi de Feralas",
 [16968] = "Artillero Sar'theris",
 [16969] = "Latipinia azul de La Costa Salvaje",
