@@ -246,7 +246,7 @@ function MopQuestFixes.Load()
         [29778] = { -- Rewritten Wisdoms
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {nil,{{209656}}},
-            [questKeys.preQuestSingle] = {29775},
+            [questKeys.preQuestSingle] = {29776},
         },
         [29779] = { -- The Direct Solution
             [questKeys.finishedBy] = {{55583,65558}},
