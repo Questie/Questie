@@ -134,10 +134,10 @@ Localization\Translations\Translations.xml
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\Mop\lookupZones.lua
 Localization\lookups\lookupOverrides.lua
-Localization\lookups\Cata\lookupItems\lookupItems.xml
-Localization\lookups\Cata\lookupNpcs\lookupNpcs.xml
-Localization\lookups\Cata\lookupObjects\lookupObjects.xml
-Localization\lookups\Cata\lookupQuests\lookupQuests.xml
+Localization\lookups\MoP\lookupItems\lookupItems.xml
+Localization\lookups\MoP\lookupNpcs\lookupNpcs.xml
+Localization\lookups\MoP\lookupObjects\lookupObjects.xml
+Localization\lookups\MoP\lookupQuests\lookupQuests.xml
 
 # Libs
 Modules\Libs\DistanceUtils.lua
