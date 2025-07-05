@@ -55,6 +55,8 @@ function AutoCompleteFrame.Initialize(baseFrame)
     AutoCompleteFrame.CheckAutoCompleteQuests()
 end
 
+-- /run QuestieLoader:ImportModule("AutoCompleteFrame"):ShowAutoComplete(123)
+
 ---@param questId number @The questId to show the auto complete frame for
 function AutoCompleteFrame.ShowAutoComplete(questId)
     local questTitle = GetQuestLogTitle(GetQuestLogIndexByID(questId))
@@ -65,7 +67,7 @@ function AutoCompleteFrame.ShowAutoComplete(questId)
     local screenCenter = (GetScreenWidth() * UIParent:GetEffectiveScale()) / 2
 
     local isTrackerOnTheRight = xOfs > screenCenter
-    if anchor == "BOTTOMRIGHT" or anchor == "TOPRIGHT" then
+    if anchor == "BOTTOMRIGHT" or anchor == "TOPRIGHT" or anchor == "TOP" or anchor == "BOTTOM" then
         isTrackerOnTheRight = xOfs > -screenCenter
     end
 
