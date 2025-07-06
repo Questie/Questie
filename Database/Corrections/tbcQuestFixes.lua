@@ -2742,6 +2742,9 @@ function QuestieTBCQuestFixes:Load()
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10808] = {
+            [questKeys.objectives] = {{{22137,"End Dark Conclave Summoning Ritual",Questie.ICON_TYPE_EVENT}}},
+        },
         [10813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,"Eye of Grillok Returned"}}},
         },
