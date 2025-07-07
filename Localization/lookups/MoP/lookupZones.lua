@@ -4551,8 +4551,8 @@ l10n.zoneCategoryLookup = {
         [3456] = "Naxxramas",
         [3457] = "Karazhan",
         [3477] = "Azjol-Nerub",
-        [3535] = "Hellfire Citadel",
         [3562] = "Hellfire Ramparts",
+        [3563] = "Hellfire Citadel",
         [3606] = "Hyjal Summit",
         [3713] = "The Blood Furnace",
         [3714] = "The Shattered Halls",
@@ -4682,3 +4682,6 @@ l10n.zoneCategoryLookup = {
         [-394] = "Battle Pets",
     },
 }
+
+l10n.zoneLookup[530][3832]="Vortex Summit"
+l10n.zoneCategoryLookup[8][1477]="Sunken Temple"
