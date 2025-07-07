@@ -305,13 +305,13 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
         [2945] = { -- Grime-Encrusted Ring
-            [questKeys.zoneOrSort] = 6457,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_TINKERTOWN,
         },
         [2947] = { -- Return of the Ring
-            [questKeys.zoneOrSort] = 6457,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_TINKERTOWN,
         },
         [2949] = { -- Return of the Ring
-            [questKeys.zoneOrSort] = 6457,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_TINKERTOWN,
         },
         [2950] = { -- Nogg's Ring Redo
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,

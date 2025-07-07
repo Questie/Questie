@@ -10,7 +10,7 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [1414] = 10073, -- Kalimdor - the continent map
     [1415] = 10074, -- Eastern Kingdoms - the continent map
     [1945] = 0, -- Outland
-    [246] = 3713, -- Hellfire Citadel
+    [246] = 3713, -- The Blood Furnace
     [174] = 4720, -- The Lost Isles
     [370] = 5786, -- The Nexus Legendary
 
