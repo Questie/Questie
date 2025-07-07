@@ -15592,6 +15592,14 @@ function CataQuestFixes:LoadFactionFixes()
         [24911] = { -- Tropical Paradise Beckons
             [questKeys.startedBy] = {{38578}},
         },
+        [25422] = { -- The Darkmist Legacy
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {25350},
+        },
+        [25423] = { -- Ancient Suffering
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {25350},
+        },
         [25513] = { -- Thunderdrome: Grudge Match!
             [questKeys.preQuestGroup] = {25065,25095},
         },
