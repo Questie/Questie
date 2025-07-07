@@ -5,7 +5,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
 ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
-    [3563] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
     [5786] = 4265, -- The Nexus -> The Nexus
     [10000] = 2100, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 2017, -- Stratholme - The Gauntlet (fake ID for Stratholme)
@@ -1139,7 +1138,6 @@ ZoneDB.private.subZoneToParentZone = [[return {
   [3559] = 3524, -- Nestlewood Hills -> Azuremyst Isle
   [3560] = 3524, -- Ammen Fields -> Azuremyst Isle
   [3561] = 3524, -- The Sacred Grove -> Azuremyst Isle
-  [3563] = 3562, -- Hellfire Citadel -> Hellfire Ramparts
   [3564] = 3524, -- Emberglade -> Azuremyst Isle
   [3565] = 3521, -- Cenarion Refuge -> Zangarmarsh
   [3566] = 3524, -- Moonwing Den -> Azuremyst Isle
