@@ -30,6 +30,18 @@ function MopQuestFixes.Load()
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },
+        [27670] = { -- Pinned Down
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [27671] = { -- See to the Survivors
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [28167] = { -- Report to Carvo Blastbolt
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [28169] = { -- Withdraw to the Loading Room!
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
         [29406] = { -- The Lesson of the Sandy Fist
             [questKeys.requiredLevel] = 1,
         },
@@ -546,6 +558,23 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31013},
+        },
+        [31135] = { -- The Future of Gnomeregan
+            [questKeys.startedBy] = {{42396}},
+            [questKeys.preQuestSingle] = {27674},
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+        },
+        [31137] = { -- Meet the High Tinker
+            [questKeys.preQuestSingle] = {31135},
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+        },
+        [31138] = { -- The Arts of a Monk
+            [questKeys.preQuestSingle] = {31135},
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31139] = { -- Beating Them Back!
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
         [31152] = { -- Peering Into the Past
             [questKeys.preQuestSingle] = {31167},

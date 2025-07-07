@@ -10288,6 +10288,7 @@ function CataQuestFixes.Load()
         [27635] = { -- Decontamination
             [questKeys.objectives] = {{{46185,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
         },
         [27636] = { -- Just You and Mathias
             [questKeys.startedBy] = {{100021}},
@@ -10417,6 +10418,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46268,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {{47250}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
         },
         [27672] = { -- The Chamber of Khaz'mul
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 124371}}}},
@@ -10425,6 +10427,7 @@ function CataQuestFixes.Load()
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
         },
         [27675] = { -- Forged Documents [Alliance]
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
@@ -11603,8 +11606,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27441,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
         },
-        [28167] = { -- Venomblood Antidote
+        [28167] = { -- Report to Carvo Blastbolt
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
         },
         [28168] = { -- Trouble at the Sludge Fields
             [questKeys.nextQuestInChain] = 28192,
@@ -11613,6 +11617,7 @@ function CataQuestFixes.Load()
         },
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
         },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
