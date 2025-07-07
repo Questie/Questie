@@ -13,7 +13,7 @@ function AutoCompleteFrame.Initialize(baseFrame)
     trackerBaseFrame = baseFrame
     autoCompleteFrame = CreateFrame("Button", "Questie_AutoComplete_Frame", baseFrame, BackdropTemplateMixin and "BackdropTemplate")
 
-    autoCompleteFrame:SetWidth(200)
+    autoCompleteFrame:SetWidth(250)
     autoCompleteFrame:SetHeight(45)
     autoCompleteFrame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
