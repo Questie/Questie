@@ -5548,11 +5548,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [25422] = { -- The Darkmist Legacy
-            [questKeys.preQuestSingle] = {25350},
             [questKeys.exclusiveTo] = {},
         },
         [25423] = { -- Ancient Suffering
-            [questKeys.preQuestSingle] = {25350},
             [questKeys.exclusiveTo] = {},
         },
         [25429] = { -- Zukk'ash Infestation
