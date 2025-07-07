@@ -6244,7 +6244,10 @@ function QuestieQuestBlacklist:Load()
         [12445] = true, -- Not in the game
         [12731] = true, -- Not in the game
         [13541] = true, -- Not in the game
-        [31533] = true, -- The Perfect Feathe (not in the game)
+        [29547] = true, -- Not available in prepatch. Remove once MoP hits
+        [29611] = true, -- Not available in prepatch. Remove once MoP hits
+        [29612] = true, -- Not available in prepatch. Remove once MoP hits
+        [31533] = true, -- The Perfect Feather (not in the game)
         [31887] = true, -- Pet Battle Trainers: Kalimdor
         [31888] = true, -- Pet Battle Trainers: Kalimdor
         [31890] = true, -- Pet Battle Trainers: Kalimdor
