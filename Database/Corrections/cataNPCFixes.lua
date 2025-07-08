@@ -6946,6 +6946,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{57.96,57.62}}},
             [npcKeys.questStarts] = {172},
         },
+        [52059] = { -- High Priestess Kilnara
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{47.88,20.97},{-1,-1}}},
+        },
         [52064] = { -- Keira
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.09,50.59}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
@@ -6979,11 +6982,20 @@ function CataNpcFixes.Load()
         [52383] = { -- Nemesis
             [npcKeys.questStarts] = {},
         },
+        [52392] = { -- Gurubashi Master Chef
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{57.59,27.47},{-1,-1}}},
+        },
         [52399] = { -- Galenges
             [npcKeys.questStarts] = {},
         },
+        [52405] = { -- Mor'Lek the Dismantler
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{47.88,20.97},{-1,-1}}},
+        },
         [52408] = { -- Coridormi
             [npcKeys.questStarts] = {29132,30095},
+        },
+        [52422] = { -- Kaulema the Mover
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{54.07,62.89},{-1,-1}}},
         },
         [52442] = { -- Florawing Hive Queen
             [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{31.57,39.15},{-1,-1}}},
