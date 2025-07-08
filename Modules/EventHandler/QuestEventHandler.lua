@@ -209,7 +209,7 @@ end
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true }, false)
+    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
@@ -433,7 +433,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
     end
 
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck, true)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do

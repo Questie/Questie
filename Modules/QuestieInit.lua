@@ -256,7 +256,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
 
     -- Fill the QuestLogCache for first time
-    local cacheMiss, _, questIdsChecked = QuestLogCache.CheckForChanges(nil, false)
+    local cacheMiss, _, questIdsChecked = QuestLogCache.CheckForChanges(nil)
 
     if cacheMiss then
         Questie:Debug(Questie.DEBUG_CRITICAL, "QuestieInit: Game Cache did not fill in time, waiting for valid cache.")
@@ -425,7 +425,7 @@ function QuestieInit.WaitForValidGameCache()
 
     local timer
     timer = C_Timer.NewTicker(1, function()
-        local cacheMiss, _, newQuestIdsChecked = QuestLogCache.CheckForChanges(nil, false)
+        local cacheMiss, _, newQuestIdsChecked = QuestLogCache.CheckForChanges(nil)
         if (not cacheMiss) or retries >= 3 then
             if retries == 3 then
                 Questie:Error("QuestieInit: Game Cache did not become valid in 3 seconds, continuing with initialization.")
