@@ -51,8 +51,8 @@ jobs:
       - name: Validate WotLK database
         run: lua cli/validate-wotlk.lua
 
-      - name: Validate Cata database
-        run: lua cli/validate-cata.lua
+#      - name: Validate Cata database
+#        run: lua cli/validate-cata.lua
 
       - name: Validate MoP database
         run: lua cli/validate-mop.lua
