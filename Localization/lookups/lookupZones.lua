@@ -3,10 +3,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
--- IMPORTANT: This file is only used for Pre-MoP content.
-
 -- This file contains all zones which are used in Era, TBC and WotLK.
--- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
+-- Further expansions add corrections to this file, using a `lookupZonesCorrections.lua` file.
 
 -- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
@@ -2795,7 +2793,7 @@ l10n.zoneCategoryLookup = {
         [5733] = "Molten Front",
     },
     [6] = maelstromZones,
-    [7] = {}, -- Empty because this file is only for Pre-MoP
+    [7] = l10n.zoneLookup[870],
     [8] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
