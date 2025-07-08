@@ -2711,7 +2711,16 @@ end
 l10n.zoneCategoryLookup = {
     [1] = l10n.zoneLookup[0],
     [2] = l10n.zoneLookup[1],
-    [3] = l10n.zoneLookup[530],
+    [3] = {
+        [3483] = "Hellfire Peninsula",
+        [3518] = "Nagrand",
+        [3519] = "Terokkar Forest",
+        [3520] = "Shadowmoon Valley",
+        [3521] = "Zangarmarsh",
+        [3522] = "Blade's Edge Mountains",
+        [3523] = "Netherstorm",
+        [3703] = "Shattrath City",
+    },
     [4] = l10n.zoneLookup[571],
     [5] = {
         [-381] = "Elemental Bonds",
