@@ -1771,6 +1771,7 @@ function QuestieQuestFixes:Load()
         },
         [5057] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {},
         },
         [5059] = {
             [questKeys.preQuestSingle] = {5058}, -- #922
