@@ -20,6 +20,7 @@ l10n.continentLookup = {
     [10] = "Class",
     [11] = "Professions",
     [12] = "Events",
+    [13] = "Pet Battle",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2880,6 +2881,18 @@ l10n.zoneCategoryLookup = {
         [5789] = "End Time",
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
+        [5918] = "Shado-Pan Monastery",
+        [5956] = "Temple of the Jade Serpent",
+        [5963] = "Stormstout Brewery",
+        [5976] = "Gate of the Setting Sun",
+        [6067] = "Terrace of Endless Spring",
+        [6125] = "Mogu'shan Vaults",
+        [6143] = "Mogu'shan Palace",
+        [6214] = "Siege of Niuzao Temple",
+        [6297] = "Heart of Fear",
+        [6298] = "Brawl'gar Arena",
+        [6622] = "Throne of Thunder",
+        [6738] = "Siege of Orgrimmar",
     },
     [9] = {
         [-25] = "Battlegrounds",
@@ -2906,6 +2919,7 @@ l10n.zoneCategoryLookup = {
         [-262] = "Priest",
         [-263] = "Druid",
         [-372] = "Death Knight",
+        [-395] = "Monk",
     },
     [11] = {
         [-24] = "Herbalism",
@@ -2947,9 +2961,13 @@ l10n.zoneCategoryLookup = {
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
         --[-400] = "Love is in the Air", -- Needed before WotLK
+        [-400] = "Proving Grounds",
         [-401] = "Children's Week",
         [-402] = "Harvest Festival",
         [-403] = "Hallow's End",
         [-404] = "Winter Veil",
+    },
+    [13] = {
+        [-394] = "Battle Pets",
     },
 }
