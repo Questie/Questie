@@ -823,5 +823,8 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
             [npcKeys.questEnds] = {29678},
         },
+        [110001] = { -- Dummy NPC for "Win PvP Pet Battles" objective
+            [npcKeys.name] = "Win PvP Pet Battles",
+        },
     }
 end

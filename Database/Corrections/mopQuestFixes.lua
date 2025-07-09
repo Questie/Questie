@@ -1158,6 +1158,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE}}},
             [questKeys.preQuestSingle] = {32603},
         },
+        [32863] = { -- What We've Been Training For
+            [questKeys.objectives] = {{{110001}}},
+        },
         [32868] = { -- Beasts of Fable Book II
             [questKeys.objectives] = {{{68560,nil,Questie.ICON_TYPE_PET_BATTLE},{68561,nil,Questie.ICON_TYPE_PET_BATTLE},{68566,nil,Questie.ICON_TYPE_PET_BATTLE}}},
             [questKeys.preQuestSingle] = {32603},
