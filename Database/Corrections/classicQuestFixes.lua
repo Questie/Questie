@@ -1537,6 +1537,9 @@ function QuestieQuestFixes:Load()
         [4144] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1590
         },
+        [4146] = { -- Zapper Fuel
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
         [4181] = {
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
