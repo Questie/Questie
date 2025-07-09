@@ -1,7 +1,8 @@
 dofile("Modules/Libs/QuestieLoader.lua")
+dofile("Modules/Expansions.lua")
 
 dofile("Database/itemDB.lua")
-dofile("Database/Zones/zoneTables.lua")
+dofile("Database/Zones/data/zoneIds.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
@@ -44,6 +45,11 @@ _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
+_G.C_AddOns = {
+    IsAddOnLoaded = function()
+        return false, true
+    end
+}
 _G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
 setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
     mockedReturnValue = false,
@@ -55,13 +61,21 @@ _G.DurabilityFrame = {
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
-_G.GetItemCount = function() return 0 end
+_G.C_Item = {
+    GetItemCount = function() return 0 end,
+    GetItemSpell = function() return nil end,
+}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
+_G.InCombatLockdown = function() return false end
+_G.IsControlKeyDown = function() return false end
 _G.IsEquippableItem = function() return false end
 _G.IsInGroup = function() return false end
+_G.IsShiftKeyDown = function() return false end
+_G.UnitClass = function() return "Druid", "DRUID", 11 end
+_G.UnitFactionGroup = function() return "Horde", "Horde" end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
@@ -225,6 +239,7 @@ _G["Questie"] = {
         profile = {},
         global = {},
     },
+    Print = EMTPY_FUNC,
     Debug = EMTPY_FUNC,
     Warning = function(_, text)
         print("|cffffff00[WARNING]|r", text)
@@ -233,7 +248,11 @@ _G["Questie"] = {
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
     end,
+    UnregisterEvent = function(_, eventName)
+        registeredEvents[eventName] = nil
+    end,
     SendMessage = EMTPY_FUNC,
+    IsMoP = true,
 }
 
 ---@class TestUtils
@@ -241,11 +260,17 @@ local TestUtils = {
     resetEvents = function()
         registeredEvents = {}
     end,
+    ---@param eventName string
     triggerMockEvent = function(eventName, ...)
         if registeredEvents[eventName] then
             registeredEvents[eventName](eventName, ...)
         end
-    end
+    end,
+    ---@param eventName string
+    ---@return boolean
+    isEventRegistered = function(eventName)
+        return registeredEvents[eventName] ~= nil
+    end,
 }
 
 return TestUtils

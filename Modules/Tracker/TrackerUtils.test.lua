@@ -11,10 +11,15 @@ describe("TrackerUtils", function()
     local TrackerLinePool
     ---@type TrackerUtils
     local TrackerUtils
+    ---@type Expansions
+    local Expansions
 
     local rePositionLineMock
     local match = require("luassert.match")
+    local mock = require("luassert.mock")
     local _ = match._ -- any match
+
+    local C_ItemMock
 
     before_each(function()
         Questie.db.profile = {
@@ -25,21 +30,23 @@ describe("TrackerUtils", function()
             collapsedZones = {},
         }
         CreateFrame.resetMockedFrames()
+        C_ItemMock = mock(_G.C_Item, true)
 
+        Expansions = require("Modules.Expansions")
         QuestieDB = require("Database.QuestieDB")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
         require("Modules.Tracker.LinePool.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        
+
         rePositionLineMock = spy.new(function() end)
     end)
 
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -71,8 +78,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single requiredSourceItems entry as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -105,8 +112,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single objective item entry as primary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -143,8 +150,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -190,8 +197,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -241,8 +248,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -288,8 +295,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function(itemId) return itemId == 456 and 1 or 0 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
@@ -353,8 +360,8 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button and hide item buttons when quest is collapsed", function()
             Questie.db.char.collapsedQuests[1] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -394,8 +401,8 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button when no primary button is added", function()
             Questie.db.char.collapsedQuests[1] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -425,8 +432,8 @@ describe("TrackerUtils", function()
         it("should hide expandQuest button and hide item buttons when quest is collapsed and collapseCompletedQuests is true", function()
             Questie.db.char.collapsedQuests[1] = true
             Questie.db.profile.collapseCompletedQuests = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -466,8 +473,8 @@ describe("TrackerUtils", function()
 
         it("should hide item buttons when zone is collapsed", function()
             Questie.db.char.collapsedZones["Durotar"] = true
-            _G.GetItemSpell = function() return 111 end
-            _G.GetItemCount = function() return 1 end
+            C_ItemMock.GetItemSpell.returns(111)
+            C_ItemMock.GetItemCount.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
             end)
@@ -536,6 +543,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsCata = true
+            Expansions.Current = Expansions.Cata
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -546,6 +554,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -556,6 +565,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsCata = true
+            Expansions.Current = Expansions.Cata
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -566,6 +576,7 @@ describe("TrackerUtils", function()
             _G.GetNumQuestWatches = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
 
             local hasQuest = TrackerUtils.HasQuest()
 

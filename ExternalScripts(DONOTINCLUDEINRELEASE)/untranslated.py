@@ -68,7 +68,7 @@ def printStats():
     print("Missing overall:", numMissing)
     for lang in numLangMissing:
         complete = (numOptions - numLangMissing[lang]) / numOptions * 100
-        print(f'Missing for language "{lang}": {numLangMissing[lang]} ({complete}% complete)')
+        print(f'Missing for language "{lang}": {numLangMissing[lang]} ({complete:.2f}% complete)')
 
 def printMissing():
     for filePath in missingTranslations:

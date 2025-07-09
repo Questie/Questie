@@ -98,6 +98,18 @@ local keyboardShortcutLocales = {
         ["zhCN"] = "Ctrl + Shift + 左键",
         ["zhTW"] = "Ctrl + Shift + 左鍵",
     },
+    ["Shift + Left Click"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Shift + Linksklick",
+        ["esES"] = "Mayús + Clic izquierdo",
+        ["esMX"] = "Mayús + Clic izquierdo",
+        ["frFR"] = "Maj + Clic Gauche ",
+        ["koKR"] = "Shift + 왼쪽 클릭",
+        ["ptBR"] = "Shift + Clique esquerdo",
+        ["ruRU"] = "Shift + ЛКМ",
+        ["zhCN"] = "Shift + 左键",
+        ["zhTW"] = "Shift + 左鍵",
+    },
     ["Shift"] = {
         ["enUS"] = true,
         ["deDE"] = "Umschalt",

@@ -30,9 +30,9 @@ describe("QuestieQuestBlacklist", function()
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
-        assert.are_same(QuestieCorrections.CATA_HIDE, questToBlacklist[7877]) -- Phase 2
+        assert.is_false(questToBlacklist[7877]) -- Phase 2
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
-        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)
@@ -46,9 +46,9 @@ describe("QuestieQuestBlacklist", function()
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
-        assert.are_same(QuestieCorrections.CATA_HIDE, questToBlacklist[7877]) -- Phase 2
+        assert.is_false(questToBlacklist[7877]) -- Phase 2
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
-        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)
@@ -62,7 +62,7 @@ describe("QuestieQuestBlacklist", function()
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
-        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)

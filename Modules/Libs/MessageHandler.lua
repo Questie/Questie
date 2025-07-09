@@ -167,7 +167,7 @@ end
 do
     --? This is the tests for MessageHandlerFactory
     local function RunMessageHandlerTests()
-        Questie:Debug(Questie.DEBUG_CRITICAL, " -- Running " .. Questie:Colorize("MessageHandlerFactory", "yellow") .. " tests --")
+        Questie:Debug(Questie.DEBUG_CRITICAL, " -- Running " .. Questie:Colorize("MessageHandlerFactory") .. " tests --")
         local testEvent = "EVENT_TEST"
 
         --- Test simple usage

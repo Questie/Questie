@@ -221,6 +221,48 @@ local phases = {
     KAMMAH_TENT = 1149,
     BALNAZZAR_DEAD = 1150,
     RIVENDARE_DEAD = 1151,
+    KARGATH_DEAD = 1152,
+    CAYDEN_START_AMBUSH = 1153,
+    CAYDEN_FINISH_AMBUSH = 1154,
+    OHF_THRALL_PRISON = 1155,
+    OHF_THRALL_DESTINY = 1156,
+    LINDSAY_WPL_TREE = 1157,
+    LINDSAY_WPL_TENT = 1158,
+    LINDSAY_WPL_INN = 1159,
+    MGT_KT_DEAD = 1160,
+    THE_BARRENS_KADRAK_MORSHAN = 1161,
+    ZAZZO_GILNEAS = 1162,
+    ZAZZO_DEADWIND = 1163,
+    KALEC_TERMINUS = 1164,
+    STONETALON_CLIFFWALKER_JUSTICE = 1165,
+    STONETALON_CLIFFWALKER_RAMP = 1166,
+    STONETALON_CLIFFWALKER_GARROSH = 1167,
+    SHANG_XI_BENCH = 1168,
+    SHANG_XI_DOORWAY = 1169,
+    SHANG_XI_BRIDGE = 1170,
+    DRIVER_NOT_RESCUED = 1171,
+    DRIVER_RESCUED = 1172,
+    SHANG_XI_TEMPLE_NORTH = 1173,
+    SHANG_XI_TEMPLE_SOUTH = 1174,
+    AYSA_LIANG_POOL_HOUSE = 1175,
+    AYSA_LIANG_BRIDGE = 1176,
+    AYSA_LIANG_LAKE = 1177,
+    AYSA_ROPE = 1178,
+    AYSA_CAVE = 1179,
+    SKYFIRE_STORMWIND = 1180,
+    SKYFIRE_JADE_FOREST = 1181,
+    SULLY_BELOW_SKYFIRE = 1182,
+    SULLY_TWINSPIRE_KEEP = 1183,
+    RELL_ON_BARRELS = 1184,
+    RELL_ON_DOCKS = 1185,
+    RELL_ON_DOCKS_2 = 1186,
+    RELL_PAWDON_VILLAGE = 1187,
+    RELL_TWINSPIRE_KEEP = 1188,
+    ADMIRAL_ROGERS_PAWDON_VILLAGE = 1189,
+    SASHA_AT_DUSKHOWL_DEN = 1190,
+    SASHA_AT_BLOODMOON_ISLE = 1191,
+    FUSELAGE_ROCKET = 1192,
+    FUSELAGE_CITY_SAVED = 1193,
 }
 Phasing.phases = phases
 
@@ -302,11 +344,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_CAVERN then
-        return (not complete[25988]) or complete[26143] or false
+        return (not complete[25987] and not complete[25988]) or complete[26143] or false
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
-        return ((complete[25988] or complete[25987]) and (not complete[26143])) or false
+        return ((complete[25987] or complete[25988]) and (not complete[26143])) or false
     end
 
     if phase == phases.SIRA_KESS_AT_GARDEN then
@@ -915,6 +957,154 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RIVENDARE_DEAD then
         return complete[27227] or (questLog[27227] and questLog[27227].isComplete == 1) or false
+    end
+
+    if phase == phases.KARGATH_DEAD then
+        return complete[29653] or (questLog[29653] and questLog[29653].isComplete == 1) or complete[29654] or (questLog[29654] and questLog[29654].isComplete == 1) or false
+    end
+
+    if phase == phases.CAYDEN_START_AMBUSH then
+        return not complete[27648] and (not questLog[27648] or (questLog[27648] and questLog[27648].isComplete == 0)) or false
+    end
+
+    if phase == phases.CAYDEN_FINISH_AMBUSH then
+        return complete[27648] or (questLog[27648] and questLog[27648].isComplete == 1) or false
+    end
+
+    if phase == phases.OHF_THRALL_PRISON then
+        return not complete[29599] and (not questLog[29599] or (questLog[29599] and questLog[29599].isComplete == 0)) or false
+    end
+
+    if phase == phases.OHF_THRALL_DESTINY then
+        return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
+    end
+  
+    if phase == phases.LINDSAY_WPL_TREE then
+        return not complete[26936] or false
+    end
+
+    if phase == phases.LINDSAY_WPL_TENT then
+        return (complete[26936] and not complete[27083]) or false
+    end
+
+    if phase == phases.LINDSAY_WPL_INN then
+        return complete[27083] or false
+    end
+
+    if phase == phases.MGT_KT_DEAD then
+        return complete[29685] or (questLog[29685] and questLog[29685].isComplete == 1) or false
+    end
+
+    if phase == phases.THE_BARRENS_KADRAK_MORSHAN then
+        return not complete[13712] and (not questLog[13712] or (questLog[13712] and questLog[13712].isComplete == 0)) or false
+    end
+
+    if phase == phases.ZAZZO_GILNEAS then
+        return not complete[30107] or false
+    end
+
+    if phase == phases.ZAZZO_DEADWIND then
+        return complete[30107] or false
+    end
+
+    if phase == phases.KALEC_TERMINUS then
+        return complete[14391] or (questLog[14391] and questLog[14391].isComplete == 1) or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_JUSTICE then
+        return not complete[26099] or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_RAMP then
+        return complete[26099] and not complete[26115] or false
+    end
+
+    if phase == phases.STONETALON_CLIFFWALKER_GARROSH then
+        return complete[26115] or false
+    end
+
+    if phase == phases.SHANG_XI_BENCH then
+        return  not complete[29524] and (not questLog[29524] or (questLog[29524] and questLog[29524].isComplete == 0)) or false
+    end
+
+    if phase == phases.SHANG_XI_DOORWAY then
+        return (complete[29524] or (questLog[29524] and questLog[29524].isComplete == 1)) and (not complete[29409] and (not questLog[29409] or (questLog[29409] and questLog[29409].isComplete == 0))) or false
+    end
+
+    if phase == phases.SHANG_XI_BRIDGE then
+        return (complete[29409] or (questLog[29409] and questLog[29409].isComplete == 1)) or false
+    end
+
+    if phase == phases.DRIVER_NOT_RESCUED then
+        return not complete[29419] and (not questLog[29419] or (questLog[29419] and questLog[29419].isComplete == 0)) or false
+    end
+
+    if phase == phases.DRIVER_RESCUED then
+        return (complete[29419] or (questLog[29419] and questLog[29419].isComplete == 1)) or false
+    end
+
+    if phase == phases.SHANG_XI_TEMPLE_NORTH then
+        return not complete[29774] or false
+    end
+
+    if phase == phases.SHANG_XI_TEMPLE_SOUTH then
+        return complete[29774] or false
+    end
+
+    if phase == phases.AYSA_LIANG_POOL_HOUSE then
+        return not complete[29676] or false
+    end
+
+    if phase == phases.AYSA_LIANG_BRIDGE then
+        return complete[29676] and (not complete[29678] and (not questLog[29678] or (questLog[29678] and questLog[29678].isComplete == 0))) or false
+    end
+
+    if phase == phases.AYSA_LIANG_LAKE then
+        return complete[29678] or (questLog[29678] and questLog[29678].isComplete == 1) or false
+    end
+
+    if phase == phases.AYSA_ROPE then
+        return not complete[29785] or false
+    end
+
+    if phase == phases.AYSA_CAVE then
+        return complete[29785] or false
+    end
+
+    if phase == phases.SKYFIRE_STORMWIND then
+        return not complete[29548] and (not questLog[29548] or (questLog[29548] and questLog[29548].isComplete == 0)) or false
+    end
+
+    if phase == phases.SKYFIRE_JADE_FOREST then
+        return complete[29548] or (questLog[29548] and questLog[29548].isComplete == 1) or false
+    end
+
+    if phase == phases.RELL_ON_BARRELS then
+        return not complete[31735] and (not questLog[31735] or (questLog[31735] and questLog[31735].isComplete == 0)) or false
+    end
+
+    if phase == phases.RELL_ON_DOCKS then
+        return (questLog[31735] and questLog[31735].isComplete == 1) or false
+    end
+
+    if phase == phases.RELL_ON_DOCKS_2 then
+        return complete[31735] or false
+    end
+
+    if phase == phases.SASHA_AT_DUSKHOWL_DEN then
+        return complete[12411] and (not complete[12164]) and ((not questLog[12164]) or questLog[12164].isComplete == 0) or false
+    end
+
+    if phase == phases.SASHA_AT_BLOODMOON_ISLE then
+        return complete[12164] or (questLog[12164] and questLog[12164].isComplete == 1) or false
+    end
+
+    if phase == phases.FUSELAGE_ROCKET then
+        return not complete[10248]
+    end
+
+    if phase == phases.FUSELAGE_CITY_SAVED then
+        return complete[10248] or false
     end
 
     return false

@@ -1,5 +1,5 @@
 ## Interface: 20504
-## Title: Questie|cFF00FF00 v10.19.0|r
+## Title: Questie|cFF00FF00 v11.0.2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
@@ -9,7 +9,7 @@
 ## Notes-ruRU: Помощник по заданиям в WoW Classic
 ## Notes-zhCN: 独立的怀旧服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
-## Version: 10.19.0
+## Version: 11.0.2
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -26,6 +26,7 @@ Modules\VersionCheck.lua
 
 # Loader module
 Modules\Libs\QuestieLoader.lua
+Modules\Expansions.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
@@ -45,8 +46,12 @@ Database\QuestXP\DB\xpDB-tbc.lua
 Modules\QuestieStream.lua
 
 # Zones
-Database\Zones\dungeons.lua
-Database\Zones\zoneTables.lua
+Database\Zones\data\areaIdToUiMapId.lua
+Database\Zones\data\dungeons.lua
+Database\Zones\data\subZoneToParentZone.lua
+Database\Zones\data\uiMapIdToAreaId.lua
+Database\Zones\data\zoneIds.lua
+Database\Zones\data\instanceIdToUiMapId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
@@ -61,6 +66,7 @@ Database\npcDB.lua
 Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
+Database\FactionTemplates\factionTemplateTBC.lua
 
 # Corrections
 Database\Corrections\AutoTableUpdates.lua
@@ -220,6 +226,10 @@ Modules\Tracker\LinePool\TrackerMenu.lua
 Modules\Tracker\LinePool\VoiceOverPlayButton.lua
 Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
+
+# Tutorial
+Modules\Tutorial\RejectInBattlegrounds.lua
+Modules\Tutorial\Tutorial.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua

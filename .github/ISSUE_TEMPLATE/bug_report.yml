@@ -48,11 +48,13 @@ body:
     attributes:
       label: Game flavor
       description: >
-        Please select the WoW version you encountered this issue in: Classic Era, Hardcore, Season of Discovery, Wrath of the Lich King (WotLK), or Cataclysm (Cata).
+        Please select the WoW version you encountered this issue in
       options:
-        - Era/HC/Anniversary
+        - Anniversary
+        - Era/HC
         - Season of Discovery
         - WotLK
         - Cata
+        - MoP
     validations:
       required: true

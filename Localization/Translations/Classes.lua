@@ -122,6 +122,18 @@ local classLocales = {
         ["zhCN"] = "死亡骑士",
         ["zhTW"] = "死亡騎士",
     },
+    ["Monk"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Mönch",
+        ["esES"] = "Monje",
+        ["esMX"] = "Monje",
+        ["frFR"] = "Moine",
+        ["koKR"] = "수도사",
+        ["ptBR"] = "Monge",
+        ["ruRU"] = "Монах",
+        ["zhCN"] = "武僧",
+        ["zhTW"] = "武僧",
+    },
 }
 
 for k, v in pairs(classLocales) do

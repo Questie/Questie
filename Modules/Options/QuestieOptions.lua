@@ -56,7 +56,7 @@ function QuestieOptions:Initialize()
     journeyButton:SetScript("OnClick", function()
         QuestieCombatQueue:Queue(function()
             QuestieJourney:ToggleJourneyWindow()
-            QuestieOptions:OpenConfigWindow()
+            QuestieOptions:ToggleConfigWindow()
         end)
     end)
 
@@ -77,7 +77,7 @@ function QuestieOptions:HideFrame()
 end
 
 -- Open the configuration window
-function QuestieOptions:OpenConfigWindow()
+function QuestieOptions:ToggleConfigWindow()
     if not QuestieConfigFrame:IsShown() then
         PlaySound(882)
         -- AceConfigDialog:Open("Questie", QuestieConfigFrame)
@@ -139,3 +139,5 @@ _CreateOptionsTable = function()
         }
     }
 end
+
+return QuestieOptions

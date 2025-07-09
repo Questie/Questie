@@ -1,6 +1,8 @@
-local trinity =  require('cataObjectDB-trinity')
-local mangos = require('cataObjectDB')
-local wotlk = require('wotlkObjectDB')
+local trinity =  require('data.cataObjectDB-trinity')
+local mangos = require('data.cataObjectDB')
+local wotlk = require('data.wotlkObjectDB')
+
+local printToFile = require('printToFile')
 
 local objectKeys = {
     ['name'] = 1, -- string
@@ -27,24 +29,10 @@ end
 
 mangos[186336] = wotlk[186336] -- Entrance to Onyxia's Lair
 
-local function pairsByKeys (t, f)
-    local a = {}
-    for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
-    local i = 0      -- iterator variable
-    local iter = function ()   -- iterator function
-        i = i + 1
-        if a[i] == nil then return nil
-        else return a[i], t[a[i]]
-        end
-    end
-    return iter
-end
-
 -- Some objects are missing entirely in mangos
 -- But if they have good data it doesn't hurt to add them
 print("checking for good data in trinity DB...")
-for objId, data in pairsByKeys(trinity) do
+for objId, data in pairs(trinity) do
     if not mangos[objId] and data[objectKeys.name] and data[objectKeys.spawns] then
         print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
         mangos[objId] = data
@@ -52,7 +40,7 @@ for objId, data in pairsByKeys(trinity) do
 end
 
 print("checking for good data in wotlk DB...")
-for objId, data in pairsByKeys(wotlk) do
+for objId, data in pairs(wotlk) do
     if not mangos[objId] and data[objectKeys.name] and data[objectKeys.spawns] then
         print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
         mangos[objId] = data
@@ -64,64 +52,4 @@ for objId, data in pairsByKeys(wotlk) do
     end
 end
 
--- print to "merged-file.lua"
-local file = io.open("merged-file.lua", "w")
-print("writing to merged-file.lua")
-for objId, data in pairsByKeys(mangos) do
-    -- build print string with npcId and data
-    local printString = "[" .. objId .. "] = {"
-    printString = printString .. "\"" .. data[objectKeys.name]:gsub("\"", "\\\"") .. "\","
-    if data[objectKeys.questStarts] then
-        printString = printString .. "{"
-        for i, questID in ipairs(data[objectKeys.questStarts]) do
-            printString = printString .. questID .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[objectKeys.questEnds] then
-        printString = printString .. "{"
-        for i, questID in ipairs(data[objectKeys.questEnds]) do
-            printString = printString .. questID .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[objectKeys.spawns] then
-        printString = printString .. "{"
-        for zoneID, coords in pairsByKeys(data[objectKeys.spawns]) do
-            printString = printString .. "[" .. zoneID .. "]={"
-            for i, coord in ipairs(coords) do
-                if coords[i+1] then
-                    if coord[3] then
-                        printString = printString .. "{" .. coord[1] .. "," .. coord[2] .. "," .. coord[3] .. "},"
-                    else
-                        printString = printString .. "{" .. coord[1] .. "," .. coord[2] .. "},"
-                    end
-                else
-                    if coord[3] then
-                        printString = printString .. "{" .. coord[1] .. "," .. coord[2] .. "," .. coord[3] .. "}"
-                    else
-                        printString = printString .. "{" .. coord[1] .. "," .. coord[2] .. "}"
-                    end
-                end
-            end
-            printString = printString .. "},"
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    printString = printString .. data[objectKeys.zoneID]
-    if data[objectKeys.factionID] then
-        printString = printString .. "," .. data[objectKeys.factionID]
-    end
-    printString = printString .. "},"
-    file:write(printString .. "\n")
-end
-print("Done")
+printToFile(mangos)

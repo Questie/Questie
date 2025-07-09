@@ -1,6 +1,9 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions");
 
+---@class DatabaseNpcKeys
 QuestieDB.npcKeys = {
     ['name'] = 1, -- string
     ['minLevelHealth'] = 2, -- int
@@ -70,9 +73,9 @@ QuestieDB.npcFlags = {
     AUCTIONEER = Questie.IsClassic and 4096 or 2097152,
     STABLEMASTER = Questie.IsClassic and 8192 or 4194304,
     REPAIR = Questie.IsClassic and 16384 or 4096,
-    BARBER = (Questie.IsWotlk or Questie.IsCata) and 16777216 or nil,
-    ARCANE_REFORGER = Questie.IsCata and 134217728 or nil,
-    TRANSMOGRIFIER = Questie.IsCata and 268435456 or nil
+    BARBER = (Expansions.Current >= Expansions.Wotlk) and 16777216 or nil,
+    ARCANE_REFORGER = Expansions.Current >= Expansions.Cata and 134217728 or nil,
+    TRANSMOGRIFIER = Expansions.Current >= Expansions.Cata and 268435456 or nil
 }
 
 -- temporary, until we remove the old db funcitons

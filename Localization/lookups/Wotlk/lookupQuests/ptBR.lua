@@ -8501,4 +8501,6 @@ l10n.questLookup["ptBR"] = loadstring([[return {
 [70344] = {"Ira (80) E", nil, nil},
 [70347] = {"Ira (80) E", nil, nil},
 [70348] = {"Ira (80) E", nil, nil},
+[78752] = {"Prova da Morte: Protocolo Gama de Runa Titânica", nil, {"O Arquimago Lan'dalock, em Dalaran, quer que você retorne com o Medalhão do Profanador de qualquer chefe de masmorra final.\n\nEsta missão só pode ser concluída em qualquer masmorra no modo Protocolo Gama de Runa Titânica."}},
+[78753] = {"Prova da Morte: Ameaças a Azeroth", nil, {"O Arquimago Lan'dalock, em Dalaran, quer que você retorne com o Artefato Misterioso de qualquer chefe de masmorra final.\n\nEsta missão só pode ser concluída em qualquer masmorra no modo Heroico."}},
 }]])

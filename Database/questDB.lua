@@ -1,4 +1,4 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
@@ -41,10 +41,12 @@ QuestieDB.questKeys = {
     ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
-    ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
-    ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
-    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
-    ['requiredMaxLevel'] = 30, -- int: quest is only available up to a certain level
+    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to
+    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest
+    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
+    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level
 }
 
 QuestieDB.questKeysReversed = {}
@@ -58,7 +60,7 @@ QuestieDB.questCompilerTypes = {
     ['finishedBy'] = "questgivers", -- table
     ['requiredLevel'] = "u8", -- int
     ['questLevel'] = "s16", -- int
-    ['requiredRaces'] = "u24", -- bitmask
+    ['requiredRaces'] = "u32", -- bitmask
     ['requiredClasses'] = "u16", -- bitmask
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
@@ -79,6 +81,8 @@ QuestieDB.questCompilerTypes = {
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = "u8s24pairs",
+    ['breadcrumbForQuestId'] = "u24",
+    ['breadcrumbs'] = "u8u24array",
     ['extraObjectives'] = "extraobjectives",
     ['requiredSpell'] = "s24",
     ['requiredSpecialization'] = "u24",
@@ -89,11 +93,11 @@ QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficie
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
     'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
-    'requiredSpecialization', 'requiredMaxLevel',
+    'requiredSpecialization', 'requiredMaxLevel', 'breadcrumbForQuestId',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
-    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives', 'reputationReward', 'extraObjectives'
+    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'breadcrumbs', 'objectives', 'reputationReward', 'extraObjectives'
 }
 
 QuestieDB.questFlags = {

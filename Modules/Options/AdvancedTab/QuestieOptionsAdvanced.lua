@@ -15,6 +15,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -98,6 +100,48 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieOptionsUtils.DetermineTheme()
                 end,
             },
+            spawnFilterDistance = {
+                type = "range",
+                order = 1.41,
+                name = function() return l10n("Available quest filter distance"); end,
+                desc = function() return l10n("How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!"); end,
+                width = 1.5,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                min = 1,
+                max = 100,
+                step = 1,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
+                end,
+            },
+            iconSpacer2 = {
+                type = "description",
+                order = 1.42,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.3,
+                width = 0.3,
+                func = function() end,
+            },
+            availableIconLimit = {
+                type = "range",
+                order = 1.43,
+                name = function() return l10n("Available quest icon limit"); end,
+                desc = function() return l10n("This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!"); end,
+                width = 1.5,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                min = 0,
+                max = 500,
+                step = 1,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
+                end,
+            },
             quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
             npcrules_group = {
                 type = "group",
@@ -116,7 +160,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         style = "dropdown",
                         name = function() return l10n("Isle of Quel'Danas Phase") end,
                         desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
-                        disabled = function() return (not Questie.IsWotlk) and (not Questie.IsCata) end,
+                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
                         get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
                         set = function(_, key)
                             Questie.db.profile.isleOfQuelDanasPhase = key
@@ -138,7 +182,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         order = 1.5,
                         name = function() return l10n("Disable Phase reminder"); end,
                         desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
-                        disabled = function() return (not Questie.IsWotlk) and (not Questie.IsCata) end,
+                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
                         width = 1,
                         get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
                         set = function(_, value)

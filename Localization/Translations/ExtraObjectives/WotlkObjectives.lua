@@ -1790,9 +1790,9 @@ local wotlkObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Kill Jin'Alai Trolls until their leaders appear"] = { -- 12622
+    ["Kill Jin'Alai Trolls near a totem until their leaders appear"] = { -- 12622
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Jin'Alai-Trolle in der Nähe eines Totems, bis ihr Anführer erscheinen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,

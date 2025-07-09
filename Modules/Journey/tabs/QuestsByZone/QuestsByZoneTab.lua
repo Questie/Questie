@@ -78,7 +78,7 @@ _CreateContinentDropdown = function()
 
     local questCategoryKeys = QuestieJourney.questCategoryKeys
     -- This mapping translates the actual continent ID to the keys of l10n.continentLookup
-    if currentContinentId == 0 then -- Eastern Kingdom
+    if currentContinentId == 0 then -- Eastern Kingdoms
         selectedContinentId = questCategoryKeys.EASTERN_KINGDOMS
     elseif currentContinentId == 1 then -- Kalimdor
         selectedContinentId = questCategoryKeys.KALIMDOR
@@ -86,6 +86,8 @@ _CreateContinentDropdown = function()
         selectedContinentId = questCategoryKeys.OUTLAND
     elseif currentContinentId == 571 then -- Northrend
         selectedContinentId = questCategoryKeys.NORTHREND
+    elseif currentContinentId == 870 then -- Pandaria
+        selectedContinentId = questCategoryKeys.PANDARIA
     elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
         selectedContinentId = questCategoryKeys.DUNGEONS
     end
@@ -155,6 +157,10 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetList(relevantProfessions)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
+    elseif (key.value == QuestieJourney.questCategoryKeys.PET_BATTLES) then
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(QuestieDB.sortKeys.PET_BATTLE)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)

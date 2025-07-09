@@ -15,6 +15,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type QuestieInit
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -32,7 +34,7 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is enabled
         if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
             WatchFrame:Hide()
@@ -41,7 +43,7 @@ function Questie:OnEnable()
 end
 
 function Questie:OnDisable()
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is disabled
         WatchFrame:Show()
     end
@@ -60,6 +62,7 @@ end
 ---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
+    if not color then color = "yellow" end
     local c = "|cFF" .. color;
 
     if color == "red" then
@@ -69,7 +72,7 @@ function Questie:Colorize(str, color)
     elseif color == "purple" then
         c = "|cFFB900FF";
     elseif color == "blue" then
-        c = "|cB900FFFF";
+        c = "|cFF0000FF";
     elseif color == "lightBlue" then
         c = "|cB900FFFF";
     elseif color == "reputationBlue" then
@@ -197,6 +200,7 @@ Questie.icons = {
     ["node_herb"] = "Interface\\Addons\\Questie\\Icons\\node_herb.blp",
     ["node_ore"] = "Interface\\Addons\\Questie\\Icons\\node_ore.blp",
     ["chest"] = "Interface\\Addons\\Questie\\Icons\\chest.blp",
+    ["petbattle"] = "Interface\\Addons\\Questie\\Icons\\petbattle.png",
 }
 
 Questie.usedIcons = {}
@@ -224,6 +228,7 @@ Questie.ICON_TYPE_NODE_FISH = 20
 Questie.ICON_TYPE_NODE_HERB = 21
 Questie.ICON_TYPE_NODE_ORE = 22
 Questie.ICON_TYPE_CHEST = 23
+Questie.ICON_TYPE_PET_BATTLE = 24
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie.SetIcons()
@@ -250,6 +255,7 @@ function Questie.SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_NODE_HERB] = Questie.icons["node_herb"]
     Questie.usedIcons[Questie.ICON_TYPE_NODE_ORE] = Questie.icons["node_ore"]
     Questie.usedIcons[Questie.ICON_TYPE_CHEST] = Questie.icons["chest"]
+    Questie.usedIcons[Questie.ICON_TYPE_PET_BATTLE] = Questie.db.profile.ICON_TYPE_PET_BATTLE or Questie.icons["petbattle"]
 end
 
 function Questie:GetIconNameFromPath(path)

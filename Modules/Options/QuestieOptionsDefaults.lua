@@ -5,6 +5,8 @@ function QuestieOptionsDefaults:Load()
     return {
         profile = {
             clusterLevelHotzone = 50,
+            spawnFilterDistance = 28,
+            availableIconLimit = 30,
             enableIconLimit = false,
             iconLimit = 1500,
             availableScale = 1.2,
@@ -48,6 +50,7 @@ function QuestieOptionsDefaults:Load()
             enableObjectives = true,
             enableTurnins = true,
             enableAvailable = true,
+            enableAvailableItems = true,
             enableTooltips = true,
             enableTooltipsItemID = false,
             enableTooltipsNPCID = false,
@@ -112,7 +115,6 @@ function QuestieOptionsDefaults:Load()
             minLevelFilter = 1,
             maxLevelFilter = 10,
             enabled = true,
-            searchType = 1,
             autocomplete = false,
             autoModifier = "shift",
             autoAccept = {
@@ -120,6 +122,7 @@ function QuestieOptionsDefaults:Load()
                 trivial = false,
                 repeatable = true,
                 pvp = true,
+                rejectSharedInBattleground = false,
             },
             questAnnounceChannel = "party",
             questAnnounceItems = true,

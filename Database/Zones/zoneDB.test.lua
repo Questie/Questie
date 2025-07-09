@@ -1,8 +1,12 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 _G["Questie"] = {}
 _G.UnitFactionGroup = function() return "Horde" end
-dofile("Database/Zones/dungeons.lua")
-dofile("Database/Zones/zoneTables.lua")
+dofile("Modules/Expansions.lua")
+dofile("Database/Zones/data/dungeons.lua")
+dofile("Database/Zones/data/zoneIds.lua")
+dofile("Database/Zones/data/areaIdToUiMapId.lua")
+dofile("Database/Zones/data/uiMapIdToAreaId.lua")
+dofile("Database/Zones/data/subZoneToParentZone.lua")
 
 
 describe("ZoneDB", function()
@@ -18,10 +22,10 @@ describe("ZoneDB", function()
     describe("GetAreaIdByUiMapId", function()
         it("should correctly handle map ID for Kalimdor and EK", function()
             local areaId = ZoneDB:GetAreaIdByUiMapId(1414)
-            assert.are.equal(0, areaId)
+            assert.are.equal(10073, areaId)
 
             areaId = ZoneDB:GetAreaIdByUiMapId(1415)
-            assert.are.equal(0, areaId)
+            assert.are.equal(10074, areaId)
         end)
     end)
 

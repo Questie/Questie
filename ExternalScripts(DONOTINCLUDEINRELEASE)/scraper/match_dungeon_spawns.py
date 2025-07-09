@@ -11,9 +11,12 @@ dungeons = [
     ["Ruins of Ahn'Qiraj", "3429"],
     ["Ahn'Qiraj Temple", "3428"],
     ["Naxxramas", "3456"],
+    ["Scarlet Halls", "6052"],
+    ["Scholomance", "6066"],
     ["Demon Fall Canyon", "15475"],
     ["The Burning of Andorhal", "15828"],
     ["Karazhan Crypts", "16074"],
+    ["Scarlet Enclave", "16236"],
 ]
 
 def match_dungeon_spawns(text):

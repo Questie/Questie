@@ -124,26 +124,5 @@ describe("TooltipHandler", function()
             assert.spy(QuestieTooltips.GetTooltip).was.called(10)
             assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11")
         end)
-
-        it("should not stop counting after 10 when debug is active", function()
-            local name = "test"
-            _G.Questie.db.profile.debugEnabled = true
-            l10n.objectNameLookup[name] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
-
-            QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
-
-            _G.GameTooltip = {
-                AddLine = spy.new(function() end),
-                AddDoubleLine = spy.new(function() end),
-                Show = spy.new(function() end)
-            }
-
-            _G.Questie.db.profile.enableTooltipsObjectID = true
-
-            _QuestieTooltips.AddObjectDataToTooltip(name)
-
-            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (11)|r")
-            assert.spy(QuestieTooltips.GetTooltip).was.called(11)
-        end)
     end)
 end)

@@ -134,6 +134,36 @@ describe("AutoCompleteFrame", function()
             assert.spy(frame.SetPoint).was_called_with(frame, "TOPLEFT", baseFrame, -200, 0)
         end)
 
+        it("should show pop up on the left if Tracker is on the right side of the screen and anchored TOP", function()
+            local baseFrame = {
+                GetPoint = function()
+                    return "TOP", nil, nil, 0
+                end
+            }
+            AutoCompleteFrame.Initialize(baseFrame)
+            local frame = CreateFrame.mockedFrames[1]
+            frame.SetPoint = spy.new(frame.SetPoint)
+
+            AutoCompleteFrame.ShowAutoComplete(1)
+
+            assert.spy(frame.SetPoint).was_called_with(frame, "TOPLEFT", baseFrame, -200, 0)
+        end)
+
+        it("should show pop up on the left if Tracker is on the right side of the screen and anchored BOTTOM", function()
+            local baseFrame = {
+                GetPoint = function()
+                    return "BOTTOM", nil, nil, 0
+                end
+            }
+            AutoCompleteFrame.Initialize(baseFrame)
+            local frame = CreateFrame.mockedFrames[1]
+            frame.SetPoint = spy.new(frame.SetPoint)
+
+            AutoCompleteFrame.ShowAutoComplete(1)
+
+            assert.spy(frame.SetPoint).was_called_with(frame, "TOPLEFT", baseFrame, -200, 0)
+        end)
+
         it("should show pop up on the right if Tracker is on the left side of the screen and anchored TOPRIGHT", function()
             local baseFrame = {
                 GetPoint = function()

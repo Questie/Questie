@@ -499,7 +499,7 @@ local trackerUILocales = {
     },
     ["Blizzard Timer Active!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Blizzard Timer aktiv!",
         ["esES"] = "¡Temporizador de Blizzard activo!",
         ["esMX"] = "¡Temporizador de Blizzard activo!",
         ["frFR"] = "Chronomètre de Blizzard actif !",

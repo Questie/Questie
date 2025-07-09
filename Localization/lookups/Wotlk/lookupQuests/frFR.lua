@@ -9304,4 +9304,6 @@ l10n.questLookup["frFR"] = loadstring([[return {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
+[78752] = {"Preuves de la mort : protocole Gamma de rune des Titans", nil, {"L’archimage Lan’dalock de Dalaran vous demande de revenir avec le médaillon des Profanateurs, obtenu auprès d’un boss final ou d’une boss finale de donjon.\n\nCette quête peut être achevée dans les donjons de runes des Titans avec protocole Gamma."}},
+[78753] = {"Preuves de la mort : menaces pour Azeroth", nil, {"L’archimage Lan’dalock de Dalaran vous demande de revenir avec le mystérieux artéfact obtenu auprès d’un boss final ou d’une boss finale de donjon.\n\nCette quête peut être achevée dans les donjons en mode héroïque."}},
 }]])

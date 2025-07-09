@@ -15,6 +15,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -41,11 +43,13 @@ local questCategoryKeys = {
     NORTHREND = 4,
     CATACLYSM = 5,
     THE_MAELSTROM = 6,
-    DUNGEONS = 7,
-    BATTLEGROUNDS = 8,
-    CLASS = 9,
-    PROFESSIONS = 10,
-    EVENTS = 11,
+    PANDARIA = 7,
+    DUNGEONS = 8,
+    BATTLEGROUNDS = 9,
+    CLASS = 10,
+    PROFESSIONS = 11,
+    EVENTS = 12,
+    PET_BATTLES = 13,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -53,10 +57,12 @@ QuestieJourney.questCategoryKeys = questCategoryKeys
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        if not (questCategoryKeys.OUTLAND == id and Questie.IsClassic) and
-            not (questCategoryKeys.NORTHREND == id and (Questie.IsClassic or Questie.IsTBC)) and
-            not (questCategoryKeys.CATACLYSM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) and
-            not (questCategoryKeys.THE_MAELSTROM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) then
+        if not (questCategoryKeys.OUTLAND == id and Expansions.Current < Expansions.Tbc) and
+            not (questCategoryKeys.NORTHREND == id and Expansions.Current < Expansions.Wotlk) and
+            not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
+            not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) then
             continents[id] = l10n(name)
         end
     end
@@ -84,8 +90,10 @@ function QuestieJourney:BuildMainFrame()
         end)
         journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
-        journeyFrame:EnableResize(false)
-        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400)
+        journeyFrame:EnableResize(true)
+        journeyFrame:SetWidth(1000)
+        journeyFrame:SetHeight(650)
+        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400, 0, 0)
 
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")
@@ -116,7 +124,7 @@ function QuestieJourney:BuildMainFrame()
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()
                 QuestieJourney:ToggleJourneyWindow()
-                QuestieOptions:OpenConfigWindow()
+                QuestieOptions:ToggleConfigWindow()
             end)
         end)
         journeyFrame:AddChild(settingsButton)

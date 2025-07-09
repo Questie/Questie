@@ -315,3 +315,5 @@ alternativeProfessionNames = {
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
 }
+
+return QuestieProfessions

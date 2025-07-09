@@ -18,6 +18,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -158,6 +160,19 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.enableAvailable; end,
                         set = function(info, value)
                             Questie.db.profile.enableAvailable = value
+                            QuestieQuest.ToggleAvailableQuests(value)
+                        end,
+                    },
+                    showItemQuests = {
+                        type = "toggle",
+                        order = 2.011,
+                        name = function() return l10n("Available Quests from Items"); end,
+                        desc = function() return l10n("When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."); end,
+                        width = 1.595,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.enableAvailableItems; end,
+                        set = function(info, value)
+                            Questie.db.profile.enableAvailableItems = value
                             QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
@@ -1260,7 +1275,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
 end
 
 _GetIconThemes = function()
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
@@ -1277,7 +1292,7 @@ _GetIconThemes = function()
 end
 
 _GetIconThemesSort = function()
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         return {
             "questie",
             "blizzard",

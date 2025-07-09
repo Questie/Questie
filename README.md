@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v10.19.0/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.0.2/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -45,7 +45,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 - We are happy about every help and contribution we get, so feel free to submit a Pull Request on GitHub
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
-### Installing lua
+### Installing Lua
 
 1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
    - For macOS that is `brew install lua@5.1`
@@ -53,16 +53,22 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
    - For macOS that is `brew install luarocks`
 3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
    - `luarocks config lua_version 5.1`
-4. Install `busted`
+4. Install [busted](https://github.com/lunarmodules/busted)
    - `luarocks install busted`
 5. Install `bit32`
     - `luarocks install bit32`
-6. Install `luacheck`
+6. Install [luacheck](https://github.com/lunarmodules/luacheck)
     - `luarocks install luacheck`
+
+### luacheck
+
+Questie uses `luacheck` for linting. You can run it locally with:
+
+`luacheck -q Database Localization Modules Questie.lua`
 
 ### Unit Tests
 
-1. Run `busted -p ".test.lua" ."` in the root directory of the project
+1. Run `busted -p ".test.lua" .` in the root directory of the project
 2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
 

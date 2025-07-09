@@ -31,8 +31,10 @@ describe("AutoQuesting", function()
             trivial = false,
             repeatable = true,
             pvp = true,
+            rejectSharedInBattleground = false
         }
         Questie.db.profile.autoModifier = "disabled"
+        Questie.Print = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
@@ -48,6 +50,7 @@ describe("AutoQuesting", function()
         _G.ImmersionContentFrame = nil
 
         _G.AcceptQuest = spy.new(function() end)
+        _G.DeclineQuest = spy.new(function() end)
         _G.ConfirmAcceptQuest = spy.new(function() end)
         _G.SelectAvailableQuest = spy.new(function() end)
         _G.CompleteQuest = spy.new(function() end)
@@ -56,6 +59,7 @@ describe("AutoQuesting", function()
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
+        _G.UnitGUID = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         _G.C_Timer = {
@@ -65,6 +69,7 @@ describe("AutoQuesting", function()
         }
 
         QuestieDB = require("Database.QuestieDB")
+        require("Localization.l10n") -- We don't need the return value
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
@@ -210,6 +215,68 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was_not.called()
             assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+        end)
+
+        it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return true end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(Questie.Print).was.called()
+            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was.called_with("player")
+        end)
+
+        it("should accept quest if player is in battleground and quest was shared by another player when setting is not enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return true end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = false
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was_not.called()
+        end)
+
+        it("should accept quest if player is in battleground and quest was not shared by another player when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return true end)
+            _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-0-0" end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was.called_with("player")
+        end)
+
+        it("should accept quest if player is not in battleground and quest was shared by another player when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = spy.new(function() return nil end)
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was_not.called()
+            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
     end)
 
@@ -516,8 +583,6 @@ describe("AutoQuesting", function()
         it("should not complete quest when manual mode is active", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
-
-            AutoQuesting.OnGossipShow()
 
             AutoQuesting.OnQuestProgress()
 

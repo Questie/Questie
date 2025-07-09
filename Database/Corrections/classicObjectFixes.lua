@@ -67,10 +67,12 @@ function QuestieObjectFixes:Load()
         [21015] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{29.7,47.64}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.questStarts] = {1268,1284},
         },
         [21016] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{29.7,47.64}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.questStarts] = {1268,1284},
         },
         [28604] = {
             [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{64.09,23.35},{45.82,35.58},{56.92,24.7},{62.27,22.5},{43.29,33.26},{33.64,46.01},{29.7,50.11},{14.19,38.22},{9.7,29.84},{54.39,30.59},{60.03,21.73},{29.91,38.31},{64.89,20.44},{4.64,31.2},{37.09,34.15},{12.8,34.43}}},
@@ -104,6 +106,9 @@ function QuestieObjectFixes:Load()
         },
         [140971] = {
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{36.1,56.4},{36.1,56.5},{36.4,52.3},{36.8,35.2},{37.7,29.6},{38.3,61.9},{38.9,65.8},{38.9,73},{39.1,70.7},{39.4,51.6},{39.7,74.4},{39.9,72.1},{40,31.1},{40.1,47.3},{40.2,73.3},{40.3,68.9},{40.3,77.4},{40.3,77.5},{40.4,74.7},{40.8,39.2},{40.8,43.4},{40.8,43.5},{41,71.6},{41,74.8},{41.1,71.1},{41.4,72.7},{41.5,73.7},{41.7,56.3},{41.9,73.3},{42.1,74.5},{42.2,58.5},{42.8,26.1},{43.1,62.1},{43.2,77.3},{44.2,45.7},{44.8,38.8},{44.8,65.2},{44.9,33.9},{44.9,64.4},{45.1,27},{45.1,52},{45.3,66},{45.6,64.6},{45.8,66.8},{46.1,49.4},{46.1,49.5},{46.1,65.6},{46.2,63.3},{46.2,70.3},{46.4,64.2},{46.5,64.2},{46.9,76.1},{47.1,30.4},{47.1,30.5},{47.1,64.5},{47.1,66},{47.2,67},{47.3,63.4},{47.4,38.4},{47.4,38.5},{47.5,38.4},{47.5,38.5},{47.6,57.2},{47.9,65.8},{48,52.7},{48,64.4},{48,67.4},{48.1,67.5},{48.2,64.7},{48.3,72.8},{48.4,44.4},{48.4,44.5},{48.5,44.4},{48.5,44.5},{48.6,28.7},{49.1,77.3},{49.6,35.9},{49.6,59.2},{49.7,69.1},{50.4,78.5},{50.7,61.1},{51.3,64.1},{52,37.4},{52.1,32.1},{52.3,45.3},{52.4,50.8},{52.9,52.7},{53,44},{53.2,45.2},{53.4,47.7},{53.5,47.6},{53.5,57.8},{53.7,46.2},{53.8,33.3},{54.8,39},{55.6,47.7},{55.6,60},{56.6,35.3},{56.7,52.4},{56.7,52.5},{57.1,47.6},{57.8,28.9},{57.8,57.9},{58.1,24.6},{58.1,48.8}}},
+        },
+        [142122] = { -- Wanted Poster
+            [objectKeys.questStarts] = {2781,2875},
         },
         [142194] = {
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{54,93}}},
@@ -188,10 +193,12 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
         },
+        [175964] = {
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.SCHOLOMANCE,
+        },
         [176150] = {
-            [objectKeys.spawns] = {
-                [zoneIDs.WESTERN_PLAGUELANDS]={{43.60,69.97},{43.46,70.11},{43.38,69.97},{43.39,69.69},{43.37,69.51},{43.41,69.22},{43.59,69.30},{43.54,69.12},{43.42,68.78},{43.59,68.82}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{43.60,69.97},{43.46,70.11},{43.38,69.97},{43.39,69.69},{43.37,69.51},{43.41,69.22},{43.59,69.30},{43.54,69.12},{43.42,68.78},{43.59,68.82}}},
         },
         [176184] = {
             [objectKeys.name] = "Corrupt Jaedenar Moonwell",
@@ -233,8 +240,14 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{56,63}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
+        [178907] = {
+            [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
+        },
         [179544] = {
             [objectKeys.name] = "Skeletal Remains of Telmius Dreamseeker",
+        },
+        [179703] = { -- Cache of the Firelord
+            [objectKeys.questStarts] = {7632},
         },
         [179908] = {
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9}}},
@@ -266,11 +279,20 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{25.72,90.86}}},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
+        [186420] = { -- Syndicate Documents
+            [objectKeys.questStarts] = {},
+        },
         [187260] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
         },
+        [187273] = { -- Suspicious Hoofprint
+            [objectKeys.questStarts] = {},
+        },
         [188123] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
+        },
+        [181598] = { -- Silithyst Geyser
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{41.17,77.14},{49.21,44.84},{35.7,66.4},{41.67,27.04},{26.42,81.5},{20.84,81.43},{31.28,65.46},{39.94,22.35},{36.7,77.47},{18.88,80.26},{50.45,50.69},{38.91,80.85},{36.09,29.92},{48.83,85.1},{36.02,38.35},{59.25,58.77},{64.01,70.86},{60.61,63.0},{58.07,49.96}}},
         },
         [375544] = {
             [objectKeys.name] = "Wooden Figurine",
@@ -289,11 +311,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },]]
-        [400003] = {
+        --[[[400003] = { -- REUSE
             [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
-        },
+        },]]
         --[[[400004] = { -- REUSE
             [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
             [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},

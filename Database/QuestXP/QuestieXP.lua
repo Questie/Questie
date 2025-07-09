@@ -2,6 +2,9 @@
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
+
 ---@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }
 QuestXP.db = {}
 
@@ -12,7 +15,7 @@ local globalXPMultiplier = 1
 local isDiscovererDelightActive = false
 
 function QuestXP.Init()
-    if (Questie.IsWotlk or Questie.IsSoD) and globalXPMultiplier == 1 then
+    if Questie.IsSoD or Expansions.Current >= Expansions.Wotlk and globalXPMultiplier == 1 then
         for i = 1, 40 do
             local _, _, _, _, _, _, _, _, _, buffSpellId = UnitBuff("player", i)
 
@@ -28,6 +31,15 @@ function QuestXP.Init()
                 isDiscovererDelightActive = true
                 break
             end
+        end
+    end
+
+    if Expansions.Current >= Expansions.Wotlk then
+        -- Handle Fast Track "Guild Perk"
+        -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters
+        local isFastTrackActive = IsSpellKnown(78632) -- Fast Track (Rank 2)
+        if isFastTrackActive then
+            globalXPMultiplier = globalXPMultiplier + 0.1 -- 10% bonus XP
         end
     end
 end

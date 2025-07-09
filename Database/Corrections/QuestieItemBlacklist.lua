@@ -42,7 +42,6 @@ function QuestieItemBlacklist:Load()
         [4306] = true, -- silk cloth
         [4338] = true, -- mageweave
         [4625] = true, -- firebloom
-        [5056] = true, -- root sample
         [7079] = true, -- globe of water
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
@@ -220,7 +219,6 @@ function QuestieItemBlacklist:Load()
         [22832] = true, -- Super Mana Potion
         [23445] = true, -- Fel Iron Bar
         [23793] = true, -- Heavy Knothide Leather
-        [24246] = true, -- Sanguine Hibiscus
         [24368] = true, -- Coilfang Armaments
         [24401] = true, -- Unidentified Plant Parts
         [26042] = true, -- Oshu'gun Crystal Powder Sample

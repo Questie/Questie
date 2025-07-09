@@ -227,7 +227,7 @@ end
 
 ---@param questId QuestId
 ---@param level Level @The quest level
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@param blizzLike boolean @True = [40+], false = [40D/R]
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
@@ -263,6 +263,12 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
         elseif questType == 83 then
             -- Legendary quest
             retLevel = "[" .. retLevel .. "++" .. "] "
+        elseif questType == 102 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "A"
+            end
+            -- Account quest
+            retLevel = "[" .. retLevel .. char .. "] "
         else
             -- Some other irrelevant type
             retLevel = "[" .. retLevel .. "] "
@@ -665,7 +671,7 @@ function QuestieLib.GetSpawnDistance(spawnA, spawnB)
 end
 
 ---@param quest Quest
----@return number -- Questie.ICON_TYPE_X
+---@return number iconType The number representing the type of icon
 function QuestieLib.GetQuestIcon(quest)
     if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
         return Questie.ICON_TYPE_SODRUNE

@@ -27,10 +27,10 @@ class Runner:
     def __init__(self) -> None:
         self.logger = getLogger(__name__)
 
-    def run_quest(self) -> None:
+    def run_quest(self, run_for_retail: bool) -> None:
         Path("quest/quest_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/quest_data.json"})
-        process.crawl(QuestSpider)
+        process.crawl(QuestSpider, run_for_retail)
         process.start()
 
     def run_classic_quest(self) -> None:
@@ -45,10 +45,10 @@ class Runner:
         process.crawl(QuestTranslationSpider)
         process.start()
 
-    def run_npc(self) -> None:
+    def run_npc(self, run_for_retail: bool) -> None:
         Path("npc/npc_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "npc/npc_data.json"})
-        process.crawl(NPCSpider)
+        process.crawl(NPCSpider, run_for_retail)
         process.start()
 
     def run_npc_zone_ids(self) -> None:
@@ -63,10 +63,10 @@ class Runner:
         process.crawl(ItemSpider)
         process.start()
 
-    def run_object(self) -> None:
+    def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_data.json"})
-        process.crawl(ObjectSpider)
+        process.crawl(ObjectSpider, run_for_retail)
         process.start()
 
     def run_object_translations(self) -> None:
@@ -85,6 +85,7 @@ class Runner:
 
 if __name__ == '__main__':
     parser = ArgumentParser()
+    parser.add_argument("--retail", help="Run spider against retail wowhead", action="store_true")
     parser.add_argument("--quest", help="Run quest spider", action="store_true")
     parser.add_argument("--quest-classic", help="Run quest spider for classic wow", action="store_true")
     parser.add_argument("--quest-translations", help="Run quest spider for SoD translations", action="store_true")
@@ -102,9 +103,11 @@ if __name__ == '__main__':
 
     runner = Runner()
 
+    run_for_retail = args.retail
+
     if args.quest:
         print("Running quest spider")
-        runner.run_quest()
+        runner.run_quest(run_for_retail)
     if args.quest_classic:
         print("Running quest spider for classic wow")
         runner.run_classic_quest()
@@ -113,7 +116,7 @@ if __name__ == '__main__':
         runner.run_quest_translations()
     if args.npc:
         print("Running npc spider")
-        runner.run_npc()
+        runner.run_npc(run_for_retail)
     if args.npc_zone:
         print("Running npc zone ID spider")
         runner.run_npc_zone_ids()
@@ -122,7 +125,7 @@ if __name__ == '__main__':
         runner.run_item()
     if args.object:
         print("Running object spider")
-        runner.run_object()
+        runner.run_object(run_for_retail)
     if args.object_translations:
         print("Running object spider for translations")
         runner.run_object_translations()

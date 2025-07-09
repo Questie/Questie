@@ -419,6 +419,7 @@ local questsToBlacklistByPhase = {
         [4604] = true,
         [4605] = true,
         [4606] = true,
+        [81975] = true, -- Never was made available as it seems
 
         -- Original Sunken Temple quests (instance reworked to raid, new quest IDs)
         [1445] = true,
@@ -640,6 +641,35 @@ local questsToBlacklistByPhase = {
         [8765] = true, -- The Changing of Paths - Invoker No More
         [8766] = true, -- The Changing of Paths - Conqueror No More
 
+        -- AQ Tier 2.5 Gear (replaced with vendor)
+        [8556] = true, -- Signet of Unyielding Strength
+        [8557] = true, -- Drape of Unyielding Strength
+        [8558] = true, -- Sickle of Unyielding Strength
+        [8689] = true, -- Shroud of Infinite Wisdom
+        [8690] = true, -- Cloak of the Gathering Storm
+        [8691] = true, -- Drape of Vaulted Secrets
+        [8692] = true, -- Cloak of Unending Life
+        [8693] = true, -- Cloak of Veiled Shadows
+        [8694] = true, -- Shroud of Unspoken Names
+        [8695] = true, -- Cape of Eternal Justice
+        [8696] = true, -- Cloak of the Unseen Path
+        [8697] = true, -- Ring of Infinite Wisdom
+        [8698] = true, -- Ring of the Gathering Storm
+        [8699] = true, -- Band of Vaulted Secrets
+        [8700] = true, -- Band of Unending Life
+        [8701] = true, -- Band of Veiled Shadows
+        [8702] = true, -- Ring of Unspoken Names
+        [8703] = true, -- Ring of Eternal Justice
+        [8704] = true, -- Signet of the Unseen Path
+        [8705] = true, -- Gavel of Infinite Wisdom
+        [8706] = true, -- Hammer of the Gathering Storm
+        [8707] = true, -- Blade of Vaulted Secrets
+        [8708] = true, -- Mace of Unending Life
+        [8709] = true, -- Dagger of Veiled Shadows
+        [8710] = true, -- Kris of Unspoken Names
+        [8711] = true, -- Blade of Eternal Justice
+        [8712] = true, -- Scythe of the Unseen Path
+
         -- Original Naxxramas quests
         [9120] = true, -- The Fall of Kel'Thuzad - Replaced by 87360
         [9230] = true, -- Ramaladni's Icy Grasp - Replaced by 88729
@@ -674,6 +704,86 @@ local questsToBlacklistByPhase = {
         [88716] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
         [88717] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
         [88718] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+
+        -- Tier 3 quests
+        [9034] = true, -- Warrior
+        [9036] = true, -- Warrior
+        [9037] = true, -- Warrior
+        [9038] = true, -- Warrior
+        [9039] = true, -- Warrior
+        [9040] = true, -- Warrior
+        [9041] = true, -- Warrior
+        [9042] = true, -- Warrior
+        [9043] = true, -- Paladin
+        [9044] = true, -- Paladin
+        [9045] = true, -- Paladin
+        [9046] = true, -- Paladin
+        [9047] = true, -- Paladin
+        [9048] = true, -- Paladin
+        [9049] = true, -- Paladin
+        [9050] = true, -- Paladin
+        [9054] = true, -- Hunter
+        [9055] = true, -- Hunter
+        [9056] = true, -- Hunter
+        [9057] = true, -- Hunter
+        [9058] = true, -- Hunter
+        [9059] = true, -- Hunter
+        [9060] = true, -- Hunter
+        [9061] = true, -- Hunter
+        [9068] = true, -- Shaman
+        [9069] = true, -- Shaman
+        [9070] = true, -- Shaman
+        [9071] = true, -- Shaman
+        [9072] = true, -- Shaman
+        [9073] = true, -- Shaman
+        [9074] = true, -- Shaman
+        [9075] = true, -- Shaman
+        [9077] = true, -- Rogue
+        [9078] = true, -- Rogue
+        [9079] = true, -- Rogue
+        [9080] = true, -- Rogue
+        [9081] = true, -- Rogue
+        [9082] = true, -- Rogue
+        [9083] = true, -- Rogue
+        [9084] = true, -- Rogue
+        [9086] = true, -- Druid
+        [9087] = true, -- Druid
+        [9088] = true, -- Druid
+        [9089] = true, -- Druid
+        [9090] = true, -- Druid
+        [9091] = true, -- Druid
+        [9092] = true, -- Druid
+        [9093] = true, -- Druid
+        [9095] = true, -- Mage
+        [9096] = true, -- Mage
+        [9097] = true, -- Mage
+        [9098] = true, -- Mage
+        [9099] = true, -- Mage
+        [9100] = true, -- Mage
+        [9101] = true, -- Mage
+        [9102] = true, -- Mage
+        [9103] = true, -- Warlock
+        [9104] = true, -- Warlock
+        [9105] = true, -- Warlock
+        [9106] = true, -- Warlock
+        [9107] = true, -- Warlock
+        [9108] = true, -- Warlock
+        [9109] = true, -- Warlock
+        [9110] = true, -- Warlock
+        [9111] = true, -- Priest
+        [9112] = true, -- Priest
+        [9113] = true, -- Priest
+        [9114] = true, -- Priest
+        [9115] = true, -- Priest
+        [9116] = true, -- Priest
+        [9117] = true, -- Priest
+        [9118] = true, -- Priest
+
+        -- Atiesh
+        [9257] = true,
+        [9269] = true,
+        [9270] = true,
+        [9271] = true,
     },
 }
 

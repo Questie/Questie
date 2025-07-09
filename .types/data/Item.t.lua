@@ -27,6 +27,7 @@ local ItemClass = {
 }
 
 ---@class RawItem
+---@field Id ItemId -- int, Unique identifier for the item
 ---@field name string -- string
 ---@field npcDrops NpcId[]? -- table or nil, NPC IDs
 ---@field objectDrops ObjectId[]? -- table or nil, object IDs
@@ -42,3 +43,7 @@ local ItemClass = {
 ---@field subClass number -- int,
 ---@field vendors NpcId[]? -- table or nil, NPC IDs
 ---@field relatedQuests QuestId[]? -- table or nil, IDs of quests that are related to this item
+
+---@class Item : RawItem
+---@field Sources ItemDropSource
+---@field Hidden boolean -- boolean, true if this item is hidden in the client, false otherwise

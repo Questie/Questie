@@ -29,9 +29,6 @@ function QuestieTBCItemFixes:Load()
         [20023] = {
             [itemKeys.npcDrops] = {6375,6377,6378,6379,6380,8759,8761,8762,8763,8764,8766,},
         },
-        [21771] = {
-            [itemKeys.npcDrops] = {15668,15669},
-        },
         [22435] = {
             [itemKeys.npcDrops] = {6551,6552,6553,6554,6555,10040,10041},
         },
@@ -56,9 +53,6 @@ function QuestieTBCItemFixes:Load()
         [23417] = {
             [itemKeys.class] = 12,
         },
-        [23645] = {
-            [itemKeys.class] = 12,
-        },
         [23486] = {
             [itemKeys.npcDrops] = {17034},
         },
@@ -67,6 +61,9 @@ function QuestieTBCItemFixes:Load()
         },
         [23614] = {
             [itemKeys.objectDrops] = {181616},
+        },
+        [23645] = {
+            [itemKeys.class] = 12,
         },
         [23670] = {
             [itemKeys.objectDrops] = {181632},
@@ -116,6 +113,12 @@ function QuestieTBCItemFixes:Load()
         [24156] = {
             [itemKeys.npcDrops] = {17544},
         },
+        [24226] = {
+            [itemKeys.npcDrops] = {17832},
+        },
+        [24246] = {
+            [itemKeys.npcDrops] = {},
+        },
         [24278] = {
             [itemKeys.class] = 12,
         },
@@ -137,7 +140,19 @@ function QuestieTBCItemFixes:Load()
         [24335] = {
             [itemKeys.class] = 12,
         },
+        [24355] = {
+            [itemKeys.class] = 12,
+        },
+        [24467] = {
+            [itemKeys.class] = 12,
+        },
         [24474] = {
+            [itemKeys.class] = 12,
+        },
+        [24483] = { -- Withered Basidium
+            [itemKeys.startQuest] = 9827,
+        },
+        [24501] = {
             [itemKeys.class] = 12,
         },
         [24502] = {
@@ -147,16 +162,7 @@ function QuestieTBCItemFixes:Load()
         [24573] = {
             [itemKeys.npcDrops] = {18197},
         },
-        [24226] = {
-            [itemKeys.npcDrops] = {17832},
-        },
-        [24355] = {
-            [itemKeys.class] = 12,
-        },
-        [24467] = {
-            [itemKeys.class] = 12,
-        },
-        [24501] = {
+        [25458] = {
             [itemKeys.class] = 12,
         },
         [25460] = {
@@ -164,9 +170,6 @@ function QuestieTBCItemFixes:Load()
         },
         [25461] = {
             [itemKeys.npcDrops] = {18472},
-        },
-        [24483] = { -- Withered Basidium
-            [itemKeys.startQuest] = 9827,
         },
         [25462] = {
             [itemKeys.npcDrops] = {16807},
@@ -184,6 +187,9 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [25555] = {
+            [itemKeys.class] = 12,
+        },
+        [25604] = {
             [itemKeys.class] = 12,
         },
         [25642] = {
@@ -210,11 +216,11 @@ function QuestieTBCItemFixes:Load()
         [28478] = {
             [itemKeys.class] = 12,
         },
+        [28607] = {
+            [itemKeys.class] = 12,
+        },
         [29112] = {
             [itemKeys.npcDrops] = {18907},
-        },
-        [29162] = {
-            [itemKeys.objectDrops] = {184162},
         },
         [29324] = {
             [itemKeys.class] = 12,
@@ -249,9 +255,6 @@ function QuestieTBCItemFixes:Load()
         },
         [30430] = {
             [itemKeys.objectDrops] = {184715},
-        },
-        [30435] = {
-            [itemKeys.objectDrops] = {184729},
         },
         [30451] = {
             [itemKeys.npcDrops] = {19799,19800,19802,21337,21656},
@@ -355,6 +358,9 @@ function QuestieTBCItemFixes:Load()
         [31722] = {
             [itemKeys.npcDrops] = {18708},
         },
+        [31813] = {
+            [itemKeys.npcDrops] = {18884},
+        },
         [31951] = {
             [itemKeys.vendors] = {21643},
         },
@@ -365,17 +371,26 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {185566},
             [itemKeys.npcDrops] = {23002},
         },
-        [32385] = {
-            [itemKeys.npcDrops] = {21174},
+        [32379] = { -- Grulloc's Dragon Skull
+            [itemKeys.npcDrops] = {},
         },
-        [32386] = {
-            [itemKeys.npcDrops] = {21174},
+        [32383] = { -- Skulloc's Soul
+            [itemKeys.npcDrops] = {},
         },
         [32406] = {
             [itemKeys.class] = 12,
         },
+        [32598] = {
+            [itemKeys.objectDrops] = {185920},
+        },
+        [32601] = {
+            [itemKeys.objectDrops] = {185921},
+        },
         [32723] = {
             [itemKeys.npcDrops] = {},
+        },
+        [32742] = {
+            [itemKeys.npcDrops] = {23363},
         },
         [32971] = {
             [itemKeys.class] = 12,
@@ -386,15 +401,6 @@ function QuestieTBCItemFixes:Load()
         },
         [33039] = {
             [itemKeys.npcDrops] = {},
-        },
-        [31813] = {
-            [itemKeys.npcDrops] = {18884},
-        },
-        [34246] = {
-            [itemKeys.npcDrops] = {},
-        },
-        [32742] = {
-            [itemKeys.npcDrops] = {23363},
         },
         [33041] = {
             [itemKeys.objectDrops] = {186283},
@@ -462,6 +468,9 @@ function QuestieTBCItemFixes:Load()
         [34160] = {
             [itemKeys.npcDrops] = {24664},
         },
+        [34246] = {
+            [itemKeys.npcDrops] = {},
+        },
         [34338] = {
             [itemKeys.npcDrops] = {24960,24966},
         },
@@ -476,6 +485,12 @@ function QuestieTBCItemFixes:Load()
         },
         [35277] = {
             [itemKeys.npcDrops] = {25866,25863,25924},
+        },
+        [35568] = {
+            [itemKeys.objectDrops] = {188129},
+        },
+        [35569] = {
+            [itemKeys.objectDrops] = {188128},
         },
         [37736] = { -- 2021 Brewfest item (Alliance)
             [itemKeys.name] = '"Brew of the Month" Club Membership Form',

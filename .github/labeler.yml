@@ -1,6 +1,9 @@
 # Label for Classic Era/HC quests
-era/hc/anniversary:
-  - '### Game flavor\s*Era/HC/Anniversary'
+era/hc:
+  - '### Game flavor\s*Era/HC'
+
+anniversary:
+  - '### Game flavor\s*Anniversary'
 
 # Label for Classic Seasonal quests
 Season of Discovery:
@@ -13,3 +16,7 @@ wotlk:
 # Label for Cata quests
 cata:
   - '### Game flavor\s*Cata'
+
+# Label for MoP quests
+mop:
+  - '### Game flavor\s*MoP'

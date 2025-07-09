@@ -1,31 +1,29 @@
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
 
-tinsert(eventQuests, {"Darkmoon Faire", 7881, nil, nil, QuestieCorrections.SOD_HIDE}) -- Carnival Boots
-tinsert(eventQuests, {"Darkmoon Faire", 7882, nil, nil, QuestieCorrections.SOD_HIDE}) -- Carnival Jerkins
-tinsert(eventQuests, {"Darkmoon Faire", 7883, nil, nil, QuestieCorrections.SOD_HIDE}) -- The World's Largest Gnome!
-tinsert(eventQuests, {"Darkmoon Faire", 7884, nil, nil, QuestieCorrections.SOD_HIDE}) -- Crocolisk Boy and the Bearded Murloc
-tinsert(eventQuests, {"Darkmoon Faire", 7885, nil, nil, QuestieCorrections.SOD_HIDE}) -- Armor Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7889, nil, nil, QuestieCorrections.SOD_HIDE}) -- Coarse Weightstone
-tinsert(eventQuests, {"Darkmoon Faire", 7890, nil, nil, QuestieCorrections.SOD_HIDE}) -- Heavy Grinding Stone
-tinsert(eventQuests, {"Darkmoon Faire", 7891, nil, nil, QuestieCorrections.SOD_HIDE}) -- Green Iron Bracers
-tinsert(eventQuests, {"Darkmoon Faire", 7892, nil, nil, QuestieCorrections.SOD_HIDE}) -- Big Black Mace
-tinsert(eventQuests, {"Darkmoon Faire", 7893, nil, nil, QuestieCorrections.SOD_HIDE}) -- Rituals of Strength
-tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, QuestieCorrections.SOD_HIDE}) -- Copper Modulator
-tinsert(eventQuests, {"Darkmoon Faire", 7895, nil, nil, QuestieCorrections.SOD_HIDE}) -- Whirring Bronze Gizmo
-tinsert(eventQuests, {"Darkmoon Faire", 7896, nil, nil, QuestieCorrections.SOD_HIDE}) -- Green Fireworks
-tinsert(eventQuests, {"Darkmoon Faire", 7897, nil, nil, QuestieCorrections.SOD_HIDE}) -- Mechanical Repair Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7898, nil, nil, QuestieCorrections.SOD_HIDE}) -- Thorium Widget
-tinsert(eventQuests, {"Darkmoon Faire", 7899, nil, nil, QuestieCorrections.SOD_HIDE}) -- Small Furry Paws
-tinsert(eventQuests, {"Darkmoon Faire", 7900, nil, nil, QuestieCorrections.SOD_HIDE}) -- Torn Bear Pelts
-tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, QuestieCorrections.SOD_HIDE}) -- Soft Bushy Tails
-tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, QuestieCorrections.SOD_HIDE}) -- Vibrant Plumes
-tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, QuestieCorrections.SOD_HIDE}) -- Evil Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 7881, nil, nil, Questie.IsSoD}) -- Carnival Boots
+tinsert(eventQuests, {"Darkmoon Faire", 7882, nil, nil, Questie.IsSoD}) -- Carnival Jerkins
+tinsert(eventQuests, {"Darkmoon Faire", 7883, nil, nil, Questie.IsSoD}) -- The World's Largest Gnome!
+tinsert(eventQuests, {"Darkmoon Faire", 7884, nil, nil, Questie.IsSoD}) -- Crocolisk Boy and the Bearded Murloc
+tinsert(eventQuests, {"Darkmoon Faire", 7885, nil, nil, Questie.IsSoD}) -- Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7889, nil, nil, Questie.IsSoD}) -- Coarse Weightstone
+tinsert(eventQuests, {"Darkmoon Faire", 7890, nil, nil, Questie.IsSoD}) -- Heavy Grinding Stone
+tinsert(eventQuests, {"Darkmoon Faire", 7891, nil, nil, Questie.IsSoD}) -- Green Iron Bracers
+tinsert(eventQuests, {"Darkmoon Faire", 7892, nil, nil, Questie.IsSoD}) -- Big Black Mace
+tinsert(eventQuests, {"Darkmoon Faire", 7893, nil, nil, Questie.IsSoD}) -- Rituals of Strength
+tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, Questie.IsSoD}) -- Copper Modulator
+tinsert(eventQuests, {"Darkmoon Faire", 7895, nil, nil, Questie.IsSoD}) -- Whirring Bronze Gizmo
+tinsert(eventQuests, {"Darkmoon Faire", 7896, nil, nil, Questie.IsSoD}) -- Green Fireworks
+tinsert(eventQuests, {"Darkmoon Faire", 7897, nil, nil, Questie.IsSoD}) -- Mechanical Repair Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7898, nil, nil, Questie.IsSoD}) -- Thorium Widget
+tinsert(eventQuests, {"Darkmoon Faire", 7899, nil, nil, Questie.IsSoD}) -- Small Furry Paws
+tinsert(eventQuests, {"Darkmoon Faire", 7900, nil, nil, Questie.IsSoD}) -- Torn Bear Pelts
+tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, Questie.IsSoD}) -- Soft Bushy Tails
+tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, Questie.IsSoD}) -- Vibrant Plumes
+tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, Questie.IsSoD}) -- Evil Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7905}) -- The Darkmoon Faire
 tinsert(eventQuests, {"Darkmoon Faire", 7907}) -- Darkmoon Beast Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7926}) -- The Darkmoon Faire
@@ -41,17 +39,17 @@ tinsert(eventQuests, {"Darkmoon Faire", 7935}) -- 10 Tickets - Last Month's Mutt
 tinsert(eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last Year's Mutton
 tinsert(eventQuests, {"Darkmoon Faire", 7937}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7938}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Dense Grinding Stones
+tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, Questie.IsSoD}) -- More Dense Grinding Stones
 tinsert(eventQuests, {"Darkmoon Faire", 7940}) -- 1200 Tickets - Orb of the Darkmoon
-tinsert(eventQuests, {"Darkmoon Faire", 7941, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Armor Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7942, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Thorium Widgets
-tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 7941, nil, nil, Questie.IsSoD}) -- More Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7942, nil, nil, Questie.IsSoD}) -- More Thorium Widgets
+tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, Questie.IsSoD}) -- More Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7944}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7945}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, QuestieCorrections.SOD_HIDE}) -- Spawn of Jubjub
+tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, Questie.IsSoD}) -- Spawn of Jubjub
 tinsert(eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the Darkmoon
-tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, QuestieCorrections.SOD_HIDE}) -- Glowing Scorpid Blood
-tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, Questie.IsSoD}) -- Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, Questie.IsSoD}) -- More Glowing Scorpid Blood
 
 -- SoD quests
 tinsert(eventQuests, {"Darkmoon Faire", 79588}) -- Small Furry Paws

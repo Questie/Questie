@@ -1,7 +1,9 @@
-local mangos =  require('cataItemDB')
-local trinity =  require('cataItemDB-trinity')
-local wotlkQuestDB =  require('wotlkQuestDB')
-local wotlkItemDB =  require('wotlkItemDB')
+local mangos =  require('data.cataItemDB')
+local trinity =  require('data.cataItemDB-trinity')
+local wotlkQuestDB =  require('data.wotlkQuestDB')
+local wotlkItemDB =  require('data.wotlkItemDB')
+
+local printToFile = require('printToFile')
 
 local itemKeys = {
     ['name'] = 1, -- string
@@ -58,27 +60,15 @@ local questKeys = {
     ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
-    ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
-    ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
-    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
-    ['requiredMaxLevel'] = 30, -- int: quest is only available up to a certain level
+    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to
+    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest
+    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
+    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level
 }
 
-local function pairsByKeys (t, f)
-    local a = {}
-    for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
-    local i = 0      -- iterator variable
-    local iter = function ()   -- iterator function
-        i = i + 1
-        if a[i] == nil then return nil
-        else return a[i], t[a[i]]
-        end
-    end
-    return iter
-end
-
---for questId, questData in pairsByKeys(wotlkQuestDB) do
+--for questId, questData in pairs(wotlkQuestDB) do
 --    local objectives = questData[questKeys.objectives]
 --    if objectives and objectives[3] then
 --        for _, itemObjective in ipairs(objectives[3]) do
@@ -101,7 +91,7 @@ end
 --    end
 --end
 
-for itemId, data in pairsByKeys(mangos) do
+for itemId, data in pairs(mangos) do
     if mangos[itemId] then
         if trinity[itemId][itemKeys.npcDrops] then
             mangos[itemId][itemKeys.npcDrops] = trinity[itemId][itemKeys.npcDrops]
@@ -118,106 +108,4 @@ for itemId, data in pairsByKeys(mangos) do
     end
 end
 
-
--- print to "merged-file.lua"
-local file = io.open("merged-file.lua", "w")
-print("writing to merged-file.lua")
-for itemId, data in pairsByKeys(mangos) do
-    -- build print string with npcId and data
-    local printString = "[" .. itemId .. "] = {"
-    printString = printString .. "'" .. data[itemKeys.name]:gsub("'", "\\'") .. "',"
-    if data[itemKeys.npcDrops] then
-        printString = printString .. "{"
-        for _, npcId in ipairs(data[itemKeys.npcDrops]) do
-            printString = printString .. npcId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.objectDrops] then
-        printString = printString .. "{"
-        for _, objectId in ipairs(data[itemKeys.objectDrops]) do
-            printString = printString .. objectId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.itemDrops] then
-        printString = printString .. "{"
-        for _, itemId in ipairs(data[itemKeys.itemDrops]) do
-            printString = printString .. itemId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.startQuest] then
-        printString = printString .. data[itemKeys.startQuest] .. ","
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.questRewards] then
-        printString = printString .. "{"
-        for _, questId in ipairs(data[itemKeys.questRewards]) do
-            printString = printString .. questId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.flags] then
-        printString = printString .. data[itemKeys.flags] .. ","
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.foodType] then
-        printString = printString .. data[itemKeys.foodType] .. ","
-    else
-        printString = printString .. "nil,"
-    end
-    printString = printString .. data[itemKeys.itemLevel] .. ","
-    printString = printString .. data[itemKeys.requiredLevel] .. ","
-    printString = printString .. data[itemKeys.ammoType] .. ","
-    printString = printString .. data[itemKeys.class] .. ","
-    printString = printString .. data[itemKeys.subClass] .. ","
-    if data[itemKeys.vendors] then
-        printString = printString .. "{"
-        for _, npcId in ipairs(data[itemKeys.vendors]) do
-            printString = printString .. npcId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    if data[itemKeys.relatedQuests] then
-        printString = printString .. "{"
-        for _, questId in ipairs(data[itemKeys.relatedQuests]) do
-            printString = printString .. questId .. ","
-        end
-        printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "},"
-    else
-        printString = printString .. "nil,"
-    end
-    -- remove trailing 'nil,' from relatedQuests
-    if printString:sub(-4) == "nil," then
-        printString = printString:sub(1, -5)
-    end
-    -- remove trailing 'nil,' from vendors
-    if printString:sub(-4) == "nil," then
-        printString = printString:sub(1, -5)
-    end
-    -- remove trailing comma
-    printString = printString:sub(1, -2)
-    printString = printString .. "},"
-
-    file:write(printString .. "\n")
-end
-print("Done")
+printToFile(mangos, itemKeys)
