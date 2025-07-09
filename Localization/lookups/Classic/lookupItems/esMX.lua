@@ -2058,6 +2058,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [22375] = "Restos de coraza",
 [22376] = "Restos de ropa",
 [22381] = "Muestra de veneno de Silithus",
+[22382] = "Contendedor de veneno sellado",
 [22434] = "Champiñón de sangre",
 [22435] = "Aguijón Gorishi",
 [22444] = "Vid pútrida",
