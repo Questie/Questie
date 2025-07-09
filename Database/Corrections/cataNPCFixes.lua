@@ -6234,7 +6234,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.BADLANDS] = {
                     {66.39,55.49,phases.RHEA_LETHLOR_RAVINE},
                     {21.16,57.77,phases.RHEA_DRAGONS_MOUTH},
-                    --21.16,57.77,phases.RHEA_NEW_KARGATH},
+                    {18.15,42.51,phases.RHEA_NEW_KARGATH},
                     {15.96,33.39,phases.RHEA_HIDDEN_CLUTCH},
                 },
             },
@@ -6393,6 +6393,18 @@ function CataNpcFixes.Load()
                     {58.61,53.29,phases.SHADOWFANG_KEEP_GODFREY_DEAD_A},
                 },
             },
+        },
+        [47021] = { -- Amakkar, Jack of All Trades
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.87,42.97}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47022] = { -- Gargal, the Behemoth
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.96,42.86}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47024] = { -- Jurrix Whitemane
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{18.88,42.74}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{26.49,62.3}}},

@@ -707,12 +707,16 @@ function Phasing.IsSpawnVisible(phase)
         return (not complete[27769])
     end
 
+    if phase == phases.RHEA_NEW_KARGATH then
+        return complete[27888] and (not complete[27897]) and (not questLog[27897]) or false
+    end
+
     if phase == phases.RHEA_DRAGONS_MOUTH then
-        return complete[27769] and ((not complete[27832]) and ((not questLog[27832]) or (questLog[27832] and questLog[27832].isComplete == 0))) or false
+        return complete[27794] and ((not complete[27832]) and ((not questLog[27832]) or (questLog[27832] and questLog[27832].isComplete == 0))) or false
     end
 
     if phase == phases.RHEA_HIDDEN_CLUTCH then
-        return (complete[27832] or (questLog[27832] and questLog[27832].isComplete == 1)) or false
+        return (complete[27832] or questLog[27832] or complete[27897] or questLog[27897]) and true or false
     end
 
     if phase == phases.DEATHWING_TELDURIN then

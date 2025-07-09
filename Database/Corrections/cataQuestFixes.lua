@@ -8082,7 +8082,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27625,27626},
         },
         [26642] = { -- Preserving the Barrens
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {28494},
             [questKeys.nextQuestInChain] = 871,
         },
         [26644] = { -- Attracting Attention
@@ -10934,6 +10934,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.nextQuestInChain] = 25663,
         },
+        [27881] = { -- Bloodwatcher Point
+            [questKeys.preQuestSingle] = {27789},
+            [questKeys.nextQuestInChain] = 27882,
+        },
+        [27883] = { -- The Sentinel's Pawn
+            [questKeys.preQuestSingle] = {27882},
+        },
+        [27884] = { -- The Warden's Pawn
+            [questKeys.preQuestSingle] = {27882},
+        },
         [27885] = { -- The Warden's Game
             [questKeys.startedBy] = {nil,{206335}},
             [questKeys.finishedBy] = {{100034}},
@@ -10949,6 +10959,28 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27885,27886},
             [questKeys.startedBy] = {{46757}},
             [questKeys.finishedBy] = {{100035}},
+            [questKeys.nextQuestInChain] = 27913,
+        },
+        [27888] = { -- Return to Blam
+            [questKeys.nextQuestInChain] = 27889,
+        },
+        [27889] = { -- New Kargath
+            [questKeys.preQuestSingle] = {27888},
+        },
+        [27891] = { -- Amakkar, Jack of All Trades
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47021,nil,Questie.ICON_TYPE_EVENT},{47021,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27892] = { -- Jurrix the Striker
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47024,nil,Questie.ICON_TYPE_EVENT},{47024,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27893] = { -- Gargal, the Behemoth
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27890},
+            [questKeys.objectives] = {{{47022,nil,Questie.ICON_TYPE_EVENT},{47022,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27894] = { -- The Wrath of a Dragonflight
             [questKeys.preQuestSingle] = {},
@@ -11000,6 +11032,7 @@ function CataQuestFixes.Load()
         [27913] = { -- The Titans' Trove
             [questKeys.startedBy] = {{100036}},
             [questKeys.preQuestSingle] = {27887},
+            [questKeys.nextQuestInChain] = 27888,
         },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
