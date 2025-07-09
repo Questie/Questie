@@ -22,6 +22,7 @@ function QuestieShutUp:ToggleFilters(value)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestieShutUp.FilterFunc)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", QuestieShutUp.FilterFunc)
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle off.")
         ChatFrame_RemoveMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
@@ -29,5 +30,6 @@ function QuestieShutUp:ToggleFilters(value)
         ChatFrame_RemoveMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
         ChatFrame_RemoveMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestieShutUp.FilterFunc)
         ChatFrame_RemoveMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", QuestieShutUp.FilterFunc)
+        ChatFrame_RemoveMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
     end
 end
