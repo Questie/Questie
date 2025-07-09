@@ -2608,6 +2608,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{18880,nil}},nil},
+            [questKeys.sourceItemId] = 18746,
             [questKeys.zoneOrSort] = -82,
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
             [questKeys.preQuestSingle] = {7667},
