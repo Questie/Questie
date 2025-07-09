@@ -4865,7 +4865,8 @@ function QuestieQuestBlacklist:Load()
         [9364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9377] = true, -- Not in the game
         [9379] = true, -- Not in the game
-        [9384] = true, -- Not in the game        [9411] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9384] = true, -- Not in the game
+        [9411] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9412] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9413] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9414] = Expansions.Current >= Expansions.Cata, -- Removed with cata
