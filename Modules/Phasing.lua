@@ -263,6 +263,7 @@ local phases = {
     SASHA_AT_BLOODMOON_ISLE = 1191,
     FUSELAGE_ROCKET = 1192,
     FUSELAGE_CITY_SAVED = 1193,
+    HOODED_CRUSADER_ATHENAEUM = 1194,
 }
 Phasing.phases = phases
 
@@ -1105,6 +1106,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.FUSELAGE_CITY_SAVED then
         return complete[10248] or false
+    end
+
+    if phase == phases.HOODED_CRUSADER_ATHENAEUM then
+        return complete[31493] or complete[31497] or (questLog[31493] and questLog[31493].isComplete == 1) or (questLog[31497] and questLog[31497].isComplete == 1) or false
     end
 
     return false

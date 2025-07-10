@@ -2819,6 +2819,7 @@ l10n.zoneCategoryLookup = {
         [5956] = "Temple of the Jade Serpent",
         [5963] = "Stormstout Brewery",
         [5976] = "Gate of the Setting Sun",
+        [6052] = "Scarlet Halls",
         [6067] = "Terrace of Endless Spring",
         [6125] = "Mogu'shan Vaults",
         [6143] = "Mogu'shan Palace",

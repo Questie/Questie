@@ -14,6 +14,12 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [3977] = { -- High Inquisitor Whitemane
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.06,89.61}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
         [53566] = { -- Master Shang Xi
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
@@ -125,7 +131,28 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.7,39.07}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [58632] = { -- Armsmaster Harlan
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{61.78,45.22}},
+                [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
+            },
+        },
         [58674] = { -- Angry Hound
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58676] = { -- Scarlet Defender
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58683] = { -- Scarlet Myrmidon
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58684] = { -- Scarlet Scourge Hewer
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58685] = { -- Scarlet Evangelist
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58756] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
         [58876] = { -- Starving Hound
@@ -134,24 +161,46 @@ function MopNpcFixes.Load()
         [58898] = { -- Vigilant Watchman
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [58998] = { -- Scarlet Defender
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59150] = { -- Flameweaver Koegler
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,12.52}},
+                [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
+            },
+        },
         [59175] = { -- Master Archer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
         [59184] = { -- Jandice Barov
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{59.9,18.3}},
-                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
         },
         [59191] = { -- Commander Lindon
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{48.88,51.44},{-1,-1}}},
         },
         [59193] = { -- Boneweaver
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59240] = { -- Scarlet Hall Guardian
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59241] = { -- Scarlet Treasurer
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
         [59303] = { -- Houndmaster Braun
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{59.9,18.3},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{54.55,29.07},{-1,-1}}},
         },
         [59309] = { -- Obedient Hound
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59372] = { -- Scarlet Scholar
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59373] = { -- Scarlet Pupil
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
         [59467] = { -- Candlestick Mage
@@ -469,10 +518,52 @@ function MopNpcFixes.Load()
             },
         },
         [64738] = { -- Hooded Crusader
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_HALLS] = {{31.88,84.39},{-1,-1}},
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM}},
+            },
         },
         [64764] = { -- Hooded Crusader
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_HALLS] = {{31.88,84.39},{-1,-1}},
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM}},
+            },
+        },
+        [64827] = { -- Hooded Crusader
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{72.66,46.91}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [64838] = { -- Hooded Crusader
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{72.66,46.91}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [64841] = { -- Hooded Crusader
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.15,76.32}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [64842] = { -- Hooded Crusader
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.15,76.32}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [64854] = { -- Blade of the Anointed
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.14,24.63}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [64855] = { -- Blade of the Anointed
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.14,24.63}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
         },
         [65310] = { -- Turnip Punching Bag
             [npcKeys.zoneID] = 0,

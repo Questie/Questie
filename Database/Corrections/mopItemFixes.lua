@@ -53,6 +53,12 @@ function MopItemFixes.Load()
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
+        [87282] = { -- Blade of the Anointed
+            [itemKeys.objectDrops] = {214284},
+        },
+        [87389] = { -- Blade of the Anointed
+            [itemKeys.objectDrops] = {214284},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },

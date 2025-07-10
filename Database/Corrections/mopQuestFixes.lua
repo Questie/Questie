@@ -645,6 +645,26 @@ function MopQuestFixes.Load()
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},
         },
+        [31490] = { -- Rank and File
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
+        },
+        [31495] = { -- Rank and File
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
+        },
+        [31513] = { -- Blades of the Anointed
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
+        },
+        [31514] = { -- Unto Dust Thou Shalt Return
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
+            [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31515] = { -- Blades of the Anointed
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
+        },
+        [31516] = { -- Unto Dust Thou Shalt Return
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
+            [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
             [questKeys.exclusiveTo] = {31520,31522,31523,31524,31525,31526,31527,31528},
         },
@@ -1122,6 +1142,9 @@ function MopQuestFixes.Load()
         },
         [31991] = { -- Grand Master Zusshi
             [questKeys.objectives] = {{{66918,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32005] = { -- A Worthy Challenge: Durand
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
         },
         [32008] = { -- Audrey Burnhep
             [questKeys.exclusiveTo] = {31316},

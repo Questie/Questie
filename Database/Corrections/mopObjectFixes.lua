@@ -47,6 +47,13 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.5,76.7}}},
         },
+        [214284] = { -- Blade of the Anointed
+            [objectKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{20.55,45.65}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+            [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+        },
         [214979] = { -- Meeting Stone (Stormstout Brewery)
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{35.6,65.6}}},

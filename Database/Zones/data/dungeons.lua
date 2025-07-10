@@ -112,6 +112,7 @@ local dungeons = {
     [5956] = {"Temple of the Jade Serpent",5975,5785,{{5785, 56.3, 58.2}}},
     [5963] = {"Stormstout Brewery",6001,5805,{{5805, 36.3, 69.2}}},
     [5976] = {"Gate of the Setting Sun",6396,5840,{{5840, 15.9, 74.2}}},
+    [6052] = {"Scarlet Halls",nil,85,{{85, 82.5, 33.3}}},
     [6067] = {"Terrace of Endless Spring",nil,6006,{{6006, 48.6, 61.7}}},
     [6125] = {"Mogu'shan Vaults",nil,5841,{{5841, 59.8, 39.5}}},
     [6143] = {"Mogu'shan Palace",6182,5840,{{5840, 81, 32.6}}},
