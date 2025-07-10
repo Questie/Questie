@@ -7,11 +7,11 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [947] = 0, -- World -- TODO: Remove this once the spawns are fixed
-    [113] = 0, -- Northrend
     [1414] = 0, -- Kalimdor
     [1415] = 0, -- Eastern Kingdoms
     [1945] = 0, -- Outland
     [246] = 3713, -- The Blood Furnace
+    [113] = 3979, -- The Frozen Sea/Northrend
     [174] = 4720, -- The Lost Isles
     [349] = 4131, -- Magisters' Terrace - (Dungeon/Raid) (override wrong ID)
     [159] = 4277, -- Azjol-Nerub (override wrong ID)

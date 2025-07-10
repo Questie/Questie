@@ -9,6 +9,7 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [1977] = 337, -- Zul'Gurub - Dungeon (override wrong ID)
     [3428] = 320, -- Ahn'Qiraj - Raid (override wrong ID)
     [3456] = 166, -- Naxxramas - Raid (override wrong ID)
+    [3979] = 113, -- The Frozen Sea/Northrend (was missing)
     [4131] = 349, -- Magisters' Terrace - Dungeon (override wrong ID)
     [4277] = 159, -- Azjol-Nerub (override wrong ID)
     [4416] = 154, -- Gundrak (override wrong ID)
