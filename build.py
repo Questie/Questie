@@ -181,7 +181,7 @@ def get_version_dir(is_release_build, versionOverride):
     return release_dir
 
 directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
-filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc']
+filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc', 'README.md']
 expansionStrings = ['', 'Classic', 'TBC', 'Wotlk', 'Cata', 'MoP']
 ignorePatterns = ['*.test.lua']
 
