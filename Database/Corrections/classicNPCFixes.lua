@@ -2587,7 +2587,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{20.46,86.16},{18.23,81.12},{38.96,42.44},{38.29,46.46},{27.94,30.62},{24.44,36.0}}},
         },
         [15215] = {
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{50.5,99}}},
+            [npcKeys.spawns] = {[zoneIDs.KALIMDOR]={{44.399,86.11}}},
+            [npcKeys.zoneID] = zoneIDs.KALIMDOR,
         },
         [15220] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
