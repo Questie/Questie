@@ -9,6 +9,9 @@ function MopItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [71637] = { -- Mysterious Grimoire
+            [itemKeys.npcDrops] = {1853,3671,4421,5710,7795,9019,18373,18732,19220,26530,26631,29310,39425,46964,54938}
+        },
         [74033] = { -- Ancient Hozen Skull
             [itemKeys.objectDrops] = {209595}
         },
