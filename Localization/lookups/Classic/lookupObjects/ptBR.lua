@@ -1051,6 +1051,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [180436] = "Fragmento de Tabuleta do Crepúsculo",
 [180437] = "Brasa do Homem de Palha",
 [180448] = "Pôster de Procura-se: Agarramata",
+[180453] = "Cristal Entalhado de Glifos de Colme'Régia",
 [180454] = "Cristal Entalhado de Glifos de Colme'Ashi",
 [180455] = "Cristal Entalhado de Glifos de Colme'Zora",
 [180456] = "Pedra Eólica Menor",
