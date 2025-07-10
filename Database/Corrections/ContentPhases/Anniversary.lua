@@ -528,6 +528,7 @@ local questsToBlacklistByPhase = {
         [8728] = true,
         [8729] = true,
         [8730] = true,
+        [8731] = true,
         [8733] = true,
         [8734] = true,
         [8735] = true,
@@ -595,6 +596,10 @@ local questsToBlacklistByPhase = {
         [8858] = true,
         [8859] = true,
         [9023] = true,
+        [9208] = true,
+        [9209] = true,
+        [9210] = true,
+        [9338] = true,
     },
     [6] = { --Phase 6 - Naxxramas
         -- Investigate the Scourge of X - Blacklist after the event is over
