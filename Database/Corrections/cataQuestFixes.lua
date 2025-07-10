@@ -11028,6 +11028,7 @@ function CataQuestFixes.Load()
         [27912] = { -- The Titans' Trove
             [questKeys.startedBy] = {{100036}},
             [questKeys.preQuestSingle] = {27793},
+            [questKeys.nextQuestInChain] = 27794,
         },
         [27913] = { -- The Titans' Trove
             [questKeys.startedBy] = {{100036}},
