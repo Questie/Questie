@@ -1947,7 +1947,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
         [5526] = {
-            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+            [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
             [questKeys.requiredSourceItems] = {18501},
         },
         [5561] = {
