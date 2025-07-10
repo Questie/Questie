@@ -27,7 +27,7 @@ class ObjectTranslationSpider(Spider):
         self.start_urls = [url.format(object_id) for object_id in CATA_OBJECT_IDS for url in self.base_urls]
 
     def parse(self, response):
-        locale = re.search(r'/(\w+)/object', response.url).group(1)
+        locale = re.search(r'/([a-z]{2})/object', response.url).group(1)
 
         if response.url.find('/objects?notFound=') != -1:
             object_id = re.search(r'/objects\?notFound=(\d+)', response.url).group(1)

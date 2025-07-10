@@ -5,6 +5,7 @@ from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 
 from item.item_spider import ItemSpider
+from item.item_translation_spider import ItemTranslationSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
 from object.object_spider import ObjectSpider
@@ -63,6 +64,13 @@ class Runner:
         process.crawl(ItemSpider)
         process.start()
 
+    def run_item_translations(self) -> None:
+        Path("item/translations").mkdir(parents=True, exist_ok=True)
+        Path("item/translations/scraped_data.json").unlink(missing_ok=True)
+        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "item/translations/scraped_data.json"})
+        process.crawl(ItemTranslationSpider)
+        process.start()
+
     def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_data.json"})
@@ -95,6 +103,7 @@ if __name__ == '__main__':
     parser.add_argument("--object", help="Run object spider", action="store_true")
     parser.add_argument("--object-translations", help="Run object translation spider", action="store_true")
     parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
+    parser.add_argument("--item-translations", help="Run item translation spider", action="store_true")
 
     args = parser.parse_args()
 
@@ -123,6 +132,9 @@ if __name__ == '__main__':
     if args.item:
         print("Running item spider")
         runner.run_item()
+    if args.item_translations:
+        print("Running item spider for translations")
+        runner.run_item_translations()
     if args.object:
         print("Running object spider")
         runner.run_object(run_for_retail)
