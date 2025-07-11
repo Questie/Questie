@@ -20,6 +20,15 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
+        [10181] = { -- Lady Sylvanas Windrunner
+            [npcKeys.questStarts] = {9626,9813,31037},
+        },
+        [36648] = { -- Baine Bloodhoof
+            [npcKeys.questStarts] = {24540,26397,31036},
+        },
+        [39605] = { -- Garrosh Hellscream
+            [npcKeys.questStarts] = {9627,13842,25275,26293,26324,26830,26840,28909,31034},
+        },
         [53566] = { -- Master Shang Xi
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
