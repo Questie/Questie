@@ -655,18 +655,10 @@ function MopQuestFixes.Load()
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
-        [31513] = { -- Blades of the Anointed
-            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
-        },
         [31514] = { -- Unto Dust Thou Shalt Return
-            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [31515] = { -- Blades of the Anointed
-            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
-        },
         [31516] = { -- Unto Dust Thou Shalt Return
-            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
@@ -1147,8 +1139,32 @@ function MopQuestFixes.Load()
         [31991] = { -- Grand Master Zusshi
             [questKeys.objectives] = {{{66918,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
-        [32005] = { -- A Worthy Challenge: Durand
-            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY,
+        [31998] = {-- A Worthy Challenge: Sha of Doubt
+            [questKeys.exclusiveTo] = {32000,32001,32002,32003,32004,32005,32006,32007},
+        },
+        [32000] = {-- A Worthy Challenge: Yan-zhu the Uncasked
+            [questKeys.exclusiveTo] = {31998,32001,32002,32003,32004,32005,32006,32007},
+        },
+        [32001] = {-- A Worthy Challenge: Sha of Hatred
+            [questKeys.exclusiveTo] = {31998,32000,32002,32003,32004,32005,32006,32007},
+        },
+        [32002] = {-- A Worthy Challenge: Xin the Weaponmaster
+            [questKeys.exclusiveTo] = {31998,32000,32001,32003,32004,32005,32006,32007},
+        },
+        [32003] = {-- A Worthy Challenge: Raigonn
+            [questKeys.exclusiveTo] = {31998,32000,32001,32002,32004,32005,32006,32007},
+        },
+        [32004] = {-- A Worthy Challenge: Wing Leader Ner'onok
+            [questKeys.exclusiveTo] = {31998,32000,32001,32002,32003,32005,32006,32007},
+        },
+        [32005] = {-- A Worthy Challenge: Durand
+            [questKeys.exclusiveTo] = {31998,32000,32001,32002,32003,32004,32006,32007},
+        },
+        [32006] = {-- A Worthy Challenge: Flameweaver Koegler
+            [questKeys.exclusiveTo] = {31998,32000,32001,32002,32003,32004,32005,32007},
+        },
+        [32007] = {-- A Worthy Challenge: Darkmaster Gandling
+            [questKeys.exclusiveTo] = {31998,32000,32001,32002,32003,32004,32005,32006},
         },
         [32008] = { -- Audrey Burnhep
             [questKeys.exclusiveTo] = {31316},
