@@ -269,6 +269,7 @@ local phases = {
     TALKING_SKULL_STUDY_43 = 1197,
     TALKING_SKULL_BRIDGE_90 = 1198,
     TALKING_SKULL_STUDY_90 = 1199,
+    RAGEFIRE_CHASM_GORDOTH_DEAD = 1200,
 }
 Phasing.phases = phases
 
@@ -1135,6 +1136,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TALKING_SKULL_STUDY_90 then
         return complete[31448] or (questLog[31448] and questLog[31448].isComplete == 1) or false
+    end
+
+    if phase == phases.RAGEFIRE_CHASM_GORDOTH_DEAD then
+        return complete[30983] or complete[30996] or (questLog[30983] and questLog[30983].isComplete == 1) or (questLog[30996] and questLog[30996].isComplete == 1) or false
     end
 
     return false

@@ -532,6 +532,13 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30982] = { -- Animal Control
+            [questKeys.preQuestSingle] = {},
+        },
+        [30984] = { -- No Orc Left Behind
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{61680,61780,61790},61680,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
+        },
         [30987] = { -- Joining the Alliance
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
@@ -546,6 +553,25 @@ function MopQuestFixes.Load()
         [30989] = { -- An Old Pit Fighter
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{61796,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30995] = { -- No Man Left Behind
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{61788,61780,61790},61788,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
+        },
+        [31034] = { -- Enemies Below
+            [questKeys.startedBy] = {{39605}},
+            [questKeys.exclusiveTo] = {31036,31037},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [31036] = { -- Enemies Below
+            [questKeys.startedBy] = {{36648}},
+            [questKeys.exclusiveTo] = {31034,31037},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [31037] = { -- Enemies Below
+            [questKeys.startedBy] = {{10181}},
+            [questKeys.exclusiveTo] = {31034,31036},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,

@@ -31,6 +31,11 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
         },
+        [211883] = { -- Scout Cage
+            [objectKeys.name] = 'Scout Cage',
+            [objectKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
+            [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
+        },
         [212526] = { -- An empty bookshelf
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
