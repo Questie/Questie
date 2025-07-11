@@ -44,23 +44,23 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
         },
         [214101] = { -- In the Shadow of the Light
-            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.59,39.78},{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},
         },
         [214105] = { -- Kel'Thuzad's Deep Knowledge
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{66.3,8.32}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{57.87,9.91},{65.37,28.12},{60.21,28.13},{74.18,17.67},{70.87,28.26},{73.76,8.32},{68.6,17.63},{66.3,8.32}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
         [214106] = { -- Forbidden Rites and other Rituals Necromantic
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{33.26,31.54}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{34.76,23.69},{43.91,42.72},{31.39,40.57},{33.42,43.57},{33.08,55.8},{40.07,34.78},{43.25,54.95},{33.26,31.54}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
         [214107] = { -- The Dark Grimoire
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{53.32,79.51}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{47.42,77.3},{50.01,74.97},{47.19,72.34},{49.09,62.91},{43.84,62.95},{54.09,72.29},{53.32,79.51}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
@@ -70,22 +70,22 @@ function MopObjectFixes.Load()
         },
         [214277] = { -- The Dark Grimoire
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{53.32,79.51}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{47.42,77.3},{50.01,74.97},{47.19,72.34},{49.09,62.91},{43.84,62.95},{54.09,72.29},{53.32,79.51}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
         [214278] = { -- Kel'Thuzad's Deep Knowledge
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{66.3,8.32}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{57.87,9.91},{65.37,28.12},{60.21,28.13},{74.18,17.67},{70.87,28.26},{73.76,8.32},{68.6,17.63},{66.3,8.32}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
         [214279] = { -- In the Shadow of the Light
-            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.59,39.78},{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},
         },
         [214280] = { -- Forbidden Rites and other Rituals Necromantic
             [objectKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{33.26,31.54}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{34.76,23.69},{43.91,42.72},{31.39,40.57},{33.42,43.57},{33.08,55.8},{40.07,34.78},{43.25,54.95},{33.26,31.54}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
