@@ -1698,6 +1698,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [17330] = "Mano de Sulfuron",
 [17331] = "Mano de Gehennas",
 [17332] = "Mano de Shazzrah",
+[17345] = "Baba de silítido",
 [17346] = "Objeto silítido taraceado",
 [17355] = "Carta de Rabine",
 [17411] = "Sierra de vapor",
