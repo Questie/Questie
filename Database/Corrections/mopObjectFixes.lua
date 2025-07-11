@@ -43,9 +43,51 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
         },
+        [214101] = { -- In the Shadow of the Light
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.59,39.78},{-1,-1}}},
+        },
+        [214105] = { -- Kel'Thuzad's Deep Knowledge
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{66.3,8.32}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
+        [214106] = { -- Forbidden Rites and other Rituals Necromantic
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{33.26,31.54}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
+        [214107] = { -- The Dark Grimoire
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{53.32,79.51}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
         [214169] = { -- Meeting Stone (Gate of the Setting Sun)
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.5,76.7}}},
+        },
+        [214277] = { -- The Dark Grimoire
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{53.32,79.51}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
+        [214278] = { -- Kel'Thuzad's Deep Knowledge
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{66.3,8.32}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
+        [214279] = { -- In the Shadow of the Light
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.59,39.78},{-1,-1}}},
+        },
+        [214280] = { -- Forbidden Rites and other Rituals Necromantic
+            [objectKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{33.26,31.54}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
         },
         [214284] = { -- Blade of the Anointed
             [objectKeys.spawns] = {

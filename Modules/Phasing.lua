@@ -263,7 +263,12 @@ local phases = {
     SASHA_AT_BLOODMOON_ISLE = 1191,
     FUSELAGE_ROCKET = 1192,
     FUSELAGE_CITY_SAVED = 1193,
-    HOODED_CRUSADER_ATHENAEUM = 1194,
+    HOODED_CRUSADER_ATHENAEUM_31 = 1194,
+    HOODED_CRUSADER_ATHENAEUM_90 = 1195,
+    TALKING_SKULL_BRIDGE_43 = 1196,
+    TALKING_SKULL_STUDY_43 = 1197,
+    TALKING_SKULL_BRIDGE_90 = 1198,
+    TALKING_SKULL_STUDY_90 = 1199,
 }
 Phasing.phases = phases
 
@@ -1108,8 +1113,28 @@ function Phasing.IsSpawnVisible(phase)
         return complete[10248] or false
     end
 
-    if phase == phases.HOODED_CRUSADER_ATHENAEUM then
-        return complete[31493] or complete[31497] or (questLog[31493] and questLog[31493].isComplete == 1) or (questLog[31497] and questLog[31497].isComplete == 1) or false
+    if phase == phases.HOODED_CRUSADER_ATHENAEUM_31 then
+        return complete[31493] or (questLog[31493] and questLog[31493].isComplete == 1) or false
+    end
+
+    if phase == phases.HOODED_CRUSADER_ATHENAEUM_90 then
+        return complete[31497] or (questLog[31497] and questLog[31497].isComplete == 1) or false
+    end
+
+    if phase == phases.TALKING_SKULL_BRIDGE_43 then
+        return not complete[31447] and (not questLog[31447] or (questLog[31447] and questLog[31447].isComplete == 0)) or false
+    end
+
+    if phase == phases.TALKING_SKULL_STUDY_43 then
+        return complete[31447] or (questLog[31447] and questLog[31447].isComplete == 1) or false
+    end
+
+    if phase == phases.TALKING_SKULL_BRIDGE_90 then
+        return not complete[31448] and (not questLog[31448] or (questLog[31448] and questLog[31448].isComplete == 0)) or false
+    end
+
+    if phase == phases.TALKING_SKULL_STUDY_90 then
+        return complete[31448] or (questLog[31448] and questLog[31448].isComplete == 1) or false
     end
 
     return false

@@ -2820,6 +2820,7 @@ l10n.zoneCategoryLookup = {
         [5963] = "Stormstout Brewery",
         [5976] = "Gate of the Setting Sun",
         [6052] = "Scarlet Halls",
+        [6066] = "Scholomance",
         [6067] = "Terrace of Endless Spring",
         [6125] = "Mogu'shan Vaults",
         [6143] = "Mogu'shan Palace",

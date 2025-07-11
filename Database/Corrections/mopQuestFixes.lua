@@ -42,6 +42,10 @@ function MopQuestFixes.Load()
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
+        [28756] = { -- Aberrations of Bone
+            [questKeys.objectives] = {{{59153}}},
+            [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE_MOP,
+        },
         [29406] = { -- The Lesson of the Sandy Fist
             [questKeys.requiredLevel] = 1,
         },

@@ -164,10 +164,22 @@ function MopNpcFixes.Load()
         [58998] = { -- Scarlet Defender
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59080] = { -- Darkmaster Gandling
+            [npcKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_HEADMASTERS_STUDY] = {{49.84,38.45}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
+            },
+        },
         [59150] = { -- Flameweaver Koegler
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,12.52}},
                 [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
+            },
+        },
+        [59153] = { -- Rattlegore
+            [npcKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{48.42,26.6}},
+                [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
         [59175] = { -- Master Archer
@@ -175,7 +187,7 @@ function MopNpcFixes.Load()
         },
         [59184] = { -- Jandice Barov
             [npcKeys.spawns] = {
-                [zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{59.9,18.3}},
+                [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{58.85,18.32}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
@@ -508,6 +520,18 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64562] = { -- Talking Skull
+            [npcKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_43},{-1,-1}},
+                [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_43}},
+            },
+        },
+        [64563] = { -- Talking Skull
+            [npcKeys.spawns] = {
+                [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_90},{-1,-1}},
+                [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_90}},
+            },
+        },
         [64596] = { -- Teng Applebloom
             [npcKeys.spawns] = {
                 [zoneIDs.THE_JADE_FOREST] = {
@@ -520,13 +544,13 @@ function MopNpcFixes.Load()
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_HALLS] = {{31.88,84.39},{-1,-1}},
-                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM}},
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM_31}},
             },
         },
         [64764] = { -- Hooded Crusader
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_HALLS] = {{31.88,84.39},{-1,-1}},
-                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM}},
+                [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{39.26,13.38,phases.HOODED_CRUSADER_ATHENAEUM_90}},
             },
         },
         [64827] = { -- Hooded Crusader

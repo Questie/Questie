@@ -77,6 +77,9 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10071] = 4812, -- Icecrown Citadel -> Blood Queen Lana'thel (fake ID for ICC)
     [10072] = 4812, -- Icecrown Citadel -> The Frozen Throne (fake ID for ICC)
     [10076] = 6052, -- Scarlet Halls - Dungeon - Athenaeum
+    [10077] = 6066, -- Scholomance - Chamber of Summoning (fake ID for Scholomance MoP)
+    [10078] = 6066, -- Scholomance - The Upper Study (fake ID for Scholomance MoP)
+    [10079] = 6066, -- Scholomance - Headmaster's Study (fake ID for Scholomance MoP)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon
