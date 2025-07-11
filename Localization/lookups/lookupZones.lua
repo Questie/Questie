@@ -2822,6 +2822,7 @@ l10n.zoneCategoryLookup = {
         [6052] = "Scarlet Halls",
         [6066] = "Scholomance",
         [6067] = "Terrace of Endless Spring",
+        [6109] = "Scarlet Monastery",
         [6125] = "Mogu'shan Vaults",
         [6143] = "Mogu'shan Palace",
         [6214] = "Siege of Niuzao Temple",
