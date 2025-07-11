@@ -6,7 +6,7 @@ local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type NpcId[]
 local professionTrainers
 
-if Questie.IsCata then
+if Questie.IsCata or Questie.IsMoP then -- TODO: Update for MoP
     professionTrainers = {
         514,812,908,996,1103,1218,1241,1292,1317,1346,1355,1382,1384,1385,1386,1430,1458,1470,1473,1546,1632,1651,1676,1680,1681,1683,
         1699,1700,1701,1702,2114,2132,2133,2222,2325,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2856,2998,3001,3004,3007,
