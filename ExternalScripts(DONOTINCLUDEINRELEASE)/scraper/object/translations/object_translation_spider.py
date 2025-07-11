@@ -3,12 +3,12 @@ import re
 
 from scrapy import signals, Spider
 
-from object.translations.cata_object_ids import CATA_OBJECT_IDS
+from object.translations.mop_object_ids import MOP_OBJECT_IDS
 
 
 class ObjectTranslationSpider(Spider):
     name = "object-translations"
-    cata_url = "https://www.wowhead.com/cata"
+    cata_url = "https://www.wowhead.com"
     base_urls = [
         cata_url + "/de/object={}",
         cata_url + "/es/object={}",
@@ -24,7 +24,7 @@ class ObjectTranslationSpider(Spider):
     def __init__(self) -> None:
         super().__init__()
         # all base_urls with all object_ids
-        self.start_urls = [url.format(object_id) for object_id in CATA_OBJECT_IDS for url in self.base_urls]
+        self.start_urls = [url.format(object_id) for object_id in MOP_OBJECT_IDS for url in self.base_urls]
 
     def parse(self, response):
         locale = re.search(r'/([a-z]{2})/object', response.url).group(1)
