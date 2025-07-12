@@ -957,6 +957,10 @@ function MopQuestFixes.Load()
         [31773] = { -- Prowler Problems
             [questKeys.preQuestSingle] = {31769},
         },
+        [31774] = { -- Seeking Zin'jun
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29694,31770,31771,31773},
+        },
         [31775] = { -- Assault on the Airstrip
             [questKeys.preQuestSingle] = {29804},
         },
