@@ -9,24 +9,31 @@ class NPCTranslationFormatter:
 
     def __extract_subnames(self) -> None:
         npc_input = self.__load_json_file("translations/scraped_data.json")
-        with Path("translations/data_with_subnames.lua").open("w", encoding="utf-8") as g:
-            updated_data = []
-            for item in npc_input:
-                if not "name" in item:
-                    continue  # Skip items without a name
+        locale_files = {}
 
-                match = re.match(r'^(.*?)\s*<(.*?)>$', item["name"])
-                if match:
-                    name, subname = match.groups()
-                else:
-                    name, subname = item["name"], ""
+        for item in npc_input:
+            if not "name" in item or not "locale" in item:
+                continue  # Skip items without a name or locale
 
-                item["name"] = name
-                item["subname"] = subname
-                updated_data.append(item)
+            locale = item["locale"]
+            if locale not in locale_files:
+                locale_files[locale] = Path(f"translations/{locale}.lua").open("w", encoding="utf-8")
 
-            for item in updated_data:
-                g.write("[{npcId}] = {{\"{name}\",{subName}}},\n".format(npcId=item["npcId"], name=item["name"], subName=f'"{item["subname"]}"' if item["subname"] else "nil"))
+            match = re.match(r'^(.*?)\s*<(.*?)>$', item["name"])
+            if match:
+                name, subname = match.groups()
+            else:
+                name, subname = item["name"], ""
+
+            item["name"] = name
+            item["subname"] = subname
+
+            locale_files[locale].write("[{npcId}] = {{\"{name}\",{subName}}},\n".format(
+                npcId=item["npcId"], name=item["name"], subName=f'\"{item["subname"]}\"' if item["subname"] else "nil"
+            ))
+
+        for file in locale_files.values():
+            file.close()
 
     def __load_json_file(self, file_name: str):
         print(f"Loading '{file_name}'...")
