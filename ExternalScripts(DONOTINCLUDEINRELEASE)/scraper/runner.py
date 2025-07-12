@@ -20,7 +20,8 @@ BASE_SETTINGS = {
     "FEED_EXPORT_ENCODING": "utf-8",
     "FEED_FORMAT": "json",
     "CONCURRENT_REQUESTS": 32,
-    "COOKIES_ENABLED": False
+    "COOKIES_ENABLED": False,
+    "USER_AGENT": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
 }
 
 class Runner:
@@ -30,63 +31,73 @@ class Runner:
 
     def run_quest(self, run_for_retail: bool) -> None:
         Path("quest/quest_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/quest_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "quest/quest_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(QuestSpider, run_for_retail)
         process.start()
 
     def run_classic_quest(self) -> None:
         Path("quest/classic/quest_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/classic/quest_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "quest/classic/quest_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ClassicQuestSpider)
         process.start()
 
     def run_quest_translations(self) -> None:
         Path("quest/sod_translations/quest_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/sod_translations/quest_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "quest/sod_translations/quest_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(QuestTranslationSpider)
         process.start()
 
     def run_npc(self, run_for_retail: bool) -> None:
         Path("npc/npc_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "npc/npc_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "npc/npc_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(NPCSpider, run_for_retail)
         process.start()
 
     def run_npc_zone_ids(self) -> None:
         Path("npc/npc_zone_id_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "npc/npc_zone_id_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "npc/npc_zone_id_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(NpcZoneIdSpider)
         process.start()
 
     def run_item(self) -> None:
         Path("item/item_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "item/item_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "item/item_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ItemSpider)
         process.start()
 
     def run_item_translations(self) -> None:
         Path("item/translations").mkdir(parents=True, exist_ok=True)
         Path("item/translations/scraped_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "item/translations/scraped_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "item/translations/scraped_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ItemTranslationSpider)
         process.start()
 
     def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "object/object_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ObjectSpider, run_for_retail)
         process.start()
 
     def run_object_translations(self) -> None:
         Path("object/translations").mkdir(parents=True, exist_ok=True)
         Path("object/translations/scraped_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/translations/scraped_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "object/translations/scraped_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ObjectTranslationSpider)
         process.start()
 
     def run_object_zone_ids(self) -> None:
         Path("object/object_zone_id_data.json").unlink(missing_ok=True)
-        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_zone_id_data.json"})
+        settings = {**BASE_SETTINGS, "FEED_URI": "object/object_zone_id_data.json"}
+        process = CrawlerProcess(settings=settings)
         process.crawl(ObjectZoneIdSpider)
         process.start()
 
