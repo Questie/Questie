@@ -281,14 +281,14 @@ local eventsLocales = {
     ["Riding"] = {
         ["enUS"] = true,
         ["deDE"] = "Reiten",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["esES"] = "Equitación",
+        ["esMX"] = "Equitación",
+        ["frFR"] = "Monte",
+        ["koKR"] = "탈것 타기",
+        ["ptBR"] = "Montaria",
+        ["ruRU"] = "Верховая езда",
+        ["zhCN"] = "骑术",
+        ["zhTW"] = "騎術",
     },
 }
 
