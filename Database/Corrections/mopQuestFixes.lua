@@ -450,7 +450,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31999},
         },
         [29822] = { -- Lay of the Land
-            [questKeys.preQuestSingle] = {29827},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29827,31112},
         },
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
