@@ -977,7 +977,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31776},
         },
         [31778] = { -- Unreliable Allies
-            [questKeys.preQuestSingle] = {31777},
+            [questKeys.preQuestSingle] = {29804},
         },
         [31779] = { -- The Darkness Within
             [questKeys.preQuestSingle] = {31778},
