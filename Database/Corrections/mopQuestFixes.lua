@@ -949,6 +949,10 @@ function MopQuestFixes.Load()
         [31771] = { -- Face to Face With Consequence
             [questKeys.preQuestSingle] = {31769},
         },
+        [31772] = { -- Priorities!
+            [questKeys.preQuestSingle] = {31769},
+            [questKeys.exclusiveTo] = {31978},
+        },
         [31775] = { -- Assault on the Airstrip
             [questKeys.preQuestSingle] = {29804},
         },
@@ -1233,6 +1237,10 @@ function MopQuestFixes.Load()
         },
         [31977] = { -- The Returning Champion
             [questKeys.preQuestSingle] = {31897},
+        },
+        [31978] = { -- Priorities!
+            [questKeys.preQuestSingle] = {31769},
+            [questKeys.exclusiveTo] = {31772},
         },
         [31980] = { -- The Returning Champion
             [questKeys.preQuestSingle] = {31897},
