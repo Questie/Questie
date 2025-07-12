@@ -21,7 +21,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
 
-        journeyTreeFrame.treeframe:SetWidth(280);
+        journeyTreeFrame.treeframe:SetWidth(415);
 
         local journeyTree = _QuestieJourney:GetHistory();
         journeyTreeFrame:SetTree(journeyTree);

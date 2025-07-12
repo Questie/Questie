@@ -624,7 +624,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     local resultTree = AceGUI:Create("TreeGroup");
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
-    resultTree.treeframe:SetWidth(420);
+    resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
     resultTree:SetCallback("OnGroupSelected", _HandleOnGroupSelected)
 
