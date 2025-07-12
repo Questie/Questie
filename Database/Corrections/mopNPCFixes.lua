@@ -1006,5 +1006,11 @@ function MopNpcFixes.Load()
         [110001] = { -- Dummy NPC for "Win PvP Pet Battles" objective
             [npcKeys.name] = "Win PvP Pet Battles",
         },
+        [110002] = { -- Monstrosity
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{29.38,21.77}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29743},
+        },
     }
 end
