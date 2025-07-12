@@ -247,6 +247,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
         },
         [29743] = { -- Monstrosity
+            [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
             [questKeys.preQuestSingle] = {31774},
         },
         [29744] = { -- Some "Pupil of Nature"
