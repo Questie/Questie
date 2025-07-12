@@ -1039,4 +1039,38 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
         end)
     end)
+
+    describe("Rivett Clutchpop", function()
+        it("should return true for Nook of Konk when 31779 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Nook of Konk when 31779 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31779]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Stromgarm Airstrip when 31779 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31779]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Stromgarm Airstrip when 31779 is complete", function()
+            Questie.db.char.complete[31779] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+    end)
 end)

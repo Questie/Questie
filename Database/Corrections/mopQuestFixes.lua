@@ -980,7 +980,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29804},
         },
         [31779] = { -- The Darkness Within
-            [questKeys.preQuestSingle] = {31778},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31775,31776,31777,31778,},
         },
         [31780] = { -- Old MacDonald
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

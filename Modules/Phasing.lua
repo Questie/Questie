@@ -270,6 +270,8 @@ local phases = {
     TALKING_SKULL_BRIDGE_90 = 1198,
     TALKING_SKULL_STUDY_90 = 1199,
     RAGEFIRE_CHASM_GORDOTH_DEAD = 1200,
+    RIVETT_CLUTCHPOP_NOOK_OF_KONK = 1201,
+    RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP = 1202,
 }
 Phasing.phases = phases
 
@@ -1140,6 +1142,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RAGEFIRE_CHASM_GORDOTH_DEAD then
         return complete[30983] or complete[30996] or (questLog[30983] and questLog[30983].isComplete == 1) or (questLog[30996] and questLog[30996].isComplete == 1) or false
+    end
+
+    if phase == phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK then
+        return (not complete[31779]) and ((not questLog[31779] or questLog[31779].isComplete == 0)) or false
+    end
+
+    if phase == phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP then
+        return complete[31779] or (questLog[31779] and questLog[31779].isComplete == 1) or false
     end
 
     return false

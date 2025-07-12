@@ -112,6 +112,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [55521] = { -- Rivett Clutchpop
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={
+                {31.2,21.6,phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK},
+                {28,24.6,phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP},
+            }},
+        },
         [55583] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{30.98,36.74}}},
         },
