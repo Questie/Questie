@@ -101,6 +101,10 @@ function MopObjectFixes.Load()
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
+        [214962] = { -- Requisitioned Firework Launcher
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27,23.3},{27,23.8},{27.3,24.8},{27.8,23.2},{28.1,24.7},{28.3,23.5},{28.5,23.9},{28.5,24.8},{28.8,24.2},{29.1,23.6},{29.3,24.1},{29.5,23.4},{29.7,24.9},{30,23.7},{30.2,24.3},{30.5,23.8},{30.8,24.4},{31,23.9},{31.3,24.5},{31.5,24},{31.8,24.6},{32,25}}},
+        },
         [214979] = { -- Meeting Stone (Stormstout Brewery)
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{35.6,65.6}}},
