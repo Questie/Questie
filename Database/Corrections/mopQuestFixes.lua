@@ -447,7 +447,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31999},
         },
         [29821] = { -- Missed Me By... That Much!
-            [questKeys.preQuestSingle] = {29827},
+            [questKeys.preQuestSingle] = {31999},
         },
         [29822] = { -- Lay of the Land
             [questKeys.preQuestSingle] = {29827},
