@@ -945,7 +945,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
         },
         [31771] = { -- Face to Face With Consequence
-            [questKeys.preQuestSingle] = {29694},
+            [questKeys.preQuestSingle] = {31769},
         },
         [31775] = { -- Assault on the Airstrip
             [questKeys.preQuestSingle] = {29804},
