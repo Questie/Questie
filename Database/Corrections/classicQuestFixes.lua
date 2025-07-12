@@ -130,6 +130,10 @@ function QuestieQuestFixes:Load()
         [214] = {
             [questKeys.preQuestSingle] = {155}, -- wotlkDB has prequest wrong data
         },
+        [217] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {263,267},
+        },
         [219] = {
             [questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[zoneIDs.REDRIDGE_MOUNTAINS]={{33.36,48.7}}}},
         },
