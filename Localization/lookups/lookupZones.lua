@@ -2887,6 +2887,7 @@ l10n.zoneCategoryLookup = {
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
         [-376] = "Love is in the Air", -- Category added in WotLK
+        [-398] = "Riding", -- Category added in Cata
         [-641] = "Nightmare Incursions", -- Category added in SoD P3
         [-644] = "Blackrock Eruption", -- Category added in SoD P4
         -- Below are dummy IDs to not interfere with other IDs
