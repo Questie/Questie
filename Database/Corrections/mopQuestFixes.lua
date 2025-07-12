@@ -938,6 +938,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66308,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31766},
         },
+        [31769] = { -- The Final Blow!
+            [questKeys.objectives] = {{{66554,nil,Questie.ICON_TYPE_INTERACT},{66555,nil,Questie.ICON_TYPE_INTERACT},{66556,nil,Questie.ICON_TYPE_INTERACT},{66283,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [31770] = { -- You're Either With Us Or...
             [questKeys.preQuestSingle] = {31769},
         },

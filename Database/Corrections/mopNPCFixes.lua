@@ -683,6 +683,14 @@ function MopNpcFixes.Load()
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
         },
+        [66555] = { -- Alliance Barricade
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.72,9.95}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [66556] = { -- Alliance Barricade
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.93,10.63}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [66581] = { -- Rell Nightwind
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.17,94.98}}},
         },
