@@ -10,7 +10,7 @@ for objectId, data in pairs(mop) do
 end
 
 -- write mopIds to file
-local file = io.open("mopObjectIds.txt", "w")
+local file = io.open("output/mopObjectIds.txt", "w")
 for _, mopId in ipairs(mopIds) do
     file:write(mopId .. "\n")
 end
