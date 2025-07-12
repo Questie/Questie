@@ -450,6 +450,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31999},
         },
         [29822] = { -- Lay of the Land
+            [questKeys.objectives] = {{{63058,nil,Questie.ICON_TYPE_EVENT},{63059,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{55651,55622},55622},},},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29827,31112},
         },
