@@ -22,6 +22,7 @@ function MopQuestFixes.Load()
     local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local specialFlags = QuestieDB.specialFlags
+    local questFlags = QuestieDB.questFlags
 
     return {
         [13408] = { -- Hellfire Fortifications
@@ -994,6 +995,15 @@ function MopQuestFixes.Load()
         },
         [31831] = { -- Level Up!
             [questKeys.startedBy] = {{63067}},
+        },
+        [31834] = { -- Begin Your Training: Master Cheng
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.zoneOrSort] = zoneIDs.PEAK_OF_SERENITY,
+        },
+        [31840] = { -- Practice Makes Perfect: Master Cheng
+            [questKeys.preQuestSingle] = {31834},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

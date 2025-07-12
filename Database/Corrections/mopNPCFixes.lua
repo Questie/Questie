@@ -648,6 +648,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [66138] = { -- Master Cheng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.11,40.35}}},
+        },
         [66190] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{31.4,11.2}}},
         },
