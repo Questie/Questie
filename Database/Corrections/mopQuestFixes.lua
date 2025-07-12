@@ -953,6 +953,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
             [questKeys.exclusiveTo] = {31978},
         },
+        [31773] = { -- Prowler Problems
+            [questKeys.preQuestSingle] = {31769},
+        },
         [31775] = { -- Assault on the Airstrip
             [questKeys.preQuestSingle] = {29804},
         },
