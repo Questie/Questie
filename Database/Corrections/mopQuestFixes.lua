@@ -950,6 +950,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
         },
         [31772] = { -- Priorities!
+            [questKeys.objectives] = {nil,{{215695}}},
             [questKeys.preQuestSingle] = {31769},
             [questKeys.exclusiveTo] = {31978},
         },
@@ -1242,6 +1243,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31897},
         },
         [31978] = { -- Priorities!
+            [questKeys.objectives] = {nil,{{215695}}},
             [questKeys.preQuestSingle] = {31769},
             [questKeys.exclusiveTo] = {31772},
         },
