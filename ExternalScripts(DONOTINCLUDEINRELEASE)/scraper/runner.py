@@ -8,6 +8,7 @@ from item.item_spider import ItemSpider
 from item.item_translation_spider import ItemTranslationSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
+from npc.npc_translation_spider import NPCTranslationSpider
 from object.object_spider import ObjectSpider
 from object.translations.object_translation_spider import ObjectTranslationSpider
 from object.object_zone_id_spider import ObjectZoneIdSpider
@@ -101,6 +102,14 @@ class Runner:
         process.crawl(ObjectZoneIdSpider)
         process.start()
 
+    def run_npc_translations(self) -> None:
+        Path("npc/translations").mkdir(parents=True, exist_ok=True)
+        Path("npc/translations/scraped_data.json").unlink(missing_ok=True)
+        settings = {**BASE_SETTINGS, "FEED_URI": "npc/translations/scraped_data.json"}
+        process = CrawlerProcess(settings=settings)
+        process.crawl(NPCTranslationSpider)
+        process.start()
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -115,10 +124,11 @@ if __name__ == '__main__':
     parser.add_argument("--object-translations", help="Run object translation spider", action="store_true")
     parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
     parser.add_argument("--item-translations", help="Run item translation spider", action="store_true")
+    parser.add_argument("--npc-translations", help="Run npc translation spider", action="store_true")
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -155,3 +165,6 @@ if __name__ == '__main__':
     if args.object_zone:
         print("Running object zone ID spider")
         runner.run_object_zone_ids()
+    if args.npc_translations:
+        print("Running npc translation spider")
+        runner.run_npc_translations()
