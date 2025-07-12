@@ -288,7 +288,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
-            Questie:Print("|cffff0000The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the General settings of Questie!|r");
+            Questie:Print("|cffff0000" .. l10n("The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!") .. "|r");
             print("|cffff0000-----------------------------|r")
         end)
     end

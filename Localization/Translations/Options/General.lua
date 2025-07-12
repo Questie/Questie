@@ -422,6 +422,18 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用或禁用设置登录时提醒奎尔丹纳斯岛当前阶段是'%s'。检查常规设置来更改阶段或禁用此消息。",
         ["zhTW"] = "奎爾達納斯島現在的進度是 '%s'，可以在一般設定中更改階段或是停用此訊息。",
     },
+    ["The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Die AQ Kriegsanstrengungen-Quests werden für dich angezeigt. Wenn dein Server fertig ist, kannst du diese Quests in den Icons-Einstellungen von Questie ausblenden!",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["You picked up a quest from '%s'. Automatically switching to this phase..."] = {
         ["enUS"] = true,
         ["deDE"] = "Du hast eine Quest aus '%s' angenommen. Es wird automatisch zu dieser Phase gewechselt...",
