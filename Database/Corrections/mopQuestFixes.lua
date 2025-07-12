@@ -243,6 +243,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55054,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29694] = { -- Regroup!
+            [questKeys.objectives] = {{{55141,nil,Questie.ICON_TYPE_TALK},{55146,nil,Questie.ICON_TYPE_TALK},{55162,nil,Questie.ICON_TYPE_TALK},{55170,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31769},
         },
         [29744] = { -- Some "Pupil of Nature"
