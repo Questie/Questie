@@ -970,7 +970,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29804},
         },
         [31776] = { -- Strongarm Tactics
-            [questKeys.preQuestSingle] = {31775},
+            [questKeys.preQuestSingle] = {29804},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
