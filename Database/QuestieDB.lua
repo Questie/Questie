@@ -995,7 +995,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet learned spell requirements for quest " .. questId) end
             return false
         elseif (requiredSpell < 0) and (hasSpell or hasProfSpell) then -- if requiredSpell is negative, we make the quest ineligible if the player DOES have the spell
-            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet unlearned spell requirements for quest " .. questId) end
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet not learned spell requirements for quest " .. questId) end
             return false
         end
     end
