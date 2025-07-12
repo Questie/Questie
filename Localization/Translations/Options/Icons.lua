@@ -422,6 +422,18 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用此功能后，安其拉战备任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示安其拉之門戰火任務。",
     },
+    ["The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Die AQ Kriegsanstrengungen-Quests werden für dich angezeigt. Wenn dein Server fertig ist, kannst du diese Quests in den Icons-Einstellungen von Questie ausblenden!",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["enUS"] = true,
         ["deDE"] = "pfQuest/ClassicCodex Iconstil umschalten",
