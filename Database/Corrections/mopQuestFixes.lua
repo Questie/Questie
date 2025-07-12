@@ -935,6 +935,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{210039}}},
         },
         [31768] = { -- Fire Is Always the Answer
+            [questKeys.objectives] = {{{66308,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31766},
         },
         [31770] = { -- You're Either With Us Or...
