@@ -444,6 +444,7 @@ function MopQuestFixes.Load()
         },
         [29815] = { -- Forensic Science
             [questKeys.objectives] = {nil,nil,{{74621,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.preQuestSingle] = {31999},
         },
         [29821] = { -- Missed Me By... That Much!
             [questKeys.preQuestSingle] = {29827},
