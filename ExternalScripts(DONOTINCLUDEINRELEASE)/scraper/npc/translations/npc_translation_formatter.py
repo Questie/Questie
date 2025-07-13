@@ -20,6 +20,7 @@ class NPCTranslationFormatter:
 
             locale = item["locale"]
             if locale not in locale_files:
+                print(f"Creating file for locale: {locale}")
                 file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
                 locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
