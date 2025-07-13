@@ -2,7 +2,8 @@ import logging
 import re
 from scrapy import signals, Spider
 from npc.retail_npc_ids import RETAIL_NPC_IDS
-from npc.npc_subname_extractor import NPCTranslationFormatter
+from npc.translations.npc_translation_formatter import NPCTranslationFormatter
+
 
 class NPCTranslationSpider(Spider):
     name = "npc-translations"
@@ -48,7 +49,6 @@ class NPCTranslationSpider(Spider):
 
     def spider_feed_closed(self):
         print("Done with NPC translations. Running subname extractor...")
-        # Connect subname extractor after crawling
         formatter = NPCTranslationFormatter()
         formatter()
         print("DONE")

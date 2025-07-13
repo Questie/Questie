@@ -8,7 +8,7 @@ class NPCTranslationFormatter:
         self.__extract_subnames()
 
     def __extract_subnames(self) -> None:
-        npc_input = self.__load_json_file("translations/scraped_data.json")
+        npc_input = self.__load_json_file("output/scraped_data.json")
         npc_input = sorted(npc_input, key=lambda x: int(x["npcId"]))  # Sort by npcId
         locale_files = {}
 

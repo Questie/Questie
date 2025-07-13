@@ -5,8 +5,8 @@ import re
 # Set working directory to script's directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_FILE = 'translations/de.lua'
-OUTPUT_FILE = '../../../Localization/lookups/MoP/lookupNpcs/deDE.lua'
+INPUT_FILE = 'output/de.lua'
+OUTPUT_FILE = '../../../../Localization/lookups/MoP/lookupNpcs/deDE.lua'
 
 
 def main():
