@@ -105,7 +105,7 @@ class Runner:
     def run_npc_translations(self) -> None:
         Path("npc/translations").mkdir(parents=True, exist_ok=True)
         Path("npc/translations/output/scraped_data.json").unlink(missing_ok=True)
-        settings = {**BASE_SETTINGS, "FEED_URI": "npc/translations/scraped_data.json"}
+        settings = {**BASE_SETTINGS, "FEED_URI": "npc/translations/output/scraped_data.json"}
         process = CrawlerProcess(settings=settings)
         process.crawl(NPCTranslationSpider)
         process.start()
