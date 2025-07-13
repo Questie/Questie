@@ -1,9 +1,4 @@
-import os
 import re
-
-
-# Set working directory to script's directory
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 LOCALES = [
     {"input": "cn", "output": "zhCN"},
