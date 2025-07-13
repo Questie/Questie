@@ -2332,13 +2332,15 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6607}, -- #1154
         },
         [6610] = {
-            [questKeys.exclusiveTo] = {6611,6612}, -- #2070
+            [questKeys.breadcrumbs] = {6611,6612}, -- #2070
         },
         [6611] = {
-            [questKeys.exclusiveTo] = {6610}, -- #2070
+            [questKeys.breadcrumbForQuestId] = 6610, -- #2070
+            [questKeys.nextQuestInChain] = 6610,
         },
         [6612] = {
-            [questKeys.exclusiveTo] = {6610}, -- #2070
+            [questKeys.breadcrumbForQuestId] = 6610, -- #2070
+            [questKeys.nextQuestInChain] = 6610,
         },
         [6622] = {
             [questKeys.triggerEnd] = {"15 Patients Saved!", {[zoneIDs.DUSTWALLOW_MARSH]={{67.79,49.06}}}},
