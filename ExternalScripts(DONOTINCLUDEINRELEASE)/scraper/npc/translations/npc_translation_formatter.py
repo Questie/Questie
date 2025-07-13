@@ -26,6 +26,10 @@ class NPCTranslationFormatter:
             else:
                 name, subname = item["name"], ""
 
+            # Escape quotes in name and subname
+            name = name.replace('"', '\\"')
+            subname = subname.replace('"', '\\"')
+
             item["name"] = name
             item["subname"] = subname
 
