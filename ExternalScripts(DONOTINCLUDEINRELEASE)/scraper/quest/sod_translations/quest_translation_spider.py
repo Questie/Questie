@@ -7,7 +7,7 @@ from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
 
 
-class QuestTranslationSpider(scrapy.Spider):
+class QuestTranslationSpiderSoD(scrapy.Spider):
     name = "quest-translations"
     base_urls = [
         "https://www.wowhead.com/classic/de/quest={}",
@@ -49,7 +49,7 @@ class QuestTranslationSpider(scrapy.Spider):
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
-        spider = super(QuestTranslationSpider, cls).from_crawler(crawler, *args, **kwargs)
+        spider = super(QuestTranslationSpiderSoD, cls).from_crawler(crawler, *args, **kwargs)
         crawler.signals.connect(spider.spider_feed_closed, signal=signals.feed_exporter_closed)
         return spider
 

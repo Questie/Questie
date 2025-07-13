@@ -14,7 +14,7 @@ from object.translations.object_translation_spider import ObjectTranslationSpide
 from object.object_zone_id_spider import ObjectZoneIdSpider
 from quest.quest_spider import QuestSpider
 from quest.classic.quest_spider import ClassicQuestSpider
-from quest.sod_translations.quest_translation_spider import QuestTranslationSpider
+from quest.sod_translations.quest_translation_spider import QuestTranslationSpiderSoD
 
 BASE_SETTINGS = {
     "LOG_LEVEL": "INFO",
@@ -44,11 +44,11 @@ class Runner:
         process.crawl(ClassicQuestSpider)
         process.start()
 
-    def run_quest_translations(self) -> None:
+    def run_quest_translations_sod(self) -> None:
         Path("quest/sod_translations/quest_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "quest/sod_translations/quest_data.json"}
         process = CrawlerProcess(settings=settings)
-        process.crawl(QuestTranslationSpider)
+        process.crawl(QuestTranslationSpiderSoD)
         process.start()
 
     def run_npc(self, run_for_retail: bool) -> None:
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     parser.add_argument("--retail", help="Run spider against retail wowhead", action="store_true")
     parser.add_argument("--quest", help="Run quest spider", action="store_true")
     parser.add_argument("--quest-classic", help="Run quest spider for classic wow", action="store_true")
-    parser.add_argument("--quest-translations", help="Run quest spider for SoD translations", action="store_true")
+    parser.add_argument("--quest-translations-sod", help="Run quest spider for SoD translations", action="store_true")
     parser.add_argument("--npc", help="Run npc spider", action="store_true")
     parser.add_argument("--npc-zone", help="Run npc zone IDs spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -141,9 +141,9 @@ if __name__ == '__main__':
     if args.quest_classic:
         print("Running quest spider for classic wow")
         runner.run_classic_quest()
-    if args.quest_translations:
+    if args.quest_translations_sod:
         print("Running quest spider for SoD translations")
-        runner.run_quest_translations()
+        runner.run_quest_translations_sod()
     if args.npc:
         print("Running npc spider")
         runner.run_npc(run_for_retail)
