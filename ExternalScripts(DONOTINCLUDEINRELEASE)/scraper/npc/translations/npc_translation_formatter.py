@@ -5,9 +5,9 @@ from pathlib import Path
 class NPCTranslationFormatter:
 
     def __call__(self, **kwargs):
-        self.__extract_subnames()
+        self.__format()
 
-    def __extract_subnames(self) -> None:
+    def __format(self) -> None:
         npc_input = self.__load_json_file("output/scraped_data.json")
         npc_input = sorted(npc_input, key=lambda x: int(x["npcId"]))  # Sort by npcId
         locale_files = {}
