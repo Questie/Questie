@@ -8,7 +8,7 @@ from item.item_spider import ItemSpider
 from item.item_translation_spider import ItemTranslationSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
-from npc.npc_translation_spider import NPCTranslationSpider
+from npc.translations.npc_translation_spider import NPCTranslationSpider
 from object.object_spider import ObjectSpider
 from object.translations.object_translation_spider import ObjectTranslationSpider
 from object.object_zone_id_spider import ObjectZoneIdSpider
@@ -104,7 +104,7 @@ class Runner:
 
     def run_npc_translations(self) -> None:
         Path("npc/translations").mkdir(parents=True, exist_ok=True)
-        Path("npc/translations/scraped_data.json").unlink(missing_ok=True)
+        Path("npc/translations/output/scraped_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "npc/translations/scraped_data.json"}
         process = CrawlerProcess(settings=settings)
         process.crawl(NPCTranslationSpider)
