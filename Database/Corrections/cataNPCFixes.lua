@@ -7064,6 +7064,7 @@ function CataNpcFixes.Load()
         },
         [52489] = { -- Avrilla
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{50.65,87.26},{-1,-1}}},
+            [npcKeys.questStarts] = {29249,29255,29257,29299},
         },
         [52490] = { -- Skylord Omnuron
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{43.03,80.6},{-1,-1}}},
@@ -7083,13 +7084,6 @@ function CataNpcFixes.Load()
         [52495] = { -- Shalis Darkhunter
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.72,81.63},{-1,-1}}},
         },
-        [52548] = { -- Gertrude Fenlow
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.21,50.76}}},
-            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
-        },
-        [52489] = { -- Avrilla
-            [npcKeys.questStarts] = {29249,29255,29257,29299},
-        },
         [52500] = { -- Hyjal Defender
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{46.65,82.6},{48.26,82.55},{45.29,76.53},{51.11,70.1},{45.82,68.61},{47.54,76.28},{45.53,67.99},{45.07,72.65},{47.42,72.18},{44.82,72.38},{52.97,76.67},{48.68,65.58},{53.19,78.35},{46.59,73.4},{43.9,72.82},{50.08,77.81},{51.75,76.93},{47.08,72.31},{44.11,76.28},{52.27,73.3},{53.08,77.18},{50.74,70.1},{42.3,72.32},{49.89,75.87},{50.98,69.76},{46.89,62.11},{52.92,77.74},{52.36,75.75},{42.99,73.21},{50.67,70.16},{52.83,76.35},{48.06,74.25},{46.01,74.01},{47.58,72.83},{50.04,77.85},{52.29,78.23},{52.1,76.28},{46.65,73.44},{54.65,75.52},{52.27,77.18},{-1,-1}}},
         },
@@ -7107,6 +7101,10 @@ function CataNpcFixes.Load()
         },
         [52531] = { -- Fire Attacker Portal
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.15,68.55},{47.23,67.32},{52.61,70.66},{50.11,61.82},{54.16,66.39},{47.23,57.79},{42.6,64.18},{51.59,64.77},{56.43,72.57},{55.24,78.23},{-1,-1}}},
+        },
+        [52548] = { -- Gertrude Fenlow
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.21,50.76}}},
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [52552] = { -- Molten Behemoth
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{40.89,57.83},{-1,-1}}},
