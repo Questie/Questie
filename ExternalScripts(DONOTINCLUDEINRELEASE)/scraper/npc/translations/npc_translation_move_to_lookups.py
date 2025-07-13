@@ -1,3 +1,4 @@
+import os
 import re
 
 LOCALES = [
@@ -11,8 +12,9 @@ LOCALES = [
 ]
 
 def merge_locales(input_locale, output_locale):
-    input_file = f'output/{input_locale}.lua'
-    output_file = f'../../../../Localization/lookups/MoP/lookupNpcs/{output_locale}.lua'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    input_file = os.path.join(base_dir, f'output/{input_locale}.lua')
+    output_file = os.path.join(base_dir, f'../../../../Localization/lookups/MoP/lookupNpcs/{output_locale}.lua')
 
     with open(input_file, 'r', encoding='utf-8') as f:
         lines = f.readlines()

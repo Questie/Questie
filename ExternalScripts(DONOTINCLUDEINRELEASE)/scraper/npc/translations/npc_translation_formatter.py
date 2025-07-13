@@ -1,10 +1,12 @@
 import json
+import os
 import re
 from pathlib import Path
 
 class NPCTranslationFormatter:
 
     def __call__(self, **kwargs):
+        self.base_dir = os.path.dirname(os.path.abspath(__file__))
         self.__format()
 
     def __format(self) -> None:
@@ -18,7 +20,8 @@ class NPCTranslationFormatter:
 
             locale = item["locale"]
             if locale not in locale_files:
-                locale_files[locale] = Path(f"output/{locale}.lua").open("w", encoding="utf-8")
+                file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
+                locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
             match = re.match(r'^(.*?)\s*<(.*?)>$', item["name"])
             if match:
@@ -41,8 +44,9 @@ class NPCTranslationFormatter:
             file.close()
 
     def __load_json_file(self, file_name: str):
-        print(f"Loading '{file_name}'...")
-        with Path(file_name).open("r", encoding="utf-8") as f:
+        file_path = os.path.join(self.base_dir, file_name)
+        print(f"Loading '{file_path}'...")
+        with Path(file_path).open("r", encoding="utf-8") as f:
             data = json.load(f)
         print(f"Data contains {len(data)} entries")
         return data
