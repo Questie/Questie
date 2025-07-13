@@ -1,6 +1,43 @@
 import json
 import os
+import re
 from pathlib import Path
+
+
+def cleanup_name(name):
+    name = name.replace('"', '\\"')
+    name = re.sub(r'.\[.*', '', name).strip()
+    return name
+
+def cleanup_objectives_text(objectives_text):
+    objectives_text = objectives_text.replace('"', '\\"')
+
+    # Untranslated things usually start with a [
+    objectives_text = re.sub(r'\[.*', '', objectives_text).strip()
+
+    # zhCN
+    objectives_text = re.sub(r'。​.*', '', objectives_text).strip()
+
+    # deDE
+    objectives_text = re.sub(r'Eine Level .*', '', objectives_text).strip()
+    objectives_text = re.sub(r'Ein/eine .*', '', objectives_text).strip()
+
+    # esES
+    objectives_text = re.sub(r'Una Misión .*', '', objectives_text).strip()
+
+    # frFR
+    objectives_text = re.sub(r'Une Quête.*', '', objectives_text).strip()
+
+    # koKR
+    objectives_text = re.sub(r'퀘스트.*', '', objectives_text).strip()
+
+    # ptBR
+    objectives_text = re.sub(r'Missão.*', '', objectives_text).strip()
+
+    # ruRU
+    objectives_text = re.sub(r'Задание.*', '', objectives_text).strip()
+
+    return objectives_text
 
 class QuestTranslationFormatter:
 
@@ -27,8 +64,13 @@ class QuestTranslationFormatter:
             objectives_text = item["objectivesText"] if "objectivesText" in item else "nil"
 
             # Escape quotes in name and objectives_text
-            name = name.replace('"', '\\"')
-            objectives_text = objectives_text.replace('"', '\\"')
+            name = cleanup_name(name)
+
+            objectives_text = cleanup_objectives_text(objectives_text)
+            if item["questId"] == "34060":
+                print("objectives_text", locale, objectives_text)
+            if objectives_text == "":
+                objectives_text = "nil"
 
             objectives_text = objectives_text if objectives_text == "nil" else f"{{\"{objectives_text}\"}}"
 
