@@ -8,15 +8,15 @@ from npc.translations.npc_translation_move_to_lookups import main as move_to_loo
 
 class NPCTranslationSpider(Spider):
     name = "npc-translations"
-    cata_url = "https://www.wowhead.com"
+    base_url = "https://www.wowhead.com"
     base_urls = [
-        cata_url + "/de/npc={}",
-        cata_url + "/es/npc={}",
-        cata_url + "/fr/npc={}",
-        cata_url + "/pt/npc={}",
-        cata_url + "/ru/npc={}",
-        cata_url + "/ko/npc={}",
-        cata_url + "/cn/npc={}",
+        base_url + "/de/npc={}",
+        base_url + "/es/npc={}",
+        base_url + "/fr/npc={}",
+        base_url + "/pt/npc={}",
+        base_url + "/ru/npc={}",
+        base_url + "/ko/npc={}",
+        base_url + "/cn/npc={}",
     ]
 
     start_urls = []
