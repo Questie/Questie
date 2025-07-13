@@ -103,6 +103,7 @@ local dungeons = {
     [5600] = {"Baradin Hold",nil,5095,{{5095, 46.3, 47.9}}},
     [5638] = {"Throne of the Four Winds",nil,5034,{{5034, 38.4, 80.6}}},
     [5723] = {"Firelands",nil,616,{{616, 47.3, 78.0}}},
+    [5733] = {"Molten Front",nil,616,{{616, 27.51, 56.41}}}, -- Not a real dungeon, but still a sub-zone entered through a portal
     [5788] = {"Well of Eternity",nil,440,{{440, 64.8, 50}}},
     [5789] = {"End Time",nil,440,{{440, 64.8, 50}}},
     [5844] = {"Hour of Twilight",nil,440,{{440, 64.8, 50}}},
