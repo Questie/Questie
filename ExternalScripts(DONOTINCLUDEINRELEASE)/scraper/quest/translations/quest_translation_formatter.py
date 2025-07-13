@@ -30,7 +30,9 @@ class QuestTranslationFormatter:
             name = name.replace('"', '\\"')
             objectives_text = objectives_text.replace('"', '\\"')
 
-            locale_files[locale].write("[{questId}] = {{\"{name}\",{objectivesText}}},\n".format(
+            objectives_text = objectives_text if objectives_text == "nil" else f"{{\"{objectives_text}\"}}"
+
+            locale_files[locale].write("[{questId}] = {{\"{name}\", nil, {objectivesText}}},\n".format(
                 questId=item["questId"],
                 name=name,
                 objectivesText=objectives_text
