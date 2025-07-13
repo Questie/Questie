@@ -3,6 +3,7 @@ import re
 from scrapy import signals, Spider
 from npc.retail_npc_ids import RETAIL_NPC_IDS
 from npc.translations.npc_translation_formatter import NPCTranslationFormatter
+from npc.translations.npc_translation_move_to_lookups import main as move_to_lookups
 
 
 class NPCTranslationSpider(Spider):
@@ -48,7 +49,9 @@ class NPCTranslationSpider(Spider):
         return spider
 
     def spider_feed_closed(self):
-        print("Done with NPC translations. Running subname extractor...")
+        print("Finished scrapting NPC translations, now formatting the data...")
         formatter = NPCTranslationFormatter()
         formatter()
+        print("Formatting done, now moving to lookups...")
+        move_to_lookups()
         print("DONE")
