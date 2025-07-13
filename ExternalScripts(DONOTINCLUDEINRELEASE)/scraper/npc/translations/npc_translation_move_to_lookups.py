@@ -5,15 +5,24 @@ import re
 # Set working directory to script's directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_FILE = 'output/de.lua'
-OUTPUT_FILE = '../../../../Localization/lookups/MoP/lookupNpcs/deDE.lua'
+LOCALES = [
+    {"input": "cn", "output": "zhCN"},
+    {"input": "de", "output": "deDE"},
+    {"input": "es", "output": "esES"},
+    {"input": "fr", "output": "frFR"},
+    {"input": "ko", "output": "koKR"},
+    {"input": "pt", "output": "ptBR"},
+    {"input": "ru", "output": "ruRU"},
+]
 
+def merge_locales(input_locale, output_locale):
+    input_file = f'output/{input_locale}.lua'
+    output_file = f'../../../../Localization/lookups/MoP/lookupNpcs/{output_locale}.lua'
 
-def main():
-    with open(INPUT_FILE, 'r', encoding='utf-8') as f:
+    with open(input_file, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
-    with open(OUTPUT_FILE, 'r', encoding='utf-8') as f:
+    with open(output_file, 'r', encoding='utf-8') as f:
         lines += f.readlines()
 
     # Only keep lines that look like [1234] = {"name",...},
@@ -31,18 +40,25 @@ def main():
 
     entries.sort(key=lambda x: x[0])
 
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        f.write("if GetLocale() ~= \"deDE\" then\n")
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(f'if GetLocale() ~= "{output_locale}" then\n')
         f.write("    return\n")
         f.write("end\n\n")
         f.write("---@type l10n\n")
         f.write("local l10n = QuestieLoader:ImportModule(\"l10n\")\n\n")
-        f.write("l10n.npcNameLookup[\"deDE\"] = loadstring([[return {\n")
+        f.write(f'l10n.npcNameLookup["{output_locale}"] = loadstring([[return {{\n')
 
         for npc_id, rest in entries:
             f.write(f"[{npc_id}] = {{{rest}}},\n")
 
         f.write("}]])\n")
+
+
+def main():
+    for locale in LOCALES:
+        print(f"Merging {locale['input']} into {locale['output']}...")
+        merge_locales(locale['input'], locale['output'])
+    print("Done merging locales.")
 
 if __name__ == '__main__':
     main()
