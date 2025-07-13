@@ -18,7 +18,7 @@ class NPCTranslationFormatter:
 
             locale = item["locale"]
             if locale not in locale_files:
-                locale_files[locale] = Path(f"translations/{locale}.lua").open("w", encoding="utf-8")
+                locale_files[locale] = Path(f"output/{locale}.lua").open("w", encoding="utf-8")
 
             match = re.match(r'^(.*?)\s*<(.*?)>$', item["name"])
             if match:
