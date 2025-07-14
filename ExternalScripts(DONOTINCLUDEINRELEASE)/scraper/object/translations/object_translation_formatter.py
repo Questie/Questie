@@ -1,6 +1,7 @@
-import json
 import os
 from pathlib import Path
+
+from load_json_file import load_json_file
 
 
 class ObjectTranslationFormatter:
@@ -10,7 +11,7 @@ class ObjectTranslationFormatter:
         self.__format()
 
     def __format(self) -> None:
-        object_input = self.__load_json_file("output/scraped_data.json")
+        object_input = load_json_file(self.base_dir, "output/scraped_data.json")
         object_input = sorted(object_input, key=lambda x: int(x["objectId"])) # Sort by objectId
         locale_files = {}
 
@@ -33,15 +34,6 @@ class ObjectTranslationFormatter:
 
         for file in locale_files.values():
             file.close()
-
-
-    def __load_json_file(self, file_name: str):
-        file_path = os.path.join(self.base_dir, file_name)
-        print(f"Loading '{file_path}'...")
-        with Path(file_path).open("r", encoding="utf-8") as f:
-            data = json.load(f)
-        print(f"Data contains {len(data)} entries")
-        return data
 
 
 if __name__ == "__main__":

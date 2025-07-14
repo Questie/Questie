@@ -1,7 +1,8 @@
-import json
 import os
 import re
 from pathlib import Path
+
+from load_json_file import load_json_file
 
 
 def cleanup_name(name):
@@ -46,7 +47,7 @@ class QuestTranslationFormatter:
         self.__format()
 
     def __format(self) -> None:
-        quest_input = self.__load_json_file("output/scraped_data.json")
+        quest_input = load_json_file(self.base_dir, "output/scraped_data.json")
         quest_input = sorted(quest_input, key=lambda x: int(x["questId"]))  # Sort by questId
         locale_files = {}
 
@@ -83,13 +84,6 @@ class QuestTranslationFormatter:
         for file in locale_files.values():
             file.close()
 
-    def __load_json_file(self, file_name: str):
-        file_path = os.path.join(self.base_dir, file_name)
-        print(f"Loading '{file_path}'...")
-        with Path(file_path).open("r", encoding="utf-8") as f:
-            data = json.load(f)
-        print(f"Data contains {len(data)} entries")
-        return data
 
 if __name__ == '__main__':
     formatter = QuestTranslationFormatter()
