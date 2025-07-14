@@ -4,19 +4,13 @@ from scrapy import signals, Spider
 from npc.retail_npc_ids import RETAIL_NPC_IDS
 from npc.translations.npc_translation_formatter import NPCTranslationFormatter
 from npc.translations.npc_translation_move_to_lookups import main as move_to_lookups
+from supported_locales import LOCALES
 
 
 class NPCTranslationSpider(Spider):
     name = "npc-translations"
-    base_url = "https://www.wowhead.com"
     base_urls = [
-        base_url + "/de/npc={}",
-        base_url + "/es/npc={}",
-        base_url + "/fr/npc={}",
-        base_url + "/pt/npc={}",
-        base_url + "/ru/npc={}",
-        base_url + "/ko/npc={}",
-        base_url + "/cn/npc={}",
+        f"https://www.wowhead.com/{locale['input']}/npc={{}}" for locale in LOCALES
     ]
 
     start_urls = []

@@ -4,18 +4,13 @@ from scrapy import signals, Spider
 from quest.retail_quest_ids import RETAIL_QUEST_IDS
 from quest.translations.quest_translation_formatter import QuestTranslationFormatter
 from quest.translations.quest_translation_move_to_lookups import main as move_to_lookups
+from supported_locales import LOCALES
+
 
 class QuestTranslationSpider(Spider):
     name = "quest-translations"
-    base_url = "https://www.wowhead.com"
     base_urls = [
-        base_url + "/de/quest={}",
-        base_url + "/es/quest={}",
-        base_url + "/fr/quest={}",
-        base_url + "/pt/quest={}",
-        base_url + "/ru/quest={}",
-        base_url + "/ko/quest={}",
-        base_url + "/cn/quest={}",
+        f"https://www.wowhead.com/{locale['input']}/quest={{}}" for locale in LOCALES
     ]
 
     start_urls = []

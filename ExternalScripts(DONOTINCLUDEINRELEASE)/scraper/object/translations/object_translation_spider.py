@@ -6,19 +6,13 @@ from scrapy import signals, Spider
 from object.translations.object_translation_formatter import ObjectTranslationFormatter
 from object.translations.object_translation_move_to_lookups import main as move_to_lookups
 from object.translations.mop_object_ids import MOP_OBJECT_IDS
+from supported_locales import LOCALES
 
 
 class ObjectTranslationSpider(Spider):
     name = "object-translations"
-    base_url = "https://www.wowhead.com"
     base_urls = [
-        base_url + "/de/object={}",
-        base_url + "/es/object={}",
-        base_url + "/fr/object={}",
-        base_url + "/pt/object={}",
-        base_url + "/ru/object={}",
-        base_url + "/ko/object={}",
-        base_url + "/cn/object={}",
+        f"https://www.wowhead.com/{locale['input']}/object={{}}" for locale in LOCALES
     ]
 
     start_urls = []
