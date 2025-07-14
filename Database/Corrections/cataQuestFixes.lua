@@ -14177,6 +14177,9 @@ function CataQuestFixes.Load()
         [29181] = { -- Druids of the Talon
             [questKeys.objectives] = {nil,{{430015}}},
         },
+        [29182] = { -- The Forlorn Spire
+            [questKeys.exclusiveTo] = {29205},
+        },
         [29186] = { -- The Hex Lord's Fetish
             [questKeys.preQuestSingle] = {},
         },
