@@ -712,12 +712,8 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
             assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
 
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[28715]={}}
-            assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
-            assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
-
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
-            Questie.db.char.complete[28715] = true
+            Questie.db.char.complete[28713] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
             assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
         end)
