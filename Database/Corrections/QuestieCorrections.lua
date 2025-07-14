@@ -99,6 +99,7 @@ QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
 QuestieCorrections.itemObjectiveFirst = {}
 QuestieCorrections.eventObjectiveFirst = {}
+QuestieCorrections.spellObjectiveFirst = {}
 
 do
     local type, assert = type, assert
