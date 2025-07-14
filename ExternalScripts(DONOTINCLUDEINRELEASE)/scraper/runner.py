@@ -88,14 +88,6 @@ class Runner:
         process.crawl(ObjectSpider, run_for_retail)
         process.start()
 
-    def run_object_translations(self) -> None:
-        Path("object/translations").mkdir(parents=True, exist_ok=True)
-        Path("object/translations/scraped_data.json").unlink(missing_ok=True)
-        settings = {**BASE_SETTINGS, "FEED_URI": "object/translations/scraped_data.json"}
-        process = CrawlerProcess(settings=settings)
-        process.crawl(ObjectTranslationSpider)
-        process.start()
-
     def run_object_zone_ids(self) -> None:
         Path("object/object_zone_id_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "object/object_zone_id_data.json"}
@@ -109,6 +101,14 @@ class Runner:
         settings = {**BASE_SETTINGS, "FEED_URI": "npc/translations/output/scraped_data.json"}
         process = CrawlerProcess(settings=settings)
         process.crawl(NPCTranslationSpider)
+        process.start()
+
+    def run_object_translations(self) -> None:
+        Path("object/translations").mkdir(parents=True, exist_ok=True)
+        Path("object/translations/scraped_data.json").unlink(missing_ok=True)
+        settings = {**BASE_SETTINGS, "FEED_URI": "object/translations/scraped_data.json"}
+        process = CrawlerProcess(settings=settings)
+        process.crawl(ObjectTranslationSpider)
         process.start()
 
     def run_quest_translations(self) -> None:
@@ -130,10 +130,11 @@ if __name__ == '__main__':
     parser.add_argument("--npc-zone", help="Run npc zone IDs spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
-    parser.add_argument("--object-translations", help="Run object translation spider", action="store_true")
     parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
     parser.add_argument("--item-translations", help="Run item translation spider", action="store_true")
+
     parser.add_argument("--npc-translations", help="Run npc translation spider", action="store_true")
+    parser.add_argument("--object-translations", help="Run object translation spider", action="store_true")
     parser.add_argument("--quest-translations", help="Run quest spider for SoD translations", action="store_true")
 
     args = parser.parse_args()
@@ -169,15 +170,16 @@ if __name__ == '__main__':
     if args.object:
         print("Running object spider")
         runner.run_object(run_for_retail)
-    if args.object_translations:
-        print("Running object spider for translations")
-        runner.run_object_translations()
     if args.object_zone:
         print("Running object zone ID spider")
         runner.run_object_zone_ids()
+
     if args.npc_translations:
         print("Running npc translation spider")
         runner.run_npc_translations()
+    if args.object_translations:
+        print("Running object spider for translations")
+        runner.run_object_translations()
     if args.quest_translations:
         print("Running quest translation spider")
         runner.run_quest_translations()
