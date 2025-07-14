@@ -13,6 +13,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.spellObjectiveFirst[31142] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -701,6 +702,9 @@ function MopQuestFixes.Load()
         },
         [31140] = { -- Lions for Lambs
             [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [31142] = { -- Palm of the Tiger
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100787}}},
         },
         [31152] = { -- Peering Into the Past
             [questKeys.preQuestSingle] = {31167},
