@@ -4,6 +4,7 @@ import re
 from scrapy import signals, Spider
 
 from object.translations.object_translation_formatter import ObjectTranslationFormatter
+from object.translations.object_translation_move_to_lookups import main as move_to_lookups
 from object.translations.mop_object_ids import MOP_OBJECT_IDS
 
 
@@ -54,4 +55,6 @@ class ObjectTranslationSpider(Spider):
         print("Finished scraping object translations, now formatting the data...")
         formatter = ObjectTranslationFormatter()
         formatter()
+        print("Formatting done, now moving to lookups...")
+        move_to_lookups()
         print("DONE")
