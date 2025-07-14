@@ -3,7 +3,7 @@ from pathlib import Path
 from load_json_file import load_json_file
 
 
-class ObjectNameFormatter:
+class ObjectTranslationFormatter:
     def __call__(self, **kwargs):
         self.__format()
 
@@ -38,5 +38,5 @@ class ObjectNameFormatter:
 
 
 if __name__ == "__main__":
-    f = ObjectNameFormatter()
+    f = ObjectTranslationFormatter()
     f()
