@@ -104,9 +104,9 @@ class Runner:
         process.start()
 
     def run_object_translations(self) -> None:
-        Path("object/translations").mkdir(parents=True, exist_ok=True)
-        Path("object/translations/scraped_data.json").unlink(missing_ok=True)
-        settings = {**BASE_SETTINGS, "FEED_URI": "object/translations/scraped_data.json"}
+        Path("object/translations/output").mkdir(parents=True, exist_ok=True)
+        Path("object/translations/output/scraped_data.json").unlink(missing_ok=True)
+        settings = {**BASE_SETTINGS, "FEED_URI": "object/translations/output/scraped_data.json"}
         process = CrawlerProcess(settings=settings)
         process.crawl(ObjectTranslationSpider)
         process.start()
