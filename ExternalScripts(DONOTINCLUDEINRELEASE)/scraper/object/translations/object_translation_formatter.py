@@ -1,42 +1,49 @@
+import json
+import os
 from pathlib import Path
-
-from load_json_file import load_json_file
 
 
 class ObjectTranslationFormatter:
+
     def __call__(self, **kwargs):
+        self.base_dir = os.path.dirname(os.path.abspath(__file__))
         self.__format()
 
     def __format(self) -> None:
-        object_input = load_json_file("scraped_data.json")
+        object_input = self.__load_json_file("output/scraped_data.json")
+        object_input = sorted(object_input, key=lambda x: int(x["objectId"])) # Sort by objectId
+        locale_files = {}
 
-        data_by_locale = {}
-        print("Filtering object names by locale...")
         for item in object_input:
-            if "name" not in item:
-                continue
+            if not "name" in item or not "locale" in item:
+                continue  # Skip items without a name or locale
 
-            if item["locale"] not in data_by_locale:
-                print("Adding locale: {}".format(item["locale"]))
-                data_by_locale[item["locale"]] = []
-            data_by_locale[item["locale"]].append(item)
+            locale = item["locale"]
+            if locale not in locale_files:
+                print(f"Creating file for locale: {locale}")
+                file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
+                locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
-        print("Sorting object names by object ID...")
-        for locale, data in data_by_locale.items():
-            print("data_by_locale[locale]", data_by_locale[locale][0])
-            data_by_locale[locale].sort(key=lambda x: int(x.get("objectId", 0)))
-            print("data_by_locale[locale]", data_by_locale[locale][0])
+            # Escape quotes in name
+            item["name"] = item["name"].replace('"', '\\"')
 
-        print("Writing object names to file...")
-        for locale, data in data_by_locale.items():
-            with Path("object_names_{locale}.lua".format(locale=locale)).open("w", encoding="utf-8") as g:
-                g.write("return {\n")
-                for item in data:
-                    name = item["name"].replace("\"", "\\\"")
-                    g.write("[{id}] = \"{name}\",\n".format(id=item["objectId"], name=name))
-                g.write("}")
+            locale_files[locale].write("[{objectId}] = {{\"{name}\"}},\n".format(
+                objectId=item["objectId"], name=item["name"]
+            ))
+
+        for file in locale_files.values():
+            file.close()
+
+
+    def __load_json_file(self, file_name: str):
+        file_path = os.path.join(self.base_dir, file_name)
+        print(f"Loading '{file_path}'...")
+        with Path(file_path).open("r", encoding="utf-8") as f:
+            data = json.load(f)
+        print(f"Data contains {len(data)} entries")
+        return data
 
 
 if __name__ == "__main__":
-    f = ObjectTranslationFormatter()
-    f()
+    formatter = ObjectTranslationFormatter()
+    formatter()
