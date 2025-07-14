@@ -73,14 +73,6 @@ class Runner:
         process.crawl(ItemSpider)
         process.start()
 
-    def run_item_translations(self) -> None:
-        Path("item/translations").mkdir(parents=True, exist_ok=True)
-        Path("item/translations/scraped_data.json").unlink(missing_ok=True)
-        settings = {**BASE_SETTINGS, "FEED_URI": "item/translations/scraped_data.json"}
-        process = CrawlerProcess(settings=settings)
-        process.crawl(ItemTranslationSpider)
-        process.start()
-
     def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "object/object_data.json"}
@@ -93,6 +85,14 @@ class Runner:
         settings = {**BASE_SETTINGS, "FEED_URI": "object/object_zone_id_data.json"}
         process = CrawlerProcess(settings=settings)
         process.crawl(ObjectZoneIdSpider)
+        process.start()
+
+    def run_item_translations(self) -> None:
+        Path("item/translations/output").mkdir(parents=True, exist_ok=True)
+        Path("item/translations/output/scraped_data.json").unlink(missing_ok=True)
+        settings = {**BASE_SETTINGS, "FEED_URI": "item/translations/output/scraped_data.json"}
+        process = CrawlerProcess(settings=settings)
+        process.crawl(ItemTranslationSpider)
         process.start()
 
     def run_npc_translations(self) -> None:
