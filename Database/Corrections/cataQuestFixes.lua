@@ -14266,6 +14266,9 @@ function CataQuestFixes.Load()
         [29214] = { -- The Shadow Wardens
             [questKeys.objectives] = {nil,{{430015}}},
         },
+        [29215] = { -- The Hunt Begins
+            [questKeys.exclusiveTo] = {29206},
+        },
         [29219] = { -- Bwemba's Spirit
             [questKeys.preQuestSingle] = {},
             [questKeys.childQuests] = {29220,29221,29222,29223,29226,29227,29228,29229,29230,29231,29232,29233,29235,29236,29237,29238,29250,29268},
