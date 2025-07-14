@@ -14,6 +14,14 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [2079] = { -- Ilthalaine
+            [npcKeys.spawns] = {
+                [zoneIDs.SHADOWGLEN] = {
+                    {45.65,74.56,phases.ILTHALAINE_AT_BENCH},
+                    {46.3,73.49,phases.ILTHALAINE_AT_ROAD},
+                },
+            },
+        },
         [3977] = { -- High Inquisitor Whitemane
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.06,89.61}},
