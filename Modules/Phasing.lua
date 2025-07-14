@@ -445,11 +445,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.ILTHALAINE_AT_BENCH then
-        return (not complete[28715]) and (not questLog[28715])
+        return not complete[28713]
     end
 
     if phase == phases.ILTHALAINE_AT_ROAD then
-        return (complete[28715] or questLog[28715] and true) or false
+        return complete[28713] or false
     end
 
     if phase == phases.KEZAN_SASSY_IN_HQ then
