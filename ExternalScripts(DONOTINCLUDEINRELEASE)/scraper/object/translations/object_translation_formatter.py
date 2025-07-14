@@ -27,7 +27,7 @@ class ObjectTranslationFormatter:
             # Escape quotes in name
             item["name"] = item["name"].replace('"', '\\"')
 
-            locale_files[locale].write("[{objectId}] = {{\"{name}\"}},\n".format(
+            locale_files[locale].write("[{objectId}] = \"{name}\",\n".format(
                 objectId=item["objectId"], name=item["name"]
             ))
 
