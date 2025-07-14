@@ -426,10 +426,6 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
-
-            if (not QuestiePlayer.currentQuestlog[questId]) and QuestieDB.QuestPointers[questId] then
-                Questie:Error("Please report this error on Discord or GitHub. questLog of QuestEventHandler contains an accepted quest that is not in the players quest log.", questId)
-            end
         end
     end
 
@@ -437,6 +433,18 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
+            if (not QuestiePlayer.currentQuestlog[questId]) then
+                -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
+                -- We then add them to the player's quest log so they can be updated.
+                local quest = QuestieDB.GetQuest(questId)
+                if quest then
+                    Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
+                    QuestiePlayer.currentQuestlog[questId] = quest
+                else
+                    Questie:Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+                end
+            end
+
             --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
