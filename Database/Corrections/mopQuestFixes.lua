@@ -699,6 +699,9 @@ function MopQuestFixes.Load()
         [31139] = { -- Beating Them Back!
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
+        [31140] = { -- Lions for Lambs
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
         [31152] = { -- Peering Into the Past
             [questKeys.preQuestSingle] = {31167},
         },
