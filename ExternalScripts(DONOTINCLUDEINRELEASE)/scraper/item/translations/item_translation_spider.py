@@ -3,6 +3,8 @@ import re
 
 from scrapy import signals, Spider
 
+from item.translations.item_translation_formatter import ItemTranslationFormatter
+from item.translations.item_translation_move_to_lookups import main as move_to_lookups
 from item.item_ids import ITEM_IDS
 
 
@@ -49,5 +51,10 @@ class ItemTranslationSpider(Spider):
         return spider
 
     def spider_feed_closed(self):
+        print("Finished scraping item translations, now formatting the data...")
+        formatter = ItemTranslationFormatter()
+        formatter()
+        print("Formatting done, now moving to lookups...")
+        move_to_lookups()
         print("DONE")
 
