@@ -1,15 +1,8 @@
 import os
 import re
 
-LOCALES = [
-    {"input": "cn", "output": "zhCN"},
-    {"input": "de", "output": "deDE"},
-    {"input": "es", "output": "esES"},
-    {"input": "fr", "output": "frFR"},
-    {"input": "ko", "output": "koKR"},
-    {"input": "pt", "output": "ptBR"},
-    {"input": "ru", "output": "ruRU"},
-]
+from supported_locales import LOCALES
+
 
 def merge_locales(input_locale, output_locale):
     base_dir = os.path.dirname(os.path.abspath(__file__))
