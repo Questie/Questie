@@ -32,6 +32,12 @@ function MopQuestFixes.Load()
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },
+        [26389] = { -- Blackrock Invasion
+            [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
+        },
+        [26391] = { -- Extinguishing Hope
+            [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
+        },
         [27670] = { -- Pinned Down
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
@@ -705,6 +711,17 @@ function MopQuestFixes.Load()
         },
         [31142] = { -- Palm of the Tiger
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31143] = { -- Join the Battle!
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.startedBy] = {{63258}},
+            [questKeys.preQuestSingle] = {31142},
+        },
+        [31144] = { -- They Sent Assassins
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [31145] = { -- The Rear is Clear
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
         [31152] = { -- Peering Into the Past
             [questKeys.preQuestSingle] = {31167},
