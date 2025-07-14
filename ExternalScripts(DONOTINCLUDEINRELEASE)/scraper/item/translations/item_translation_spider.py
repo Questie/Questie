@@ -6,19 +6,13 @@ from scrapy import signals, Spider
 from item.translations.item_translation_formatter import ItemTranslationFormatter
 from item.translations.item_translation_move_to_lookups import main as move_to_lookups
 from item.item_ids import ITEM_IDS
+from supported_locales import LOCALES
 
 
 class ItemTranslationSpider(Spider):
     name = "item-translations"
-    base_url = "https://www.wowhead.com"
     base_urls = [
-        base_url + "/de/item={}",
-        base_url + "/es/item={}",
-        base_url + "/fr/item={}",
-        base_url + "/pt/item={}",
-        base_url + "/ru/item={}",
-        base_url + "/ko/item={}",
-        base_url + "/cn/item={}",
+        f"https://www.wowhead.com/{locale['input']}/item={{}}" for locale in LOCALES
     ]
 
     start_urls = []
