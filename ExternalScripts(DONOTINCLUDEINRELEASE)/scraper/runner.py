@@ -5,7 +5,7 @@ from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 
 from item.item_spider import ItemSpider
-from item.item_translation_spider import ItemTranslationSpider
+from item.translations.item_translation_spider import ItemTranslationSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
 from npc.translations.npc_translation_spider import NPCTranslationSpider

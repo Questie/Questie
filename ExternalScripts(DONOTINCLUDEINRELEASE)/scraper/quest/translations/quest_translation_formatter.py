@@ -51,24 +51,24 @@ class QuestTranslationFormatter:
         quest_input = sorted(quest_input, key=lambda x: int(x["questId"]))  # Sort by questId
         locale_files = {}
 
-        for item in quest_input:
-            if not "name" in item or not "locale" in item:
-                continue  # Skip items without a name or locale
+        for quest in quest_input:
+            if not "name" in quest or not "locale" in quest:
+                continue  # Skip quests without a name or locale
 
-            locale = item["locale"]
+            locale = quest["locale"]
             if locale not in locale_files:
                 print(f"Creating file for locale: {locale}")
                 file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
                 locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
-            name = item["name"]
-            objectives_text = item["objectivesText"] if "objectivesText" in item else "nil"
+            name = quest["name"]
+            objectives_text = quest["objectivesText"] if "objectivesText" in quest else "nil"
 
             # Escape quotes in name and objectives_text
             name = cleanup_name(name)
 
             objectives_text = cleanup_objectives_text(objectives_text)
-            if item["questId"] == "34060":
+            if quest["questId"] == "34060":
                 print("objectives_text", locale, objectives_text)
             if objectives_text == "":
                 objectives_text = "nil"
@@ -76,7 +76,7 @@ class QuestTranslationFormatter:
             objectives_text = objectives_text if objectives_text == "nil" else f"{{\"{objectives_text}\"}}"
 
             locale_files[locale].write("[{questId}] = {{\"{name}\", nil, {objectivesText}}},\n".format(
-                questId=item["questId"],
+                questId=quest["questId"],
                 name=name,
                 objectivesText=objectives_text
             ))

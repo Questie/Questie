@@ -8,15 +8,15 @@ from item.item_ids import ITEM_IDS
 
 class ItemTranslationSpider(Spider):
     name = "item-translations"
-    cata_url = "https://www.wowhead.com/cata"
+    base_url = "https://www.wowhead.com"
     base_urls = [
-        cata_url + "/de/item={}",
-        cata_url + "/es/item={}",
-        cata_url + "/fr/item={}",
-        cata_url + "/pt/item={}",
-        cata_url + "/ru/item={}",
-        cata_url + "/ko/item={}",
-        cata_url + "/cn/item={}",
+        base_url + "/de/item={}",
+        base_url + "/es/item={}",
+        base_url + "/fr/item={}",
+        base_url + "/pt/item={}",
+        base_url + "/ru/item={}",
+        base_url + "/ko/item={}",
+        base_url + "/cn/item={}",
     ]
 
     start_urls = []

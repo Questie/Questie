@@ -15,21 +15,21 @@ class ObjectTranslationFormatter:
         object_input = sorted(object_input, key=lambda x: int(x["objectId"])) # Sort by objectId
         locale_files = {}
 
-        for item in object_input:
-            if not "name" in item or not "locale" in item:
-                continue  # Skip items without a name or locale
+        for object in object_input:
+            if not "name" in object or not "locale" in object:
+                continue  # Skip objects without a name or locale
 
-            locale = item["locale"]
+            locale = object["locale"]
             if locale not in locale_files:
                 print(f"Creating file for locale: {locale}")
                 file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
                 locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
             # Escape quotes in name
-            item["name"] = item["name"].replace('"', '\\"')
+            object["name"] = object["name"].replace('"', '\\"')
 
             locale_files[locale].write("[{objectId}] = \"{name}\",\n".format(
-                objectId=item["objectId"], name=item["name"]
+                objectId=object["objectId"], name=object["name"]
             ))
 
         for file in locale_files.values():
