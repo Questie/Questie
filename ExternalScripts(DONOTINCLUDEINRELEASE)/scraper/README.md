@@ -18,3 +18,7 @@ Currently, it is only used to scrape SoD related data.
      
 4. For additional commands and utilities run:
    - `python runner.py -h` 
+
+## Generate new translations
+
+To update the lookup files with the latest translations, the runner has multiple `*-translations` arguments. These will scrape translations for all locales available on wowhead, format them and merge them with the existing lookup files.
