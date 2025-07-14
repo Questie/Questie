@@ -8,15 +8,15 @@ from object.translations.mop_object_ids import MOP_OBJECT_IDS
 
 class ObjectTranslationSpider(Spider):
     name = "object-translations"
-    cata_url = "https://www.wowhead.com"
+    base_url = "https://www.wowhead.com"
     base_urls = [
-        cata_url + "/de/object={}",
-        cata_url + "/es/object={}",
-        cata_url + "/fr/object={}",
-        cata_url + "/pt/object={}",
-        cata_url + "/ru/object={}",
-        cata_url + "/ko/object={}",
-        cata_url + "/cn/object={}",
+        base_url + "/de/object={}",
+        base_url + "/es/object={}",
+        base_url + "/fr/object={}",
+        base_url + "/pt/object={}",
+        base_url + "/ru/object={}",
+        base_url + "/ko/object={}",
+        base_url + "/cn/object={}",
     ]
 
     start_urls = []
