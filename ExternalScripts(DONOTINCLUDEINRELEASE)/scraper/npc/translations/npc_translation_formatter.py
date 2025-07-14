@@ -16,31 +16,33 @@ class NPCTranslationFormatter:
         npc_input = sorted(npc_input, key=lambda x: int(x["npcId"]))  # Sort by npcId
         locale_files = {}
 
-        for item in npc_input:
-            if not "name" in item or not "locale" in item:
-                continue  # Skip items without a name or locale
+        for npc in npc_input:
+            if not "name" in npc or not "locale" in npc:
+                continue  # Skip npcs without a name or locale
 
-            locale = item["locale"]
+            locale = npc["locale"]
             if locale not in locale_files:
                 print(f"Creating file for locale: {locale}")
                 file_path = os.path.join(self.base_dir, f"output/{locale}.lua")
                 locale_files[locale] = Path(file_path).open("w", encoding="utf-8")
 
-            match = re.match(r'^(.*?)\s*<(.*?)>$', item["name"])
+            match = re.match(r'^(.*?)\s*<(.*?)>$', npc["name"])
             if match:
                 name, subname = match.groups()
             else:
-                name, subname = item["name"], ""
+                name, subname = npc["name"], ""
 
             # Escape quotes in name and subname
             name = name.replace('"', '\\"')
             subname = subname.replace('"', '\\"')
 
-            item["name"] = name
-            item["subname"] = subname
+            npc["name"] = name
+            npc["subname"] = subname
 
             locale_files[locale].write("[{npcId}] = {{\"{name}\",{subName}}},\n".format(
-                npcId=item["npcId"], name=item["name"], subName=f'\"{item["subname"]}\"' if item["subname"] else "nil"
+                npcId=npc["npcId"],
+                name=npc["name"],
+                subName=f'\"{npc["subname"]}\"' if npc["subname"] else "nil"
             ))
 
         for file in locale_files.values():
