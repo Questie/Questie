@@ -337,6 +337,10 @@ function CataNpcFixes.Load()
         [2055] = { -- Master Apothecary Faranell
             [npcKeys.questStarts] = {515},
         },
+        [2070] = { -- Moonstalker Runt
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.27,61.66},{41.75,63.49},{43.12,63.94},{41.47,65.86},{39.22,69.96},{39.94,70.13},{41.28,88.16},{45.73,89.78},{38.47,90.28}}},
+            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
         [2077] = { -- Melithar Staghelm
             [npcKeys.questStarts] = {3116,3117,3118,3119,3120,26841,28715},
         },
@@ -349,10 +353,6 @@ function CataNpcFixes.Load()
             },
             [npcKeys.waypoints] = {},
             [npcKeys.questStarts] = {3116,3117,3118,3119,3120,26841,28713,28714,28734},
-        },
-        [2070] = { -- Moonstalker Runt
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.27,61.66},{41.75,63.49},{43.12,63.94},{41.47,65.86},{39.22,69.96},{39.94,70.13},{41.28,88.16},{45.73,89.78},{38.47,90.28}}},
-            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
         },
         [2081] = { -- Sentinel Kyra Starsong
             [npcKeys.questStarts] = {13945},
