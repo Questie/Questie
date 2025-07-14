@@ -19,7 +19,6 @@ class ObjectTranslationSpider(Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        # all base_urls with all object_ids
         self.start_urls = [url.format(object_id) for object_id in MOP_OBJECT_IDS for url in self.base_urls]
 
     def parse(self, response):
