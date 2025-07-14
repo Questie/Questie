@@ -3,6 +3,7 @@ import re
 
 from scrapy import signals, Spider
 
+from object.translations.object_translation_formatter import ObjectTranslationFormatter
 from object.translations.mop_object_ids import MOP_OBJECT_IDS
 
 
@@ -50,4 +51,7 @@ class ObjectTranslationSpider(Spider):
         return spider
 
     def spider_feed_closed(self):
+        print("Finished scraping object translations, now formatting the data...")
+        formatter = ObjectTranslationFormatter()
+        formatter()
         print("DONE")
