@@ -589,6 +589,9 @@ function MopQuestFixes.Load()
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
+        [31241] = { -- Wicked Wikkets
+            [questKeys.preQuestSingle] = {29879},
+        },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.preQuestGroup] = {30139,30187},
         },
