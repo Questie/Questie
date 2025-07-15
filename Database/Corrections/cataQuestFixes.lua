@@ -13249,6 +13249,7 @@ function CataQuestFixes.Load()
         [28715] = { -- Demonic Thieves
             [questKeys.preQuestSingle] = {28713},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbs] = {28734},
         },
         [28716] = { -- Hero's Call: Twilight Highlands!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -13319,8 +13320,8 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Take Pip's Mole Machine to Blackrock Mountain."},
         },
         [28734] = { -- A Favor for Melithar
-            [questKeys.exclusiveTo] = {28715},
             [questKeys.nextQuestInChain] = 28715,
+            [questKeys.breadcrumbForQuestId] = 28715,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [28735] = { -- To the Chamber of Incineration!
