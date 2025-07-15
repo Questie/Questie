@@ -474,6 +474,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56402,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.preQuestSingle] = {29935},
         },
+        [29937] = { -- Furious Fowl
+            [questKeys.preQuestSingle] = {29941},
+        },
         [29941] = { -- Beyond the Horizon
             [questKeys.objectives] = {{{56340,nil,Questie.ICON_TYPE_TALK},{56477,nil,Questie.ICON_TYPE_TALK},{56478,nil,Questie.ICON_TYPE_TALK},{56336,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {29936},
