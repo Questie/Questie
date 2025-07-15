@@ -61,6 +61,9 @@ function MopItemFixes.Load()
         [76225] = { -- Fistful of Bird Guts
             [itemKeys.npcDrops] = {56396},
         },
+        [76297] = { -- Stolen Turnip
+            [itemKeys.objectDrops] = {209891},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
