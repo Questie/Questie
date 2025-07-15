@@ -717,6 +717,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30046] = { -- Chen's Resolution
+            [questKeys.preQuestSingle] = {29952},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
