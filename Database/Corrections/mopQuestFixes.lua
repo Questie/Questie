@@ -559,6 +559,10 @@ function MopQuestFixes.Load()
         [29823] = { -- Scouting Report: The Friend of My Enemy
             [questKeys.preQuestSingle] = {29731},
         },
+        [29824] = { -- Scouting Report: Like Jinyu in a Barrel
+            [questKeys.preQuestSingle] = {29823},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in"),0,{{"object",209621}}}},
+        },
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
         },
