@@ -315,8 +315,8 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
     }))
     Questie.db.char.vendorList["Bags"] = _reformatVendors(Townsfolk:PopulateVendors({4496, 4497, 4498, 4499, (Expansions.Current >= Expansions.Tbc) and 30744 or nil}))
     Questie.db.char.vendorList["Potions"] = _reformatVendors(Townsfolk:PopulateVendors({
-        118, 858, 929, 1710, 3928, 13446, 18839, (Expansions.Current >= Expansions.Tbc) and 22829 or nil, (Expansions.Current >= Expansions.Tbc) and 32947 or nil, (Expansions.Current >= Expansions.Wotlk) and 33447 or nil, -- Healing Potions
-        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Expansions.Current >= Expansions.Tbc) and 22832 or nil, (Expansions.Current >= Expansions.Tbc) and 32948 or nil, (Expansions.Current >= Expansions.Wotlk) and 33448 or nil, -- Mana Potions
+        118, 858, 929, 1710, 3928, 13446, 18839, (Expansions.Current >= Expansions.Tbc) and 22829 or nil, (Expansions.Current >= Expansions.Tbc) and 32947 or nil, (Expansions.Current >= Expansions.Wotlk) and 33447 or nil, (Expansions.Current >= Expansions.Cata) and 57191 or nil, -- Healing Potions
+        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Expansions.Current >= Expansions.Tbc) and 22832 or nil, (Expansions.Current >= Expansions.Tbc) and 32948 or nil, (Expansions.Current >= Expansions.Wotlk) and 33448 or nil, (Expansions.Current >= Expansions.Cata) and 57192 or nil, -- Mana Potions
     }))
     Townsfolk:UpdatePlayerVendors()
 end
@@ -355,8 +355,8 @@ local function _UpdateAmmoVendors() -- call on change weapon
 end
 
 local function _UpdateFoodDrink()
-    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids
-    local food = { -- food item ids (from wowhead)
+    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids -- TO DO: update this?
+    local food = { -- food item ids (from wowhead) -- TO DO: update this?
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
         4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223,
