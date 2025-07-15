@@ -3108,6 +3108,7 @@ function QuestieQuestFixes:Load()
         },
         [8388] = { -- For Great Honor
             [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
+            [questKeys.objectivesText] = {},
         },
         [8389] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
