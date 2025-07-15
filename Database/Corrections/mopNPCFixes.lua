@@ -140,6 +140,9 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [55768] = { -- Lore Walker Cho
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27.59,32.68}}},
+        },
         [55942] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.36,72.53}}},
         },
@@ -581,6 +584,9 @@ function MopNpcFixes.Load()
         [63296] = { -- Gato
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_TRIALS] = {{42.2,68.4}}},
+        },
+        [63307] = { -- Lore Walker Cho
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{28.82,32.62}}},
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
