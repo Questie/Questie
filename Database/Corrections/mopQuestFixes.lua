@@ -549,6 +549,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29827,31112},
         },
+        [29877] = { -- A Poor Grasp of the Basics
+            [questKeys.preQuestSingle] = {29907},
+        },
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
         },
