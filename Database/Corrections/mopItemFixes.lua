@@ -55,6 +55,9 @@ function MopItemFixes.Load()
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
+        [76225] = { -- Fistful of Bird Guts
+            [itemKeys.npcDrops] = {56396},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
