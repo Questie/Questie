@@ -576,6 +576,9 @@ function MopQuestFixes.Load()
         [29942] = { -- Silly Wikket, Slickies are for Hozen
             [questKeys.preQuestSingle] = {31239},
         },
+        [29971] = { -- The Scouts Return
+            [questKeys.preQuestGroup] = {29939,29942},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
