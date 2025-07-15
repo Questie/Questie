@@ -3063,7 +3063,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {609,3000},
         },
         [8367] = { -- For Great Honor
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [8368] = { -- Battle of Warsong Gulch
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
