@@ -621,6 +621,10 @@ function MopQuestFixes.Load()
         [29945] = { -- Yellow and Red Make Orange
             [questKeys.preQuestSingle] = {29919},
         },
+        [29947] = { -- Crouching Carrot, Hidden Turnip
+            [questKeys.sourceItemId] = 76370;
+            [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29948] = { -- Thieves to the Core
             [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
         },
