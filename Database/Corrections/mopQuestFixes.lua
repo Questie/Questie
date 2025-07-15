@@ -618,6 +618,9 @@ function MopQuestFixes.Load()
         [29944] = { -- Leaders Among Breeders
             [questKeys.preQuestSingle] = {29919},
         },
+        [29945] = { -- Yellow and Red Make Orange
+            [questKeys.preQuestSingle] = {29919},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
