@@ -474,6 +474,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56402,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.preQuestSingle] = {29935},
         },
+        [29941] = { -- Beyond the Horizon
+            [questKeys.preQuestSingle] = {29936},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
