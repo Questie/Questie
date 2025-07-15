@@ -637,6 +637,7 @@ function MopQuestFixes.Load()
         },
         [29952] = { -- Broken Dreams
             [questKeys.preQuestSingle] = {29950}, -- might be prequest group with 29951
+            [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [30027] = { -- The Lesson of the Iron Bough
