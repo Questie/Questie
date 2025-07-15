@@ -12,7 +12,6 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.spellObjectiveFirst[24526] = true
 QuestieCorrections.spellObjectiveFirst[24527] = true
 QuestieCorrections.spellObjectiveFirst[24528] = true
@@ -32,6 +31,7 @@ QuestieCorrections.spellObjectiveFirst[26946] = true
 QuestieCorrections.spellObjectiveFirst[26947] = true
 QuestieCorrections.spellObjectiveFirst[26948] = true
 QuestieCorrections.spellObjectiveFirst[26949] = true
+QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
