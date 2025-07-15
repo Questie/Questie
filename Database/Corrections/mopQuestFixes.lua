@@ -552,6 +552,9 @@ function MopQuestFixes.Load()
         [29871] = { -- Clever Ashyo
             [questKeys.preQuestSingle] = {30086},
         },
+        [29872] = { -- Lin Tenderpaw
+            [questKeys.preQuestSingle] = {30086},
+        },
         [29873] = { -- Ken-Ken
             [questKeys.preQuestSingle] = {30086},
         },
