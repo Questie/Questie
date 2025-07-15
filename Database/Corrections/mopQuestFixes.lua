@@ -628,6 +628,9 @@ function MopQuestFixes.Load()
         [29948] = { -- Thieves to the Core
             [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
         },
+        [29951] = { -- Muddy Water
+            [questKeys.preQuestSingle] = {29949},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
