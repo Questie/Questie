@@ -2760,6 +2760,7 @@ l10n.zoneCategoryLookup = {
         [2557] = "Dire Maul",
         [2677] = "Blackwing Lair",
         [2717] = "Molten Core",
+        [3428] = "Ahn'Qiraj",
         [3429] = "Ruins of Ahn'Qiraj",
         [3456] = "Naxxramas",
         [3457] = "Karazhan",
