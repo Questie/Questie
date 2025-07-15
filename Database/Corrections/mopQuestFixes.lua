@@ -573,6 +573,7 @@ function MopQuestFixes.Load()
         },
         [29910] = { -- Rampaging Rodents
             [questKeys.preQuestSingle] = {29909},
+            [questKeys.objectives] = {{{56203,nil,Questie.ICON_TYPE_INTERACT}},{{209835,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
