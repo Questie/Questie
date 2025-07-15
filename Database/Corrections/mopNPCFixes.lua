@@ -160,6 +160,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [55378] = { -- Lifelike Jade Statue
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
+        },
+        [55381] = { -- Widow Greenpaw
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{39.23,46.22}}},
+        },
         [55521] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={
                 {31.2,21.6,phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK},

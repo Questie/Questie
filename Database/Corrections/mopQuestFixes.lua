@@ -25,6 +25,7 @@ QuestieCorrections.spellObjectiveFirst[26946] = true
 QuestieCorrections.spellObjectiveFirst[26947] = true
 QuestieCorrections.spellObjectiveFirst[26948] = true
 QuestieCorrections.spellObjectiveFirst[26949] = true
+QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 
