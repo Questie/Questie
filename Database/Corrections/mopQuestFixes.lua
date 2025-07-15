@@ -13,7 +13,14 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.spellObjectiveFirst[26940] = true
+QuestieCorrections.spellObjectiveFirst[26945] = true
+QuestieCorrections.spellObjectiveFirst[26946] = true
+QuestieCorrections.spellObjectiveFirst[26947] = true
+QuestieCorrections.spellObjectiveFirst[26948] = true
+QuestieCorrections.spellObjectiveFirst[26949] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
+QuestieCorrections.spellObjectiveFirst[31169] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -38,6 +45,27 @@ function MopQuestFixes.Load()
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
+        [26940] = { -- Arcane Missiles
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26945] = { -- Learning New Techniques
+            [questKeys.extraObjectives] = {},
+        },
+        [26946] = { -- A Rogue's Advantage
+            [questKeys.extraObjectives] = {},
+        },
+        [26947] = { -- A Woodsman's Training
+            [questKeys.extraObjectives] = {},
+        },
+        [26948] = { -- Moonfire
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{8921}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26949] = { -- Learning the Word
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
         [27670] = { -- Pinned Down
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
@@ -49,6 +77,35 @@ function MopQuestFixes.Load()
         },
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [28723] = { -- Priestess of the Moon
+            [questKeys.startedBy] = {{3593,3594,3595,3596,3597,43006,63331}},
+            [questKeys.preQuestSingle] = {26940,26945,26946,26947,26948,26949,31169},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28724] = { -- Iverron's Antidote
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28725] = { -- The Woodland Protector
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28726] = { -- Webwood Corruption
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28727] = { -- Vile Touch
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28728] = { -- Signs of Things to Come
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28729] = { -- Teldrassil: Crown of Azeroth
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28730] = { -- Precious Waters
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
+        },
+        [28731] = { -- Teldrassil: Passing Awareness
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
         },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{59153}}},
@@ -748,8 +805,14 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212969}}},
             [questKeys.preQuestSingle] = {31152},
         },
+        [31168] = { -- Calligraphed Sigil
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
         [31169] = { -- The Art of the Monk
+            [questKeys.preQuestSingle] = {31168},
             [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100787}}},
         },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
