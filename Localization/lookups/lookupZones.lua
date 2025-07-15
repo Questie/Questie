@@ -2832,6 +2832,7 @@ l10n.zoneCategoryLookup = {
         [6298] = "Brawl'gar Arena",
         [6622] = "Throne of Thunder",
         [6738] = "Siege of Orgrimmar",
+        [6822] = "The Molten Core",
     },
     [9] = {
         [-25] = "Battlegrounds",
