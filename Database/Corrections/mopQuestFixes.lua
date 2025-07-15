@@ -751,6 +751,9 @@ function MopQuestFixes.Load()
         [31169] = { -- The Art of the Monk
             [questKeys.requiredClasses] = classIDs.MONK,
         },
+        [31239] = { -- What's in a Name Name?
+            [questKeys.preQuestSingle] = {29941},
+        },
         [31241] = { -- Wicked Wikkets
             [questKeys.preQuestSingle] = {29879},
         },
