@@ -659,6 +659,9 @@ function MopQuestFixes.Load()
         [30070] = { -- The Fall of Ga'trul
             [questKeys.preQuestGroup] = {31741,31742,31743,31744},
         },
+        [30086] = { -- The Search for the Hidden Master
+            [questKeys.preQuestSingle] = {29908},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
