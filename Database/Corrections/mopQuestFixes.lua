@@ -590,6 +590,9 @@ function MopQuestFixes.Load()
         [29942] = { -- Silly Wikket, Slickies are for Hozen
             [questKeys.preQuestSingle] = {31239},
         },
+        [29943] = { -- Guerrillas in our Midst
+            [questKeys.preQuestSingle] = {29824},
+        },
         [29971] = { -- The Scouts Return
             [questKeys.preQuestGroup] = {29939,29942},
         },
