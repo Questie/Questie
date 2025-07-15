@@ -692,6 +692,9 @@ function MopQuestFixes.Load()
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
         },
+        [31134] = { -- If These Stones Could Speak
+            [questKeys.objectives] = {nil,{{212926},{212925},{212924}}},
+        },
         [31135] = { -- The Future of Gnomeregan
             [questKeys.startedBy] = {{42396}},
             [questKeys.preQuestSingle] = {27674},
