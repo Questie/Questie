@@ -5,7 +5,6 @@ from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 
 from item.item_spider import ItemSpider
-from item.translations.item_translation_spider import ItemTranslationSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
 from npc.translations.npc_translation_spider import NPCTranslationSpider
@@ -87,14 +86,6 @@ class Runner:
         process.crawl(ObjectZoneIdSpider)
         process.start()
 
-    def run_item_translations(self) -> None:
-        Path("item/translations/output").mkdir(parents=True, exist_ok=True)
-        Path("item/translations/output/scraped_data.json").unlink(missing_ok=True)
-        settings = {**BASE_SETTINGS, "FEED_URI": "item/translations/output/scraped_data.json"}
-        process = CrawlerProcess(settings=settings)
-        process.crawl(ItemTranslationSpider)
-        process.start()
-
     def run_npc_translations(self) -> None:
         Path("npc/translations/output").mkdir(parents=True, exist_ok=True)
         Path("npc/translations/output/scraped_data.json").unlink(missing_ok=True)
@@ -164,9 +155,6 @@ if __name__ == '__main__':
     if args.item:
         print("Running item spider")
         runner.run_item()
-    if args.item_translations:
-        print("Running item spider for translations")
-        runner.run_item_translations()
     if args.object:
         print("Running object spider")
         runner.run_object(run_for_retail)
