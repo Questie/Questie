@@ -589,15 +589,6 @@ function MopQuestFixes.Load()
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
-        [31241] = { -- Wicked Wikkets
-            [questKeys.preQuestSingle] = {29879},
-        },
-        [31810] = { -- Riding the Skies (Azure Cloud Serpent)
-            [questKeys.preQuestGroup] = {30139,30187},
-        },
-        [31811] = { -- Riding the Skies (Golden Cloud Serpent)
-            [questKeys.preQuestGroup] = {30141,30187},
-        },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
@@ -748,6 +739,9 @@ function MopQuestFixes.Load()
         },
         [31169] = { -- The Art of the Monk
             [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31241] = { -- Wicked Wikkets
+            [questKeys.preQuestSingle] = {29879},
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1037,6 +1031,12 @@ function MopQuestFixes.Load()
         [31781] = { -- Lindsay
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{65651,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31810] = { -- Riding the Skies (Azure Cloud Serpent)
+            [questKeys.preQuestGroup] = {30139,30187},
+        },
+        [31811] = { -- Riding the Skies (Golden Cloud Serpent)
+            [questKeys.preQuestGroup] = {30141,30187},
         },
         [31812] = { -- Zunta, The Pet Tamer
             [questKeys.objectives] = {{{66126,nil,Questie.ICON_TYPE_PET_BATTLE}}},
