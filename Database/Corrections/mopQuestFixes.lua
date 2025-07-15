@@ -627,7 +627,6 @@ function MopQuestFixes.Load()
         },
         [29948] = { -- Thieves to the Core
             [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
-            [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
         },
         [29950] = { -- Li Li's Day Off
             [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
@@ -635,6 +634,9 @@ function MopQuestFixes.Load()
         [29951] = { -- Muddy Water
             [questKeys.preQuestSingle] = {29949},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Fill the vial"),0,{{"object",209921}}}},
+        },
+        [29952] = { -- Broken Dreams
+            [questKeys.preQuestSingle] = {29950}, -- might be prequest group with 29951
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
