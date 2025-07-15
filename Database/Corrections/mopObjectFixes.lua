@@ -140,8 +140,8 @@ function MopObjectFixes.Load()
         },
         [223816] = { -- Meeting Stone (Heart of Fear)
             [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTED] = {{40.6,33.6}}},
-            [objectKeys.zoneID] = zoneIDs.DREAD_WASTED,
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.6,33.6}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [223817] = { -- Meeting Stone (Throne of Thunder) TODO: Add correct spawns, once The Isle of Thunder is available
             [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.

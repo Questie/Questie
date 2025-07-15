@@ -14,6 +14,22 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [658] = { -- Sten Stoutarm
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{65.5,43.12}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [706] = { -- Frostmane Troll Whelp
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{17.34,62.74},{18.38,71.08},{21.23,66.65},{20.96,66.48},{22.78,65.38},{22.29,63.77},{20.41,64.62},{20.28,61.25},{23.33,63.6},{21.85,60.2},{24.19,68.19},{23.38,73.3},{28.8,75.1},{27.87,77.83},{30.56,85.16},{31.36,83.89},{30.34,84.95},{31.69,84.21},{30.88,87.03},{28.76,80.64},{29.35,82.59},{30.65,81.86},{30.31,78.65},{31.97,80.85},{35.94,85.78},{33.89,83.94},{44.52,71.9},{46.32,79.25},{49.21,80.62},{49.42,80.58},{51.78,79.06},{48.16,83.82},{46.64,75.29},{49.07,76.22},{53.47,76.51},{55.77,77.6}},[zoneIDs.FROSTMANE_HOVEL] = {{77.29,30.75}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [808] = { -- Grik'nir the Cold
+            [npcKeys.spawns] = {[zoneIDs.FROSTMANE_HOVEL] = {{76.4,31.9}}},
+            [npcKeys.zoneID] = zoneIDs.FROSTMANE_HOVEL,
+        },
+        [946] = { -- Frostmane Novice
+            [npcKeys.spawns] = {[zoneIDs.FROSTMANE_HOVEL] = {{57.55,52.31},{62.92,38.31},{61.75,31.6},{61.01,24},{66.03,20.04},{71.52,24.45},{79.32,26.34},{72.08,32.84},{74.51,38.54},{76.86,48.1},{70.66,76.16},{51.31,54.34},{49.4,80.2},{44.76,90.8}}},
+            [npcKeys.zoneID] = zoneIDs.FROSTMANE_HOVEL,
+        },
         [1986] = { -- Webwood Spider
             [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{37.34,37},{35.29,40.05},{32.59,47.14},{33.85,54.1},{38.03,58.14},{54.04,42.38},{56.43,38.82},{59.73,38.93},{56.63,32.96},{56.99,26.61},{50.27,29.7},{47.11,21.96},{41.08,26.06},{42.44,19.34},{33.51,16.16},{35.38,30.24},{39.48,31.6},{44.74,36.54},{46.14,54.54},{50.18,42.47},{55.19,47.64},{56.39,52.77},{58.48,55.24},{52.01,58.71},{50.15,67.39},{41.18,66.5},{41.7,75.81},{44.25,80.46}}},
             [npcKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
@@ -62,8 +78,47 @@ function MopNpcFixes.Load()
         [36648] = { -- Baine Bloodhoof
             [npcKeys.questStarts] = {24540,26397,31036},
         },
+        [37087] = { -- Jona Ironstock
+            [npcKeys.questStarts] = {3106,3107,3108,3109,3110,3115,24474,24475,24487,24493,24494,24496,31150},
+        },
+        [37112] = { -- Wayward Fire Elemental
+            [npcKeys.spawns] = {[zoneIDs.FROSTMANE_HOVEL] = {{69.32,28.82}}},
+            [npcKeys.zoneID] = zoneIDs.FROSTMANE_HOVEL,
+        },
+        [37113] = { -- Milo Geartwinge
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{69.84,44}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [37115] = { -- Teo Hammerstorm
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{61.16,13.79}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [37169] = { -- Milo's Gyro
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{69.83,43.64}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [37507] = { -- Frostmane Blade
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{51.47,82.68}},[zoneIDs.FROSTMANE_HOVEL] = {{44.06,30.42},{78.9,58.17},{79.91,67.83},{53.4,68.98},{45.46,88.5},{44.58,87.82},{42.49,88.56},{37.31,73.4},{57.84,35.62},{59.34,41.62},{68.04,42.93},{74.16,23.83},{69.97,18},{60.56,17.75},{55.47,12.55},{43.85,15.86},{42.27,26.36},{45.63,34.52},{46.32,43.84},{53.13,52.72},{49.28,50.58},{43.53,50.04},{42.21,47.59},{32.8,36.3},{31.15,45.97},{30.6,52.38},{26.73,47.47},{11.43,52.4},{13.95,40.87}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
         [39605] = { -- Garrosh Hellscream
             [npcKeys.questStarts] = {9627,13842,25275,26293,26324,26830,26840,28909,31034},
+        },
+        [41938] = { -- Tremor Totem
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{61.56,13.94}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [41940] = { -- Windfury Totem
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{62.02,13.31}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [42604] = { -- Elemental Resistance Totem
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{61.65,13.37}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
+        },
+        [42605] = { -- Flametongue Totem
+            [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{62,13.98}}},
+            [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
         },
         [43006] = { -- Rhyanda
             [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{47.36,59.69}}},
