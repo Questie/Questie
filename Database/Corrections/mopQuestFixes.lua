@@ -730,7 +730,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
         [31152] = { -- Peering Into the Past
-            [questKeys.preQuestSingle] = {31167},
+            [questKeys.preQuestSingle] = {31134},
         },
         [31167] = { -- Family Tree
             [questKeys.preQuestSingle] = {31134},
