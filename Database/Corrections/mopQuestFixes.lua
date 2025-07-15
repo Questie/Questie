@@ -734,7 +734,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31134},
         },
         [31167] = { -- Family Tree
-            [questKeys.preQuestSingle] = {31134},
+            [questKeys.preQuestSingle] = {31152},
         },
         [31169] = { -- The Art of the Monk
             [questKeys.requiredClasses] = classIDs.MONK,
