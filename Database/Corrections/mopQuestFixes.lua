@@ -558,6 +558,12 @@ function MopQuestFixes.Load()
         [29873] = { -- Ken-Ken
             [questKeys.preQuestSingle] = {30086},
         },
+        [29874] = { -- Kang Bramblestaff [Alliance]
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29875] = { -- Kang Bramblestaff [Horde]
+            [questKeys.preQuestSingle] = {30086},
+        },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281,56146},56146},},},
