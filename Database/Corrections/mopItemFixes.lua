@@ -67,6 +67,9 @@ function MopItemFixes.Load()
         [75275] = { -- Mushan Shoulder Steak
             [itemKeys.npcDrops] = {56239},
         },
+        [75276] = { -- Turtle Meat Scrap
+            [itemKeys.npcDrops] = {56256},
+        },
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
