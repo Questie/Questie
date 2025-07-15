@@ -593,6 +593,9 @@ function MopQuestFixes.Load()
         [29943] = { -- Guerrillas in our Midst
             [questKeys.preQuestSingle] = {29824},
         },
+        [29968] = { -- Green-ish Energy
+            [questKeys.preQuestSingle] = {29824},
+        },
         [29971] = { -- The Scouts Return
             [questKeys.preQuestGroup] = {29939,29942},
         },
