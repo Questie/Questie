@@ -345,6 +345,9 @@ function MopQuestFixes.Load()
         [29730] = { -- Scouting Report: Hostile Natives
             [questKeys.preQuestSingle] = {29971},
         },
+        [29731] = { -- Scouting Report: On the Right Track
+            [questKeys.preQuestSingle] = {29730},
+        },
         [29743] = { -- Monstrosity
             [questKeys.finishedBy] = {{110002}},
             [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
