@@ -52,6 +52,9 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [76173] = { -- Bug Leg
+            [itemKeys.npcDrops] = {56283},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
