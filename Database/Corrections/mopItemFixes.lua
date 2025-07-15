@@ -61,6 +61,9 @@ function MopItemFixes.Load()
         [76225] = { -- Fistful of Bird Guts
             [itemKeys.npcDrops] = {56396},
         },
+        [76260] = { -- Exploded Slicky
+            [itemKeys.objectDrops] = {209877},
+        },
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },

@@ -566,6 +566,9 @@ function MopQuestFixes.Load()
         [29937] = { -- Furious Fowl
             [questKeys.preQuestSingle] = {29941},
         },
+        [29939] = { -- Boom Bait
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{26.75,55.33}}},Questie.ICON_TYPE_INTERACT,l10n("Throw the Gut Bomb"),0}},
+        },
         [29941] = { -- Beyond the Horizon
             [questKeys.objectives] = {{{56340,nil,Questie.ICON_TYPE_TALK},{56477,nil,Questie.ICON_TYPE_TALK},{56478,nil,Questie.ICON_TYPE_TALK},{56336,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {29936},
