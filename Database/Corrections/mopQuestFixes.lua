@@ -730,6 +730,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
         [31152] = { -- Peering Into the Past
+            [questKeys.triggerEnd] = {"Lorewalker Cho escorted to Circle of Stone", {[zoneIDs.THE_JADE_FOREST]={{29,32.4}}}},
             [questKeys.preQuestSingle] = {31134},
         },
         [31167] = { -- Family Tree
