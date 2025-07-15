@@ -13,6 +13,12 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.spellObjectiveFirst[26913] = true
+QuestieCorrections.spellObjectiveFirst[26914] = true
+QuestieCorrections.spellObjectiveFirst[26915] = true
+QuestieCorrections.spellObjectiveFirst[26916] = true
+QuestieCorrections.spellObjectiveFirst[26918] = true
+QuestieCorrections.spellObjectiveFirst[26919] = true
 QuestieCorrections.spellObjectiveFirst[26940] = true
 QuestieCorrections.spellObjectiveFirst[26945] = true
 QuestieCorrections.spellObjectiveFirst[26946] = true
@@ -45,7 +51,32 @@ function MopQuestFixes.Load()
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
-        [26940] = { -- Arcane Missiles
+        [26913] = { -- Charging into Battle
+            [questKeys.extraObjectives] = {},
+        },
+        [26914] = { -- Corruption
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26915] = { -- The Deepest Cut
+            [questKeys.extraObjectives] = {},
+        },
+        [26916] = { -- Mastering the Arcane
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26917] = { -- The Hunter's Path
+            [questKeys.extraObjectives] = {},
+        },
+        [26918] = { -- The Power of the Light
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{105361}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26919] = { -- Learning the Word
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26940] = { -- Frost Nova
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
