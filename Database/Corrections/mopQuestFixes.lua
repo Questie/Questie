@@ -733,6 +733,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30745] = { -- Trouble Brewing
+            [questKeys.requiredLevel] = 85,
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
