@@ -571,6 +571,9 @@ function MopQuestFixes.Load()
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
         },
+        [29910] = { -- Rampaging Rodents
+            [questKeys.preQuestSingle] = {29909},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
