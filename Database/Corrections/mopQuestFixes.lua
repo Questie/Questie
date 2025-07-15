@@ -584,6 +584,9 @@ function MopQuestFixes.Load()
         [29916] = { -- Piercing Talons and Slavering Jaws
             [questKeys.preQuestSingle] = {29915},
         },
+        [29917] = { -- Lupello
+            [questKeys.preQuestSingle] = {29915},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
