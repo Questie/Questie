@@ -589,6 +589,7 @@ function MopQuestFixes.Load()
         },
         [29918] = { -- A Lesson in Bravery
             [questKeys.preQuestGroup] = {29916,29917},
+            [questKeys.sourceItemId] = 75208;
         },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
