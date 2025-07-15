@@ -64,6 +64,9 @@ function MopItemFixes.Load()
         [75273] = { -- Smelly
             [itemKeys.npcDrops] = {56255},
         },
+        [75275] = { -- Mushan Shoulder Steak
+            [itemKeys.npcDrops] = {56239},
+        },
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
