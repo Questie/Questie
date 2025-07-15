@@ -591,6 +591,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {29916,29917},
             [questKeys.sourceItemId] = 75208;
         },
+        [29919] = { -- Great Minds Drink Alike
+            [questKeys.preQuestSingle] = {29918},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
