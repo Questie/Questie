@@ -9,29 +9,32 @@ function MopItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [10641] = { -- Moonpetal Lily
+            [itemKeys.objectDrops] = {207346},
+        },
         [71635] = { -- Imbued Crystal
-            [itemKeys.npcDrops] = {4832,9018,10264,10813,11496,12201,12258,17377,17977,18344,24664,26794,28923,36658,39732}
+            [itemKeys.npcDrops] = {4832,9018,10264,10813,11496,12201,12258,17377,17977,18344,24664,26794,28923,36658,39732},
         },
         [71637] = { -- Mysterious Grimoire
-            [itemKeys.npcDrops] = {3671,4421,5710,7795,9019,18373,18732,19220,26530,26631,29310,39425,46964,54938}
+            [itemKeys.npcDrops] = {3671,4421,5710,7795,9019,18373,18732,19220,26530,26631,29310,39425,46964,54938},
         },
         [71638] = { -- Ornate Weapon
-            [itemKeys.npcDrops] = {2748,4420,7800,9568,10363,11486,12236,27975,29306,29308,39698,40177,44577,45412,46383,54968}
+            [itemKeys.npcDrops] = {2748,4420,7800,9568,10363,11486,12236,27975,29306,29308,39698,40177,44577,45412,46383,54968},
         },
         [74033] = { -- Ancient Hozen Skull
-            [itemKeys.objectDrops] = {209595}
+            [itemKeys.objectDrops] = {209595},
         },
         [74160] = { -- Zin\'Jun\'s Rifle
-            [itemKeys.npcDrops] = {55470,66917}
+            [itemKeys.npcDrops] = {55470,66917},
         },
         [74161] = { -- Zin\'Jun\'s Left Eye
-            [itemKeys.npcDrops] = {55470,66917}
+            [itemKeys.npcDrops] = {55470,66917},
         },
         [74162] = { -- Zin\'Jun\'s Right Eye
-            [itemKeys.npcDrops] = {55470,66917}
+            [itemKeys.npcDrops] = {55470,66917},
         },
         [74163] = { -- Snuff\'s Corpse
-            [itemKeys.npcDrops] = {55470,66917}
+            [itemKeys.npcDrops] = {55470,66917},
         },
         [74260] = { -- Bamboo Key
             [itemKeys.class] = itemClasses.QUEST,
