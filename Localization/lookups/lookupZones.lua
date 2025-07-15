@@ -2758,6 +2758,7 @@ l10n.zoneCategoryLookup = {
         [2367] = "Old Hillsbrad Foothills",
         [2437] = "Ragefire Chasm",
         [2557] = "Dire Maul",
+        [2677] = "Blackwing Lair",
         [3429] = "Ruins of Ahn'Qiraj",
         [3456] = "Naxxramas",
         [3457] = "Karazhan",
