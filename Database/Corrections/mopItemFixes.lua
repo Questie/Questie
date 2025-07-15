@@ -88,6 +88,9 @@ function MopItemFixes.Load()
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},
         },
+        [76370] = { -- Orange-Painted Turnip
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
