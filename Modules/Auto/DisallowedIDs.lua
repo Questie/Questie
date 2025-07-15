@@ -182,6 +182,7 @@ _AutoQuesting.disallowedQuests = {
         [27261] = true, -- Questioning Reethe
         [29205] = true, -- The Forlorn Spire
         [29206] = true, -- Into the Fire
+        [31152] = true, -- Peering Into the Past
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)
