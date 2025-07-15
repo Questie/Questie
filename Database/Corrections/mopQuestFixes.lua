@@ -341,6 +341,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55141,nil,Questie.ICON_TYPE_TALK},{55146,nil,Questie.ICON_TYPE_TALK},{55162,nil,Questie.ICON_TYPE_TALK},{55170,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31769},
         },
+        [29730] = { -- Scouting Report: Hostile Natives
+            [questKeys.preQuestSingle] = {29971},
+        },
         [29743] = { -- Monstrosity
             [questKeys.finishedBy] = {{110002}},
             [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
