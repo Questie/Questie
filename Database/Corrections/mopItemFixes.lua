@@ -55,6 +55,15 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [75271] = { -- Jian
+            [itemKeys.npcDrops] = {56253},
+        },
+        [75272] = { -- Ling
+            [itemKeys.npcDrops] = {56254},
+        },
+        [75273] = { -- Smelly
+            [itemKeys.npcDrops] = {56255},
+        },
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
