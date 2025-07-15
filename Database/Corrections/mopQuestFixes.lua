@@ -470,6 +470,9 @@ function MopQuestFixes.Load()
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
+        [29936] = { -- Instant Messaging
+            [questKeys.preQuestSingle] = {29935},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
