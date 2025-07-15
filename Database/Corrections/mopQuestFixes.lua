@@ -630,6 +630,7 @@ function MopQuestFixes.Load()
         },
         [29951] = { -- Muddy Water
             [questKeys.preQuestSingle] = {29949},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Fill the vial"),0,{{"object",209921}}}},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
