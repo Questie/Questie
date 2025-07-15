@@ -471,6 +471,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31167},
         },
         [29936] = { -- Instant Messaging
+            [questKeys.objectives] = {{{56402,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.preQuestSingle] = {29935},
         },
         [30027] = { -- The Lesson of the Iron Bough
