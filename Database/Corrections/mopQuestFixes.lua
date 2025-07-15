@@ -549,6 +549,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29827,31112},
         },
+        [29907] = { -- Chen and Li Li
+            [questKeys.preQuestSingle] = {},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
