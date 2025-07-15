@@ -550,6 +550,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {29827,31112},
         },
         [29924] = { -- Kill Kher Shan
+            [questKeys.finishedBy] = {{110003}},
             [questKeys.preQuestSingle] = {31167},
         },
         [29827] = { -- Acid Rain

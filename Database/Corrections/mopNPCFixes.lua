@@ -1078,5 +1078,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29743},
         },
+        [110003] = { -- Kill Kher Shan
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.37,41.98}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29924},
+        },
     }
 end
