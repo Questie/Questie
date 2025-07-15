@@ -587,6 +587,9 @@ function MopQuestFixes.Load()
         [29917] = { -- Lupello
             [questKeys.preQuestSingle] = {29915},
         },
+        [29918] = { -- A Lesson in Bravery
+            [questKeys.preQuestGroup] = {29916,29917},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
