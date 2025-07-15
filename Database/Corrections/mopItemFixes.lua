@@ -79,6 +79,9 @@ function MopItemFixes.Load()
         [76297] = { -- Stolen Turnip
             [itemKeys.objectDrops] = {209891},
         },
+        [76334] = { -- Meadow Marigold
+            [itemKeys.objectDrops] = {209907},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
