@@ -689,6 +689,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31013},
         },
+        [31121] = { -- Stay a While, and Listen
+            [questKeys.objectives] = {nil,{{212900}}},
+        },
         [31135] = { -- The Future of Gnomeregan
             [questKeys.startedBy] = {{42396}},
             [questKeys.preQuestSingle] = {27674},
