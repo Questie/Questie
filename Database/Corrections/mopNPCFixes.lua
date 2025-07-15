@@ -190,16 +190,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{42.22,86.54}}},
         },
         [56146] = { -- Barrow Tree
-            [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
         },
         [56149] = { -- Rake Tree
-            [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{81.55,18.62},{80.19,24.66},{80.15,26.61},{78.56,23.64}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{81.55,18.62},{80.19,24.66},{80.15,26.61},{78.56,23.64}}},
         },
         [56150] = { -- Hoe Tree
-            [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{80.61,22.42},{81.27,19.12}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{80.61,22.42},{81.27,19.12}}},
         },
         [56151] = { -- Plow Tree
-            [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{80.20,18.91}{80.82,23.74},{79.12,24.66}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{80.20,18.91},{80.82,23.74},{79.12,24.66}}},
         },
         [56180] = { -- Speckled Trout
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.2,34.8},{22.8,35.4},{23,34.2},{23,35.8},{23.4,36.8},{23.6,36.8},{24,34},{24.2,34.8},{24.4,36.4},{24.6,35.8}}},
