@@ -14,6 +14,14 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [1986] = { -- Webwood Spider
+            [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{37.34,37},{35.29,40.05},{32.59,47.14},{33.85,54.1},{38.03,58.14},{54.04,42.38},{56.43,38.82},{59.73,38.93},{56.63,32.96},{56.99,26.61},{50.27,29.7},{47.11,21.96},{41.08,26.06},{42.44,19.34},{33.51,16.16},{35.38,30.24},{39.48,31.6},{44.74,36.54},{46.14,54.54},{50.18,42.47},{55.19,47.64},{56.39,52.77},{58.48,55.24},{52.01,58.71},{50.15,67.39},{41.18,66.5},{41.7,75.81},{44.25,80.46}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
+        },
+        [1994] = { -- Githyiss the Vile
+            [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.86,29.34}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
+        },
         [2079] = { -- Ilthalaine
             [npcKeys.spawns] = {
                 [zoneIDs.SHADOWGLEN] = {
@@ -21,6 +29,26 @@ function MopNpcFixes.Load()
                     {46.3,73.49,phases.ILTHALAINE_AT_ROAD},
                 },
             },
+        },
+        [3593] = { -- Alyissia
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{49.21,52.42}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [3594] = { -- Frahun Shadewhisper
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{49.22,53.19}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [3595] = { -- Shanda
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{47.59,59.43}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [3596] = { -- Ayanna Everstride
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{49.22,60.54}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [3597] = { -- Mardant Strongoak
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{46.6,56.62}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
         },
         [3977] = { -- High Inquisitor Whitemane
             [npcKeys.spawns] = {
@@ -36,6 +64,18 @@ function MopNpcFixes.Load()
         },
         [39605] = { -- Garrosh Hellscream
             [npcKeys.questStarts] = {9627,13842,25275,26293,26324,26830,26840,28909,31034},
+        },
+        [43006] = { -- Rhyanda
+            [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{47.36,59.69}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [49480] = { -- Tarindrella
+            [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{45.32,91.08}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
+        },
+        [49598] = { -- Gnarlpine Corruption Totem
+            [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.96,31.16}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
         },
         [53566] = { -- Master Shang Xi
             [npcKeys.spawns] = {

@@ -36,6 +36,7 @@ ZoneDB.zoneIDs = {
     DARKSHORE = 148,
     SHADOWFANG_KEEP = 209, -- this is also The Courtyard map for Shadowfang Keep
     MULGORE = 215,
+    SHADOWTHREAD_CAVE = 257,
     HILLSBRAD_FOOTHILLS = 267,
     ASHENVALE = 331,
     FERALAS = 357,
