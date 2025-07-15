@@ -85,6 +85,9 @@ function MopItemFixes.Load()
         [76335] = { -- Vial of Animal Blood
             [itemKeys.npcDrops] = {56523,56524,56531,56532},
         },
+        [76337] = { -- Stolen Sack of Hops
+            [itemKeys.objectDrops] = {211696},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
