@@ -91,6 +91,9 @@ function MopItemFixes.Load()
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},
         },
+        [76362] = { -- Mudmug's Vial
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [76370] = { -- Orange-Painted Turnip
             [itemKeys.class] = itemClasses.QUEST,
         },
