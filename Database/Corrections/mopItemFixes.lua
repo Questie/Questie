@@ -55,6 +55,9 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [75208] = { -- Rancher's Lariat
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [75271] = { -- Jian
             [itemKeys.npcDrops] = {56253},
         },
