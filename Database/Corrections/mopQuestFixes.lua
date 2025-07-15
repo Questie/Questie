@@ -581,6 +581,9 @@ function MopQuestFixes.Load()
         [29914] = { -- Back to the Sty
             [questKeys.preQuestSingle] = {29912},
         },
+        [29916] = { -- Piercing Talons and Slavering Jaws
+            [questKeys.preQuestSingle] = {29915},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
