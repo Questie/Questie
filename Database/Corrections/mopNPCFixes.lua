@@ -198,6 +198,9 @@ function MopNpcFixes.Load()
         [56150] = { -- Hoe Tree
             [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{80.61,22.42},{81.27,19.12}}},
         },
+        [56150] = { -- Plow Tree
+            [npcKeys.spawns] = {[zoneIDs. VALLEY_OF_THE_FOUR_WINDS] = {{80.20,18.91}{80.82,23.74},{79.12,24.66}}},
+        },
         [56180] = { -- Speckled Trout
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.2,34.8},{22.8,35.4},{23,34.2},{23,35.8},{23.4,36.8},{23.6,36.8},{24,34},{24.2,34.8},{24.4,36.4},{24.6,35.8}}},
         },
