@@ -195,6 +195,12 @@ function MopNpcFixes.Load()
         [56183] = { -- Engorged Crocolisk
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.2,35},{22.4,34.4},{22.6,34.6},{22.8,33.4},{23.4,33.6},{23.4,36.2},{23.4,37},{23.6,33.4},{23.6,33.6},{23.6,37},{24.4,35.2},{24.4,36.2},{24.6,34.4},{24.6,34.6},{24.6,36.4},{24.6,36.6}}},
         },
+        [56406] = { -- Rivett Clutchpop
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
+                {28.3,47.79,phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM},
+                {27.23,50.78,phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END},
+            }},
+        },
         [56686] = { -- Master Shang Xi
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{19.46,51.22}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
