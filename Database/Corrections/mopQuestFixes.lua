@@ -627,6 +627,10 @@ function MopQuestFixes.Load()
         },
         [29948] = { -- Thieves to the Core
             [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
+            [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
+        },
+        [29950] = { -- Li Li's Day Off
+            [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29951] = { -- Muddy Water
             [questKeys.preQuestSingle] = {29949},
