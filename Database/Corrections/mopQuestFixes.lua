@@ -575,6 +575,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29909},
             [questKeys.objectives] = {{{56203,nil,Questie.ICON_TYPE_INTERACT}},{{209835,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29913] = { -- The Meat They'll Eat
+            [questKeys.preQuestSingle] = {29912},
+        },
         [29914] = { -- Back to the Sty
             [questKeys.preQuestSingle] = {29912},
         },
