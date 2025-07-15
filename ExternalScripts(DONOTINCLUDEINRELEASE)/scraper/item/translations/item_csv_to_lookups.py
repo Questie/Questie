@@ -2,9 +2,11 @@ import csv
 import os
 from supported_locales import LOCALES
 
+PATCH_VERSION = "5.5.0.61916"
+
 def process_csv(locale):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    input_file = os.path.join(base_dir, f"data/ItemSparse_{locale}.5.5.0.61916.csv")
+    input_file = os.path.join(base_dir, f"data/ItemSparse_{locale}.{PATCH_VERSION}.csv")
     output_file = os.path.join(base_dir, f"../../../../Localization/lookups/MoP/lookupItems/{locale}.lua")
 
     if not os.path.exists(input_file):
