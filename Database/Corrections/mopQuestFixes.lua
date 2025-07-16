@@ -944,6 +944,9 @@ function MopQuestFixes.Load()
         [30328] = { -- The Thousand-Year Dumpling
             [questKeys.preQuestSingle] = {30257},
         },
+        [30329] = { -- Cindergut Peppers
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
