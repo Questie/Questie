@@ -83,6 +83,18 @@ function MopNpcFixes.Load()
         [10181] = { -- Lady Sylvanas Windrunner
             [npcKeys.questStarts] = {9626,9813,31037},
         },
+        [15278] = { -- Magistrix Erona
+            [npcKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.04,45.12}}},
+            [npcKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
+        },
+        [15295] = { -- Well Watcher Solanian
+            [npcKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{63.96,42.84}}},
+            [npcKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
+        },
+        [15493] = { -- Marsilla Dawnstar
+            [npcKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{62.26,42.31}}},
+            [npcKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
+        },
         [17087] = { -- Spirit of the Vale
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{32.36,20.7}}},
         },

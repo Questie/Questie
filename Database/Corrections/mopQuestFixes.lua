@@ -12,6 +12,12 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+QuestieCorrections.spellObjectiveFirst[10068] = true
+QuestieCorrections.spellObjectiveFirst[10069] = true
+QuestieCorrections.spellObjectiveFirst[10070] = true
+QuestieCorrections.spellObjectiveFirst[10071] = true
+QuestieCorrections.spellObjectiveFirst[10072] = true
+QuestieCorrections.spellObjectiveFirst[10073] = true
 QuestieCorrections.spellObjectiveFirst[24526] = true
 QuestieCorrections.spellObjectiveFirst[24527] = true
 QuestieCorrections.spellObjectiveFirst[24528] = true
@@ -44,12 +50,14 @@ QuestieCorrections.spellObjectiveFirst[26966] = true
 QuestieCorrections.spellObjectiveFirst[26968] = true
 QuestieCorrections.spellObjectiveFirst[26969] = true
 QuestieCorrections.spellObjectiveFirst[26970] = true
+QuestieCorrections.spellObjectiveFirst[27091] = true
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
+QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
 
 function MopQuestFixes.Load()
@@ -63,11 +71,126 @@ function MopQuestFixes.Load()
     local questFlags = QuestieDB.questFlags
 
     return {
+        [3095] = { -- Simple Scroll
+            [questKeys.requiredLevel] = 2,
+        },
+        [3096] = { -- Encrypted Scroll
+            [questKeys.requiredLevel] = 2,
+        },
+        [3097] = { -- Hallowed Scroll
+            [questKeys.requiredLevel] = 2,
+        },
+        [3098] = { -- Glyphic Scroll
+            [questKeys.requiredLevel] = 2,
+        },
+        [3099] = { -- Tainted Scroll
+            [questKeys.requiredLevel] = 2,
+        },
+        [3100] = { -- Simple Letter
+            [questKeys.requiredLevel] = 2,
+        },
+        [3106] = { -- Simple Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3107] = { -- Consecrated Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3108] = { -- Etched Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3109] = { -- Encrypted Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3110] = { -- Hallowed Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3115] = { -- Tainted Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [3116] = { -- Simple Sigil
+            [questKeys.requiredLevel] = 2,
+        },
+        [3117] = { -- Etched Sigil
+            [questKeys.requiredLevel] = 2,
+        },
+        [3118] = { -- Encrypted Sigil
+            [questKeys.requiredLevel] = 2,
+        },
+        [3119] = { -- Hallowed Sigil
+            [questKeys.requiredLevel] = 2,
+        },
+        [3120] = { -- Verdant Sigil
+            [questKeys.requiredLevel] = 2,
+        },
+        [8327] = { -- Report to Lanthan Perilon
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [8328] = { -- Mage Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [8329] = { -- Warrior Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [8334] = { -- Aggression
+            [questKeys.preQuestSingle] = {8326},
+        },
+        [8345] = { -- The Shrine of Dath'Remar
+            [questKeys.preQuestSingle] = {},
+        },
+        [8563] = { -- Warlock Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [8564] = { -- Priest Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [9392] = { -- Rogue Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [9393] = { -- Hunter Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [9676] = { -- Paladin Training
+            [questKeys.requiredLevel] = 2,
+        },
+        [10068] = { -- Frost Nova
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [10069] = { -- Ways of the Light
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{105361}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [10070] = { -- Steady Shot
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [10071] = { -- Evisceration
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [10072] = { -- Learning the Word
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [10073] = { -- Corruption
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
         [13408] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
+        },
+        [24494] = { -- Empowered Rune
+            [questKeys.requiredLevel] = 2,
+        },
+        [24496] = { -- Arcane Rune
+            [questKeys.requiredLevel] = 2,
         },
         [24526] = { -- Filling Up the Spellbook
             [questKeys.requiredLevel] = 2,
@@ -103,6 +226,9 @@ function MopQuestFixes.Load()
         [24961] = { -- The Truth of the Grave
             [questKeys.breadcrumbs] = {28651,31148},
         },
+        [24962] = { -- Trail-Worn Scroll
+            [questKeys.requiredLevel] = 2,
+        },
         [24964] = { -- The Thrill of the Hunt
             [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
@@ -136,10 +262,16 @@ function MopQuestFixes.Load()
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
+        [26841] = { -- Forbidden Sigil
+            [questKeys.requiredLevel] = 2,
+        },
         [26904] = { -- Corruption
             [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{172}}},
             [questKeys.extraObjectives] = {},
+        },
+        [26910] = { -- Etched Letter
+            [questKeys.requiredLevel] = 2,
         },
         [26913] = { -- Charging into Battle
             [questKeys.requiredLevel] = 2,
@@ -225,6 +357,10 @@ function MopQuestFixes.Load()
         [26970] = { -- Learning the Word
             [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [27091] = { -- Charge!
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [27670] = { -- Pinned Down
@@ -1257,6 +1393,16 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31168},
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31170] = { -- Monk Training
+            [questKeys.startedBy] = {{15278}},
+            [questKeys.preQuestSingle] = {8325},
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.zoneOrSort] = zoneIDs.SUNSTRIDER_ISLE,
+        },
+        [31171] = { -- Tiger Palm
+            [questKeys.preQuestSingle] = {31170},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100787}}},
         },
         [31173] = { -- The Tiger Palm
             [questKeys.preQuestSingle] = {},

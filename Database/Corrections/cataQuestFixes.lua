@@ -328,6 +328,9 @@ function CataQuestFixes.Load()
         [3094] = { -- Verdant Note -- Tauren Druid
             [questKeys.preQuestSingle] = {},
         },
+        [3096] = { -- Encrypted Scroll
+            [questKeys.startedBy] = {{1569}},
+        },
         [3100] = { -- Simple Letter -- Human Warrior
             [questKeys.nextQuestInChain] = 0,
             [questKeys.startedBy] = {{197}},
