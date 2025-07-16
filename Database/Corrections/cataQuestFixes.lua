@@ -15653,11 +15653,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{38578}},
         },
         [25422] = { -- The Darkmist Legacy
-            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {25350},
         },
         [25423] = { -- Ancient Suffering
-            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {25350},
         },
         [25513] = { -- Thunderdrome: Grudge Match!
