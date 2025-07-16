@@ -124,6 +124,9 @@ function MopItemFixes.Load()
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
+        [79269] = { -- Marsh Lily
+            [itemKeys.objectDrops] = {210565},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
