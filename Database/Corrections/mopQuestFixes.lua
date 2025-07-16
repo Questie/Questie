@@ -817,6 +817,7 @@ function MopQuestFixes.Load()
         },
         [30052] = { -- Weed War
             [questKeys.preQuestSingle] = {30046},
+            [questKeys.objectives] = {{{57306,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gai Lan"),0,{{"monster",57385}}}},
         },
         [30053] = { -- Hop Hunting
