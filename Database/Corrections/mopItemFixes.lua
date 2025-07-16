@@ -127,6 +127,9 @@ function MopItemFixes.Load()
         [79269] = { -- Marsh Lily
             [itemKeys.objectDrops] = {210565},
         },
+        [79824] = { -- Stolen Vegetable
+            [itemKeys.objectDrops] = {210763},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
