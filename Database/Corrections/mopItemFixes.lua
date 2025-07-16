@@ -130,6 +130,9 @@ function MopItemFixes.Load()
         [79824] = { -- Stolen Vegetable
             [itemKeys.objectDrops] = {210763},
         },
+        [79827] = { -- Authentic Valley Stir Fry
+            [itemKeys.npcDrops] = {59124},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
