@@ -103,6 +103,42 @@ function MopItemFixes.Load()
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },
+        [76973] = { -- Sprig of Dreamleaf
+            [itemKeys.objectDrops] = {209987},
+        },
+        [77033] = { -- Sack of Grain
+            [itemKeys.objectDrops] = {210001},
+        },
+        [77034] = { -- Malted Cave Barley
+            [itemKeys.objectDrops] = {210037},
+        },
+        [77455] = { -- Mulberry Leaves
+            [itemKeys.objectDrops] = {210080},
+        },
+        [77456] = { -- Raw Silk
+            [itemKeys.objectDrops] = {210088},
+        },
+        [79104] = { -- Rusty Watering Can
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [79197] = { -- Glade Glimmer
+            [itemKeys.npcDrops] = {57301},
+        },
+        [79269] = { -- Marsh Lily
+            [itemKeys.objectDrops] = {210565},
+        },
+        [79824] = { -- Stolen Vegetable
+            [itemKeys.objectDrops] = {210763},
+        },
+        [79827] = { -- Authentic Valley Stir Fry
+            [itemKeys.npcDrops] = {59124},
+        },
+        [80302] = { -- EZ-Gro Green Cabbage Seeds
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80314] = { -- EZ-Gro Green Cabbage
+            [itemKeys.npcDrops] = {59833},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,

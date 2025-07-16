@@ -396,6 +396,9 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29578,
             [questKeys.breadcrumbForQuestId] = 29578,
         },
+        [29577] = { -- Ashyo's Vision
+            [questKeys.objectives] = {{{56113,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29578] = { -- Defiance
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29576},
@@ -495,6 +498,9 @@ function MopQuestFixes.Load()
         [29745] = { -- The Sprites' Plight
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29744},
+        },
+        [29757] = { -- Bottletoads
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
         },
         [29768] = { -- Missing Mallet
             [questKeys.requiredLevel] = 4,
@@ -810,6 +816,19 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {73209},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30028] = { -- Grain Recovery
+            [questKeys.preQuestSingle] = {30031},
+        },
+        [30029] = { -- Wee Little Shenanigans
+            [questKeys.preQuestSingle] = {30048},
+        },
+        [30030] = { -- Out of Sprite
+            [questKeys.preQuestSingle] = {30048},
+        },
+        [30032] = { -- The Quest for Better Barley
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30029,30031},
+        },
         [30033] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {76390,76392},
@@ -885,11 +904,51 @@ function MopQuestFixes.Load()
         [30046] = { -- Chen's Resolution
             [questKeys.preQuestSingle] = {29952},
         },
+        [30048] = { -- Li Li and the Grain
+            [questKeys.preQuestSingle] = {30046},
+        },
+        [30049] = { -- Doesn't Hold Water
+            [questKeys.preQuestSingle] = {30046},
+        },
+        [30050] = { -- Gardener Fran and the Watering Can
+            [questKeys.preQuestSingle] = {30046},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gardener Fran"),0,{{"monster",62377}}}},
+        },
+        [30051] = { -- The Great Water Hunt
+            [questKeys.objectives] = {{{58786,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",56474}}}},
+        },
+        [30052] = { -- Weed War
+            [questKeys.preQuestSingle] = {30046},
+            [questKeys.objectives] = {{{57306,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gai Lan"),0,{{"monster",57385}}}},
+        },
+        [30053] = { -- Hop Hunting
+            [questKeys.preQuestSingle] = {30046},
+            [questKeys.objectives] = {{{62377,nil,Questie.ICON_TYPE_TALK},{57385,nil,Questie.ICON_TYPE_TALK},{62385,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30054] = { -- Enough is Ookin' Enough
+            [questKeys.preQuestSingle] = {30046},
+        },
+        [30056] = { -- The Farmer's Daughter
+            [questKeys.preQuestSingle] = {30046},
+        },
+        [30057] = { -- Seeing Orange
+            [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{44.22,34.65}}}},
+        },
+        [30058] = { -- Mothallus!
+            [questKeys.preQuestSingle] = {30059},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the bait"),0,{{"object",210117}}}},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
         [30070] = { -- The Fall of Ga'trul
             [questKeys.preQuestGroup] = {31741,31742,31743,31744},
+        },
+        [30072] = { -- Where Silk Comes From
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
@@ -927,6 +986,9 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
+        [30172] = { -- Barreling Along
+            [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
+        },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
@@ -938,6 +1000,21 @@ function MopQuestFixes.Load()
         },
         [30243] = { -- Mantid Under Fire
             [questKeys.preQuestSingle] = {30640},
+        },
+        [30252] = { -- A Helping Hand
+            [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30254] = { -- Learn and Grow II: Tilling and Planting
+            [questKeys.objectives] = {{{59985,nil,Questie.ICON_TYPE_INTERACT}},{{59990,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30255] = { -- Learn and Grow III: Tending Crops
+            [questKeys.objectives] = {{{59987,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30256] = { -- Learn and Grow IV: Harvesting
+            [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30257] = { -- Learn and Grow V: Halfhill Market
+            [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
@@ -953,6 +1030,67 @@ function MopQuestFixes.Load()
         },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
+        },
+        [30319] = { -- Pest Problems
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30322] = { -- Money Matters
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30326] = { -- The Kunzen Legend-Chief
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30328] = { -- The Thousand-Year Dumpling
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30329] = { -- Cindergut Peppers
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30330] = { -- The Truffle Shuffle
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30331] = { -- The Mile-High Grub
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30332] = { -- Fatty Goatsteak
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30334] = { -- Stealing is Bad... Re-Stealing is OK
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30470] = { -- A Gift For Tina
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30471] = { -- A Gift For Chee Chee
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30472] = { -- A Gift For Sho
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30473] = { -- A Gift For Fish
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30474] = { -- A Gift For Ella
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30475] = { -- A Gift For Fung
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30476] = { -- A Gift For Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30477] = { -- A Gift For Haohan
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30478] = { -- A Gift For Jogu
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30479] = { -- A Gift For Gina
+            [questKeys.preQuestSingle] = {30257},
+        },
+        [30535] = { -- Learn and Grow I: Seeds
+            [questKeys.preQuestSingle] = {30252},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
         },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
@@ -1754,6 +1892,9 @@ function MopQuestFixes.Load()
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
+        },
+        [32035] = { -- Got Silk?
+            [questKeys.exclusiveTo] = {30072},
         },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},

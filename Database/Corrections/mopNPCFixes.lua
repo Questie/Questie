@@ -298,6 +298,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{19.46,51.22}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [57306] = { -- Ugly Weed
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
+        },
         [57476] = { -- Crossing Rocks Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.7,39.07}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
@@ -322,6 +325,9 @@ function MopNpcFixes.Load()
         },
         [58685] = { -- Scarlet Evangelist
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58719] = { -- Unbudging Rock
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.21,47.66},{52.17,48.21},{52.83,49.88},{52.37,49.23},{51.92,49.18},{51.57,49.29},{51.70,48.71}}},
         },
         [58756] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -735,6 +741,9 @@ function MopNpcFixes.Load()
         },
         [63335] = { -- Mojo Stormstout
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
+        },
+        [63778] = { -- Messenger Grummie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}}},
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
