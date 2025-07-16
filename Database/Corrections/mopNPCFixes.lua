@@ -75,6 +75,9 @@ function MopNpcFixes.Load()
         [10181] = { -- Lady Sylvanas Windrunner
             [npcKeys.questStarts] = {9626,9813,31037},
         },
+        [17087] = { -- Spirit of the Vale
+            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{32.36,20.7}}},
+        },
         [36648] = { -- Baine Bloodhoof
             [npcKeys.questStarts] = {24540,26397,31036},
         },
@@ -721,6 +724,9 @@ function MopNpcFixes.Load()
         },
         [63307] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{28.82,32.62}}},
+        },
+        [63335] = { -- Mojo Stormstout
+            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",

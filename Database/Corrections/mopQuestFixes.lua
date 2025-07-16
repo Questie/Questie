@@ -32,10 +32,17 @@ QuestieCorrections.spellObjectiveFirst[26947] = true
 QuestieCorrections.spellObjectiveFirst[26948] = true
 QuestieCorrections.spellObjectiveFirst[26949] = true
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.spellObjectiveFirst[26958] = true
+QuestieCorrections.spellObjectiveFirst[26963] = true
+QuestieCorrections.spellObjectiveFirst[26966] = true
+QuestieCorrections.spellObjectiveFirst[26968] = true
+QuestieCorrections.spellObjectiveFirst[26969] = true
+QuestieCorrections.spellObjectiveFirst[26970] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
+QuestieCorrections.spellObjectiveFirst[31173] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -132,6 +139,33 @@ function MopQuestFixes.Load()
         },
         [26949] = { -- Learning the Word
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26958] = { -- Your First Lesson
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [26963] = { -- Steadying Your Shot
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [26966] = { -- The Light's Power
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{105361}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26968] = { -- Frost Nova
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26969] = { -- Primal Strike
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [26970] = { -- Learning the Word
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{589}}},
             [questKeys.extraObjectives] = {},
         },
         [27670] = { -- Pinned Down
@@ -1001,6 +1035,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31168},
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31173] = { -- The Tiger Palm
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100787}}},
         },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},

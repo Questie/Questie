@@ -1124,6 +1124,12 @@ function CataQuestFixes.Load()
         [9272] = { -- Dressing the Part
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
+        [9279] = { -- You Survived!
+            [questKeys.breadcrumbForQuestId] = 9280,
+        },
+        [9280] = { -- Replenishing the Healing Crystals
+            [questKeys.breadcrumbs] = {9279},
+        },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {{16502}},
@@ -1134,6 +1140,7 @@ function CataQuestFixes.Load()
         [9303] = { -- Inoculation
             [questKeys.startedBy] = {{16535}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10304},
         },
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
@@ -1164,6 +1171,9 @@ function CataQuestFixes.Load()
         },
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE - raceIDs.DRAENEI,
+        },
+        [9371] = { -- Botanist Taerix
+            [questKeys.breadcrumbForQuestId] = 10302,
         },
         [9372] = { -- Demonic Contamination
             [questKeys.preQuestSingle] = {},
@@ -1479,6 +1489,10 @@ function CataQuestFixes.Load()
         },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
+            [questKeys.breadcrumbs] = {9371},
+        },
+        [10304] = { -- Vindicator Aldar
+            [questKeys.breadcrumbForQuestId] = 9303,
         },
         [10305] = { -- Abjurist Belmara
             [questKeys.startedBy] = {nil,nil,{29234}},
