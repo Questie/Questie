@@ -3101,6 +3101,7 @@ function QuestieQuestFixes:Load()
         },
         [8386] = { -- Fight for Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
+            [questKeys.objectivesText] = {},
         },
         [8387] = { -- Invaders of Alterac Valley
             [questKeys.zoneOrSort] = zoneIDs.ALTERAC_VALLEY,
@@ -3112,6 +3113,7 @@ function QuestieQuestFixes:Load()
         },
         [8389] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
+            [questKeys.objectivesText] = {},
         },
         [8390] = { -- Conquering Arathi Basin
             [questKeys.requiredMaxLevel] = 29,
@@ -3119,10 +3121,12 @@ function QuestieQuestFixes:Load()
         [8391] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393},
             [questKeys.requiredMaxLevel] = 39,
+            [questKeys.objectivesText] = {},
         },
         [8392] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393,8394},
             [questKeys.requiredMaxLevel] = 49,
+            [questKeys.objectivesText] = {},
         },
         [8393] = { -- Claiming Arathi Basin
             [questKeys.exclusiveTo] = {8374,8394,8395,8396},
@@ -3139,11 +3143,13 @@ function QuestieQuestFixes:Load()
         [8396] = { -- Claiming Arathi Basin
             [questKeys.exclusiveTo] = {8374,8393,8394,8395},
         },
-        [8397] = { -- Fight for Warsong Gulch
+        [8397] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393,8394,8395},
+            [questKeys.objectivesText] = {},
         },
-        [8398] = { -- Fight for Warsong Gulch
+        [8398] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393,8394,8395,8396},
+            [questKeys.objectivesText] = {},
         },
         [8399] = { -- Fight for Warsong Gulch
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
@@ -3167,21 +3173,26 @@ function QuestieQuestFixes:Load()
         [8404] = { -- Fight for Warsong Gulch
             [questKeys.preQuestSingle] = {8372,8399},
             [questKeys.requiredMaxLevel] = 29,
+            [questKeys.objectivesText] = {},
         },
         [8405] = { -- Fight for Warsong Gulch
             [questKeys.preQuestSingle] = {8372,8399,8400},
             [questKeys.requiredMaxLevel] = 39,
+            [questKeys.objectivesText] = {},
         },
         [8406] = { -- Fight for Warsong Gulch
             [questKeys.preQuestSingle] = {8372,8399,8400,8401},
             [questKeys.requiredMaxLevel] = 49,
+            [questKeys.objectivesText] = {},
         },
         [8407] = { -- Fight for Warsong Gulch
             [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402},
             [questKeys.requiredMaxLevel] = 59,
+            [questKeys.objectivesText] = {},
         },
         [8408] = { -- Fight for Warsong Gulch
             [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402,8403},
+            [questKeys.objectivesText] = {},
         },
         [8410] = {
             [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
