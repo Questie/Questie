@@ -935,6 +935,9 @@ function MopQuestFixes.Load()
         [30319] = { -- Pest Problems
             [questKeys.preQuestSingle] = {30257},
         },
+        [30322] = { -- Money Matters
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
         },
