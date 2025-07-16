@@ -1658,6 +1658,9 @@ function MopQuestFixes.Load()
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
         },
+        [32035] = { -- Got Silk?
+            [questKeys.exclusiveTo] = {30072},
+        },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
