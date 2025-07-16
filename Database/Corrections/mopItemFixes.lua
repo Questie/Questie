@@ -103,6 +103,9 @@ function MopItemFixes.Load()
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },
+        [79197] = { -- Glade Glimmer
+            [itemKeys.npcDrops] = {57301},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
