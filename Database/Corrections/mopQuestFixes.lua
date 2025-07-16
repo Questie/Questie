@@ -947,6 +947,9 @@ function MopQuestFixes.Load()
         [30329] = { -- Cindergut Peppers
             [questKeys.preQuestSingle] = {30257},
         },
+        [30330] = { -- The Truffle Shuffle
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
