@@ -18,6 +18,13 @@ QuestieCorrections.spellObjectiveFirst[24528] = true
 QuestieCorrections.spellObjectiveFirst[24530] = true
 QuestieCorrections.spellObjectiveFirst[24531] = true
 QuestieCorrections.spellObjectiveFirst[24532] = true
+QuestieCorrections.spellObjectiveFirst[24533] = true
+QuestieCorrections.spellObjectiveFirst[24964] = true
+QuestieCorrections.spellObjectiveFirst[24965] = true
+QuestieCorrections.spellObjectiveFirst[24966] = true
+QuestieCorrections.spellObjectiveFirst[24967] = true
+QuestieCorrections.spellObjectiveFirst[24968] = true
+QuestieCorrections.spellObjectiveFirst[24969] = true
 QuestieCorrections.spellObjectiveFirst[26904] = true
 QuestieCorrections.spellObjectiveFirst[26913] = true
 QuestieCorrections.spellObjectiveFirst[26914] = true
@@ -31,15 +38,16 @@ QuestieCorrections.spellObjectiveFirst[26946] = true
 QuestieCorrections.spellObjectiveFirst[26947] = true
 QuestieCorrections.spellObjectiveFirst[26948] = true
 QuestieCorrections.spellObjectiveFirst[26949] = true
-QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.spellObjectiveFirst[26958] = true
 QuestieCorrections.spellObjectiveFirst[26963] = true
 QuestieCorrections.spellObjectiveFirst[26966] = true
 QuestieCorrections.spellObjectiveFirst[26968] = true
 QuestieCorrections.spellObjectiveFirst[26969] = true
 QuestieCorrections.spellObjectiveFirst[26970] = true
+QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
+QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
@@ -62,27 +70,64 @@ function MopQuestFixes.Load()
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },
         [24526] = { -- Filling Up the Spellbook
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
         [24527] = { -- Your Path Begins Here
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [24528] = { -- The Power of the Light
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{105361}}},
             [questKeys.extraObjectives] = {},
         },
         [24530] = { -- Oh, A Hunter's Life For Me
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [24531] = { -- Getting Battle-Ready
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [24532] = { -- Evisceratin' the Enemy
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [24533] = { -- Words of Power
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24961] = { -- The Truth of the Grave
+            [questKeys.breadcrumbs] = {28651,31148},
+        },
+        [24964] = { -- The Thrill of the Hunt
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24965] = { -- Magic Training
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24966] = { -- Of Light and Shadows
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24967] = { -- Stab!
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24968] = { -- Dark Deeds
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24969] = { -- Charging into Battle
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26389] = { -- Blackrock Invasion
@@ -92,52 +137,66 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
         [26904] = { -- Corruption
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{172}}},
             [questKeys.extraObjectives] = {},
         },
         [26913] = { -- Charging into Battle
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26914] = { -- Corruption
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{172}}},
             [questKeys.extraObjectives] = {},
         },
         [26915] = { -- The Deepest Cut
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26916] = { -- Mastering the Arcane
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
         [26917] = { -- The Hunter's Path
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26918] = { -- The Power of the Light
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{105361}}},
             [questKeys.extraObjectives] = {},
         },
         [26919] = { -- Learning the Word
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{589}}},
             [questKeys.extraObjectives] = {},
         },
         [26940] = { -- Frost Nova
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
         [26945] = { -- Learning New Techniques
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26946] = { -- A Rogue's Advantage
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26947] = { -- A Woodsman's Training
+            [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
         [26948] = { -- Moonfire
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{8921}}},
             [questKeys.extraObjectives] = {},
         },
         [26949] = { -- Learning the Word
+            [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{589}}},
             [questKeys.extraObjectives] = {},
         },
@@ -179,6 +238,12 @@ function MopQuestFixes.Load()
         },
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [28651] = { -- Novice Elreth
+            [questKeys.exclusiveTo] = {31148},
+            [questKeys.preQuestSingle] = {24964,24965,24966,24967,24968,24969,31147},
+            [questKeys.nextQuestInChain] = 24961,
+            [questKeys.breadcrumbForQuestId] = 24961,
         },
         [28723] = { -- Priestess of the Moon
             [questKeys.startedBy] = {{3593,3594,3595,3596,3597,43006,63331}},
@@ -1007,6 +1072,25 @@ function MopQuestFixes.Load()
         },
         [31145] = { -- The Rear is Clear
             [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [31146] = { -- Scribbled Scroll
+            [questKeys.startedBy] = {{1569}},
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {26801},
+        },
+        [31147] = { -- Scribbled Scroll
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31146},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31148] = { -- Novice Elreth
+            [questKeys.startedBy] = {{63272}},
+            [questKeys.exclusiveTo] = {28651},
+            [questKeys.preQuestSingle] = {24964,24965,24966,24967,24968,24969,31147},
+            [questKeys.nextQuestInChain] = 24961,
+            [questKeys.breadcrumbForQuestId] = 24961,
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [31150] = { -- Elegant Rune
             [questKeys.startedBy] = {{37087}},

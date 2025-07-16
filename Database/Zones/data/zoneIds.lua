@@ -34,6 +34,7 @@ ZoneDB.zoneIDs = {
     TELDRASSIL = 141,
     STONEWROUGHT_DAM = 146,
     DARKSHORE = 148,
+    NIGHTS_WEB_HOLLOW = 155,
     SHADOWFANG_KEEP = 209, -- this is also The Courtyard map for Shadowfang Keep
     MULGORE = 215,
     SHADOWTHREAD_CAVE = 257,
