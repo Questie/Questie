@@ -827,6 +827,9 @@ function MopQuestFixes.Load()
         [30054] = { -- Enough is Ookin' Enough
             [questKeys.preQuestSingle] = {30046},
         },
+        [30056] = { -- The Farmer's Daughter
+            [questKeys.preQuestSingle] = {30046},
+        },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the bait"),0,{{"object",210117}}}},
