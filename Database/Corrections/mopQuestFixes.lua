@@ -941,6 +941,9 @@ function MopQuestFixes.Load()
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
         },
+        [30334] = { -- Stealing is Bad... Re-Stealing is OK
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
