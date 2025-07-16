@@ -3242,6 +3242,7 @@ function QuestieQuestFixes:Load()
         },
         [8435] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426,8427,8428,8429,8430},
+            [questKeys.objectivesText] = {},
         },
         [8436] = { -- Conquering Arathi Basin
             [questKeys.exclusiveTo] = {8370,8437,8438,8439},
