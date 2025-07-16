@@ -106,6 +106,9 @@ function MopItemFixes.Load()
         [76973] = { -- Sprig of Dreamleaf
             [itemKeys.objectDrops] = {209987},
         },
+        [77033] = { -- Sack of Grain
+            [itemKeys.objectDrops] = {210001},
+        },
         [77455] = { -- Mulberry Leaves
             [itemKeys.objectDrops] = {210080},
         },
