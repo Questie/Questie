@@ -649,9 +649,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29924] = { -- Kill Kher Shan
-            [questKeys.preQuestSingle] = {31167},
-        },
-        [29924] = { -- Kill Kher Shan
             [questKeys.finishedBy] = {{110003}},
             [questKeys.preQuestSingle] = {31167},
         },
