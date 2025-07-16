@@ -723,6 +723,10 @@ function MopQuestFixes.Load()
         [30030] = { -- Out of Sprite
             [questKeys.preQuestSingle] = {30048},
         },
+        [30032] = { -- The Quest for Better Barley
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30029,30031},
+        },
         [30033] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {76390,76392},
