@@ -815,6 +815,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58786,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",56474}}}},
         },
+        [30052] = { -- Weed War
+            [questKeys.preQuestSingle] = {30046},
+        },
         [30053] = { -- Hop Hunting
             [questKeys.preQuestSingle] = {30046},
             [questKeys.objectives] = {{{62377,nil,Questie.ICON_TYPE_TALK},{57385,nil,Questie.ICON_TYPE_TALK},{62385,nil,Questie.ICON_TYPE_TALK}}},
