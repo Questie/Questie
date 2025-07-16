@@ -106,6 +106,9 @@ function MopItemFixes.Load()
         [76973] = { -- Sprig of Dreamleaf
             [itemKeys.objectDrops] = {209987},
         },
+        [77455] = { -- Mulberry Leaves
+            [itemKeys.objectDrops] = {210080},
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
