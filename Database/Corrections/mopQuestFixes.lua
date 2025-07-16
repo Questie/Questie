@@ -720,6 +720,9 @@ function MopQuestFixes.Load()
         [30029] = { -- Wee Little Shenanigans
             [questKeys.preQuestSingle] = {30048},
         },
+        [30030] = { -- Out of Sprite
+            [questKeys.preQuestSingle] = {30048},
+        },
         [30033] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {76390,76392},
