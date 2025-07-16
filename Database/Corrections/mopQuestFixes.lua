@@ -813,6 +813,7 @@ function MopQuestFixes.Load()
         },
         [30072] = { -- Where Silk Comes From
             [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {32035},
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
