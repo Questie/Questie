@@ -118,6 +118,9 @@ function MopItemFixes.Load()
         [77456] = { -- Raw Silk
             [itemKeys.objectDrops] = {210088},
         },
+        [79104] = { -- Rusty Watering Can
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
