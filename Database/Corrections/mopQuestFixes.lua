@@ -817,6 +817,7 @@ function MopQuestFixes.Load()
         },
         [30053] = { -- Hop Hunting
             [questKeys.preQuestSingle] = {30046},
+            [questKeys.objectives] = {{{62377,nil,Questie.ICON_TYPE_TALK},{57385,nil,Questie.ICON_TYPE_TALK},{62385,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
