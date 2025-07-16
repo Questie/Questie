@@ -722,6 +722,9 @@ function MopNpcFixes.Load()
         [63307] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{28.82,32.62}}},
         },
+        [63778] = { -- Messenger Grummie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}}},
+        },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
