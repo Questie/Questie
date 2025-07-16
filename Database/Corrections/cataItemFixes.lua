@@ -247,6 +247,9 @@ function CataItemFixes.Load()
         [20743] = { -- Unstable Mana Crystal
             [itemKeys.npcDrops] = {},
         },
+        [21007] = { -- Unkempt Robe
+            [itemKeys.objectDrops] = {},
+        },
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
