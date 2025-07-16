@@ -798,6 +798,9 @@ function MopQuestFixes.Load()
         [30049] = { -- Doesn't Hold Water
             [questKeys.preQuestSingle] = {30046},
         },
+        [30051] = { -- The Great Water Hunt
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",56474}}}},
+        },
         [30053] = { -- Hop Hunting
             [questKeys.preQuestSingle] = {30046},
         },
