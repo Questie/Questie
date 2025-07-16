@@ -103,6 +103,9 @@ function MopItemFixes.Load()
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },
+        [76973] = { -- Sprig of Dreamleaf
+            [itemKeys.objectDrops] = {209987},
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
