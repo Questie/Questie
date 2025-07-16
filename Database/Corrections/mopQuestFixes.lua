@@ -717,6 +717,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {73209},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30029] = { -- Wee Little Shenanigans
+            [questKeys.preQuestSingle] = {30048},
+        },
         [30033] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {76390,76392},
