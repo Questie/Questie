@@ -953,6 +953,9 @@ function MopQuestFixes.Load()
         [30331] = { -- The Mile-High Grub
             [questKeys.preQuestSingle] = {30257},
         },
+        [30332] = { -- Fatty Goatsteak
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
