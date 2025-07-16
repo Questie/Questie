@@ -920,6 +920,9 @@ function MopQuestFixes.Load()
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
         },
+        [30535] = { -- Learn and Grow I: Seeds
+            [questKeys.preQuestSingle] = {30252},
+        },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {},
