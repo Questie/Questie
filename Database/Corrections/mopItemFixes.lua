@@ -127,6 +127,9 @@ function MopItemFixes.Load()
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [80314] = { -- EZ-Gro Green Cabbage
+            [itemKeys.npcDrops] = {59833},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
