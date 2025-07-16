@@ -814,7 +814,6 @@ function MopQuestFixes.Load()
         [30050] = { -- Gardener Fran and the Watering Can
             [questKeys.preQuestSingle] = {30046},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gardener Fran"),0,{{"monster",62377}}}},
-
         },
         [30051] = { -- The Great Water Hunt
             [questKeys.objectives] = {{{58786,nil,Questie.ICON_TYPE_EVENT}}},
