@@ -941,6 +941,9 @@ function MopQuestFixes.Load()
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
         },
+        [30328] = { -- The Thousand-Year Dumpling
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
