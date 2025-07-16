@@ -908,6 +908,9 @@ function MopQuestFixes.Load()
         [30254] = { -- Learn and Grow II: Tilling and Planting
             [questKeys.objectives] = {{{59985,nil,Questie.ICON_TYPE_INTERACT}},{{59990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30255] = { -- Learn and Grow III: Tending Crops
+            [questKeys.objectives] = {{{59987,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
         },
