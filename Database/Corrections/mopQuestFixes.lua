@@ -297,6 +297,9 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29578,
             [questKeys.breadcrumbForQuestId] = 29578,
         },
+        [29577] = { -- Ashyo's Vision
+            [questKeys.objectives] = {{{56113,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29578] = { -- Defiance
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29576},
