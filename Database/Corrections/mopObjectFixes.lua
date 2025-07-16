@@ -15,11 +15,20 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.22,31.59},{44.72,32.08},{45.49,32.76},{45.65,31.64},{46.53,31.94},{47.86,31.88}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
         },
+        [209621] = { -- Sniper Rifle
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209656] = { -- Defaced Scroll of Wisdom
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{29.07,51.28},{29.2,51.22},{29.07,51.28},{29.2,51.22},{29.2,51.22},{29.07,51.28},{31.26,49.96},{31.47,49.92},{32.7,53.5},{32.5,53.58},{32.5,53.58},{31.47,49.92},{31.26,49.96},{32.7,53.5},{32.53,46.81},{32.48,46.66},{33.17,46.15},{33.45,50.86},{32.48,46.66},{33.13,46.3},{33.17,46.15},{33.13,46.3},{32.53,46.81},{33.45,50.86},{33.17,46.15},{33.13,46.3},{32.48,46.66},{32.53,46.81},{32.53,46.81},{32.48,46.66},{33.17,46.15},{33.13,46.3},{28.26,49.88},{28.26,49.58},{28.19,49.95},{28.19,49.95},{28.26,49.58},{28.26,49.88},{28.19,49.95},{28.26,49.58}}},
         },
         [209835] = { -- Marmot Hole
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{81.77,25.59},{82.41,25.93},{82.43,24.80},{81.66,24.86},{81.86,25.09},{82.15,25.07},{82.53,26.27},{82.24,26.16},{82.14,26.37},{82.23,26.15}}},
+        },
+        [209877] = { -- Dead Deepriver Slicky
+            [objectKeys.name] = 'Dead Deepriver Slicky',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{26.52,55.65},{26.62,56.07},{26.38,55.54}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [209891] = { -- Stolen Turnip
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{85.45,35.03},{85.88,34.53},{85.69,34.35},{85.64,33.64},{84.54,26.8},{84.49,26.64},{84.51,26.58},{84.63,26.5},{84.69,26.48},{84.72,26.48},{84.75,26.67},{84.76,26.72},{84.99,27.77},{85.19,26.97},{85.11,26.91},{85.09,27.14},{85.02,27.11}}},
@@ -143,8 +152,8 @@ function MopObjectFixes.Load()
         },
         [223816] = { -- Meeting Stone (Heart of Fear)
             [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTED] = {{40.6,33.6}}},
-            [objectKeys.zoneID] = zoneIDs.DREAD_WASTED,
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.6,33.6}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [223817] = { -- Meeting Stone (Throne of Thunder) TODO: Add correct spawns, once The Isle of Thunder is available
             [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.

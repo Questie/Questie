@@ -12,7 +12,13 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.spellObjectiveFirst[24526] = true
+QuestieCorrections.spellObjectiveFirst[24527] = true
+QuestieCorrections.spellObjectiveFirst[24528] = true
+QuestieCorrections.spellObjectiveFirst[24530] = true
+QuestieCorrections.spellObjectiveFirst[24531] = true
+QuestieCorrections.spellObjectiveFirst[24532] = true
+QuestieCorrections.spellObjectiveFirst[26904] = true
 QuestieCorrections.spellObjectiveFirst[26913] = true
 QuestieCorrections.spellObjectiveFirst[26914] = true
 QuestieCorrections.spellObjectiveFirst[26915] = true
@@ -25,7 +31,10 @@ QuestieCorrections.spellObjectiveFirst[26946] = true
 QuestieCorrections.spellObjectiveFirst[26947] = true
 QuestieCorrections.spellObjectiveFirst[26948] = true
 QuestieCorrections.spellObjectiveFirst[26949] = true
+QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
+QuestieCorrections.spellObjectiveFirst[31151] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 
 function MopQuestFixes.Load()
@@ -45,11 +54,39 @@ function MopQuestFixes.Load()
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },
+        [24526] = { -- Filling Up the Spellbook
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24527] = { -- Your Path Begins Here
+            [questKeys.extraObjectives] = {},
+        },
+        [24528] = { -- The Power of the Light
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{105361}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [24530] = { -- Oh, A Hunter's Life For Me
+            [questKeys.extraObjectives] = {},
+        },
+        [24531] = { -- Getting Battle-Ready
+            [questKeys.extraObjectives] = {},
+        },
+        [24532] = { -- Evisceratin' the Enemy
+            [questKeys.extraObjectives] = {},
+        },
+        [24533] = { -- Words of Power
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
         [26389] = { -- Blackrock Invasion
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
+        },
+        [26904] = { -- Corruption
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
         },
         [26913] = { -- Charging into Battle
             [questKeys.extraObjectives] = {},
@@ -341,6 +378,12 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55141,nil,Questie.ICON_TYPE_TALK},{55146,nil,Questie.ICON_TYPE_TALK},{55162,nil,Questie.ICON_TYPE_TALK},{55170,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31769},
         },
+        [29730] = { -- Scouting Report: Hostile Natives
+            [questKeys.preQuestSingle] = {29971},
+        },
+        [29731] = { -- Scouting Report: On the Right Track
+            [questKeys.preQuestSingle] = {29730},
+        },
         [29743] = { -- Monstrosity
             [questKeys.finishedBy] = {{110002}},
             [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
@@ -549,6 +592,16 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29827,31112},
         },
+        [29823] = { -- Scouting Report: The Friend of My Enemy
+            [questKeys.preQuestSingle] = {29731},
+        },
+        [29824] = { -- Scouting Report: Like Jinyu in a Barrel
+            [questKeys.preQuestSingle] = {29823},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in"),0,{{"object",209621}}}},
+        },
+        [29827] = { -- Acid Rain
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
+        },
         [29871] = { -- Clever Ashyo
             [questKeys.preQuestSingle] = {30086},
         },
@@ -598,8 +651,9 @@ function MopQuestFixes.Load()
         [29924] = { -- Kill Kher Shan
             [questKeys.preQuestSingle] = {31167},
         },
-        [29827] = { -- Acid Rain
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
+        [29924] = { -- Kill Kher Shan
+            [questKeys.finishedBy] = {{110003}},
+            [questKeys.preQuestSingle] = {31167},
         },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
@@ -611,9 +665,18 @@ function MopQuestFixes.Load()
         [29937] = { -- Furious Fowl
             [questKeys.preQuestSingle] = {29941},
         },
+        [29939] = { -- Boom Bait
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{26.75,55.33}}},Questie.ICON_TYPE_INTERACT,l10n("Throw the Gut Bomb"),0}},
+        },
         [29941] = { -- Beyond the Horizon
             [questKeys.objectives] = {{{56340,nil,Questie.ICON_TYPE_TALK},{56477,nil,Questie.ICON_TYPE_TALK},{56478,nil,Questie.ICON_TYPE_TALK},{56336,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {29936},
+        },
+        [29942] = { -- Silly Wikket, Slickies are for Hozen
+            [questKeys.preQuestSingle] = {31239},
+        },
+        [29943] = { -- Guerrillas in our Midst
+            [questKeys.preQuestSingle] = {29824},
         },
         [29944] = { -- Leaders Among Breeders
             [questKeys.preQuestSingle] = {29919},
@@ -639,6 +702,12 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29950}, -- might be prequest group with 29951
             [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
+        [29968] = { -- Green-ish Energy
+            [questKeys.preQuestSingle] = {29824},
+        },
+        [29971] = { -- The Scouts Return
+            [questKeys.preQuestGroup] = {29939,29942},
+        },
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
@@ -803,6 +872,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30745] = { -- Trouble Brewing
+            [questKeys.requiredLevel] = 85,
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
@@ -904,6 +976,17 @@ function MopQuestFixes.Load()
         },
         [31145] = { -- The Rear is Clear
             [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [31150] = { -- Elegant Rune
+            [questKeys.startedBy] = {{37087}},
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {24473},
+        },
+        [31151] = { -- Kick, Punch, It's All in the Mind
+            [questKeys.requiredRaces] = raceIDs.DWARF,
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31150},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{100787}}},
         },
         [31152] = { -- Peering Into the Past
             [questKeys.triggerEnd] = {"Lorewalker Cho escorted to Circle of Stone", {[zoneIDs.THE_JADE_FOREST]={{29,32.4}}}},

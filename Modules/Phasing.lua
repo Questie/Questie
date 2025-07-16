@@ -272,6 +272,8 @@ local phases = {
     RAGEFIRE_CHASM_GORDOTH_DEAD = 1200,
     RIVETT_CLUTCHPOP_NOOK_OF_KONK = 1201,
     RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP = 1202,
+    RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM = 1203,
+    RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END = 1204,
 }
 Phasing.phases = phases
 
@@ -1150,6 +1152,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP then
         return complete[31779] or (questLog[31779] and questLog[31779].isComplete == 1) or false
+    end
+
+    if phase == phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM then
+        return (not complete[29939]) and ((not questLog[29939] or questLog[29939].isComplete == 0)) or false
+    end
+
+    if phase == phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END then
+        return complete[29939] or (questLog[29939] and questLog[29939].isComplete == 1) or false
     end
 
     return false

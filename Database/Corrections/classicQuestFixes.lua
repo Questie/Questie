@@ -3063,7 +3063,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {609,3000},
         },
         [8367] = { -- For Great Honor
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [8368] = { -- Battle of Warsong Gulch
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
@@ -3074,7 +3074,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 29,
         },
         [8371] = { -- Concerted Efforts
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.IRONFORGE,
         },
         [8372] = { -- Fight for Warsong Gulch
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
@@ -3097,7 +3097,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 29,
         },
         [8385] = { -- Concerted Efforts
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.IRONFORGE,
         },
         [8386] = { -- Fight for Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
@@ -3107,7 +3107,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {},
         },
         [8388] = { -- For Great Honor
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
+            [questKeys.objectivesText] = {},
         },
         [8389] = { -- Battle of Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,

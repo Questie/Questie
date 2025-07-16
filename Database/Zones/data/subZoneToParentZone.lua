@@ -6,6 +6,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
     [5786] = 4265, -- The Nexus -> The Nexus
+    [6137] = 1, -- Frostmane Hovel -> Dun Morogh
     [6170] = 12, -- Northshire -> Elwynn Forest
     [6176] = 1, -- Coldridge Valley -> Dun Morogh
     [6384] = 796, -- Scarlet Monastery - Dungeon - Forlorn Cloister

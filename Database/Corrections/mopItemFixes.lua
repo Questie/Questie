@@ -79,6 +79,9 @@ function MopItemFixes.Load()
         [76225] = { -- Fistful of Bird Guts
             [itemKeys.npcDrops] = {56396},
         },
+        [76260] = { -- Exploded Slicky
+            [itemKeys.objectDrops] = {209877},
+        },
         [76297] = { -- Stolen Turnip
             [itemKeys.objectDrops] = {209891},
         },
@@ -96,6 +99,8 @@ function MopItemFixes.Load()
         },
         [76370] = { -- Orange-Painted Turnip
             [itemKeys.class] = itemClasses.QUEST,
+        [76420] = { -- Snapper Steak
+            [itemKeys.npcDrops] = {56447},
         },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
