@@ -400,6 +400,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29744},
         },
+        [29757] = { -- Bottletoads
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
+        },
         [29768] = { -- Missing Mallet
             [questKeys.requiredLevel] = 4,
             [questKeys.preQuestSingle] = {},
