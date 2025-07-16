@@ -55,6 +55,24 @@ function MopItemFixes.Load()
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
+        [75208] = { -- Rancher's Lariat
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [75271] = { -- Jian
+            [itemKeys.npcDrops] = {56253},
+        },
+        [75272] = { -- Ling
+            [itemKeys.npcDrops] = {56254},
+        },
+        [75273] = { -- Smelly
+            [itemKeys.npcDrops] = {56255},
+        },
+        [75275] = { -- Mushan Shoulder Steak
+            [itemKeys.npcDrops] = {56239},
+        },
+        [75276] = { -- Turtle Meat Scrap
+            [itemKeys.npcDrops] = {56256},
+        },
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
@@ -63,6 +81,24 @@ function MopItemFixes.Load()
         },
         [76260] = { -- Exploded Slicky
             [itemKeys.objectDrops] = {209877},
+        },
+        [76297] = { -- Stolen Turnip
+            [itemKeys.objectDrops] = {209891},
+        },
+        [76334] = { -- Meadow Marigold
+            [itemKeys.objectDrops] = {209907},
+        },
+        [76335] = { -- Vial of Animal Blood
+            [itemKeys.npcDrops] = {56523,56524,56531,56532},
+        },
+        [76337] = { -- Stolen Sack of Hops
+            [itemKeys.objectDrops] = {211696},
+        },
+        [76362] = { -- Mudmug's Vial
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [76370] = { -- Orange-Painted Turnip
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},

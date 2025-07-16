@@ -602,6 +602,52 @@ function MopQuestFixes.Load()
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
         },
+        [29871] = { -- Clever Ashyo
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29872] = { -- Lin Tenderpaw
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29873] = { -- Ken-Ken
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29874] = { -- Kang Bramblestaff [Alliance]
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29875] = { -- Kang Bramblestaff [Horde]
+            [questKeys.preQuestSingle] = {30086},
+        },
+        [29877] = { -- A Poor Grasp of the Basics
+            [questKeys.preQuestSingle] = {29907},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146}}},
+        },
+        [29907] = { -- Chen and Li Li
+            [questKeys.preQuestSingle] = {},
+        },
+        [29910] = { -- Rampaging Rodents
+            [questKeys.preQuestSingle] = {29909},
+            [questKeys.objectives] = {{{56203,nil,Questie.ICON_TYPE_INTERACT}},{{209835,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [29913] = { -- The Meat They'll Eat
+            [questKeys.preQuestSingle] = {29912},
+        },
+        [29914] = { -- Back to the Sty
+            [questKeys.preQuestSingle] = {29912},
+        },
+        [29916] = { -- Piercing Talons and Slavering Jaws
+            [questKeys.preQuestSingle] = {29915},
+        },
+        [29917] = { -- Lupello
+            [questKeys.preQuestSingle] = {29915},
+        },
+        [29918] = { -- A Lesson in Bravery
+            [questKeys.preQuestGroup] = {29916,29917},
+            [questKeys.sourceItemId] = 75208;
+        },
+        [29919] = { -- Great Minds Drink Alike
+            [questKeys.preQuestSingle] = {29918},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
+        },
         [29924] = { -- Kill Kher Shan
             [questKeys.finishedBy] = {{110003}},
             [questKeys.preQuestSingle] = {31167},
@@ -628,6 +674,31 @@ function MopQuestFixes.Load()
         },
         [29943] = { -- Guerrillas in our Midst
             [questKeys.preQuestSingle] = {29824},
+        },
+        [29944] = { -- Leaders Among Breeders
+            [questKeys.preQuestSingle] = {29919},
+        },
+        [29945] = { -- Yellow and Red Make Orange
+            [questKeys.preQuestSingle] = {29919},
+        },
+        [29947] = { -- Crouching Carrot, Hidden Turnip
+            [questKeys.sourceItemId] = 76370;
+            [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [29948] = { -- Thieves to the Core
+            [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
+        },
+        [29950] = { -- Li Li's Day Off
+            [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29951] = { -- Muddy Water
+            [questKeys.preQuestSingle] = {29949},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Fill the vial"),0,{{"object",209921}}}},
+        },
+        [29952] = { -- Broken Dreams
+            [questKeys.preQuestSingle] = {29950}, -- might be prequest group with 29951
+            [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29968] = { -- Green-ish Energy
             [questKeys.preQuestSingle] = {29824},
@@ -712,11 +783,17 @@ function MopQuestFixes.Load()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30046] = { -- Chen's Resolution
+            [questKeys.preQuestSingle] = {29952},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
         [30070] = { -- The Fall of Ga'trul
             [questKeys.preQuestGroup] = {31741,31742,31743,31744},
+        },
+        [30086] = { -- The Search for the Hidden Master
+            [questKeys.preQuestSingle] = {29908},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
