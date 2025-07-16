@@ -830,6 +830,9 @@ function MopQuestFixes.Load()
         [30056] = { -- The Farmer's Daughter
             [questKeys.preQuestSingle] = {30046},
         },
+        [30057] = { -- Seeing Orange
+            [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{44.22,34.65}}}},
+        },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the bait"),0,{{"object",210117}}}},
