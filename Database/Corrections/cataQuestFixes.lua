@@ -1124,6 +1124,12 @@ function CataQuestFixes.Load()
         [9272] = { -- Dressing the Part
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
+        [9279] = { -- You Survived!
+            [questKeys.breadcrumbForQuestId] = 9280,
+        },
+        [9280] = { -- Replenishing the Healing Crystals
+            [questKeys.breadcrumbs] = {9279},
+        },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {{16502}},
@@ -1134,6 +1140,7 @@ function CataQuestFixes.Load()
         [9303] = { -- Inoculation
             [questKeys.startedBy] = {{16535}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10304},
         },
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
@@ -1164,6 +1171,9 @@ function CataQuestFixes.Load()
         },
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE - raceIDs.DRAENEI,
+        },
+        [9371] = { -- Botanist Taerix
+            [questKeys.breadcrumbForQuestId] = 10302,
         },
         [9372] = { -- Demonic Contamination
             [questKeys.preQuestSingle] = {},
@@ -1479,6 +1489,10 @@ function CataQuestFixes.Load()
         },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
+            [questKeys.breadcrumbs] = {9371},
+        },
+        [10304] = { -- Vindicator Aldar
+            [questKeys.breadcrumbForQuestId] = 9303,
         },
         [10305] = { -- Abjurist Belmara
             [questKeys.startedBy] = {nil,nil,{29234}},
@@ -4769,10 +4783,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28608},
             [questKeys.startedBy] = {{2307}},
             [questKeys.objectives] = {{{38895,nil,Questie.ICON_TYPE_TALK},{49230,nil,Questie.ICON_TYPE_TALK},{49231,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.breadcrumbs] = {28652},
         },
         [24961] = { -- The Truth of the Grave
             [questKeys.preQuestSingle] = {26801},
             [questKeys.objectives] = {{{38910,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.breadcrumbs] = {28651},
         },
         [24962] = { -- Trail-Worn Scroll
             [questKeys.startedBy] = {{1569}},
@@ -4785,7 +4801,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 38911}}}},
         },
         [24965] = { -- Arcane Missiles
-            [questKeys.objectives] = {{{44795}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 2124}}}},
         },
         [24966] = { -- Of Light and Shadows
@@ -8373,6 +8389,7 @@ function CataQuestFixes.Load()
         },
         [26801] = { -- Scourge on our Perimeter
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {28653},
         },
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
@@ -13077,14 +13094,17 @@ function CataQuestFixes.Load()
         },
         [28651] = { -- Novice Elreth
             [questKeys.startedBy] = {{2119,2122,2123,2124,2126,38911}},
-            [questKeys.exclusiveTo] = {24961},
+            [questKeys.nextQuestInChain] = 24961,
+            [questKeys.breadcrumbForQuestId] = 24961,
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [28652] = { -- Caretaker Caice
-            [questKeys.exclusiveTo] = {24960},
+            [questKeys.nextQuestInChain] = 24960,
+            [questKeys.breadcrumbForQuestId] = 24960,
         },
         [28653] = { -- Shadow Priest Sarvis
-            [questKeys.exclusiveTo] = {26801},
+            [questKeys.nextQuestInChain] = 26801,
+            [questKeys.breadcrumbForQuestId] = 26801,
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [28655] = { -- Wild, Wild, Wildhammer Wedding
@@ -15639,11 +15659,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{38578}},
         },
         [25422] = { -- The Darkmist Legacy
-            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {25350},
         },
         [25423] = { -- Ancient Suffering
-            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {25350},
         },
         [25513] = { -- Thunderdrome: Grudge Match!
