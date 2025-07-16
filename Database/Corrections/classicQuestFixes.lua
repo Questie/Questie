@@ -3227,18 +3227,22 @@ function QuestieQuestFixes:Load()
         [8431] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426},
             [questKeys.requiredMaxLevel] = 29,
+            [questKeys.objectivesText] = {},
         },
         [8432] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426,8427},
             [questKeys.requiredMaxLevel] = 39,
+            [questKeys.objectivesText] = {},
         },
         [8433] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426,8427,8428},
             [questKeys.requiredMaxLevel] = 49,
+            [questKeys.objectivesText] = {},
         },
         [8434] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426,8427,8428,8429},
             [questKeys.requiredMaxLevel] = 59,
+            [questKeys.objectivesText] = {},
         },
         [8435] = { -- Battle of Warsong Gulch
             [questKeys.preQuestSingle] = {8368,8426,8427,8428,8429,8430},
@@ -3263,13 +3267,16 @@ function QuestieQuestFixes:Load()
         [8441] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436,8437},
             [questKeys.requiredMaxLevel] = 49,
+            [questKeys.objectivesText] = {},
         },
         [8442] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436,8437,8438},
             [questKeys.requiredMaxLevel] = 59,
+            [questKeys.objectivesText] = {},
         },
         [8443] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436,8437,8438,8439},
+            [questKeys.objectivesText] = {},
         },
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
