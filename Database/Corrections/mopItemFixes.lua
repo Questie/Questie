@@ -99,6 +99,7 @@ function MopItemFixes.Load()
         },
         [76370] = { -- Orange-Painted Turnip
             [itemKeys.class] = itemClasses.QUEST,
+        },
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },
