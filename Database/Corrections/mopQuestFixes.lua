@@ -89,6 +89,21 @@ function MopQuestFixes.Load()
         [3100] = { -- Simple Letter
             [questKeys.requiredLevel] = 2,
         },
+        [3101] = { -- Consecrated Letter
+            [questKeys.requiredLevel] = 2,
+        },
+        [3102] = { -- Encrypted Letter
+            [questKeys.requiredLevel] = 2,
+        },
+        [3103] = { -- Hallowed Letter
+            [questKeys.requiredLevel] = 2,
+        },
+        [3104] = { -- Glyphic Letter
+            [questKeys.requiredLevel] = 2,
+        },
+        [3105] = { -- Tainted Letter
+            [questKeys.requiredLevel] = 2,
+        },
         [3106] = { -- Simple Rune
             [questKeys.requiredLevel] = 2,
         },
