@@ -5882,6 +5882,7 @@ function QuestieQuestBlacklist:Load()
         [30934] = true, -- Not in the game
         [31033] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [31035] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [31172] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [32396] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [32666] = true, -- Hidden quest
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
