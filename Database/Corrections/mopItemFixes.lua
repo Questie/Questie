@@ -109,6 +109,9 @@ function MopItemFixes.Load()
         [77455] = { -- Mulberry Leaves
             [itemKeys.objectDrops] = {210080},
         },
+        [77456] = { -- Raw Silk
+            [itemKeys.objectDrops] = {210088},
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
