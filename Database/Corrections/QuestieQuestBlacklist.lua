@@ -5892,6 +5892,23 @@ function QuestieQuestBlacklist:Load()
         [65604] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65610] = Expansions.Current >= Expansions.Cata, -- Not in the game
 
+        --- MoP Learn to Ride quests
+        [32618] = true, -- Learn To Ride
+        [32661] = true, -- Learn To Ride
+        [32662] = true, -- Learn To Ride
+        [32663] = true, -- Learn To Ride
+        [32664] = true, -- Learn To Ride
+        [32665] = true, -- Learn To Ride
+        [32667] = true, -- Learn To Ride
+        [32668] = true, -- Learn To Ride
+        [32669] = true, -- Learn To Ride
+        [32670] = true, -- Learn To Ride
+        [32671] = true, -- Learn To Ride
+        [32672] = true, -- Learn To Ride
+        [32673] = true, -- Learn To Ride
+        [32674] = true, -- I Believe You Can Fly
+        [32675] = true, -- I Believe You Can Fly
+
         --- Daily quests
         [28905] = true, -- Daily Heroic Random (1st) (Cataclysm)
         [28906] = true, -- Daily Heroic Random (Nth)
