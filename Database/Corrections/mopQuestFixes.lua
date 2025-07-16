@@ -798,6 +798,9 @@ function MopQuestFixes.Load()
         [30049] = { -- Doesn't Hold Water
             [questKeys.preQuestSingle] = {30046},
         },
+        [30053] = { -- Hop Hunting
+            [questKeys.preQuestSingle] = {30046},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
