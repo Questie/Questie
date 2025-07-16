@@ -799,6 +799,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30046},
         },
         [30051] = { -- The Great Water Hunt
+            [questKeys.objectives] = {{{58786,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",56474}}}},
         },
         [30053] = { -- Hop Hunting
