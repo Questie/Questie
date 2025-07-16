@@ -932,6 +932,9 @@ function MopQuestFixes.Load()
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
         },
+        [30319] = { -- Pest Problems
+            [questKeys.preQuestSingle] = {30257},
+        },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
         },
