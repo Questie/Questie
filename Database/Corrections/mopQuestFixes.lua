@@ -805,6 +805,9 @@ function MopQuestFixes.Load()
         [30053] = { -- Hop Hunting
             [questKeys.preQuestSingle] = {30046},
         },
+        [30058] = { -- Mothallus!
+            [questKeys.preQuestSingle] = {30059},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
