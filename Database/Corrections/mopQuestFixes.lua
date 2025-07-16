@@ -914,6 +914,9 @@ function MopQuestFixes.Load()
         [30256] = { -- Learn and Grow IV: Harvesting
             [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30257] = { -- Learn and Grow V: Halfhill Market
+            [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
         },
