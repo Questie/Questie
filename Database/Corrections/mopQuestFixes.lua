@@ -792,6 +792,9 @@ function MopQuestFixes.Load()
         [30046] = { -- Chen's Resolution
             [questKeys.preQuestSingle] = {29952},
         },
+        [30048] = { -- Li Li and the Grain
+            [questKeys.preQuestSingle] = {30046},
+        },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
         },
