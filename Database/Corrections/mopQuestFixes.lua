@@ -1179,6 +1179,9 @@ function MopQuestFixes.Load()
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
+        [30179] = { -- Poisoned! [Horde]
+            [questKeys.preQuestSingle] = {},
+        },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
