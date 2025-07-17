@@ -112,6 +112,9 @@ function MopItemFixes.Load()
         [76503] = { -- Whitefisher Crane Egg
             [itemKeys.objectDrops] = {209954},
         },
+        [76516] = { -- Hornbill Strider Egg
+            [itemKeys.objectDrops] = {209955},
+        },
         [76973] = { -- Sprig of Dreamleaf
             [itemKeys.objectDrops] = {209987},
         },
