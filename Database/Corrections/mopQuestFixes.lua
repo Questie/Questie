@@ -1351,6 +1351,9 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Accompany Koro to Crane Wing Refuge", {[zoneIDs.KRASARANG_WILDS]={{43.86,36.77}}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Koro Mistwalker"),0,{{"monster",58547}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Koro Mistwalker"),0,{{"monster",58978}}}},
         },
+        [30270] = { -- Blinding the Riverblades
+            [questKeys.preQuestSingle] = {30269},
+        },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
         },
