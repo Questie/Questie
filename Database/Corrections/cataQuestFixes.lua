@@ -293,6 +293,9 @@ function CataQuestFixes.Load()
         [2158] = { -- Rest and Relaxation
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2383] = { -- Simple Parchment
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
@@ -315,6 +318,14 @@ function CataQuestFixes.Load()
         },
         [2950] = { -- Nogg's Ring Redo
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [3087] = { -- Etched Parchment
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.startedBy] = {{3143}},
+            [questKeys.finishedBy] = {{39214}},
+        },
+        [3089] = { -- Rune-Inscribed Parchment
+            [questKeys.requiredRaces] = raceIDs.ORC,
         },
         [3091] = { -- Simple Note -- Tauren Warrior
             [questKeys.preQuestSingle] = {},
@@ -4989,6 +5000,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN,
             [questKeys.nextQuestInChain] = 25167,
+            [questKeys.breadcrumbForQuestId] = 25167,
         },
         [25074] = { -- Meet Me at Triumph
             [questKeys.preQuestSingle] = {25057},
@@ -5062,26 +5074,32 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{10556,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25139] = { -- Steady Shot
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 39214}}}},
         },
         [25141] = { -- Eviscerate
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{2098}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 3155}}}},
         },
         [25143] = { -- Primal Strike
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{73899}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 3157}}}},
         },
         [25145] = { -- Immolate
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{348}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 3156}}}},
         },
         [25147] = { -- Charge
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3153}}}},
         },
         [25149] = { -- Arcane Missiles
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 39206}}}},
         },
@@ -5142,6 +5160,7 @@ function CataQuestFixes.Load()
         },
         [25167] = { -- Breaking the Chain
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {25073},
         },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {},

@@ -430,7 +430,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Les quêtes de l’effort de guerre d’Ahn'Qiraj sont affichées pour vous. Si votre serveur a terminé, vous pouvez les cacher dans les paramètres des icônes de Questie.",
         ["koKR"] = false,
         ["ptBR"] = "As missões do Esforço de Guerra de Ahn'Qiraj estão sendo exibidas para você. Se o seu servidor já concluiu, você pode ocultá-las nas configurações de ícones de Questie.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания войны в Ан'Кираже отображаются для вас. Если на вашем сервере это завершено, то вы можете скрыть эти задания в настройках значков Questie!",
         ["zhCN"] = false,
         ["zhTW"] = "已經為你顯示『安其拉戰線』任務。如果你的伺服器已經完成這些任務，可以在 Questie 的圖示設定中隱藏這些任務！",
     },
