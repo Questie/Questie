@@ -968,6 +968,9 @@ function MopQuestFixes.Load()
         [29984] = { -- Unyielding Fists: Trial of Bamboo
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
         },
+        [29985] = { -- They Will Be Mist
+            [questKeys.preQuestSingle] = {29984},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
