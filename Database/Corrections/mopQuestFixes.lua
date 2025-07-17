@@ -1212,6 +1212,9 @@ function MopQuestFixes.Load()
         [30266] = { -- Bloodied Skies
             [questKeys.preQuestSingle] = {30640},
         },
+        [30269] = { -- Unsafe Passage
+            [questKeys.preQuestSingle] = {30133,30178}, -- Either Horde or Alliance version as prequest
+        },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
         },
