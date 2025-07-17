@@ -145,6 +145,18 @@ function MopItemFixes.Load()
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
         },
+        [80213] = { -- Spicemaster Jin Jao\'s Payment
+            [itemKeys.npcDrops] = {59581},
+        },
+        [80214] = { -- Trader Jambeezi\'s Payment
+            [itemKeys.npcDrops] = {59583},
+        },
+        [80215] = { -- Innkeeper Lei Lan\'s Payment
+            [itemKeys.npcDrops] = {59582},
+        },
+        [80216] = { -- Lolo Lio\'s Payment
+            [itemKeys.npcDrops] = {59585},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
