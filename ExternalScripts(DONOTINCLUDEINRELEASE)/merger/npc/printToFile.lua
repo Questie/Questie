@@ -91,7 +91,7 @@ local function printToFile(npcData, npcKeys)
         else
             printString = printString .. "nil,"
         end
-        if data[npcKeys.subName] then
+        if data[npcKeys.subName] and data[npcKeys.subName] ~= "" then
             printString = printString .. "\"" .. data[npcKeys.subName]:gsub("\"", "\\\"") .. "\","
         else
             printString = printString .. "nil,"
