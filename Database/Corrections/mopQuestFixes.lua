@@ -1357,6 +1357,9 @@ function MopQuestFixes.Load()
         [30270] = { -- Blinding the Riverblades
             [questKeys.preQuestSingle] = {30269},
         },
+        [30271] = { -- Sha Can Awe
+            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+        },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
         },
