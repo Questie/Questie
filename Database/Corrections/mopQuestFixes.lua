@@ -1049,6 +1049,10 @@ function MopQuestFixes.Load()
         [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
             [questKeys.preQuestSingle] = {29984},
         },
+        [30015] = { -- Dawn's Blossom
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29966,29967},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
