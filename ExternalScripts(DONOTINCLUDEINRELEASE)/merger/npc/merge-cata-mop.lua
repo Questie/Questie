@@ -71,12 +71,17 @@ for npcId, data in pairs(mop) do
             if not data[npcKeys.spawns] and wowheadNpc[npcKeys.spawns] then
                 mop[npcId][npcKeys.spawns] = {}
                 for zoneId, _ in pairs(wowheadNpc[npcKeys.spawns]) do
+                    local zoneIdOverride = zoneId
+                    if zoneId == 9105 then
+                        zoneIdOverride = 5840 -- retail wowhead lists 9105 as Vale of Eternal Blossoms
+                    end
+
                     -- Filter out non-MoP zones
-                    if zoneId <= 6852 or zoneId == 14288 or zoneId == 14334 or zoneId == 15306 or zoneId == 15318 then
+                    if (zoneId <= 6852 or zoneIdOverride <= 6852) or zoneId == 14288 or zoneId == 14334 or zoneId == 15306 or zoneId == 15318 then
                         if not mop[npcId][npcKeys.zoneID] or mop[npcId][npcKeys.zoneID] == 0 then
-                            mop[npcId][npcKeys.zoneID] = zoneId
+                            mop[npcId][npcKeys.zoneID] = zoneIdOverride
                         end
-                        mop[npcId][npcKeys.spawns][zoneId] = wowheadNpc[npcKeys.spawns][zoneId]
+                        mop[npcId][npcKeys.spawns][zoneIdOverride] = wowheadNpc[npcKeys.spawns][zoneId]
                     end
                 end
             end
