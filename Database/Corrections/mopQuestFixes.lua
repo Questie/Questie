@@ -1127,6 +1127,9 @@ function MopQuestFixes.Load()
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
+        [30088] = { -- Why So Serious?
+            [questKeys.preQuestSingle] = {30081},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
