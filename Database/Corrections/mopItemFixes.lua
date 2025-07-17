@@ -157,6 +157,9 @@ function MopItemFixes.Load()
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
+        [79199] = { -- Murkscale Head
+            [itemKeys.npcDrops] = {58631},
+        },
         [79252] = { -- Mogu Poisoned Blade
             [itemKeys.npcDrops] = {58377,65598},
         },
