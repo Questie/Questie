@@ -1364,6 +1364,10 @@ if Expansions.Current >= Expansions.MoP then
     pandaria[6726]="Wildvine Marsh"
     pandaria[6727]="Shadewood Thicket"
     pandaria[6729]="Isle of Thunder"
+    pandaria[6731]="The Secrets of Ragefire"
+    pandaria[6732]="The Tiger's Peak"
+    pandaria[6733]="Dark Heart of Pandaria"
+    pandaria[6738]="Siege of Orgrimmar"
 
     l10n.zoneLookup[369][6618]="Bizmo's Brawlpub"
 end
