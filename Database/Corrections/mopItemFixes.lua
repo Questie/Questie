@@ -103,6 +103,18 @@ function MopItemFixes.Load()
         [76420] = { -- Snapper Steak
             [itemKeys.npcDrops] = {56447},
         },
+        [76499] = { -- Jademoon Leaf
+            [itemKeys.objectDrops] = {209952},
+        },
+        [76501] = { -- Emperor Tern Egg
+            [itemKeys.objectDrops] = {209953},
+        },
+        [76503] = { -- Whitefisher Crane Egg
+            [itemKeys.objectDrops] = {209954},
+        },
+        [76516] = { -- Hornbill Strider Egg
+            [itemKeys.objectDrops] = {209955},
+        },
         [76973] = { -- Sprig of Dreamleaf
             [itemKeys.objectDrops] = {209987},
         },
@@ -118,6 +130,12 @@ function MopItemFixes.Load()
         [77456] = { -- Raw Silk
             [itemKeys.objectDrops] = {210088},
         },
+        [79058] = { -- Darkhide's Head
+            [itemKeys.npcDrops] = {58435},
+        },
+        [79059] = { -- Intact Tortoise Shell
+            [itemKeys.npcDrops] = {58431},
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -132,6 +150,18 @@ function MopItemFixes.Load()
         },
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
+        },
+        [80213] = { -- Spicemaster Jin Jao\'s Payment
+            [itemKeys.npcDrops] = {59581},
+        },
+        [80214] = { -- Trader Jambeezi\'s Payment
+            [itemKeys.npcDrops] = {59583},
+        },
+        [80215] = { -- Innkeeper Lei Lan\'s Payment
+            [itemKeys.npcDrops] = {59582},
+        },
+        [80216] = { -- Lolo Lio\'s Payment
+            [itemKeys.npcDrops] = {59585},
         },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,

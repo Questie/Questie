@@ -962,6 +962,34 @@ function MopQuestFixes.Load()
         [29971] = { -- The Scouts Return
             [questKeys.preQuestGroup] = {29939,29942},
         },
+        [29981] = { -- Stemming the Swarm
+            [questKeys.preQuestSingle] = {},
+        },
+        [29982] = { -- Evacuation Orders
+            [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
+        },
+        [29984] = { -- Unyielding Fists: Trial of Bamboo
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
+        },
+        [29985] = { -- They Will Be Mist
+            [questKeys.preQuestSingle] = {29984},
+        },
+        [29986] = { -- Fog Wards
+            [questKeys.preQuestSingle] = {29984},
+            [questKeys.objectives] = {nil,{{209945,nil,Questie.ICON_TYPE_OBJECT},{209946,nil,Questie.ICON_TYPE_OBJECT},{209947,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
+        [29987] = { -- Unyielding Fists: Trial of Wood
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
+        },
+        [29989] = { -- Unyielding Fists: Trial of Stone
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
+        },
+        [29990] = { -- Training and Discipline
+            [questKeys.preQuestSingle] = {29989},
+        },
+        [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
+            [questKeys.preQuestSingle] = {29984},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
@@ -1101,11 +1129,27 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30075] = { -- Clear the Way
+            [questKeys.preQuestSingle] = {30074},
+        },
+        [30076] = { -- The Fanciest Water
+            [questKeys.preQuestSingle] = {30074},
+        },
+        [30077] = { -- Barrels, Man
+            [questKeys.preQuestSingle] = {30074},
+            [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
+        },
+        [30078] = { -- Cleaning House
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
+        },
+        [30117] = { -- Stoneplow Thirsts
+            [questKeys.preQuestSingle] = {30078},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
@@ -1142,6 +1186,15 @@ function MopQuestFixes.Load()
         },
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
+        },
+        [30184] = { -- Mushan Mastery: Darkhide
+            [questKeys.preQuestSingle] = {30181},
+        },
+        [30185] = { -- Tortoise Mastery
+            [questKeys.preQuestSingle] = {30184},
+        },
+        [30186] = { -- Parental Mastery
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}}},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
@@ -1196,21 +1249,203 @@ function MopQuestFixes.Load()
         },
         [30328] = { -- The Thousand-Year Dumpling
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30329,30330,30331,30332},
         },
         [30329] = { -- Cindergut Peppers
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30328,30330,30331,30332},
         },
         [30330] = { -- The Truffle Shuffle
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30328,30329,30331,30332},
         },
         [30331] = { -- The Mile-High Grub
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30328,30329,30330,30332},
         },
         [30332] = { -- Fatty Goatsteak
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30328,30329,30330,30331},
         },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
+        },
+        [30379] = { -- A Ruby Shard for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30380] = { -- A Lovely Apple for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30381] = { -- A Jade Cat for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30382] = { -- A Blue Feather for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30383] = { -- A Marsh Lily for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30386] = { -- A Dish for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30387] = { -- A Jade Cat for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30388] = { -- A Blue Feather for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30389] = { -- A Marsh Lily for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30390] = { -- A Dish for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30391] = { -- A Ruby Shard for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30392] = { -- A Lovely Apple for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30393] = { -- A Jade Cat for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30394] = { -- A Blue Feather for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30395] = { -- A Marsh Lily for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30396] = { -- A Dish for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30397] = { -- A Ruby Shard for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30398] = { -- A Lovely Apple for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30399] = { -- A Jade Cat for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30400] = { -- A Blue Feather for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30401] = { -- A Marsh Lily for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30402] = { -- A Dish for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30403] = { -- A Ruby Shard for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30404] = { -- A Lovely Apple for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30405] = { -- A Jade Cat for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30406] = { -- A Blue Feather for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30407] = { -- A Marsh Lily for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30408] = { -- A Dish for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30409] = { -- A Ruby Shard for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30410] = { -- A Lovely Apple for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30411] = { -- A Jade Cat for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30412] = { -- A Blue Feather for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30413] = { -- A Marsh Lily for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30414] = { -- A Dish for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30415] = { -- A Ruby Shard for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30416] = { -- A Ruby Shard for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30417] = { -- A Lovely Apple for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30418] = { -- A Jade Cat for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30419] = { -- A Blue Feather for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30420] = { -- A Marsh Lily for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30421] = { -- A Dish for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30422] = { -- A Ruby Shard for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30423] = { -- A Lovely Apple for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30424] = { -- A Jade Cat for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30425] = { -- A Blue Feather for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30426] = { -- A Marsh Lily for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30427] = { -- A Dish for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30428] = { -- A Ruby Shard for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30429] = { -- A Lovely Apple for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30430] = { -- A Jade Cat for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30431] = { -- A Blue Feather for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30432] = { -- A Marsh Lily for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30433] = { -- A Dish for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30434] = { -- A Ruby Shard for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30435] = { -- A Lovely Apple for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30436] = { -- A Jade Cat for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30437] = { -- A Blue Feather for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30438] = { -- A Marsh Lily for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30439] = { -- A Dish for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
@@ -1444,6 +1679,9 @@ function MopQuestFixes.Load()
         [31309] = { -- On The Mend
             [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31302] = { -- Ready For Greatness
+            [questKeys.preQuestSingle] = {31281},
+        },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
         },
@@ -1514,6 +1752,9 @@ function MopQuestFixes.Load()
         },
         [31520] = {-- A Worthy Challenge: Sha of Doubt
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
+        },
+        [31521] = { -- To Be a Master
+            [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
         },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
             [questKeys.exclusiveTo] = {31519,31520,31523,31524,31525,31526,31527,31528},
@@ -1940,6 +2181,9 @@ function MopQuestFixes.Load()
         [31935] = { -- Grand Master Payne
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31945] = { -- Learn and Grow VI: Gina's Vote
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
+        },
         [31952] = { -- Battle Pet Tamers: Pandaria
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
@@ -2063,6 +2307,9 @@ function MopQuestFixes.Load()
         },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
+        },
+        [32038] = { -- Stag Mastery
+            [questKeys.preQuestSingle] = {30181},
         },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
