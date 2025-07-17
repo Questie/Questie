@@ -179,6 +179,7 @@ ZoneDB.zoneIDs = {
     THE_NEXUS_LEGENDARY = 5786,
     VALLEY_OF_THE_FOUR_WINDS = 5805,
     VALE_OF_ETERNAL_BLOSSOMS = 5840,
+    KRASARANG_WILDS = 6134,
     KUN_LAI_SUMMIT = 5841,
     THE_VEILED_STAIRS = 6006,
     SCARLET_HALLS = 6052, -- this is also Training Grounds map for Scarlet Monastery (MoP)
