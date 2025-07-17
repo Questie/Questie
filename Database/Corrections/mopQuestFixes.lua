@@ -962,6 +962,9 @@ function MopQuestFixes.Load()
         [29971] = { -- The Scouts Return
             [questKeys.preQuestGroup] = {29939,29942},
         },
+        [29982] = { -- Evacuation Orders
+            [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
