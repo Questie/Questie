@@ -1139,6 +1139,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30089},
             [questKeys.objectives] = {{{58409},{58410,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30121] = { -- Search Party
+            [questKeys.nextQuestInChain] = 30179,
+        },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
