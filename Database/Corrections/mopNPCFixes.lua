@@ -328,6 +328,9 @@ function MopNpcFixes.Load()
         [56456] = { -- Silk Farm Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.39,59.73}}},
         },
+        [56467] = { -- Hao Mann
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.3,29.39}}},
+        },
         [56547] = { -- Water Village Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{61.42,35.43}}},
         },
