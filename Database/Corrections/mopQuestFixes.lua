@@ -989,6 +989,9 @@ function MopQuestFixes.Load()
         [29930] = { -- What's Mined Is Yours
             [questKeys.objectives] = {{{56527,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [29931] = { -- The Serpent's Heart
+            [questKeys.preQuestGroup] = {29926,29930},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
