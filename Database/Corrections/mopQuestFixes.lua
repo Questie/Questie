@@ -2292,6 +2292,9 @@ function MopQuestFixes.Load()
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
         },
+        [32038] = { -- Stag Mastery
+            [questKeys.preQuestSingle] = {30181},
+        },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
