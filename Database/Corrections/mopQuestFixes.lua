@@ -1148,6 +1148,9 @@ function MopQuestFixes.Load()
         [30124] = { -- Blind Them!
             [questKeys.preQuestSingle] = {30179},
         },
+        [30129] = { -- The Mogu Agenda
+            [questKeys.preQuestSingle] = {30123},
+        },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
