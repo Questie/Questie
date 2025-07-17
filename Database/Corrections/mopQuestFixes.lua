@@ -1104,6 +1104,9 @@ function MopQuestFixes.Load()
         [30079] = { -- What's Eating Zhu's Watch?
             [questKeys.objectives] = {{{57457,nil,Questie.ICON_TYPE_TALK},{57830,nil,Questie.ICON_TYPE_TALK},{57825,nil,Questie.ICON_TYPE_TALK},{57744,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30080] = { -- Finding Yi-Mo
+            [questKeys.objectives] = {{{58376,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
