@@ -1620,6 +1620,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30694] = { -- Tread Lightly
+            [questKeys.preQuestSingle] = {30269},
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
         },
