@@ -1008,6 +1008,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
+        [29966] = { -- Burning Down the House
+            [questKeys.objectives] = {{{56509,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29968] = { -- Green-ish Energy
             [questKeys.preQuestSingle] = {29824},
         },
