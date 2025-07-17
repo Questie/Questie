@@ -149,6 +149,9 @@ function MopItemFixes.Load()
         [85784] = { -- Alliance Service Medallion
             [itemKeys.npcDrops] = {63764,63782},
         },
+        [85854] = { -- The Needlebeak
+            [itemKeys.npcDrops] = {63796},
+        },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
