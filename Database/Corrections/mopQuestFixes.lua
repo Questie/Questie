@@ -1148,8 +1148,11 @@ function MopQuestFixes.Load()
         [30124] = { -- Blind Them!
             [questKeys.preQuestSingle] = {30179},
         },
+        [30127] = { -- Threat from Dojan
+            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+        },
         [30129] = { -- The Mogu Agenda
-            [questKeys.preQuestSingle] = {30123},
+            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
         },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
