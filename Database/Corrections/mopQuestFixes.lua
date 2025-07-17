@@ -1137,6 +1137,7 @@ function MopQuestFixes.Load()
         },
         [30090] = { -- Zhu's Despair
             [questKeys.preQuestSingle] = {30089},
+            [questKeys.objectives] = {{{58409},{58410,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
