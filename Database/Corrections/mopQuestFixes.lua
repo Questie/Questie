@@ -970,6 +970,9 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110003}},
             [questKeys.preQuestSingle] = {31167},
         },
+        [29925] = { -- All We Can Spare
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Toya"),0,{{"monster",56348}}}},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
