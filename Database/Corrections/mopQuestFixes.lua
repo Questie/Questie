@@ -1134,6 +1134,7 @@ function MopQuestFixes.Load()
         },
         [30077] = { -- Barrels, Man
             [questKeys.preQuestSingle] = {30074},
+            [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
