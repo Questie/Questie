@@ -1115,6 +1115,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57310,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Yi-Mo"),0,{{"monster",58376}}}},
         },
+        [30083] = { -- Securing the Province
+            [questKeys.preQuestSingle] = {30091},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
