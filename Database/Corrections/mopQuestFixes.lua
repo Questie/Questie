@@ -1489,6 +1489,9 @@ function MopQuestFixes.Load()
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
+        [31393] = { -- Temple of the White Tiger
+            [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
+        },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
