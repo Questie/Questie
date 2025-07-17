@@ -782,7 +782,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
         },
         [63778] = { -- Messenger Grummie
-            [npcKeys.spawns] = {{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}}},{[zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}},
+                [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
+            }
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
