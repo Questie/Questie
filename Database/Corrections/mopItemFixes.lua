@@ -106,6 +106,9 @@ function MopItemFixes.Load()
         [76499] = { -- Jademoon Leaf
             [itemKeys.objectDrops] = {209952},
         },
+        [76503] = { -- Whitefisher Crane Egg
+            [itemKeys.objectDrops] = {209954},
+        },
         [76973] = { -- Sprig of Dreamleaf
             [itemKeys.objectDrops] = {209987},
         },
