@@ -61,6 +61,9 @@ function MopItemFixes.Load()
         [75208] = { -- Rancher's Lariat
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [75219] = { -- Freshly Fallen Petal
+            [itemKeys.objectDrops] = {209836},
+        },
         [75271] = { -- Jian
             [itemKeys.npcDrops] = {56253},
         },
