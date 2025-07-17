@@ -977,6 +977,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29928},
         },
         [29927] = { -- Mann's Man
+            [questKeys.objectives] = {{{56347,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {29928},
         },
         [29928] = { -- I Have No Jade And I Must Scream
