@@ -976,6 +976,9 @@ function MopQuestFixes.Load()
         [29926] = { -- Calamity Jade
             [questKeys.preQuestSingle] = {29928},
         },
+        [29927] = { -- Mann's Man
+            [questKeys.preQuestSingle] = {29928},
+        },
         [29928] = { -- I Have No Jade And I Must Scream
             [questKeys.preQuestSingle] = {29925},
         },
