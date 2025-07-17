@@ -1668,6 +1668,9 @@ function MopQuestFixes.Load()
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31327] = { -- Trouble Brewing
+            [questKeys.preQuestSingle] = {},
+        },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
