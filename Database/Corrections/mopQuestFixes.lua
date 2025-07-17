@@ -1142,6 +1142,9 @@ function MopQuestFixes.Load()
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
+        [30117] = { -- Stoneplow Thirsts
+            [questKeys.preQuestSingle] = {30078},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
