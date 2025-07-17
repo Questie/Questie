@@ -973,6 +973,9 @@ function MopQuestFixes.Load()
         [29925] = { -- All We Can Spare
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Toya"),0,{{"monster",56348}}}},
         },
+        [29926] = { -- Calamity Jade
+            [questKeys.preQuestSingle] = {29928},
+        },
         [29928] = { -- I Have No Jade And I Must Scream
             [questKeys.preQuestSingle] = {29925},
         },
