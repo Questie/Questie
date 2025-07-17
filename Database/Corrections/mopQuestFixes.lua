@@ -1185,6 +1185,9 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
         [30184] = { -- Mushan Mastery: Darkhide
+            [questKeys.preQuestSingle] = {30181},
+        },
+        [30185] = { -- Tortoise Mastery
             [questKeys.preQuestSingle] = {30184},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
