@@ -1541,6 +1541,9 @@ function MopQuestFixes.Load()
         [31520] = {-- A Worthy Challenge: Sha of Doubt
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
         },
+        [31521] = { -- To Be a Master
+            [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
+        },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
             [questKeys.exclusiveTo] = {31519,31520,31523,31524,31525,31526,31527,31528},
         },
