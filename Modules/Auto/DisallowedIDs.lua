@@ -241,6 +241,7 @@ _AutoQuesting.disallowedQuests = {
         [12656] = true, -- Blessing of Zim'Rhuk repeatable
 
         [29281] = true, -- Additional Armaments (Molten Front)
+        [29283] = true, -- Calling the Ancients (Molten Front)
 
         [82062] = true, -- Ever After SoD
         [83934] = true, -- Show Me The Money! - Costs one Tarnished Undermine Real
