@@ -1139,6 +1139,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30089},
             [questKeys.objectives] = {{{58409},{58410,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30133] = { -- Into the Wilds
+            [questKeys.preQuestSingle] = {30090},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
