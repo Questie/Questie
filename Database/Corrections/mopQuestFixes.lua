@@ -973,6 +973,7 @@ function MopQuestFixes.Load()
         },
         [29986] = { -- Fog Wards
             [questKeys.preQuestSingle] = {29984},
+            [questKeys.objectives] = {nil,{{209945,nil,Questie.ICON_TYPE_OBJECT},{209946,nil,Questie.ICON_TYPE_OBJECT},{209947,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
             [questKeys.preQuestSingle] = {29984},
