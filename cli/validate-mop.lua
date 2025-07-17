@@ -152,8 +152,8 @@ local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
-local function _CheckCataDatabase()
-    print("\n\27[36mCompiling Cata database...\27[0m")
+local function _CheckMoPDatabase()
+    print("\n\27[36mCompiling MoP database...\27[0m")
     loadTOC("Questie-Mists.toc")
 
     assert(Questie.IsMoP, "Questie is not started for Mists of Pandaria")
@@ -228,4 +228,4 @@ local function _CheckCataDatabase()
     Validators.checkObjectives(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
 end
 
-_CheckCataDatabase()
+_CheckMoPDatabase()
