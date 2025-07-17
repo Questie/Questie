@@ -1107,6 +1107,10 @@ function MopQuestFixes.Load()
         [30080] = { -- Finding Yi-Mo
             [questKeys.objectives] = {{{58376,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30082] = { -- Cheer Up, Yi-Mo
+            [questKeys.objectives] = {{{57310,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Yi-Mo"),0,{{"monster",58376}}}},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
