@@ -118,6 +118,9 @@ function MopItemFixes.Load()
         [77456] = { -- Raw Silk
             [itemKeys.objectDrops] = {210088},
         },
+        [78911] = { -- Intact Skitterer Glands
+            [itemKeys.npcDrops] = {58067},
+        },
         [78942] = { -- Jar of Pigment
             [itemKeys.objectDrops] = {210228},
         },
