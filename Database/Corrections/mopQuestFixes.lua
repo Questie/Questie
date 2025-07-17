@@ -1120,6 +1120,7 @@ function MopQuestFixes.Load()
         },
         [30084] = { -- Borderlands
             [questKeys.preQuestSingle] = {30091},
+            [questKeys.objectives] = {{{58161,nil,Questie.ICON_TYPE_INTERACT},{58170,nil,Questie.ICON_TYPE_INTERACT},{58173,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
