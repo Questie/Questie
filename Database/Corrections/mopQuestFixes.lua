@@ -1101,6 +1101,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30085] = { -- Into the Brewery
+            [questKeys.breadcrumbForQuestId] = 31327,
+        },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
@@ -1457,6 +1460,10 @@ function MopQuestFixes.Load()
         },
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31327] = { -- Trouble Brewing
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {30085},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
