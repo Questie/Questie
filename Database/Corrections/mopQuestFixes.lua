@@ -1118,6 +1118,9 @@ function MopQuestFixes.Load()
         [30083] = { -- Securing the Province
             [questKeys.preQuestSingle] = {30091},
         },
+        [30084] = { -- Borderlands
+            [questKeys.preQuestSingle] = {30091},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
