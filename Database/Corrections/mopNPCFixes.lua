@@ -398,6 +398,9 @@ function MopNpcFixes.Load()
         [59175] = { -- Master Archer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59178] = { -- Lo Wanderbrew
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.63,45.31}}},
+        },
         [59184] = { -- Jandice Barov
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{58.85,18.32}},
