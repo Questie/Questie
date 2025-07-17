@@ -684,6 +684,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
         },
         [29716] = { -- The Double Hozen Dare
+            [questKeys.objectives] = {{{55267,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31230},
         },
         [29730] = { -- Scouting Report: Hostile Natives
