@@ -57,6 +57,10 @@ for objId, data in pairs(mop) do
                 end
             end
         end
+
+        if data[objectKeys.factionID] == 0 and cataObject and cataObject[objectKeys.factionID] ~= 0 then
+            mop[objId][objectKeys.factionID] = cataObject[objectKeys.factionID]
+        end
     end
 end
 
