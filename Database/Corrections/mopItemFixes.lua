@@ -82,6 +82,10 @@ function MopItemFixes.Load()
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
+        [76209] = { --
+            [itemKeys.npcDrops] = {56349},
+            [itemKeys.objectDrops] = {209863},
+        },
         [76225] = { -- Fistful of Bird Guts
             [itemKeys.npcDrops] = {56396},
         },

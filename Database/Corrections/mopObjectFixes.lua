@@ -42,6 +42,11 @@ function MopObjectFixes.Load()
         [209835] = { -- Marmot Hole
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{81.77,25.59},{82.41,25.93},{82.43,24.80},{81.66,24.86},{81.86,25.09},{82.15,25.07},{82.53,26.27},{82.24,26.16},{82.14,26.37},{82.23,26.15}}},
         },
+        [209863] = { -- Chunk of Jade
+            [objectKeys.name] = 'Chunk of Jade',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.3,31.4},{47.3,31.5},{47.4,30.1},{47.9,30.9},{48,29.4},{48.1,32.7},{48.2,31.5},{48.4,30.2},{48.5,32.5},{48.8,30.4},{49,29.4},{49,30.7},{49.2,31.6},{49.5,30.4},{49.5,30.6},{49.5,31.9}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209877] = { -- Dead Deepriver Slicky
             [objectKeys.name] = 'Dead Deepriver Slicky',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{26.52,55.65},{26.62,56.07},{26.38,55.54}}},
