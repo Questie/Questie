@@ -1011,6 +1011,10 @@ function MopQuestFixes.Load()
         [29966] = { -- Burning Down the House
             [questKeys.objectives] = {{{56509,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29967] = { -- Boom Goes the Doonamite!
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56603,56624,56639,56644,56645},56603}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Rivett"),0,{{"monster",56525}}}},
+        },
         [29968] = { -- Green-ish Energy
             [questKeys.preQuestSingle] = {29824},
         },
