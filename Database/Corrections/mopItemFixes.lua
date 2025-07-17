@@ -121,6 +121,9 @@ function MopItemFixes.Load()
         [78911] = { -- Intact Skitterer Glands
             [itemKeys.npcDrops] = {58067},
         },
+        [78918] = { -- Imperial Lotus Leaves
+            [itemKeys.objectDrops] = {210209},
+        },
         [78942] = { -- Jar of Pigment
             [itemKeys.objectDrops] = {210228},
         },
