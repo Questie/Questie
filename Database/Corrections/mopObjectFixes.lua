@@ -170,7 +170,7 @@ function MopObjectFixes.Load()
         },
         [223818] = { -- Pools spawned during quest The Pools of Youth
             [objectKeys.name] = 'Water of Youth'
-            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [objectKeys.spawns] = {{51.58,33.08},{51.68,33.24},{51.76,33.41},{51.86,33.08},{51.95,33.26},{52.02,33.03},{52.29,33.10},{52.39,32.98},{52.53,32.91},{52.29,32.74},{52.45,32.52},{52.31,32.43},{51.82,32.37},{51.65,32.26},{51.78,32.13},{52.05,32.16},{52.02,32.37}},
         },
     }
