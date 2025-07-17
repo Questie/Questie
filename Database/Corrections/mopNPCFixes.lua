@@ -331,6 +331,9 @@ function MopNpcFixes.Load()
         [56467] = { -- Hao Mann
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.3,29.39}}},
         },
+        [56527] = { -- Jade Cart
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.27,29.47}}},
+        },
         [56547] = { -- Water Village Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{61.42,35.43}}},
         },

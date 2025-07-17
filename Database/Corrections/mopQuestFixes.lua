@@ -986,6 +986,9 @@ function MopQuestFixes.Load()
         [29929] = { -- Trapped!
             [questKeys.objectives] = {{{56464,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29930] = { -- What's Mined Is Yours
+            [questKeys.objectives] = {{{56527,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
