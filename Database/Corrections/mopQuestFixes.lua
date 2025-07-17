@@ -974,6 +974,9 @@ function MopQuestFixes.Load()
         [29986] = { -- Fog Wards
             [questKeys.preQuestSingle] = {29984},
         },
+        [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
+            [questKeys.preQuestSingle] = {29984},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
