@@ -91,6 +91,9 @@ function MopItemFixes.Load()
         [76335] = { -- Vial of Animal Blood
             [itemKeys.npcDrops] = {56523,56524,56531,56532},
         },
+        [76336] = { -- Nazgrim's Grog
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},
         },
