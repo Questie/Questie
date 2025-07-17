@@ -1107,6 +1107,10 @@ function MopQuestFixes.Load()
         [30080] = { -- Finding Yi-Mo
             [questKeys.objectives] = {{{58376,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30081] = { -- Materia Medica
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30079,30082},
+        },
         [30082] = { -- Cheer Up, Yi-Mo
             [questKeys.objectives] = {{{57310,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Yi-Mo"),0,{{"monster",58376}}}},
