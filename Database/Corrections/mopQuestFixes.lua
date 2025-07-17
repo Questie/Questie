@@ -1441,6 +1441,9 @@ function MopQuestFixes.Load()
         [31309] = { -- On The Mend
             [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31302] = { -- Ready For Greatness
+            [questKeys.preQuestSingle] = {31281},
+        },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
         },
