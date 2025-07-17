@@ -240,6 +240,7 @@ _AutoQuesting.disallowedQuests = {
         [12618] = true, -- Blessing of Zim'Torga repeatable
         [12656] = true, -- Blessing of Zim'Rhuk repeatable
 
+        [29279] = true, -- Filling the Moonwell (Molten Front)
         [29281] = true, -- Additional Armaments (Molten Front)
         [29283] = true, -- Calling the Ancients (Molten Front)
 
