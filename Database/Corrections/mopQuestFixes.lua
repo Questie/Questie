@@ -1151,6 +1151,9 @@ function MopQuestFixes.Load()
         [30127] = { -- Threat from Dojan
             [questKeys.preQuestSingle] = {30123}, --might be group with 30124
         },
+        [30128] = { -- The Water of Youth
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Na Lek"),0,{{"monster",55597}}}},
+        },
         [30129] = { -- The Mogu Agenda
             [questKeys.preQuestSingle] = {30123}, --might be group with 30124
         },
