@@ -292,6 +292,9 @@ function MopNpcFixes.Load()
         [55768] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27.59,32.68}}},
         },
+        [55788] = { -- Lo Wanderbrew
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.59,38.12}}},
+        },
         [55942] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.36,72.53}}},
         },
