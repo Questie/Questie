@@ -1136,6 +1136,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30074},
             [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
         },
+        [30078] = { -- Cleaning House
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
+        },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
