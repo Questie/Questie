@@ -1239,6 +1239,183 @@ function MopQuestFixes.Load()
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
+        [30379] = { -- A Ruby Shard for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30380] = { -- A Lovely Apple for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30381] = { -- A Jade Cat for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30382] = { -- A Blue Feather for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30383] = { -- A Marsh Lily for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30386] = { -- A Dish for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30387] = { -- A Jade Cat for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30388] = { -- A Blue Feather for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30389] = { -- A Marsh Lily for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30390] = { -- A Dish for Gina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30391] = { -- A Ruby Shard for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30392] = { -- A Lovely Apple for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30393] = { -- A Jade Cat for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30394] = { -- A Blue Feather for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30395] = { -- A Marsh Lily for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30396] = { -- A Dish for Old Hillpaw
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30397] = { -- A Ruby Shard for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30398] = { -- A Lovely Apple for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30399] = { -- A Jade Cat for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30400] = { -- A Blue Feather for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30401] = { -- A Marsh Lily for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30402] = { -- A Dish for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30403] = { -- A Ruby Shard for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30404] = { -- A Lovely Apple for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30405] = { -- A Jade Cat for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30406] = { -- A Blue Feather for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30407] = { -- A Marsh Lily for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30408] = { -- A Dish for Sho
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30409] = { -- A Ruby Shard for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30410] = { -- A Lovely Apple for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30411] = { -- A Jade Cat for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30412] = { -- A Blue Feather for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30413] = { -- A Marsh Lily for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30414] = { -- A Dish for Haohan
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30415] = { -- A Ruby Shard for Chee Chee
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30416] = { -- A Ruby Shard for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30417] = { -- A Lovely Apple for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30418] = { -- A Jade Cat for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30419] = { -- A Blue Feather for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30420] = { -- A Marsh Lily for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30421] = { -- A Dish for Farmer Fung
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30422] = { -- A Ruby Shard for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30423] = { -- A Lovely Apple for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30424] = { -- A Jade Cat for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30425] = { -- A Blue Feather for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30426] = { -- A Marsh Lily for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30427] = { -- A Dish for Fish
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30428] = { -- A Ruby Shard for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30429] = { -- A Lovely Apple for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30430] = { -- A Jade Cat for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30431] = { -- A Blue Feather for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30432] = { -- A Marsh Lily for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30433] = { -- A Dish for Tina
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30434] = { -- A Ruby Shard for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30435] = { -- A Lovely Apple for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30436] = { -- A Jade Cat for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30437] = { -- A Blue Feather for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30438] = { -- A Marsh Lily for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30439] = { -- A Dish for Jogu
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
         },
