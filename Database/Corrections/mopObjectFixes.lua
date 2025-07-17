@@ -15,6 +15,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.22,31.59},{44.72,32.08},{45.49,32.76},{45.65,31.64},{46.53,31.94},{47.86,31.88}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
         },
+        [178087] = { -- Thazz'ril's Pick
+            [objectKeys.spawns] = {[zoneIDs.BURNING_BLADE_COVEN] = {{40.73,52.51}}},
+            [objectKeys.zoneID] = zoneIDs.BURNING_BLADE_COVEN,
+        },
         [182052] = { -- Harbinger of the Second Trial
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{77.46,68.81}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,

@@ -31,6 +31,12 @@ QuestieCorrections.spellObjectiveFirst[24966] = true
 QuestieCorrections.spellObjectiveFirst[24967] = true
 QuestieCorrections.spellObjectiveFirst[24968] = true
 QuestieCorrections.spellObjectiveFirst[24969] = true
+QuestieCorrections.spellObjectiveFirst[25139] = true
+QuestieCorrections.spellObjectiveFirst[25141] = true
+QuestieCorrections.spellObjectiveFirst[25143] = true
+QuestieCorrections.spellObjectiveFirst[25145] = true
+QuestieCorrections.spellObjectiveFirst[25147] = true
+QuestieCorrections.spellObjectiveFirst[25149] = true
 QuestieCorrections.spellObjectiveFirst[26904] = true
 QuestieCorrections.spellObjectiveFirst[26913] = true
 QuestieCorrections.spellObjectiveFirst[26914] = true
@@ -56,6 +62,8 @@ QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
+QuestieCorrections.spellObjectiveFirst[31157] = true
+QuestieCorrections.spellObjectiveFirst[31162] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
@@ -71,6 +79,21 @@ function MopQuestFixes.Load()
     local questFlags = QuestieDB.questFlags
 
     return {
+        [2383] = { -- Simple Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [3087] = { -- Etched Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [3088] = { -- Encrypted Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [3089] = { -- Rune-Inscribed Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [3090] = { -- Tainted Parchment
+            [questKeys.requiredLevel] = 2,
+        },
         [3095] = { -- Simple Scroll
             [questKeys.requiredLevel] = 2,
         },
@@ -269,6 +292,35 @@ function MopQuestFixes.Load()
         },
         [24969] = { -- Charging into Battle
             [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [25138] = { -- Glyphic Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [25139] = { -- Steady Shot
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [25141] = { -- Eviscerate
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [25143] = { -- Primal Strike
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [25145] = { -- Corruption
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [25147] = { -- Charge
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [25149] = { -- Frost Nova
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
         [26389] = { -- Blackrock Invasion
@@ -1633,6 +1685,17 @@ function MopQuestFixes.Load()
         [31152] = { -- Peering Into the Past
             [questKeys.triggerEnd] = {"Lorewalker Cho escorted to Circle of Stone", {[zoneIDs.THE_JADE_FOREST]={{29,32.4}}}},
             [questKeys.preQuestSingle] = {31134},
+        },
+        [31156] = { -- Calligraphed Parchment
+            [questKeys.startedBy] = {{3143}},
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {25126},
+        },
+        [31157] = { -- Tiger Palm
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{100787}}},
         },
         [31167] = { -- Family Tree
             [questKeys.objectives] = {nil,{{212969}}},
