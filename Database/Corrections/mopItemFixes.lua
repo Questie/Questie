@@ -127,6 +127,9 @@ function MopItemFixes.Load()
         [78918] = { -- Imperial Lotus Leaves
             [itemKeys.objectDrops] = {210209},
         },
+        [78934] = { -- The Water of Youth
+            [itemKeys.objectDrops] = {223818},
+        },
         [78942] = { -- Jar of Pigment
             [itemKeys.objectDrops] = {210228},
         },
