@@ -1346,6 +1346,9 @@ function MopQuestFixes.Load()
         [30266] = { -- Bloodied Skies
             [questKeys.preQuestSingle] = {30640},
         },
+        [30268] = { -- The Murksweats
+            [questKeys.preQuestSingle] = {30269},
+        },
         [30269] = { -- Unsafe Passage
             [questKeys.preQuestSingle] = {30133,30178}, -- Either Horde or Alliance version as prequest
             [questKeys.triggerEnd] = {"Accompany Koro to Crane Wing Refuge", {[zoneIDs.KRASARANG_WILDS]={{43.86,36.77}}}},
