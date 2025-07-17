@@ -130,6 +130,9 @@ function MopItemFixes.Load()
         [77456] = { -- Raw Silk
             [itemKeys.objectDrops] = {210088},
         },
+        [79058] = { -- Darkhide's Head
+            [itemKeys.npcDrops] = {58435},
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
