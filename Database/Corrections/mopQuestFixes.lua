@@ -910,6 +910,9 @@ function MopQuestFixes.Load()
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
         },
+        [29865] = { -- The Silkwood Road
+            [questKeys.preQuestSingle] = {31230},
+        },
         [29871] = { -- Clever Ashyo
             [questKeys.preQuestSingle] = {30086},
         },
