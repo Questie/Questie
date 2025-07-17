@@ -133,6 +133,9 @@ function MopItemFixes.Load()
         [79058] = { -- Darkhide's Head
             [itemKeys.npcDrops] = {58435},
         },
+        [79059] = { -- Intact Tortoise Shell
+            [itemKeys.npcDrops] = {58431},
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
