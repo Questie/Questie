@@ -1190,6 +1190,9 @@ function MopQuestFixes.Load()
         [30185] = { -- Tortoise Mastery
             [questKeys.preQuestSingle] = {30184},
         },
+        [30186] = { -- Parental Mastery
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}}},
+        },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
