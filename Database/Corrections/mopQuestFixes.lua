@@ -1132,6 +1132,9 @@ function MopQuestFixes.Load()
         [30076] = { -- The Fanciest Water
             [questKeys.preQuestSingle] = {30074},
         },
+        [30077] = { -- Barrels, Man
+            [questKeys.preQuestSingle] = {30074},
+        },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
