@@ -145,6 +145,9 @@ function MopItemFixes.Load()
         [79269] = { -- Marsh Lily
             [itemKeys.objectDrops] = {210565},
         },
+        [79745] = { -- Sunwalker Scout\'s Report
+            [itemKeys.npcDrops] = {59136},
+        },
         [79824] = { -- Stolen Vegetable
             [itemKeys.objectDrops] = {210763},
         },
