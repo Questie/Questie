@@ -2177,6 +2177,9 @@ function MopQuestFixes.Load()
         [31935] = { -- Grand Master Payne
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31945] = { -- Learn and Grow VI: Gina's Vote
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
+        },
         [31952] = { -- Battle Pet Tamers: Pandaria
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
