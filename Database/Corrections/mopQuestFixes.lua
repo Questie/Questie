@@ -981,6 +981,9 @@ function MopQuestFixes.Load()
         [29989] = { -- Unyielding Fists: Trial of Stone
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
         },
+        [29990] = { -- Training and Discipline
+            [questKeys.preQuestSingle] = {29989},
+        },
         [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
             [questKeys.preQuestSingle] = {29984},
         },
