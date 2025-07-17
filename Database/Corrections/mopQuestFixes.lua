@@ -1152,6 +1152,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30123}, --might be group with 30124
         },
         [30128] = { -- The Water of Youth
+            [questKeys.objectives] = {nil, nil,{{78934,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Na Lek"),0,{{"monster",55597}}}},
         },
         [30129] = { -- The Mogu Agenda
