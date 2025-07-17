@@ -1736,6 +1736,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100787}}},
         },
         [31230] = { -- Welcome to Dawn's Blossom
+            [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
         },
         [31239] = { -- What's in a Name Name?
