@@ -3,31 +3,26 @@ import re
 
 from scrapy import signals, Spider
 
-from object.translations.cata_object_ids import CATA_OBJECT_IDS
+from object.translations.object_translation_formatter import ObjectTranslationFormatter
+from object.translations.object_translation_move_to_lookups import main as move_to_lookups
+from object.translations.mop_object_ids import MOP_OBJECT_IDS
+from supported_locales import LOCALES
 
 
 class ObjectTranslationSpider(Spider):
     name = "object-translations"
-    cata_url = "https://www.wowhead.com/cata"
     base_urls = [
-        cata_url + "/de/object={}",
-        cata_url + "/es/object={}",
-        cata_url + "/fr/object={}",
-        cata_url + "/pt/object={}",
-        cata_url + "/ru/object={}",
-        cata_url + "/ko/object={}",
-        cata_url + "/cn/object={}",
+        f"https://www.wowhead.com/{locale['input']}/object={{}}" for locale in LOCALES
     ]
 
     start_urls = []
 
     def __init__(self) -> None:
         super().__init__()
-        # all base_urls with all object_ids
-        self.start_urls = [url.format(object_id) for object_id in CATA_OBJECT_IDS for url in self.base_urls]
+        self.start_urls = [url.format(object_id) for object_id in MOP_OBJECT_IDS for url in self.base_urls]
 
     def parse(self, response):
-        locale = re.search(r'/(\w+)/object', response.url).group(1)
+        locale = re.search(r'/([a-z]{2})/object', response.url).group(1)
 
         if response.url.find('/objects?notFound=') != -1:
             object_id = re.search(r'/objects\?notFound=(\d+)', response.url).group(1)
@@ -50,4 +45,9 @@ class ObjectTranslationSpider(Spider):
         return spider
 
     def spider_feed_closed(self):
+        print("Finished scraping object translations, now formatting the data...")
+        formatter = ObjectTranslationFormatter()
+        formatter()
+        print("Formatting done, now moving to lookups...")
+        move_to_lookups()
         print("DONE")

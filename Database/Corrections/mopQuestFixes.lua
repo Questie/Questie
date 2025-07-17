@@ -1142,6 +1142,9 @@ function MopQuestFixes.Load()
         [30078] = { -- Cleaning House
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
+        [30085] = { -- Into the Brewery
+            [questKeys.breadcrumbForQuestId] = 31327,
+        },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
@@ -1698,6 +1701,7 @@ function MopQuestFixes.Load()
         },
         [31327] = { -- Trouble Brewing
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {30085},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},

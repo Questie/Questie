@@ -15,6 +15,14 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.22,31.59},{44.72,32.08},{45.49,32.76},{45.65,31.64},{46.53,31.94},{47.86,31.88}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWTHREAD_CAVE,
         },
+        [182052] = { -- Harbinger of the Second Trial
+            [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{77.46,68.81}}},
+            [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
+        },
+        [202586] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
+            [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
+        },
         [209621] = { -- Sniper Rifle
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,

@@ -1,11 +1,12 @@
 import json
+import os
 from pathlib import Path
 
 
-def load_json_file(file_name: str):
-    print("Loading '{}'...".format(file_name))
-    with Path(file_name).open("r", encoding="utf-8") as f:
+def load_json_file(base_dir: str, file_name: str) -> list:
+    file_path = os.path.join(base_dir, file_name)
+    print(f"Loading '{file_path}'...")
+    with Path(file_path).open("r", encoding="utf-8") as f:
         data = json.load(f)
-    sorted_data = sorted(data, key=lambda x: x.get('objectId', 0))
-    print("Data contains {} entries".format(len(sorted_data)))
-    return sorted_data
+    print(f"Data contains {len(data)} entries")
+    return data

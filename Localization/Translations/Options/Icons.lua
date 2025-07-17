@@ -432,7 +432,7 @@ local iconOptionsLocales = {
         ["ptBR"] = "As missões do Esforço de Guerra de Ahn'Qiraj estão sendo exibidas para você. Se o seu servidor já concluiu, você pode ocultá-las nas configurações de ícones de Questie.",
         ["ruRU"] = false,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "已經為你顯示『安其拉戰線』任務。如果你的伺服器已經完成這些任務，可以在 Questie 的圖示設定中隱藏這些任務！",
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["enUS"] = true,

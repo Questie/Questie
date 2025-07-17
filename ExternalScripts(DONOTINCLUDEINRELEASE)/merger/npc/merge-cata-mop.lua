@@ -24,9 +24,23 @@ local npcKeys = {
     -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
 }
 
+-- With MoP all starting zones got an actual map, so we can not use the cata data for those.
+local startingZones = {
+    [6170] = true, -- Northshire
+    [6176] = true, -- Coldridge Valley
+    [6450] = true, -- Shadowglen
+    [6451] = true, -- Valley of Trials
+    [6452] = true, -- Camp Narache
+    [6453] = true, -- Echo Isles
+    [6454] = true, -- Deathknell
+    [6455] = true, -- Sunstrider Isle
+    [6456] = true, -- Ammen Vale
+    [6457] = true, -- New Tinkertown
+}
+
 for npcId, data in pairs(mop) do
     local cataNpc = cata[npcId]
-    if cataNpc then
+    if cataNpc and (not startingZones[data[npcKeys.zoneID]]) then
         mop[npcId] = cataNpc
     else
         local trinityNpc = mopTrinity[npcId]
@@ -57,12 +71,17 @@ for npcId, data in pairs(mop) do
             if not data[npcKeys.spawns] and wowheadNpc[npcKeys.spawns] then
                 mop[npcId][npcKeys.spawns] = {}
                 for zoneId, _ in pairs(wowheadNpc[npcKeys.spawns]) do
+                    local zoneIdOverride = zoneId
+                    if zoneId == 9105 then
+                        zoneIdOverride = 5840 -- retail wowhead lists 9105 as Vale of Eternal Blossoms
+                    end
+
                     -- Filter out non-MoP zones
-                    if zoneId <= 6852 or zoneId == 14288 or zoneId == 14334 or zoneId == 15306 or zoneId == 15318 then
+                    if (zoneId <= 6852 or zoneIdOverride <= 6852) or zoneId == 14288 or zoneId == 14334 or zoneId == 15306 or zoneId == 15318 then
                         if not mop[npcId][npcKeys.zoneID] or mop[npcId][npcKeys.zoneID] == 0 then
-                            mop[npcId][npcKeys.zoneID] = zoneId
+                            mop[npcId][npcKeys.zoneID] = zoneIdOverride
                         end
-                        mop[npcId][npcKeys.spawns][zoneId] = wowheadNpc[npcKeys.spawns][zoneId]
+                        mop[npcId][npcKeys.spawns][zoneIdOverride] = wowheadNpc[npcKeys.spawns][zoneId]
                     end
                 end
             end
