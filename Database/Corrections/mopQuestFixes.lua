@@ -1633,6 +1633,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30269},
             [questKeys.objectives] = {nil,{{223819,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30272] = { -- Ahead on the Way
+            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
         },
