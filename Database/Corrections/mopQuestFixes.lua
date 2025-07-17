@@ -1131,6 +1131,9 @@ function MopQuestFixes.Load()
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
         },
+        [30089] = { -- Apply Directly to the Forehead
+            [questKeys.preQuestSingle] = {30088},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
