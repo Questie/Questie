@@ -1761,6 +1761,9 @@ function MopQuestFixes.Load()
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [31279] = { -- Everything I Know About Cooking
+            [questKeys.requiredLevel] = 86,
+        },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
         },
@@ -1822,6 +1825,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [31486] = { -- Everything I Know About Cooking
+            [questKeys.requiredLevel] = 86,
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},
