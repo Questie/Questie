@@ -1126,6 +1126,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30075] = { -- Clear the Way
+            [questKeys.preQuestSingle] = {30074},
+        },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
