@@ -52,6 +52,9 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [75023] = { -- Pristine Silk Strand
+            [itemKeys.objectDrops] = {209826},
+        },
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
