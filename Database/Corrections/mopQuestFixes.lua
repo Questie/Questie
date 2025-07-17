@@ -983,6 +983,9 @@ function MopQuestFixes.Load()
         [29928] = { -- I Have No Jade And I Must Scream
             [questKeys.preQuestSingle] = {29925},
         },
+        [29929] = { -- Trapped!
+            [questKeys.objectives] = {{{56464,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
