@@ -127,6 +127,9 @@ function MopItemFixes.Load()
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
+        [79252] = { -- Mogu Poisoned Blade
+            [itemKeys.npcDrops] = {58377,65598},
+        },
         [79269] = { -- Marsh Lily
             [itemKeys.objectDrops] = {210565},
         },
