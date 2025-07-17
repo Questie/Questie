@@ -1059,6 +1059,9 @@ function MopQuestFixes.Load()
         [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
             [questKeys.preQuestSingle] = {29984},
         },
+        [29993] = { -- Find the Boy
+            [questKeys.preQuestSingle] = {29866},
+        },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29966,29967},
