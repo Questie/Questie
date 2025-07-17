@@ -971,6 +971,9 @@ function MopQuestFixes.Load()
         [29985] = { -- They Will Be Mist
             [questKeys.preQuestSingle] = {29984},
         },
+        [29986] = { -- Fog Wards
+            [questKeys.preQuestSingle] = {29984},
+        },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredSourceItems] = {73209},
