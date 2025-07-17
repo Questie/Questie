@@ -1145,6 +1145,9 @@ function MopQuestFixes.Load()
         [30123] = { -- Skitterer Stew
             [questKeys.preQuestSingle] = {30179},
         },
+        [30124] = { -- Blind Them!
+            [questKeys.preQuestSingle] = {30179},
+        },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
