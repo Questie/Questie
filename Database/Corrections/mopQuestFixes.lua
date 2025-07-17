@@ -1625,6 +1625,7 @@ function MopQuestFixes.Load()
         },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
+            [questKeys.objectives] = {nil,{{223819,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
