@@ -350,6 +350,9 @@ function MopNpcFixes.Load()
         [58898] = { -- Vigilant Watchman
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [58978] = { -- Koro Mistwalker
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.79,38.30}}},
+        },
         [58998] = { -- Scarlet Defender
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
