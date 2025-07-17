@@ -913,6 +913,9 @@ function MopQuestFixes.Load()
         [29865] = { -- The Silkwood Road
             [questKeys.preQuestSingle] = {31230},
         },
+        [29866] = { -- The Threads that Stick
+            [questKeys.preQuestSingle] = {31230},
+        },
         [29871] = { -- Clever Ashyo
             [questKeys.preQuestSingle] = {30086},
         },
