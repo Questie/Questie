@@ -1161,6 +1161,10 @@ function MopQuestFixes.Load()
         [30130] = { -- Herbal Remedies
             [questKeys.preQuestSingle] = {30123}, --might be group with 30124
         },
+        [30131] = { -- Life
+            [questKeys.objectives] = {{{58585,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Sunwalker Dezco"),0,{{"monster",58113}}}},
+        },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
