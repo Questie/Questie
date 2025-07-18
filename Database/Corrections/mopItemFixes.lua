@@ -154,6 +154,9 @@ function MopItemFixes.Load()
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [79120] = { -- Mogu Artifact
+            [itemKeys.objectDrops] = {212935},
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
