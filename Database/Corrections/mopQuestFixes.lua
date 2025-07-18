@@ -1735,6 +1735,10 @@ function MopQuestFixes.Load()
         [30672] = { -- Balance
             [questKeys.preQuestSingle] = {30671},
         },
+        [30674] = { -- Balance Without Violence
+            [questKeys.preQuestSingle] = {30671},
+            [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
