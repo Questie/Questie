@@ -1743,6 +1743,7 @@ function MopQuestFixes.Load()
         },
         [30627] = { -- The Savior of Stoneplow
             [questKeys.preQuestSingle] = {30626},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
         },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
