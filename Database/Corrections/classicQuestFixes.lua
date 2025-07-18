@@ -216,17 +216,19 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
         [420] = {
-            [questKeys.nextQuestInChain] = 287, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+            [questKeys.nextQuestInChain] = 287,
             [questKeys.breadcrumbForQuestId] = 287,
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
         },
         [428] = {
-            [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
+            [questKeys.nextQuestInChain] = 429,
+            [questKeys.breadcrumbForQuestId] = 429,
         },
         [429] = {
             [questKeys.preQuestSingle] = {}, -- #1843
+            [questKeys.breadcrumbs] = {428},
         },
         [431] = { -- candles of beckoning
             [questKeys.preQuestSingle] = {366}, -- #638
