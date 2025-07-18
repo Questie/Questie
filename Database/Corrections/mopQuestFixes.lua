@@ -809,6 +809,9 @@ function MopQuestFixes.Load()
         [29749] = { -- An Urgent Plea
             [questKeys.preQuestGroup] = {29747,29748},
         },
+        [29750] = { -- Vessels of the Spirit
+            [questKeys.preQuestSingle] = {29749},
+        },
         [29751] = { -- Ritual Artifacts
             [questKeys.preQuestSingle] = {29749},
         },
