@@ -485,6 +485,7 @@ local questsToBlacklistByPhase = {
         [32758] = true, -- Reader for the Dead Tongue
     },
     [4] = { -- Phase 4 (Patch 5.3 Escalation (Deepwind Gorge, New Scenarios, Heroic Scenarios))
+        [32805] = true, -- Celestial Blessings
         [32806] = true, -- The King and the Council
         [32807] = true, -- The Warchief and the Darkness
         [32816] = true, -- Path of the Last Emperor

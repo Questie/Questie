@@ -2514,6 +2514,9 @@ function MopQuestFixes.Load()
         [32675] = { -- I Believe You Can Fly
             [questKeys.requiredLevel] = 60,
         },
+        [32805] = { -- Celestial Blessings
+            [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32863] = { -- What We've Been Training For
             [questKeys.objectives] = {{{110001}}},
         },
