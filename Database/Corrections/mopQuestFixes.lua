@@ -797,6 +797,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29744},
         },
+        [29748] = { -- Simulacrumble
+            [questKeys.preQuestSingle] = {29745},
+        },
         [29757] = { -- Bottletoads
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
         },
