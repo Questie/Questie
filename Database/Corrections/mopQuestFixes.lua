@@ -809,6 +809,9 @@ function MopQuestFixes.Load()
         [29749] = { -- An Urgent Plea
             [questKeys.preQuestGroup] = {29747,29748},
         },
+        [29751] = { -- Ritual Artifacts
+            [questKeys.preQuestSingle] = {29749},
+        },
         [29757] = { -- Bottletoads
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
         },
