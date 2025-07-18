@@ -1488,6 +1488,9 @@ function MopQuestFixes.Load()
             --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30359] = { -- The Lord Reclaimer
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
+        },
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
