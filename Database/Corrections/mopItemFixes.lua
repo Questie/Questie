@@ -236,6 +236,10 @@ function MopItemFixes.Load()
         [80817] = { -- Buried Hozen Treasure
             [itemKeys.objectDrops] = {211420},
         },
+        [80827] = { -- Confusing Treasure Map
+            [itemKeys.npcDrops] = {60299,60357},
+            [itemKeys.startQuest] = 30675;
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
