@@ -227,6 +227,9 @@ function MopItemFixes.Load()
         [80679] = { -- Dusky Tailfeather
             [itemKeys.npcDrops] = {60196},
         },
+        [80685] = { -- Spare Plank
+            [itemKeys.objectDrops] = {223820},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
