@@ -1316,6 +1316,9 @@ function MopQuestFixes.Load()
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
+        [30229] = { -- The Greater Danger
+            [questKeys.preQuestSingle] = {30132},
+        },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
