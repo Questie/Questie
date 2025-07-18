@@ -798,6 +798,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {29744},
         },
         [29748] = { -- Simulacrumble
+            [questKeys.objectives] = {nil,{{214873}}},
             [questKeys.preQuestSingle] = {29745},
         },
         [29757] = { -- Bottletoads
