@@ -750,6 +750,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29632},
         },
         [29635] = { -- Xiao, the Eater
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29633,29634},
         },
         [29661] = { -- The Lesson of Dry Fur
@@ -848,6 +849,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29745},
         },
         [29749] = { -- An Urgent Plea
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29747,29748},
         },
         [29750] = { -- Vessels of the Spirit
