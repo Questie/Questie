@@ -1364,6 +1364,10 @@ function MopQuestFixes.Load()
         [30272] = { -- Striking the Rain
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
+        [30273] = { -- In the House of the Red Crane
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30271,30272,30695}, -- might not be all, my turn in order was 30695, 30271, 30272
+        },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
         },
