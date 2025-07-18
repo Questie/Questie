@@ -927,6 +927,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30086},
         },
         [29873] = { -- Ken-Ken
+            [questKeys.breadcrumbForQuestId] = 30079,
             [questKeys.preQuestSingle] = {30086},
         },
         [29874] = { -- Kang Bramblestaff [Alliance]
@@ -1241,6 +1242,8 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
         [30079] = { -- What's Eating Zhu's Watch?
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29873},
             [questKeys.objectives] = {{{57457,nil,Questie.ICON_TYPE_TALK},{57830,nil,Questie.ICON_TYPE_TALK},{57825,nil,Questie.ICON_TYPE_TALK},{57744,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30080] = { -- Finding Yi-Mo
