@@ -735,6 +735,9 @@ function MopQuestFixes.Load()
         [29630] = { -- And a Heavy Fist
             [questKeys.preQuestSingle] = {29627},
         },
+        [29631] = { -- Burning Bright
+            [questKeys.preQuestSingle] = {29627},
+        },
         [29632] = { -- Becoming Battle-Ready
             [questKeys.preQuestSingle] = {29620},
         },
