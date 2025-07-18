@@ -819,6 +819,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55290,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29749},
         },
+        [29753] = { -- Back to Nature
+            [questKeys.preQuestGroup] = {29750,29751,29752},
+        },
         [29757] = { -- Bottletoads
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
         },
