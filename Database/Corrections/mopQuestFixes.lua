@@ -816,6 +816,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29749},
         },
         [29752] = { -- The Wayward Dead
+            [questKeys.objectives] = {{{55290,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29749},
         },
         [29757] = { -- Bottletoads
