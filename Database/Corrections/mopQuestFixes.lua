@@ -1493,8 +1493,8 @@ function MopQuestFixes.Load()
         },
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
-            --[questKeys.exclusiveTo] = {}, wowhead indicates this is also exclusive with Warn Stoneplow (30360 - Alliance) / Warn Stoneplow (30241 - Horde)
+            [questKeys.preQuestGroup] = {30174,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.exclusiveTo] = {30360,30241}, --assumed Warn Stoneplow (30360 - Alliance) / confirmed Warn Stoneplow (30241 - Horde)
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
