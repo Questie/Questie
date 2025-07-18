@@ -216,7 +216,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
         [420] = {
-            [questKeys.nextQuestInChain] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+            [questKeys.nextQuestInChain] = 287, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
             [questKeys.breadcrumbForQuestId] = 287,
         },
         [427] = {
