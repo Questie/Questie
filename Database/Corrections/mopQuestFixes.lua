@@ -1305,6 +1305,9 @@ function MopQuestFixes.Load()
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
+        [30175] = { -- The Mantid
+            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+        },
         [30179] = { -- Poisoned! [Horde]
             [questKeys.preQuestSingle] = {},
         },
