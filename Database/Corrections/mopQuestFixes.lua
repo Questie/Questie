@@ -1390,6 +1390,9 @@ function MopQuestFixes.Load()
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
+        [30241] = { -- Warn Stoneplow [Horde]
+            [questKeys.exclusiveTo] = {30376},
+        },
         [30242] = { -- Survival Ring: Blades
             [questKeys.preQuestSingle] = {30640},
         },
@@ -1490,6 +1493,9 @@ function MopQuestFixes.Load()
         },
         [30359] = { -- The Lord Reclaimer
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
+        },
+        [30360] = { -- Warn Stoneplow [Alliance]
+            [questKeys.exclusiveTo] = {30376},
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
