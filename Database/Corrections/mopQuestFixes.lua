@@ -1352,7 +1352,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30132},
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [30164] = { -- The Stoneplow Convoy
+        [30164] = { -- The Stoneplow Convoy [Horde]
             [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -1483,6 +1483,10 @@ function MopQuestFixes.Load()
         },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
+        },
+        [30357] = { -- The Stoneplow Convoy [Alliance]
+            --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
+            [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
