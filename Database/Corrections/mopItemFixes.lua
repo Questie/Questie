@@ -55,6 +55,9 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [74763] = { -- Spirit Bottle
+            [itemKeys.npcDrops] = {55291,65779},
+        },
         [75023] = { -- Pristine Silk Strand
             [itemKeys.objectDrops] = {209826},
         },
