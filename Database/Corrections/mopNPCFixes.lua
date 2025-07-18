@@ -225,6 +225,14 @@ function MopNpcFixes.Load()
         [54787] = { -- Huo
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{39.42,29.55}}},
         },
+        [54914] = { -- High Elder Cloudfall
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {45.22,25.07,phases.HIGH_ELDER_CLOUDFALL_AT_TOWER},
+                    {42.74,23.17,phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET},
+                },
+            },
+        },
         [54943] = { -- Merchant Lorvo
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {

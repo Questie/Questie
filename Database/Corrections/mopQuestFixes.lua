@@ -714,6 +714,9 @@ function MopQuestFixes.Load()
         [29619] = { -- A Courteous Guest
             [questKeys.preQuestSingle] = {29618},
         },
+        [29620] = { -- The Great Banquet
+            [questKeys.objectives] = {{{54914,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},

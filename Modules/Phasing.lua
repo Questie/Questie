@@ -274,6 +274,8 @@ local phases = {
     RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP = 1202,
     RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM = 1203,
     RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END = 1204,
+    HIGH_ELDER_CLOUDFALL_AT_TOWER = 1205,
+    HIGH_ELDER_CLOUDFALL_AT_BANQUET = 1206,
 }
 Phasing.phases = phases
 
@@ -1160,6 +1162,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END then
         return complete[29939] or (questLog[29939] and questLog[29939].isComplete == 1) or false
+    end
+
+    if phase == phases.HIGH_ELDER_CLOUDFALL_AT_TOWER then
+        return complete[29620] or (not questLog[29620]) or false
+    end
+
+    if phase == phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET then
+        return questLog[29620] and true or false
     end
 
     return false
