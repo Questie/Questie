@@ -2737,4 +2737,21 @@ function MopQuestFixes.Load()
             }},
         },
     }
+    function mopQuestFixes:LoadFactionFixes()
+        local questKeys = QuestieDB.questKeys
+
+        local questFixesHorde = {
+
+        }
+
+
+        local questFixesAlliance = {
+
+        }
+
+        if UnitFactionGroup("Player") == "Horde" then
+            return questFixesHorde
+        else
+            return questFixesAlliance
+        end
 end
