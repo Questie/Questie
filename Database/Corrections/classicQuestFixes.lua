@@ -163,6 +163,7 @@ function QuestieQuestFixes:Load()
         },
         [287] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {420},
         },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
@@ -216,6 +217,7 @@ function QuestieQuestFixes:Load()
         },
         [420] = {
             [questKeys.exclusiveTo] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+            [questKeys.breadcrumbForQuestId] = 287,
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
@@ -2332,6 +2334,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6607}, -- #1154
         },
         [6610] = {
+            [questKeys.preQuestSingle] = {}
             [questKeys.breadcrumbs] = {6611,6612}, -- #2070
         },
         [6611] = {
