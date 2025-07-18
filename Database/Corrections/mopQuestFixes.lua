@@ -1359,6 +1359,7 @@ function MopQuestFixes.Load()
         },
         [30271] = { -- Sha Can Awe
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58968,58969,59297},59297,nil,Questie.ICON_TYPE_EVENT},},},
         },
         [30272] = { -- Striking the Rain
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
