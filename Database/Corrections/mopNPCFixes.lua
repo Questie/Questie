@@ -1268,5 +1268,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29745},
         },
+        [110005] = { -- Break the Cycle
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.73,16.71}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29747},
+        },
     }
 end
