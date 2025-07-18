@@ -194,6 +194,9 @@ function MopItemFixes.Load()
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
         },
+        [79870] = { -- Yu-Ping Soup
+            [itemKeys.objectDrops] = {210873},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },
