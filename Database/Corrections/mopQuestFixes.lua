@@ -1732,6 +1732,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30672] = { -- Balance
+            [questKeys.preQuestSingle] = {30671},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
