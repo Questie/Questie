@@ -77,6 +77,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [212935] = { -- Mogu Artifact
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{38.63,38.77},{38.81,40.63},{41.58,43.11},{40.43,42.09},{41.19,40.06},{46.40,40.66},{47.08,37.93},{47.66,37.27},{47.28,36.67},{47.96,35.52},{47.42,33.35},{46.45,34.28},{45.79,33.29},{47.22,30.59},{47.49,77.92},{44.90,27.42},{42.32,29.31},{41.27,29.69},{36.75,31.35},{37.40,34.41},}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [213254] = { -- Meeting Stone (Mogu Shan Palace)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.9,40.8}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
