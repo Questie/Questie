@@ -2737,7 +2737,7 @@ function MopQuestFixes.Load()
             }},
         },
     }
-    function mopQuestFixes:LoadFactionFixes()
+    function MopQuestFixes:LoadFactionFixes()
         local questKeys = QuestieDB.questKeys
 
         local questFixesHorde = {
