@@ -233,6 +233,9 @@ function MopItemFixes.Load()
         [80804] = { -- Tough Kelp
             [itemKeys.objectDrops] = {223821},
         },
+        [80817] = { -- Buried Hozen Treasure
+            [itemKeys.objectDrops] = {211420},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
