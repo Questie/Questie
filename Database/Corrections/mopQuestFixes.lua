@@ -723,6 +723,9 @@ function MopQuestFixes.Load()
         [29626] = { -- Groundskeeper Wu
             [questKeys.preQuestSingle] = {29620},
         },
+        [29627] = { -- A Proper Weapon
+            [questKeys.preQuestSingle] = {29626},
+        },
         [29632] = { -- Becoming Battle-Ready
             [questKeys.preQuestSingle] = {29620},
         },
