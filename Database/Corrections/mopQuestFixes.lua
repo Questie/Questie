@@ -801,6 +801,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110005}},
         },
         [29748] = { -- Simulacrumble
+            [questKeys.finishedBy] = {{110005}},
             [questKeys.objectives] = {nil,{{214873}}},
             [questKeys.preQuestSingle] = {29745},
         },
