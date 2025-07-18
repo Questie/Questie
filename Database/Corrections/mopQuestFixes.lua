@@ -729,6 +729,9 @@ function MopQuestFixes.Load()
         [29628] = { -- A Strong Back
             [questKeys.preQuestSingle] = {29627},
         },
+        [29629] = { -- A Steady Hand
+            [questKeys.preQuestSingle] = {29627},
+        },
         [29632] = { -- Becoming Battle-Ready
             [questKeys.preQuestSingle] = {29620},
         },
