@@ -823,6 +823,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {29750,29751,29752},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39.42,13.13},{40.36,12.34},{41.11,10.94},{37.92,8.02},{39.31,7.5},{38.84,10}}},Questie.ICON_TYPE_INTERACT,l10n("Smash the Spirit Bottles")}},
         },
+        [29754] = { -- To Bridge Earth and Sky
+            [questKeys.preQuestGroup] = {29753,29756},
+        },
         [29756] = { -- A Humble Offering
             [questKeys.preQuestGroup] = {29750,29751,29752},
         },
