@@ -749,6 +749,9 @@ function MopQuestFixes.Load()
         [29634] = { -- Husshun, the Wizened
             [questKeys.preQuestSingle] = {29632},
         },
+        [29635] = { -- Xiao, the Eater
+            [questKeys.preQuestGroup] = {29633,29634},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},
