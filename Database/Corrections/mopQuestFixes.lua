@@ -793,6 +793,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 29745,
         },
         [29745] = { -- The Sprites' Plight
+            [questKeys.finishedBy] = {{110004}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29744},
         },
