@@ -1658,34 +1658,44 @@ function MopQuestFixes.Load()
         },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30471,30472,30473,30474,30475,30476,30477,30478,30479},
         },
         [30471] = { -- A Gift For Chee Chee
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30472,30473,30474,30475,30476,30477,30478,30479},
         },
         [30472] = { -- A Gift For Sho
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30473,30474,30475,30476,30477,30478,30479},
             [questKeys.objectives] = {nil,{{210873,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [30473] = { -- A Gift For Fish
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30474,30475,30476,30477,30478,30479},
         },
         [30474] = { -- A Gift For Ella
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30475,30476,30477,30478,30479},
         },
         [30475] = { -- A Gift For Fung
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30476,30477,30478,30479},
         },
         [30476] = { -- A Gift For Old Hillpaw
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30477,30478,30479},
         },
         [30477] = { -- A Gift For Haohan
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30478,30479},
         },
         [30478] = { -- A Gift For Jogu
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30479},
         },
         [30479] = { -- A Gift For Gina
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
