@@ -824,6 +824,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39.42,13.13},{40.36,12.34},{41.11,10.94},{37.92,8.02},{39.31,7.5},{38.84,10}}},Questie.ICON_TYPE_INTERACT,l10n("Smash the Spirit Bottles")}},
         },
         [29754] = { -- To Bridge Earth and Sky
+            [questKeys.finishedBy] = {{110006}},
             [questKeys.triggerEnd] = {"Protect Pei-Zhi during his ritual", {[zoneIDs.THE_JADE_FOREST]={{43.77,12.58}}}},
             [questKeys.objectives] = {},
             [questKeys.preQuestGroup] = {29753,29756},

@@ -1280,5 +1280,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29747,29748},
         },
+        [110006] = { -- To Bridge Earth and Sky
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.77,12.58}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29754},
+        },
     }
 end
