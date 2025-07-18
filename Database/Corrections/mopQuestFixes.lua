@@ -1932,18 +1932,18 @@ function MopQuestFixes.Load()
         },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
-            [questKeys.requiredMinRep] = {-- requires exalted with Tillers and best friend with farmers
+            [questKeys.requiredMinRep] = {-- requires exalted with Tillers and best friend with farmers but Questie only supports one faction rep currently
                 {1272,42000}, -- Tillers
-                {1273,42000}, -- Jogu
-                {1275,42000}, -- Ella
-                {1276,42000}, -- Old Hillpaw
-                {1277,42000}, -- Chee Chee
-                {1278,42000}, -- Sho
-                {1279,42000}, -- Haohan
-                {1280,42000}, -- Tina
-                {1281,42000}, -- Gina
-                {1282,42000}, -- Fish
-                {1283,42000} -- Farmer Fung
+                --{1273,42000}, -- Jogu
+                --{1275,42000}, -- Ella
+                --{1276,42000}, -- Old Hillpaw
+                --{1277,42000}, -- Chee Chee
+                --{1278,42000}, -- Sho
+                --{1279,42000}, -- Haohan
+                --{1280,42000}, -- Tina
+                --{1281,42000}, -- Gina
+                --{1282,42000}, -- Fish
+                --{1283,42000} -- Farmer Fung
             },
         },
         [31313] = { -- Just A Folk Stor
