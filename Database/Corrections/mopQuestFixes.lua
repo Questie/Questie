@@ -726,6 +726,9 @@ function MopQuestFixes.Load()
         [29627] = { -- A Proper Weapon
             [questKeys.preQuestSingle] = {29626},
         },
+        [29628] = { -- A Strong Back
+            [questKeys.preQuestSingle] = {29627},
+        },
         [29632] = { -- Becoming Battle-Ready
             [questKeys.preQuestSingle] = {29620},
         },
