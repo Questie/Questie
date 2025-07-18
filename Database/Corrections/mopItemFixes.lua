@@ -25,6 +25,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {54930},
             [itemKeys.objectDrops] = {209436},
         },
+        [73193] = { -- Blushleaf Extrac
+            [itemKeys.objectDrops] = {209550},
+        },
         [74033] = { -- Ancient Hozen Skull
             [itemKeys.objectDrops] = {209595},
         },

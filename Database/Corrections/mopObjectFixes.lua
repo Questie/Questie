@@ -27,6 +27,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [209550] = { -- Blushleaf Cluster
+            [objectKeys.name] = 'Blushleaf Cluster',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{36.32,21.112},{36.04,21.23},{35.81,20.55},{35.31,21.09},{34.93,20.51},{34.48,20.42},{34.29,20.47},{34.4,20.68},{34.17,20.76},{34,20.75},{33.75,19.93},{33.52,19.69},{33.12,20.19},{33.5,20.98},{33.98,21.25},{34.19,21.25}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209551] = { -- Boiling Cauldron
             [objectKeys.name] = 'Boiling Cauldron',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{37.74,17.57}}},
