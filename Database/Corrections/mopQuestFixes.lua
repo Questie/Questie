@@ -746,6 +746,9 @@ function MopQuestFixes.Load()
         [29633] = { -- Zhi-Zhi, the Dextrous
             [questKeys.preQuestSingle] = {29632},
         },
+        [29634] = { -- Husshun, the Wizened
+            [questKeys.preQuestSingle] = {29632},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},
