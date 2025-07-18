@@ -1367,6 +1367,7 @@ function MopQuestFixes.Load()
         [30273] = { -- In the House of the Red Crane
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30271,30272,30695}, -- might not be all, my turn in order was 30695, 30271, 30272
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chi-Ji"),0,{{"monster",59653}}}},
         },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
