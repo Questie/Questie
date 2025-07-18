@@ -1353,6 +1353,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30164] = { -- The Stoneplow Convoy
+            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30172] = { -- Barreling Along
