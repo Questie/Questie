@@ -254,6 +254,7 @@ function QuestieQuestFixes:Load()
         },
         [455] = {
             [questKeys.preQuestSingle] = {}, -- #1858
+            [questKeys.breadcrumbs] = {468},
         },
         [463] = {
             [questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
@@ -269,7 +270,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {466}, -- #2066
         },
         [468] = {
-            [questKeys.exclusiveTo] = {455}, -- #1858
+            [questKeys.nextQuestInChain] = 455, -- #1858
+            [questKeys.breadcrumbForQuestId] = 455,
         },
         [473] = {
             [questKeys.preQuestSingle] = {455}, -- #809
