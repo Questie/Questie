@@ -21,6 +21,10 @@ function MopItemFixes.Load()
         [71638] = { -- Ornate Weapon
             [itemKeys.npcDrops] = {2748,4420,7800,9568,10363,11486,12236,27975,29306,29308,39698,40177,44577,45412,46383,54968},
         },
+        [72589] = { -- Ripe Orange
+            [itemKeys.npcDrops] = {54930},
+            [itemKeys.objectDrops] = {209436},
+        },
         [74033] = { -- Ancient Hozen Skull
             [itemKeys.objectDrops] = {209595},
         },
