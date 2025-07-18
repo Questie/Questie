@@ -27,6 +27,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [209551] = { -- Boiling Cauldron
+            [objectKeys.name] = 'Boiling Cauldron',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{37.74,17.57}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209621] = { -- Sniper Rifle
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,

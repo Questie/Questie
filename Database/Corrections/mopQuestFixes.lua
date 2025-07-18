@@ -64,6 +64,7 @@ QuestieCorrections.spellObjectiveFirst[27066] = true
 QuestieCorrections.spellObjectiveFirst[27067] = true
 QuestieCorrections.spellObjectiveFirst[27091] = true
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
+QuestieCorrections.objectObjectiveFirst[29628] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
@@ -727,6 +728,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29626},
         },
         [29628] = { -- A Strong Back
+            [questKeys.objectives] = {{{54915,nil,Questie.ICON_TYPE_EVENT}},{{209551}}},
             [questKeys.preQuestSingle] = {29627},
         },
         [29629] = { -- A Steady Hand
