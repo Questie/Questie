@@ -829,6 +829,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestGroup] = {29753,29756},
         },
+        [29755] = { -- Pei-Back
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Defeat the Stonebound Colossus"),0,{{"monster",56595}}}},
+        },
         [29756] = { -- A Humble Offering
             [questKeys.preQuestGroup] = {29750,29751,29752},
         },
