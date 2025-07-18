@@ -1319,6 +1319,9 @@ function MopQuestFixes.Load()
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
         },
+        [30230] = { -- Re-Reclaim
+            [questKeys.preQuestSingle] = {30132},
+        },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
