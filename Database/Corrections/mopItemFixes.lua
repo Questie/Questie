@@ -55,6 +55,15 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [74760] = { -- Chipped Ritual Bowl
+            [itemKeys.objectDrops] = {209700},
+        },
+        [74761] = { -- Pungent Ritual Candle
+            [itemKeys.objectDrops] = {209701},
+        },
+        [74762] = { -- Jade Cong
+            [itemKeys.objectDrops] = {209699},
+        },
         [74763] = { -- Spirit Bottle
             [itemKeys.npcDrops] = {55291,65779},
         },
