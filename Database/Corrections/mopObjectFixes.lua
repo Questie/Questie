@@ -27,8 +27,23 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [209550] = { -- Blushleaf Cluster
+            [objectKeys.name] = 'Blushleaf Cluster',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{36.32,21.112},{36.04,21.23},{35.81,20.55},{35.31,21.09},{34.93,20.51},{34.48,20.42},{34.29,20.47},{34.4,20.68},{34.17,20.76},{34,20.75},{33.75,19.93},{33.52,19.69},{33.12,20.19},{33.5,20.98},{33.98,21.25},{34.19,21.25}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [209551] = { -- Boiling Cauldron
+            [objectKeys.name] = 'Boiling Cauldron',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{37.74,17.57}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209621] = { -- Sniper Rifle
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [209629] = { -- Staff of Pei-Zhi
+            [objectKeys.name] = 'Staff of Pei-Zhi',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.23,14.9}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [209656] = { -- Defaced Scroll of Wisdom
@@ -152,6 +167,9 @@ function MopObjectFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+        },
+        [214873] = { -- Vacant Destroyer
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.81,18.73},{47.75,18.26},{47.13,16.98},{47.82,16.4},{46.72,16.75},{46.91,16.16},{46.99,15.68},{46.29,15.78},{45.23,16.22},{48.55,16.22},{48.72,19.74},{48.97,20.27},{48.54,20.75},{48.11,20.25},{48.61,19.37},{48.32,18.78},{48.8,18.06},{48.8,17.7}}},
         },
         [214962] = { -- Requisitioned Firework Launcher
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27,23.3},{27,23.8},{27.3,24.8},{27.8,23.2},{28.1,24.7},{28.3,23.5},{28.5,23.9},{28.5,24.8},{28.8,24.2},{29.1,23.6},{29.3,24.1},{29.5,23.4},{29.7,24.9},{30,23.7},{30.2,24.3},{30.5,23.8},{30.8,24.4},{31,23.9},{31.3,24.5},{31.5,24},{31.8,24.6},{32,25}}},

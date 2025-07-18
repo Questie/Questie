@@ -1103,4 +1103,38 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
         end)
     end)
+
+    describe("High Elder Cloudfall", function()
+        it("should return true for tower location when 29620 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+
+        it("should return true for banquet location when 29620 is in the quest log and incomplete", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29620]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for banquet location when 29620 is in the quest log and complete", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29620]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for tower location when 29620 is complete", function()
+            Questie.db.char.complete[29620] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+    end)
 end)

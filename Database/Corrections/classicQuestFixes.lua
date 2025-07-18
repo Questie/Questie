@@ -76,9 +76,6 @@ function QuestieQuestFixes:Load()
         [30] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
-        [32] = { -- Rise of the Silithid
-            [questKeys.nextQuestInChain] = 4494,
-        },
         [33] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -163,6 +160,7 @@ function QuestieQuestFixes:Load()
         },
         [287] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {420},
         },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
@@ -215,16 +213,19 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
         [420] = {
-            [questKeys.exclusiveTo] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+            [questKeys.nextQuestInChain] = 287,
+            [questKeys.breadcrumbForQuestId] = 287,
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
         },
         [428] = {
-            [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
+            [questKeys.nextQuestInChain] = 429,
+            [questKeys.breadcrumbForQuestId] = 429,
         },
         [429] = {
             [questKeys.preQuestSingle] = {}, -- #1843
+            [questKeys.breadcrumbs] = {428},
         },
         [431] = { -- candles of beckoning
             [questKeys.preQuestSingle] = {366}, -- #638
@@ -250,6 +251,7 @@ function QuestieQuestFixes:Load()
         },
         [455] = {
             [questKeys.preQuestSingle] = {}, -- #1858
+            [questKeys.breadcrumbs] = {468},
         },
         [463] = {
             [questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
@@ -265,7 +267,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {466}, -- #2066
         },
         [468] = {
-            [questKeys.exclusiveTo] = {455}, -- #1858
+            [questKeys.nextQuestInChain] = 455, -- #1858
+            [questKeys.breadcrumbForQuestId] = 455,
         },
         [473] = {
             [questKeys.preQuestSingle] = {455}, -- #809
@@ -2308,10 +2311,12 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[zoneIDs.ASHENVALE]={{64.65,75.35}}}},
         },
         [6562] = {
-            [questKeys.exclusiveTo] = {6563}, -- #1826
+            [questKeys.breadcrumbForQuestId] = 6563,
+            [questKeys.nextQuestInChain] = 6563, -- #1826
         },
         [6563] = {
             [questKeys.preQuestSingle] = {}, -- #1826
+            [questKeys.breadcrumbs] = {6562},
         },
         [6566] = {
             [questKeys.triggerEnd] = {"Thrall's Tale", {[zoneIDs.ORGRIMMAR]={{31.78,37.81}}}},

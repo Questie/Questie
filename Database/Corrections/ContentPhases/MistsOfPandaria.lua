@@ -108,6 +108,7 @@ local questsToBlacklistByPhase = {
         [32310] = true, -- A Tale of Six Masters
         [32315] = true, -- Anduin's Plea
         [32316] = true, -- Heart Of The Alliance
+        [32317] = true, -- Seeking the Soulstones
         [32319] = true, -- Find Thrall!
         [32320] = true, -- The Horde Is Family
         [32321] = true, -- The Monkey King
@@ -485,6 +486,7 @@ local questsToBlacklistByPhase = {
         [32758] = true, -- Reader for the Dead Tongue
     },
     [4] = { -- Phase 4 (Patch 5.3 Escalation (Deepwind Gorge, New Scenarios, Heroic Scenarios))
+        [32805] = true, -- Celestial Blessings
         [32806] = true, -- The King and the Council
         [32807] = true, -- The Warchief and the Darkness
         [32816] = true, -- Path of the Last Emperor

@@ -173,6 +173,7 @@ ZoneDB.zoneIDs = {
     TRIAL_OF_THE_CHAMPION = 4723,
     HROTHGARS_LANDING = 4742,
     ICECROWN_CITADEL = 4812, -- this is also The Lower Citadel map for Icecrown Citadel
+    SPITESCALE_CAVERN = 4913,
     THE_RUBY_SANCTUM = 4987,
     THE_WANDERING_ISLE = 5736,
     THE_JADE_FOREST = 5785,

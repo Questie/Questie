@@ -225,6 +225,14 @@ function MopNpcFixes.Load()
         [54787] = { -- Huo
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{39.42,29.55}}},
         },
+        [54914] = { -- High Elder Cloudfall
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {45.22,25.07,phases.HIGH_ELDER_CLOUDFALL_AT_TOWER},
+                    {42.74,23.17,phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET},
+                },
+            },
+        },
         [54943] = { -- Merchant Lorvo
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
@@ -292,8 +300,14 @@ function MopNpcFixes.Load()
         [55768] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27.59,32.68}}},
         },
+        [55787] = { -- Peaceful Beast Spirit
+            [npcKeys.spawns] = {},
+        },
         [55788] = { -- Lo Wanderbrew
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.59,38.12}}},
+        },
+        [55790] = { -- Raging Beast Spirit
+            [npcKeys.spawns] = {},
         },
         [55942] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.36,72.53}}},
@@ -1270,6 +1284,24 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.37,41.98}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29924},
+        },
+        [110004] = { -- The Sprites' Plight
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{49.04,21.03}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29745},
+        },
+        [110005] = { -- Break the Cycle & Simulacrumble
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.73,16.71}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29747,29748},
+        },
+        [110006] = { -- To Bridge Earth and Sky
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.77,12.58}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questEnds] = {29754},
         },
     }
 end

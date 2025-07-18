@@ -21,6 +21,13 @@ function MopItemFixes.Load()
         [71638] = { -- Ornate Weapon
             [itemKeys.npcDrops] = {2748,4420,7800,9568,10363,11486,12236,27975,29306,29308,39698,40177,44577,45412,46383,54968},
         },
+        [72589] = { -- Ripe Orange
+            [itemKeys.npcDrops] = {54930},
+            [itemKeys.objectDrops] = {209436},
+        },
+        [73193] = { -- Blushleaf Extrac
+            [itemKeys.objectDrops] = {209550},
+        },
         [74033] = { -- Ancient Hozen Skull
             [itemKeys.objectDrops] = {209595},
         },
@@ -35,6 +42,9 @@ function MopItemFixes.Load()
         },
         [74163] = { -- Snuff\'s Corpse
             [itemKeys.npcDrops] = {55470,66917},
+        },
+        [74258] = { -- Staff of Pei-Zhi
+            [itemKeys.objectDrops] = {209629},
         },
         [74260] = { -- Bamboo Key
             [itemKeys.class] = itemClasses.QUEST,
@@ -52,6 +62,18 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [74760] = { -- Chipped Ritual Bowl
+            [itemKeys.objectDrops] = {209700},
+        },
+        [74761] = { -- Pungent Ritual Candle
+            [itemKeys.objectDrops] = {209701},
+        },
+        [74762] = { -- Jade Cong
+            [itemKeys.objectDrops] = {209699},
+        },
+        [74763] = { -- Spirit Bottle
+            [itemKeys.npcDrops] = {55291,65779},
+        },
         [74843] = { -- Scallions
             [itemKeys.npcDrops] = {59547,59751,59808,61216,61239,61240,61242,63164,63165,63521,63536,63997,64194,64196,64197,65317},
         },
@@ -63,6 +85,9 @@ function MopItemFixes.Load()
         },
         [75208] = { -- Rancher's Lariat
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [75214] = { -- Tidemist Cap
+            [itemKeys.objectDrops] = {209825},
         },
         [75219] = { -- Freshly Fallen Petal
             [itemKeys.objectDrops] = {209836},
@@ -85,7 +110,7 @@ function MopItemFixes.Load()
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
-        [76209] = { --
+        [76209] = { -- Chunk of Jade
             [itemKeys.npcDrops] = {56349},
             [itemKeys.objectDrops] = {209863},
         },
