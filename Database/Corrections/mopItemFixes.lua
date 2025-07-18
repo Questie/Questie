@@ -145,6 +145,9 @@ function MopItemFixes.Load()
         [78942] = { -- Jar of Pigment
             [itemKeys.objectDrops] = {210228},
         },
+        [78958] = { -- Pillaged Jinyu Loot
+            [itemKeys.npcDrops] = {58273,58274},
+        },
         [79058] = { -- Darkhide's Head
             [itemKeys.npcDrops] = {58435},
         },
