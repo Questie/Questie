@@ -65,6 +65,7 @@ QuestieCorrections.spellObjectiveFirst[27067] = true
 QuestieCorrections.spellObjectiveFirst[27091] = true
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
+QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
