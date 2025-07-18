@@ -711,6 +711,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29617},
         },
+        [29619] = { -- A Courteous Guest
+            [questKeys.preQuestSingle] = {29618},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},
