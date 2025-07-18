@@ -5,6 +5,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
 ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
+    [4913] = 14, -- Spitescale Cavern -> Durotar
     [5786] = 4265, -- The Nexus -> The Nexus
     [6137] = 1, -- Frostmane Hovel -> Dun Morogh
     [6170] = 12, -- Northshire -> Elwynn Forest

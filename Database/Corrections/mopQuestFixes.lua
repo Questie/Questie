@@ -56,6 +56,12 @@ QuestieCorrections.spellObjectiveFirst[26966] = true
 QuestieCorrections.spellObjectiveFirst[26968] = true
 QuestieCorrections.spellObjectiveFirst[26969] = true
 QuestieCorrections.spellObjectiveFirst[26970] = true
+QuestieCorrections.spellObjectiveFirst[27020] = true
+QuestieCorrections.spellObjectiveFirst[27021] = true
+QuestieCorrections.spellObjectiveFirst[27023] = true
+QuestieCorrections.spellObjectiveFirst[27027] = true
+QuestieCorrections.spellObjectiveFirst[27066] = true
+QuestieCorrections.spellObjectiveFirst[27067] = true
 QuestieCorrections.spellObjectiveFirst[27091] = true
 QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
@@ -64,6 +70,7 @@ QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
 QuestieCorrections.spellObjectiveFirst[31157] = true
 QuestieCorrections.spellObjectiveFirst[31162] = true
+QuestieCorrections.spellObjectiveFirst[31166] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
@@ -92,6 +99,18 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 2,
         },
         [3090] = { -- Tainted Parchment
+            [questKeys.requiredLevel] = 2,
+        },
+        [3091] = { -- Simple Note
+            [questKeys.requiredLevel] = 2,
+        },
+        [3092] = { -- Etched Note
+            [questKeys.requiredLevel] = 2,
+        },
+        [3093] = { -- Rune-Inscribed Note
+            [questKeys.requiredLevel] = 2,
+        },
+        [3094] = { -- Verdant Note
             [questKeys.requiredLevel] = 2,
         },
         [3095] = { -- Simple Scroll
@@ -261,6 +280,30 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{589}}},
             [questKeys.extraObjectives] = {},
         },
+        [24622] = { -- A Troll's Truest Companion
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24623] = { -- Saving the Young
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24624] = { -- Mercy for the Lost
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24625] = { -- Consort of the Sea Witch
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24626] = { -- Young and Vicious
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24812] = { -- No More Mercy
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24813] = { -- Territorial Fetish
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [24814] = { -- An Ancient Enemy
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
         [24961] = { -- The Truth of the Grave
             [questKeys.breadcrumbs] = {28651,31148},
         },
@@ -293,6 +336,20 @@ function MopQuestFixes.Load()
         [24969] = { -- Charging into Battle
             [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
+        },
+        [25035] = { -- Breaking the Line
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+        },
+        [25037] = { -- Crab Fishin'
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+            [questKeys.preQuestSingle] = {24643,24755,24763,24769,24775,24781,24787,26277,31163},
+        },
+        [25064] = { -- Moraya
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
+            [questKeys.preQuestSingle] = {24643,24755,24763,24769,24775,24781,24787,26277,31163},
+        },
+        [25073] = { -- Sen'jin Village
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
         },
         [25138] = { -- Glyphic Parchment
             [questKeys.requiredLevel] = 2,
@@ -425,6 +482,39 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{589}}},
             [questKeys.extraObjectives] = {},
+        },
+        [27014] = { -- Hallowed Note
+            [questKeys.requiredLevel] = 2,
+        },
+        [27015] = { -- Consecrated Note
+            [questKeys.requiredLevel] = 2,
+        },
+        [27020] = { -- The First Lesson
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [27021] = { -- The Hunter's Path
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [27023] = { -- The Way of the Sunwalkers
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{105361}}},
+        },
+        [27027] = { -- Primal Strike
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [27066] = { -- Learning the Word
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{589}}},
+        },
+        [27067] = { -- Moonfire
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{8921}}},
         },
         [27091] = { -- Charge!
             [questKeys.requiredLevel] = 2,
@@ -1857,6 +1947,31 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31158] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31160] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31161] = { -- Proving Pit
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+        },
+        [31162] = { -- The Arts of a Monk
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{100787}}},
+        },
+        [31163] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31165] = { -- Calligraphed Note
+            [questKeys.startedBy] = {{44927}},
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31166] = { -- Tiger Palm
+            [questKeys.preQuestSingle] = {31165},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{100787}}},
         },
         [31167] = { -- Family Tree
             [questKeys.objectives] = {nil,{{212969}}},

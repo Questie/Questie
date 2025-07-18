@@ -3869,12 +3869,15 @@ function CataQuestFixes.Load()
         },
         [14449] = { -- The First Step
             [questKeys.zoneOrSort] = 215,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14452] = { -- Rite of Strength
             [questKeys.zoneOrSort] = 215,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14455] = { -- Stop the Thorncallers
             [questKeys.zoneOrSort] = 215,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14456] = { -- Rite of Courage
             [questKeys.zoneOrSort] = 215,
@@ -3886,17 +3889,20 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 215,
             [questKeys.preQuestGroup] = {14455,14456},
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14460] = { -- Rite of Honor
             [questKeys.zoneOrSort] = 215,
             [questKeys.preQuestGroup] = {14459,14461},
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14461] = { -- Feed of Evil
             [questKeys.zoneOrSort] = 215,
             [questKeys.preQuestGroup] = {14455,14456},
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{36727,nil,Questie.ICON_TYPE_EVENT},{37155,nil,Questie.ICON_TYPE_EVENT},{37156,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [14463] = { -- Horses for Duskhaven
             [questKeys.preQuestSingle] = {},
@@ -4666,6 +4672,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [24852] = { -- Our Tribe, Imprisoned
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = 215,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",202112}}}},
             [questKeys.objectives] = {{{38345,nil,Questie.ICON_TYPE_INTERACT}}},

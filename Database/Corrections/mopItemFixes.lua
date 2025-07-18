@@ -82,7 +82,7 @@ function MopItemFixes.Load()
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
-        [76209] = { --
+        [76209] = { -- Chunk of Jade
             [itemKeys.npcDrops] = {56349},
             [itemKeys.objectDrops] = {209863},
         },
