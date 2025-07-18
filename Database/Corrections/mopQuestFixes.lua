@@ -1352,6 +1352,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30132},
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30164] = { -- The Stoneplow Convoy
+            [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
