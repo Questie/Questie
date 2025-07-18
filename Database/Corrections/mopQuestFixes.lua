@@ -720,6 +720,9 @@ function MopQuestFixes.Load()
         [29622] = { -- Your Training Starts Now
             [questKeys.preQuestSingle] = {29620},
         },
+        [29626] = { -- Groundskeeper Wu
+            [questKeys.preQuestSingle] = {29620},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},
