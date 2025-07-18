@@ -14519,7 +14519,7 @@ function CataQuestFixes.Load()
         },
         [29276] = { -- The Flame Spider Queen
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29272,-29205},
+            [questKeys.preQuestGroup] = {29192,29272,-29205},
             [questKeys.exclusiveTo] = {29273,29274,29275},
         },
         [29278] = { -- Living Obsidium
