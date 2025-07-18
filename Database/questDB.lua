@@ -117,6 +117,7 @@ QuestieDB.questFlags = {
     WEEKLY = 32768,
 }
 
+-- https://wowpedia.fandom.com/wiki/FactionID
 QuestieDB.factionIDs = {
     THORIUM_BROTHERHOOD = 59,
     UNDERCITY = 68,
