@@ -87,6 +87,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [212935] = { -- Mogu Artifact
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{26.67,37.64},{27.59,39.59},{26.08,40.92},{25.75,41.04},{25.01,42.41},{23.33,40.36},{24.49,39.12},{23.63,38.15},{24.21,45.82},{24.03,45.79},{26.01,49.28},{25.77,49.07},{26.33,46.56},{26.22,46.71},{26.21,46.53},
+        }},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [213254] = { -- Meeting Stone (Mogu Shan Palace)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.9,40.8}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -181,6 +186,16 @@ function MopObjectFixes.Load()
             [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
             [objectKeys.zoneID] = 0,
             [objectKeys.spawns] = {},
+        },
+        [223818] = { -- Pools spawned during quest The Pools of Youth
+            [objectKeys.name] = 'Water of Youth', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{51.68,33.24},{51.76,33.41},{51.86,33.08},{51.95,33.26},{52.02,33.03},{52.29,33.10},{52.39,32.98},{52.53,32.91},{52.29,32.74},{52.45,32.52},{52.31,32.43},{51.82,32.37},{51.65,32.26},{51.78,32.13},{52.05,32.16},{52.02,32.37}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [223819] = { -- Traps for quest Tread Lightly
+            [objectKeys.name] = 'Riverblade Spike Trap', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{47.24,29.63},{47.30,30.53},{48.61,33.45},{46.66,36.47},{47.22,38.36},{46.59,38.07},{41.29,41.19},{41.98,42.24},{40.14,41.87},{39.16,39.98},{38.83,38.51},{37.11,39.04},{37.14,37.00},{37.89,34.22},{43.55,32.98}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
     }
 end

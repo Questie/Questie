@@ -143,6 +143,24 @@ function MopItemFixes.Load()
         [77456] = { -- Raw Silk
             [itemKeys.objectDrops] = {210088},
         },
+        [78911] = { -- Intact Skitterer Glands
+            [itemKeys.npcDrops] = {58067},
+        },
+        [78917] = { -- Dojani Orders
+            [itemKeys.npcDrops] = {58165},
+        },
+        [78918] = { -- Imperial Lotus Leaves
+            [itemKeys.objectDrops] = {210209},
+        },
+        [78934] = { -- The Water of Youth
+            [itemKeys.objectDrops] = {223818},
+        },
+        [78942] = { -- Jar of Pigment
+            [itemKeys.objectDrops] = {210228},
+        },
+        [78958] = { -- Pillaged Jinyu Loot
+            [itemKeys.npcDrops] = {58273,58274},
+        },
         [79058] = { -- Darkhide's Head
             [itemKeys.npcDrops] = {58435},
         },
@@ -152,11 +170,23 @@ function MopItemFixes.Load()
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [79120] = { -- Mogu Artifact
+            [itemKeys.objectDrops] = {212935},
+        },
         [79197] = { -- Glade Glimmer
             [itemKeys.npcDrops] = {57301},
         },
+        [79199] = { -- Murkscale Head
+            [itemKeys.npcDrops] = {58631},
+        },
+        [79252] = { -- Mogu Poisoned Blade
+            [itemKeys.npcDrops] = {58377,65598},
+        },
         [79269] = { -- Marsh Lily
             [itemKeys.objectDrops] = {210565},
+        },
+        [79745] = { -- Sunwalker Scout\'s Report
+            [itemKeys.npcDrops] = {59136},
         },
         [79824] = { -- Stolen Vegetable
             [itemKeys.objectDrops] = {210763},
@@ -188,6 +218,9 @@ function MopItemFixes.Load()
         },
         [85784] = { -- Alliance Service Medallion
             [itemKeys.npcDrops] = {63764,63782},
+        },
+        [85854] = { -- The Needlebeak
+            [itemKeys.npcDrops] = {63796},
         },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},

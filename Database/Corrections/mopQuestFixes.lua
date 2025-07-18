@@ -1240,14 +1240,77 @@ function MopQuestFixes.Load()
         [30078] = { -- Cleaning House
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
+        [30079] = { -- What's Eating Zhu's Watch?
+            [questKeys.objectives] = {{{57457,nil,Questie.ICON_TYPE_TALK},{57830,nil,Questie.ICON_TYPE_TALK},{57825,nil,Questie.ICON_TYPE_TALK},{57744,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30080] = { -- Finding Yi-Mo
+            [questKeys.objectives] = {{{58376,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30081] = { -- Materia Medica
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30079,30082},
+        },
+        [30082] = { -- Cheer Up, Yi-Mo
+            [questKeys.objectives] = {{{57310,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Yi-Mo"),0,{{"monster",58376}}}},
+        },
+        [30083] = { -- Securing the Province
+            [questKeys.preQuestSingle] = {30091},
+        },
+        [30084] = { -- Borderlands
+            [questKeys.preQuestSingle] = {30091},
+            [questKeys.objectives] = {{{58161,nil,Questie.ICON_TYPE_INTERACT},{58170,nil,Questie.ICON_TYPE_INTERACT},{58173,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestSingle] = {29908},
         },
+        [30088] = { -- Why So Serious?
+            [questKeys.preQuestSingle] = {30081},
+        },
+        [30089] = { -- Apply Directly to the Forehead
+            [questKeys.preQuestSingle] = {30088},
+            [questKeys.objectives] = {{{57457,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30090] = { -- Zhu's Despair
+            [questKeys.preQuestSingle] = {30089},
+            [questKeys.objectives] = {{{58409},{58410,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30117] = { -- Stoneplow Thirsts
             [questKeys.preQuestSingle] = {30078},
+        },
+        [30121] = { -- Search Party
+            [questKeys.nextQuestInChain] = 30179,
+            [questKeys.breadcrumbForQuestId] = 30179,
+        },
+        [30123] = { -- Skitterer Stew
+            [questKeys.preQuestSingle] = {30179},
+        },
+        [30124] = { -- Blind Them!
+            [questKeys.preQuestSingle] = {30179},
+        },
+        [30127] = { -- Threat from Dojan
+            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+        },
+        [30128] = { -- The Water of Youth
+            [questKeys.objectives] = {nil, nil,{{78934,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Na Lek"),0,{{"monster",55597}}}},
+        },
+        [30129] = { -- The Mogu Agenda
+            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+        },
+        [30130] = { -- Herbal Remedies
+            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+        },
+        [30131] = { -- Life
+            [questKeys.objectives] = {{{58585,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Sunwalker Dezco"),0,{{"monster",58113}}}},
+        },
+        [30133] = { -- Into the Wilds
+            [questKeys.preQuestSingle] = {30090},
+            [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
@@ -1282,8 +1345,19 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
+        [30163] = { -- For the Tribe
+            [questKeys.preQuestSingle] = {30132},
+            [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
+        },
+        [30175] = { -- The Mantid
+            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+        },
+        [30179] = { -- Poisoned! [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {30121},
         },
         [30184] = { -- Mushan Mastery: Darkhide
             [questKeys.preQuestSingle] = {30181},
@@ -1296,6 +1370,12 @@ function MopQuestFixes.Load()
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
+        },
+        [30229] = { -- The Greater Danger
+            [questKeys.preQuestSingle] = {30132},
+        },
+        [30230] = { -- Re-Reclaim
+            [questKeys.preQuestSingle] = {30132},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
@@ -1326,6 +1406,29 @@ function MopQuestFixes.Load()
         },
         [30266] = { -- Bloodied Skies
             [questKeys.preQuestSingle] = {30640},
+        },
+        [30268] = { -- The Murksweats
+            [questKeys.preQuestSingle] = {30269},
+        },
+        [30269] = { -- Unsafe Passage
+            [questKeys.preQuestSingle] = {30133,30178}, -- Either Horde or Alliance version as prequest
+            [questKeys.triggerEnd] = {"Accompany Koro to Crane Wing Refuge", {[zoneIDs.KRASARANG_WILDS]={{43.86,36.77}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Koro Mistwalker"),0,{{"monster",58547}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Koro Mistwalker"),0,{{"monster",58978}}}},
+        },
+        [30270] = { -- Blinding the Riverblades
+            [questKeys.preQuestSingle] = {30269},
+        },
+        [30271] = { -- Sha Can Awe
+            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58968,58969,59297},59297,nil,Questie.ICON_TYPE_EVENT},},},
+        },
+        [30272] = { -- Striking the Rain
+            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+        },
+        [30273] = { -- In the House of the Red Crane
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30271,30272,30695}, -- might not be all, my turn in order was 30695, 30271, 30272
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chi-Ji"),0,{{"monster",59653}}}},
         },
         [30277] = { -- The Crumbling Hall
             [questKeys.preQuestSingle] = {30640},
@@ -1367,6 +1470,11 @@ function MopQuestFixes.Load()
         },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
+        },
+        [30376] = { -- Hope Springs Eternal
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            --[questKeys.exclusiveTo] = {}, wowhead indicates this is also exclusive with Warn Stoneplow (30360 - Alliance) / Warn Stoneplow (30241 - Horde)
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1592,6 +1700,13 @@ function MopQuestFixes.Load()
         [30591] = { -- Preying on the Predators
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [30694] = { -- Tread Lightly
+            [questKeys.preQuestSingle] = {30269},
+            [questKeys.objectives] = {nil,{{223819,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30695] = { -- Ahead on the Way
+            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
@@ -1842,6 +1957,9 @@ function MopQuestFixes.Load()
         },
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.exclusiveTo] = {31377,31379,31381},
+        },
+        [31393] = { -- Temple of the White Tiger
+            [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
         },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,

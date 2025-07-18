@@ -357,6 +357,9 @@ function MopNpcFixes.Load()
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
         },
+        [58608] = { -- Dawnchaser Captive
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
+        },
         [58632] = { -- Armsmaster Harlan
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{61.78,45.22}},
@@ -384,11 +387,17 @@ function MopNpcFixes.Load()
         [58756] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [58858] = { -- Riverblade Pathstalker
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{38.63,38.77},{38.81,40.63},{41.58,43.11},{40.43,42.09},{41.19,40.06},{46.40,40.66},{47.08,37.93},{47.66,37.27},{47.28,36.67},{47.96,35.52},{47.42,33.35},{46.45,34.28},{45.79,33.29},{47.22,30.59},{46.13,30.18},{47.49,77.92},{44.90,27.42},{42.32,29.31},{41.27,29.69},{36.75,31.35},{37.4,34.41}}},
+        },
         [58876] = { -- Starving Hound
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
         [58898] = { -- Vigilant Watchman
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58978] = { -- Koro Mistwalker
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.79,38.30}}},
         },
         [58998] = { -- Scarlet Defender
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -798,7 +807,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
         },
         [63778] = { -- Messenger Grummie
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}},
+                [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
+            }
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
