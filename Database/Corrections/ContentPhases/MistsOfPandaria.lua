@@ -108,6 +108,7 @@ local questsToBlacklistByPhase = {
         [32310] = true, -- A Tale of Six Masters
         [32315] = true, -- Anduin's Plea
         [32316] = true, -- Heart Of The Alliance
+        [32317] = true, -- Seeking the Soulstones
         [32319] = true, -- Find Thrall!
         [32320] = true, -- The Horde Is Family
         [32321] = true, -- The Monkey King
