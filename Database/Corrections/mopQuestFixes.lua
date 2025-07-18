@@ -1298,6 +1298,9 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
+        [30163] = { -- For the Tribe
+            [questKeys.preQuestSingle] = {30132},
+        },
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
