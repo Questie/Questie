@@ -683,6 +683,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55141,nil,Questie.ICON_TYPE_TALK},{55146,nil,Questie.ICON_TYPE_TALK},{55162,nil,Questie.ICON_TYPE_TALK},{55170,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31769},
         },
+        [29716] = { -- The Double Hozen Dare
+            [questKeys.objectives] = {{{55267,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {31230},
+        },
         [29730] = { -- Scouting Report: Hostile Natives
             [questKeys.preQuestSingle] = {29971},
         },
@@ -910,6 +914,12 @@ function MopQuestFixes.Load()
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
         },
+        [29865] = { -- The Silkwood Road
+            [questKeys.preQuestSingle] = {31230},
+        },
+        [29866] = { -- The Threads that Stick
+            [questKeys.preQuestSingle] = {31230},
+        },
         [29871] = { -- Clever Ashyo
             [questKeys.preQuestSingle] = {30086},
         },
@@ -960,6 +970,28 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110003}},
             [questKeys.preQuestSingle] = {31167},
         },
+        [29925] = { -- All We Can Spare
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Toya"),0,{{"monster",56348}}}},
+        },
+        [29926] = { -- Calamity Jade
+            [questKeys.preQuestSingle] = {29928},
+        },
+        [29927] = { -- Mann's Man
+            [questKeys.objectives] = {{{56347,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {29928},
+        },
+        [29928] = { -- I Have No Jade And I Must Scream
+            [questKeys.preQuestSingle] = {29925},
+        },
+        [29929] = { -- Trapped!
+            [questKeys.objectives] = {{{56464,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [29930] = { -- What's Mined Is Yours
+            [questKeys.objectives] = {{{56527,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
+        [29931] = { -- The Serpent's Heart
+            [questKeys.preQuestGroup] = {29926,29930},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
@@ -1008,6 +1040,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
+        [29966] = { -- Burning Down the House
+            [questKeys.objectives] = {{{56509,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [29967] = { -- Boom Goes the Doonamite!
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56603,56624,56639,56644,56645},56603}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Rivett"),0,{{"monster",56525}}}},
+        },
         [29968] = { -- Green-ish Energy
             [questKeys.preQuestSingle] = {29824},
         },
@@ -1041,6 +1080,13 @@ function MopQuestFixes.Load()
         },
         [29992] = { -- Tenderpaw By Name, Tender Paw By Reputation
             [questKeys.preQuestSingle] = {29984},
+        },
+        [29993] = { -- Find the Boy
+            [questKeys.preQuestSingle] = {29866},
+        },
+        [30015] = { -- Dawn's Blossom
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29966,29967},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
@@ -1839,6 +1885,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100787}}},
         },
+        [31230] = { -- Welcome to Dawn's Blossom
+            [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {30015},
+        },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
         },
@@ -1847,6 +1897,9 @@ function MopQuestFixes.Load()
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31279] = { -- Everything I Know About Cooking
+            [questKeys.requiredLevel] = 86,
         },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
@@ -1912,6 +1965,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [31486] = { -- Everything I Know About Cooking
+            [questKeys.requiredLevel] = 86,
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},

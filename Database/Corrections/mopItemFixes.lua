@@ -52,11 +52,17 @@ function MopItemFixes.Load()
         [74623] = { -- Emergency Supplies
             [itemKeys.npcDrops] = {62930},
         },
+        [75023] = { -- Pristine Silk Strand
+            [itemKeys.objectDrops] = {209826},
+        },
         [75202] = { -- Speckled Trout
             [itemKeys.npcDrops] = {56180},
         },
         [75208] = { -- Rancher's Lariat
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [75219] = { -- Freshly Fallen Petal
+            [itemKeys.objectDrops] = {209836},
         },
         [75271] = { -- Jian
             [itemKeys.npcDrops] = {56253},
@@ -76,6 +82,10 @@ function MopItemFixes.Load()
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
+        [76209] = { --
+            [itemKeys.npcDrops] = {56349},
+            [itemKeys.objectDrops] = {209863},
+        },
         [76225] = { -- Fistful of Bird Guts
             [itemKeys.npcDrops] = {56396},
         },
@@ -90,6 +100,9 @@ function MopItemFixes.Load()
         },
         [76335] = { -- Vial of Animal Blood
             [itemKeys.npcDrops] = {56523,56524,56531,56532},
+        },
+        [76336] = { -- Nazgrim's Grog
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},

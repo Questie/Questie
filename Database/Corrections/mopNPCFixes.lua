@@ -259,6 +259,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [55274] = { -- An Windfur
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{39.47,47.55}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [55378] = { -- Lifelike Jade Statue
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
         },
@@ -287,6 +291,9 @@ function MopNpcFixes.Load()
         },
         [55768] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27.59,32.68}}},
+        },
+        [55788] = { -- Lo Wanderbrew
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.59,38.12}}},
         },
         [55942] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.36,72.53}}},
@@ -321,6 +328,12 @@ function MopNpcFixes.Load()
         [56456] = { -- Silk Farm Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.39,59.73}}},
         },
+        [56467] = { -- Hao Mann
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.3,29.39}}},
+        },
+        [56527] = { -- Jade Cart
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.27,29.47}}},
+        },
         [56547] = { -- Water Village Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{61.42,35.43}}},
         },
@@ -330,6 +343,9 @@ function MopNpcFixes.Load()
         [56686] = { -- Master Shang Xi
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{19.46,51.22}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
+        },
+        [56708] = { -- Syra Goldendraft
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
@@ -406,6 +422,9 @@ function MopNpcFixes.Load()
         },
         [59175] = { -- Master Archer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59178] = { -- Lo Wanderbrew
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.63,45.31}}},
         },
         [59184] = { -- Jandice Barov
             [npcKeys.spawns] = {
