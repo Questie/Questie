@@ -1664,6 +1664,7 @@ function MopQuestFixes.Load()
         },
         [30472] = { -- A Gift For Sho
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.objectives] = {nil,{{210873,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [30473] = { -- A Gift For Fish
             [questKeys.preQuestSingle] = {30257},
