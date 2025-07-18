@@ -4,6 +4,10 @@ local mopTrinity = require('data.mopQuestDB-trinity')
 
 local printToFile = require('printToFile')
 
+local function starts_with(str, start)
+    return str:sub(1, #start) == start
+end
+
 local questKeys = {
     ['name'] = 1, -- string
     ['startedBy'] = 2, -- table
@@ -59,6 +63,13 @@ for questId, data in pairs(mop) do
         end
         if data[questKeys.requiredClasses] then
             mop[questId][questKeys.requiredClasses] = data[questKeys.requiredClasses]
+        end
+
+        local trinityQuest = mopTrinity[questId]
+        if trinityQuest and trinityQuest[questKeys.objectivesText] and next(trinityQuest[questKeys.objectivesText]) and starts_with(trinityQuest[questKeys.objectivesText][1], "Reach level 3") then
+            -- The starting zone quests have been updates for MoP, but that is not reflected in the Skyfire DB. So we take the name and objectivesText from Trinity.
+            mop[questId][questKeys.name] = trinityQuest[questKeys.name]
+            mop[questId][questKeys.objectivesText] = trinityQuest[questKeys.objectivesText]
         end
     else
         local trinityQuest = mopTrinity[questId]
