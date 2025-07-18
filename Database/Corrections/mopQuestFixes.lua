@@ -2433,6 +2433,9 @@ function MopQuestFixes.Load()
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32317] = { -- Seeking the Soulstones
+            [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
+        },
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
         },
