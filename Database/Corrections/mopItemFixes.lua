@@ -76,6 +76,9 @@ function MopItemFixes.Load()
         [75208] = { -- Rancher's Lariat
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [75214] = { -- Tidemist Cap
+            [itemKeys.objectDrops] = {209825},
+        },
         [75219] = { -- Freshly Fallen Petal
             [itemKeys.objectDrops] = {209836},
         },
