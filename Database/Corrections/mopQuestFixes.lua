@@ -1941,7 +1941,7 @@ function MopQuestFixes.Load()
                 {1281,42000}, -- Gina
                 {1282,42000}, -- Fish
                 {1283,42000}, -- Farmer Fung
-            }
+            },
         },
         [31313] = { -- Just A Folk Stor
             [questKeys.preQuestSingle] = {31312},
