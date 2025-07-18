@@ -1237,6 +1237,7 @@ function MopQuestFixes.Load()
         },
         [30121] = { -- Search Party
             [questKeys.nextQuestInChain] = 30179,
+            [questKeys.breadcrumbForQuestId] = 30179,
         },
         [30123] = { -- Skitterer Stew
             [questKeys.preQuestSingle] = {30179},
@@ -1310,6 +1311,7 @@ function MopQuestFixes.Load()
         },
         [30179] = { -- Poisoned! [Horde]
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {30121},
         },
         [30184] = { -- Mushan Mastery: Darkhide
             [questKeys.preQuestSingle] = {30181},
