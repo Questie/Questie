@@ -1491,11 +1491,6 @@ function MopQuestFixes.Load()
         [30359] = { -- The Lord Reclaimer
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
         },
-        [30376] = { -- Hope Springs Eternal
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30174,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
-            [questKeys.exclusiveTo] = {30360,30241}, --assumed Warn Stoneplow (30360 - Alliance) / confirmed Warn Stoneplow (30241 - Horde)
-        },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -2753,12 +2748,20 @@ function MopQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
-
+        [30376] = { -- Hope Springs Eternal
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30174,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.exclusiveTo] = {30360,30241}, --assumed Warn Stoneplow (30360 - Alliance) / confirmed Warn Stoneplow (30241 - Horde)
+        },
     }
 
 
     local questFixesAlliance = {
-
+        [30376] = { -- Hope Springs Eternal
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30359,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.exclusiveTo] = {30360,30241}, --assumed Warn Stoneplow (30360 - Alliance) / confirmed Warn Stoneplow (30241 - Horde)
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
