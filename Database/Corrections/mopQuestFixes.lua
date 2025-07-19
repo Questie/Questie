@@ -1517,6 +1517,9 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
+        [30160] = { --A Ruby Shard for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [30163] = { -- For the Tribe
             [questKeys.preQuestSingle] = {30132},
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1542,6 +1545,9 @@ function MopQuestFixes.Load()
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
+        },
+        [30189] = { -- A Lovely Apple for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
