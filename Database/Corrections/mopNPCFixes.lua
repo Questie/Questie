@@ -95,6 +95,9 @@ function MopNpcFixes.Load()
         [10181] = { -- Lady Sylvanas Windrunner
             [npcKeys.questStarts] = {9626,9813,31037},
         },
+        [15187] = { -- Cenarion Emissary Jademoon
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{82.69,29.59}}},
+        },
         [15278] = { -- Magistrix Erona
             [npcKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.04,45.12}}},
             [npcKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
@@ -1050,8 +1053,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [65960] = { -- Master Woo
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.12,40.35}}},
+        },
         [66138] = { -- Master Cheng
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.11,40.35}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.12,40.35}}},
         },
         [66190] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{31.4,11.2}}},

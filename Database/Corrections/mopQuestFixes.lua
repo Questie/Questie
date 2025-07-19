@@ -2858,14 +2858,91 @@ function MopQuestFixes.Load()
         [31831] = { -- Level Up!
             [questKeys.startedBy] = {{63067}},
         },
+        [31833] = { -- Continue Your Training: Master Woo
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31855},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66254}}}},
+        },
         [31834] = { -- Begin Your Training: Master Cheng
+            [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
             [questKeys.zoneOrSort] = zoneIDs.PEAK_OF_SERENITY,
         },
+        [31835] = { -- Continue Your Training: Master Kistane
+            [questKeys.requiredClasses] = classIDs.MONK,
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+        },
+        [31836] = { -- Continue Your Training: Master Yoon
+            [questKeys.requiredClasses] = classIDs.MONK,
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+        },
+        [31837] = { -- Continue Your Training: Master Cheng
+            [questKeys.requiredClasses] = classIDs.MONK,
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+        },
+        [31838] = { -- Continue Your Training: Master Tsang
+            [questKeys.requiredClasses] = classIDs.MONK,
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+        },
+        [31839] = { -- Continue Your Training: Master Hsu
+            [questKeys.requiredClasses] = classIDs.MONK,
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+        },
         [31840] = { -- Practice Makes Perfect: Master Cheng
+            [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.preQuestSingle] = {31834},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31841,31842,31843,31844,31845,31846},
+            [questKeys.requiredMaxLevel] = 29,
+        },
+        [31841] = { -- Practice Makes Perfect: Master Woo
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31833},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66254}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31842,31843,31844,31845,31846},
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [31842] = { -- Practice Makes Perfect: Master Kistane
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31835},
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31841,31843,31844,31845,31846},
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [31843] = { -- Practice Makes Perfect: Master Yoon
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31836},
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31841,31842,31844,31845,31846},
+            [questKeys.requiredMaxLevel] = 59,
+        },
+        [31844] = { -- Practice Makes Perfect: Master Cheng
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31837},
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31841,31842,31843,31845,31846},
+            [questKeys.requiredMaxLevel] = 69,
+        },
+        [31845] = { -- Practice Makes Perfect: Master Tsang
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31838},
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31846},
+            [questKeys.requiredMaxLevel] = 79,
+        },
+        [31846] = { -- Practice Makes Perfect: Master Hsu
+            [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.preQuestSingle] = {31839},
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31845},
+            [questKeys.requiredMaxLevel] = 89,
         },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2885,6 +2962,27 @@ function MopQuestFixes.Load()
         [31854] = { -- Analynn
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{66136,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31855] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31856] = { -- The Peak of Serenity - Begin Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31857] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31858] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31859] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31860] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
+        [31861] = { -- The Peak of Serenity - Continue Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
         },
         [31862] = { -- Zonya the Sadist
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3047,6 +3145,9 @@ function MopQuestFixes.Load()
         [31943] = { -- Which Berries? Witchberries.
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942},
         },
+        [31944] = { -- Complete Your Training: The Final Test
+            [questKeys.requiredClasses] = classIDs.MONK,
+        },
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
         },
@@ -3136,6 +3237,9 @@ function MopQuestFixes.Load()
         },
         [31986] = { -- The Triumphant Return
             [questKeys.preQuestSingle] = {31970},
+        },
+        [31989] = { -- The Peak of Serenity - Complete Your Training
+            [questKeys.requiredClasses] = classIDs.MONK,
         },
         [31990] = { -- Audrey Burnhep
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
