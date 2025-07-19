@@ -1335,6 +1335,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56856,nil,Questie.ICON_TYPE_INTERACT},{56858,nil,Questie.ICON_TYPE_INTERACT},{56859,nil,Questie.ICON_TYPE_INTERACT},{56860,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29932},
         },
+        [30000] = { -- The Jade Serpent
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29999,30005},
+        },
         [30002] = { -- Pages of History
             [questKeys.preQuestSingle] = {29998},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Search through the book"),0,{{"object",209594}}}},
