@@ -2296,6 +2296,18 @@ function MopQuestFixes.Load()
         [31528] = {-- A Worthy Challenge: Darkmaster Gandling
             [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31527},
         },
+        [31529] = { -- Mission: Culling The Vermin
+            [questKeys.requiredMinRep] = {1278,12600} -- 4200 into Aquaintance with Sho
+        },
+        --[31530] = { -- Mission: The Hozen Dozen -- Don't think this made it to live so blacklisted
+            --[questKeys.requiredMinRep] = {1278,} --
+       -- },
+        [31531] = { -- Mission: Aerial Threat
+            [questKeys.requiredMinRep] = {1278,29400} -- 4200 into Friend with Sho
+        },
+        [31532] = { -- Mission: Predator of the Cliffs
+            [questKeys.requiredMinRep] = {1278,37800} -- 4200 into Good Friend with Sho
+        },
         [31534] = { -- The Beginner's Brew
             [questKeys.requiredMinRep] = {1275,16800} -- Buddy level with Ella
         },
