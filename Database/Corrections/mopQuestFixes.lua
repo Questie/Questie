@@ -1332,6 +1332,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29932},
         },
         [29999] = { -- The Rider's Bind
+            [questKeys.objectives] = {{{56856,nil,Questie.ICON_TYPE_INTERACT},{56858,nil,Questie.ICON_TYPE_INTERACT},{56859,nil,Questie.ICON_TYPE_INTERACT},{56860,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29932},
         },
         [30002] = { -- Pages of History

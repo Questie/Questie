@@ -387,6 +387,22 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [56856] = { -- Playful Azure Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.19,56.74}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [56858] = { -- Playful Crimson Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.18, 61.39}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [56859] = { -- Playful Emerald Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.54,58.4}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [56860] = { -- Playful Gold Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.99, 60.33}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [57198] = { -- Guard Captain Oakenshield
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{11.58,49.53}}},
         },
