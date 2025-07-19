@@ -383,6 +383,10 @@ function MopNpcFixes.Load()
         [56708] = { -- Syra Goldendraft
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
+        [56787] = { -- Wise Mari
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [57198] = { -- Guard Captain Oakenshield
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{11.58,49.53}}},
         },
