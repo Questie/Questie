@@ -1521,6 +1521,9 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
+        [30160] = { --A Ruby Shard for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [30163] = { -- For the Tribe
             [questKeys.preQuestSingle] = {30132},
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1554,6 +1557,9 @@ function MopQuestFixes.Load()
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
         },
+        [30189] = { -- A Lovely Apple for Ella
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
         },
@@ -1586,6 +1592,9 @@ function MopQuestFixes.Load()
         },
         [30257] = { -- Learn and Grow V: Halfhill Market
             [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30258] = { --Mung-Mung's Vote I: A Hozen's Problem
+            [questKeys.requiredMinRep] = {1272,14600} -- available at 5600/12000 honored with Tillers
         },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
@@ -1657,8 +1666,25 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30328,30329,30330,30331},
         },
+        [30333] = { -- The Lesser of Two Evils
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30334,30335,30336,30337},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30335,30336,30337},
+        },
+        [30335] = { -- Stalling the Ravage
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30336,30337},
+        },
+        [30336] = { -- The Kunzen Hunter-Chief
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30335,30337},
+        },
+        [30337] = { -- Simian Sabotage
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30335,30336},
         },
         [30357] = { -- The Stoneplow Convoy [Alliance]
             --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
@@ -1887,6 +1913,30 @@ function MopQuestFixes.Load()
         [30479] = { -- A Gift For Gina
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
+        },
+        [30517] = { -- Farmer Fung's Vote I: Yak Attack
+            --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
+            [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
+        },
+        [30519] = { -- Nana's Vote I: Nana's Secret Recipe
+            [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
+            [questKeys.requiredMinRep] = {1272,29500} -- Tillers 8500 into Revered (wowhead)
+        },
+        [30521] = { -- Haohan's Vote I: Bungalow Break-In
+            [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
+            [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
+        },
+        [30525] = { -- Haohan's Vote III: Pure Poison
+            [questKeys.preQuestSingle] = {30522},
+        },
+        [30526] = { -- Lost and Lonely
+            [questKeys.requiredMinRep] = {1272,33600} -- Tillers 12600 into Revered (wowpedia)
+        },
+        [30527] = { -- Haohan's Vote IV: Melons For Felons
+            [questKeys.preQuestSingle] = {30525},
+        },
+        [30528] = { -- Haohan's Vote V: Chief Yip-Yip
+            [questKeys.preQuestSingle] = {30527},
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
@@ -2201,9 +2251,44 @@ function MopQuestFixes.Load()
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31320] = { -- Buy A Fish A Drink?
+            [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
+        },
+        [31321] = { -- Buy A Fish A Round?
+            [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
+        },
+        [31322] = { -- Buy A Fish A Keg?
+            [questKeys.requiredMinRep] = {1273,25200}, -- Friend level with Jogu
+        },
+        [31323] = { -- Buy A Fish A Brewery?
+            [questKeys.requiredMinRep] = {1273,36000}, -- within 6000 rep of Best Friend (wowhead comment)
+        },
+        [31325] = { -- A Very Nice Necklace
+            [questKeys.requiredMaxRep] = {1280,8399}, -- Tina at Stranger level (0-8400)
+        },
+        [31326] = { -- Tina's Tasteful Tiara
+            [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
+            [questKeys.requiredMaxRep] = {1280,16799},
+        },
         [31327] = { -- Trouble Brewing
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {30085},
+        },
+        [31328] = { -- An Exquisite Earring
+            [questKeys.requiredMinRep] = {1280,16800}, -- Tina at Buddy level (16800-25200)
+            [questKeys.requiredMaxRep] = {1280,25199},
+        },
+        [31329] = { -- A Beautiful Brooch
+            [questKeys.requiredMinRep] = {1280,25200}, -- Tina at Friend level or above (25200+)
+        },
+        [31338] = { -- Lost Sheepie
+            [questKeys.requiredMinRep] = {1277,8400}, -- Aquaintance level with Chee Chee
+        },
+        [31339] = { -- Lost Sheepie... Again
+            [questKeys.requiredMinRep] = {1277,25200}, -- Friend level with Chee Chee
+        },
+        [31340] = { -- Oh Sheepie...
+            [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
@@ -2285,6 +2370,27 @@ function MopQuestFixes.Load()
         [31528] = {-- A Worthy Challenge: Darkmaster Gandling
             [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31527},
         },
+        [31529] = { -- Mission: Culling The Vermin
+            [questKeys.requiredMinRep] = {1278,12600}, -- 4200 into Aquaintance with Sho
+        },
+        --[31530] = { -- Mission: The Hozen Dozen -- Don't think this made it to live so blacklisted
+            --[questKeys.requiredMinRep] = {1278,} --
+       -- },
+        [31531] = { -- Mission: Aerial Threat
+            [questKeys.requiredMinRep] = {1278,29400}, -- 4200 into Friend with Sho
+        },
+        [31532] = { -- Mission: Predator of the Cliffs
+            [questKeys.requiredMinRep] = {1278,37800}, -- 4200 into Good Friend with Sho
+        },
+        [31534] = { -- The Beginner's Brew
+            [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
+        },
+        [31537] = { -- Ella's Taste Test
+            [questKeys.requiredMinRep] = {1275,25200}, -- Friend level with Ella
+        },
+        [31538] = { -- A Worthy Brew
+            [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
+        },
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
         },
@@ -2361,6 +2467,27 @@ function MopQuestFixes.Load()
         },
         [31592] = { -- On The Mend
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31669] = { -- The Cabbage Test
+            [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31670] = { -- That Dangling Carrot
+            [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31671] = { -- Why Not Scallions?
+            [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31672] = { -- A Pumpkin-y Perfume
+            [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943},
+        },
+        [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943},
+        },
+        [31674] = { -- The Pink Turnip Challenge
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943},
+        },
+        [31675] = { -- The White Turnip Treatment
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943},
         },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2689,8 +2816,26 @@ function MopQuestFixes.Load()
         [31935] = { -- Grand Master Payne
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31941] = { -- Squash Those Foul Odors
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943},
+        },
+        [31942] = { -- It's Melon Time
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943},
+        },
+        [31943] = { -- Which Berries? Witchberries.
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942},
+        },
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
+        },
+        [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
+            [questKeys.preQuestSingle] = {30259},
+        },
+        [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
+            [questKeys.preQuestSingle] = {30518},
+        },
+        [31949] = { --Nana's Vote III: Witchberry Julep
+            [questKeys.preQuestSingle] = {31948},
         },
         [31952] = { -- Battle Pet Tamers: Pandaria
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
