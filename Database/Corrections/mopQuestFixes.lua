@@ -1859,14 +1859,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
+            --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
             [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
         },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
-            [questKeys.preQuestSingle] = {31947},
+            [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
             [questKeys.requiredMinRep] = {1272,29500} -- Tillers 8500 into Revered (wowhead)
         },
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
-            [questKeys.preQuestSingle] = {31949},
+            [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
             [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
         },
         [30525] = { -- Haohan's Vote III: Pure Poison
