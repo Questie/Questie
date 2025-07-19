@@ -2128,6 +2128,9 @@ function MopQuestFixes.Load()
         [30502] = { -- Jaded Heart
             [questKeys.preQuestSingle] = {31303},
         },
+        [30504] = { -- Emergency Response
+            [questKeys.preQuestSingle] = {31303},
+        },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
             [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
