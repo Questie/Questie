@@ -944,6 +944,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 3,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [29670] = { -- Maul Gormal
+            [questKeys.preQuestSingle] = {29586},
+        },
         [29676] = { -- Finding an Old Friend
             [questKeys.requiredLevel] = 3,
             [questKeys.preQuestSingle] = {},
