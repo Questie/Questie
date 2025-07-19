@@ -2101,11 +2101,11 @@ function MopQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kitemaster Inga for a ride back to the bottom"),0,{{"monster",59400}}},
             },
         },
-        [30498] = { -- Get Back Here!
-            [questKeys.preQuestSingle] = {30499},
+        [30498] = { -- Get Back Here! (Alliance)
+            [questKeys.preQuestSingle] = {30000},
         },
-        [30499] = { -- Get Back Here!
-            [questKeys.preQuestSingle] = {30499},
+        [30499] = { -- Get Back Here! (Horde)
+            [questKeys.preQuestSingle] = {30000},
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
