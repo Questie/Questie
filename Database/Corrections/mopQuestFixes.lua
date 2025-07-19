@@ -1864,6 +1864,9 @@ function MopQuestFixes.Load()
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.requiredMinRep] = {1272,29500} -- Tillers 8500 into Revered (wowhead)
         },
+        [30521] = { -- Haohan's Vote I: Bungalow Break-In
+            [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
+        },
         [30526] = { -- Lost and Lonely
             [questKeys.requiredMinRep] = {1272,33600} -- Tillers 12600 into Revered (wowpedia)
         },
