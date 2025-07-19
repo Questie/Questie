@@ -1129,6 +1129,44 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
         end)
 
+        it("should return true for banquet location when 29624, 29635 and 29637 are complete", function()
+            Questie.db.char.complete[29624] = true
+            Questie.db.char.complete[29635] = true
+            Questie.db.char.complete[29637] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for tower location when 29639, 29646 or 29647 is complete", function()
+            Questie.db.char.complete[29624] = true
+            Questie.db.char.complete[29635] = true
+            Questie.db.char.complete[29637] = true
+
+            Questie.db.char.complete[29639] = true
+            Questie.db.char.complete[29646] = false
+            Questie.db.char.complete[29647] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+
+            Questie.db.char.complete[29639] = false
+            Questie.db.char.complete[29646] = true
+            Questie.db.char.complete[29647] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+
+            Questie.db.char.complete[29639] = false
+            Questie.db.char.complete[29646] = false
+            Questie.db.char.complete[29647] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+
         it("should return true for tower location when 29620 is complete", function()
             Questie.db.char.complete[29620] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
