@@ -834,6 +834,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{54780,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29586] = { -- The Splintered Path
+            [questKeys.triggerEnd] = {"Mogu Camp Discovered", {[zoneIDs.THE_JADE_FOREST]={{41,73.97}}}},
             [questKeys.preQuestSingle] = {29578}, -- might also be in group quest with 29580, 29585, 29579
         },
         [29611] = { -- The Art of War
