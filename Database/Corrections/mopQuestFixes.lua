@@ -826,6 +826,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29576},
         },
+        [29579] = { -- Rally the Survivors
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54763,54872},54872,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29585] = { -- Spitfire
             [questKeys.objectives] = {{{54780,nil,Questie.ICON_TYPE_INTERACT}}},
         },
