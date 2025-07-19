@@ -2440,6 +2440,7 @@ function MopQuestFixes.Load()
         },
         [31303] = { -- The Seal is Broken
             [questKeys.preQuestSingle] = {30485,31362},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64244}}}},
         },
         [31308] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
