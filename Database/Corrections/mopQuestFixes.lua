@@ -765,6 +765,10 @@ function MopQuestFixes.Load()
         [29622] = { -- Your Training Starts Now
             [questKeys.preQuestSingle] = {29620},
         },
+        [29623] = { -- Perfection
+            [questKeys.triggerEnd] = {"Survive the Melee", {[zoneIDs.THE_JADE_FOREST]={{41.36,27.57}}}},
+            [questKeys.objectives] = {},
+        },
         [29626] = { -- Groundskeeper Wu
             [questKeys.preQuestSingle] = {29620},
         },
