@@ -2416,6 +2416,9 @@ function MopQuestFixes.Load()
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
         },
+        [31308] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
+        },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
             [questKeys.requiredMinRep] = {1272,42000}, -- Tillers
@@ -2591,6 +2594,7 @@ function MopQuestFixes.Load()
         },
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31549] = { -- On The Mend
             [questKeys.objectives] = {{{9980,nil,Questie.ICON_TYPE_TALK}}},
@@ -2600,6 +2604,7 @@ function MopQuestFixes.Load()
         },
         [31552] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63070}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31553] = { -- On The Mend
             [questKeys.startedBy] = {{63070}},
@@ -2607,6 +2612,7 @@ function MopQuestFixes.Load()
         },
         [31556] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63077}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31568] = { -- On The Mend
             [questKeys.startedBy] = {{63077}},
@@ -2615,12 +2621,16 @@ function MopQuestFixes.Load()
         [31569] = { -- Got one!
             [questKeys.startedBy] = {{63077}},
         },
+        [31571] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
+        },
         [31572] = { -- On The Mend
             [questKeys.startedBy] = {{63061}},
             [questKeys.objectives] = {{{9987,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31573] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63067}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31574] = { -- On The Mend
             [questKeys.startedBy] = {{63067}},
@@ -2631,6 +2641,7 @@ function MopQuestFixes.Load()
         },
         [31576] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63073}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31577] = { -- On The Mend
             [questKeys.startedBy] = {{63073}},
@@ -2638,6 +2649,9 @@ function MopQuestFixes.Load()
         },
         [31578] = { -- Got one!
             [questKeys.startedBy] = {{63073}},
+        },
+        [31579] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
         },
         [31580] = { -- On The Mend
             [questKeys.startedBy] = {{63080}},
@@ -2648,10 +2662,14 @@ function MopQuestFixes.Load()
         },
         [31582] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63083}},
+            [questKeys.requiredSpell] = 119467,
         },
         [31583] = { -- On The Mend
             [questKeys.startedBy] = {{63083}},
             [questKeys.objectives] = {{{10085,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31585] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
         },
         [31586] = { -- On The Mend
             [questKeys.startedBy] = {{63086}},
@@ -2660,8 +2678,14 @@ function MopQuestFixes.Load()
         [31587] = { -- Got one!
             [questKeys.startedBy] = {{63086}},
         },
+        [31588] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
+        },
         [31589] = { -- On The Mend
             [questKeys.objectives] = {{{47764,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31591] = { -- Learning the Ropes
+            [questKeys.requiredSpell] = 119467,
         },
         [31592] = { -- On The Mend
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
