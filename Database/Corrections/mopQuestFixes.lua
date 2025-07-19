@@ -1873,6 +1873,9 @@ function MopQuestFixes.Load()
         [30526] = { -- Lost and Lonely
             [questKeys.requiredMinRep] = {1272,33600} -- Tillers 12600 into Revered (wowpedia)
         },
+        [30527] = { -- Haohan's Vote IV: Melons For Felons
+            [questKeys.preQuestSingle] = {30525},
+        },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
