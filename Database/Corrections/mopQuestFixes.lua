@@ -2654,6 +2654,9 @@ function MopQuestFixes.Load()
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
         },
+        [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
+            [questKeys.preQuestSingle] = {30259},
+        },
         [31949] = { --Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
         },
