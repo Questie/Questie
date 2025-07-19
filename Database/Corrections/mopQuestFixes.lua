@@ -826,6 +826,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29576},
         },
+        [29585] = { -- Spitfire
+            [questKeys.objectives] = {{{54780,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29611] = { -- The Art of War
             [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
         },

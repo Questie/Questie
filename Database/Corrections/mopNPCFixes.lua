@@ -323,6 +323,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{48.02,31.39}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [54780] = { -- Orchard Fire
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.21,75.17},{42.96,74.78},{43.79,73.5},{43.71,73.26},{43.91,72.75},{43.57,72.41},{43.69,71.8},{43.43,71.66},{43.74,71.08},{44.08,71.88},{44.44,72.4},{44.7,71.94},{44.73,73.29},{44.83,74.02},{44.6,74.6},{44.46,75.54},{43.89,76.75}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [54786] = { -- Master Shang Xi
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
