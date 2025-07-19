@@ -1630,7 +1630,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
         },
         [30325] = { -- Where it Counts
-            [questKeys.objectives] = {{{59123}},nil,{{210890},{210955}}},
+            [questKeys.objectives] = {{{59123}},{{210890},{210955}}},
         },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
