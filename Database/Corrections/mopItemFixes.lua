@@ -253,7 +253,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60196},
         },
         [80685] = { -- Spare Plank
-            [itemKeys.objectDrops] = {223820},
+            [itemKeys.objectDrops] = {211376},
         },
         [80804] = { -- Tough Kelp
             [itemKeys.objectDrops] = {211382},

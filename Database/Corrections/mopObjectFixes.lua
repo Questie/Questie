@@ -89,6 +89,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [211376] = { -- Items for Build Your Own Raft
+            [objectKeys.name] = 'Spare Plank', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [211382] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Tough Kelp', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
@@ -218,11 +223,6 @@ function MopObjectFixes.Load()
         [223819] = { -- Traps for quest Tread Lightly
             [objectKeys.name] = 'Riverblade Spike Trap', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{47.24,29.63},{47.30,30.53},{48.61,33.45},{46.66,36.47},{47.22,38.36},{46.59,38.07},{41.29,41.19},{41.98,42.24},{40.14,41.87},{39.16,39.98},{38.83,38.51},{37.11,39.04},{37.14,37.00},{37.89,34.22},{43.55,32.98}}},
-            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
-        },
-        [223820] = { -- Items for Build Your Own Raft
-            [objectKeys.name] = 'Spare Plank', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
     }
