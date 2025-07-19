@@ -833,6 +833,9 @@ function MopQuestFixes.Load()
         [29585] = { -- Spitfire
             [questKeys.objectives] = {{{54780,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29586] = { -- The Splintered Path
+            [questKeys.preQuestSingle] = {29578}, -- might also be in group quest with 29580, 29585, 29579
+        },
         [29611] = { -- The Art of War
             [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
         },
