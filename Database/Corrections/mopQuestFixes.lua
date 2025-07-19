@@ -2131,6 +2131,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {80074},
         },
         [30504] = { -- Emergency Response
+            [questKeys.objectives] = {{{64360,nil,Questie.ICON_TYPE_INTERACT},{64362,nil,Questie.ICON_TYPE_INTERACT},{64363,nil,Questie.ICON_TYPE_INTERACT},{64364,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31303},
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
