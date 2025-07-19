@@ -2391,6 +2391,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31459,31460},
         },
+        [31002] = { -- Nope
+            [questKeys.breadcrumbs] = {31391},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
@@ -2716,11 +2719,14 @@ function MopQuestFixes.Load()
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
+        [31391] = { -- The Klaxxi
+            [questKeys.breadcrumbForQuestId] = 31002,
+        },
         [31392] = { -- Temple of the White Tiger [Alliance]
             [questKeys.breadcrumbForQuestId] = 31394,
             [questKeys.exclusiveTo] = {31394},
         },
-        [31393] = { -- Temple of the White Tiger [Horde]
+        [31393] = { -- Temple of the White Tiger
             [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
             [questKeys.breadcrumbForQuestId] = 31395,
         },
