@@ -1338,6 +1338,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29998},
         },
         [30005] = { -- Lighting Up the Sky
+            [questKeys.objectives] = {nil,{{209672}}},
             [questKeys.preQuestSingle] = {29932},
         },
         [30015] = { -- Dawn's Blossom
