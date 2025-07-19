@@ -1858,8 +1858,11 @@ function MopQuestFixes.Load()
         [30479] = { -- A Gift For Gina
             [questKeys.preQuestSingle] = {30257},
         },
+        [30517] = { -- Farmer Fung's Vote I: Yak Attack
+            [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
+        },
         [30526] = { -- Lost and Lonely
-            [questKeys.requiredMinRep] = {1272,33600} -- Tillers over 12600 into Revered (wowpedia)
+            [questKeys.requiredMinRep] = {1272,33600} -- Tillers 12600 into Revered (wowpedia)
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
