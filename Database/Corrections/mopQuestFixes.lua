@@ -1179,6 +1179,7 @@ function MopQuestFixes.Load()
         },
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {32018,32019}
         },
         [29910] = { -- Rampaging Rodents
             [questKeys.preQuestSingle] = {29909},
@@ -3059,6 +3060,14 @@ function MopQuestFixes.Load()
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
+        },
+        [32018] = { -- His Name Was... Stormstout
+            [questKeys.exclusiveTo] = {32019},
+            [questKeys.breadcrumbForQuestId] = 29907,
+        },
+        [32019] = { -- They Call Him... Stormstout
+            [questKeys.exclusiveTo] = {32018},
+            [questKeys.breadcrumbForQuestId] = 29907,
         },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
