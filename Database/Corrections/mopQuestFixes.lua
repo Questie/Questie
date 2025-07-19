@@ -2270,6 +2270,7 @@ function MopQuestFixes.Load()
         },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
+            [questKeys.exclusiveTo] = {31486},
         },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
@@ -2388,6 +2389,7 @@ function MopQuestFixes.Load()
         },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
+            [questKeys.exclusiveTo] = {31279},
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,66225,66409,66415}},
