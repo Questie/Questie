@@ -2131,6 +2131,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {30085},
         },
+        [31338] = { -- Lost Sheepie
+            [questKeys.requiredMinRep] = {1277,8400} -- Aquaintance level with Chee Chee
+        },
+        [31339] = { -- Lost Sheepie... Again
+            [questKeys.requiredMinRep] = {1277,25200} -- Friend level with Chee Chee
+        },
+        [31340] = { -- Oh Sheepie...
+            [questKeys.requiredMinRep] = {1277,33600} -- Good Friends level with Chee Chee
+        },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
