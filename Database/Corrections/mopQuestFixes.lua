@@ -807,14 +807,17 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39,23.18}}}, Questie.ICON_TYPE_INTERACT, l10n("Shoot the fireworks")}},
         },
         [29639] = { -- Flying Colors
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29624,29635,29637},
             [questKeys.exclusiveTo] = {29646,29647},
         },
         [29646] = { -- Flying Colors
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29624,29635,29637},
             [questKeys.exclusiveTo] = {29639,29647},
         },
         [29647] = { -- Flying Colors
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29624,29635,29637},
             [questKeys.exclusiveTo] = {29639,29646},
         },
