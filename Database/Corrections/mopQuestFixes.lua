@@ -80,6 +80,7 @@ QuestieCorrections.objectObjectiveFirst[29628] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.objectObjectiveFirst[30325] = true
+QuestieCorrections.killCreditObjectiveFirst[30466] = true
 QuestieCorrections.spellObjectiveFirst[31138] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
@@ -2054,6 +2055,7 @@ function MopQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30466] = { -- Sufficient Motivation
+            [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30000},
             [questKeys.breadcrumbs] = {30499},
         },

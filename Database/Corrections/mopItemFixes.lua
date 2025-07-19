@@ -228,6 +228,9 @@ function MopItemFixes.Load()
         [79870] = { -- Yu-Ping Soup
             [itemKeys.objectDrops] = {210873},
         },
+        [79884] = { -- Bucket of Slicky Water
+            [itemKeys.objectDrops] = {209974},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },

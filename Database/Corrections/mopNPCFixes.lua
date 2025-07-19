@@ -490,6 +490,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.99, 60.33}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [57108] = { -- General Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.03,47.21}}},
+        },
         [57198] = { -- Guard Captain Oakenshield
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{11.58,49.53}}},
         },
