@@ -837,6 +837,9 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Mogu Camp Discovered", {[zoneIDs.THE_JADE_FOREST]={{41,73.97}}}},
             [questKeys.preQuestSingle] = {29578}, -- might also be in group quest with 29580, 29585, 29579
         },
+        [29587] = { -- Unbound
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54990,61472},54990,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29611] = { -- The Art of War
             [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
         },
