@@ -292,7 +292,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Kor Bloodtusk"] = {
         ["enUS"] = true,
-        ["deDE"] = "Sprich mit Kor Bloodtusk",
+        ["deDE"] = "Sprich mit Kor Bluthauer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
