@@ -1967,6 +1967,12 @@ function MopQuestFixes.Load()
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [30498] = { -- Get Back Here!
+            [questKeys.preQuestSingle] = {30499},
+        },
+        [30499] = { -- Get Back Here!
+            [questKeys.preQuestSingle] = {30499},
+        },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30471,30472,30473,30474,30475,30476,30477,30478,30479},
