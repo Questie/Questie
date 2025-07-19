@@ -2235,6 +2235,15 @@ function MopQuestFixes.Load()
         [31528] = {-- A Worthy Challenge: Darkmaster Gandling
             [questKeys.exclusiveTo] = {31519,31520,31522,31523,31524,31525,31526,31527},
         },
+        [31534] = { -- The Beginner's Brew
+            [questKeys.requiredMinRep] = {1275,16800} -- Buddy level with Ella
+        },
+        [31537] = { -- Ella's Taste Test
+            [questKeys.requiredMinRep] = {1275,25200} -- Friend level with Ella
+        },
+        [31538] = { -- A Worthy Brew
+            [questKeys.requiredMinRep] = {1275,33600} -- Good friends level with Ella
+        },
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
         },
