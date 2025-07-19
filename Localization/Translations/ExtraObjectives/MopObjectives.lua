@@ -398,6 +398,30 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Talk to Mishi"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Sprich mit Mishi",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Place the Family Heirloom"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Platziere das Familienerbstück",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do

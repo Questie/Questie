@@ -620,6 +620,9 @@ function MopNpcFixes.Load()
         [59391] = { -- Foreman Raike
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.31,61.35}}},
         },
+        [59411] = { -- Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.78,67.09}}},
+        },
         [59467] = { -- Candlestick Mage
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },

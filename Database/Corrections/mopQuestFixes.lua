@@ -2105,6 +2105,10 @@ function MopQuestFixes.Load()
         },
         [30485] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30466,30484},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64207}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Family Heirloom"),0,{{"object",213652}}},
+            },
         },
         [30495] = { -- Love's Labor
             [questKeys.objectives] = {{{59395,nil,Questie.ICON_TYPE_TALK},{59401,nil,Questie.ICON_TYPE_TALK},{59392,nil,Questie.ICON_TYPE_TALK},{59397,nil,Questie.ICON_TYPE_TALK}}},
