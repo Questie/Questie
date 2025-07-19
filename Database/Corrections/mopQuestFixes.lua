@@ -1865,6 +1865,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1272,29500} -- Tillers 8500 into Revered (wowhead)
         },
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
+            [questKeys.preQuestSingle] = {31949},
             [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
         },
         [30525] = { -- Haohan's Vote III: Pure Poison
