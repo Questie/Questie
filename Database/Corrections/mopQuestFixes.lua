@@ -2193,6 +2193,8 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
         },
         [30648] = { -- Moving On
+            [questKeys.finishedBy] = {{110007}},
+            [questKeys.objectives] = {{{59899}}},
             [questKeys.preQuestGroup] = {30500,30502,30504},
         },
         [30653] = { -- It Does You No Good Inside The Keg
