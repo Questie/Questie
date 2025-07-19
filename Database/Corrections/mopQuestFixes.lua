@@ -1325,6 +1325,9 @@ function MopQuestFixes.Load()
         [29993] = { -- Find the Boy
             [questKeys.preQuestSingle] = {29866},
         },
+        [29997] = { -- The Scryer's Dilemma
+            [questKeys.preQuestSingle] = {29932},
+        },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29966,29967},
