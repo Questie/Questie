@@ -2438,6 +2438,9 @@ function MopQuestFixes.Load()
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
         },
+        [31303] = { -- The Seal is Broken
+            [questKeys.preQuestSingle] = {30485,31362},
+        },
         [31308] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
         },
