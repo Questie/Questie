@@ -361,6 +361,9 @@ function MopNpcFixes.Load()
         [56708] = { -- Syra Goldendraft
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
+        [57198] = { -- Guard Captain Oakenshield
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{11.58,49.53}}},
+        },
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
         },
@@ -409,6 +412,9 @@ function MopNpcFixes.Load()
         },
         [58898] = { -- Vigilant Watchman
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [58955] = { -- Stoneplow Envoy
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{17.01,35.22},{15.89,34.65},{15.41,35.45},{14.23,35.62},{13.57,36.29},{14.43,36.67},{15.92,36.63},{15.45,37.74},{16.67,37.62}}},
         },
         [58978] = { -- Koro Mistwalker
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.79,38.30}}},
@@ -478,6 +484,9 @@ function MopNpcFixes.Load()
         },
         [59503] = { -- Brittle Skeleton
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
+        },
+        [59874] = { -- Manifestation of Fear
+            [npcKeys.spawns] = {}, --removed for quest clutter
         },
         [60488] = { -- Water Spout Bunny
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{78.54,37.08},{78.31,37.77},{78.77,37.52},{78.63,38.81},{78.72,37.2},{78.32,37.1},{79.46,37.99},{79.56,37.64},{78.33,37.75},{78.8,38.64},{79.41,36.63},{79.78,37.54},{79.22,37.4},{79.94,37.7},{79.2,36.68},{78.4,38.79},{79.07,37.03}}},

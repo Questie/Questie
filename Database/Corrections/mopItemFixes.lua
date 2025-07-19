@@ -74,6 +74,9 @@ function MopItemFixes.Load()
         [74763] = { -- Spirit Bottle
             [itemKeys.npcDrops] = {55291,65779},
         },
+        [74843] = { -- Scallions
+            [itemKeys.npcDrops] = {59547,59751,59808,61216,61239,61240,61242,63164,63165,63521,63536,63997,64194,64196,64197,65317},
+        },
         [75023] = { -- Pristine Silk Strand
             [itemKeys.objectDrops] = {209826},
         },
@@ -219,6 +222,12 @@ function MopItemFixes.Load()
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
         },
+        [79867] = { -- Fatty Goatsteak
+            [itemKeys.npcDrops] = {59139},
+        },
+        [79870] = { -- Yu-Ping Soup
+            [itemKeys.objectDrops] = {210873},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },
@@ -231,11 +240,36 @@ function MopItemFixes.Load()
         [80216] = { -- Lolo Lio\'s Payment
             [itemKeys.npcDrops] = {59585},
         },
+        [80228] = { -- Enormous Cattail Grouper Tooth
+            [itemKeys.npcDrops] = {59639},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
+        },
+        [80677] = { -- Emerald Tailfeather
+            [itemKeys.npcDrops] = {60200},
+        },
+        [80678] = { -- Crimson Tailfeather
+            [itemKeys.npcDrops] = {60198},
+        },
+        [80679] = { -- Dusky Tailfeather
+            [itemKeys.npcDrops] = {60196},
+        },
+        [80685] = { -- Spare Plank
+            [itemKeys.objectDrops] = {211376},
+        },
+        [80804] = { -- Tough Kelp
+            [itemKeys.objectDrops] = {211382},
+        },
+        [80817] = { -- Buried Hozen Treasure
+            [itemKeys.objectDrops] = {211420},
+        },
+        [80827] = { -- Confusing Treasure Map
+            [itemKeys.npcDrops] = {60299,60357},
+            [itemKeys.startQuest] = 30675;
         },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},

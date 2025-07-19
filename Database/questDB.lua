@@ -134,6 +134,17 @@ QuestieDB.factionIDs = {
     EXODAR = 930,
     THE_KALUAK = 1073,
     KIRIN_TOR = 1090,
+    THE_TILLERS = 1272,
+    JOGU_THE_DRUNK = 1273,
+    ELLA = 1275,
+    OLD_HILLPAW = 1276,
+    CHEE_CHEE = 1277,
+    SHO = 1278,
+    HAOHAN_MUDCLAW = 1279,
+    TINA_MUDCLAW = 1280,
+    GINA_MUDCLAW = 1281,
+    FISH_FELLREED = 1282,
+    FARMER_FUNG = 1283,
 }
 
 -- temporary, until we remove the old db funcitons

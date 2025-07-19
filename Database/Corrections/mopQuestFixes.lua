@@ -67,6 +67,7 @@ QuestieCorrections.killCreditObjectiveFirst[29555] = true
 QuestieCorrections.objectObjectiveFirst[29628] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.itemObjectiveFirst[29749] = true
+QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
@@ -1099,6 +1100,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30086},
         },
         [29873] = { -- Ken-Ken
+            [questKeys.breadcrumbForQuestId] = 30079,
             [questKeys.preQuestSingle] = {30086},
         },
         [29874] = { -- Kang Bramblestaff [Alliance]
@@ -1413,6 +1415,8 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
         [30079] = { -- What's Eating Zhu's Watch?
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29873},
             [questKeys.objectives] = {{{57457,nil,Questie.ICON_TYPE_TALK},{57830,nil,Questie.ICON_TYPE_TALK},{57825,nil,Questie.ICON_TYPE_TALK},{57744,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30080] = { -- Finding Yi-Mo
@@ -1521,8 +1525,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30132},
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30164] = { -- The Stoneplow Convoy [Horde]
+            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+            [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30172] = { -- Barreling Along
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
+        },
+        [30174] = { -- For Family
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kor Bloodtusk"),0,{{"monster",58670}}}},
         },
         [30175] = { -- The Mantid
             [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
@@ -1551,6 +1562,9 @@ function MopQuestFixes.Load()
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
+        },
+        [30241] = { -- Warn Stoneplow [Horde]
+            [questKeys.exclusiveTo] = {30376},
         },
         [30242] = { -- Survival Ring: Blades
             [questKeys.preQuestSingle] = {30640},
@@ -1617,6 +1631,9 @@ function MopQuestFixes.Load()
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
         },
+        [30325] = { -- Where it Counts
+            [questKeys.objectives] = {{{59123}},{{210890},{210955}}},
+        },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
         },
@@ -1643,10 +1660,15 @@ function MopQuestFixes.Load()
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
         },
-        [30376] = { -- Hope Springs Eternal
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
-            --[questKeys.exclusiveTo] = {}, wowhead indicates this is also exclusive with Warn Stoneplow (30360 - Alliance) / Warn Stoneplow (30241 - Horde)
+        [30357] = { -- The Stoneplow Convoy [Alliance]
+            --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
+            [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30359] = { -- The Lord Reclaimer
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
+        },
+        [30360] = { -- Warn Stoneplow [Alliance]
+            [questKeys.exclusiveTo] = {30376},
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1827,33 +1849,44 @@ function MopQuestFixes.Load()
         },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30471,30472,30473,30474,30475,30476,30477,30478,30479},
         },
         [30471] = { -- A Gift For Chee Chee
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30472,30473,30474,30475,30476,30477,30478,30479},
         },
         [30472] = { -- A Gift For Sho
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30473,30474,30475,30476,30477,30478,30479},
+            [questKeys.objectives] = {nil,{{210873,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [30473] = { -- A Gift For Fish
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30474,30475,30476,30477,30478,30479},
         },
         [30474] = { -- A Gift For Ella
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30475,30476,30477,30478,30479},
         },
         [30475] = { -- A Gift For Fung
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30476,30477,30478,30479},
         },
         [30476] = { -- A Gift For Old Hillpaw
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30477,30478,30479},
         },
         [30477] = { -- A Gift For Haohan
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30478,30479},
         },
         [30478] = { -- A Gift For Jogu
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30479},
         },
         [30479] = { -- A Gift For Gina
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
@@ -1872,6 +1905,32 @@ function MopQuestFixes.Load()
         [30591] = { -- Preying on the Predators
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [30622] = { -- The Swarm Begins
+            [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
+        },
+        [30623] = { -- The Mantidote
+            [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
+            [questKeys.objectives] = {{{59874}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Ken-Ken's Mask on Ik'thik Wing Commander"),0,{{"monster",56723}}}},
+        },
+        [30627] = { -- The Savior of Stoneplow
+            [questKeys.preQuestSingle] = {30626},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
+        },
+        [30653] = { -- It Does You No Good Inside The Keg
+            [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
+            [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [30672] = { -- Balance
+            [questKeys.preQuestSingle] = {30671},
+        },
+        [30674] = { -- Balance Without Violence
+            [questKeys.preQuestSingle] = {30671},
+            [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30691] = { -- Misery
+            [questKeys.preQuestSingle] = {30669},
         },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
@@ -2112,6 +2171,21 @@ function MopQuestFixes.Load()
         },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
+            [questKeys.requiredMinRep] = {1272,42000}, -- Tillers
+
+                -- requires exalted with Tillers and best friend with farmers but Questie only supports one faction rep currently
+                 -- Tillers
+                --{1273,42000}, -- Jogu
+                --{1275,42000}, -- Ella
+                --{1276,42000}, -- Old Hillpaw
+                --{1277,42000}, -- Chee Chee
+                --{1278,42000}, -- Sho
+                --{1279,42000}, -- Haohan
+                --{1280,42000}, -- Tina
+                --{1281,42000}, -- Gina
+                --{1282,42000}, -- Fish
+                --{1283,42000} -- Farmer Fung
+            --},
         },
         [31313] = { -- Just A Folk Stor
             [questKeys.preQuestSingle] = {31312},
@@ -2894,4 +2968,31 @@ function MopQuestFixes.Load()
             }},
         },
     }
+end
+
+function MopQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+
+    local questFixesHorde = {
+        [30376] = { -- Hope Springs Eternal
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30174,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.exclusiveTo] = {30241},
+        },
+    }
+
+
+    local questFixesAlliance = {
+        [30376] = { -- Hope Springs Eternal
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30359,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.exclusiveTo] = {30360},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
 end
