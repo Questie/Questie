@@ -1334,6 +1334,9 @@ function MopQuestFixes.Load()
         [29999] = { -- The Rider's Bind
             [questKeys.preQuestSingle] = {29932},
         },
+        [30002] = { -- Pages of History
+            [questKeys.preQuestSingle] = {29998},
+        },
         [30005] = { -- Lighting Up the Sky
             [questKeys.preQuestSingle] = {29932},
         },
