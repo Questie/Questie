@@ -806,6 +806,18 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39,23.18}}}, Questie.ICON_TYPE_INTERACT, l10n("Shoot the fireworks")}},
         },
+        [29639] = { -- Flying Colors
+            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.exclusiveTo] = {29646,29647},
+        },
+        [29646] = { -- Flying Colors
+            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.exclusiveTo] = {29639,29647},
+        },
+        [29647] = { -- Flying Colors
+            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.exclusiveTo] = {29639,29646},
+        },
         [29661] = { -- The Lesson of Dry Fur
             [questKeys.requiredLevel] = 3,
             [questKeys.objectives] = {nil,{{209608}}},
