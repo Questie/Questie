@@ -243,6 +243,9 @@ function MopItemFixes.Load()
         [80061] = { -- Riko's Report
             [itemKeys.npcDrops] = {56840},
         },
+        [80074] = { -- Celestial Jade
+            [itemKeys.objectDrops] = {210921},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },

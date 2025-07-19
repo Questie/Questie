@@ -2126,7 +2126,9 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30466,
         },
         [30502] = { -- Jaded Heart
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59434,59454},59454,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31303},
+            [questKeys.requiredSourceItems] = {80074},
         },
         [30504] = { -- Emergency Response
             [questKeys.preQuestSingle] = {31303},
