@@ -4,6 +4,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 --? If you want to add something in subZoneToParentZone overwrite the data in this table
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
 ZoneDB.private.subZoneToParentZoneOverride = [[return {
+    [133] = 1, -- New Tinkertown -> Dun Morogh
+    [135] = 1, -- Frostmane Hold -> Dun Morogh
     [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
     [4913] = 14, -- Spitescale Cavern -> Durotar
     [5786] = 4265, -- The Nexus -> The Nexus

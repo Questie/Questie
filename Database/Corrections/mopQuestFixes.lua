@@ -43,6 +43,11 @@ QuestieCorrections.spellObjectiveFirst[25143] = true
 QuestieCorrections.spellObjectiveFirst[25145] = true
 QuestieCorrections.spellObjectiveFirst[25147] = true
 QuestieCorrections.spellObjectiveFirst[25149] = true
+QuestieCorrections.spellObjectiveFirst[26198] = true
+QuestieCorrections.spellObjectiveFirst[26200] = true
+QuestieCorrections.spellObjectiveFirst[26201] = true
+QuestieCorrections.spellObjectiveFirst[26204] = true
+QuestieCorrections.spellObjectiveFirst[26207] = true
 QuestieCorrections.spellObjectiveFirst[26274] = true
 QuestieCorrections.spellObjectiveFirst[26904] = true
 QuestieCorrections.spellObjectiveFirst[26913] = true
@@ -75,6 +80,7 @@ QuestieCorrections.objectObjectiveFirst[29628] = true
 QuestieCorrections.objectObjectiveFirst[29730] = true
 QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.objectObjectiveFirst[30325] = true
+QuestieCorrections.spellObjectiveFirst[31138] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
 QuestieCorrections.spellObjectiveFirst[31151] = true
@@ -421,16 +427,87 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
         },
+        [26198] = { -- The Arts of a Mage
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26200] = { -- The Arts of a Priest
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26201] = { -- The Power of a Warlock
+            [questKeys.requiredLevel] = 2,
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [26204] = { -- The Arts of a Warrior
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [26205] = { -- A Job for the Multi-Bot
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26207] = { -- The Arts of a Rogue
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [26208] = { -- The Fight Continues
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26222] = { -- Scrounging for Parts
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26264] = { -- What's Left Behind
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26265] = { -- Dealing with the Fallout
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
         [26274] = { -- The Arts of a Warlock
             [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{172}}},
+        },
+        [26284] = { -- Missing in Action
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26285] = { -- Get Me Explosives Back!
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26316] = { -- What's Keeping Jessup?
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26318] = { -- Finishin' the Job
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26329] = { -- One More Thing
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26331] = { -- Crushcog's Minions
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26333] = { -- No Tanks!
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26342] = { -- Paint it Black
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26364] = { -- Down with Crushcog!
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [26373] = { -- On to Kharanos
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
         [26389] = { -- Blackrock Invasion
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
         },
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},
+        },
+        [26566] = { -- A Triumph of Gnomish Ingenuity
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
         [26841] = { -- Forbidden Sigil
             [questKeys.requiredLevel] = 2,
@@ -566,10 +643,16 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},
         },
+        [27635] = { -- Decontamination
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
         [27670] = { -- Pinned Down
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
         [27671] = { -- See to the Survivors
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
+        },
+        [27674] = { -- To the Surface
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
         [28167] = { -- Report to Carvo Blastbolt
@@ -2176,13 +2259,16 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.GNOME,
         },
         [31137] = { -- Meet the High Tinker
+            [questKeys.startedBy] = {{63238}},
             [questKeys.preQuestSingle] = {31135},
             [questKeys.requiredRaces] = raceIDs.GNOME,
         },
         [31138] = { -- The Arts of a Monk
+            [questKeys.requiredLevel] = 2,
             [questKeys.preQuestSingle] = {31135},
             [questKeys.requiredRaces] = raceIDs.GNOME,
             [questKeys.requiredClasses] = classIDs.MONK,
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{100787}}},
         },
         [31139] = { -- Beating Them Back!
             [questKeys.requiredRaces] = raceIDs.HUMAN,

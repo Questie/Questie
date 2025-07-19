@@ -31,6 +31,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [204042] = { -- Detonator
+            [objectKeys.spawns] = {[zoneIDs.FROSTMANE_HOLD] = {{36,40.92}}},
+            [objectKeys.zoneID] = zoneIDs.FROSTMANE_HOLD,
+        },
         [209550] = { -- Blushleaf Cluster
             [objectKeys.name] = 'Blushleaf Cluster',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{36.32,21.112},{36.04,21.23},{35.81,20.55},{35.31,21.09},{34.93,20.51},{34.48,20.42},{34.29,20.47},{34.4,20.68},{34.17,20.76},{34,20.75},{33.75,19.93},{33.52,19.69},{33.12,20.19},{33.5,20.98},{33.98,21.25},{34.19,21.25}}},
@@ -103,12 +107,12 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
         [211376] = { -- Items for Build Your Own Raft
-            [objectKeys.name] = 'Spare Plank', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.name] = 'Spare Plank',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [211382] = { -- Items for Build Your Own Raft
-            [objectKeys.name] = 'Tough Kelp', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.name] = 'Tough Kelp',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
@@ -238,5 +242,14 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{47.24,29.63},{47.30,30.53},{48.61,33.45},{46.66,36.47},{47.22,38.36},{46.59,38.07},{41.29,41.19},{41.98,42.24},{40.14,41.87},{39.16,39.98},{38.83,38.51},{37.11,39.04},{37.14,37.00},{37.89,34.22},{43.55,32.98}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+
+        -- Below are fake objects
+        -- These objects are from previous expansions and they need updated coords
+        [430003] = {
+            [objectKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{34.35,65.06},{36.57,68.47},{38.14,68.84},{37.97,72.46},{37.5,77.21},{38.77,74.26},{39.98,78.03},{41.17,69.78},{40.74,74.41},{42.04,73.67},{43.89,70.28},{45.04,73.37},{47.12,73.45},{45.79,69.35},{48.77,73.59},{47,71.02},{48.67,69.06}}},
+            [objectKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
+        },
+
+        -- For MoP fixes 440001-449999
     }
 end

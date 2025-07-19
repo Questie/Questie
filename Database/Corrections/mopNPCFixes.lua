@@ -178,6 +178,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{62.02,13.31}}},
             [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
         },
+        [42222] = { -- Rockjaw Marauder
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{34.55,68.11},{36.16,73.6},{38.94,70.29},{36.57,75.19},{37.34,79.56},{38.77,72.22},{40.14,77.79},{40.13,73.04},{40.45,67.37},{40.71,73.84},{40.86,71.82},{42.14,69.81},{42.68,74.92},{44.92,77.45},{46.97,78.12},{46.66,73.8},{49.11,75.36},{46.05,71.34},{50.54,69.21},{46.94,69.5},{46.97,66.46},{51.85,70.38}},[zoneIDs.FROSTMANE_HOLD] = {{27.6,63.07}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
+        },
+        [42463] = { -- Operation: Gnomeregan Recap Credit
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{38.46,32.97}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
+        },
+        [42552] = { -- Physician's Assistant
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{53.57,83.24},{51.63,79.6}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
         [42604] = { -- Elemental Resistance Totem
             [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{61.65,13.37}}},
             [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
@@ -186,9 +198,81 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{62,13.98}}},
             [npcKeys.zoneID] = zoneIDs.COLDSHIRE_VALLEY,
         },
+        [42773] = { -- Boss Bruggor
+            [npcKeys.spawns] = {[zoneIDs.FROSTMANE_HOLD] = {{28.17,49.7}}},
+            [npcKeys.zoneID] = zoneIDs.FROSTMANE_HOLD,
+        },
         [43006] = { -- Rhyanda
             [npcKeys.spawns] = {[zoneIDs.SHADOWGLEN] = {{47.36,59.69}}},
             [npcKeys.zoneID] = zoneIDs.SHADOWGLEN,
+        },
+        [43089] = { -- Living Contamination
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{36.37,40.84},{37.17,40.98},{37.97,41.33},{38.59,40.54},{39.06,40.72},{39.98,40.43},{40.99,40.26}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
+        },
+        [45847] = { -- S.A.F.E. Operative
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.32,73.84},{48.16,44.14},{48.44,44.2},{48.69,44.23},{58.77,23.21},{59.04,23.28},{59.31,23.34},{55.83,85.03},{55.38,85.46},{55.33,79.45},{54.59,75.91},{53.36,75.82},{49.12,62.94},{49.13,61.97},{51.02,32.35},{50.47,31.5},{40.88,34.77},{41.13,29.76},{36.62,29.92},{36.34,30.46},{36.34,32.24},{33.21,31.64},{34.43,35.26},{35.07,33.52},{36.55,33.61},{38.13,33.66},{39.89,33.6},{39.96,32.61},{40.09,31.64},{40.17,30.71}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [45966] = { -- Nevin Twistwrench
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{34.08,32.21}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46025] = { -- S.A.F.E. Officer
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.34,84.72},{52.06,81.23},{49.31,64.92},{47.93,44.09},{58.46,23.19}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46185] = { -- Sanitron 500
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{58.74,82.97},{58.79,81.74},{58.85,80.51}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46208] = { -- Clean Cannon X-2
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{61.53,79.32},{63.19,79.6},{62.7,84.63},{61,84.54}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46230] = { -- S.A.F.E. Technician
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{60.41,84.44},{61.32,85.6},{65.05,84.86},{63.84,78.51},{63.48,78.98},{61.72,78.81},{60.73,78.58},{56.38,65.2}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46255] = { -- Technician Braggle
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{66.42,81.62}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46267] = { -- Rescued Survivor
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.05,85.63},{54.74,83.09},{53.38,83.36},{52.46,82.04},{52.33,81.67},{51.4,78.25},{51.14,81.93},{51.16,81.56},{51.48,80.68},{51.17,79.48},{52.03,77.28},{53.57,83.24},{51.63,79.6}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46268] = { -- Survivor
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{54.47,60.74},{50.66,54.71},{52.88,56.34},{55.69,53.74},{54.95,45.13},{53.42,47.3},{54.89,35.91},{55.11,36.99},{53.87,43.43},{60.22,43.73},{64.36,37.56},{64.03,32.78},{62.89,28.4},{57.71,30.97},{56.03,23.34},{53.17,29.39},{52.17,27.67},{52.65,23.14},{45.87,24.34},{50.08,30.67},{47.65,29.98},{43.92,30.14},{42.58,36.44},{51,42.9},{51.56,37.33}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46274] = { -- Gaffer Coilspring
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{53.08,82.33}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46293] = { -- Torben Zapblast
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{67.28,84.11}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46363] = { -- Crazed Leper Gnome
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{61.89,43.09},{56.44,30.34},{53.97,25.23},{50.87,39.28},{49,39.34},{47.73,41.64},{45.17,39.95},{44.34,31.82},{44.18,35.89},{46.68,35.71},{44.94,26.18},{46.57,24.68},{48.49,26.26},{50.84,29.76},{53.02,29.54},{57.24,24.79},{58.57,27.01},{62.14,27.88},{61.77,32.52},{63.44,35.16},{59.17,35.3},{60.49,37.32},{58.82,43.2},{56.84,42.47},{55.6,36.98},{54.56,40.41},{54.46,32.9},{51.69,41.78},{52.73,36.17},{52.77,46.56},{51.39,52.24},{50.72,56.89},{54.51,59.39},{53.85,63.72},{55.01,68.35},{52.74,68.35}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46391] = { -- Crazed Leper Gnome
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.46,73.67},{54.74,71.99},{53.75,71.91},{42.9,33.32},{42.95,32.27},{42.96,31.42}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46447] = { -- Injured Gnome
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{35.29,34.47},{33.09,31.4},{34.59,29.52}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [46449] = { -- S.A.F.E. Operative
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{42.42,25.57},{33.8,29.71}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
+        },
+        [47250] = { -- Carvo Blastbolt
+            [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{50.95,31.94}}},
+            [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
         },
         [49480] = { -- Tarindrella
             [npcKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{45.32,91.08}}},
