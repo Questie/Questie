@@ -1331,6 +1331,9 @@ function MopQuestFixes.Load()
         [29998] = { -- The Librarian's Quandary
             [questKeys.preQuestSingle] = {29932},
         },
+        [29999] = { -- The Rider's Bind
+            [questKeys.preQuestSingle] = {29932},
+        },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29966,29967},
