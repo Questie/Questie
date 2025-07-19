@@ -328,7 +328,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Miss Fanny"] = {
         ["enUS"] = true,
-        ["deDE"] = "Sprich mit Miss Fanny",
+        ["deDE"] = "Sprich mit Fräulein Fanny",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
