@@ -2178,43 +2178,43 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31320] = { -- Buy A Fish A Drink?
-            [questKeys.requiredMinRep] = {1273,8400} -- Aquaintance level with Jogu
+            [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
         },
         [31321] = { -- Buy A Fish A Round?
-            [questKeys.requiredMinRep] = {1273,16800} -- Buddy level with Jogu
+            [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
         },
         [31322] = { -- Buy A Fish A Keg?
-            [questKeys.requiredMinRep] = {1273,25200} -- Friend level with Jogu
+            [questKeys.requiredMinRep] = {1273,25200}, -- Friend level with Jogu
         },
         [31323] = { -- Buy A Fish A Brewery?
-            [questKeys.requiredMinRep] = {1273,36000} -- within 6000 rep of Best Friend (wowhead comment)
+            [questKeys.requiredMinRep] = {1273,36000}, -- within 6000 rep of Best Friend (wowhead comment)
         },
         [31325] = { -- A Very Nice Necklace
-            [questKeys.requiredMaxRep] = {1280,8399} -- Tina at Stranger level (0-8400)
+            [questKeys.requiredMaxRep] = {1280,8399}, -- Tina at Stranger level (0-8400)
         },
         [31326] = { -- Tina's Tasteful Tiara
-            [questKeys.requiredMinRep] = {1280,8400} -- Tina at Acquaintance level (8400-16800)
-            [questKeys.requiredMaxRep] = {1280,16799}
+            [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
+            [questKeys.requiredMaxRep] = {1280,16799},
         },
         [31327] = { -- Trouble Brewing
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {30085},
         },
         [31328] = { -- An Exquisite Earring
-            [questKeys.requiredMinRep] = {1280,16800} -- Tina at Buddy level (16800-25200)
-            [questKeys.requiredMaxRep] = {1280,25199}
+            [questKeys.requiredMinRep] = {1280,16800}, -- Tina at Buddy level (16800-25200)
+            [questKeys.requiredMaxRep] = {1280,25199},
         },
         [31329] = { -- A Beautiful Brooch
-            [questKeys.requiredMinRep] = {1280,25200} -- Tina at Friend level or above (25200+)
+            [questKeys.requiredMinRep] = {1280,25200}, -- Tina at Friend level or above (25200+)
         },
         [31338] = { -- Lost Sheepie
-            [questKeys.requiredMinRep] = {1277,8400} -- Aquaintance level with Chee Chee
+            [questKeys.requiredMinRep] = {1277,8400}, -- Aquaintance level with Chee Chee
         },
         [31339] = { -- Lost Sheepie... Again
-            [questKeys.requiredMinRep] = {1277,25200} -- Friend level with Chee Chee
+            [questKeys.requiredMinRep] = {1277,25200}, -- Friend level with Chee Chee
         },
         [31340] = { -- Oh Sheepie...
-            [questKeys.requiredMinRep] = {1277,33600} -- Good Friends level with Chee Chee
+            [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
