@@ -2361,6 +2361,9 @@ function MopQuestFixes.Load()
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31895] = { -- Better Off Dread
+            [questKeys.breadcrumbForQuestId] = 31001,
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
@@ -2390,6 +2393,10 @@ function MopQuestFixes.Load()
         [30999] = { -- Path Less Traveled
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31459,31460},
+        },
+        [31001] = { -- Falling Down
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31895},
         },
         [31002] = { -- Nope
             [questKeys.breadcrumbs] = {31391},
