@@ -2660,6 +2660,9 @@ function MopQuestFixes.Load()
         [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
             [questKeys.preQuestSingle] = {30259},
         },
+        [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
+            [questKeys.preQuestSingle] = {30518},
+        },
         [31949] = { --Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
         },
