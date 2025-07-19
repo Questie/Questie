@@ -2127,6 +2127,18 @@ function MopQuestFixes.Load()
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31320] = { -- Buy A Fish A Drink?
+            [questKeys.requiredMinRep] = {1273,8400} -- Aquaintance level with Jogu
+        },
+        [31321] = { -- Buy A Fish A Round?
+            [questKeys.requiredMinRep] = {1273,16800} -- Buddy level with Jogu
+        },
+        [31322] = { -- Buy A Fish A Keg?
+            [questKeys.requiredMinRep] = {1273,25200} -- Friend level with Jogu
+        },
+        [31323] = { -- Buy A Fish A Brewery?
+            [questKeys.requiredMinRep] = {1273,36000} -- within 6000 rep of Best Friend (wowhead comment)
+        },
         [31327] = { -- Trouble Brewing
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {30085},
