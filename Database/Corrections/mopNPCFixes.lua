@@ -474,6 +474,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [56838] = { -- Shokia
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.4,51.8}}},
+        },
         [56856] = { -- Playful Azure Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.19,56.74}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,

@@ -231,6 +231,18 @@ function MopItemFixes.Load()
         [79884] = { -- Bucket of Slicky Water
             [itemKeys.objectDrops] = {209974},
         },
+        [80013] = { -- Shademaster Kiryn's Report
+            [itemKeys.npcDrops] = {56841},
+        },
+        [80014] = { -- Rivett Clutchpop's Report
+            [itemKeys.npcDrops] = {59305},
+        },
+        [80015] = { -- Shokia's Report
+            [itemKeys.npcDrops] = {56838},
+        },
+        [80061] = { -- Riko's Report
+            [itemKeys.npcDrops] = {56840},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },

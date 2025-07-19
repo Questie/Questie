@@ -2100,6 +2100,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
         },
+        [30484] = { -- Gauging Our Progress
+            [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30495] = { -- Love's Labor
             [questKeys.objectives] = {{{59395,nil,Questie.ICON_TYPE_TALK},{59401,nil,Questie.ICON_TYPE_TALK},{59392,nil,Questie.ICON_TYPE_TALK},{59397,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {
