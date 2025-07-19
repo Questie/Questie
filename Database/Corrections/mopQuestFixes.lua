@@ -2053,6 +2053,10 @@ function MopQuestFixes.Load()
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [30466] = { -- Sufficient Motivation
+            [questKeys.preQuestSingle] = {30000},
+            [questKeys.breadcrumbs] = {30499},
+        },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30471,30472,30473,30474,30475,30476,30477,30478,30479},
@@ -2103,9 +2107,11 @@ function MopQuestFixes.Load()
         },
         [30498] = { -- Get Back Here! (Alliance)
             [questKeys.preQuestSingle] = {30000},
+            [questKeys.breadcrumbForQuestId] = 30565,
         },
         [30499] = { -- Get Back Here! (Horde)
             [questKeys.preQuestSingle] = {30000},
+            [questKeys.breadcrumbForQuestId] = 30466,
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
@@ -2134,6 +2140,10 @@ function MopQuestFixes.Load()
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
+        },
+        [30565] = { -- An Unexpected Advantage
+            [questKeys.preQuestSingle] = {30000},
+            [questKeys.breadcrumbs] = {30498},
         },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
