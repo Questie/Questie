@@ -1230,6 +1230,9 @@ function MopQuestFixes.Load()
         [29931] = { -- The Serpent's Heart
             [questKeys.preQuestGroup] = {29926,29930},
         },
+        [29932] = { -- The Temple of the Jade Serpent
+            [questKeys.objectives] = {{{57242,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
         },
