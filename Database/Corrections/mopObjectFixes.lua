@@ -23,6 +23,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{77.46,68.81}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [202113] = { -- Spitescale Flag
+            [objectKeys.spawns] = {[zoneIDs.SPITESCALE_CAVERN] = {{31.61,43.07},{39.94,41.39},{48.18,36.24},{46.5,64.53},{52.44,61.74},{62.98,65.16},{67.52,78.6},{74.64,75.09},{76.79,63.5},{73.11,55.41},{77.84,47},{72.46,43.91},{77.49,16.99},{70.17,27.77},{62.34,28.39},{56.64,44.03},{59.8,55.14},{68.98,40.85},{61.32,39.95},{64.18,52.98},{66.21,58.53},{62.14,71.58}}},
+            [objectKeys.zoneID] = zoneIDs.SPITESCALE_CAVERN,
+        },
         [202586] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{61.68,44.9}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,

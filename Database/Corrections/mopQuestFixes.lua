@@ -25,6 +25,12 @@ QuestieCorrections.spellObjectiveFirst[24530] = true
 QuestieCorrections.spellObjectiveFirst[24531] = true
 QuestieCorrections.spellObjectiveFirst[24532] = true
 QuestieCorrections.spellObjectiveFirst[24533] = true
+QuestieCorrections.spellObjectiveFirst[24640] = true
+QuestieCorrections.spellObjectiveFirst[24752] = true
+QuestieCorrections.spellObjectiveFirst[24760] = true
+QuestieCorrections.spellObjectiveFirst[24766] = true
+QuestieCorrections.spellObjectiveFirst[24772] = true
+QuestieCorrections.spellObjectiveFirst[24784] = true
 QuestieCorrections.spellObjectiveFirst[24964] = true
 QuestieCorrections.spellObjectiveFirst[24965] = true
 QuestieCorrections.spellObjectiveFirst[24966] = true
@@ -37,6 +43,7 @@ QuestieCorrections.spellObjectiveFirst[25143] = true
 QuestieCorrections.spellObjectiveFirst[25145] = true
 QuestieCorrections.spellObjectiveFirst[25147] = true
 QuestieCorrections.spellObjectiveFirst[25149] = true
+QuestieCorrections.spellObjectiveFirst[26274] = true
 QuestieCorrections.spellObjectiveFirst[26904] = true
 QuestieCorrections.spellObjectiveFirst[26913] = true
 QuestieCorrections.spellObjectiveFirst[26914] = true
@@ -298,6 +305,37 @@ function MopQuestFixes.Load()
         [24626] = { -- Young and Vicious
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
         },
+        [24640] = { -- The Arts of a Warrior
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24752] = { -- The Arts of a Mage
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{122}}},
+        },
+        [24760] = { -- The Arts of a Shaman
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24766] = { -- The Arts of a Druid
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{8921}}},
+        },
+        [24772] = { -- The Arts of a Rogue
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24778] = { -- The Arts of a Hunter
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [24784] = { -- Learnin' tha Word
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{589}}},
+        },
         [24812] = { -- No More Mercy
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN + classIDs.MONK,
         },
@@ -382,6 +420,11 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{122}}},
             [questKeys.extraObjectives] = {},
+        },
+        [26274] = { -- The Arts of a Warlock
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{172}}},
         },
         [26389] = { -- Blackrock Invasion
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083,31145},

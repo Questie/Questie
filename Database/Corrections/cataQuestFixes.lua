@@ -4657,6 +4657,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.HUNTER + classIDs.DRUID + classIDs.SHAMAN,
         },
         [24814] = { -- An Ancient Enemy
+            [questKeys.startedBy] = {{38442}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24812,24813},
             [questKeys.objectives] = {{{38225,nil,Questie.ICON_TYPE_TALK},{38306}}},
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_TALK,l10n("After Zar'jira is defeated, take a portal back to Darkspear Hold"),0,{{"monster",38437}}},
