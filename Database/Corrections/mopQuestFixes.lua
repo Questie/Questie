@@ -2345,6 +2345,27 @@ function MopQuestFixes.Load()
         [31592] = { -- On The Mend
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31669] = { -- The Cabbage Test
+            [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31670] = { -- That Dangling Carrot
+            [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31671] = { -- Why Not Scallions?
+            [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943},
+        },
+        [31672] = { -- A Pumpkin-y Perfume
+            [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943},
+        },
+        [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943},
+        },
+        [31674] = { -- The Pink Turnip Challenge
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943},
+        },
+        [31675] = { -- The White Turnip Treatment
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943},
+        },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -2671,6 +2692,15 @@ function MopQuestFixes.Load()
         },
         [31935] = { -- Grand Master Payne
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31941] = { -- Squash Those Foul Odors
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943},
+        },
+        [31942] = { -- It's Melon Time
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943},
+        },
+        [31943] = { -- Which Berries? Witchberries.
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942},
         },
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_LOOT,l10n("Buy Scallion Seeds"),0,{{"monster",58718}}}},
