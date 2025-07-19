@@ -237,6 +237,9 @@ function MopItemFixes.Load()
         [80216] = { -- Lolo Lio\'s Payment
             [itemKeys.npcDrops] = {59585},
         },
+        [80228] = { -- Enormous Cattail Grouper Tooth
+            [itemKeys.npcDrops] = {59639},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
