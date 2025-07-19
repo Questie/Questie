@@ -362,6 +362,30 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Talk to Kitemaster Shoku for a ride to the top"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Sprich mit Drachenmeister Shoku für eine Fahrt nach oben",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Talk to Kitemaster Inga for a ride back to the bottom"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Sprich mit Drachenmeister Inga für eine Fahrt zurück nach unten",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do
