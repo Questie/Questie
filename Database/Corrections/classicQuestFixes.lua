@@ -2876,21 +2876,27 @@ function QuestieQuestFixes:Load()
         },
         [8166] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [8167] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [8168] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 29,
         },
         [8169] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [8170] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [8171] = {
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 29,
         },
         [8181] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
