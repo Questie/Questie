@@ -1336,6 +1336,7 @@ function MopQuestFixes.Load()
         },
         [30002] = { -- Pages of History
             [questKeys.preQuestSingle] = {29998},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Search through the book"),0,{{"object",209594}}}},
         },
         [30005] = { -- Lighting Up the Sky
             [questKeys.objectives] = {nil,{{209672}}},

@@ -41,6 +41,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{37.74,17.57}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [209594] = { -- Infested Book
+            [objectKeys.name] = 'Infested Book',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.64,59.98},{55.84,59.62},{56.31,60.1},{56.71,60.02},{56.76,60.24},{56.53,61.16},{56.29,60.81},{55.51,60.64},{55.79,60.12},{55.69,59.71},{56.3,59.8},{56.47,60.82},{56.84,60.46},{56.57,61.03},{55.72,60.78}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209621] = { -- Sniper Rifle
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
