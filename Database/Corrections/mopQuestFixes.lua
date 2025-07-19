@@ -1643,8 +1643,25 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30328,30329,30330,30331},
         },
+        [30333] = { -- The Lesser of Two Evils
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30334,30335,30336,30337},
+        },
         [30334] = { -- Stealing is Bad... Re-Stealing is OK
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30335,30336,30337},
+        },
+        [30335] = { -- Stalling the Ravage
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30336,30337},
+        },
+        [30336] = { -- The Kunzen Hunter-Chief
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30335,30337},
+        },
+        [30337] = { -- Simian Sabotage
+            [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30333,30334,30335,30336},
         },
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
