@@ -1328,6 +1328,9 @@ function MopQuestFixes.Load()
         [29997] = { -- The Scryer's Dilemma
             [questKeys.preQuestSingle] = {29932},
         },
+        [29998] = { -- The Librarian's Quandary
+            [questKeys.preQuestSingle] = {29932},
+        },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29966,29967},
