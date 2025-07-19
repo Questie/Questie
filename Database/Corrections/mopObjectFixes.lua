@@ -89,6 +89,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [211382] = { -- Items for Build Your Own Raft
+            [objectKeys.name] = 'Tough Kelp', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
@@ -218,11 +223,6 @@ function MopObjectFixes.Load()
         [223820] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Spare Plank', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
-            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
-        },
-        [223821] = { -- Items for Build Your Own Raft
-            [objectKeys.name] = 'Tough Kelp', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
     }

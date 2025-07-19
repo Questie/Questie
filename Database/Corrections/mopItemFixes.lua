@@ -256,7 +256,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {223820},
         },
         [80804] = { -- Tough Kelp
-            [itemKeys.objectDrops] = {223821},
+            [itemKeys.objectDrops] = {211382},
         },
         [80817] = { -- Buried Hozen Treasure
             [itemKeys.objectDrops] = {211420},
