@@ -292,6 +292,7 @@ local phases = {
     CHEN_62779_INSIDE_KOR_VESS = 1220,
     SAP_MASTERS_AT_BREWGARDEN = 1221,
     SAP_MASTERS_AT_RIKKITUN = 1222,
+    SAP_MASTERS_AT_BREWGARDEN_CENTER = 1223,
 }
 Phasing.phases = phases
 
@@ -1245,11 +1246,15 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SAP_MASTERS_AT_BREWGARDEN then
-        return (not complete[31075]) and (not questLog[31075]) or false
+        return (not complete[31085]) and (not complete[31075]) and (not questLog[31075]) or false
     end
 
     if phase == phases.SAP_MASTERS_AT_RIKKITUN then
-        return complete[31075] or questLog[31075] and true or false
+        return (not complete[31085]) and ((not questLog[31085]) or questLog[31085].isComplete == 0) and complete[31075] or questLog[31075] and true or false
+    end
+
+    if phase == phases.SAP_MASTERS_AT_BREWGARDEN_CENTER then
+        return complete[31085] or (questLog[31085] and questLog[31085].isComplete == 1) or false
     end
 
     return false

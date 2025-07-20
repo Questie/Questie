@@ -1432,26 +1432,52 @@ describe("Phasing", function()
     describe("Sapmaster Vu, Olon and Lya of Ten Songs", function()
         it("should return true for Rikkitun location when 31075 is in the quest log", function()
             Questie.db.char.complete[31075] = false
+            Questie.db.char.complete[31085] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[31075]={isComplete=1}}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
             assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
         end)
 
         it("should return true for Rikkitun location when 31075 is complete", function()
             Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
             assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
         end)
 
         it("should return true for Brewgarden location when 31075 is not complete and not in the quest log", function()
             Questie.db.char.complete[31075] = false
+            Questie.db.char.complete[31085] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
             assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+        end)
+
+        it("should return true for Brewgarden center location when 31085 is complete in the quest log", function()
+            Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31085]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+        end)
+
+        it("should return true for Brewgarden center location when 31085 is complete", function()
+            Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
         end)
     end)
 end)
