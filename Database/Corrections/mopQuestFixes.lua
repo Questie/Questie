@@ -2642,6 +2642,9 @@ function MopQuestFixes.Load()
         [31185] = { -- Walking Dog
             [questKeys.preQuestSingle] = {31183},
         },
+        [31186] = { -- Dog Food
+            [questKeys.preQuestSingle] = {31183},
+        },
         [31187] = { -- On the Crab
             [questKeys.objectives] = {nil,{{213508}}},
             [questKeys.preQuestSingle] = {31183},
