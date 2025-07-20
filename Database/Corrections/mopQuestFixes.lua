@@ -3191,6 +3191,9 @@ function MopQuestFixes.Load()
         [31072] = { -- Rending Daggers
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31073] = { -- Bound With Wood
+            [questKeys.preQuestGroup] = {31069,31070},
+        },
         [31074] = { -- Wood and Shade
             [questKeys.preQuestSingle] = {31072},
         },
