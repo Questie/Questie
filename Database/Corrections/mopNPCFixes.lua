@@ -1017,7 +1017,10 @@ function MopNpcFixes.Load()
             }},
         },
         [62779] = { -- Chen Stormstout
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.45,12.05}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {50.45,12.05,phases.CHEN_62779_AT_BREWGARDEN},
+                {44.41,16.8,phases.CHEN_62779_INSIDE_KOR_VESS}
+            }},
         },
         [62923] = { -- Empty Package
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
@@ -1217,9 +1220,6 @@ function MopNpcFixes.Load()
                 {54.11,20.48,phases.CHEN_AT_FEAR_CLUTCH},
                 {44.41,16.8,phases.CHEN_AT_BREWGARDEN},
             }},
-        },
-        [62779] = { -- Chen Stormstout
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{44.41,16.8}}},
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},

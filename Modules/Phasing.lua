@@ -288,6 +288,8 @@ local phases = {
     JU_LIEN_IN_TOWN = 1216,
     CHEN_AT_FEAR_CLUTCH = 1217,
     CHEN_AT_BREWGARDEN = 1218,
+    CHEN_62779_AT_BREWGARDEN = 1219,
+    CHEN_62779_INSIDE_KOR_VESS = 1220,
 }
 Phasing.phases = phases
 
@@ -1230,6 +1232,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CHEN_AT_BREWGARDEN then
         return complete[31077] or questLog[31077] and true or false
+    end
+
+    if phase == phases.CHEN_62779_AT_BREWGARDEN then
+        return (not complete[31076]) and (not complete[31129]) and (not complete[31078]) or false
+    end
+
+    if phase == phases.CHEN_62779_INSIDE_KOR_VESS then
+        return (not complete[31078]) and questLog[31078] and true or false
     end
 
     return false

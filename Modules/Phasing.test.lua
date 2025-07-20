@@ -1355,7 +1355,7 @@ describe("Phasing", function()
         end)
     end)
 
-    describe("Chen Stormstout Dread Wastes", function()
+    describe("Chen Stormstout Dread Wastes (67138)", function()
         it("should return true for Fear Clutch location when 31077 is not complete and not in the quest log", function()
             Questie.db.char.complete[31077] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
@@ -1378,6 +1378,54 @@ describe("Phasing", function()
 
             assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
             assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+        end)
+    end)
+
+    describe("Chen Stormstout Dread Wastes (62779)", function()
+        it("should return true for Brewgarden location when 31076 and 31129 are not complete", function()
+            Questie.db.char.complete[31076] = false -- get's flagged complete together with 31129
+            Questie.db.char.complete[31129] = false -- get's flagged complete together with 31076
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Brewgarden location when 31076 is in the quest log", function()
+            Questie.db.char.complete[31076] = false
+            Questie.db.char.complete[31129] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31076]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Brewgarden location when 31129 is in the quest log", function()
+            Questie.db.char.complete[31076] = false
+            Questie.db.char.complete[31129] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31129]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Kor'Vess location when 31078 is in the quest log", function()
+            Questie.db.char.complete[31076] = true -- get's flagged complete together with 31129
+            Questie.db.char.complete[31129] = true -- get's flagged complete together with 31076
+            Questie.db.char.complete[31078] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31078]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+        end)
+
+        it("should return false for both locations when 31078 is complete", function()
+            Questie.db.char.complete[31076] = true
+            Questie.db.char.complete[31078] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
         end)
     end)
 end)
