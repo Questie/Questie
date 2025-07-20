@@ -222,6 +222,9 @@ function MopItemFixes.Load()
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
         },
+        [79828] = { -- Yak Statuette
+            [itemKeys.npcDrops] = {59124},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
