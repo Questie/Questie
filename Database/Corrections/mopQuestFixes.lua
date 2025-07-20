@@ -3175,6 +3175,9 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31730},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
         },
+        [31068] = { -- Sacred Recipe
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
