@@ -2661,6 +2661,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31184,31187,31188},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reel in the fishing rod"),0,{{"object",213744},{"object",213746},{"object",213752},{"object",213753}}}},
         },
+        [31190] = { -- The Mariner's Revenge
+            [questKeys.preQuestSingle] = {31189},
+        },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
