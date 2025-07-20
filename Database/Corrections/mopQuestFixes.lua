@@ -2597,7 +2597,6 @@ function MopQuestFixes.Load()
         [31393] = { -- Temple of the White Tiger [Horde]
             [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
             [questKeys.breadcrumbForQuestId] = 31395,
-            [questKeys.exclusiveTo] = {31395},
         },
         [31394] = { --A Celestial Experience [Alliance]
             [questKeys.preQuestSingle] = {},
@@ -2623,7 +2622,6 @@ function MopQuestFixes.Load()
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,64457,66225,66409,66415}},
             [questKeys.breadcrumbForQuestId] = 31454,
-            [questKeys.exclusiveTo] = {31454},
         },
         [31489] = { -- Stranger in a Strange Land
             [questKeys.breadcrumbForQuestId] = 31454,
