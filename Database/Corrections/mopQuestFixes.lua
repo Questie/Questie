@@ -3007,6 +3007,9 @@ function MopQuestFixes.Load()
         [31676] = { -- Ancient Vengeance
             [questKeys.preQuestSingle] = {31004},
         },
+        [31689] = { -- The Dreadsworn
+            [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
+        },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
