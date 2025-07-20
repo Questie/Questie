@@ -2563,6 +2563,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31087},
             [questKeys.exclusiveTo] = {31681},
         },
+        [31091] = { -- Reunited
+            [questKeys.preQuestSingle] = {31089,31682},
+        },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestSingle] = {31010},
         },
