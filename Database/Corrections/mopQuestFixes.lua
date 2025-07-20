@@ -2987,6 +2987,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31393},
         },
+        [31398] = { -- Falling to Pieces
+            [questKeys.preQuestSingle] = {31091},
+        },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
