@@ -1794,6 +1794,9 @@ function MopQuestFixes.Load()
         [30258] = { --Mung-Mung's Vote I: A Hozen's Problem
             [questKeys.requiredMinRep] = {1272,14600} -- available at 5600/12000 honored with Tillers
         },
+        [30260] = { -- Growing the Farm I: The Weeds
+            [questKeys.requiredMinRep] = {1272,9000} -- Tillers at Honored (wowhead)
+        },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
         },
@@ -2151,9 +2154,6 @@ function MopQuestFixes.Load()
         [30504] = { -- Emergency Response
             [questKeys.objectives] = {{{64360,nil,Questie.ICON_TYPE_INTERACT},{64362,nil,Questie.ICON_TYPE_INTERACT},{64363,nil,Questie.ICON_TYPE_INTERACT},{64364,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31303},
-        },
-        [30516] = { -- Growing the Farm I: A Little Problem
-            [questKeys.requiredMinRep] = {1272,9000} -- Tillers at Honored (wowhead)
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
