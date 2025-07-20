@@ -2528,6 +2528,9 @@ function MopQuestFixes.Load()
         [31081] = { -- Incantations Fae and Primal
             [questKeys.preQuestSingle] = {31075},
         },
+        [31082] = { -- Great Vessel of Salvation
+            [questKeys.preQuestSingle] = {31075},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
