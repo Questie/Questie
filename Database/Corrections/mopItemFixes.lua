@@ -365,6 +365,9 @@ function MopItemFixes.Load()
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
+        [86489] = { -- Succulent Turtle Filet
+            [itemKeys.npcDrops] = {63981},
+        },
         [86598] = { -- Vor'thik Eggs
             [itemKeys.objectDrops] = {214170},
         },
