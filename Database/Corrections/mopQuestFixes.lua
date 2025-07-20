@@ -2460,6 +2460,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31019},
             [questKeys.requiredSourceItems] = {82864},
         },
+        [31022] = { -- Kypari Zar
+            [questKeys.preQuestGroup] = {31020,31021},
+        },
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
