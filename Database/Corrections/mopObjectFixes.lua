@@ -321,5 +321,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.22,10.14}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [440003] = { -- For Fires and Fears of Old 31085
+            [objectKeys.name] = 'Enormous Landslide',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
     }
 end

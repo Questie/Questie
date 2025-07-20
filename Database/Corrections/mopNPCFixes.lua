@@ -1028,6 +1028,9 @@ function MopNpcFixes.Load()
         [62760] = { -- Frightened Mushan
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{46.8,20.4},{47.2,20.8},{47.8,20.6},{48.4,18.6},{48.4,20.4},{48.6,20.2},{48.8,21.4},{49,18.4},{49,18.6},{49.2,16.4},{49.6,16.4},{49.6,16.6},{49.8,17.6},{49.8,19.4},{51,17.6},{51.2,15},{51.2,16.8},{51.4,16.2},{51.6,14.8},{52,16.4},{52,16.6},{54,16},{56,19.4},{56,19.6}}},
         },
+        [62773] = { -- Iyyokuk the Lucid
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.67,33.88}}},
+        },
         [62774] = { -- Malik the Unscathed
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {54.89,34.14,phases.MALIK_AT_PILLAR},

@@ -2540,7 +2540,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chief Rikkitun"),0,{{"monster",62771}}}},
         },
         [31085] = { -- Fires and Fears of Old
+            [questKeys.objectives] = {{{62773,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{63102,63103,63104},63102}}},
             [questKeys.preQuestSingle] = {31084},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Remove the boulders"),0,{{"object",440003}}}},
         },
         [31086] = { -- Blood of Ancients
             [questKeys.preQuestSingle] = {31084},
