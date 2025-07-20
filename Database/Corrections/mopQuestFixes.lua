@@ -2640,6 +2640,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31183},
         },
         [31185] = { -- Walking Dog
+            [questKeys.objectives] = {{{63879,nil,Questie.ICON_TYPE_EVENT},{63880,nil,Questie.ICON_TYPE_EVENT},{63881,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31183},
         },
         [31186] = { -- Dog Food
