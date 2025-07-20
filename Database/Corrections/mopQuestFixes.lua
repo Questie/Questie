@@ -2643,6 +2643,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31183},
         },
         [31186] = { -- Dog Food
+            [questKeys.finishedBy] = {{63955,63277}},
+            [questKeys.objectives] = {{{63369}}},
             [questKeys.preQuestSingle] = {31183},
         },
         [31187] = { -- On the Crab
