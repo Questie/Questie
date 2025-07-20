@@ -307,6 +307,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [82867] = { -- Mantid Relic
+            [itemKeys.objectDrops] = {212078,212079},
+        },
         [82870] = { -- Strange Relic
             [itemKeys.npcDrops] = {61970,63176},
         },
