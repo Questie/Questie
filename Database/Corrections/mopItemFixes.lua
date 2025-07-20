@@ -334,6 +334,9 @@ function MopItemFixes.Load()
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
+        [85159] = { -- Amber-Filled Jar
+            [itemKeys.objectDrops] = {212923},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
