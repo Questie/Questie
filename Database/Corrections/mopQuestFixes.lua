@@ -2559,6 +2559,7 @@ function MopQuestFixes.Load()
         },
         [31090] = { -- Better With Age
             [questKeys.preQuestSingle] = {31087},
+            [questKeys.exclusiveTo] = {31681},
         },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestSingle] = {31010},
@@ -3240,6 +3241,9 @@ function MopQuestFixes.Load()
         },
         [31680] = { -- Crime and Punishment
             [questKeys.exclusiveTo] = {31088},
+        },
+        [31681] = { -- Better With Age
+            [questKeys.exclusiveTo] = {31090},
         },
         [31689] = { -- The Dreadsworn
             [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
