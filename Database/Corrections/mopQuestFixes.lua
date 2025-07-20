@@ -2450,6 +2450,9 @@ function MopQuestFixes.Load()
         [31019] = { -- Amber Is Life
             [questKeys.preQuestSingle] = {31066},
         },
+        [31024] = { -- Kunchong Treats
+            [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
             [questKeys.exclusiveTo] = {31036,31037},
@@ -2630,6 +2633,9 @@ function MopQuestFixes.Load()
         [31235] = { -- Nope Nope Nope
             [questKeys.preQuestSingle] = {31066},
         },
+        [31238] = { -- Brain Food
+            [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
         },
@@ -2658,6 +2664,9 @@ function MopQuestFixes.Load()
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31268] = { -- A Little Brain Work
+            [questKeys.preQuestGroup] = {31092,31359,31398},
         },
         [31271] = { -- Bad Genes
             [questKeys.preQuestSingle] = {31606},
@@ -2833,6 +2842,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31279},
         },
+        [31487] = { -- Sonic Disruption
+            [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,64457,66225,66409,66415}},
             [questKeys.breadcrumbForQuestId] = 31454,
@@ -2843,6 +2855,9 @@ function MopQuestFixes.Load()
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
+        [31494] = { -- Free From Her Clutches
+            [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
@@ -2851,6 +2866,9 @@ function MopQuestFixes.Load()
         },
         [31503] = { -- Shortcut to Ruin
             [questKeys.preQuestSingle] = {31606},
+        },
+        [31506] = { -- Shackles of Manipulation
+            [questKeys.preQuestGroup] = {31092,31359,31398},
         },
         [31508] = { -- Specimen Request
             [questKeys.preQuestSingle] = {31606},
@@ -3163,6 +3181,9 @@ function MopQuestFixes.Load()
         },
         [31782] = { -- Overthrone
             [questKeys.preQuestSingle] = {32030},
+        },
+        [31808] = { -- Rampage Against the Machine
+            [questKeys.preQuestGroup] = {31092,31359,31398},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.preQuestGroup] = {30139,30187},
