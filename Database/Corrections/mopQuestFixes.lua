@@ -2473,7 +2473,10 @@ function MopQuestFixes.Load()
         [31241] = { -- Wicked Wikkets
             [questKeys.preQuestSingle] = {29879},
         },
-        [31255] = { -- The Road to Kun-Lai
+        [31254] = { -- The Road to Kun-Lai [Alliance]
+            [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31255] = { -- The Road to Kun-Lai [Horde]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31261] = { -- Captain Jack's Dead
