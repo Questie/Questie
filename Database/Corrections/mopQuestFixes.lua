@@ -2465,6 +2465,9 @@ function MopQuestFixes.Load()
         [31066] = { -- A Cry From Darkness
             [questKeys.preQuestSingle] = {31010},
         },
+        [31087] = { -- Extending Our Coverage
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestSingle] = {31010},
         },
