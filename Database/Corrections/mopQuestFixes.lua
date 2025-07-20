@@ -2522,6 +2522,9 @@ function MopQuestFixes.Load()
         [31080] = { -- Fiery Wings
             [questKeys.preQuestSingle] = {31075},
         },
+        [31081] = { -- Incantations Fae and Primal
+            [questKeys.preQuestSingle] = {31075},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
