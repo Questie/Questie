@@ -332,6 +332,9 @@ function MopItemFixes.Load()
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
+        [86598] = { -- Vor'thik Eggs
+            [itemKeys.objectDrops] = {214170},
+        },
         [87282] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
