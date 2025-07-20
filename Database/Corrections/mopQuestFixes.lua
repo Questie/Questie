@@ -2627,6 +2627,12 @@ function MopQuestFixes.Load()
         [31231] = { -- Dreadspinner Extermination
             [questKeys.preQuestSingle] = {31066},
         },
+        [31232] = { -- An Ancient Empire
+            [questKeys.preQuestSingle] = {31026},
+        },
+        [31233] = { -- Sap Tapping
+            [questKeys.preQuestSingle] = {31026},
+        },
         [31234] = { -- Putting An Eye Out
             [questKeys.preQuestSingle] = {31606},
         },
@@ -2667,6 +2673,12 @@ function MopQuestFixes.Load()
         },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
+        [31269] = { -- The Scale-Lord
+            [questKeys.preQuestSingle] = {31026},
+        },
+        [31270] = { -- The Fight Against Fear
+            [questKeys.preQuestSingle] = {31026},
         },
         [31271] = { -- Bad Genes
             [questKeys.preQuestSingle] = {31606},
@@ -2861,6 +2873,9 @@ function MopQuestFixes.Load()
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
+        [31496] = { -- Sampling the Empire's Finest
+            [questKeys.preQuestSingle] = {31026},
+        },
         [31502] = { -- Wing Clip
             [questKeys.preQuestSingle] = {31606},
         },
@@ -2869,6 +2884,9 @@ function MopQuestFixes.Load()
         },
         [31506] = { -- Shackles of Manipulation
             [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
+        [31507] = { -- Meltdown
+            [questKeys.preQuestSingle] = {31026},
         },
         [31508] = { -- Specimen Request
             [questKeys.preQuestSingle] = {31606},
