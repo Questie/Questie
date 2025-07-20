@@ -658,7 +658,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
         },
         [60098] = { -- Southern Oil Rig
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = { {49.61,80.99}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.61,80.99}}},
         },
         [60099] = { -- Western Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
