@@ -2420,6 +2420,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31005,31676},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
+        [31008] = { -- Amber Arms
+            [questKeys.preQuestSingle] = {31006},
+        },
         [31009] = { -- Dead Zone
             [questKeys.preQuestSingle] = {31006},
         },
