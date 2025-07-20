@@ -2837,6 +2837,9 @@ function MopQuestFixes.Load()
         [31340] = { -- Oh Sheepie...
             [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
         },
+        [31354] = { -- Mazu's Bounty
+            [questKeys.preQuestSingle] = {31190},
+        },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
