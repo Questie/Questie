@@ -2539,6 +2539,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chief Rikkitun"),0,{{"monster",62771}}}},
         },
+        [31085] = { -- Fires and Fears of Old
+            [questKeys.preQuestSingle] = {31084},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
