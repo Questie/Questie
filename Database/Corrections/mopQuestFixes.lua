@@ -2503,6 +2503,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212643,nil,Questie.ICON_TYPE_EVENT},{212642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31072},
         },
+        [31075] = { -- Sunset Kings
+            [questKeys.preQuestGroup] = {31073,31078},
+        },
         [31076] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {31067,31068},
