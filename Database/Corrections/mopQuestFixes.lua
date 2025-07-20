@@ -2230,6 +2230,10 @@ function MopQuestFixes.Load()
         [30570] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30515},
         },
+        [30571] = { -- Farmhand Freedom
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay the overseers"),0,{{"monster",59580}}}},
+            [questKeys.objectives] = {{{59577,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30581] = { -- ...and the Pot, Too!
             [questKeys.preQuestSingle] = {30570},
         },
