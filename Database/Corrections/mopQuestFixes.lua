@@ -2453,6 +2453,9 @@ function MopQuestFixes.Load()
         [31019] = { -- Amber Is Life
             [questKeys.preQuestSingle] = {31066},
         },
+        [31021] = { -- Living Amber
+            [questKeys.preQuestSingle] = {31019},
+        },
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },

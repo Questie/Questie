@@ -1187,6 +1187,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [65354] = { -- Ancient Amber Chunk
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{66.88,65.4}}},
+        },
         [65365] = { -- Kor'ik
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{48.12,49.62}}},
         },
