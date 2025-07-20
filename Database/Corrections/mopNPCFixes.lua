@@ -992,6 +992,9 @@ function MopNpcFixes.Load()
         [63335] = { -- Mojo Stormstout
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
         },
+        [63517] = { -- The Spring Drifter
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS]={{52.04,43.12}}},
+        },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}},
