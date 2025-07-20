@@ -1371,5 +1371,13 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
             assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
         end)
+
+        it("should return true for Brewgarden location when 31077 is complete", function()
+            Questie.db.char.complete[31077] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+        end)
     end)
 end)

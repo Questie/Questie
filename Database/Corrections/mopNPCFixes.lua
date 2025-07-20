@@ -1213,7 +1213,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
         },
         [67138] = { -- Chen Stormstout
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{54.11,20.48}}}, -- There is most likely phasing involved
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
+                {54.11,20.48,phases.CHEN_AT_FEAR_CLUTCH},
+                {44.41,16.8,phases.CHEN_AT_BREWGARDEN},
+            }},
+        },
+        [62779] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{44.41,16.8}}},
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
