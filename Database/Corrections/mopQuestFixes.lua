@@ -2639,6 +2639,9 @@ function MopQuestFixes.Load()
         [31235] = { -- Nope Nope Nope
             [questKeys.preQuestSingle] = {31066},
         },
+        [31237] = { -- Debugging the Terrace
+            [questKeys.preQuestSingle] = {31439},
+        },
         [31238] = { -- Brain Food
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
@@ -2682,6 +2685,9 @@ function MopQuestFixes.Load()
         },
         [31271] = { -- Bad Genes
             [questKeys.preQuestSingle] = {31606},
+        },
+        [31272] = { -- Infection
+            [questKeys.preQuestSingle] = {31439},
         },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
@@ -2882,6 +2888,9 @@ function MopQuestFixes.Load()
         [31503] = { -- Shortcut to Ruin
             [questKeys.preQuestSingle] = {31606},
         },
+        [31504] = { -- Ordnance Disposal
+            [questKeys.preQuestSingle] = {31439},
+        },
         [31506] = { -- Shackles of Manipulation
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
@@ -2893,6 +2902,9 @@ function MopQuestFixes.Load()
         },
         [31509] = { -- Fear Takes Root
             [questKeys.preQuestSingle] = {31606},
+        },
+        [31510] = { -- Quiet Now
+            [questKeys.preQuestSingle] = {31439},
         },
         [31514] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
