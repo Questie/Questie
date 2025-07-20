@@ -1004,6 +1004,9 @@ function MopNpcFixes.Load()
                 {55.06,35.86,phases.KIL_RUK_NEXT_TO_ZIKK},
             }},
         },
+        [62542] = { -- Kovok
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.33,71.29}}},
+        },
         [62666] = { -- Sapmaster Vu
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {51.21,11.39,phases.SAP_MASTERS_AT_BREWGARDEN},
