@@ -1883,6 +1883,7 @@ function MopQuestFixes.Load()
         [30337] = { -- Simian Sabotage
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30333,30334,30335,30336},
+            [questKeys.objectives] = {{{59276,nil,Questie.ICON_TYPE_INTERACT},{{59278,nil,Questie.ICON_TYPE_INTERACT}},{{59279,nil,Questie.ICON_TYPE_INTERACT}},{{59280,nil,Questie.ICON_TYPE_INTERACT}}}},
         },
         [30357] = { -- The Stoneplow Convoy [Alliance]
             --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
