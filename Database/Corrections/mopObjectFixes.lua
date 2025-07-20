@@ -116,6 +116,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [211312] = { -- Items for Barrels of Fun
+            [objectKeys.name] = 'Explosives Barrel',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.24,79.33},{49.61,78.99},{49.34,81.06},{47.55,80.08}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211376] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Spare Plank',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
