@@ -2500,6 +2500,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31069,31070},
         },
         [31074] = { -- Wood and Shade
+            [questKeys.objectives] = {nil,{{212643,nil,Questie.ICON_TYPE_EVENT},{212642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31072},
         },
         [31076] = { -- Fate of the Stormstouts
