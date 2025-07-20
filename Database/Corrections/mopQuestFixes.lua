@@ -2412,6 +2412,9 @@ function MopQuestFixes.Load()
         [31005] = { -- Wakening Sickness
             [questKeys.preQuestSingle] = {31004},
         },
+        [31007] = { -- The Dread Clutches
+            [questKeys.preQuestSingle] = {31006},
+        },
         [31006] = { -- The Klaxxi Council
             [questKeys.triggerEnd] = {"Meet with Kil'ruk the Wind-Reaver", {[zoneIDs.DREAD_WASTES]={{55,34}}}},
             [questKeys.preQuestSingle] = {31005,31676},
