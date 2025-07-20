@@ -2918,7 +2918,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
         [31488] = { -- Stranger in a Strange Land
-            [questKeys.startedBy] = {{62871,64047,64144,64457,66225,66409,66415}},
+            [questKeys.startedBy] = {{62871,63218,64047,64144,64457,66225,66409,66415}},
             [questKeys.breadcrumbForQuestId] = 31454,
         },
         [31489] = { -- Stranger in a Strange Land
