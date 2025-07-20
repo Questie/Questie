@@ -2726,6 +2726,7 @@ function MopQuestFixes.Load()
         },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
+            [questKeys.preQuestGroup] = {30655,30656,30661},
         },
         [31460] = { -- Cho's Missive [Alliance]
             [questKeys.breadcrumbForQuestId] = 30999,
