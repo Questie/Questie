@@ -2556,6 +2556,7 @@ function MopQuestFixes.Load()
         [31089] = { -- By the Sea, Nevermore
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31088,31090},
+            [questKeys.exclusiveTo] = {31682},
         },
         [31090] = { -- Better With Age
             [questKeys.preQuestSingle] = {31087},
@@ -3244,6 +3245,11 @@ function MopQuestFixes.Load()
         },
         [31681] = { -- Better With Age
             [questKeys.exclusiveTo] = {31090},
+        },
+        [31682] = { -- By the Sea, Nevermore
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31680,31681},
+            [questKeys.exclusiveTo] = {31089},
         },
         [31689] = { -- The Dreadsworn
             [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
