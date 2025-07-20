@@ -2721,7 +2721,7 @@ function MopQuestFixes.Load()
         },
         [31453] = { -- The Shado-Pan
             [questKeys.preQuestGroup] = {30655,30656,30661},
-            [questKeys.breadcrumbForQuestId] = {30665},
+            [questKeys.breadcrumbForQuestId] = 30665,
         },
         [31454] = { -- A Legend in the Making
             [questKeys.preQuestSingle] = {},
