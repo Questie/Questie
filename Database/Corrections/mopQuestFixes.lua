@@ -2230,6 +2230,9 @@ function MopQuestFixes.Load()
         [30570] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30515},
         },
+        [30581] = { -- ...and the Pot, Too!
+            [questKeys.preQuestSingle] = {30570},
+        },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {},
