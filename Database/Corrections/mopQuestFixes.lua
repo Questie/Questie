@@ -2144,6 +2144,9 @@ function MopQuestFixes.Load()
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
         },
+        [30491] = { -- At the Yak Wash
+            [questKeys.objectives] = {nil,nil,nil,nil,{{59662,61874,59319},{59319,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
         [30495] = { -- Love's Labor
             [questKeys.objectives] = {{{59395,nil,Questie.ICON_TYPE_TALK},{59401,nil,Questie.ICON_TYPE_TALK},{59392,nil,Questie.ICON_TYPE_TALK},{59397,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {
