@@ -2244,6 +2244,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30620] = { -- Mogu?! Oh No-gu!
+            [questKeys.preQuestSingle] = {30515},
+        },
         [30622] = { -- The Swarm Begins
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
         },
