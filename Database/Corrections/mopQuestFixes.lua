@@ -3190,6 +3190,9 @@ function MopQuestFixes.Load()
         [31072] = { -- Rending Daggers
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31076] = { -- Fate of the Stormstouts
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },

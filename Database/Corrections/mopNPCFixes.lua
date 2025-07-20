@@ -1010,6 +1010,9 @@ function MopNpcFixes.Load()
                 {55.06,35.47,phases.MALIK_NEXT_TO_ZIKK},
             }},
         },
+        [62779] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.45,12.05}}},
+        },
         [62923] = { -- Empty Package
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.spawns] = {
