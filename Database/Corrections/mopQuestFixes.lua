@@ -2976,6 +2976,9 @@ function MopQuestFixes.Load()
         [31675] = { -- The White Turnip Treatment
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943},
         },
+        [31676] = { -- Ancient Vengeance
+            [questKeys.preQuestSingle] = {31004},
+        },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
