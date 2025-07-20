@@ -101,6 +101,11 @@ function MopObjectFixes.Load()
         [210005] = { -- Weapon Rack
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{59.19,17.25},{58.67,16.32},{56.86,19.64},{57.59,17.59},{58.03,19.95},{57.85,20.06},{58.86,16.72},{57.24,16.73},{57.23,19.23},{56.98,20.49}}},
         },
+        [210933] = { -- Yaungol Banner
+            [objectKeys.name] = 'Yaungol Banner',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.2,84.09}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [210964] = { -- Pei-Wu Forest Gate
             [objectKeys.name] = 'Pei-Wu Forest Gate',
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{52.26,68.52}}},
