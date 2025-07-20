@@ -2428,6 +2428,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212524}}},
             [questKeys.preQuestSingle] = {31006},
         },
+        [31010] = { -- In Her Clutch
+            [questKeys.objectives] = {nil,{{214674}}},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
