@@ -1201,4 +1201,38 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.MALIK_AT_PILLAR))
         end)
     end)
+
+    describe("Kil'ruk the Wind-Reaver", function()
+        it("should return true pillar location when 31066 is not complete", function()
+            Questie.db.char.complete[31066] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KIL_RUK_AT_PILLAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KIL_RUK_NEXT_TO_ZIKK))
+        end)
+
+        it("should return true pillar location when 31066 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31066] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31066]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KIL_RUK_AT_PILLAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KIL_RUK_NEXT_TO_ZIKK))
+        end)
+
+        it("should return true next to Zikk location when 31066 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31066] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31066]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KIL_RUK_NEXT_TO_ZIKK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KIL_RUK_AT_PILLAR))
+        end)
+
+        it("should return true for next to Zikk location when 31066 is complete", function()
+            Questie.db.char.complete[31066] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KIL_RUK_NEXT_TO_ZIKK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KIL_RUK_AT_PILLAR))
+        end)
+    end)
 end)
