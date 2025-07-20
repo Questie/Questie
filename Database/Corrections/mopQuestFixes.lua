@@ -3179,6 +3179,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31066},
         },
         [31069] = { -- Bound With Shade
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{62751,65996},62751}}},
             [questKeys.preQuestGroup] = {31067,31068},
         },
         [31070] = { -- Daggers of the Great Ones

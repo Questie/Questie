@@ -1004,6 +1004,9 @@ function MopNpcFixes.Load()
                 {55.06,35.86,phases.KIL_RUK_NEXT_TO_ZIKK},
             }},
         },
+        [62751] = { -- Dread Lurker
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{51.6,19},{52,18.4},{52.8,18.6},{54,20.4},{54,20.6},{54.2,18.2},{54.4,17.4},{54.4,18.6},{54.6,18.4},{54.6,18.6},{54.6,19.6},{54.8,16.8},{56,16.4},{56.2,17.4},{56.2,17.6},{56.4,19},{56.8,18.6},{57.4,20.4},{57.6,20.4},{58.4,19.2},{58.6,19.2}}},
+        },
         [62774] = { -- Malik the Unscathed
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {54.89,34.14,phases.MALIK_AT_PILLAR},
@@ -1205,6 +1208,9 @@ function MopNpcFixes.Load()
         },
         [67067] = { -- Rell's Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
+        },
+        [67138] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{54.11,20.48}}}, -- There is most likely phasing involved
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
