@@ -1493,5 +1493,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [npcKeys.questEnds] = {29754},
         },
+        [110008] = { -- Dead Zone
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.07,38.99}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.questEnds] = {31009},
+        },
     }
 end

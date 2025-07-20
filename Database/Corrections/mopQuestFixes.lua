@@ -2424,6 +2424,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31006},
         },
         [31009] = { -- Dead Zone
+            [questKeys.finishedBy] = {nil,{110008}},
+            [questKeys.objectives] = {nil,{{212524}}},
             [questKeys.preQuestSingle] = {31006},
         },
         [31012] = { -- Joining the Horde

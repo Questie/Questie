@@ -140,6 +140,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
         },
+        [212524] = { -- Inactive Sonic Relay
+            [objectKeys.name] = 'Inactive Sonic Relay',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.07,38.99}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [212526] = { -- An empty bookshelf
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
