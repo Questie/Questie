@@ -2412,6 +2412,9 @@ function MopQuestFixes.Load()
         [31005] = { -- Wakening Sickness
             [questKeys.preQuestSingle] = {31004},
         },
+        [31006] = { -- The Klaxxi Council
+            [questKeys.preQuestSingle] = {31005,31676},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
