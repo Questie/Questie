@@ -2145,7 +2145,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [30491] = { -- At the Yak Wash
-            --[questKeys.objectives] = {nil,nil,nil,nil,{{59662,,59319},{59319,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT]={{71.4,69.27}}}, Questie.ICON_TYPE_EVENT, l10n("Bring the yak to the wash")}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59319},{"monster",59662},{"monster",61874}}}},
         },
         [30492] = { -- Back in Yak
