@@ -2548,6 +2548,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{65328,nil,Questie.ICON_TYPE_EVENT},{65478}},{{213250}}},
             [questKeys.preQuestSingle] = {31066},
         },
+        [31088] = { -- Crime and Punishment
+            [questKeys.preQuestSingle] = {31087},
+        },
         [31090] = { -- Better With Age
             [questKeys.preQuestSingle] = {31087},
         },
