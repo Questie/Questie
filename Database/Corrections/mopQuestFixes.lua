@@ -2253,6 +2253,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30665] = { -- The Defense of Shado-Pan Fallback
+            [questKeys.preQuestGroup] = {30459,30460},
+        },
         [30670] = { -- Turnabout
             [questKeys.preQuestSingle] = {30457},
         },
