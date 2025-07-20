@@ -2571,6 +2571,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31089,31682},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Kaz'tik"),0,{{"monster",63876}}}},
         },
+        [31092] = { -- Feed or Be Eaten
+            [questKeys.preQuestSingle] = {31091},
+        },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestSingle] = {31010},
         },
