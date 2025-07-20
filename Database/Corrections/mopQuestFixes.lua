@@ -2727,6 +2727,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31488,31489},
         },
+        [31457] = { -- Muskpaw Ranch
+            [questKeys.preQuestGroup] = {30655,30656,30661},
+        },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
             [questKeys.preQuestGroup] = {30655,30656,30661},
