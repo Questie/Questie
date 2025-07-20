@@ -313,6 +313,9 @@ function MopItemFixes.Load()
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
         },
+        [83135] = { -- Amber Blade
+            [itemKeys.npcDrops] = {62563,62749,65995},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
