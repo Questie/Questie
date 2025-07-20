@@ -2716,6 +2716,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [31451] = { -- The Missing Merchant [Horde]
+            [questKeys.preQuestGroup] = {30655,30656,30661},
+        },
         [31453] = { -- The Shado-Pan
             [questKeys.preQuestGroup] = {30655,30656,30661},
             [questKeys.breadcrumbForQuestId] = {30665},
