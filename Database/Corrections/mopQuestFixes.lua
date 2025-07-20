@@ -2307,6 +2307,7 @@ function MopQuestFixes.Load()
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
             [questKeys.preQuestGroup] = {30459,30460},
+            [questKeys.breadcrumbs] = {31453},
         },
         [30670] = { -- Turnabout
             [questKeys.preQuestSingle] = {30457},
@@ -2714,6 +2715,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [31453] = { -- The Shado-Pan
+            [questKeys.preQuestGroup] = {30655,30656,30661},
+            [questKeys.breadcrumbForQuestId] = {30665},
         },
         [31454] = { -- A Legend in the Making
             [questKeys.preQuestSingle] = {},
