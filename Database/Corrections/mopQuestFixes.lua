@@ -2361,9 +2361,6 @@ function MopQuestFixes.Load()
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [31895] = { -- Better Off Dread
-            [questKeys.breadcrumbForQuestId] = 31001,
-        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
@@ -3553,6 +3550,9 @@ function MopQuestFixes.Load()
         [31891] = { -- Battle Pet Tamers: Kalimdor
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},
             [questKeys.preQuestSingle] = {31918},
+        },
+        [31895] = { -- Better Off Dread
+            [questKeys.breadcrumbForQuestId] = 31001,
         },
         [31897] = { -- Grand Master Trixxy
             [questKeys.objectives] = {{{66466,nil,Questie.ICON_TYPE_PET_BATTLE}}},
