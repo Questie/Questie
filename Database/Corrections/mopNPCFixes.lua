@@ -987,6 +987,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.6,49},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BRAWLGAR_ARENA,
         },
+        [62232] = { -- Korven the Prime
+            [npcKeys.name] = "Korven the Prime",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{66.76,65.29}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [62373] = { -- Silky Moth
             [npcKeys.spawns] = {
                 [490] = {{30.2,30.6},{34.2,28.6},{47.4,28.6}},
