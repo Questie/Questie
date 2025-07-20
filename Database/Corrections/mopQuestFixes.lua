@@ -2447,6 +2447,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31013},
         },
+        [31018] = { -- Beneath the Heart of Fear
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
         [31019] = { -- Amber Is Life
             [questKeys.preQuestSingle] = {31066},
         },
