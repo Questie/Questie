@@ -2550,6 +2550,7 @@ function MopQuestFixes.Load()
         },
         [31088] = { -- Crime and Punishment
             [questKeys.preQuestSingle] = {31087},
+            [questKeys.exclusiveTo] = {31680}
         },
         [31089] = { -- By the Sea, Nevermore
             [questKeys.preQuestSingle] = {},
@@ -3232,6 +3233,9 @@ function MopQuestFixes.Load()
         },
         [31676] = { -- Ancient Vengeance
             [questKeys.preQuestSingle] = {31004},
+        },
+        [31680] = { -- Crime and Punishment
+            [questKeys.exclusiveTo] = {31088},
         },
         [31689] = { -- The Dreadsworn
             [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
