@@ -2461,6 +2461,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {82864},
         },
         [31022] = { -- Kypari Zar
+            [questKeys.triggerEnd] = {"Korven the Prime defeneded", {[zoneIDs.DREAD_WASTES]={{59.93,59.43}}}},
+            [questKeys.objectives] = {nil,{{212933}}},
             [questKeys.preQuestGroup] = {31020,31021},
         },
         [31024] = { -- Kunchong Treats
