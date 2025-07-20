@@ -609,6 +609,18 @@ function MopNpcFixes.Load()
         [59241] = { -- Scarlet Treasurer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59276] = { -- Weapons Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.44,28.09}}},
+        },
+        [59278] = { -- Tools Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.75,30.52}}},
+        },
+        [59279] = { -- Beer Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.13,25.98}}},
+        },
+        [59280] = { -- Grain Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.94,21.95}}},
+        },
         [59303] = { -- Houndmaster Braun
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{54.55,29.07},{-1,-1}}},
         },
