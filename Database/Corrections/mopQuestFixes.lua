@@ -3187,6 +3187,9 @@ function MopQuestFixes.Load()
         [31071] = { -- I Bring Us Great Shame
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31072] = { -- Rending Daggers
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
