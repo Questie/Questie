@@ -2551,6 +2551,10 @@ function MopQuestFixes.Load()
         [31088] = { -- Crime and Punishment
             [questKeys.preQuestSingle] = {31087},
         },
+        [31089] = { -- By the Sea, Nevermore
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31088,31090},
+        },
         [31090] = { -- Better With Age
             [questKeys.preQuestSingle] = {31087},
         },
