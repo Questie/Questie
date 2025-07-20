@@ -2624,6 +2624,9 @@ function MopQuestFixes.Load()
         [31231] = { -- Dreadspinner Extermination
             [questKeys.preQuestSingle] = {31066},
         },
+        [31234] = { -- Putting An Eye Out
+            [questKeys.preQuestSingle] = {31606},
+        },
         [31235] = { -- Nope Nope Nope
             [questKeys.preQuestSingle] = {31066},
         },
@@ -2655,6 +2658,9 @@ function MopQuestFixes.Load()
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [31271] = { -- Bad Genes
+            [questKeys.preQuestSingle] = {31606},
         },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
@@ -2839,6 +2845,18 @@ function MopQuestFixes.Load()
         },
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
+        },
+        [31502] = { -- Wing Clip
+            [questKeys.preQuestSingle] = {31606},
+        },
+        [31503] = { -- Shortcut to Ruin
+            [questKeys.preQuestSingle] = {31606},
+        },
+        [31508] = { -- Specimen Request
+            [questKeys.preQuestSingle] = {31606},
+        },
+        [31509] = { -- Fear Takes Root
+            [questKeys.preQuestSingle] = {31606},
         },
         [31514] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
