@@ -302,6 +302,9 @@ function MopItemFixes.Load()
         [85854] = { -- The Needlebeak
             [itemKeys.npcDrops] = {63796},
         },
+        [85981] = { --Black Market Merchandise
+            [itemKeys.objectDrops] = {213516,213517,213518,213519,213520},
+        },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
