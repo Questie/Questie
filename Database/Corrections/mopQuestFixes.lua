@@ -2511,6 +2511,10 @@ function MopQuestFixes.Load()
         [31077] = { -- Evie Stormstout
             [questKeys.objectives] = {{{31077,nil,Questie.ICON_TYPE_EVENT}},{{440002,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [31078] = { -- Han Stormstout
+            [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{47.29,16.82}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
