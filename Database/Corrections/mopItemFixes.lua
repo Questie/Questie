@@ -261,6 +261,9 @@ function MopItemFixes.Load()
         [80216] = { -- Lolo Lio\'s Payment
             [itemKeys.npcDrops] = {59585},
         },
+        [80227] = { -- Root Vegetable
+            [itemKeys.objectDrops] = {211017,211018,211019},
+        },
         [80228] = { -- Enormous Cattail Grouper Tooth
             [itemKeys.npcDrops] = {59639},
         },
