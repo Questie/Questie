@@ -654,6 +654,15 @@ function MopNpcFixes.Load()
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, --removed for quest clutter
         },
+        [60096] = { -- Eastern Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
+        },
+        [60098] = { -- Southern Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = { {49.61,80.99}}},
+        },
+        [60099] = { -- Western Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
+        },
         [60488] = { -- Water Spout Bunny
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{78.54,37.08},{78.31,37.77},{78.77,37.52},{78.63,38.81},{78.72,37.2},{78.32,37.1},{79.46,37.99},{79.56,37.64},{78.33,37.75},{78.8,38.64},{79.41,36.63},{79.78,37.54},{79.22,37.4},{79.94,37.7},{79.2,36.68},{78.4,38.79},{79.07,37.03}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,

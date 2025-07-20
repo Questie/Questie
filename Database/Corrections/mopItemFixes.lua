@@ -279,6 +279,9 @@ function MopItemFixes.Load()
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
         },
+        [80528] = { -- Explosives Barrel
+            [itemKeys.objectDrops] = {211312},
+        },
         [80677] = { -- Emerald Tailfeather
             [itemKeys.npcDrops] = {60200},
         },
