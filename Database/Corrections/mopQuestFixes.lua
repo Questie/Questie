@@ -83,6 +83,7 @@ QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.killCreditObjectiveFirst[30457] = true
 QuestieCorrections.killCreditObjectiveFirst[30466] = true
+QuestieCorrections.killCreditObjectiveFirst[31019] = true
 QuestieCorrections.eventObjectiveFirst[31091] = true
 QuestieCorrections.spellObjectiveFirst[31138] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
