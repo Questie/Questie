@@ -2680,6 +2680,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31265] = { -- Mazu's Breath
+            [questKeys.triggerEnd] = {"Drink the Potion of Mazu's Breath", {[zoneIDs.DREAD_WASTES]={{54.79,72.15}}}},
+            [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31066},
         },
         [31268] = { -- A Little Brain Work
