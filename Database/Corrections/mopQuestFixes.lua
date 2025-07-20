@@ -2244,6 +2244,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30594] = { -- Deanimate the Reanimated
+            [questKeys.preQuestSingle] = {30515},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
