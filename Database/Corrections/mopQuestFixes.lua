@@ -2340,6 +2340,9 @@ function MopQuestFixes.Load()
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
+        [30967] = { -- Free the Dissenters
+            [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
