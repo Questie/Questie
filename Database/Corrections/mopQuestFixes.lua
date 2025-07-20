@@ -2453,6 +2453,9 @@ function MopQuestFixes.Load()
         [31019] = { -- Amber Is Life
             [questKeys.preQuestSingle] = {31066},
         },
+        [31020] = { -- Feeding the Beast
+            [questKeys.preQuestSingle] = {31019},
+        },
         [31021] = { -- Living Amber
             [questKeys.preQuestSingle] = {31019},
         },
