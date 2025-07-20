@@ -2182,6 +2182,9 @@ function MopQuestFixes.Load()
         [30528] = { -- Haohan's Vote V: Chief Yip-Yip
             [questKeys.preQuestSingle] = {30527},
         },
+        [30529] = { -- Growing the Farm III: The Mossy Boulder
+            [questKeys.requiredMinRep] = {1272,42000} -- Tillers at Exalted (wowhead)
+        },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
