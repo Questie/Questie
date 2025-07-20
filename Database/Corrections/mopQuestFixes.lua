@@ -2167,6 +2167,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
             [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
         },
+        [30523] = { -- Growing the Farm II: The Broken Wagon
+            [questKeys.requiredMinRep] = {1272,21000} -- Tillers at Revered (wowhead)
+        },
         [30525] = { -- Haohan's Vote III: Pure Poison
             [questKeys.preQuestSingle] = {30522},
         },
