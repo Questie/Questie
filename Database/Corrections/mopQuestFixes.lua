@@ -3178,6 +3178,9 @@ function MopQuestFixes.Load()
         [31068] = { -- Sacred Recipe
             [questKeys.preQuestSingle] = {31066},
         },
+        [31069] = { -- Bound With Shade
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
