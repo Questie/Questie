@@ -2643,6 +2643,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31183},
         },
         [31187] = { -- On the Crab
+            [questKeys.objectives] = {nil,{{213508}}},
             [questKeys.preQuestSingle] = {31183},
         },
         [31188] = { -- Shark Week
