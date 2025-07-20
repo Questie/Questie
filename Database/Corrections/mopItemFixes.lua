@@ -316,6 +316,9 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [84107] = { -- Large Mushan Tooth
+            [itemKeys.npcDrops] = {62760},
+        },
         [84111] = { -- Blade of Kz'Kzik
             [itemKeys.npcDrops] = {62832},
         },
