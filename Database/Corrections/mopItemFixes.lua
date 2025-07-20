@@ -243,6 +243,9 @@ function MopItemFixes.Load()
         [80015] = { -- Shokia's Report
             [itemKeys.npcDrops] = {56838},
         },
+        [80230] = {  -- Cast Iron Pot
+            [itemKeys.objectDrops] = {211023},
+        },
         [80061] = { -- Riko's Report
             [itemKeys.npcDrops] = {56840},
         },
