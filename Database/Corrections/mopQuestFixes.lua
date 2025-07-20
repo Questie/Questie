@@ -3191,7 +3191,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31067,31068},
         },
         [31076] = { -- Fate of the Stormstouts
+            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {31067,31068},
+            [questKeys.exclusiveTo] = {29907,31129},
+        },
+        [31129] = { -- Fate of the Stormstouts
+            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestGroup] = {29907,31067,31068},
+            [questKeys.exclusiveTo] = {31076},
         },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
