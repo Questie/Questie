@@ -2475,6 +2475,38 @@ function MopQuestFixes.Load()
         [31066] = { -- A Cry From Darkness
             [questKeys.preQuestSingle] = {31010},
         },
+        [31067] = { -- The Heavens Hum With War
+            [questKeys.preQuestSingle] = {31066},
+            [questKeys.breadcrumbs] = {31730},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
+        },
+        [31068] = { -- Sacred Recipe
+            [questKeys.preQuestSingle] = {31066},
+        },
+        [31069] = { -- Bound With Shade
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{62751,65996},62751}}},
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
+        [31070] = { -- Daggers of the Great Ones
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
+        [31071] = { -- I Bring Us Great Shame
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
+        [31072] = { -- Rending Daggers
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
+        [31073] = { -- Bound With Wood
+            [questKeys.preQuestGroup] = {31069,31070},
+        },
+        [31074] = { -- Wood and Shade
+            [questKeys.preQuestSingle] = {31072},
+        },
+        [31076] = { -- Fate of the Stormstouts
+            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestGroup] = {31067,31068},
+            [questKeys.exclusiveTo] = {29907,31129},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
@@ -2486,6 +2518,14 @@ function MopQuestFixes.Load()
         },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
+        },
+        [31129] = { -- Fate of the Stormstouts
+            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestGroup] = {29907,31067,31068},
+            [questKeys.exclusiveTo] = {31076},
+        },
+        [31133] = { -- Kor'thik Aggression
+            [questKeys.preQuestGroup] = {31069,31070},
         },
         [31134] = { -- If These Stones Could Speak
             [questKeys.objectives] = {nil,{{212926},{212925},{212924}}},
@@ -3169,46 +3209,6 @@ function MopQuestFixes.Load()
         },
         [31729] = { -- Steven Lisbane
             [questKeys.objectives] = {{{63194,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-        },
-        [31067] = { -- The Heavens Hum With War
-            [questKeys.preQuestSingle] = {31066},
-            [questKeys.breadcrumbs] = {31730},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
-        },
-        [31068] = { -- Sacred Recipe
-            [questKeys.preQuestSingle] = {31066},
-        },
-        [31069] = { -- Bound With Shade
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{62751,65996},62751}}},
-            [questKeys.preQuestGroup] = {31067,31068},
-        },
-        [31070] = { -- Daggers of the Great Ones
-            [questKeys.preQuestGroup] = {31067,31068},
-        },
-        [31071] = { -- I Bring Us Great Shame
-            [questKeys.preQuestGroup] = {31067,31068},
-        },
-        [31072] = { -- Rending Daggers
-            [questKeys.preQuestGroup] = {31067,31068},
-        },
-        [31073] = { -- Bound With Wood
-            [questKeys.preQuestGroup] = {31069,31070},
-        },
-        [31074] = { -- Wood and Shade
-            [questKeys.preQuestSingle] = {31072},
-        },
-        [31076] = { -- Fate of the Stormstouts
-            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestGroup] = {31067,31068},
-            [questKeys.exclusiveTo] = {29907,31129},
-        },
-        [31129] = { -- Fate of the Stormstouts
-            [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestGroup] = {29907,31067,31068},
-            [questKeys.exclusiveTo] = {31076},
-        },
-        [31133] = { -- Kor'thik Aggression
-            [questKeys.preQuestGroup] = {31069,31070},
         },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
