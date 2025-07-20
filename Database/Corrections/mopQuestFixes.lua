@@ -2478,7 +2478,7 @@ function MopQuestFixes.Load()
         [31067] = { -- The Heavens Hum With War
             [questKeys.preQuestSingle] = {31066},
             [questKeys.breadcrumbs] = {31730},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
         },
         [31068] = { -- Sacred Recipe
             [questKeys.preQuestSingle] = {31066},
@@ -2513,7 +2513,7 @@ function MopQuestFixes.Load()
         },
         [31078] = { -- Han Stormstout
             [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_OBJECT}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{47.29,16.82}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{47.29,16.82}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
         },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
