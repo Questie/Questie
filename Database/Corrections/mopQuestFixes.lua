@@ -3191,6 +3191,9 @@ function MopQuestFixes.Load()
         [31072] = { -- Rending Daggers
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31074] = { -- Wood and Shade
+            [questKeys.preQuestSingle] = {31072},
+        },
         [31076] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {31067,31068},
