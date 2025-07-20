@@ -2508,6 +2508,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31067,31068},
             [questKeys.exclusiveTo] = {29907,31129},
         },
+        [31077] = { -- Evie Stormstout
+            [questKeys.objectives] = {{{31077,nil,Questie.ICON_TYPE_EVENT}},{{440002,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },

@@ -316,5 +316,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{58.41,81.83},{58.91,82.32},{59.07,83.39},{59.93,83.38},{60.23,83.06},{60,82.56},{60.6,82.5},{61.18,82.9},{61.44,84.22},{61.24,84.5},{60.52,84.82},{61.51,82.01},{62.16,81.84},{62.06,81.2},{61.1,80.89},{61.49,79.62},{59.84,79.62},{59.56,80.92},{59.54,81.25},{58.15,80.47}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [440002] = { -- For Evie Stormstout 31077
+            [objectKeys.name] = 'Evie Stormstout',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.22,10.14}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
     }
 end
