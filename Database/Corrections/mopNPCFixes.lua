@@ -1065,6 +1065,12 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64259] = { -- Master Angler Ju Lien
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
+                {53.64,76.04,phases.JU_LIEN_AT_COAST},
+                {54.9,72.82,phases.JU_LIEN_IN_TOWN},
+            }},
+        },
         [64562] = { -- Talking Skull
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_43},{-1,-1}},

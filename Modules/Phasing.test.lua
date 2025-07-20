@@ -1327,4 +1327,31 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
         end)
     end)
+
+    describe("Master Angler Ju Lien", function()
+        it("should return true for town location when 31189 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+        end)
+
+        it("should return true for town location when 31189 is complete", function()
+            Questie.db.char.complete[31189] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+        end)
+
+        it("should return true for coast loaction when 31354 is complete", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31354] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+        end)
+    end)
 end)
