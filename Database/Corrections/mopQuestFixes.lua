@@ -2078,6 +2078,9 @@ function MopQuestFixes.Load()
         [30457] = { -- Call Out Their Leader
             [questKeys.preQuestSingle] = {},
         },
+        [30460] = { -- Hit Medicine
+            [questKeys.objectives] = {{{59143,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30466] = { -- Sufficient Motivation
             [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30000},
