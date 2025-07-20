@@ -2554,6 +2554,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31680}
         },
         [31089] = { -- By the Sea, Nevermore
+            [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31088,31090},
             [questKeys.exclusiveTo] = {31682},
@@ -3247,6 +3248,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31090},
         },
         [31682] = { -- By the Sea, Nevermore
+            [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31680,31681},
             [questKeys.exclusiveTo] = {31089},

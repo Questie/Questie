@@ -140,6 +140,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
         },
+        [212294] = { -- Ocean-Worn Rocks
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{43.3,63.49}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [214674] = { -- Ancient Amber Chunk
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.76,41.66}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
