@@ -2447,6 +2447,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62209,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31013},
         },
+        [31019] = { -- Amber Is Life
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
             [questKeys.exclusiveTo] = {31036,31037},
