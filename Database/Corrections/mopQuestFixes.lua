@@ -2592,6 +2592,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [31454] = { -- A Legend in the Making
+            [questKeys.preQuestSingle] = {},
+        },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31279},
