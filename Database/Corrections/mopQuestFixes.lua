@@ -2627,6 +2627,9 @@ function MopQuestFixes.Load()
         [31181] = { -- Fresh Pots
             [questKeys.preQuestSingle] = {31265},
         },
+        [31182] = { -- You Otter Know
+            [questKeys.preQuestSingle] = {31265},
+        },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
