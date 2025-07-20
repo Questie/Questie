@@ -2409,6 +2409,9 @@ function MopQuestFixes.Load()
         [31004] = { -- Preserved in Amber
             [questKeys.objectives] = {nil,{{212868}}},
         },
+        [31005] = { -- Wakening Sickness
+            [questKeys.preQuestSingle] = {31004},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
