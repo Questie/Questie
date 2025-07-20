@@ -2277,6 +2277,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59899}}},
             [questKeys.preQuestGroup] = {30500,30502,30504},
         },
+        [30650] = { -- Pandaren Prisoners [Alliance]
+            [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_EVENT}}},
+        }
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {31252},
         },
@@ -2287,6 +2290,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30655] = { -- Pandaren Prisoners [Horde]
+            [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_EVENT}}},
+        }
         [30656] = { -- Barrels of Fun [Horde]
             [questKeys.preQuestSingle] = {31253},
         },
