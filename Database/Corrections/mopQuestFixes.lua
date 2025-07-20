@@ -2657,7 +2657,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {85998},
         },
         [31189] = { -- Reeltime Strategy
+            [questKeys.objectives] = {{{64259,nil,Questie.ICON_TYPE_TALK},{64270}}},
             [questKeys.preQuestGroup] = {31184,31187,31188},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reel in the fishing rod"),0,{{"object",213744},{"object",213746},{"object",213752},{"object",213753}}}},
         },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},

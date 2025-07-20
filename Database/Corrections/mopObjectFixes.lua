@@ -178,6 +178,26 @@ function MopObjectFixes.Load()
         [213508] = { -- Full Crab Pot
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.28,67.93},{46.7,80.5},{46.8,74.4},{47.55,70.64},{47.8,72.17},{47.9,75.1},{49.1,76}}},
         },
+        [213744] = { -- Serpent Rod
+            [objectKeys.name] = 'Serpent Rod',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.69,76.05}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [213746] = { -- Bamboo Rod
+            [objectKeys.name] = 'Bamboo Rod',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.69,76.05}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [213752] = { -- Classic Rod
+            [objectKeys.name] = 'Classic Rod',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.58,76.04}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [213753] = { -- Improvised Rod
+            [objectKeys.name] = 'Improvised Rod',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.58,76.04}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [214101] = { -- In the Shadow of the Light
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},
         },
