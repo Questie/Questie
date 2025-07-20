@@ -332,6 +332,9 @@ function MopItemFixes.Load()
         [85869] = { -- Potion of Mazu's Breath
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [85886] = { -- Sealed Charter Tube
+            [itemKeys.objectDrops] = {213454},
+        },
         [85981] = { -- Black Market Merchandise
             [itemKeys.objectDrops] = {213516,213517,213518,213519,213520},
         },

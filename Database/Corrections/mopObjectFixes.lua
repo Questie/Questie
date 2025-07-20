@@ -171,6 +171,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [213454] = { -- Soggy's Footlocker
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.7,78.6}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [214101] = { -- In the Shadow of the Light
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},
         },
