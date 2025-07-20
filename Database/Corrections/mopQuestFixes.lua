@@ -2542,6 +2542,9 @@ function MopQuestFixes.Load()
         [31085] = { -- Fires and Fears of Old
             [questKeys.preQuestSingle] = {31084},
         },
+        [31086] = { -- Blood of Ancients
+            [questKeys.preQuestSingle] = {31084},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
