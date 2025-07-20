@@ -2565,6 +2565,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31681},
         },
         [31091] = { -- Reunited
+            [questKeys.finishedBy] = {{64344}},
             [questKeys.triggerEnd] = {"Escort Kaz'tik the Manipulator to the Undisturbed Dirt", {[zoneIDs.DREAD_WASTES]={{41.75,71.89}}}},
             [questKeys.objectives] = {{{62542,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31089,31682},

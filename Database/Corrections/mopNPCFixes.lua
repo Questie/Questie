@@ -1107,6 +1107,9 @@ function MopNpcFixes.Load()
                 {54.9,72.82,phases.JU_LIEN_IN_TOWN},
             }},
         },
+        [64344] = { -- Kaz'tik the Manipulator
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.77,72.03}}},
+        },
         [64562] = { -- Talking Skull
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_43},{-1,-1}},
