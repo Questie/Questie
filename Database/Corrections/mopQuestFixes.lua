@@ -3760,6 +3760,21 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32018},
             [questKeys.breadcrumbForQuestId] = 29907,
         },
+        [32030] = { -- Once in a Hundred Lifetimes
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {
+                31004, -- Kil'ruk the Wind-Reaver
+                31085, -- Iyyokuk the Lucid
+                31010, -- Malik the Unscathed
+                31018, -- Xaril the Poisoned Mind
+                31026, -- Korven the Prime
+                31175, -- Skeer the Bloodseeker
+                31354, -- Ka'roz the Locust
+                31439, -- Hisek the Swarmkeeper
+                31606, -- Rik'kal the Dissector
+                31682, -- Kaz'tik the Manipulator
+            },
+        },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
         },
