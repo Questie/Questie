@@ -3119,6 +3119,13 @@ function MopQuestFixes.Load()
         [31729] = { -- Steven Lisbane
             [questKeys.objectives] = {{{63194,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31067] = { -- The Heavens Hum With War
+            [questKeys.preQuestSingle] = {31066},
+            [questKeys.breadcrumbs] = {31730},
+        },
+        [31730] = { -- A Not So Friendly Request
+            [questKeys.breadcrumbForQuestId] = 31067,
+        },
         [31732] = { -- Unleash Hell
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",66297}}}},
         },
