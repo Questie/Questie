@@ -2624,6 +2624,9 @@ function MopQuestFixes.Load()
         [31231] = { -- Dreadspinner Extermination
             [questKeys.preQuestSingle] = {31066},
         },
+        [31235] = { -- Nope Nope Nope
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
         },
