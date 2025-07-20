@@ -506,6 +506,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Talk to Kil'ruk"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Sprich mit Kil'ruk",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do
