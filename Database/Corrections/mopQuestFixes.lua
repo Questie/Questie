@@ -2183,7 +2183,7 @@ function MopQuestFixes.Load()
         [30513] = { -- Eastwind Rest
             [questKeys.objectives] = {{{63751,nil,Questie.ICON_TYPE_TALK},{63535,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [30515] = { -- Challenge Accepted [Alliance]
+        [30514] = { -- Challenge Accepted [Alliance]
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Set the Yaungol Banner ablaze"),0,{{"object",210933}}}},
         },
         [30515] = { -- Challenge Accepted [Horde]
