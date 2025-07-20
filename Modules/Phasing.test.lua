@@ -1297,4 +1297,34 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
         end)
     end)
+
+    describe("Deck Boss Arie", function()
+        it("should return true for dock location when 31190 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return true for dock location when 31190 is complete", function()
+            Questie.db.char.complete[31190] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return false for dock location when 31190 is not complete", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return false for dock location when 31190 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+    end)
 end)

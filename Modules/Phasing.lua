@@ -283,6 +283,7 @@ local phases = {
     SOGGY_IN_HUT = 1211,
     SOGGY_OUTSIDE = 1212,
     SOGGY_AT_DOCK = 1213,
+    ARIE_AT_DOCK = 1214,
 }
 Phasing.phases = phases
 
@@ -1204,6 +1205,10 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SOGGY_AT_DOCK then
+        return complete[31190] or (questLog[31190] and questLog[31190].isComplete == 1) and true or false
+    end
+
+    if phase == phases.ARIE_AT_DOCK then
         return complete[31190] or (questLog[31190] and questLog[31190].isComplete == 1) and true or false
     end
 
