@@ -307,6 +307,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [83075] = { -- Sapfly Bits
+            [itemKeys.npcDrops] = {62386},
+        },
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
         },
