@@ -328,6 +328,9 @@ function MopItemFixes.Load()
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [84239] = { -- Flitterling Dust
+            [itemKeys.npcDrops] = {62764},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
