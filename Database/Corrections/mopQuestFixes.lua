@@ -2530,6 +2530,8 @@ function MopQuestFixes.Load()
         },
         [31256] = { -- Round 'Em Up
             [questKeys.preQuestSingle] = {30515},
+            [questKeys.objectives] = {{{59611,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Round up a yak"),0,{{"monster",59610}}}},
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

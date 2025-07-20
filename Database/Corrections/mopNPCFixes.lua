@@ -648,6 +648,9 @@ function MopNpcFixes.Load()
         [59503] = { -- Brittle Skeleton
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59611] = { -- Captured Yak
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.17,79.93}}},
+        },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, --removed for quest clutter
         },
