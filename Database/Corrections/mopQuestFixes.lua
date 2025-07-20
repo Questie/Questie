@@ -2935,7 +2935,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
-        [31453] = { -- Beyond The Wall
+        [31695] = { -- Beyond The Wall
             [questKeys.preQuestGroup] = {30655,30656,30661},
         },
         [31724] = { -- Old MacDonald
