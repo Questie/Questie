@@ -2279,7 +2279,7 @@ function MopQuestFixes.Load()
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_EVENT}}},
-        }
+        },
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {31252},
             [questKeys.requiredSourceItems] = {80528},
@@ -2295,7 +2295,7 @@ function MopQuestFixes.Load()
         },
         [30655] = { -- Pandaren Prisoners [Horde]
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_EVENT}}},
-        }
+        },
         [30656] = { -- Barrels of Fun [Horde]
             [questKeys.preQuestSingle] = {31253},
             [questKeys.requiredSourceItems] = {80528},
