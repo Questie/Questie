@@ -3207,6 +3207,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {29907,31067,31068},
             [questKeys.exclusiveTo] = {31076},
         },
+        [31133] = { -- Kor'thik Aggression
+            [questKeys.preQuestGroup] = {31069,31070},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
