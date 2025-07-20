@@ -2513,6 +2513,9 @@ function MopQuestFixes.Load()
         [31241] = { -- Wicked Wikkets
             [questKeys.preQuestSingle] = {29879},
         },
+        [31251] = { -- Best Meals Anywhere!
+            [questKeys.preQuestSingle] = {30515},
+        },
         [31254] = { -- The Road to Kun-Lai [Alliance]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
         },
