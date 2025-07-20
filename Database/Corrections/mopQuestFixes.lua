@@ -2972,6 +2972,9 @@ function MopQuestFixes.Load()
         [31660] = { -- Not Fit to Swarm
             [questKeys.preQuestSingle] = {31006},
         },
+        [31661] = { -- A Source of Terrifying Power
+            [questKeys.preQuestSingle] = {31006},
+        },
         [31669] = { -- The Cabbage Test
             [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943},
         },
