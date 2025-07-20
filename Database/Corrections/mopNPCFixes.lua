@@ -991,6 +991,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{82.8,38.8}}},
         },
+        [62774] = { -- Malik the Unscathed
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {54.89,34.14,phases.MALIK_AT_PILLAR},
+                {55.06,35.47,phases.MALIK_NEXT_TO_ZIKK},
+            }},
+        },
         [62923] = { -- Empty Package
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.spawns] = {

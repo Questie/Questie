@@ -276,6 +276,8 @@ local phases = {
     RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END = 1204,
     HIGH_ELDER_CLOUDFALL_AT_TOWER = 1205,
     HIGH_ELDER_CLOUDFALL_AT_BANQUET = 1206,
+    MALIK_AT_PILLAR = 1207,
+    MALIK_NEXT_TO_ZIKK = 1208,
 }
 Phasing.phases = phases
 
@@ -1170,6 +1172,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET then
         return (not (complete[29639] or complete[29646] or complete[29647])) and (complete[29624] and complete[29635] and complete[29637]) or questLog[29620] and true or false
+    end
+
+    if phase == phases.MALIK_AT_PILLAR then
+        return (not complete[31010]) or false
+    end
+
+    if phase == phases.MALIK_NEXT_TO_ZIKK then
+        return complete[31010] and true or false
     end
 
     return false
