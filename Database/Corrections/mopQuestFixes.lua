@@ -2285,6 +2285,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{61788,61780,61790},61788,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
         },
+        [30999] = { -- Path Less Traveled
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31459,31460},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
