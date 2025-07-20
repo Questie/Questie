@@ -2462,6 +2462,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31034,31036},
             [questKeys.nextQuestInChain] = 0,
         },
+        [31066] = { -- A Cry From Darkness
+            [questKeys.preQuestSingle] = {31010},
+        },
         [31108] = { -- Concentrated Fear
             [questKeys.preQuestGroup] = {31008,31661},
         },
