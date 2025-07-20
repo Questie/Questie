@@ -2615,15 +2615,15 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [31454] = { -- A Legend in the Making
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31488,31489},
+        },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
         },
         [31460] = { -- Cho's Missive [Alliance]
             [questKeys.breadcrumbForQuestId] = 30999,
-        },
-        [31454] = { -- A Legend in the Making
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {31488,31489},
         },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
