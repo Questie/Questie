@@ -1239,34 +1239,62 @@ describe("Phasing", function()
     describe("Captain Soggy Su-Dao", function()
         it("should return true for outside location when 31189 is complete", function()
             Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
             assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
         end)
 
         it("should return true for outside location when 31189 is not complete and complete in the quest log", function()
             Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=1}}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
             assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
         end)
 
         it("should return true for inside hut location when 31189 is not complete and incomplete in the quest log", function()
             Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=0}}
 
-            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
             assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
         end)
 
         it("should return true for inside hut location when 31189 is not complete and not in the quest log", function()
             Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
-            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
             assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+        end)
+
+        it("should return true for dock location when 31190 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+
+        it("should return true for dock location when 31190 is complete", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
         end)
     end)
 end)

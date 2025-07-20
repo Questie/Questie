@@ -282,6 +282,7 @@ local phases = {
     KIL_RUK_NEXT_TO_ZIKK = 1210,
     SOGGY_IN_HUT = 1211,
     SOGGY_OUTSIDE = 1212,
+    SOGGY_AT_DOCK = 1213,
 }
 Phasing.phases = phases
 
@@ -1199,7 +1200,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SOGGY_OUTSIDE then
-        return complete[31189] or (questLog[31189] and questLog[31189].isComplete == 1) and true or false
+        return (complete[31189] or (questLog[31189] and questLog[31189].isComplete == 1)) and ((not complete[31190]) and (not questLog[31190] or questLog[31190].isComplete == 0)) and true or false
+    end
+
+    if phase == phases.SOGGY_AT_DOCK then
+        return complete[31190] or (questLog[31190] and questLog[31190].isComplete == 1) and true or false
     end
 
     return false
