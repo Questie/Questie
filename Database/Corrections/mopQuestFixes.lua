@@ -2254,7 +2254,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30670] = { -- Turnabout
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30457},
         },
         [30672] = { -- Balance
             [questKeys.preQuestSingle] = {30671},
