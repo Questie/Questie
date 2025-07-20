@@ -2401,6 +2401,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the rope"),0,{{"object",212229}}}},
         },
         [31002] = { -- Nope
+            [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.breadcrumbs] = {31391},
         },
         [31003] = { -- Psycho Mantid
@@ -2640,6 +2641,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31606},
         },
         [31235] = { -- Nope Nope Nope
+            [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31066},
         },
         [31237] = { -- Debugging the Terrace
