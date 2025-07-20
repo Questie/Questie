@@ -2529,7 +2529,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31075},
         },
         [31082] = { -- Great Vessel of Salvation
+            [questKeys.triggerEnd] = {"Bring Motherseeds back to the Motherseed Pit", {[zoneIDs.DREAD_WASTES]={{36.86,17.44}}}},
+            [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31075},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Let the Chanter pick-up the Motherseeds"),0,{{"monster",62601}}}},
         },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
