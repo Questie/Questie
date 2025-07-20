@@ -307,6 +307,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [82870] = { -- Strange Relic
+            [itemKeys.npcDrops] = {61970,63176},
+        },
         [83075] = { -- Sapfly Bits
             [itemKeys.npcDrops] = {62386},
         },
