@@ -307,6 +307,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [82864] = { -- Living Amber
+            [itemKeys.objectDrops] = {212009,212012},
+        },
         [82867] = { -- Mantid Relic
             [itemKeys.objectDrops] = {212078,212079},
         },

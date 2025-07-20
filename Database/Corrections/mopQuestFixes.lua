@@ -2458,6 +2458,7 @@ function MopQuestFixes.Load()
         },
         [31021] = { -- Living Amber
             [questKeys.preQuestSingle] = {31019},
+            [questKeys.requiredSourceItems] = {82864},
         },
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
