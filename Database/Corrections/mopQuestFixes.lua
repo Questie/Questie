@@ -2406,6 +2406,9 @@ function MopQuestFixes.Load()
         [31003] = { -- Psycho Mantid
             [questKeys.preQuestGroup] = {31001,31002},
         },
+        [31004] = { -- Preserved in Amber
+            [questKeys.objectives] = {nil,{{212868}}},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},

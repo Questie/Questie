@@ -144,6 +144,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.4,29.4},{82.4,29.5},{82.5,29.4},{82.5,29.5}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [212868] = { -- Ancient Amber Chunk
+            [objectKeys.name] = 'Ancient Amber Chunk',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{70.19,25.63}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [212935] = { -- Mogu Artifact
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{26.67,37.64},{27.59,39.59},{26.08,40.92},{25.75,41.04},{25.01,42.41},{23.33,40.36},{24.49,39.12},{23.63,38.15},{24.21,45.82},{24.03,45.79},{26.01,49.28},{25.77,49.07},{26.33,46.56},{26.22,46.71},{26.21,46.53},
         }},
