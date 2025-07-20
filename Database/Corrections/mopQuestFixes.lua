@@ -2545,6 +2545,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31084},
         },
         [31087] = { -- Extending Our Coverage
+            [questKeys.objectives] = {{{65328,nil,Questie.ICON_TYPE_EVENT},{65478}},{{213250}}},
             [questKeys.preQuestSingle] = {31066},
         },
         [31107] = { -- Citizens of a New Empire
