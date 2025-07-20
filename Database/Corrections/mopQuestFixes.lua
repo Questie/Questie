@@ -2628,6 +2628,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31265},
         },
         [31182] = { -- You Otter Know
+            [questKeys.objectives] = {{{63376,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31265},
         },
         [31230] = { -- Welcome to Dawn's Blossom
