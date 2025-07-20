@@ -3184,6 +3184,9 @@ function MopQuestFixes.Load()
         [31070] = { -- Daggers of the Great Ones
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31071] = { -- I Bring Us Great Shame
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
