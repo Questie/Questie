@@ -2075,6 +2075,9 @@ function MopQuestFixes.Load()
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [30457] = { -- Call Out Their Leader
+            [questKeys.preQuestSingle] = {},
+        },
         [30466] = { -- Sufficient Motivation
             [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30000},
