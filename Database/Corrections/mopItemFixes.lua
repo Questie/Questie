@@ -322,6 +322,9 @@ function MopItemFixes.Load()
         [84111] = { -- Blade of Kz'Kzik
             [itemKeys.npcDrops] = {62832},
         },
+        [84118] = { -- Fragrant Corewood
+            [itemKeys.npcDrops] = {62876},
+        },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
