@@ -2663,6 +2663,7 @@ function MopQuestFixes.Load()
         },
         [31190] = { -- The Mariner's Revenge
             [questKeys.preQuestSingle] = {31189},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
