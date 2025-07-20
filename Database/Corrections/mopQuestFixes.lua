@@ -2529,6 +2529,12 @@ function MopQuestFixes.Load()
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
         },
+        [31252] = { -- Back to Westwind Rest
+            [questKeys.preQuestGroup] = {30571,30581},
+        },
+        [31253] = { -- Back to Eastwind Rest
+            [questKeys.preQuestGroup] = {30571,30581},
+        },
         [31254] = { -- The Road to Kun-Lai [Alliance]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
         },
