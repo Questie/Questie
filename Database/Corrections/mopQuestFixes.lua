@@ -2621,6 +2621,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
         },
+        [31231] = { -- Dreadspinner Extermination
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
         },
