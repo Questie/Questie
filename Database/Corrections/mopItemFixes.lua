@@ -316,6 +316,9 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [85230] = { -- Sea Monarch Chunks
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,

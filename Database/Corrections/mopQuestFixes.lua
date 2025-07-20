@@ -2625,7 +2625,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100787}}},
         },
         [31181] = { -- Fresh Pots
+            [questKeys.objectives] = {nil,{{440001}}},
             [questKeys.preQuestSingle] = {31265},
+            [questKeys.requiredSourceItems] = {85230},
         },
         [31182] = { -- You Otter Know
             [questKeys.objectives] = {{{63376,nil,Questie.ICON_TYPE_INTERACT}}},
