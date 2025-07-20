@@ -2547,6 +2547,7 @@ function MopQuestFixes.Load()
         [31087] = { -- Extending Our Coverage
             [questKeys.objectives] = {{{65328,nil,Questie.ICON_TYPE_EVENT},{65478}},{{213250}}},
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.exclusiveTo] = {31679},
         },
         [31088] = { -- Crime and Punishment
             [questKeys.preQuestSingle] = {31087},
@@ -3233,6 +3234,9 @@ function MopQuestFixes.Load()
         },
         [31676] = { -- Ancient Vengeance
             [questKeys.preQuestSingle] = {31004},
+        },
+        [31679] = { -- Extending Our Coverage
+            [questKeys.exclusiveTo] = {31087},
         },
         [31680] = { -- Crime and Punishment
             [questKeys.exclusiveTo] = {31088},
