@@ -2679,6 +2679,9 @@ function MopQuestFixes.Load()
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [31265] = { -- Mazu's Breath
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
