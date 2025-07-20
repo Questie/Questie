@@ -2590,8 +2590,22 @@ function MopQuestFixes.Load()
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
-        [31393] = { -- Temple of the White Tiger
+        [31392] = { -- Temple of the White Tiger [Alliance]
+            [questKeys.breadcrumbForQuestId] = 31394,
+            [questKeys.exclusiveTo] = {31394},
+        },
+        [31393] = { -- Temple of the White Tiger [Horde]
             [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
+            [questKeys.breadcrumbForQuestId] = 31395,
+            [questKeys.exclusiveTo] = {31395},
+        },
+        [31394] = { --A Celestial Experience [Alliance]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31392},
+        },
+        [31395] = { --A Celestial Experience [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31393},
         },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
@@ -2608,11 +2622,11 @@ function MopQuestFixes.Load()
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,64047,64144,64457,66225,66409,66415}},
-            [questKeys.breadcrumbForQuestId] = {31454},
+            [questKeys.breadcrumbForQuestId] = 31454,
             [questKeys.exclusiveTo] = {31454},
         },
         [31489] = { -- Stranger in a Strange Land
-            [questKeys.breadcrumbForQuestId] = {31454},
+            [questKeys.breadcrumbForQuestId] = 31454,
         },
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
