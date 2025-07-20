@@ -2165,6 +2165,21 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64360,nil,Questie.ICON_TYPE_INTERACT},{64362,nil,Questie.ICON_TYPE_INTERACT},{64363,nil,Questie.ICON_TYPE_INTERACT},{64364,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31303},
         },
+        [30509] = { -- General Nazgrim has Awakened
+            [questKeys.exclusiveTo] = {30510,30511},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
+        [30510] = { -- General Nazgrim has Awakened
+            [questKeys.exclusiveTo] = {30509,30511},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
+        [30511] = { -- General Nazgrim has Awakened
+            [questKeys.exclusiveTo] = {30509,30510},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
             [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
