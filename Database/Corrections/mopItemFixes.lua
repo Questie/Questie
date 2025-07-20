@@ -316,6 +316,9 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [84111] = { -- Blade of Kz'Kzik
+            [itemKeys.npcDrops] = {62832},
+        },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
