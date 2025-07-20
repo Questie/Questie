@@ -2519,6 +2519,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{47.29,16.82}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
         },
+        [31080] = { -- Fiery Wings
+            [questKeys.preQuestSingle] = {31075},
+        },
         [31087] = { -- Extending Our Coverage
             [questKeys.preQuestSingle] = {31066},
         },
