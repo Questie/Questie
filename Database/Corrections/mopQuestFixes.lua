@@ -2259,6 +2259,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30808] = { -- A Grummle's Luck
+            [questKeys.preQuestSingle] = {},
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
