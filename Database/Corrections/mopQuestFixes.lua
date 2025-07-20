@@ -3181,6 +3181,9 @@ function MopQuestFixes.Load()
         [31069] = { -- Bound With Shade
             [questKeys.preQuestGroup] = {31067,31068},
         },
+        [31070] = { -- Daggers of the Great Ones
+            [questKeys.preQuestGroup] = {31067,31068},
+        },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
         },
