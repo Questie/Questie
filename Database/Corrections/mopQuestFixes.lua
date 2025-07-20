@@ -2486,6 +2486,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31486},
         },
+        [31285] = { -- The Spring Drifter
+            [questKeys.objectives] = {{{63517,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
         },
