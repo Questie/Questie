@@ -3173,6 +3173,7 @@ function MopQuestFixes.Load()
         [31067] = { -- The Heavens Hum With War
             [questKeys.preQuestSingle] = {31066},
             [questKeys.breadcrumbs] = {31730},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{53.66,15.87}}},Questie.ICON_TYPE_MOUNT_UP,l10n("Enter the burrow")}},
         },
         [31730] = { -- A Not So Friendly Request
             [questKeys.breadcrumbForQuestId] = 31067,
