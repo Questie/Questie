@@ -264,6 +264,9 @@ function MopItemFixes.Load()
         [80228] = { -- Enormous Cattail Grouper Tooth
             [itemKeys.npcDrops] = {59639},
         },
+        [80294] = { -- Mogu Relic
+            [itemKeys.objectDrops] = {211143},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
