@@ -2280,11 +2280,17 @@ function MopQuestFixes.Load()
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {31252},
         },
+        [30652] = { -- In Tents Channeling [Alliance]
+            [questKeys.preQuestSingle] = {31252},
+        },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30656] = { -- Barrels of Fun [Horde]
+            [questKeys.preQuestSingle] = {31253},
+        },
+        [30657] = { -- In Tents Channeling [Horde]
             [questKeys.preQuestSingle] = {31253},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
