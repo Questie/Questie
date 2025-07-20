@@ -1004,6 +1004,24 @@ function MopNpcFixes.Load()
                 {55.06,35.86,phases.KIL_RUK_NEXT_TO_ZIKK},
             }},
         },
+        [62666] = { -- Sapmaster Vu
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {51.21,11.39,phases.SAP_MASTERS_AT_BREWGARDEN},
+                {38.18,17.18,phases.SAP_MASTERS_AT_RIKKITUN},
+            }},
+        },
+        [62667] = { -- Lya of Ten Songs
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {50.73,11.71,phases.SAP_MASTERS_AT_BREWGARDEN},
+                {38.3,17.14,phases.SAP_MASTERS_AT_RIKKITUN},
+            }},
+        },
+        [62668] = { -- Olon
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {51.17,11.21,phases.SAP_MASTERS_AT_BREWGARDEN},
+                {38.2,17.12,phases.SAP_MASTERS_AT_RIKKITUN},
+            }},
+        },
         [62751] = { -- Dread Lurker
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{51.6,19},{52,18.4},{52.8,18.6},{54,20.4},{54,20.6},{54.2,18.2},{54.4,17.4},{54.4,18.6},{54.6,18.4},{54.6,18.6},{54.6,19.6},{54.8,16.8},{56,16.4},{56.2,17.4},{56.2,17.6},{56.4,19},{56.8,18.6},{57.4,20.4},{57.6,20.4},{58.4,19.2},{58.6,19.2}}},
         },
