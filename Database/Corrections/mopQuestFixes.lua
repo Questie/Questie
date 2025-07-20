@@ -2633,6 +2633,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{63376,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31265},
         },
+        [31183] = { -- Meet the Cap'n
+            [questKeys.preQuestGroup] = {31181,31182},
+        },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
