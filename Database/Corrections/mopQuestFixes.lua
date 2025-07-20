@@ -2247,6 +2247,9 @@ function MopQuestFixes.Load()
         [30594] = { -- Deanimate the Reanimated
             [questKeys.preQuestSingle] = {30515},
         },
+        [30595] = { -- Profiting off of the Past
+            [questKeys.preQuestSingle] = {30515},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
