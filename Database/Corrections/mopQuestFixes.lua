@@ -2525,6 +2525,9 @@ function MopQuestFixes.Load()
         [31255] = { -- The Road to Kun-Lai [Horde]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31256] = { -- Round 'Em Up
+            [questKeys.preQuestSingle] = {30515},
+        },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
