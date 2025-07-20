@@ -2656,6 +2656,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31183},
             [questKeys.requiredSourceItems] = {85998},
         },
+        [31189] = { -- Reeltime Strategy
+            [questKeys.preQuestGroup] = {31184,31187,31188},
+        },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
