@@ -940,6 +940,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.62,31.42}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
+        [62166] = { -- Marksman Lann
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{72.55,28.67}}},
+        },
         [62177] = { -- Forest Moth
             [npcKeys.spawns] = {
                 [141] = {{39.2,47.2},{40.6,30.2},{56,54},{62,50.2}},

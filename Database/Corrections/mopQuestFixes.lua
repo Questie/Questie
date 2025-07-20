@@ -2395,8 +2395,10 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31459,31460},
         },
         [31001] = { -- Falling Down
+            [questKeys.objectives] = {{{62166,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31895},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the rope"),0,{{"object",212229}}}},
         },
         [31002] = { -- Nope
             [questKeys.breadcrumbs] = {31391},
