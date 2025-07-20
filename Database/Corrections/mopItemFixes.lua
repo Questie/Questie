@@ -335,6 +335,9 @@ function MopItemFixes.Load()
         [86598] = { -- Vor'thik Eggs
             [itemKeys.objectDrops] = {214170},
         },
+        [86616] = { -- Dread Amber Focus
+            [itemKeys.npcDrops] = {62814},
+        },
         [87282] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
