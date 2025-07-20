@@ -338,6 +338,9 @@ function MopItemFixes.Load()
         [85981] = { -- Black Market Merchandise
             [itemKeys.objectDrops] = {213516,213517,213518,213519,213520},
         },
+        [85998] = { -- Thresher Jaw
+            [itemKeys.npcDrops] = {63944},
+        },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },

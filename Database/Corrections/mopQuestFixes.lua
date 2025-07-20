@@ -2647,6 +2647,7 @@ function MopQuestFixes.Load()
         },
         [31188] = { -- Shark Week
             [questKeys.preQuestSingle] = {31183},
+            [questKeys.requiredSourceItems] = {85998},
         },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
