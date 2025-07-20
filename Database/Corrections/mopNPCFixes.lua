@@ -1023,6 +1023,12 @@ function MopNpcFixes.Load()
         [63307] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{28.82,32.62}}},
         },
+        [63317] = { -- Captain "Soggy" Su-Dao
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
+                {55.66,72.49,phases.SOGGY_IN_HUT},
+                {54.77,72.11,phases.SOGGY_OUTSIDE},
+            }},
+        },
         [63335] = { -- Mojo Stormstout
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
         },

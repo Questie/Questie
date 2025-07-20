@@ -1235,4 +1235,38 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KIL_RUK_AT_PILLAR))
         end)
     end)
+
+    describe("Captain Soggy Su-Dao", function()
+        it("should return true for outside location when 31189 is complete", function()
+            Questie.db.char.complete[31189] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+
+        it("should return true for outside location when 31189 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+
+        it("should return true for inside hut location when 31189 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+
+        it("should return true for inside hut location when 31189 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+    end)
 end)
