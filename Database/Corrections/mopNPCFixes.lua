@@ -609,6 +609,18 @@ function MopNpcFixes.Load()
         [59241] = { -- Scarlet Treasurer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59276] = { -- Weapons Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.44,28.09}}},
+        },
+        [59278] = { -- Tools Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.75,30.52}}},
+        },
+        [59279] = { -- Beer Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.13,25.98}}},
+        },
+        [59280] = { -- Grain Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.94,21.95}}},
+        },
         [59303] = { -- Houndmaster Braun
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{54.55,29.07},{-1,-1}}},
         },
@@ -636,8 +648,20 @@ function MopNpcFixes.Load()
         [59503] = { -- Brittle Skeleton
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59611] = { -- Captured Yak
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.17,79.93}}},
+        },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, --removed for quest clutter
+        },
+        [60096] = { -- Eastern Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
+        },
+        [60098] = { -- Southern Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.61,80.99}}},
+        },
+        [60099] = { -- Western Oil Rig
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
         },
         [60488] = { -- Water Spout Bunny
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{78.54,37.08},{78.31,37.77},{78.77,37.52},{78.63,38.81},{78.72,37.2},{78.32,37.1},{79.46,37.99},{79.56,37.64},{78.33,37.75},{78.8,38.64},{79.41,36.63},{79.78,37.54},{79.22,37.4},{79.94,37.7},{79.2,36.68},{78.4,38.79},{79.07,37.03}}},
@@ -979,6 +1003,9 @@ function MopNpcFixes.Load()
         },
         [63335] = { -- Mojo Stormstout
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
+        },
+        [63517] = { -- The Spring Drifter
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS]={{52.04,43.12}}},
         },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {

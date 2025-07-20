@@ -222,6 +222,9 @@ function MopItemFixes.Load()
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
         },
+        [79828] = { -- Yak Statuette
+            [itemKeys.npcDrops] = {59124},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
@@ -231,6 +234,9 @@ function MopItemFixes.Load()
         [79884] = { -- Bucket of Slicky Water
             [itemKeys.objectDrops] = {209974},
         },
+        [79952] = { -- Pungent Sprite Needles
+            [itemKeys.npcDrops] = {55593},
+        },
         [80013] = { -- Shademaster Kiryn's Report
             [itemKeys.npcDrops] = {56841},
         },
@@ -239,6 +245,9 @@ function MopItemFixes.Load()
         },
         [80015] = { -- Shokia's Report
             [itemKeys.npcDrops] = {56838},
+        },
+        [80230] = {  -- Cast Iron Pot
+            [itemKeys.objectDrops] = {211023},
         },
         [80061] = { -- Riko's Report
             [itemKeys.npcDrops] = {56840},
@@ -258,14 +267,23 @@ function MopItemFixes.Load()
         [80216] = { -- Lolo Lio\'s Payment
             [itemKeys.npcDrops] = {59585},
         },
+        [80227] = { -- Root Vegetable
+            [itemKeys.objectDrops] = {211017,211018,211019},
+        },
         [80228] = { -- Enormous Cattail Grouper Tooth
             [itemKeys.npcDrops] = {59639},
+        },
+        [80294] = { -- Mogu Relic
+            [itemKeys.objectDrops] = {211143},
         },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
+        },
+        [80528] = { -- Explosives Barrel
+            [itemKeys.objectDrops] = {211312},
         },
         [80677] = { -- Emerald Tailfeather
             [itemKeys.npcDrops] = {60200},
@@ -289,6 +307,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [81385] = { -- Stolen Inkgill Ritual Staff
+            [itemKeys.npcDrops] = {59180},
+        },
         [85783] = { -- Captain Jack\'s Head
             [itemKeys.npcDrops] = {63809},
             [itemKeys.startQuest] = 31261,
@@ -298,6 +319,9 @@ function MopItemFixes.Load()
         },
         [85854] = { -- The Needlebeak
             [itemKeys.npcDrops] = {63796},
+        },
+        [85981] = { -- Black Market Merchandise
+            [itemKeys.objectDrops] = {213516,213517,213518,213519,213520},
         },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
