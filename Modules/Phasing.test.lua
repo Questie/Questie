@@ -1345,13 +1345,31 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
         end)
 
-        it("should return true for coast loaction when 31354 is complete", function()
+        it("should return true for coast location when 31354 is complete", function()
             Questie.db.char.complete[31189] = true
             Questie.db.char.complete[31354] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
             assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+        end)
+    end)
+
+    describe("Chen Stormstout Dread Wastes", function()
+        it("should return true for Fear Clutch location when 31077 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31077] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+        end)
+
+        it("should return true for Brewgarden location when 31077 is in the quest log", function()
+            Questie.db.char.complete[31077] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31077]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
         end)
     end)
 end)
