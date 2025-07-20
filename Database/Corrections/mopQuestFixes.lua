@@ -2718,6 +2718,7 @@ function MopQuestFixes.Load()
         },
         [31451] = { -- The Missing Merchant [Horde]
             [questKeys.preQuestGroup] = {30655,30656,30661},
+            [questKeys.breadcrumbForQuestId] = 30467,
         },
         [31453] = { -- The Shado-Pan
             [questKeys.preQuestGroup] = {30655,30656,30661},
