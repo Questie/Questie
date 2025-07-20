@@ -145,6 +145,7 @@ QuestieDB.factionIDs = {
     GINA_MUDCLAW = 1281,
     FISH_FELLREED = 1282,
     FARMER_FUNG = 1283,
+    THE_KLAXXI = 1337,
 }
 
 -- temporary, until we remove the old db funcitons

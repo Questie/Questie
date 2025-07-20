@@ -3501,6 +3501,21 @@ function MopQuestFixes.Load()
         [31958] = { -- Grand Master Aki
             [questKeys.objectives] = {{{66741,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31959] = { -- The Empress' Gambit
+            [questKeys.preQuestGroup] = {
+                31004, -- Kil'ruk the Wind-Reaver
+                31085, -- Iyyokuk the Lucid
+                31010, -- Malik the Unscathed
+                31018, -- Xaril the Poisoned Mind
+                31026, -- Korven the Prime
+                31175, -- Skeer the Bloodseeker
+                31354, -- Ka'roz the Locust
+                31439, -- Hisek the Swarmkeeper
+                31606, -- Rik'kal the Dissector
+                31682, -- Kaz'tik the Manipulator
+            },
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,42000},
+        },
         [31966] = { -- Battle Pet Tamers: Cataclysm
             [questKeys.objectives] = {{{66819,nil,Questie.ICON_TYPE_PET_BATTLE},{66815,nil,Questie.ICON_TYPE_PET_BATTLE},{66822,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
