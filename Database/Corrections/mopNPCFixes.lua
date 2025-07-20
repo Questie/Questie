@@ -1181,6 +1181,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
         },
+        [65365] = { -- Kor'ik
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{48.12,49.62}}},
+        },
         [65960] = { -- Master Woo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.12,40.35}}},
         },
