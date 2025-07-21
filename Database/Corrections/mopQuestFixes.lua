@@ -2350,6 +2350,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30683] = { -- One Traveler's Misfortune
+            [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
