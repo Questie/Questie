@@ -2496,6 +2496,7 @@ function MopQuestFixes.Load()
         },
         [30880] = { -- Round 1: The Streetfighter
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lun-Chi"),0,{{"monster",60994}}}},
         },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
