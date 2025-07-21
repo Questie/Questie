@@ -3032,7 +3032,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31175] = { -- Skeer the Bloodseeker
+            [questKeys.objectives] = {nil,{{212980}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{25.72,54.31}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
         },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
