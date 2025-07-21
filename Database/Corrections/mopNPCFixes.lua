@@ -758,6 +758,7 @@ function MopNpcFixes.Load()
         },
         [61166] = { -- Cho Summon Bunny
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [61169] = { -- Roach
             [npcKeys.zoneID] = 10,
@@ -771,6 +772,10 @@ function MopNpcFixes.Load()
                 [1497] = {{50.8,60},{59.2,29},{59.6,37},{59.8,36},{61.4,52.2},{64.2,33.4},{65.8,25.8},{66.2,27.8},{68,36},{68.8,36.8},{73.4,68.6},{78.2,72.6},{81.6,68.4},{83.4,33.8},{83.6,63.8},{84,41.8},{84.2,63.4}},
                 [5287] = {{39.8,72.6},{41.6,73},{42,68.4},{42,74.4},{42,74.6},{43,71.6},{43.2,71.2}},
             },
+        },
+        [61297] = { -- Image of Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [61313] = { -- Parrot
             [npcKeys.spawns] = {
