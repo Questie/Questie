@@ -3036,6 +3036,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{25.72,54.31}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
         },
+        [31176] = { -- A Strange Appetite
+            [questKeys.preQuestSingle] = {31175},
+        },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
             [questKeys.preQuestGroup] = {30655,30656,30661},
