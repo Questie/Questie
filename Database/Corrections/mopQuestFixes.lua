@@ -2897,6 +2897,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
+        [31208] = { -- Venomous Intent
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
+        [31209] = { -- Dark Wings, Dark Things
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
+        [31210] = { -- A Shade of Dread
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
         [31211] = { -- The Poisoned Mind
             [questKeys.preQuestSingle] = {31018},
         },
