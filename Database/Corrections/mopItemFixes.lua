@@ -279,6 +279,9 @@ function MopItemFixes.Load()
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [80311] = { -- Filled Oil Vial
+            [itemKeys.objectDrops] = {211530,211531},
+        },
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
         },
