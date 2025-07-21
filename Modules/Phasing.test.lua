@@ -1665,4 +1665,22 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
         end)
     end)
+
+    describe("Lin Tenderpaw", function()
+        it("should return true for Paoquan Hollow location when 29984 is complete", function()
+            Questie.db.char.complete[29984] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+        end)
+
+        it("should return true for east of Stoneplow location when 29984 is incomplete", function()
+            Questie.db.char.complete[29984] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+        end)
+    end)
 end)

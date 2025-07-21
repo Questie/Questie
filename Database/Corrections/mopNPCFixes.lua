@@ -456,6 +456,12 @@ function MopNpcFixes.Load()
         [55944] = { -- Delora Lionheart
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{42.22,86.54}}},
         },
+        [56111] = { -- Lin Tenderpaw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {19.87,56.92,phases.LIN_TENDERPAW_EAST_OF_STONEPLOW},
+                {18.06,31.01,phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW},
+            }},
+        },
         [56113] = { -- Clever Ashyo
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {59.25,27.56,phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY},

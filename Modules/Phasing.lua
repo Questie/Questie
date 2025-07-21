@@ -306,6 +306,8 @@ local phases = {
     DEZCO_AT_THUNDER_CLEFT = 1234,
     DEZCO_AT_SHATTERED_CONVOY = 1235,
     DEZCO_AT_DAWNCHASER_RETREAT = 1236,
+    LIN_TENDERPAW_AT_PAOQUAN_HOLLOW = 1237,
+    LIN_TENDERPAW_EAST_OF_STONEPLOW = 1238,
 }
 Phasing.phases = phases
 
@@ -1320,6 +1322,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.DEZCO_AT_DAWNCHASER_RETREAT then
         return complete[30174] or (questLog[30174] and questLog[30174].isComplete == 1) or false
+    end
+
+    if phase == phases.LIN_TENDERPAW_EAST_OF_STONEPLOW then
+        return (not complete[29984]) or false
+    end
+
+    if phase == phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW then
+        return complete[29984] or false
     end
 
     return false
