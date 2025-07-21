@@ -2280,6 +2280,9 @@ function MopQuestFixes.Load()
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
+        [30618] = { -- They Stole My Luck
+            [questKeys.preQuestSingle] = {30999},
+        },
         [30622] = { -- The Swarm Begins
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
         },
