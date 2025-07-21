@@ -2498,29 +2498,37 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Brewmaster Chani"),0,{{"monster",60996}}}},
             [questKeys.exclusiveTo] = {30880},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30880] = { -- Round 1: The Streetfighter
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lun-Chi"),0,{{"monster",60994}}}},
             [questKeys.exclusiveTo] = {30879},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30881] = { -- Round 2: Clever Ashyo & Ken-Ken
             --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30882] = { -- Round 2: Kang Bramblestaff
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kang Bramblestaff"),0,{{"monster",60978}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30883] = { -- Round 3: The Wrestler
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to The Wrestler"),0,{{"monster",60997}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30885] = { -- Round 3: Master Boom Boom
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Boom Boom"),0,{{"monster",61013}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30907] = { -- Round 4: The P.U.G
             --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
