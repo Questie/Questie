@@ -303,6 +303,9 @@ local phases = {
     KANG_AT_DAWNCHASER_RETREAT = 1231,
     KOR_AT_THUNDER_CLEFT = 1232,
     KOR_AT_DAWNCHASER_RETREAT = 1233,
+    DEZCO_AT_THUNDER_CLEFT = 1234,
+    DEZCO_AT_SHATTERED_CONVOY = 1235,
+    DEZCO_AT_DAWNCHASER_RETREAT = 1236,
 }
 Phasing.phases = phases
 
@@ -1305,6 +1308,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KOR_AT_DAWNCHASER_RETREAT then
         return complete[30132] or (questLog[30132] and questLog[30132].isComplete == 1) or false
+    end
+
+    if phase == phases.DEZCO_AT_THUNDER_CLEFT then
+        return (not complete[30131]) and (not complete[30175]) and (not complete[30174]) or false
+    end
+
+    if phase == phases.DEZCO_AT_SHATTERED_CONVOY then
+        return (not complete[30174]) and complete[30175] or false
+    end
+
+    if phase == phases.DEZCO_AT_DAWNCHASER_RETREAT then
+        return complete[30174] or (questLog[30174] and questLog[30174].isComplete == 1) or false
     end
 
     return false

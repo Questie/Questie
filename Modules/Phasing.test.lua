@@ -1619,4 +1619,50 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
         end)
     end)
+
+    describe("Sunwalker Dezco", function()
+        it("should return true for Thunder Cleft location 30131 is incomplete", function()
+            Questie.db.char.complete[30131] = false
+            Questie.db.char.complete[30175] = false
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Shattered Convoy location when 30175 is complete", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = true
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30174 is incomplete and complete in the quest log", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = false
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30174]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30174 is complete", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = true
+            Questie.db.char.complete[30174] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+        end)
+    end)
 end)
