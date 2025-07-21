@@ -738,6 +738,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{78.54,37.08},{78.31,37.77},{78.77,37.52},{78.63,38.81},{78.72,37.2},{78.32,37.1},{79.46,37.99},{79.56,37.64},{78.33,37.75},{78.8,38.64},{79.41,36.63},{79.78,37.54},{79.22,37.4},{79.94,37.7},{79.2,36.68},{78.4,38.79},{79.07,37.03}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [60491] = { -- Sha of Anger
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{67.79,77.96}}},
+        },
+        [60564] = { -- Kafa-Crazed Yeti
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{39.28,75.27},{39.53,75.5},{39.24,74.31},{38.81,74.18},{38.57,74.15},{38.16,74.26},{38.13,72.52},{37.8,73.92},{35.24,69.62},{35.09,70.77},{35.41,70.66},{36.07,69.26},{35.95,68.96},{36.54,68.56},{37.22,67.87}}},
+        },
         [60566] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{74.2,91.98}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
@@ -749,6 +755,10 @@ function MopNpcFixes.Load()
         [60727] = { -- Explosion Triggered Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
+        },
+        [60883] = { -- Light Incense Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.96,33.32},}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [60916] = { -- Wugou
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{68.84,64.88}}},
@@ -830,6 +840,10 @@ function MopNpcFixes.Load()
                 [3711] = {{22,70},{36.4,80.4},{41.4,48.2},{51.8,30.4},{57.8,45}},
             },
         },
+        [61166] = { -- Cho Summon Bunny
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [61169] = { -- Roach
             [npcKeys.zoneID] = 10,
             [npcKeys.spawns] = {
@@ -842,6 +856,10 @@ function MopNpcFixes.Load()
                 [1497] = {{50.8,60},{59.2,29},{59.6,37},{59.8,36},{61.4,52.2},{64.2,33.4},{65.8,25.8},{66.2,27.8},{68,36},{68.8,36.8},{73.4,68.6},{78.2,72.6},{81.6,68.4},{83.4,33.8},{83.6,63.8},{84,41.8},{84.2,63.4}},
                 [5287] = {{39.8,72.6},{41.6,73},{42,68.4},{42,74.4},{42,74.6},{43,71.6},{43.2,71.2}},
             },
+        },
+        [61297] = { -- Image of Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [61313] = { -- Parrot
             [npcKeys.spawns] = {
@@ -1001,6 +1019,9 @@ function MopNpcFixes.Load()
         },
         [61841] = { -- Brunn Goldenmug
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{71.4,48.6},{71.8,48.4},{72,48.6}}},
+        },
+        [61842] = { -- Zandalari Warrior
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{80.91,75.69},{67.31,70.34},{66.93,77.92},{62.82,87.17},{56.48,86.10},{55.81,76.68},{56.28,66.40},{60.15,58.71},{62.69,60.09}}},
         },
         [61981] = { -- Dreadspinner Tender
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{65.8,28},{66,29.8},{66.4,28.8},{67.2,29.4},{67.2,29.6},{67.4,30.8},{67.6,30.4},{67.8,31.2},{68.4,29},{68.6,30},{70.2,25.8},{70.4,27.6},{70.6,27.6},{71.2,22.4},{71.2,22.6},{71.2,26.2},{71.4,24.2},{71.4,27.2},{71.6,24.4},{71.6,28.4},{72,26.4},{72,26.6},{72.2,29.2},{72.4,22.4},{72.4,23},{72.4,29.6},{72.6,22.2},{72.8,23.4},{72.8,23.6},{72.8,29.4},{72.8,29.8},{74,22.4},{74,22.6},{74,24.4},{74,24.6}}},

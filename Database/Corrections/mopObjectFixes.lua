@@ -111,6 +111,10 @@ function MopObjectFixes.Load()
         [210005] = { -- Weapon Rack
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{59.19,17.25},{58.67,16.32},{56.86,19.64},{57.59,17.59},{58.03,19.95},{57.85,20.06},{58.86,16.72},{57.24,16.73},{57.23,19.23},{56.98,20.49}}},
         },
+        [210931] = { -- Dak Dak's Altar
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.56,39.54}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [210933] = { -- Yaungol Banner
             [objectKeys.name] = 'Yaungol Banner',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.2,84.09}}},
@@ -125,6 +129,14 @@ function MopObjectFixes.Load()
             [objectKeys.name] = 'Mandori Village Gate',
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
+        },
+        [211275] = { -- Ko Ko's Altar
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.27,71.44}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211276] = { -- Tak Tak's Altar
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.84,70.98}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211312] = { -- Items for Barrels of Fun
             [objectKeys.name] = 'Explosives Barrel',
@@ -141,9 +153,33 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211510] = { -- Sage Liao's Belongings
+            [objectKeys.name] = 'Sage Liao\'s Belongings',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{61.01,21.52}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211526] = { -- Waterfall Polished Stone
+            [objectKeys.name] = 'Waterfall Polished Stone',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.78,24.71},{58.96,24.63},{60.22,31.40},{60.11,31.09},{59.71,29.96},{59.69,29.61},{59.17,27.32},{58.96,27.32},{59.03,27.20}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
+        },
+        [211754] = { -- Curious Text
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.11,47.89}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211770] = { -- Shen Dynasty Tablet
+            [objectKeys.name] = 'Shen Dynasty Tablet',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.13,43.5}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211790] = { -- Wai Dynasty Tablet
+            [objectKeys.name] = 'Wai Dynasty Tablet',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.34,43.43}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211883] = { -- Scout Cage
             [objectKeys.name] = 'Scout Cage',

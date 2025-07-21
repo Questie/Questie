@@ -2242,6 +2242,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64207}}}},
         },
+        [30487] = { -- Comin' Round the Mountain
+            [questKeys.preQuestGroup] = {30601,30618,30621},
+            [questKeys.objectives] = {{{60094,nil,Questie.ICON_TYPE_MOUNT_UP},{60022,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
         },
@@ -2373,8 +2377,56 @@ function MopQuestFixes.Load()
         [30595] = { -- Profiting off of the Past
             [questKeys.preQuestSingle] = {30515},
         },
+        [30599] = { -- A Monkey Idol
+            [questKeys.objectives] = {nil,{{210931},{211275},{211276}}},
+            [questKeys.requiredSourceItems] = {80428,80429,80430},
+        },
+        [30600] = { -- No Pack Left Behind
+            [questKeys.preQuestSingle] = {30603},
+        },
+        [30601] = { -- Instant Courage
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}}
+        },
+        [30602] = { -- The Rabbitsfoot
+            [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30603] = { -- The Broketooth Ravage
+            [questKeys.preQuestSingle] = {30592},
+        },
+        [30604] = { -- Breaking Brokentooth
+            [questKeys.preQuestSingle] = {30603},
+        },
+        [30605] = { -- Bros Before Hozen
+            [questKeys.objectives] = {{{60008,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30606] = { -- Thumping Knucklethump
+            [questKeys.preQuestSingle] = {30605},
+        },
+        [30607] = { -- Hozen Love Their Keys
+            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_INTERACT}},nil,{{80535}}}, --sorry in advance Cheeq
+        },
+        [30608] = { -- The Snackrifice
+            [questKeys.preQuestSingle] = {30605},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}}
+        },
+        [30610] = { -- Grummle! Grummle! Grummle!
+            [questKeys.objectives] = {nil,{{211686,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30611] = { -- Unleash The Yeti!
+            [questKeys.preQuestSingle] = {30606},
+        },
+        [30617] = { -- Roadside Assistance
+            [questKeys.preQuestGroup] = {30616,30616,30808},
+            [questKeys.preQuestSingle] = {},
+        },
+        [30618] = { -- Resupplying One Keg
+            [questKeys.preQuestSingle] = {30999},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
+        },
+        [30621] = { -- They Stole My Luck
+            [questKeys.preQuestSingle] = {30999},
         },
         [30622] = { -- The Swarm Begins
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
@@ -2435,8 +2487,18 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30683] = { -- One Traveler's Misfortune
+            [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
+        },
+        [30684] = { -- Seeker's Folly
+            [questKeys.preQuestSingle] = {30683},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
+        },
+        [30692] = { -- The Burlap Trail: To Kota Basecamp
+            [questKeys.preQuestSingle] = {30612},
+            [questKeys.triggerEnd] = {"Escort grummies to Kota Basecamp", {[zoneIDs.KUN_LAI_SUMMIT]={{43.74,68.93}}}},
         },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
@@ -2445,22 +2507,150 @@ function MopQuestFixes.Load()
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
+        [30742] = { -- Shut it Down
+            [questKeys.exclusiveTo] = {30823},
+        },
+        [30743] = { -- Gourmet Kafa
+            [questKeys.objectives] = {nil,{{211456}}},
+            [questKeys.exclusiveTo] = {30824},
+        },
+        [30744] = { -- Kota Blend
+            [questKeys.objectives] = {nil,nil,{{81054}}},
+            [questKeys.exclusiveTo] = {30825},
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
+            [questKeys.exclusiveTo] = {30826},
+        },
+        [30747] = { -- The Burlap Grind
+            [questKeys.preQuestSingle] = {30746},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30794] = { -- Emergency Care
+            [questKeys.breadcrumbs] = {30816},
+            [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {81177},
+        },
+        [30795] = { -- Staying Connected
+            [questKeys.objectives] = {{{61166,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",60796}}}},
+        },
+        [30797] = { -- It Was Almost Alive
+            [questKeys.objectives] = {nil, nil, {{81892,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
+        [30800] = { -- Stealing Their Thunder King
+            [questKeys.objectives] = {nil, {{214572}},{{82764}}},
+        },
+        [30801] = { -- Lessons from History
+            [questKeys.objectives] = {{{61316,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
+        [30806] = { -- The Scent of Life
+            [questKeys.preQuestSingle] = {30794},
+        },
+        [30807] = { -- By the Falls, For the Fallen
+            [questKeys.preQuestSingle] = {30794},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
+        },
+        [30816] = { -- Checking In
+            [questKeys.preQuestSingle] = {30935},
+            [questKeys.breadcrumbForQuestId] = 30794,
+        },
+        [30819] = { -- Preparing the Remains
+            [questKeys.preQuestGroup] = {30805,30806,30807},
+        },
+        [30820] = { -- A Funeral
+            [questKeys.preQuestSingle] = {30819},
+            [questKeys.objectives] = {{{60883,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
+        [30821] = { -- The Burlap Grind (Daily)
+            [questKeys.preQuestSingle] = {30746},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
+        },
+        [30823] = { -- Shut it Down
+            [questKeys.exclusiveTo] = {30742},
+        },
+        [30824] = { -- Gourmet Kafa
+            [questKeys.objectives] = {nil,{{211456}}},
+            [questKeys.exclusiveTo] = {30743},
+        },
+        [30825] = { -- Kota Blend
+            [questKeys.objectives] = {nil,nil,{{81054}}},
+            [questKeys.exclusiveTo] = {30744},
+        },
+        [30826] = { -- Trouble Brewing
+            [questKeys.exclusiveTo] = {30745},
         },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
+        [30829] = { -- The Tongue of Ba-Shon
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",61315}}}},
+        },
         [30834] = { -- Father and Child Reunion
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
+        },
+        [30879] = { -- Round 1: Brewmaster Chani
+            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Brewmaster Chani"),0,{{"monster",60996}}}},
+            [questKeys.exclusiveTo] = {30880},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30880] = { -- Round 1: The Streetfighter
+            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lun-Chi"),0,{{"monster",60994}}}},
+            [questKeys.exclusiveTo] = {30879},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30881] = { -- Round 2: Clever Ashyo & Ken-Ken
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30882] = { -- Round 2: Kang Bramblestaff
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kang Bramblestaff"),0,{{"monster",60978}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30883] = { -- Round 3: The Wrestler
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to The Wrestler"),0,{{"monster",60997}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30885] = { -- Round 3: Master Boom Boom
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Boom Boom"),0,{{"monster",61013}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30902] = { -- Round 4: Master Windfur
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30907] = { -- Round 4: The P.U.G
+            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30935] = { -- Fisherman's Tale
+            [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30942] = { -- Make A Fighter Out of Me
+            [questKeys.preQuestSingle] = {30935},
+            [questKeys.objectives] = {{{66165},{64202},{66707}}},
+        },
+        [30943] = { -- Handle With Care
+            [questKeys.preQuestSingle] = {30935},
+        },
+        [30944] = { -- It Takes A Village
+            [questKeys.preQuestSingle] = {30935},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{61417,61554,61381},61381,nil,Questie.ICON_TYPE_TALK}}}
+        },
+        [30945] = { -- What's Yours Is Mine
+            [questKeys.preQuestSingle] = {30935},
+        },
+        [30946] = { -- Revelations
+            [questKeys.objectives] = {{{62629,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
@@ -2535,6 +2725,10 @@ function MopQuestFixes.Load()
         },
         [31010] = { -- In Her Clutch
             [questKeys.objectives] = {nil,{{214674}}},
+        },
+        [31011] = { -- Enemies At Our Door
+            [questKeys.preQuestGroup] = {30942,30943,30944,30945},
+            [questKeys.preQuestSingle] = {},
         },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
@@ -2904,6 +3098,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
+        [31207] = { -- The Arena of Annihilation
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [31208] = { -- Venomous Intent
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
         },
@@ -2918,6 +3115,9 @@ function MopQuestFixes.Load()
         },
         [31216] = { -- Dark Skies
             [questKeys.preQuestSingle] = {31018},
+        },
+        [31228] = { -- Prophet Khar'zul
+            [questKeys.objectives] = {{{65855,nil,Questie.ICON_TYPE_TALK},{61541}},nil,nil,nil,{{{64631,64639,64643,64642},64642}}}
         },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
@@ -3142,10 +3342,12 @@ function MopQuestFixes.Load()
         [31394] = { --A Celestial Experience [Alliance]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31392},
+            [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
         },
         [31395] = { --A Celestial Experience [Horde]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31393},
+            [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
         },
         [31398] = { -- Falling to Pieces
             [questKeys.preQuestSingle] = {31091},
@@ -3220,6 +3422,10 @@ function MopQuestFixes.Load()
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
+        [31492] = { -- The Torch of Strength
+            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {31517};
+        },
         [31494] = { -- Free From Her Clutches
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
@@ -3253,11 +3459,21 @@ function MopQuestFixes.Load()
         [31510] = { -- Quiet Now
             [questKeys.preQuestSingle] = {31439},
         },
+        [31511] = { -- A Witness to History [Horde]
+            [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31512] = { -- A Witness to History [Alliance]]
+            [questKeys.objectives] = {{{64848,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [31514] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31516] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31517] = { -- Contending With Bullies
+            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {31492};
         },
         [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
             [questKeys.exclusiveTo] = {31520,31522,31523,31524,31525,31526,31527,31528},
