@@ -670,6 +670,9 @@ function MopNpcFixes.Load()
         [60491] = { -- Sha of Anger
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{67.79,77.96}}},
         },
+        [60564] = { -- Kafa-Crazed Yeti
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{39.28,75.27},{39.53,75.5},{39.24,74.31},{38.81,74.18},{38.57,74.15},{38.16,74.26},{38.13,72.52},{37.8,73.92},{35.24,69.62},{35.09,70.77},{35.41,70.66},{36.07,69.26},{35.95,68.96},{36.54,68.56},{37.22,67.87}}},
+        },
         [60566] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{74.2,91.98}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
