@@ -2301,6 +2301,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30605},
         },
         [30607] = { -- Hozen Love Their Keys
+            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_INTERACT}},nil,{{80535}}}, --sorry in advance Cheeq
         },
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
