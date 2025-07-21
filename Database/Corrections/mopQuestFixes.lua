@@ -3391,6 +3391,12 @@ function MopQuestFixes.Load()
         },
         [31605] = { -- The Zan'thik Dig
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.breadcrumbForQuestId] = 31606,
+        },
+        [31606] = { -- The Dissector Wakens
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.breadcrumbs] = {31605},
         },
         [31660] = { -- Not Fit to Swarm
             [questKeys.preQuestSingle] = {31006},
