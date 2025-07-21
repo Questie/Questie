@@ -2405,14 +2405,20 @@ function MopQuestFixes.Load()
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
+        [30742] = { -- Shut it Down
+            [questkeys.exclusiveTo] = {30823},
+        },
         [30743] = { -- Gourmet Kafa
             [questKeys.objectives] = {nil,{{211456}}},
+            [questkeys.exclusiveTo] = {30824},
         },
         [30744] = { -- Kota Blend
             [questKeys.objectives] = {nil,nil,{{81054}}},
+            [questkeys.exclusiveTo] = {30725},
         },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
+            [questkeys.exclusiveTo] = {30826},
         },
         [30747] = { -- The Burlap Grind
             [questKeys.preQuestSingle] = {30746},
@@ -2464,6 +2470,20 @@ function MopQuestFixes.Load()
         [30821] = { -- The Burlap Grind (Daily)
             [questKeys.preQuestSingle] = {30746},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
+        },
+        [30823] = { -- Shut it Down
+            [questkeys.exclusiveTo] = {30742},
+        },
+        [30824] = { -- Gourmet Kafa
+            [questKeys.objectives] = {nil,{{211456}}},
+            [questkeys.exclusiveTo] = {30743},
+        },
+        [30825] = { -- Kota Blend
+            [questKeys.objectives] = {nil,nil,{{81054}}},
+            [questkeys.exclusiveTo] = {30744},
+        },
+        [30826] = { -- Trouble Brewing
+            [questkeys.exclusiveTo] = {30745},
         },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
