@@ -1100,6 +1100,12 @@ function MopNpcFixes.Load()
         [63879] = { -- Silt Vents Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{46.42,73.94}}},
         },
+        [63465] = { -- Muckscale Flesheater
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{25.73,52.79}}},
+        },
+        [63466] = { -- Muckscale Flesheater
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{25.73,52.79}}},
+        },
         [63880] = { -- Shipwreck Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{44.66,78.66}}},
         },
