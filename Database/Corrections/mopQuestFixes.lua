@@ -2411,6 +2411,7 @@ function MopQuestFixes.Load()
         },
         [30942] = { -- Make A Fighter Out of Me
             [questKeys.preQuestSingle] = {30935},
+            [questKeys.objectives] = {{{66165},{64202},{66707}}},
         },
         [30943] = { -- Handle With Care
             [questKeys.preQuestSingle] = {30935},
