@@ -2374,6 +2374,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30794] = { -- Emergency Care
+            [questKeys.breadcrumbs] = {30816},
+        },
         [30795] = { -- Staying Connected
             [questKeys.objectives] = {{{61166,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",60796}}}},
@@ -2392,6 +2395,7 @@ function MopQuestFixes.Load()
         },
         [30816] = { -- Checking In
             [questKeys.preQuestSingle] = {30935},
+            [questKeys.breadcrumbForQuestId] = 30794,
         },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
