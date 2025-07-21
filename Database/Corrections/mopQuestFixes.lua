@@ -2374,6 +2374,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30795] = { -- Staying Connected
+            [questKeys.objectives] = {{{61166,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",60796}}}},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
