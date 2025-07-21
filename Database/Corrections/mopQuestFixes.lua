@@ -2414,7 +2414,7 @@ function MopQuestFixes.Load()
         },
         [30744] = { -- Kota Blend
             [questKeys.objectives] = {nil,nil,{{81054}}},
-            [questkeys.exclusiveTo] = {30725},
+            [questkeys.exclusiveTo] = {30825},
         },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
