@@ -3158,10 +3158,12 @@ function MopQuestFixes.Load()
         [31394] = { --A Celestial Experience [Alliance]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31392},
+            [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
         },
         [31395] = { --A Celestial Experience [Horde]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31393},
+            [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
         },
         [31398] = { -- Falling to Pieces
             [questKeys.preQuestSingle] = {31091},
