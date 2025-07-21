@@ -1506,4 +1506,30 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
         end)
     end)
+
+    describe("Shang Thunderfoot", function()
+        it("should return true for fields location when 29918 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29918]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is complete", function()
+            Questie.db.char.complete[29918] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+    end)
 end)

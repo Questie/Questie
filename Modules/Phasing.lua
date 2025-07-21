@@ -295,6 +295,8 @@ local phases = {
     SAP_MASTERS_AT_BREWGARDEN_CENTER = 1223,
     SKEER_IN_CAVE = 1224,
     SKEER_AT_KLAXXI_VEES = 1225,
+    SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS = 1226,
+    SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
 }
 Phasing.phases = phases
 
@@ -1265,6 +1267,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SKEER_AT_KLAXXI_VEES then
         return complete[31179] or (questLog[31179] and questLog[31179].isComplete == 1) or false
+    end
+
+    if phase == phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS then
+        return (not complete[29918]) and (not questLog[29918]) or false
+    end
+
+    if phase == phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS then
+        return complete[29918] or questLog[29918] and true or false
     end
 
     return false
