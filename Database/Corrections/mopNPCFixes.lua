@@ -458,7 +458,11 @@ function MopNpcFixes.Load()
         },
         [56133] = { -- Chen Stormstout
             -- Placeholder all locations until phasing implementation
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.64,21.45},{75.6,24.33},{68.8,43.2},{55.8 49.6},{32.2 68.4},{32.2 68.4}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.64,21.45},{75.6,24.33},{68.8,43.2},{55.8,49.6},{32.2,68.4},{32.2,68.4}}},
+        },
+        [56138] = { -- Li Li
+        -- Placeholder all locations until phasing implementation
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.81,21.59},{75.61,24.52},{68.8,43.2},{52.6,62.8},{36.0,69.0},{32.2,68.4}}},
         },
         [56146] = { -- Barrow Tree
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
