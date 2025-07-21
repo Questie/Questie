@@ -3245,6 +3245,12 @@ function MopQuestFixes.Load()
         [31510] = { -- Quiet Now
             [questKeys.preQuestSingle] = {31439},
         },
+        [31511] = { -- A Witness to History [Horde]
+            [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31512] = { -- A Witness to History [Alliance]]
+            [questKeys.objectives] = {{{64848,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [31514] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
         },
