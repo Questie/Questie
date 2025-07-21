@@ -2287,7 +2287,7 @@ function MopQuestFixes.Load()
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
-        [30618] = { -- They Stole My Luck
+        [30621] = { -- They Stole My Luck
             [questKeys.preQuestSingle] = {30999},
         },
         [30622] = { -- The Swarm Begins
