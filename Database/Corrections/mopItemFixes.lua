@@ -331,6 +331,10 @@ function MopItemFixes.Load()
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
         },
+        [81261] = { -- Stolen Pandaren Spices
+            [itemKeys.objectDrops] = {211521},
+            [itemKeys.npcDrops] = {60560,60846},
+        },
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
         },
