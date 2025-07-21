@@ -2416,6 +2416,7 @@ function MopQuestFixes.Load()
         },
         [30747] = { -- The Burlap Grind
             [questKeys.preQuestSingle] = {30746},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
