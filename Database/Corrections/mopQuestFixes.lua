@@ -2275,6 +2275,9 @@ function MopQuestFixes.Load()
         [30595] = { -- Profiting off of the Past
             [questKeys.preQuestSingle] = {30515},
         },
+        [30600] = { -- No Pack Left Behind
+            [questKeys.preQuestSingle] = {30603},
+        },
         [30601] = { -- Instant Courage
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}}
         },
