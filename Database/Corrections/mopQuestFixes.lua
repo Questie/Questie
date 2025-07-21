@@ -2418,6 +2418,7 @@ function MopQuestFixes.Load()
         },
         [30944] = { -- It Takes A Village
             [questKeys.preQuestSingle] = {30935},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{61417,61554,61381},61381,nil,Questie.ICON_TYPE_TALK}}}
         },
         [30945] = { -- What's Yours Is Mine
             [questKeys.preQuestSingle] = {30935},
