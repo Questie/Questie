@@ -2297,6 +2297,14 @@ function MopQuestFixes.Load()
         [30605] = { -- Bros Before Hozen
             [questKeys.objectives] = {{{60008,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30606] = { -- Thumping Knucklethump
+            [questKeys.preQuestSingle] = {30605},
+        },
+        [30607] = { -- Hozen Love Their Keys
+        },
+        [30608] = { -- The Snackrifice
+            [questKeys.preQuestSingle] = {30605},
+        },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
