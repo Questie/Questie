@@ -124,6 +124,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.27,71.44}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211276] = { -- Tak Tak's Altar
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.84,70.98}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211312] = { -- Items for Barrels of Fun
             [objectKeys.name] = 'Explosives Barrel',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.24,79.33},{49.61,78.99},{49.34,81.06},{47.55,80.08}}},
