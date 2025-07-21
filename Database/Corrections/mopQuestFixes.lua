@@ -2408,6 +2408,9 @@ function MopQuestFixes.Load()
         [30942] = { -- Make A Fighter Out of Me
             [questKeys.preQuestSingle] = {30935},
         },
+        [30943] = { -- Handle With Care
+            [questKeys.preQuestSingle] = {30935},
+        },
         [30944] = { -- It Takes A Village
             [questKeys.preQuestSingle] = {30935},
         },
