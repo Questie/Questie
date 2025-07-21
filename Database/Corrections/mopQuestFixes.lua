@@ -2655,6 +2655,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31075},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Let the Chanter pick-up the Motherseeds"),0,{{"monster",62601}}}},
         },
+        [31083] = { -- Promises of Gold
+            [questKeys.startedBy] = {{62767}},
+            [questKeys.preQuestSingle] = {31075},
+        },
         [31084] = { -- Bind the Glamour
             [questKeys.triggerEnd] = {"Allow Chief Rikkitun to enchant the forked blade", {[zoneIDs.DREAD_WASTES]={{39.42,23.15}}}},
             [questKeys.objectives] = {},
