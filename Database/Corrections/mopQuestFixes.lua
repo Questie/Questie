@@ -2275,6 +2275,10 @@ function MopQuestFixes.Load()
         [30595] = { -- Profiting off of the Past
             [questKeys.preQuestSingle] = {30515},
         },
+        [30599] = { -- A Monkey Idol
+            [questKeys.objectives] = {nil,{{210931},{211275},{211276}}},
+            [questKeys.requiredSourceItems] = {80428,80429,80430},
+        },
         [30600] = { -- No Pack Left Behind
             [questKeys.preQuestSingle] = {30603},
         },
