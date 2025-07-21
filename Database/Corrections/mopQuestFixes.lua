@@ -2408,6 +2408,9 @@ function MopQuestFixes.Load()
         [30743] = { -- Gourmet Kafa
             [questKeys.objectives] = {nil,{{211546}}},
         },
+        [30744] = { -- Kota Blend
+            [questKeys.objectives] = {nil,nil,{{81054}}},
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
         },
