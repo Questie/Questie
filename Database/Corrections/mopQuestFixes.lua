@@ -2461,6 +2461,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30819},
             [questKeys.objectives] = {{{60883,nil,Questie.ICON_TYPE_OBJECT}}},
         },
+        [30821] = { -- The Burlap Grind (Daily)
+            [questKeys.preQuestSingle] = {30746},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
+        },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
