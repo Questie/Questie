@@ -2423,6 +2423,9 @@ function MopQuestFixes.Load()
         [30945] = { -- What's Yours Is Mine
             [questKeys.preQuestSingle] = {30935},
         },
+        [30946] = { -- Revelations
+            [questKeys.objectives] = {{{62629,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
