@@ -2353,6 +2353,9 @@ function MopQuestFixes.Load()
         [30683] = { -- One Traveler's Misfortune
             [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
         },
+        [30684] = { -- Seeker's Folly
+            [questKeys.preQuestSingle] = {30683},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
