@@ -2145,6 +2145,7 @@ function MopQuestFixes.Load()
         },
         [30487] = { -- Comin' Round the Mountain
             [questKeys.preQuestGroup] = {30601,30618,30621},
+            [questKeys.objectives] = {{{60094,nil,Questie.ICON_TYPE_MOUNT_UP},{60022,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
