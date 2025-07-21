@@ -3080,7 +3080,7 @@ function MopQuestFixes.Load()
         },
         [31362] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30565,30568},
-            [questKeys.objective] = {nil,{{213652}}},
+            [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
