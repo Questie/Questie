@@ -306,8 +306,35 @@ function MopItemFixes.Load()
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [80307] = { -- Grummlepack
+            [itemKeys.npcDrops] = {59896,59897,59898},
+        },
+        [80311] = { -- Filled Oil Vial
+            [itemKeys.objectDrops] = {211530,211531},
+        },
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
+        },
+        [80315] = { -- Stolen Supplies
+            [itemKeys.objectDrops] = {211266,211268,211269,211270},
+        },
+        [80316] = { -- Lucky Virmen\'s Foot
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80317] = { -- Lucky Yak Shoe
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80318] = { -- Lucky Four Winds Clover
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80319] = { -- Lucky "Gold" Coin
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80429] = { -- Corpse of Ko Ko
+            [itemKeys.npcDrops] = {59430},
+        },
+        [80430] = { -- Corpse of Tak Tak
+            [itemKeys.npcDrops] = {59958},
         },
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
@@ -334,6 +361,25 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [80907] = { -- Opalescent Blue Crab Shell
+            [itemKeys.npcDrops] = {60437,63722},
+        },
+        [81054] = { -- Kafa\'kota Berry
+            [itemKeys.objectDrops] = {211454},
+        },
+        [81177] = { -- Pandaren Healing Draught
+            [itemKeys.objectDrops] = {211510},
+        },
+        [81261] = { -- Stolen Pandaren Spices
+            [itemKeys.objectDrops] = {211521},
+            [itemKeys.npcDrops] = {60560,60846},
+        },
+        [81269] = { -- Waterfall-Polished Stone
+            [itemKeys.objectDrops] = {211526},
+        },
+        [81293] = { -- Stolen Luckydos
+            [itemKeys.objectDrops] = {211536,211537,211538},
+        },
         [82864] = { -- Living Amber
             [itemKeys.objectDrops] = {212009,212012},
         },
@@ -348,6 +394,24 @@ function MopItemFixes.Load()
         },
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
+        },
+        [82298] = { -- Handful of Volatile Blooms
+            [itemKeys.objectDrops] = {211684},
+        },
+        [82299] = { -- Blood-Stained Blade
+            [itemKeys.npcDrops] = {60580},
+        },
+        [82393] = { -- Shen Dynasty Rubbing
+            [itemKeys.objectDrops] = {211770},
+        },
+        [82394] = { -- Qiang Dynasty Rubbing
+            [itemKeys.objectDrops] = {211794},
+        },
+        [82395] = { -- Wai Dynasty Rubbing
+            [itemKeys.objectDrops] = {211790},
+        },
+        [82764] = { -- Bottom Fragment of Lei Shen\'s Tablet
+            [itemKeys.objectDrops] = {211967},
         },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},

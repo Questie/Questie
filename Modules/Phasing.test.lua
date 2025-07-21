@@ -1506,4 +1506,228 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
         end)
     end)
+
+    describe("Shang Thunderfoot", function()
+        it("should return true for fields location when 29918 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29918]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is complete", function()
+            Questie.db.char.complete[29918] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+    end)
+
+    describe("Clever Ashyo", function()
+        it("should return true for Pools of Purity location when 29577 is in the quest log", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29577]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for Pools of Purity location when 29577 is complete", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for southern locaiton when 29871 is in the quest log", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29871]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for southern location when 29871 is complete", function()
+            Questie.db.char.complete[29871] = true
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+        end)
+    end)
+
+    describe("Kang Bramblestaff Krasang Wilds (56112)", function()
+        it("should return true for Thunder Cleft location when 30179 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KANG_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KANG_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KANG_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KANG_AT_THUNDER_CLEFT))
+        end)
+    end)
+
+    describe("Kor Bloodtusk Krasang Wilds (58114)", function()
+        it("should return true for Thunder Cleft location when 30179 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete in the quest log", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30132]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+        end)
+    end)
+
+    describe("Sunwalker Dezco", function()
+        it("should return true for Thunder Cleft location 30131 is incomplete", function()
+            Questie.db.char.complete[30131] = false
+            Questie.db.char.complete[30175] = false
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Shattered Convoy location when 30175 is complete", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = true
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30174 is incomplete and complete in the quest log", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = false
+            Questie.db.char.complete[30174] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30174]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30174 is complete", function()
+            Questie.db.char.complete[30131] = true
+            Questie.db.char.complete[30175] = true
+            Questie.db.char.complete[30174] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DEZCO_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_SHATTERED_CONVOY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DEZCO_AT_THUNDER_CLEFT))
+        end)
+    end)
+
+    describe("Lin Tenderpaw", function()
+        it("should return true for Paoquan Hollow location when 29984 is complete", function()
+            Questie.db.char.complete[29984] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+        end)
+
+        it("should return true for east of Stoneplow location when 29984 is incomplete", function()
+            Questie.db.char.complete[29984] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+        end)
+    end)
+
+    describe("Hemet Nesingwary and Jr. (58421, 58422)", function()
+        it("should return true for camp location when 30185 is incomplete", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30185 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30185]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30186 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is incomplete and complete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is complete", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+    end)
 end)

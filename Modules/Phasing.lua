@@ -295,8 +295,23 @@ local phases = {
     SAP_MASTERS_AT_BREWGARDEN_CENTER = 1223,
     SKEER_IN_CAVE = 1224,
     SKEER_AT_KLAXXI_VEES = 1225,
-    WU_PENG_ALONE = 1226,
-    WU_PENG_REUNITED = 1227,
+    SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS = 1226,
+    SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
+    CLEVER_ASHYO_AT_POOLS_OF_PURITY = 1228,
+    CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY = 1229,
+    KANG_AT_THUNDER_CLEFT = 1230,
+    KANG_AT_DAWNCHASER_RETREAT = 1231,
+    KOR_AT_THUNDER_CLEFT = 1232,
+    KOR_AT_DAWNCHASER_RETREAT = 1233,
+    DEZCO_AT_THUNDER_CLEFT = 1234,
+    DEZCO_AT_SHATTERED_CONVOY = 1235,
+    DEZCO_AT_DAWNCHASER_RETREAT = 1236,
+    LIN_TENDERPAW_AT_PAOQUAN_HOLLOW = 1237,
+    LIN_TENDERPAW_EAST_OF_STONEPLOW = 1238,
+    HEMETS_AT_CAMP = 1239,
+    HEMETS_OUTSIDE_CAMP = 1240,
+    WU_PENG_ALONE = 1241,
+    WU_PENG_REUNITED = 1242,
 }
 Phasing.phases = phases
 
@@ -1267,6 +1282,66 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SKEER_AT_KLAXXI_VEES then
         return complete[31179] or (questLog[31179] and questLog[31179].isComplete == 1) or false
+    end
+
+    if phase == phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS then
+        return (not complete[29918]) and (not questLog[29918]) or false
+    end
+
+    if phase == phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS then
+        return complete[29918] or questLog[29918] and true or false
+    end
+
+    if phase == phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY then
+        return complete[29577] or questLog[29577] and true or false
+    end
+
+    if phase == phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY then
+        return (not complete[29577]) and (not questLog[29577]) and (complete[29871] or questLog[29871]) and true or false
+    end
+
+    if phase == phases.KANG_AT_THUNDER_CLEFT then
+        return (not complete[30132]) and complete[30179] or false
+    end
+
+    if phase == phases.KANG_AT_DAWNCHASER_RETREAT then
+        return complete[30132] or false
+    end
+
+    if phase == phases.KOR_AT_THUNDER_CLEFT then
+        return (not complete[30132]) and ((not questLog[30132]) or questLog[30132].isComplete == 0) and complete[30179] or false
+    end
+
+    if phase == phases.KOR_AT_DAWNCHASER_RETREAT then
+        return complete[30132] or (questLog[30132] and questLog[30132].isComplete == 1) or false
+    end
+
+    if phase == phases.DEZCO_AT_THUNDER_CLEFT then
+        return (not complete[30131]) and (not complete[30175]) and (not complete[30174]) or false
+    end
+
+    if phase == phases.DEZCO_AT_SHATTERED_CONVOY then
+        return (not complete[30174]) and complete[30175] or false
+    end
+
+    if phase == phases.DEZCO_AT_DAWNCHASER_RETREAT then
+        return complete[30174] or (questLog[30174] and questLog[30174].isComplete == 1) or false
+    end
+
+    if phase == phases.LIN_TENDERPAW_EAST_OF_STONEPLOW then
+        return (not complete[29984]) or false
+    end
+
+    if phase == phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW then
+        return complete[29984] or false
+    end
+
+    if phase == phases.HEMETS_AT_CAMP then
+        return ((not complete[30185]) and (not questLog[30185])) or complete[30186] or (questLog[30186] and questLog[30186].isComplete == 1) or false
+    end
+
+    if phase == phases.HEMETS_OUTSIDE_CAMP then
+        return (not complete[30186]) and (questLog[30185] or (complete[30185] and ((not questLog[30186]) or questLog[30186].isComplete == 0))) and true or false
     end
 
     if phase == phases.WU_PENG_ALONE then
