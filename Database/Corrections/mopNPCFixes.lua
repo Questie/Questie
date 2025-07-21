@@ -756,6 +756,9 @@ function MopNpcFixes.Load()
                 [3711] = {{22,70},{36.4,80.4},{41.4,48.2},{51.8,30.4},{57.8,45}},
             },
         },
+        [61166] = { -- Cho Summon Bunny
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
+        },
         [61169] = { -- Roach
             [npcKeys.zoneID] = 10,
             [npcKeys.spawns] = {
