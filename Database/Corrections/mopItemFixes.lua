@@ -303,6 +303,12 @@ function MopItemFixes.Load()
         [80319] = { -- Lucky "Gold" Coin
             [itemKeys.npcDrops] = {59693,59967},
         },
+        [80429] = { -- Corpse of Ko Ko
+            [itemKeys.npcDrops] = {59430},
+        },
+        [80430] = { -- Corpse of Tak Tak
+            [itemKeys.npcDrops] = {59958},
+        },
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
