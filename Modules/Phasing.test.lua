@@ -1570,4 +1570,53 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
         end)
     end)
+
+    describe("Kang Bramblestaff Krasang Wilds (56112)", function()
+        it("should return true for Thunder Cleft location when 30179 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KANG_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KANG_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KANG_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KANG_AT_THUNDER_CLEFT))
+        end)
+    end)
+
+    describe("Kor Bloodtusk Krasang Wilds (58114)", function()
+        it("should return true for Thunder Cleft location when 30179 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete in the quest log", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30132]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+        end)
+
+        it("should return true for Dawnchaser Retreat location when 30132 is complete", function()
+            Questie.db.char.complete[30179] = true
+            Questie.db.char.complete[30132] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KOR_AT_DAWNCHASER_RETREAT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KOR_AT_THUNDER_CLEFT))
+        end)
+    end)
 end)

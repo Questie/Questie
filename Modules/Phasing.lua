@@ -299,6 +299,10 @@ local phases = {
     SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
     CLEVER_ASHYO_AT_POOLS_OF_PURITY = 1228,
     CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY = 1229,
+    KANG_AT_THUNDER_CLEFT = 1230,
+    KANG_AT_DAWNCHASER_RETREAT = 1231,
+    KOR_AT_THUNDER_CLEFT = 1232,
+    KOR_AT_DAWNCHASER_RETREAT = 1233,
 }
 Phasing.phases = phases
 
@@ -1285,6 +1289,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY then
         return (not complete[29577]) and (not questLog[29577]) and (complete[29871] or questLog[29871]) and true or false
+    end
+
+    if phase == phases.KANG_AT_THUNDER_CLEFT then
+        return (not complete[30132]) and complete[30179] or false
+    end
+
+    if phase == phases.KANG_AT_DAWNCHASER_RETREAT then
+        return complete[30132] or false
+    end
+
+    if phase == phases.KOR_AT_THUNDER_CLEFT then
+        return (not complete[30132]) and ((not questLog[30132]) or questLog[30132].isComplete == 0) and complete[30179] or false
+    end
+
+    if phase == phases.KOR_AT_DAWNCHASER_RETREAT then
+        return complete[30132] or (questLog[30132] and questLog[30132].isComplete == 1) or false
     end
 
     return false
