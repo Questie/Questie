@@ -343,6 +343,9 @@ function MopItemFixes.Load()
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
         },
+        [82298] = { -- Handful of Volatile Blooms
+            [itemKeys.objectDrops] = {211684},
+        },
         [82393] = { -- Shen Dynasty Rubbing
             [itemKeys.objectDrops] = {211770},
         },
