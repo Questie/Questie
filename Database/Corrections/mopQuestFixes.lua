@@ -2307,6 +2307,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30605},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}}
         },
+        [30610] = { -- Grummle! Grummle! Grummle!
+            [questKeys.objectives] = {nil,{{211686,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30611] = { -- Unleash The Yeti!
             [questKeys.preQuestSingle] = {30606},
         },
