@@ -2271,6 +2271,9 @@ function MopQuestFixes.Load()
         [30595] = { -- Profiting off of the Past
             [questKeys.preQuestSingle] = {30515},
         },
+        [30617] = { -- Roadside Assistance
+            [questKeys.preQuestGroup] = {30616,30616,30808},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
