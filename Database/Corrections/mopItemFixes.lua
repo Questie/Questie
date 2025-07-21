@@ -310,6 +310,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [81293] = { -- Stolen Luckydos
+            [itemKeys.objectDrops] = {211536,211537,211538},
+        },
         [82864] = { -- Living Amber
             [itemKeys.objectDrops] = {212009,212012},
         },
