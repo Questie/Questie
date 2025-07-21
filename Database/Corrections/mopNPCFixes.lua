@@ -456,6 +456,18 @@ function MopNpcFixes.Load()
         [55944] = { -- Delora Lionheart
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{42.22,86.54}}},
         },
+        [56111] = { -- Lin Tenderpaw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {19.87,56.92,phases.LIN_TENDERPAW_EAST_OF_STONEPLOW},
+                {18.06,31.01,phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW},
+            }},
+        },
+        [56113] = { -- Clever Ashyo
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {59.25,27.56,phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY},
+                {61.23,34.23,phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY},
+            }},
+        },
         [56146] = { -- Barrow Tree
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
         },
@@ -479,6 +491,12 @@ function MopNpcFixes.Load()
         },
         [56310] = { -- Mist Horror
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.2,90}}},
+        },
+        [56312] = { -- Shang Thunderfoot
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {78.19,32.8,phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS},
+                {74.68,34.59,phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS},
+            }},
         },
         [56406] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
@@ -552,6 +570,25 @@ function MopNpcFixes.Load()
         },
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
+        },
+        [58113] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {60.41,25.57,phases.DEZCO_AT_THUNDER_CLEFT},
+                {15.98,39.78,phases.DEZCO_AT_SHATTERED_CONVOY},
+                {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
+            }},
+        },
+        [58421] = { -- Hemet Nesingwary
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {16.01,82.49,phases.HEMETS_AT_CAMP},
+                {19.83,75.64,phases.HEMETS_OUTSIDE_CAMP},
+            }},
+        },
+        [58422] = { -- Hemet Nesingwary Jr.
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {16.07,82.62,phases.HEMETS_AT_CAMP},
+                {19.91,75.67,phases.HEMETS_OUTSIDE_CAMP},
+            }},
         },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
@@ -1697,4 +1734,27 @@ function MopNpcFixes.Load()
             [npcKeys.questStarts] = {29901},
         },
     }
+end
+
+function MopNpcFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local npcFixesHorde = {
+        [59151] = { -- Zhu's Watch Courier
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS]={{62.56,25.46}}},
+        }
+    }
+
+    local npcFixesAlliance = {
+        [59151] = { -- Zhu's Watch Courier
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS]={{66.2,30.8}}},
+        }
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
 end

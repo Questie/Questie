@@ -2685,6 +2685,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31459,31460},
         },
+        [31000] = { -- Dread Space
+            [questKeys.breadcrumbForQuestId] = 31002,
+        },
         [31001] = { -- Falling Down
             [questKeys.objectives] = {{{62166,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
@@ -2693,7 +2696,7 @@ function MopQuestFixes.Load()
         },
         [31002] = { -- Nope
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.breadcrumbs] = {31391},
+            [questKeys.breadcrumbs] = {31000,31391,31847,31886},
         },
         [31003] = { -- Psycho Mantid
             [questKeys.preQuestGroup] = {31001,31002},
@@ -2848,6 +2851,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31075},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Let the Chanter pick-up the Motherseeds"),0,{{"monster",62601}}}},
+        },
+        [31083] = { -- Promises of Gold
+            [questKeys.startedBy] = {{62767}},
+            [questKeys.preQuestSingle] = {31075},
         },
         [31084] = { -- Bind the Glamour
             [questKeys.triggerEnd] = {"Allow Chief Rikkitun to enchant the forked blade", {[zoneIDs.DREAD_WASTES]={{39.42,23.15}}}},
@@ -3093,6 +3100,18 @@ function MopQuestFixes.Load()
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [31208] = { -- Venomous Intent
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
+        [31209] = { -- Dark Wings, Dark Things
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
+        [31210] = { -- A Shade of Dread
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
+        },
+        [31211] = { -- The Poisoned Mind
+            [questKeys.preQuestSingle] = {31018},
         },
         [31216] = { -- Dark Skies
             [questKeys.preQuestSingle] = {31018},
@@ -3607,6 +3626,13 @@ function MopQuestFixes.Load()
         },
         [31605] = { -- The Zan'thik Dig
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.breadcrumbForQuestId] = 31606,
+        },
+        [31606] = { -- The Dissector Wakens
+            [questKeys.objectives] = {{{67091}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.breadcrumbs] = {31605},
         },
         [31660] = { -- Not Fit to Swarm
             [questKeys.preQuestSingle] = {31006},
@@ -3915,6 +3941,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31845},
             [questKeys.requiredMaxLevel] = 89,
         },
+        [31847] = { -- Better Dead then Dread
+            [questKeys.breadcrumbForQuestId] = 31002,
+        },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{65655,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -3994,6 +4023,9 @@ function MopQuestFixes.Load()
         },
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+        },
+        [31886] = { -- Dread Space
+            [questKeys.breadcrumbForQuestId] = 31002,
         },
         [31889] = { -- Battle Pet Tamers: Kalimdor
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},

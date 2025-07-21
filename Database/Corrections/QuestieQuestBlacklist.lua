@@ -5926,21 +5926,46 @@ function QuestieQuestBlacklist:Load()
         [30817] = true, -- Not in the game
         [30818] = true, -- Not in the game
         [30934] = true, -- Not in the game
+        [31025] = true, -- Not in the game
+        [31028] = true, -- Not in the game
         [31033] = true, -- Not in the game
         [31035] = true, -- Not in the game
+        [31115] = true, -- Not in the game
         [31172] = true, -- Not in the game
+        [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
         [31396] = true, -- Not in the game
         [31397] = true, -- Not in the game
         [31399] = true, -- Not in the game
         [31402] = true, -- Not in the game
         [31403] = true, -- Not in the game
         [31404] = true, -- Not in the game
+        [31429] = true, -- Not in the game
+        [31430] = true, -- Not in the game
+        [31431] = true, -- Not in the game
+        [31432] = true, -- Not in the game
+        [31433] = true, -- Not in the game
+        [31434] = true, -- Not in the game
+        [31435] = true, -- Not in the game
+        [31436] = true, -- Not in the game
+        [31437] = true, -- Not in the game
+        [31438] = true, -- Not in the game
         [31530] = true, -- Not in the game
+        [31604] = true, -- Not in the game
+        [31665] = true, -- Not in the game
+        [31666] = true, -- Not in the game
         [31764] = true, -- Not in the game
+        [31867] = true, -- Not in the game
+        [31869] = true, -- Not in the game
+        [31863] = true, -- Not in the game
+        [31864] = true, -- Not in the game
+        [31865] = true, -- Not in the game
+        [31866] = true, -- Not in the game
+        [31868] = true, -- Not in the game
         [31968] = true, -- Not in the game
         [32396] = true, -- Not in the game
+        [32891] = true, -- Not in the game
         [32666] = true, -- Hidden quest
-        [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [32890] = true, -- Not in the game
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65601] = Expansions.Current >= Expansions.Cata, -- Not in the game
