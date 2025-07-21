@@ -2305,6 +2305,7 @@ function MopQuestFixes.Load()
         },
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}}
         },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
