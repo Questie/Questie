@@ -138,7 +138,7 @@ function MopObjectFixes.Load()
         },
         [211526] = { -- Waterfall Polished Stone
             [objectKeys.name] = 'Waterfall Polished Stone',
-            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{{58.78,24.71},{58.96,24.63},{60.22,31.40},{60.11,31.09},{59.71,29.96},{59.69,29.61},{59.17,27.32},{58.96,27.32},{59.03,27.20}}}},
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.78,24.71},{58.96,24.63},{60.22,31.40},{60.11,31.09},{59.71,29.96},{59.69,29.61},{59.17,27.32},{58.96,27.32},{59.03,27.20}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
