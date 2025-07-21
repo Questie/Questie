@@ -2294,6 +2294,9 @@ function MopQuestFixes.Load()
         [30604] = { -- Breaking Brokentooth
             [questKeys.preQuestSingle] = {30603},
         },
+        [30605] = { -- Bros Before Hozen
+            [questKeys.objectives] = {{{60008,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
