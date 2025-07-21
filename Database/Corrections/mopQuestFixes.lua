@@ -2162,18 +2162,28 @@ function MopQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30434] = { -- A Ruby Shard for Jogu
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30435] = { -- A Lovely Apple for Jogu
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30436] = { -- A Jade Cat for Jogu
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30437] = { -- A Blue Feather for Jogu
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30438] = { -- A Marsh Lily for Jogu
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30439] = { -- A Dish for Jogu
