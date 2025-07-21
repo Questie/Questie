@@ -2897,6 +2897,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
+        [31211] = { -- The Poisoned Mind
+            [questKeys.preQuestSingle] = {31018},
+        },
         [31216] = { -- Dark Skies
             [questKeys.preQuestSingle] = {31018},
         },
