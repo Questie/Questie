@@ -3032,6 +3032,9 @@ function MopQuestFixes.Load()
         [31460] = { -- Cho's Missive [Alliance]
             [questKeys.breadcrumbForQuestId] = 30999,
         },
+        [31465] = { -- Extracting Answers
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31279},
