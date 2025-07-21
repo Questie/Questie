@@ -2381,6 +2381,9 @@ function MopQuestFixes.Load()
         [30797] = { -- It Was Almost Alive
             [questKeys.objectives] = {nil, nil, {{81892,nil,Questie.ICON_TYPE_OBJECT}}},
         },
+        [30800] = { -- Stealing Their Thunder King
+            [questKeys.objectives] = {nil, {{214572}},{{82764}}},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
