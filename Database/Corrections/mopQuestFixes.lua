@@ -2281,6 +2281,9 @@ function MopQuestFixes.Load()
         [30602] = { -- The Rabbitsfoot
             [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30603] = { -- The Broketooth Ravage
+            [questKeys.preQuestSingle] = {30592},
+        },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
