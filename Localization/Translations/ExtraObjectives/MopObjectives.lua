@@ -64,7 +64,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Chen"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Chen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -76,7 +76,7 @@ local mopObjectiveLocales = {
     },
     ["Fill the vial"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fülle die Phiole",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -88,7 +88,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Mudmug"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Trübtrunk",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -100,7 +100,7 @@ local mopObjectiveLocales = {
     },
     ["Use the bait"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze den Köder",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -112,7 +112,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Gai Lan"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Gai Lan",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -124,7 +124,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Gardener Fran"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Gärtnerin Fran",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -136,7 +136,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Merchant Greenfield"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Händler Grünfeld",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -148,7 +148,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Yi-Mo"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Yi-Mo",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -160,7 +160,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Master Bruised Paw"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Meister Schrammtatz",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -172,7 +172,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Na Lek"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Na Lek",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -184,7 +184,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Li Li"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Li Li",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -196,7 +196,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Sunwalker Dezco"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Sonnenläufer Dezco",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -208,7 +208,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Hemet"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Hemet",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -220,7 +220,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Koro Mistwalker"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Koro Nebelgänger",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -232,7 +232,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Chi-Ji"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Chi-Ji",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -388,7 +388,7 @@ local mopObjectiveLocales = {
     },
     ["Set the Yaungol Banner ablaze"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Setze das Yaungolbanner in Brand",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -400,7 +400,7 @@ local mopObjectiveLocales = {
     },
     ["Round up a yak"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Treibe ein Yak zurück",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -412,7 +412,7 @@ local mopObjectiveLocales = {
     },
     ["Slay the overseers"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Töte die Aufseher",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -424,7 +424,7 @@ local mopObjectiveLocales = {
     },
     ["Pick up an Explosives Barrel"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Heb' ein Explosives Fass auf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -436,7 +436,7 @@ local mopObjectiveLocales = {
     },
     ["Cleanse the pool"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Reinige den Teich",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -448,7 +448,7 @@ local mopObjectiveLocales = {
     },
     ["Bring the yak to the wash"] = {
         ["enUS"] = true,
-        ["deDE"] = false;
+        ["deDE"] = "Bringe das Yak in die Reinigung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -556,7 +556,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Cho"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Cho",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -568,7 +568,7 @@ local mopObjectiveLocales = {
     },
     ["Feed the Flask of Kafa to Kota Kon"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Füttere Kota Kon mit dem Fläschchen Kafa",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -580,7 +580,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Lun-Chi"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Lun-Chi",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -592,7 +592,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Brewmaster Chani"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Braumeisterin Chani",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -616,7 +616,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Kang Bramblestaff"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Kang Dornstab",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -628,7 +628,7 @@ local mopObjectiveLocales = {
     },
     ["Give him a shield"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gib ihm ein Schild",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -640,7 +640,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to The Wrestler"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem Ringer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -652,7 +652,7 @@ local mopObjectiveLocales = {
     },
     ["Give him a book"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gib ihm ein Buch",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -664,7 +664,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Master Boom Boom"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Meister Don-Don",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -676,7 +676,7 @@ local mopObjectiveLocales = {
     },
     ["Give him a staff"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gib ihm einen Stab",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -688,7 +688,7 @@ local mopObjectiveLocales = {
     },
     ["Talk to Master Windfur"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Meister Windpelz",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -700,7 +700,7 @@ local mopObjectiveLocales = {
     },
     ["Give him a dagger"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gib ihm einen Dolch",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
