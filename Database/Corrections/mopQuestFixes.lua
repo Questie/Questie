@@ -3212,6 +3212,9 @@ function MopQuestFixes.Load()
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
+        [31492] = { -- The Torch of Strength
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [31494] = { -- Free From Her Clutches
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
