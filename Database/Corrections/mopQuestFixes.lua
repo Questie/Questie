@@ -2854,6 +2854,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
+        [31228] = { -- Prophet Khar'zul
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",65855}}}},
+        },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30015},
