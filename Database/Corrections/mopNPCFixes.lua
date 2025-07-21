@@ -1689,3 +1689,26 @@ function MopNpcFixes.Load()
         },
     }
 end
+
+function MopNpcFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local npcFixesHorde = {
+        [59151] = { -- Zhu's Watch Courier
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS]={{62.56,25.46}}},
+        }
+    }
+
+    local npcFixesAlliance = {
+        [59151] = { -- Zhu's Watch Courier
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS]={{66.2,30.8}}},
+        }
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
+end
