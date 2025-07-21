@@ -2394,6 +2394,9 @@ function MopQuestFixes.Load()
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
+        [30692] = { -- The Burlap Trail: To Kota Basecamp
+            [questKeys.preQuestSingle] = {30612},
+        },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
             [questKeys.objectives] = {nil,{{223819,nil,Questie.ICON_TYPE_INTERACT}}},
