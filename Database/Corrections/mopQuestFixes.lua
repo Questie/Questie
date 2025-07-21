@@ -1351,7 +1351,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29890},
         },
         [29901] = { -- Anduin's Decision
-            [questKeys.startedBy] = {{110008}},
+            [questKeys.startedBy] = {{110009}},
             [questKeys.preQuestGroup] = {29898,29899,29900},
             [questKeys.objectives] = {{{56434,nil,Questie.ICON_TYPE_TALK}}},
         },
