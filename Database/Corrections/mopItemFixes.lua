@@ -325,6 +325,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [80907] = { -- Opalescent Blue Crab Shell
+            [itemKeys.npcDrops] = {60437,63722},
+            },
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
         },
