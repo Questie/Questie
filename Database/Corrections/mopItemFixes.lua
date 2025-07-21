@@ -285,6 +285,18 @@ function MopItemFixes.Load()
         [80314] = { -- EZ-Gro Green Cabbage
             [itemKeys.npcDrops] = {59833},
         },
+        [80316] = { -- Lucky Virmen\'s Foot
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80317] = { -- Lucky Yak Shoe
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80318] = { -- Lucky Four Winds Clover
+            [itemKeys.npcDrops] = {59693,59967},
+        },
+        [80319] = { -- Lucky "Gold" Coin
+            [itemKeys.npcDrops] = {59693,59967},
+        },
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
