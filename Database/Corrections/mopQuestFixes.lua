@@ -1074,7 +1074,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {29750,29751,29752},
         },
         [29757] = { -- Bottletoads
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Scoop the toadspawn"),0,{{"object",209950}}}},
+            [questKeys.objectives] = {nil,{{209950,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29759] = { -- Kung Din
             [questKeys.preQuestSingle] = {},
