@@ -2278,6 +2278,9 @@ function MopQuestFixes.Load()
         [30601] = { -- Instant Courage
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}}
         },
+        [30602] = { -- The Rabbitsfoot
+            [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
