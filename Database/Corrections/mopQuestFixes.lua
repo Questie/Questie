@@ -3035,6 +3035,7 @@ function MopQuestFixes.Load()
         },
         [31319] = { -- Emergency Response
             [questKeys.objectives] = {{{64491,nil,Questie.ICON_TYPE_INTERACT},{64493,nil,Questie.ICON_TYPE_INTERACT},{64494,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {31303},
         },
         [31320] = { -- Buy A Fish A Drink?
             [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
