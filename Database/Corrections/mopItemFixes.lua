@@ -339,6 +339,9 @@ function MopItemFixes.Load()
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
+        [80591] = { -- Scallion Seeds
+            [itemKeys.vendors] = {58718},
+        },
         [80677] = { -- Emerald Tailfeather
             [itemKeys.npcDrops] = {60200},
         },
