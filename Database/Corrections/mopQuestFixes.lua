@@ -3520,6 +3520,12 @@ function MopQuestFixes.Load()
         [31534] = { -- The Beginner's Brew
             [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
         },
+        [31535] = { -- Replenishing the Pantry
+            [questKeys.preQuestSingle] = {31535},
+        },
+        [31536] = { -- Preserving Freshness
+            [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
+        },
         [31537] = { -- Ella's Taste Test
             [questKeys.requiredMinRep] = {1275,25200}, -- Friend level with Ella
         },

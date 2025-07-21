@@ -310,6 +310,8 @@ local phases = {
     LIN_TENDERPAW_EAST_OF_STONEPLOW = 1238,
     HEMETS_AT_CAMP = 1239,
     HEMETS_OUTSIDE_CAMP = 1240,
+    WU_PENG_ALONE = 1241,
+    WU_PENG_REUNITED = 1242,
 }
 Phasing.phases = phases
 
@@ -1025,7 +1027,7 @@ function Phasing.IsSpawnVisible(phase)
     if phase == phases.OHF_THRALL_DESTINY then
         return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
     end
-  
+
     if phase == phases.LINDSAY_WPL_TREE then
         return not complete[26936] or false
     end
@@ -1340,6 +1342,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HEMETS_OUTSIDE_CAMP then
         return (not complete[30186]) and (questLog[30185] or (complete[30185] and ((not questLog[30186]) or questLog[30186].isComplete == 0))) and true or false
+    end
+
+    if phase == phases.WU_PENG_ALONE then
+        return ((not complete[30834]) and (not questLog[30834])) or false
+    end
+
+    if phase == phases.WU_PENG_REUNITED then
+        return ((complete[30834]) or (questLog[30834])) or false
     end
 
     return false

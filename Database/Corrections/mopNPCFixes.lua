@@ -468,6 +468,14 @@ function MopNpcFixes.Load()
                 {61.23,34.23,phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY},
             }},
         },
+        [56133] = { -- Chen Stormstout
+            -- Placeholder all locations until phasing implementation
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.64,21.45},{75.6,24.33},{68.8,43.2},{55.8,49.6},{32.2,68.4},{32.2,68.4}}},
+        },
+        [56138] = { -- Li Li
+            -- Placeholder all locations until phasing implementation
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.81,21.59},{75.61,24.52},{68.8,43.2},{52.6,62.8},{36.0,69.0},{32.2,68.4}}},
+        },
         [56146] = { -- Barrow Tree
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
         },
@@ -679,6 +687,12 @@ function MopNpcFixes.Load()
         },
         [59241] = { -- Scarlet Treasurer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
+        },
+        [59272] = { -- Wu-Peng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {74.68,76.94,phases.WU_PENG_ALONE},
+                {74.97,88.78,phases.WU_PENG_REUNITED},
+            }},
         },
         [59276] = { -- Weapons Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.44,28.09}}},
