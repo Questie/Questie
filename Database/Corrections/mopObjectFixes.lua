@@ -131,6 +131,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211510] = { -- Sage Liao's Belongings
+            [objectKeys.name] = 'Sage Liao\'s Belongings',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{61.01,21.52}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
