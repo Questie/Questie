@@ -346,6 +346,9 @@ function MopItemFixes.Load()
         [82298] = { -- Handful of Volatile Blooms
             [itemKeys.objectDrops] = {211684},
         },
+        [82299] = { -- Blood-Stained Blade
+            [itemKeys.npcDrops] = {60580},
+        },
         [82393] = { -- Shen Dynasty Rubbing
             [itemKeys.objectDrops] = {211770},
         },
