@@ -2287,6 +2287,9 @@ function MopQuestFixes.Load()
         [30603] = { -- The Broketooth Ravage
             [questKeys.preQuestSingle] = {30592},
         },
+        [30604] = { -- Breaking Brokentooth
+            [questKeys.preQuestSingle] = {30603},
+        },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
