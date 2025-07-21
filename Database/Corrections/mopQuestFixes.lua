@@ -832,14 +832,14 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {29576},
         },
         [29579] = { -- Rally the Survivors
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{54763,54872},54872,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54763,54872},54872,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29585] = { -- Spitfire
             [questKeys.objectives] = {{{54780,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29586] = { -- The Splintered Path
-            [questKeys.triggerEnd] = {"Mogu Camp Discovered", {[zoneIDs.THE_JADE_FOREST]={{41,73.97}}}},
-            [questKeys.preQuestSingle] = {29578}, -- might also be in group quest with 29580, 29585, 29579
+            [questKeys.objectives] = {{{55009,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestGroup] = {29578,29579,29580,29585},
         },
         [29587] = { -- Unbound
             [questKeys.objectives] = {nil,nil,nil,nil,{{{54990,61472},54990,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -910,17 +910,17 @@ function MopQuestFixes.Load()
         },
         [29639] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
             [questKeys.exclusiveTo] = {29646,29647},
         },
         [29646] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
             [questKeys.exclusiveTo] = {29639,29647},
         },
         [29647] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
             [questKeys.exclusiveTo] = {29639,29646},
         },
         [29661] = { -- The Lesson of Dry Fur
@@ -993,6 +993,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{55267,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31230},
         },
+        [29717] = { -- Down Kitty!
+            [questKeys.startedBy] = {{55274,55413}},
+            [questKeys.preQuestSingle] = {31230},
+        },
         [29725] = { -- SI:7 Report: Fire From the Sky
             [questKeys.preQuestSingle] = {29733},
             [questKeys.objectives] = {{{55349,nil,Questie.ICON_TYPE_EVENT},{55350,nil,Questie.ICON_TYPE_EVENT},{55351,nil,Questie.ICON_TYPE_EVENT},{55352,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1054,7 +1058,7 @@ function MopQuestFixes.Load()
         },
         [29753] = { -- Back to Nature
             [questKeys.preQuestGroup] = {29750,29751,29752},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39.42,13.13},{40.36,12.34},{41.11,10.94},{37.92,8.02},{39.31,7.5},{38.84,10}}},Questie.ICON_TYPE_INTERACT,l10n("Smash the Spirit Bottles")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{39.42,13.13},{40.36,12.34},{41.11,10.94},{37.92,8.02},{38.84,10}}},Questie.ICON_TYPE_EVENT,l10n("Smash the Spirit Bottles")}},
         },
         [29754] = { -- To Bridge Earth and Sky
             [questKeys.finishedBy] = {{110006}},
@@ -1409,6 +1413,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31167},
         },
         [29925] = { -- All We Can Spare
+            [questKeys.preQuestSingle] = {29723}, -- could also be 29716
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Toya"),0,{{"monster",56348}}}},
         },
         [29926] = { -- Calamity Jade
@@ -1428,7 +1433,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56527,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [29931] = { -- The Serpent's Heart
-            [questKeys.preQuestGroup] = {29926,29930},
+            [questKeys.preQuestSingle] = {29930},
         },
         [29932] = { -- The Temple of the Jade Serpent
             [questKeys.objectives] = {{{57242,nil,Questie.ICON_TYPE_TALK}}},
@@ -1532,12 +1537,12 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29932},
         },
         [29999] = { -- The Rider's Bind
-            [questKeys.objectives] = {{{56856,nil,Questie.ICON_TYPE_INTERACT},{56858,nil,Questie.ICON_TYPE_INTERACT},{56859,nil,Questie.ICON_TYPE_INTERACT},{56860,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{56853,nil,Questie.ICON_TYPE_INTERACT},{56852,nil,Questie.ICON_TYPE_INTERACT},{56851,nil,Questie.ICON_TYPE_INTERACT},{56850,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29932},
         },
         [30000] = { -- The Jade Serpent
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29999,30005},
+            [questKeys.preQuestGroup] = {29999,30005,30011}, -- might need more than these 3
         },
         [30002] = { -- Pages of History
             [questKeys.preQuestSingle] = {29998},
@@ -1683,6 +1688,9 @@ function MopQuestFixes.Load()
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the bait"),0,{{"object",210117}}}},
+        },
+        [30066] = { -- Hidden Power
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{57316,57326,57400},57316,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
@@ -2230,10 +2238,8 @@ function MopQuestFixes.Load()
         },
         [30485] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30466,30484},
-            [questKeys.extraObjectives] = {
-                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64207}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Family Heirloom"),0,{{"object",213652}}},
-            },
+            [questKeys.objective] = {nil,{{213652}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64207}}}},
         },
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
@@ -2250,13 +2256,12 @@ function MopQuestFixes.Load()
         [30495] = { -- Love's Labor
             [questKeys.objectives] = {{{59395,nil,Questie.ICON_TYPE_TALK},{59401,nil,Questie.ICON_TYPE_TALK},{59392,nil,Questie.ICON_TYPE_TALK},{59397,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {
-                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kitemaster Shoku for a ride to the top"),0,{{"monster",59392}}},
-                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kitemaster Inga for a ride back to the bottom"),0,{{"monster",59400}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kitemaster Shoku for a ride to the top"),4,{{"monster",59392}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kitemaster Inga for a ride back to the bottom"),4,{{"monster",59400}}},
             },
         },
         [30498] = { -- Get Back Here! (Alliance)
             [questKeys.preQuestSingle] = {30000},
-            [questKeys.breadcrumbForQuestId] = 30565,
         },
         [30499] = { -- Get Back Here! (Horde)
             [questKeys.preQuestSingle] = {30000},
@@ -2331,7 +2336,11 @@ function MopQuestFixes.Load()
         },
         [30565] = { -- An Unexpected Advantage
             [questKeys.preQuestSingle] = {30000},
-            [questKeys.breadcrumbs] = {30498},
+        },
+        [30568] = { -- Helping the Cause
+            [questKeys.preQuestSingle] = {30000},
+            [questKeys.objectives] = {{{59572},{59562},{59609,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Open the cage"),0,{{"monster",59563}}}},
         },
         [30570] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30515},
@@ -2978,18 +2987,19 @@ function MopQuestFixes.Load()
         [31289] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
         },
-        [31309] = { -- On The Mend
-            [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
-        },
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
         },
         [31303] = { -- The Seal is Broken
             [questKeys.preQuestSingle] = {30485,31362},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64244}}}},
+            [questKeys.objectives] = {{{64269,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31308] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+        },
+        [31309] = { -- On The Mend
+            [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
@@ -3022,6 +3032,9 @@ function MopQuestFixes.Load()
         },
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31319] = { -- Emergency Response
+            [questKeys.objectives] = {{{64491,nil,Questie.ICON_TYPE_INTERACT},{64493,nil,Questie.ICON_TYPE_INTERACT},{64494,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31320] = { -- Buy A Fish A Drink?
             [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
@@ -3064,6 +3077,11 @@ function MopQuestFixes.Load()
         },
         [31354] = { -- Mazu's Bounty
             [questKeys.preQuestSingle] = {31190},
+        },
+        [31362] = { -- Last Piece of the Puzzle
+            [questKeys.preQuestGroup] = {30565,30568},
+            [questKeys.objective] = {nil,{{213652}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.exclusiveTo] = {31378,31380,31382},

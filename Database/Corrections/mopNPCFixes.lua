@@ -408,6 +408,9 @@ function MopNpcFixes.Load()
         [55352] = { -- Sully Return Credit
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{51.08,63.2}}},
         },
+        [55368] = { -- Widow Greenpaw
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.34,46.22}}},
+        },
         [55378] = { -- Lifelike Jade Statue
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
         },
@@ -1157,6 +1160,10 @@ function MopNpcFixes.Load()
                 {53.64,76.04,phases.JU_LIEN_AT_COAST},
                 {54.9,72.82,phases.JU_LIEN_IN_TOWN},
             }},
+        },
+        [64269] = { -- Sha of Doubt Portal
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{49.36,60.79},{49.13,59.67},{48.67,58.91},{48.14,58.81},{47.38,58.59},{46.58,58.95},{45.99,59.7},{45.93,60.64},{46.3,61.87},{46.93,62.54},{47.68,62.36},{48.37,62.03}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.77,72.03}}},

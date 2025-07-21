@@ -410,18 +410,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Place the Family Heirloom"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Platziere das Familienerbstück",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Set the Yaungol Banner ablaze"] = {
         ["enUS"] = true,
         ["deDE"] = false;
