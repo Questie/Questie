@@ -2494,6 +2494,9 @@ function MopQuestFixes.Load()
         [30834] = { -- Father and Child Reunion
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
+        [30880] = { -- Round 1: The Streetfighter
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
         },
