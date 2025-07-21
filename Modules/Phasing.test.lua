@@ -1683,4 +1683,51 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
         end)
     end)
+
+    describe("Hemet Nesingwary and Jr. (58421, 58422)", function()
+        it("should return true for camp location when 30185 is incomplete", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30185 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30185]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30186 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is incomplete and complete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is complete", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+    end)
 end)

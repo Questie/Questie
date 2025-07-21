@@ -308,6 +308,8 @@ local phases = {
     DEZCO_AT_DAWNCHASER_RETREAT = 1236,
     LIN_TENDERPAW_AT_PAOQUAN_HOLLOW = 1237,
     LIN_TENDERPAW_EAST_OF_STONEPLOW = 1238,
+    HEMETS_AT_CAMP = 1239,
+    HEMETS_OUTSIDE_CAMP = 1240,
 }
 Phasing.phases = phases
 
@@ -1330,6 +1332,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW then
         return complete[29984] or false
+    end
+
+    if phase == phases.HEMETS_AT_CAMP then
+        return ((not complete[30185]) and (not questLog[30185])) or complete[30186] or (questLog[30186] and questLog[30186].isComplete == 1) or false
+    end
+
+    if phase == phases.HEMETS_OUTSIDE_CAMP then
+        return (not complete[30186]) and (questLog[30185] or (complete[30185] and ((not questLog[30186]) or questLog[30186].isComplete == 0))) and true or false
     end
 
     return false

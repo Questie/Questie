@@ -578,6 +578,18 @@ function MopNpcFixes.Load()
                 {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
             }},
         },
+        [58421] = { -- Hemet Nesingwary
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {16.01,82.49,phases.HEMETS_AT_CAMP},
+                {19.83,75.64,phases.HEMETS_OUTSIDE_CAMP},
+            }},
+        },
+        [58422] = { -- Hemet Nesingwary Jr.
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {16.07,82.62,phases.HEMETS_AT_CAMP},
+                {19.91,75.67,phases.HEMETS_OUTSIDE_CAMP},
+            }},
+        },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
         },
