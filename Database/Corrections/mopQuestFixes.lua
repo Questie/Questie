@@ -2405,6 +2405,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30935},
             [questKeys.breadcrumbForQuestId] = 30794,
         },
+        [30819] = { -- Preparing the Remains
+            [questKeys.preQuestGroup] = {30805,30806,30807},
+        },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
