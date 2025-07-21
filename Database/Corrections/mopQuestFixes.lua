@@ -2946,6 +2946,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
         },
+        [31207] = { -- The Arena of Annihilation
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [31228] = { -- Prophet Khar'zul
             [questKeys.objectives] = {{{65855,nil,Questie.ICON_TYPE_TALK},{61541}},nil,nil,nil,{{{64631,64639,64643,64642},64642}}}
         },
