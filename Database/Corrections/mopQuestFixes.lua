@@ -3221,6 +3221,7 @@ function MopQuestFixes.Load()
         },
         [31492] = { -- The Torch of Strength
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {31517};
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.preQuestGroup] = {31092,31359,31398},
@@ -3266,6 +3267,10 @@ function MopQuestFixes.Load()
         },
         [31516] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31517] = { -- Contending With Bullies
+            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {31492};
         },
         [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
             [questKeys.exclusiveTo] = {31520,31522,31523,31524,31525,31526,31527,31528},
