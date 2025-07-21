@@ -325,6 +325,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [81177] = { -- Pandaren Healing Draught
+            [itemKeys.objectDrops] = {211510},
+        },
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
         },
