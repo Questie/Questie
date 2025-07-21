@@ -2274,6 +2274,9 @@ function MopQuestFixes.Load()
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestGroup] = {30616,30616,30808},
         },
+        [30618] = { -- Resupplying One Keg
+            [questKeys.preQuestSingle] = {30999},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
