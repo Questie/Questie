@@ -149,7 +149,7 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.11,47.89}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
-        [211770] = { -- Shen Dynasty Tablet {56.34,43.43},
+        [211770] = { -- Shen Dynasty Tablet
             [objectKeys.name] = 'Shen Dynasty Tablet',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.13,43.5}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
