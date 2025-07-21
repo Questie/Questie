@@ -3246,6 +3246,9 @@ function MopQuestFixes.Load()
         [31592] = { -- On The Mend
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31605] = { -- The Zan'thik Dig
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+        },
         [31660] = { -- Not Fit to Swarm
             [questKeys.preQuestSingle] = {31006},
         },
