@@ -2390,6 +2390,9 @@ function MopQuestFixes.Load()
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
+        [30816] = { -- Checking In
+            [questKeys.preQuestSingle] = {30935},
+        },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
