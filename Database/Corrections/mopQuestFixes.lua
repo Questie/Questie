@@ -2405,6 +2405,9 @@ function MopQuestFixes.Load()
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30942] = { -- Make A Fighter Out of Me
+            [questKeys.preQuestSingle] = {30935},
+        },
         [30944] = { -- It Takes A Village
             [questKeys.preQuestSingle] = {30935},
         },
