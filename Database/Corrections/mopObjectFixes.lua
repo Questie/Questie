@@ -139,9 +139,14 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.11,47.89}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
-        [211770] = { -- Shen Dynasty Tablet
+        [211770] = { -- Shen Dynasty Tablet {56.34,43.43},
             [objectKeys.name] = 'Shen Dynasty Tablet',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.13,43.5}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211790] = { -- Wai Dynasty Tablet
+            [objectKeys.name] = 'Wai Dynasty Tablet',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.34,43.43}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211883] = { -- Scout Cage

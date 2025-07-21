@@ -343,6 +343,15 @@ function MopItemFixes.Load()
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
         },
+        [82393] = { -- Shen Dynasty Rubbing
+            [itemKeys.objectDrops] = {211770},
+        },
+        [82394] = { -- Qiang Dynasty Rubbing
+            [itemKeys.objectDrops] = {211794},
+        },
+        [82395] = { -- Wai Dynasty Rubbing
+            [itemKeys.objectDrops] = {211790},
+        },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
