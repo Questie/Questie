@@ -3025,6 +3025,9 @@ function MopQuestFixes.Load()
         [31457] = { -- Muskpaw Ranch
             [questKeys.preQuestGroup] = {30655,30656,30661},
         },
+        [31458] = { -- Damage Control
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
             [questKeys.preQuestGroup] = {30655,30656,30661},
