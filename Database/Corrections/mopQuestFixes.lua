@@ -2402,6 +2402,9 @@ function MopQuestFixes.Load()
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30944] = { -- It Takes A Village
+            [questKeys.preQuestSingle] = {30935},
+        },
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
