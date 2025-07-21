@@ -335,6 +335,9 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {211521},
             [itemKeys.npcDrops] = {60560,60846},
         },
+        [81269] = { -- Waterfall-Polished Stone
+            [itemKeys.objectDrops] = {211526},
+        },
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
         },
