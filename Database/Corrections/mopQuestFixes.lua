@@ -2143,6 +2143,9 @@ function MopQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Family Heirloom"),0,{{"object",213652}}},
             },
         },
+        [30487] = { -- Comin' Round the Mountain
+            [questKeys.preQuestGroup] = {30601,30618,30621},
+        },
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
         },
