@@ -84,6 +84,16 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{26.52,55.65},{26.62,56.07},{26.38,55.54}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [209889] = { -- Restorative Spirit
+            [objectKeys.name] = 'Restorative Spirit',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{68.04,81.86}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [209890] = { -- Restorative Heart
+            [objectKeys.name] = 'Restorative Heart',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{66.43,80}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [209891] = { -- Stolen Turnip
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{85.45,35.03},{85.88,34.53},{85.69,34.35},{85.64,33.64},{84.54,26.8},{84.49,26.64},{84.51,26.58},{84.63,26.5},{84.69,26.48},{84.72,26.48},{84.75,26.67},{84.76,26.72},{84.99,27.77},{85.19,26.97},{85.11,26.91},{85.09,27.14},{85.02,27.11}}},
         },
@@ -209,6 +219,11 @@ function MopObjectFixes.Load()
             [objectKeys.name] = 'Improvised Rod',
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.58,76.04}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [213754] = { -- Potent Dream Brew
+            [objectKeys.name] = "Potent Dream Brew",
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.68,92.06}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [214101] = { -- In the Shadow of the Light
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},

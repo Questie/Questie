@@ -373,7 +373,7 @@ function MopNpcFixes.Load()
             },
         },
         [55054] = { -- General Nazgrim
-            [npcKeys.spawns] = {[zoneIDs.KALIMDOR]={{61.2,44.6}}},
+            [npcKeys.spawns] = {[zoneIDs.KALIMDOR] = {{61.2,44.6}}},
             [npcKeys.zoneID] = zoneIDs.KALIMDOR,
         },
         [55205] = { -- Water Spirit Coaxed Credit
@@ -381,17 +381,42 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
         [55274] = { -- An Windfur
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{39.47,47.55}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.47,47.55}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [55282] = { -- Sully "The Pickle" McLeary
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.87,81.81}}},
+        },
+        [55283] = { -- Amber Kearnen
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
+        },
+        [55284] = { -- Little Lu
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.07,81.89}}},
+        },
+        [55333] = { -- Rell Nightwind
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.98,81.82}}},
+        },
+        [55349] = { -- Sully SE Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{49.9,63.44}}},
+        },
+        [55350] = { -- Sully SW Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.18,62.54}}},
+        },
+        [55351] = { -- Sully N Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.02,57.03}}},
+        },
+        [55352] = { -- Sully Return Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{51.08,63.2}}},
+        },
         [55378] = { -- Lifelike Jade Statue
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
         },
         [55381] = { -- Widow Greenpaw
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{39.23,46.22}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.24,46.21}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [55521] = { -- Rivett Clutchpop
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
                 {31.2,21.6,phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK},
                 {28,24.6,phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP},
             }},
@@ -445,6 +470,12 @@ function MopNpcFixes.Load()
         },
         [56183] = { -- Engorged Crocolisk
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.2,35},{22.4,34.4},{22.6,34.6},{22.8,33.4},{23.4,33.6},{23.4,36.2},{23.4,37},{23.6,33.4},{23.6,33.6},{23.6,37},{24.4,35.2},{24.4,36.2},{24.6,34.4},{24.6,34.6},{24.6,36.4},{24.6,36.6}}},
+        },
+        [56222] = { -- Bold Karasshi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.97,81.69}}},
+        },
+        [56310] = { -- Mist Horror
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.2,90}}},
         },
         [56406] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
@@ -682,6 +713,9 @@ function MopNpcFixes.Load()
         [60916] = { -- Wugou
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{68.84,64.88}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
+        },
+        [60970] = { -- Admiral Taylor
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.87,81.67}}},
         },
         [61071] = { -- Small Frog
             [npcKeys.spawns] = {
@@ -1068,7 +1102,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_TRIALS] = {{42.2,68.4}}},
         },
         [63307] = { -- Lore Walker Cho
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{28.82,32.62}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.82,32.62}}},
         },
         [63317] = { -- Captain "Soggy" Su-Dao
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
@@ -1077,7 +1111,7 @@ function MopNpcFixes.Load()
             }},
         },
         [63335] = { -- Mojo Stormstout
-            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE]={{50.46,48.71}}},
+            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{50.46,48.71}}},
         },
         [63349] = { -- Deck Boss Arie
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
@@ -1210,14 +1244,20 @@ function MopNpcFixes.Load()
         [65365] = { -- Kor'ik
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{48.12,49.62}}},
         },
+        [65899] = { -- Master Kistane
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
         [65960] = { -- Master Woo
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.12,40.35}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
+        [66073] = { -- Master Yoon
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
         [66138] = { -- Master Cheng
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{48.12,40.35}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
         [66190] = { -- General Nazgrim
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{31.4,11.2}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.4,11.2}}},
         },
         [66292] = { -- Sky Admiral Rogers
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
@@ -1564,10 +1604,13 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52,75.8},{52.2,75.4},{52.6,80},{54.4,75.4},{54.6,58.6},{55.2,60.2},{55.8,60},{57.8,76.4},{58.4,59},{58.4,59.8},{58.6,59.4},{58.6,59.8},{58.6,80.2},{58.8,81},{67.6,55.2},{67.6,55.8},{69.2,59},{69.4,49}}},
         },
+
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100002] = { -- A Personal Summons - Stormwind
             [npcKeys.questStarts] = {28825,29547},
         },
+
+        -- For MoP fixes 110000-119999
         [110000] = { -- Shu, the Spirit of Water
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
@@ -1618,6 +1661,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.07,38.99}}},
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
             [npcKeys.questEnds] = {31009},
+        },
+        [110009] = { -- Anduin's Decision
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{65.9,79.37}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.questStarts] = {29901},
         },
     }
 end
