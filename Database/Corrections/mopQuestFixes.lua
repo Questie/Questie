@@ -2494,6 +2494,10 @@ function MopQuestFixes.Load()
         [31010] = { -- In Her Clutch
             [questKeys.objectives] = {nil,{{214674}}},
         },
+        [31011] = { -- Enemies At Our Door
+            [questKeys.preQuestGroup] = {30942,30943,30944,30945},
+            [questKeys.preQuestSingle] = {},
+        },
         [31012] = { -- Joining the Horde
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {31450},
