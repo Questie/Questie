@@ -2495,6 +2495,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31459,31460},
         },
+        [31000] = { -- Dread Space
+            [questKeys.breadcrumbForQuestId] = 31002,
+        },
         [31001] = { -- Falling Down
             [questKeys.objectives] = {{{62166,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
@@ -2503,7 +2506,7 @@ function MopQuestFixes.Load()
         },
         [31002] = { -- Nope
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.breadcrumbs] = {31391},
+            [questKeys.breadcrumbs] = {31000,31391,31847,31886},
         },
         [31003] = { -- Psycho Mantid
             [questKeys.preQuestGroup] = {31001,31002},
@@ -3722,6 +3725,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31845},
             [questKeys.requiredMaxLevel] = 89,
         },
+        [31847] = { -- Better Dead then Dread
+            [questKeys.breadcrumbForQuestId] = 31002,
+        },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{65655,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -3801,6 +3807,9 @@ function MopQuestFixes.Load()
         },
         [31877] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+        },
+        [31886] = { -- Dread Space
+            [questKeys.breadcrumbForQuestId] = 31002,
         },
         [31889] = { -- Battle Pet Tamers: Kalimdor
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},
