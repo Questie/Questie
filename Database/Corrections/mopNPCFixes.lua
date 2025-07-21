@@ -456,6 +456,10 @@ function MopNpcFixes.Load()
         [55944] = { -- Delora Lionheart
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{42.22,86.54}}},
         },
+        [56133] = { -- Chen Stormstout
+            -- Placeholder all locations until phasing implementation
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.64,21.45},{75.6,24.33},{68.8,43.2},{55.8 49.6},{32.2 68.4},{32.2 68.4}}},
+        },
         [56146] = { -- Barrow Tree
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
         },
