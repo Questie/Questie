@@ -2238,7 +2238,7 @@ function MopQuestFixes.Load()
         },
         [30485] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30466,30484},
-            [questKeys.objective] = {nil,{{213652}}},
+            [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64207}}}},
         },
         [30488] = { -- The Missing Muskpaw
