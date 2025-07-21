@@ -2399,6 +2399,9 @@ function MopQuestFixes.Load()
         [30834] = { -- Father and Child Reunion
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
+        [30935] = { -- Fisherman's Tale
+            [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
