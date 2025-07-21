@@ -2378,6 +2378,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{61166,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",60796}}}},
         },
+        [30797] = { -- It Was Almost Alive
+            [questKeys.objectives] = {nil, nil, {{81892,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
