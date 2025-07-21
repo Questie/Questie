@@ -2392,6 +2392,12 @@ function MopQuestFixes.Load()
         [30801] = { -- Lessons from History
             [questKeys.objectives] = {{{61316,nil,Questie.ICON_TYPE_OBJECT}}},
         },
+        [30806] = { -- The Scent of Life
+            [questKeys.preQuestSingle] = {30794},
+        },
+        [30807] = { -- By the Falls, For the Fallen
+            [questKeys.preQuestSingle] = {30794},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
