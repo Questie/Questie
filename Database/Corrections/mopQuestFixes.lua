@@ -2406,7 +2406,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
         [30743] = { -- Gourmet Kafa
-            [questKeys.objectives] = {nil,{{211546}}},
+            [questKeys.objectives] = {nil,{{211456}}},
         },
         [30744] = { -- Kota Blend
             [questKeys.objectives] = {nil,nil,{{81054}}},
