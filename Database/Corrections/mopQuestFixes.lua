@@ -2405,6 +2405,9 @@ function MopQuestFixes.Load()
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
+        [30743] = { -- Gourmet Kafa
+            [questKeys.objectives] = {nil,{{211546}}},
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
         },
