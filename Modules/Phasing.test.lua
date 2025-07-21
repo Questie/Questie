@@ -1480,4 +1480,30 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
         end)
     end)
+
+    describe("Skeer the Bloodseeker", function()
+        it("should return true for Klaxxi'Vees location when 31179 is complete", function()
+            Questie.db.char.complete[31179] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+        end)
+
+        it("should return true for Klaxxi'Vees location when 31179 is in the quest log and complete", function()
+            Questie.db.char.complete[31179] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31179]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+        end)
+
+        it("should return true for cave location when 31179 is incomplete", function()
+            Questie.db.char.complete[31179] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+        end)
+    end)
 end)

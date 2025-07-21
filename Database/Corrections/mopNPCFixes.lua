@@ -1057,6 +1057,12 @@ function MopNpcFixes.Load()
                 [zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}
             },
         },
+        [63071] = { -- Skeer the Bloodseeker
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
+                {25.71,50.58,phases.SKEER_IN_CAVE},
+                {44.41,16.8,phases.SKEER_IN_KLAXXI_VEES}
+            }},
+        },
         [63296] = { -- Gato
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_TRIALS] = {{42.2,68.4}}},

@@ -293,6 +293,8 @@ local phases = {
     SAP_MASTERS_AT_BREWGARDEN = 1221,
     SAP_MASTERS_AT_RIKKITUN = 1222,
     SAP_MASTERS_AT_BREWGARDEN_CENTER = 1223,
+    SKEER_IN_CAVE = 1224,
+    SKEER_AT_KLAXXI_VEES = 1225,
 }
 Phasing.phases = phases
 
@@ -1255,6 +1257,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SAP_MASTERS_AT_BREWGARDEN_CENTER then
         return complete[31085] or (questLog[31085] and questLog[31085].isComplete == 1) or false
+    end
+
+    if phase == phases.SKEER_IN_CAVE then
+        return (not complete[31179]) and ((not questLog[31179] or questLog[31179].isComplete == 0)) and true or false
+    end
+
+    if phase == phases.SKEER_AT_KLAXXI_VEES then
+        return complete[31179] or (questLog[31179] and questLog[31179].isComplete == 1) or false
     end
 
     return false
