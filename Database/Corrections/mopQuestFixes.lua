@@ -3039,6 +3039,9 @@ function MopQuestFixes.Load()
         [31176] = { -- A Strange Appetite
             [questKeys.preQuestSingle] = {31175},
         },
+        [31177] = { -- Fine Dining
+            [questKeys.preQuestSingle] = {31175},
+        },
         [31459] = { -- Cho's Missive [Horde]
             [questKeys.breadcrumbForQuestId] = 30999,
             [questKeys.preQuestGroup] = {30655,30656,30661},
