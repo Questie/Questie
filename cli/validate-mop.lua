@@ -213,7 +213,7 @@ local function _CheckMoPDatabase()
     print("\n\27[36mValidating quests...\27[0m")
     QuestieDBCompiler:ValidateQuests()
 
-    print("\n\27[32mCata database compiled successfully\27[0m")
+    print("\n\27[32mMoP database compiled successfully\27[0m")
 
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do

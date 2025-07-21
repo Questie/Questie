@@ -3,7 +3,7 @@ import scrapy
 from scrapy import signals
 
 from match_dungeon_spawns import match_dungeon_spawns
-from npc.retail_npc_ids import RETAIL_NPC_IDS
+from npc.mop_npcs_without_spawns import MOP_NPC_IDS_WITHOUT_SPAWN
 from npc.npc_formatter import NPCFormatter
 from npc.npc_ids import NPC_IDS
 
@@ -18,7 +18,7 @@ class NPCSpider(scrapy.Spider):
     def __init__(self, run_for_retail: bool) -> None:
         super().__init__()
         if run_for_retail:
-            self.start_urls = [self.base_url_retail.format(npc_id) for npc_id in RETAIL_NPC_IDS]
+            self.start_urls = [self.base_url_retail.format(npc_id) for npc_id in MOP_NPC_IDS_WITHOUT_SPAWN]
         else:
             self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
 

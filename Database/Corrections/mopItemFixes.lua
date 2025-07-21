@@ -107,6 +107,12 @@ function MopItemFixes.Load()
         [75276] = { -- Turtle Meat Scrap
             [itemKeys.npcDrops] = {56256},
         },
+        [76107] = { -- Pristine Crocolisk Eye
+            [itemKeys.npcDrops] = {54558},
+        },
+        [76115] = { -- Amberfly Wing
+            [itemKeys.npcDrops] = {54559},
+        },
         [76173] = { -- Bug Leg
             [itemKeys.npcDrops] = {56283},
         },
@@ -165,6 +171,9 @@ function MopItemFixes.Load()
         [77034] = { -- Malted Cave Barley
             [itemKeys.objectDrops] = {210037},
         },
+        [77452] = { -- Defender's Arrow
+            [itemKeys.objectDrops] = {210087},
+        },
         [77455] = { -- Mulberry Leaves
             [itemKeys.objectDrops] = {210080},
         },
@@ -216,6 +225,21 @@ function MopItemFixes.Load()
         [79745] = { -- Sunwalker Scout\'s Report
             [itemKeys.npcDrops] = {59136},
         },
+        [79807] = { -- Waterspeaker's Staff
+            [itemKeys.npcDrops] = {55110},
+        },
+        [79808] = { -- Ceremonial Robes
+            [itemKeys.npcDrops] = {55110},
+        },
+        [79809] = { -- Jade Crown
+            [itemKeys.npcDrops] = {55110},
+        },
+        [79810] = { -- Rosewood Beads
+            [itemKeys.npcDrops] = {55110},
+        },
+        [79811] = { -- Glassfin Heirloom
+            [itemKeys.npcDrops] = {56233},
+        },
         [79824] = { -- Stolen Vegetable
             [itemKeys.objectDrops] = {210763},
         },
@@ -230,6 +254,9 @@ function MopItemFixes.Load()
         },
         [79870] = { -- Yu-Ping Soup
             [itemKeys.objectDrops] = {210873},
+        },
+        [79875] = { -- Song of the Vale
+            [itemKeys.objectDrops] = {209582},
         },
         [79884] = { -- Bucket of Slicky Water
             [itemKeys.objectDrops] = {209974},

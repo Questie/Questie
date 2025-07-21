@@ -1874,6 +1874,10 @@ local questsRequiringTamingPandariaAchievement = {
     [33222] = true, -- Little Tommy Newcomer
 }
 
+local questsRequiringDreadHasteMakesDreadWasteAchievement = {
+    [32030] = true, -- Once in a Hundred Lifetimes
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1916,6 +1920,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringTamingPandariaAchievement[questId] then
         return select(13, GetAchievementInfo(6606)) -- Taming Pandaria
+    end
+
+    if questsRequiringDreadHasteMakesDreadWasteAchievement[questId] then
+        return select(13, GetAchievementInfo(6540)) -- Dread Haste Makes Dread Waste
     end
 end
 
