@@ -1532,4 +1532,42 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
         end)
     end)
+
+    describe("Clever Ashyo", function()
+        it("should return true for Pools of Purity location when 29577 is in the quest log", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29577]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for Pools of Purity location when 29577 is complete", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for southern locaiton when 29871 is in the quest log", function()
+            Questie.db.char.complete[29871] = false
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29871]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+        end)
+
+        it("should return true for southern location when 29871 is complete", function()
+            Questie.db.char.complete[29871] = true
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+        end)
+    end)
 end)

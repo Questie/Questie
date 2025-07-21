@@ -297,6 +297,8 @@ local phases = {
     SKEER_AT_KLAXXI_VEES = 1225,
     SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS = 1226,
     SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
+    CLEVER_ASHYO_AT_POOLS_OF_PURITY = 1228,
+    CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY = 1229,
 }
 Phasing.phases = phases
 
@@ -1275,6 +1277,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS then
         return complete[29918] or questLog[29918] and true or false
+    end
+
+    if phase == phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY then
+        return complete[29577] or questLog[29577] and true or false
+    end
+
+    if phase == phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY then
+        return (not complete[29577]) and (not questLog[29577]) and (complete[29871] or questLog[29871]) and true or false
     end
 
     return false
