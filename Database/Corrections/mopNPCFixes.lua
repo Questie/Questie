@@ -679,6 +679,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [60883] = { -- Light Incense Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.96,33.32},}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [60916] = { -- Wugou
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{68.84,64.88}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
