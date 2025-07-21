@@ -2376,6 +2376,8 @@ function MopQuestFixes.Load()
         },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
+            [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {81177},
         },
         [30795] = { -- Staying Connected
             [questKeys.objectives] = {{{61166,nil,Questie.ICON_TYPE_EVENT}}},
