@@ -2384,6 +2384,9 @@ function MopQuestFixes.Load()
         [30800] = { -- Stealing Their Thunder King
             [questKeys.objectives] = {nil, {{214572}},{{82764}}},
         },
+        [30801] = { -- Lessons from History
+            [questKeys.objectives] = {{{61316,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
         [30808] = { -- A Grummle's Luck
             [questKeys.preQuestSingle] = {},
         },
