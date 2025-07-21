@@ -651,6 +651,12 @@ function MopNpcFixes.Load()
         [59241] = { -- Scarlet Treasurer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59272] = { -- Wu-Peng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {74.68,76.94,phases.WU_PENG_ALONE},
+                {74.97,88.78,phases.WU_PENG_REUNITED},
+            }},
+        },
         [59276] = { -- Weapons Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.44,28.09}}},
         },

@@ -295,6 +295,8 @@ local phases = {
     SAP_MASTERS_AT_BREWGARDEN_CENTER = 1223,
     SKEER_IN_CAVE = 1224,
     SKEER_AT_KLAXXI_VEES = 1225,
+    WU_PENG_ALONE = 1226,
+    WU_PENG_REUNITED = 1227,
 }
 Phasing.phases = phases
 
@@ -1010,7 +1012,7 @@ function Phasing.IsSpawnVisible(phase)
     if phase == phases.OHF_THRALL_DESTINY then
         return complete[29599] or (questLog[29599] and questLog[29599].isComplete == 1) or false
     end
-  
+
     if phase == phases.LINDSAY_WPL_TREE then
         return not complete[26936] or false
     end
@@ -1265,6 +1267,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SKEER_AT_KLAXXI_VEES then
         return complete[31179] or (questLog[31179] and questLog[31179].isComplete == 1) or false
+    end
+
+    if phase == phases.WU_PENG_ALONE then
+        return ((not complete[30834]) and (not questLog[30834])) or false
+    end
+
+    if phase == phases.WU_PENG_REUNITED then
+        return ((complete[30834]) or (questLog[30834])) or false
     end
 
     return false
