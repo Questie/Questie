@@ -135,6 +135,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
         },
+        [211754] = { -- Curious Text
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.11,47.89}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211883] = { -- Scout Cage
             [objectKeys.name] = 'Scout Cage',
             [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
