@@ -3394,6 +3394,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31606,
         },
         [31606] = { -- The Dissector Wakens
+            [questKeys.objectives] = {{{67091}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.breadcrumbs] = {31605},
