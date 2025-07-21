@@ -3005,6 +3005,9 @@ function MopQuestFixes.Load()
         [31398] = { -- Falling to Pieces
             [questKeys.preQuestSingle] = {31091},
         },
+        [31439] = { -- Dropping Our Signal
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{56013,nil,Questie.ICON_TYPE_TALK}}},
