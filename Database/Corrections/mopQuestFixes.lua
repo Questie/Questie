@@ -2408,6 +2408,9 @@ function MopQuestFixes.Load()
         [30819] = { -- Preparing the Remains
             [questKeys.preQuestGroup] = {30805,30806,30807},
         },
+        [30820] = { -- A Funeral
+            [questKeys.preQuestSingle] = {30819},
+        },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
