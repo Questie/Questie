@@ -2414,6 +2414,9 @@ function MopQuestFixes.Load()
         [30745] = { -- Trouble Brewing
             [questKeys.requiredLevel] = 85,
         },
+        [30747] = { -- The Burlap Grind
+            [questKeys.preQuestSingle] = {30746},
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
