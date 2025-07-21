@@ -2396,6 +2396,7 @@ function MopQuestFixes.Load()
         },
         [30692] = { -- The Burlap Trail: To Kota Basecamp
             [questKeys.preQuestSingle] = {30612},
+            [questKeys.triggerEnd] = {"Escort grummies to Kota Basecamp", {[zoneIDs.KUN_LAI_SUMMIT]={{43.74,68.93}}}},
         },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
