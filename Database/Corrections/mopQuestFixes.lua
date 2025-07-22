@@ -1543,6 +1543,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{209945,nil,Questie.ICON_TYPE_OBJECT},{209946,nil,Questie.ICON_TYPE_OBJECT},{209947,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [29987] = { -- Unyielding Fists: Trial of Wood
+            [questKeys.preQuestGroup] = {29985,29986,29992},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
         },
         [29989] = { -- Unyielding Fists: Trial of Stone
