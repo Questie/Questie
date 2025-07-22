@@ -1749,6 +1749,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [17763] = "Gema del tercer Kahn",
 [17764] = "Gema del cuarto Kahn",
 [17765] = "Gema del quinto Kahn",
+[17771] = "Barra de elementium",
 [17781] = "Las instrucciones del Paria",
 [17849] = "Estandarte Pico Tormenta",
 [17850] = "Estandarte Lobo Gélido",
