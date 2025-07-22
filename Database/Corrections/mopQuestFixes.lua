@@ -2310,6 +2310,7 @@ function MopQuestFixes.Load()
             },
         },
         [30492] = { -- Back in Yak
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT]={{65.38,61.45}}}},
         },
         [30495] = { -- Love's Labor
