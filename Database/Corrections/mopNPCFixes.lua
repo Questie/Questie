@@ -521,6 +521,9 @@ function MopNpcFixes.Load()
         [56527] = { -- Jade Cart
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.27,29.47}}},
         },
+        [56546] = { -- Silk Farm Exploration Credit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.34,59.03}}},
+        },
         [56547] = { -- Water Village Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{61.42,35.43}}},
         },
