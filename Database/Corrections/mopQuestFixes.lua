@@ -2927,6 +2927,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{211659},{211661},{213191}}},
             [questKeys.finishedBy] = {{56287,61218}},
         },
+        [31132] = { -- A Mile in My Shoes
+            [questKeys.finishedBy] = {63217},
+        },
         [31133] = { -- Kor'thik Aggression
             [questKeys.preQuestGroup] = {31069,31070},
         },
