@@ -3558,6 +3558,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
         },
         [31521] = { -- To Be a Master -- might also have cooking skill/rank requirement
+            [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
             [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
         },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
