@@ -74,6 +74,21 @@ function MopObjectFixes.Load()
         [209835] = { -- Marmot Hole
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{81.77,25.59},{82.41,25.93},{82.43,24.80},{81.66,24.86},{81.86,25.09},{82.15,25.07},{82.53,26.27},{82.24,26.16},{82.14,26.37},{82.23,26.15}}},
         },
+        [209842] = { -- Pang's Extra-Spicy Tofu
+            [objectKeys.name] = 'Pang\'s Extra-Spicy Tofu',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.94,22.04},{84.04,22.08}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [209843] = { -- Ang's Summer Watermelon
+            [objectKeys.name] = 'Ang\'s Summer Watermelon',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{84.19,22.16},{84.2,22.18},{84.2,22.2},{84.18,22.07},{84.13,22.14},{84.14,22.07},{84.16,21.99},{84.11,21.92}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [209844] = { -- Ang's Giant Pink Turnip
+            [objectKeys.name] = 'Ang\'s Giant Pink Turnip',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{84.42,21.96},{84.33,22.08},{84.32,21.97},{84.31,21.87},{84.29,21.89},{84.28,22}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [209863] = { -- Chunk of Jade
             [objectKeys.name] = 'Chunk of Jade',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.3,31.4},{47.3,31.5},{47.4,30.1},{47.9,30.9},{48,29.4},{48.1,32.7},{48.2,31.5},{48.4,30.2},{48.5,32.5},{48.8,30.4},{49,29.4},{49,30.7},{49.2,31.6},{49.5,30.4},{49.5,30.6},{49.5,31.9}}},
@@ -110,6 +125,10 @@ function MopObjectFixes.Load()
         },
         [210005] = { -- Weapon Rack
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{59.19,17.25},{58.67,16.32},{56.86,19.64},{57.59,17.59},{58.03,19.95},{57.85,20.06},{58.86,16.72},{57.24,16.73},{57.23,19.23},{56.98,20.49}}},
+        },
+        [210565] = { -- Dark Soil
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.82,47.98}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210931] = { -- Dak Dak's Altar
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.56,39.54}}},

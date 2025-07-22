@@ -1395,6 +1395,16 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29909},
             [questKeys.objectives] = {{{56203,nil,Questie.ICON_TYPE_INTERACT}},{{209835,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29912] = { -- The Fabulous Miss Fanny
+            [questKeys.requiredSourceItems] = {75256,75258,75259},
+            [questKeys.objectives] = {{{56192,nil,Questie.ICON_TYPE_TALK},{56192,nil,Questie.ICON_TYPE_TALK},{56192,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("After quest is complete, select 3rd option"),0,{{"monster",56192}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Pink Turnip - 2nd option"),1,{{"monster",56192}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Watermelon - 1st option"),2,{{"monster",56192}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Tofu - 3rd option"),3,{{"monster",56192}}},
+            },
+        },
         [29913] = { -- The Meat They'll Eat
             [questKeys.preQuestSingle] = {29912},
         },
@@ -1495,7 +1505,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Fill the vial"),0,{{"object",209921}}}},
         },
         [29952] = { -- Broken Dreams
-            [questKeys.preQuestSingle] = {29950}, -- might be prequest group with 29951
+            [questKeys.preQuestSingle] = {29950},
             [questKeys.objectives] = {{{56680,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
@@ -3522,7 +3532,7 @@ function MopQuestFixes.Load()
         [31520] = {-- A Worthy Challenge: Sha of Doubt
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
         },
-        [31521] = { -- To Be a Master
+        [31521] = { -- To Be a Master -- might also have cooking skill/rank requirement
             [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
         },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
