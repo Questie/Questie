@@ -1301,6 +1301,7 @@ function MopQuestFixes.Load()
         },
         [29872] = { -- Lin Tenderpaw
             [questKeys.preQuestSingle] = {30086},
+            [questKeys.breadcrumbForQuestId] = 29981,
         },
         [29873] = { -- Ken-Ken
             [questKeys.breadcrumbForQuestId] = 30079,
@@ -1527,6 +1528,7 @@ function MopQuestFixes.Load()
         },
         [29981] = { -- Stemming the Swarm
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {29872},
         },
         [29982] = { -- Evacuation Orders
             [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
