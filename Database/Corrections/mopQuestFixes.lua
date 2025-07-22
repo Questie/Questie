@@ -1313,7 +1313,7 @@ function MopQuestFixes.Load()
         },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29883] = { -- The Pearlfin Situation
             [questKeys.preQuestSingle] = {29562},
@@ -1386,6 +1386,10 @@ function MopQuestFixes.Load()
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019}
+        },
+        [29909] = { -- Low Turnip Turnout
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29908,29877},
         },
         [29910] = { -- Rampaging Rodents
             [questKeys.preQuestSingle] = {29909},
@@ -1761,7 +1765,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31327,
         },
         [30086] = { -- The Search for the Hidden Master
-            [questKeys.preQuestSingle] = {29908},
+            [questKeys.preQuestGroup] = {29908,29877},
         },
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
@@ -1902,6 +1906,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30254] = { -- Learn and Grow II: Tilling and Planting
+            [questKeys.preQuestSingle] = {30535},
             [questKeys.objectives] = {{{59985,nil,Questie.ICON_TYPE_INTERACT}},{{59990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30255] = { -- Learn and Grow III: Tending Crops
