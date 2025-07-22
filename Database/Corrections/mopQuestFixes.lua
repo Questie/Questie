@@ -1381,6 +1381,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019}
         },
+        [29909] = { -- Low Turnip Turnout
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29908,29877},
+        },
         [29910] = { -- Rampaging Rodents
             [questKeys.preQuestSingle] = {29909},
             [questKeys.objectives] = {{{56203,nil,Questie.ICON_TYPE_INTERACT}},{{209835,nil,Questie.ICON_TYPE_INTERACT}}},
