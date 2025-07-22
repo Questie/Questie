@@ -1449,6 +1449,7 @@ function MopQuestFixes.Load()
         },
         [29937] = { -- Furious Fowl
             [questKeys.preQuestSingle] = {29941},
+            [questKeys.finishedBy] = {56406},
         },
         [29939] = { -- Boom Bait
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{26.75,55.33}}},Questie.ICON_TYPE_INTERACT,l10n("Throw the Gut Bomb"),0}},
