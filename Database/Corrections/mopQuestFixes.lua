@@ -1896,6 +1896,7 @@ function MopQuestFixes.Load()
         },
         [30257] = { -- Learn and Grow V: Halfhill Market
             [questKeys.objectives] = {nil,nil,{{80314,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {79269},
         },
         [30258] = { --Mung-Mung's Vote I: A Hozen's Problem
             [questKeys.requiredMinRep] = {1272,14600} -- available at 5600/12000 honored with Tillers
