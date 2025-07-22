@@ -157,6 +157,7 @@ do
         -- MOP Corrections
         if (Expansions.Current >= Expansions.MoP) then
             addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadFactionFixes())
         end
 
         -- Season of Discovery Corrections

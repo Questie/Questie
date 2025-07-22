@@ -911,17 +911,17 @@ function MopQuestFixes.Load()
         },
         [29639] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29646,29647},
         },
         [29646] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29639,29647},
         },
         [29647] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29639,29646},
         },
         [29661] = { -- The Lesson of Dry Fur
@@ -1020,6 +1020,7 @@ function MopQuestFixes.Load()
         [29733] = { -- SI:7 Report: Lost in the Woods
             [questKeys.preQuestSingle] = {29894},
             [questKeys.objectives] = {{{55454}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",55343}}}},
         },
         [29743] = { -- Monstrosity
             [questKeys.finishedBy] = {{110002}},
@@ -1312,10 +1313,11 @@ function MopQuestFixes.Load()
         },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29883] = { -- The Pearlfin Situation
             [questKeys.preQuestSingle] = {29562},
+            [questKeys.objectives] = {{{59058,nil,Questie.ICON_TYPE_TALK},{56693,nil,Questie.ICON_TYPE_TALK},{56690,nil,Questie.ICON_TYPE_TALK},{54960,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29885] = { -- Road Rations
             [questKeys.preQuestSingle] = {29562},
@@ -1335,15 +1337,19 @@ function MopQuestFixes.Load()
         },
         [29891] = { -- Potency
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29892] = { -- Body
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29893] = { -- Hue
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29894] = { -- Spirits of the Water
             [questKeys.preQuestGroup] = {29762,29887},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56398,54960},56398,nil,Questie.ICON_TYPE_TALK},{{54894},54894,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29898] = { -- Sacred Waters
             [questKeys.preQuestSingle] = {29890},
@@ -1380,6 +1386,10 @@ function MopQuestFixes.Load()
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019}
+        },
+        [29909] = { -- Low Turnip Turnout
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29908,29877},
         },
         [29910] = { -- Rampaging Rodents
             [questKeys.preQuestSingle] = {29909},
@@ -1507,6 +1517,10 @@ function MopQuestFixes.Load()
         },
         [29982] = { -- Evacuation Orders
             [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
+        },
+        [29983] = { -- The Hidden Master
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29981,29982},
         },
         [29984] = { -- Unyielding Fists: Trial of Bamboo
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
@@ -1687,6 +1701,7 @@ function MopQuestFixes.Load()
         },
         [30057] = { -- Seeing Orange
             [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{44.22,34.65}}}},
+            [questKeys.objectives] = {},
         },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
@@ -1705,6 +1720,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30073] = { -- The Emperor
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30047,30172,30055},
+        },
         [30075] = { -- Clear the Way
             [questKeys.preQuestSingle] = {30074},
         },
@@ -1716,6 +1735,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
         },
         [30078] = { -- Cleaning House
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30075,30076,30077},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
         [30079] = { -- What's Eating Zhu's Watch?
@@ -1745,7 +1766,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31327,
         },
         [30086] = { -- The Search for the Hidden Master
-            [questKeys.preQuestSingle] = {29908},
+            [questKeys.preQuestGroup] = {29908,29877},
         },
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
@@ -1886,6 +1907,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30254] = { -- Learn and Grow II: Tilling and Planting
+            [questKeys.preQuestSingle] = {30535},
             [questKeys.objectives] = {{{59985,nil,Questie.ICON_TYPE_INTERACT}},{{59990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30255] = { -- Learn and Grow III: Tending Crops
@@ -2454,8 +2476,8 @@ function MopQuestFixes.Load()
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
-            [questKeys.objectives] = {{{59899}}},
-            [questKeys.preQuestGroup] = {30500,30502,30504},
+            [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {30504,31319}, -- became available after 30504/31319 only
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},

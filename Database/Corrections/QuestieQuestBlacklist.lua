@@ -5858,6 +5858,7 @@ function QuestieQuestBlacklist:Load()
         [29724] = true, -- Not in the game
         [29729] = true, -- Not in the game
         [29732] = true, -- Not in the game
+        [29744] = true, -- Not in the game
         [29761] = true, -- Not in the game
         [29766] = true, -- Not in the game
         [29767] = true, -- Not in the game
@@ -5954,18 +5955,18 @@ function QuestieQuestBlacklist:Load()
         [31665] = true, -- Not in the game
         [31666] = true, -- Not in the game
         [31764] = true, -- Not in the game
-        [31867] = true, -- Not in the game
-        [31869] = true, -- Not in the game
         [31863] = true, -- Not in the game
         [31864] = true, -- Not in the game
         [31865] = true, -- Not in the game
         [31866] = true, -- Not in the game
+        [31867] = true, -- Not in the game
         [31868] = true, -- Not in the game
+        [31869] = true, -- Not in the game
         [31968] = true, -- Not in the game
         [32396] = true, -- Not in the game
-        [32891] = true, -- Not in the game
         [32666] = true, -- Hidden quest
         [32890] = true, -- Not in the game
+        [32891] = true, -- Not in the game
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65601] = Expansions.Current >= Expansions.Cata, -- Not in the game
