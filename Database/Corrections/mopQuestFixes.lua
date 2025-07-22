@@ -103,10 +103,6 @@ QuestieCorrections.spellObjectiveFirst[31476] = true
 QuestieCorrections.spellObjectiveFirst[31477] = true
 QuestieCorrections.spellObjectiveFirst[31480] = true
 
-
-
-
-
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
