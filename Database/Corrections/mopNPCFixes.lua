@@ -338,6 +338,10 @@ function MopNpcFixes.Load()
         [54787] = { -- Huo
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{39.42,29.55}}},
         },
+        [54894] = { -- Rassharom
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.63,83.15}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [54914] = { -- High Elder Cloudfall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_JADE_FOREST] = {
@@ -417,6 +421,9 @@ function MopNpcFixes.Load()
         [55381] = { -- Widow Greenpaw
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.24,46.21}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [55438] = { -- Outcast Sprite
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.67,24.94},{47.87,21.61},{47.49,21.26},{47.88,21.32},{48.16,21.3},{48.12,21.1},{47.68,20.73},{49.47,22.51},{49.44,21.36},{49.47,21.45},{49.34,21.94},{49.29,22.59},{49.43,22.84},{48.93,22.8},{49.15,21.45},{48.99,23.45},{48.98,22.99},{49.1,21.98},{49.19,22.51},{48.77,21.85},{48.73,21.86},{48.95,22.8},{49.03,22.4},{48.93,22.4},{48.91,24.44},{48.79,24.88},{48.64,24.2},{48.78,24.65},{48.52,24.34},{48.69,24.69},{49.03,23.94},{49.06,24.01},{48.93,23.95},{48.91,23.96}}},
         },
         [55521] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
