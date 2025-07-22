@@ -592,7 +592,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
         },
         [58113] = { -- Sunwalker Dezco
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
                 {60.41,25.57,phases.DEZCO_AT_THUNDER_CLEFT},
                 {15.98,39.78,phases.DEZCO_AT_SHATTERED_CONVOY},
                 {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
