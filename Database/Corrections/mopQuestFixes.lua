@@ -1543,6 +1543,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{209945,nil,Questie.ICON_TYPE_OBJECT},{209946,nil,Questie.ICON_TYPE_OBJECT},{209947,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [29987] = { -- Unyielding Fists: Trial of Wood
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29985,29986,29992},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
         },
@@ -1872,6 +1873,7 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
         [30174] = { -- For Family
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30164,30175},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kor Bloodtusk"),0,{{"monster",58670}}}},
         },
