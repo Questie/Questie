@@ -512,6 +512,9 @@ function MopNpcFixes.Load()
                 {27.23,50.78,phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END},
             }},
         },
+        [56439] = { -- Sha of Doubt
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{60.91,59.35},{-1,-1}}},
+        },
         [56448] = { -- Wise Mari
             [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{44.58,19.28},{-1,-1}}},
         },
