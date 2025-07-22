@@ -96,6 +96,12 @@ QuestieCorrections.spellObjectiveFirst[31166] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
+QuestieCorrections.spellObjectiveFirst[31467] = true
+QuestieCorrections.spellObjectiveFirst[31471] = true
+QuestieCorrections.spellObjectiveFirst[31474] = true
+QuestieCorrections.spellObjectiveFirst[31476] = true
+QuestieCorrections.spellObjectiveFirst[31477] = true
+QuestieCorrections.spellObjectiveFirst[31480] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -1027,10 +1033,6 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
             [questKeys.preQuestSingle] = {31774},
         },
-        [29744] = { -- Some "Pupil of Nature"
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbForQuestId] = 29745,
-        },
         [29745] = { -- The Sprites' Plight
             [questKeys.finishedBy] = {{110004}},
             [questKeys.preQuestSingle] = {},
@@ -1276,8 +1278,7 @@ function MopQuestFixes.Load()
         },
         [29822] = { -- Lay of the Land
             [questKeys.objectives] = {{{63058,nil,Questie.ICON_TYPE_EVENT},{63059,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{55651,55622},55622},},},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29827,31112},
+            [questKeys.preQuestSingle] = {29827},
         },
         [29823] = { -- Scouting Report: The Friend of My Enemy
             [questKeys.preQuestSingle] = {29731},
@@ -1423,6 +1424,8 @@ function MopQuestFixes.Load()
         },
         [29919] = { -- Great Minds Drink Alike
             [questKeys.preQuestSingle] = {29918},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"	Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{68.87,43.14}}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29922] = { -- In Search of Wisdom
@@ -1479,7 +1482,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29936},
         },
         [29942] = { -- Silly Wikket, Slickies are for Hozen
-            [questKeys.preQuestSingle] = {31239},
+            [questKeys.preQuestGroup] = {29937,31239}, -- 29937 is definitely a prequest. If someone else had 31239 then assume it must need both rather than just 31239
         },
         [29943] = { -- Guerrillas in our Midst
             [questKeys.preQuestSingle] = {29824},
@@ -1586,7 +1589,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29932},
         },
         [30015] = { -- Dawn's Blossom
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {29967},
+            [questKeys.preQuestGroup] = {},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
@@ -1870,6 +1874,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30172] = { -- Barreling Along
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
         [30174] = { -- For Family
@@ -2305,6 +2310,7 @@ function MopQuestFixes.Load()
             },
         },
         [30492] = { -- Back in Yak
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT]={{65.38,61.45}}}},
         },
         [30495] = { -- Love's Labor
@@ -2547,6 +2553,7 @@ function MopQuestFixes.Load()
         },
         [30692] = { -- The Burlap Trail: To Kota Basecamp
             [questKeys.preQuestSingle] = {30612},
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escort grummies to Kota Basecamp", {[zoneIDs.KUN_LAI_SUMMIT]={{43.74,68.93}}}},
         },
         [30694] = { -- Tread Lightly
@@ -2643,6 +2650,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",61315}}}},
         },
         [30834] = { -- Father and Child Reunion
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
         [30879] = { -- Round 1: Brewmaster Chani
@@ -3433,6 +3441,24 @@ function MopQuestFixes.Load()
         [31458] = { -- Damage Control
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
+        [31467] = { -- Strong as a Tiger
+            [questKeys.objectives] = {nil,nil,{{74642}},nil,nil,{{104298}}},
+        },
+        [31471] = { -- Agile as a Tiger
+            [questKeys.objectives] = {nil,nil,{{74643}},nil,nil,{{104301}}},
+        },
+        [31474] = { -- The Soup of Contemplation
+            [questKeys.objectives] = {nil,nil,{{74644}},nil,nil,{{104304}}},
+        },
+        [31476] = { -- The Spirit of Cooking
+            [questKeys.objectives] = {nil,nil,{{74654}},nil,nil,{{104307}}},
+        },
+        [31477] = { -- Endurance
+            [questKeys.objectives] = {nil,nil,{{74654}},nil,nil,{{104310}}},
+        },
+        [31480] = { -- Have a Drink
+            [questKeys.objectives] = {nil,nil,{{75026}},nil,nil,{{124052}}},
+        },
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
@@ -3537,6 +3563,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
         },
         [31521] = { -- To Be a Master -- might also have cooking skill/rank requirement
+            [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
             [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
         },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
@@ -3576,7 +3603,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
         },
         [31535] = { -- Replenishing the Pantry
-            [questKeys.preQuestSingle] = {31535},
+            [questKeys.preQuestSingle] = {31536},
         },
         [31536] = { -- Preserving Freshness
             [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
