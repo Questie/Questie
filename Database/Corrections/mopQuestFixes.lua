@@ -1860,6 +1860,7 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Lead Mudmug back to Halfhill", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{55.92,49.33}}}},
         },
         [30174] = { -- For Family
+            [questKeys.preQuestGroup] = {30164,30175},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kor Bloodtusk"),0,{{"monster",58670}}}},
         },
         [30175] = { -- The Mantid
