@@ -1514,6 +1514,10 @@ function MopQuestFixes.Load()
         [29982] = { -- Evacuation Orders
             [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
         },
+        [29983] = { -- The Hidden Master
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29981,29982},
+        },
         [29984] = { -- Unyielding Fists: Trial of Bamboo
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Bruised Paw"),0,{{"monster",56714}}}},
         },
@@ -1692,6 +1696,7 @@ function MopQuestFixes.Load()
         },
         [30057] = { -- Seeing Orange
             [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{44.22,34.65}}}},
+            [questKeys.objectives] = {},
         },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
@@ -1710,6 +1715,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30073] = { -- The Emperor
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30047,30172,30055},
+        }
         [30075] = { -- Clear the Way
             [questKeys.preQuestSingle] = {30074},
         },
@@ -1721,6 +1730,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
         },
         [30078] = { -- Cleaning House
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30075,30076,30077},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
         [30079] = { -- What's Eating Zhu's Watch?
