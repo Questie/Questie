@@ -1689,6 +1689,7 @@ function MopQuestFixes.Load()
         },
         [30057] = { -- Seeing Orange
             [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{44.22,34.65}}}},
+            [questKeys.objectives] = {},
         },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
