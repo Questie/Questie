@@ -1743,7 +1743,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31327,
         },
         [30086] = { -- The Search for the Hidden Master
-            [questKeys.preQuestSingle] = {29908},
+            [questKeys.preQuestGroup] = {29908,29877},
         },
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
