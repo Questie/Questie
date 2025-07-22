@@ -512,6 +512,9 @@ function MopNpcFixes.Load()
                 {27.23,50.78,phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END},
             }},
         },
+        [56448] = { -- Wise Mari
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{44.58,19.28},{-1,-1}}},
+        },
         [56456] = { -- Silk Farm Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.39,59.73}}},
         },
@@ -534,12 +537,18 @@ function MopNpcFixes.Load()
         [56708] = { -- Syra Goldendraft
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
+        [56732] = { -- Liu Flameheart
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{48.2,53.18},{-1,-1}}},
+        },
         [56787] = { -- Wise Mari
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [56838] = { -- Shokia
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.4,51.8}}},
+        },
+        [56843] = { -- Lorewalker Stonestep
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{26.18,75.03},{-1,-1}}},
         },
         [56856] = { -- Playful Azure Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.19,56.74}}},

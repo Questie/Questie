@@ -3309,6 +3309,9 @@ function MopQuestFixes.Load()
         [31354] = { -- Mazu's Bounty
             [questKeys.preQuestSingle] = {31190},
         },
+        [31355] = { -- Restoring Jade's Purity
+            [questKeys.objectives] = {{{56448},{56732},{56843,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [31362] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30565,30568},
             [questKeys.objectives] = {nil,{{213652}}},
