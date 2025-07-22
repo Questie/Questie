@@ -1723,6 +1723,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
         },
         [30078] = { -- Cleaning House
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30075,30076,30077},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
         },
         [30079] = { -- What's Eating Zhu's Watch?
