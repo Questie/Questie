@@ -3597,7 +3597,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
         },
         [31535] = { -- Replenishing the Pantry
-            [questKeys.preQuestSingle] = {31535},
+            [questKeys.preQuestSingle] = {31536},
         },
         [31536] = { -- Preserving Freshness
             [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
