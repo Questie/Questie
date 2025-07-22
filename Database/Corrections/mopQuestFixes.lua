@@ -97,6 +97,8 @@ QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
 QuestieCorrections.spellObjectiveFirst[31467] = true
+QuestieCorrections.spellObjectiveFirst[31471] = true
+
 
 
 function MopQuestFixes.Load()
@@ -3388,6 +3390,9 @@ function MopQuestFixes.Load()
         },
         [31467] = { -- Strong as a Tiger
             [questKeys.objectives] = {nil,nil,{{74642}},nil,nil,{{104298}}},
+        },
+        [31471] = { -- Agile as a Tiger
+            [questKeys.objectives] = {nil,nil,{{74643}},nil,nil,{{104301}}},
         },
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
