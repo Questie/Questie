@@ -1561,7 +1561,7 @@ function MopQuestFixes.Load()
         },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29966,29967},
+            [questKeys.preQuestGroup] = {29967},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
