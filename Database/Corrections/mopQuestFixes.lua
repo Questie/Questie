@@ -1888,6 +1888,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30254] = { -- Learn and Grow II: Tilling and Planting
+            [questKeys.preQuestSingle] = {30535},
             [questKeys.objectives] = {{{59985,nil,Questie.ICON_TYPE_INTERACT}},{{59990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30255] = { -- Learn and Grow III: Tending Crops
