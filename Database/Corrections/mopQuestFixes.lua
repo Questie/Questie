@@ -98,6 +98,7 @@ QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
 QuestieCorrections.spellObjectiveFirst[31467] = true
 QuestieCorrections.spellObjectiveFirst[31471] = true
+QuestieCorrections.spellObjectiveFirst[31476] = true
 QuestieCorrections.spellObjectiveFirst[31477] = true
 QuestieCorrections.spellObjectiveFirst[31480] = true
 
@@ -3397,6 +3398,9 @@ function MopQuestFixes.Load()
         },
         [31471] = { -- Agile as a Tiger
             [questKeys.objectives] = {nil,nil,{{74643}},nil,nil,{{104301}}},
+        },
+        [31476] = { -- The Spirit of Cooking
+            [questKeys.objectives] = {nil,nil,{{74654}},nil,nil,{{104307}}},
         },
         [31477] = { -- Endurance
             [questKeys.objectives] = {nil,nil,{{74654}},nil,nil,{{104310}}},
