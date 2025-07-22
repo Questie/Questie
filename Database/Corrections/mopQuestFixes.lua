@@ -911,17 +911,17 @@ function MopQuestFixes.Load()
         },
         [29639] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29646,29647},
         },
         [29646] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29639,29647},
         },
         [29647] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637}, -- might also need 29631
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
             [questKeys.exclusiveTo] = {29639,29646},
         },
         [29661] = { -- The Lesson of Dry Fur
@@ -1020,6 +1020,7 @@ function MopQuestFixes.Load()
         [29733] = { -- SI:7 Report: Lost in the Woods
             [questKeys.preQuestSingle] = {29894},
             [questKeys.objectives] = {{{55454}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",55343}}}},
         },
         [29743] = { -- Monstrosity
             [questKeys.finishedBy] = {{110002}},
@@ -1316,6 +1317,7 @@ function MopQuestFixes.Load()
         },
         [29883] = { -- The Pearlfin Situation
             [questKeys.preQuestSingle] = {29562},
+            [questKeys.objectives] = {{{59058,nil,Questie.ICON_TYPE_TALK},{56693,nil,Questie.ICON_TYPE_TALK},{56690,nil,Questie.ICON_TYPE_TALK},{54960,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29885] = { -- Road Rations
             [questKeys.preQuestSingle] = {29562},
@@ -1335,15 +1337,19 @@ function MopQuestFixes.Load()
         },
         [29891] = { -- Potency
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29892] = { -- Body
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29893] = { -- Hue
             [questKeys.preQuestSingle] = {31130},
+            [questKeys.startedBy] = {{56287,61218}},
         },
         [29894] = { -- Spirits of the Water
             [questKeys.preQuestGroup] = {29762,29887},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56398,54960},56398,nil,Questie.ICON_TYPE_TALK},{{54894},54894,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29898] = { -- Sacred Waters
             [questKeys.preQuestSingle] = {29890},
@@ -1561,7 +1567,6 @@ function MopQuestFixes.Load()
         },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29966,29967},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
@@ -2455,8 +2460,8 @@ function MopQuestFixes.Load()
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
-            [questKeys.objectives] = {{{59899}}},
-            [questKeys.preQuestGroup] = {30500,30502,30504},
+            [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {30504,31319}, -- became available after 30504/31319 only
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
