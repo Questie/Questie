@@ -1445,6 +1445,7 @@ function MopQuestFixes.Load()
         [29936] = { -- Instant Messaging
             [questKeys.objectives] = {{{56402,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.preQuestSingle] = {29935},
+            [questKeys.finishedBy] = {56339},
         },
         [29937] = { -- Furious Fowl
             [questKeys.preQuestSingle] = {29941},
