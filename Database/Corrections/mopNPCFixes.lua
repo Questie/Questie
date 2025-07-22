@@ -338,6 +338,10 @@ function MopNpcFixes.Load()
         [54787] = { -- Huo
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{39.42,29.55}}},
         },
+        [54894] = { -- Rassharom
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.63,83.15}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [54914] = { -- High Elder Cloudfall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_JADE_FOREST] = {
@@ -418,6 +422,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.24,46.21}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [55438] = { -- Outcast Sprite
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.67,24.94},{47.87,21.61},{47.49,21.26},{47.88,21.32},{48.16,21.3},{48.12,21.1},{47.68,20.73},{49.47,22.51},{49.44,21.36},{49.47,21.45},{49.34,21.94},{49.29,22.59},{49.43,22.84},{48.93,22.8},{49.15,21.45},{48.99,23.45},{48.98,22.99},{49.1,21.98},{49.19,22.51},{48.77,21.85},{48.73,21.86},{48.95,22.8},{49.03,22.4},{48.93,22.4},{48.91,24.44},{48.79,24.88},{48.64,24.2},{48.78,24.65},{48.52,24.34},{48.69,24.69},{49.03,23.94},{49.06,24.01},{48.93,23.95},{48.91,23.96}}},
+        },
         [55521] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
                 {31.2,21.6,phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK},
@@ -494,6 +501,10 @@ function MopNpcFixes.Load()
         [56183] = { -- Engorged Crocolisk
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.2,35},{22.4,34.4},{22.6,34.6},{22.8,33.4},{23.4,33.6},{23.4,36.2},{23.4,37},{23.6,33.4},{23.6,33.6},{23.6,37},{24.4,35.2},{24.4,36.2},{24.6,34.4},{24.6,34.6},{24.6,36.4},{24.6,36.6}}},
         },
+        [56192] = { -- Miss Fanny
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83,21.37}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [56222] = { -- Bold Karasshi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.97,81.69}}},
         },
@@ -512,6 +523,12 @@ function MopNpcFixes.Load()
                 {27.23,50.78,phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END},
             }},
         },
+        [56439] = { -- Sha of Doubt
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{60.91,59.35},{-1,-1}}},
+        },
+        [56448] = { -- Wise Mari
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{44.58,19.28},{-1,-1}}},
+        },
         [56456] = { -- Silk Farm Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.39,59.73}}},
         },
@@ -523,12 +540,15 @@ function MopNpcFixes.Load()
         },
         [56546] = { -- Silk Farm Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.34,59.03}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56547] = { -- Water Village Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{61.42,35.43}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56548] = { -- Waterfall Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{74.85,42.36}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56686] = { -- Master Shang Xi
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{19.46,51.22}}},
@@ -537,12 +557,18 @@ function MopNpcFixes.Load()
         [56708] = { -- Syra Goldendraft
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
+        [56732] = { -- Liu Flameheart
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{48.2,53.18},{-1,-1}}},
+        },
         [56787] = { -- Wise Mari
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [56838] = { -- Shokia
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.4,51.8}}},
+        },
+        [56843] = { -- Lorewalker Stonestep
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{26.18,75.03},{-1,-1}}},
         },
         [56856] = { -- Playful Azure Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.19,56.74}}},
@@ -583,7 +609,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
         },
         [58113] = { -- Sunwalker Dezco
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
                 {60.41,25.57,phases.DEZCO_AT_THUNDER_CLEFT},
                 {15.98,39.78,phases.DEZCO_AT_SHATTERED_CONVOY},
                 {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},

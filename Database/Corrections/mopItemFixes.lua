@@ -92,6 +92,15 @@ function MopItemFixes.Load()
         [75219] = { -- Freshly Fallen Petal
             [itemKeys.objectDrops] = {209836},
         },
+        [75256] = { -- Pang's Extra-Spicy Tofu
+            [itemKeys.objectDrops] = {209842},
+        },
+        [75258] = { -- Ang's Summer Watermelon
+            [itemKeys.objectDrops] = {209843},
+        },
+        [75259] = { -- Ang's Giant Pink Turnip
+            [itemKeys.objectDrops] = {209844},
+        },
         [75271] = { -- Jian
             [itemKeys.npcDrops] = {56253},
         },
@@ -133,7 +142,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {209907},
         },
         [76335] = { -- Vial of Animal Blood
-            [itemKeys.npcDrops] = {56523,56524,56531,56532},
+            [itemKeys.npcDrops] = {56523,56524,56526,56531,56532},
         },
         [76336] = { -- Nazgrim's Grog
             [itemKeys.class] = itemClasses.QUEST,
@@ -166,7 +175,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {209987},
         },
         [77033] = { -- Sack of Grain
-            [itemKeys.objectDrops] = {210001},
+            [itemKeys.objectDrops] = {210001,210002},
         },
         [77034] = { -- Malted Cave Barley
             [itemKeys.objectDrops] = {210037},
@@ -215,6 +224,9 @@ function MopItemFixes.Load()
         },
         [79199] = { -- Murkscale Head
             [itemKeys.npcDrops] = {58631},
+        },
+        [79238] = { -- Enormous Crocolisk Tail
+            [itemKeys.startQuest] = 30275,
         },
         [79252] = { -- Mogu Poisoned Blade
             [itemKeys.npcDrops] = {58377,65598},
@@ -341,6 +353,7 @@ function MopItemFixes.Load()
         },
         [80591] = { -- Scallion Seeds
             [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [80677] = { -- Emerald Tailfeather
             [itemKeys.npcDrops] = {60200},
@@ -467,6 +480,9 @@ function MopItemFixes.Load()
         },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
+        },
+        [86431] = { -- Stormstout Secrets
+            [itemKeys.objectDrops] = {213795},
         },
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
