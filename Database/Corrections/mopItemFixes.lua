@@ -175,7 +175,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {209987},
         },
         [77033] = { -- Sack of Grain
-            [itemKeys.objectDrops] = {210001},
+            [itemKeys.objectDrops] = {210001,210002},
         },
         [77034] = { -- Malted Cave Barley
             [itemKeys.objectDrops] = {210037},
