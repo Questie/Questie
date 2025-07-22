@@ -1707,6 +1707,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
+        [30073] = { -- The Emperor
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30047,30172,30055},
+        },
         [30075] = { -- Clear the Way
             [questKeys.preQuestSingle] = {30074},
         },
