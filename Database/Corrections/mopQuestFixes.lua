@@ -1593,7 +1593,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
         [30028] = { -- Grain Recovery
-            [questKeys.preQuestSingle] = {30031},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30029,30030,30031},
         },
         [30029] = { -- Wee Little Shenanigans
             [questKeys.preQuestSingle] = {30048},
