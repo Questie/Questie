@@ -261,6 +261,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.68,92.06}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [213795] = { -- Stormstout Secrets
+            [objectKeys.name] = "Stormstout Secrets",
+            [objectKeys.spawns] = {[zoneIDs.STORMSTOUT_BREWERY] = {{-1,-1}}}, -- TODO: Add coords from inside the dungeon
+            [objectKeys.zoneID] = zoneIDs.STORMSTOUT_BREWERY,
+        },
         [214101] = { -- In the Shadow of the Light
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},
         },

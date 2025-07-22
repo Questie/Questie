@@ -184,6 +184,7 @@ ZoneDB.zoneIDs = {
     VALE_OF_ETERNAL_BLOSSOMS = 5840,
     KUN_LAI_SUMMIT = 5841,
     TEMPLE_OF_THE_JADE_SERPENT = 5956, -- Dungeon
+    STORMSTOUT_BREWERY = 5963, -- Dungeon
     THE_VEILED_STAIRS = 6006,
     SCARLET_HALLS = 6052, -- this is also Training Grounds map for Scarlet Monastery (MoP)
     SCHOLOMANCE_MOP = 6066, -- this is also The Reliquary map for Scholomance (MoP)

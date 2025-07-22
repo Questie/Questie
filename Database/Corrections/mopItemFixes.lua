@@ -468,6 +468,9 @@ function MopItemFixes.Load()
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
+        [86431] = { -- Stormstout Secrets
+            [itemKeys.objectDrops] = {213795},
+        },
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
         },
