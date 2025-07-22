@@ -2650,6 +2650,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",61315}}}},
         },
         [30834] = { -- Father and Child Reunion
+            [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
         [30879] = { -- Round 1: Brewmaster Chani
