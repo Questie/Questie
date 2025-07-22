@@ -96,6 +96,8 @@ QuestieCorrections.spellObjectiveFirst[31166] = true
 QuestieCorrections.spellObjectiveFirst[31169] = true
 QuestieCorrections.spellObjectiveFirst[31171] = true
 QuestieCorrections.spellObjectiveFirst[31173] = true
+QuestieCorrections.spellObjectiveFirst[31467] = true
+
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -3384,6 +3386,9 @@ function MopQuestFixes.Load()
         [31458] = { -- Damage Control
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
+        [31467] = { -- Strong as a Tiger
+            [questKeys.objectives] = {nil,nil,{{74642}}},nil,nil,{{{104298}}},
+        }
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
