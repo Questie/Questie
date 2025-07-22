@@ -1026,10 +1026,6 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212182},{212183},{212184},{212186}}},
             [questKeys.preQuestSingle] = {31774},
         },
-        [29744] = { -- Some "Pupil of Nature"
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbForQuestId] = 29745,
-        },
         [29745] = { -- The Sprites' Plight
             [questKeys.finishedBy] = {{110004}},
             [questKeys.preQuestSingle] = {},
