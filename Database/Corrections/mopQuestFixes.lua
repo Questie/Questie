@@ -3799,6 +3799,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31769},
         },
         [31774] = { -- Seeking Zin'jun
+            [questKeys.finishedBy] = {{55403}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29694,31770,31771,31773},
         },
