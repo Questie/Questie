@@ -99,6 +99,8 @@ QuestieCorrections.spellObjectiveFirst[31173] = true
 QuestieCorrections.spellObjectiveFirst[31467] = true
 QuestieCorrections.spellObjectiveFirst[31471] = true
 QuestieCorrections.spellObjectiveFirst[31477] = true
+QuestieCorrections.spellObjectiveFirst[31480] = true
+
 
 
 
@@ -3398,6 +3400,9 @@ function MopQuestFixes.Load()
         },
         [31477] = { -- Endurance
             [questKeys.objectives] = {nil,nil,{{74654}},nil,nil,{{104310}}},
+        },
+        [31480] = { -- Have a Drink
+            [questKeys.objectives] = {nil,nil,{{75026}},nil,nil,{{124052}}},
         },
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
