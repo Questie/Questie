@@ -2729,7 +2729,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the rope"),0,{{"object",212229}}}},
         },
         [31002] = { -- Nope
-            [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT},{61981}}},
             [questKeys.breadcrumbs] = {31000,31391,31847,31886},
         },
         [31003] = { -- Psycho Mantid
