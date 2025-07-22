@@ -1312,7 +1312,7 @@ function MopQuestFixes.Load()
         },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56146,56149,56150,56151,56278,56279,56280,56281},56146,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29883] = { -- The Pearlfin Situation
             [questKeys.preQuestSingle] = {29562},
