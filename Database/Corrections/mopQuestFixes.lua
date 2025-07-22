@@ -3387,8 +3387,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31467] = { -- Strong as a Tiger
-            [questKeys.objectives] = {nil,nil,{{74642}}},nil,nil,{{{104298}}},
-        }
+            [questKeys.objectives] = {nil,nil,{{74642}},nil,nil,{{104298}}},
+        },
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
