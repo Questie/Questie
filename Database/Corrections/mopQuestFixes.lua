@@ -1456,7 +1456,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29936},
         },
         [29942] = { -- Silly Wikket, Slickies are for Hozen
-            [questKeys.preQuestSingle] = {31239},
+            [questKeys.preQuestGroup] = {29937,31239}, -- 29937 is definitely a prequest. If someone else had 31239 then assume it must need both rather than just 31239
         },
         [29943] = { -- Guerrillas in our Midst
             [questKeys.preQuestSingle] = {29824},
