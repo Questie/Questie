@@ -3817,6 +3817,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29804},
         },
         [31779] = { -- The Darkness Within
+            [questKeys.finishedBy] = {{nil,{215844}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31775,31776,31777,31778,},
         },
