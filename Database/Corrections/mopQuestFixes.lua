@@ -2571,6 +2571,9 @@ function MopQuestFixes.Load()
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
+        [30715] = { -- A Line Unbroken
+            [questKeys.objectives] = {{{61808},{61806},{61810}}},
+        },
         [30742] = { -- Shut it Down
             [questKeys.exclusiveTo] = {30823},
         },
