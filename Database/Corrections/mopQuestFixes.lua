@@ -1426,7 +1426,7 @@ function MopQuestFixes.Load()
         [29919] = { -- Great Minds Drink Alike
             [questKeys.preQuestSingle] = {29918},
             [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"	Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{68.87,43.14}}}},
+            [questKeys.triggerEnd] = {"Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{68.87,43.14}}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29922] = { -- In Search of Wisdom
