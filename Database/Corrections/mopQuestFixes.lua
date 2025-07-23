@@ -2506,7 +2506,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30651] = { -- Barrels of Fun [Alliance]
-            [questKeys.preQuestSingle] = {31252},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31252,30593,30619},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -2521,7 +2522,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30656] = { -- Barrels of Fun [Horde]
-            [questKeys.preQuestSingle] = {31253},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31253,30594,30620},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
