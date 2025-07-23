@@ -992,6 +992,9 @@ function MopNpcFixes.Load()
         [61528] = { -- Lava Guard Gordoth
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{33.76,81.74},{-1,-1}}},
         },
+        [61530] = { -- Explosive Hatred
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{74.8,88.4}}},
+        },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
         },
