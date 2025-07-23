@@ -2068,15 +2068,29 @@ function MopQuestFixes.Load()
         [30351] = { -- Lotus Tea
             [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
         },
+        [30354] = { -- No Sister Left Behind
+            [questKeys.preQuestSingle] = {30363,30465},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58720,58639},58639,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30355] = { -- Re-Reclaim
+            [questKeys.preQuestSingle] = {30363,30465},
+        },
+        [30356] = { -- Sever Their Supply Line
+            [questKeys.preQuestSingle] = {30363,30465},
+        },
         [30357] = { -- The Stoneplow Convoy [Alliance]
-            --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
+            [questKeys.preQuestGroup] = {30354,30355,30356},
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30359] = { -- The Lord Reclaimer
+            [questKeys.preQuestGroup] = {30357,30361},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
         },
         [30360] = { -- Warn Stoneplow [Alliance]
             [questKeys.exclusiveTo] = {30376},
+        },
+        [30361] = { -- The Mantid
+            [questKeys.preQuestGroup] = {30354,30355,30356},
         },
         [30363] = { -- Going on the Offensive
             [questKeys.preQuestSingle] = {30348},
@@ -2279,7 +2293,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59143,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30465] = { -- Going on the Offensive
-            [questKeys.exclusiveTo] = {30363},
+            [questKeys.exclusiveTo] = {30363}, -- need to find actual prequest
         },
         [30466] = { -- Sufficient Motivation
             [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2538,7 +2552,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59874}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Ken-Ken's Mask on Ik'thik Wing Commander"),0,{{"monster",56723}}}},
         },
+        [30624] = { -- It Does You No Good Inside The Keg
+            [questKeys.preQuestSingle] = {30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59849,59850},59849,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [30625] = { -- Students No More
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30622,30623,30624},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Follow the students and help them"),0,{{"monster",59839}}}},
         },
         [30627] = { -- The Savior of Stoneplow
@@ -2564,8 +2584,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31252,30593,30619},
         },
         [30653] = { -- It Does You No Good Inside The Keg
-            [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
-            [questKeys.objectives] = {{{59844,nil,Questie.ICON_TYPE_EVENT},{59846,nil,Questie.ICON_TYPE_EVENT},{59829,nil,Questie.ICON_TYPE_EVENT},{59851,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {30241,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59851,59853},59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30655] = { -- Pandaren Prisoners [Horde]
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2592,7 +2612,7 @@ function MopQuestFixes.Load()
         },
         [30674] = { -- Balance Without Violence
             [questKeys.preQuestSingle] = {30671},
-            [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{60367,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30682] = { -- Holed Up
             [questKeys.objectives] = {{{60187,nil,Questie.ICON_TYPE_TALK},{60189,nil,Questie.ICON_TYPE_TALK},{60190,nil,Questie.ICON_TYPE_TALK},{60178,nil,Questie.ICON_TYPE_TALK}}},
@@ -3643,7 +3663,8 @@ function MopQuestFixes.Load()
         [31520] = {-- A Worthy Challenge: Sha of Doubt
             [questKeys.exclusiveTo] = {31519,31522,31523,31524,31525,31526,31527,31528},
         },
-        [31521] = { -- To Be a Master -- might also have cooking skill/rank requirement
+        [31521] = { -- To Be a Master
+            [questKeys.requiredSkill] = {profKeys.COOKING,600},
             [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
             [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
         },
