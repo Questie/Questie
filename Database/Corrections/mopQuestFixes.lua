@@ -2301,6 +2301,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30000},
             [questKeys.breadcrumbs] = {30499},
         },
+        [30467] = { -- My Son...
+            [questKeys.breadcrumbs] = {31451,31452},
+        },
         [30470] = { -- A Gift For Tina
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30471,30472,30473,30474,30475,30476,30477,30478,30479},
@@ -3589,6 +3592,7 @@ function MopQuestFixes.Load()
         },
         [31452] = { -- The Missing Merchant [Alliance]
             [questKeys.preQuestGroup] = {30650,30651,30660},
+            [questKeys.breadcrumbForQuestId] = 30467,
         },
         [31453] = { -- The Shado-Pan [Horde]
             [questKeys.preQuestGroup] = {30655,30656,30661},
