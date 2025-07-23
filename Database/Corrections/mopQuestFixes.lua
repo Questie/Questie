@@ -2886,17 +2886,16 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31459,31460},
         },
         [31000] = { -- Dread Space
-            [questKeys.breadcrumbForQuestId] = 31002,
+            [questKeys.breadcrumbForQuestId] = 31001,
         },
         [31001] = { -- Falling Down
             [questKeys.objectives] = {{{62166,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {31895},
+            [questKeys.breadcrumbs] = {31000,31391,31847,31886,31895},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the rope"),0,{{"object",212229}}}},
         },
         [31002] = { -- Nope
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT},{61981}}},
-            [questKeys.breadcrumbs] = {31000,31391,31847,31886},
         },
         [31003] = { -- Psycho Mantid
             [questKeys.preQuestGroup] = {31001,31002},
@@ -3426,6 +3425,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31486},
         },
+        [31281] = { --
+            [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Learn to make Sliced Peaches"),0,{{"monster",64231}}}},
+        },
         [31285] = { -- The Spring Drifter
             [questKeys.objectives] = {{{63517,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
@@ -3560,7 +3563,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
         [31391] = { -- The Klaxxi
-            [questKeys.breadcrumbForQuestId] = 31002,
+            [questKeys.breadcrumbForQuestId] = 31001,
         },
         [31392] = { -- Temple of the White Tiger [Alliance]
             [questKeys.breadcrumbForQuestId] = 31394,
@@ -4195,7 +4198,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 89,
         },
         [31847] = { -- Better Dead then Dread
-            [questKeys.breadcrumbForQuestId] = 31002,
+            [questKeys.breadcrumbForQuestId] = 31001,
         },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4278,7 +4281,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
         },
         [31886] = { -- Dread Space
-            [questKeys.breadcrumbForQuestId] = 31002,
+            [questKeys.breadcrumbForQuestId] = 31001,
         },
         [31889] = { -- Battle Pet Tamers: Kalimdor
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},
