@@ -2745,6 +2745,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{61796,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30992] = { -- Finish This!
+            [questKeys.preQuestSingle] = {30991},
+        },
         [30993] = { -- Where are My Reinforcements?
             [questKeys.preQuestSingle] = {30992},
         },
