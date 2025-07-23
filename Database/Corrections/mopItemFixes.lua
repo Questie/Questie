@@ -150,6 +150,9 @@ function MopItemFixes.Load()
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},
         },
+        [76350] = { -- Li Li's Wishing-Stone
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [76362] = { -- Mudmug's Vial
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -380,8 +383,8 @@ function MopItemFixes.Load()
         [80907] = { -- Opalescent Blue Crab Shell
             [itemKeys.npcDrops] = {60437,63722},
         },
-        [81054] = { -- Kafa\'kota Berry
-            [itemKeys.objectDrops] = {211454},
+        [81054] = { -- Kafa'kota Berry
+            [itemKeys.objectDrops] = {211454,211480},
         },
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
@@ -395,6 +398,9 @@ function MopItemFixes.Load()
         },
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
+        },
+        [82799] = { -- Yaungol Oil Barrel
+            [itemKeys.objectDrops] = {212003},
         },
         [82864] = { -- Living Amber
             [itemKeys.objectDrops] = {212009,212012},
@@ -498,6 +504,12 @@ function MopItemFixes.Load()
         },
         [87389] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
+        },
+        [87813] = { -- Zan'thik Shackles
+            [itemKeys.npcDrops] = {64970},
+        },
+        [87874] = { -- Kyparite Shards
+            [itemKeys.npcDrops] = {65231},
         },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,

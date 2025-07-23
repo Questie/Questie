@@ -1016,7 +1016,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
         -- Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
-        for _, breadcrumbId in ipairs(otherBreadcrumbs) do
+        for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do -- TODO: Remove `or {}` when we have a validation for the breadcrumb data
             if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
                 return false

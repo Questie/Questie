@@ -1554,6 +1554,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [14338] = "Tubo de agua vacío",
 [14339] = "Tubo de agua de la Poza de la Luna",
 [14342] = "Tela lunar",
+[14344] = "Fragmento luminoso grande",
 [14381] = "Cartera de Tótem Siniestro",
 [14395] = "Hechizos de las Sombras",
 [14396] = "Encantamientos desde el infierno",

@@ -1389,6 +1389,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019}
         },
+        [29908] = { -- A Seemingly Endless Nuisance
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reveal Virmen Pesters"),0,{{"object",214638}}}},
+        },
         [29909] = { -- Low Turnip Turnout
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29908,29877},
@@ -1426,7 +1429,7 @@ function MopQuestFixes.Load()
         [29919] = { -- Great Minds Drink Alike
             [questKeys.preQuestSingle] = {29918},
             [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"	Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{68.87,43.14}}}},
+            [questKeys.triggerEnd] = {"Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{68.87,43.14}}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29922] = { -- In Search of Wisdom
@@ -1898,7 +1901,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30184},
         },
         [30186] = { -- Parental Mastery
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}},
+                {{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{21.9,74.18}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")},
+            },
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
@@ -2290,7 +2296,7 @@ function MopQuestFixes.Load()
         [30480] = { -- The Ritual
             [questKeys.preQuestGroup] = {30468,30967}, -- might also be 30496
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530}}},
         },
         [30484] = { -- Gauging Our Progress
             [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
@@ -2358,6 +2364,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30457,30459,30460},
         },
         [30513] = { -- Eastwind Rest
+            [questKeys.preQuestSingle] = {30511},
             [questKeys.objectives] = {{{63751,nil,Questie.ICON_TYPE_TALK},{63535,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30514] = { -- Challenge Accepted [Alliance]
@@ -2497,6 +2504,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59874}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Ken-Ken's Mask on Ik'thik Wing Commander"),0,{{"monster",56723}}}},
         },
+        [30625] = { -- Students No More
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Follow the students and help them"),0,{{"monster",59839}}}},
+        },
         [30627] = { -- The Savior of Stoneplow
             [questKeys.preQuestSingle] = {30626},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
@@ -2510,13 +2520,14 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30651] = { -- Barrels of Fun [Alliance]
-            [questKeys.preQuestSingle] = {31252},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31252,30593,30619},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Pick up an Explosives Barrel"),0,{{"object",211312}}}},
         },
         [30652] = { -- In Tents Channeling [Alliance]
-            [questKeys.preQuestSingle] = {31252},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31252,30593,30619},
         },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
@@ -2526,13 +2537,14 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30656] = { -- Barrels of Fun [Horde]
-            [questKeys.preQuestSingle] = {31253},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31253,30594,30620},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Pick up an Explosives Barrel"),0,{{"object",211312}}}},
         },
         [30657] = { -- In Tents Channeling [Horde]
-            [questKeys.preQuestSingle] = {31253},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31253,30594,30620},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
             [questKeys.preQuestGroup] = {30459,30460},
@@ -2548,11 +2560,17 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30682] = { -- Holed Up
+            [questKeys.objectives] = {{{60187,nil,Questie.ICON_TYPE_TALK},{60189,nil,Questie.ICON_TYPE_TALK},{60190,nil,Questie.ICON_TYPE_TALK},{60178,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30683] = { -- One Traveler's Misfortune
             [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
         },
         [30684] = { -- Seeker's Folly
             [questKeys.preQuestSingle] = {30683},
+        },
+        [30690] = { -- Unmasking the Yaungol
+            [questKeys.objectives] = {{{61303,nil,Questie.ICON_TYPE_INTERACT},{61333}}},
         },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
@@ -2568,6 +2586,9 @@ function MopQuestFixes.Load()
         },
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+        },
+        [30715] = { -- A Line Unbroken
+            [questKeys.objectives] = {{{61808},{61806},{61810}}},
         },
         [30742] = { -- Shut it Down
             [questKeys.exclusiveTo] = {30823},
@@ -2587,6 +2608,12 @@ function MopQuestFixes.Load()
         [30747] = { -- The Burlap Grind
             [questKeys.preQuestSingle] = {30746},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
+        },
+        [30751] = { -- A Terrible Sacrifice
+            [questKeys.preQuestSingle] = {30724},
+        },
+        [30752] = { -- Unbelievable!
+            [questKeys.preQuestSingle] = {30993},
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
@@ -2632,7 +2659,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60883,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [30821] = { -- The Burlap Grind (Daily)
-            [questKeys.preQuestSingle] = {30746},
+            [questKeys.preQuestSingle] = {30747},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
         },
         [30823] = { -- Shut it Down
@@ -2741,6 +2768,12 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{61796,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30992] = { -- Finish This!
+            [questKeys.preQuestSingle] = {30991},
+        },
+        [30993] = { -- Where are My Reinforcements?
+            [questKeys.preQuestSingle] = {30992},
+        },
         [30995] = { -- No Man Left Behind
             [questKeys.objectives] = {nil,nil,nil,nil,{{{61788,61780,61790},61788,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
@@ -2837,6 +2870,13 @@ function MopQuestFixes.Load()
         },
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
+        },
+        [31030] = { -- Into the Monastery
+            [questKeys.exclusiveTo] = {31031},
+        },
+        [31031] = { -- Into the Monastery
+            [questKeys.preQuestSingle] = {30752},
+            [questKeys.exclusiveTo] = {31030},
         },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
