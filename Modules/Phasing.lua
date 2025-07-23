@@ -1317,7 +1317,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.DEZCO_AT_THUNDER_CLEFT then
-        return (not complete[30131]) and (not complete[30175]) and (not complete[30174]) or false
+        return (not complete[30175]) and (not complete[30174]) and (not questLog[30174]) or false
     end
 
     if phase == phases.DEZCO_AT_SHATTERED_CONVOY then
