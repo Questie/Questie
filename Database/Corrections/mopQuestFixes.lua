@@ -2289,7 +2289,7 @@ function MopQuestFixes.Load()
         },
         [30480] = { -- The Ritual
             [questKeys.preQuestGroup] = {30468,30967}, -- might also be 30496
-            [questKeys.objectives] = {nil,nil,{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30484] = { -- Gauging Our Progress
             [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
