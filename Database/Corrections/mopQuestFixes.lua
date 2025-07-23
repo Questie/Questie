@@ -3962,6 +3962,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{63194,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31730] = { -- A Not So Friendly Request
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.breadcrumbForQuestId] = 31067,
         },
         [31732] = { -- Unleash Hell
