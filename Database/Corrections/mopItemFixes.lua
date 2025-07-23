@@ -396,6 +396,9 @@ function MopItemFixes.Load()
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
         },
+        [82799] = { -- Yaungol Oil Barrel
+            [itemKeys.objectDrops] = {212003},
+        },
         [82864] = { -- Living Amber
             [itemKeys.objectDrops] = {212009,212012},
         },
