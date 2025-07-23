@@ -380,8 +380,8 @@ function MopItemFixes.Load()
         [80907] = { -- Opalescent Blue Crab Shell
             [itemKeys.npcDrops] = {60437,63722},
         },
-        [81054] = { -- Kafa\'kota Berry
-            [itemKeys.objectDrops] = {211454},
+        [81054] = { -- Kafa'kota Berry
+            [itemKeys.objectDrops] = {211454,211480},
         },
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
