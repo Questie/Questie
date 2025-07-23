@@ -2556,6 +2556,9 @@ function MopQuestFixes.Load()
         [30684] = { -- Seeker's Folly
             [questKeys.preQuestSingle] = {30683},
         },
+        [30690] = { -- Unmasking the Yaungol
+            [questKeys.objectives] = {{{61303,nil,Questie.ICON_TYPE_INTERACT},{61333}}},
+        },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
         },
