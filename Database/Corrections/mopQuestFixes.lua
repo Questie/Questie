@@ -2083,6 +2083,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30359] = { -- The Lord Reclaimer
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30357,30361},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
         },
