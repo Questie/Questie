@@ -2547,6 +2547,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{30674,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30682] = { -- Holed Up
+            [questKeys.objectives] = {{{60187,nil,Questie.ICON_TYPE_TALK},{60189,nil,Questie.ICON_TYPE_TALK},{60190,nil,Questie.ICON_TYPE_TALK},{60178,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30683] = { -- One Traveler's Misfortune
             [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
         },
