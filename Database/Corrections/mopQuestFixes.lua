@@ -2313,6 +2313,7 @@ function MopQuestFixes.Load()
             },
         },
         [30492] = { -- Back in Yak
+            [questKeys.preQuestGroup] = {30491,30490},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT]={{65.38,61.45}}}},
         },
