@@ -150,6 +150,9 @@ function MopItemFixes.Load()
         [76337] = { -- Stolen Sack of Hops
             [itemKeys.objectDrops] = {211696},
         },
+        [76350] = { -- Li Li's Wishing-Stone
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [76362] = { -- Mudmug's Vial
             [itemKeys.class] = itemClasses.QUEST,
         },
