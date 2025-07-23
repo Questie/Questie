@@ -1898,7 +1898,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30184},
         },
         [30186] = { -- Parental Mastery
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}},
+                {{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{21.9,74.18}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")},
+            },
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
