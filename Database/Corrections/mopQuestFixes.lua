@@ -2294,6 +2294,8 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
         },
         [30480] = { -- The Ritual
+            [questKeys.preQuestGroup] = {30468,30967}, -- might also be 30496
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530}}},
         },
         [30484] = { -- Gauging Our Progress
@@ -2318,6 +2320,8 @@ function MopQuestFixes.Load()
             },
         },
         [30492] = { -- Back in Yak
+            [questKeys.preQuestGroup] = {30491,30490},
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT]={{65.38,61.45}}}},
         },
@@ -2680,6 +2684,7 @@ function MopQuestFixes.Load()
         },
         [30834] = { -- Father and Child Reunion
             [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {30467},
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
         [30879] = { -- Round 1: Brewmaster Chani
