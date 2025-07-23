@@ -2397,6 +2397,21 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64360,nil,Questie.ICON_TYPE_INTERACT},{64362,nil,Questie.ICON_TYPE_INTERACT},{64363,nil,Questie.ICON_TYPE_INTERACT},{64364,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31303},
         },
+        [30506] = { -- Admiral Taylor has Awakened
+            [questKeys.exclusiveTo] = {30507,30508},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
+        [30507] = { -- Admiral Taylor has Awakened
+            [questKeys.exclusiveTo] = {30506,30508},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
+        [30508] = { -- Admiral Taylor has Awakened
+            [questKeys.exclusiveTo] = {30506,30507},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
+        },
         [30509] = { -- General Nazgrim has Awakened
             [questKeys.exclusiveTo] = {30510,30511},
             [questKeys.preQuestSingle] = {},
