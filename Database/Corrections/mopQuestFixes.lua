@@ -3952,6 +3952,9 @@ function MopQuestFixes.Load()
         [31726] = { -- Eric Davidson
             [questKeys.objectives] = {{{65655,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31727] = { -- Gambling Problem
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+        },
         [31728] = { -- Bill Buckler
             [questKeys.objectives] = {{{65656,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
