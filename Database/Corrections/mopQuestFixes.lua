@@ -2593,6 +2593,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30746},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
         },
+        [30751] = { -- A Terrible Sacrifice
+            [questKeys.preQuestSingle] = {30724},
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
