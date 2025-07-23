@@ -84,6 +84,7 @@ QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.killCreditObjectiveFirst[30457] = true
 QuestieCorrections.killCreditObjectiveFirst[30466] = true
+QuestieCorrections.objectObjectiveFirst[30932] = true
 QuestieCorrections.killCreditObjectiveFirst[31019] = true
 QuestieCorrections.eventObjectiveFirst[31091] = true
 QuestieCorrections.spellObjectiveFirst[31138] = true
@@ -2821,6 +2822,9 @@ function MopQuestFixes.Load()
         [30907] = { -- Round 4: The P.U.G
             --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30932] = { -- Father's Footsteps
+            [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
