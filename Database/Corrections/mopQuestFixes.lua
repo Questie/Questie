@@ -2354,6 +2354,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30457,30459,30460},
         },
         [30513] = { -- Eastwind Rest
+            [questKeys.preQuestSingle] = {30511},
             [questKeys.objectives] = {{{63751,nil,Questie.ICON_TYPE_TALK},{63535,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30514] = { -- Challenge Accepted [Alliance]
