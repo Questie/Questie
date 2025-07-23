@@ -2364,6 +2364,7 @@ function MopQuestFixes.Load()
         },
         [30488] = { -- The Missing Muskpaw
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31456,31457},
         },
         [30491] = { -- At the Yak Wash
             [questKeys.extraObjectives] = {
@@ -3608,9 +3609,11 @@ function MopQuestFixes.Load()
         },
         [31456] = { -- Muskpaw Ranch [Alliance]
             [questKeys.preQuestGroup] = {30650,30651,30660},
+            [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31457] = { -- Muskpaw Ranch [Horde]
             [questKeys.preQuestGroup] = {30655,30656,30661},
+            [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31458] = { -- Damage Control
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
