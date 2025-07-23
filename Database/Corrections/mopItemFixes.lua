@@ -499,6 +499,9 @@ function MopItemFixes.Load()
         [87389] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
+        [87874] = { -- Kyparite Shards
+            [itemKeys.npcDrops] = {65231},
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
