@@ -2427,8 +2427,12 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30457,30459,30460},
         },
+        [30512] = { -- Westwind Rest
+            [questKeys.preQuestSingle] = {30506,30507,30508},
+            [questKeys.objectives] = {{{63754,nil,Questie.ICON_TYPE_TALK},{63542,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30513] = { -- Eastwind Rest
-            [questKeys.preQuestSingle] = {30511},
+            [questKeys.preQuestSingle] = {30509,30510,30511},
             [questKeys.objectives] = {{{63751,nil,Questie.ICON_TYPE_TALK},{63535,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30514] = { -- Challenge Accepted [Alliance]
@@ -2479,15 +2483,27 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59572},{59562},{59609,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Open the cage"),0,{{"monster",59563}}}},
         },
+        [30569] = { -- Trouble on the Farmstead
+            [questKeys.preQuestSingle] = {30514},
+        },
         [30570] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30515},
         },
         [30571] = { -- Farmhand Freedom
+            [questKeys.preQuestSingle] = {30569,30570},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay the overseers"),0,{{"monster",59580}}}},
             [questKeys.objectives] = {{{59577,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30575] = { -- Round 'Em Up
+            [questKeys.preQuestSingle] = {30514},
+            [questKeys.objectives] = {{{59611,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Round up a yak"),0,{{"monster",59610}}}},
+        },
         [30581] = { -- ...and the Pot, Too!
-            [questKeys.preQuestSingle] = {30570},
+            [questKeys.preQuestSingle] = {30569,30570},
+        },
+        [30583] = { -- Blue Dwarf Needs Food Badly
+            [questKeys.preQuestSingle] = {30514},
         },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
@@ -2502,6 +2518,9 @@ function MopQuestFixes.Load()
         [30591] = { -- Preying on the Predators
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [30593] = { -- Deanimate the Reanimated
+            [questKeys.preQuestSingle] = {30514},
         },
         [30594] = { -- Deanimate the Reanimated
             [questKeys.preQuestSingle] = {30515},
@@ -2554,6 +2573,9 @@ function MopQuestFixes.Load()
         [30618] = { -- Resupplying One Keg
             [questKeys.preQuestSingle] = {30999},
         },
+        [30619] = { -- Mogu?! Oh No-gu!
+            [questKeys.preQuestSingle] = {30514},
+        },
         [30620] = { -- Mogu?! Oh No-gu!
             [questKeys.preQuestSingle] = {30515},
         },
@@ -2587,38 +2609,41 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30504,31319}, -- became available after 30504/31319 only
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30593,30619},
+            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30652] = { -- In Tents Channeling [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30593,30619},
+            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
         },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59851,59853},59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30655] = { -- Pandaren Prisoners [Horde]
+            --[questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30656] = { -- Barrels of Fun [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31253,30594,30620},
+            [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30657] = { -- In Tents Channeling [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31253,30594,30620},
+            [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
             [questKeys.preQuestGroup] = {30459,30460},
-            [questKeys.breadcrumbs] = {31453},
+            [questKeys.breadcrumbs] = {31453,31455},
         },
         [30670] = { -- Turnabout
             [questKeys.preQuestSingle] = {30457},
@@ -3234,6 +3259,23 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100787}}},
         },
+        [31175] = { -- Skeer the Bloodseeker
+            [questKeys.objectives] = {nil,{{212980}}},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{25.72,54.31}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
+        },
+        [31176] = { -- A Strange Appetite
+            [questKeys.preQuestSingle] = {31175},
+        },
+        [31177] = { -- Fine Dining
+            [questKeys.preQuestSingle] = {31175},
+        },
+        [31178] = { -- A Bloody Delight
+            [questKeys.preQuestSingle] = {31175},
+        },
+        [31179] = { -- The Scent of Blood
+            [questKeys.preQuestGroup] = {31176,31177,31178},
+        },
         [31181] = { -- Fresh Pots
             [questKeys.objectives] = {nil,{{440001}}},
             [questKeys.preQuestSingle] = {31265},
@@ -3330,6 +3372,7 @@ function MopQuestFixes.Load()
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [31252] = { -- Back to Westwind Rest
             [questKeys.preQuestGroup] = {30571,30581},
@@ -3519,12 +3562,12 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
             [questKeys.breadcrumbForQuestId] = 31395,
         },
-        [31394] = { --A Celestial Experience [Alliance]
+        [31394] = { -- A Celestial Experience [Alliance]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31392},
             [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
         },
-        [31395] = { --A Celestial Experience [Horde]
+        [31395] = { -- A Celestial Experience [Horde]
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31393},
             [questKeys.objectives] = {{{64528,nil,Questie.ICON_TYPE_TALK},{64656},{64684},{64744}}},
@@ -3544,7 +3587,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30655,30656,30661},
             [questKeys.breadcrumbForQuestId] = 30467,
         },
-        [31453] = { -- The Shado-Pan
+        [31452] = { -- The Missing Merchant [Alliance]
+            [questKeys.preQuestGroup] = {30650,30651,30660},
+        },
+        [31453] = { -- The Shado-Pan [Horde]
             [questKeys.preQuestGroup] = {30655,30656,30661},
             [questKeys.breadcrumbForQuestId] = 30665,
         },
@@ -3552,10 +3598,28 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31488,31489},
         },
-        [31457] = { -- Muskpaw Ranch
+        [31455] = { -- The Shado-Pan [Alliance]
+            [questKeys.preQuestGroup] = {30650,30651,30660},
+            [questKeys.breadcrumbForQuestId] = 30665,
+        },
+        [31456] = { -- Muskpaw Ranch [Alliance]
+            [questKeys.preQuestGroup] = {30650,30651,30660},
+        },
+        [31457] = { -- Muskpaw Ranch [Horde]
             [questKeys.preQuestGroup] = {30655,30656,30661},
         },
         [31458] = { -- Damage Control
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
+        [31459] = { -- Cho's Missive [Horde]
+            [questKeys.breadcrumbForQuestId] = 30999,
+            [questKeys.preQuestGroup] = {30655,30656,30661},
+        },
+        [31460] = { -- Cho's Missive [Alliance]
+            [questKeys.breadcrumbForQuestId] = 30999,
+            [questKeys.preQuestGroup] = {30650,30651,30660},
+        },
+        [31465] = { -- Extracting Answers
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31467] = { -- Strong as a Tiger
@@ -3575,33 +3639,6 @@ function MopQuestFixes.Load()
         },
         [31480] = { -- Have a Drink
             [questKeys.objectives] = {nil,nil,{{75026}},nil,nil,{{124052}}},
-        },
-        [31175] = { -- Skeer the Bloodseeker
-            [questKeys.objectives] = {nil,{{212980}}},
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{25.72,54.31}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
-        },
-        [31176] = { -- A Strange Appetite
-            [questKeys.preQuestSingle] = {31175},
-        },
-        [31177] = { -- Fine Dining
-            [questKeys.preQuestSingle] = {31175},
-        },
-        [31178] = { -- A Bloody Delight
-            [questKeys.preQuestSingle] = {31175},
-        },
-        [31179] = { -- The Scent of Blood
-            [questKeys.preQuestGroup] = {31176,31177,31178},
-        },
-        [31459] = { -- Cho's Missive [Horde]
-            [questKeys.breadcrumbForQuestId] = 30999,
-            [questKeys.preQuestGroup] = {30655,30656,30661},
-        },
-        [31460] = { -- Cho's Missive [Alliance]
-            [questKeys.breadcrumbForQuestId] = 30999,
-        },
-        [31465] = { -- Extracting Answers
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
@@ -3891,9 +3928,6 @@ function MopQuestFixes.Load()
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-        },
-        [31695] = { -- Beyond The Wall
-            [questKeys.preQuestGroup] = {30655,30656,30661},
         },
         [31724] = { -- Old MacDonald
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -4696,8 +4730,11 @@ function MopQuestFixes:LoadFactionFixes()
     local questFixesHorde = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30174,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.preQuestGroup] = {30174,30273}, -- From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
             [questKeys.exclusiveTo] = {30241},
+        },
+        [31695] = { -- Beyond The Wall
+            [questKeys.preQuestGroup] = {30655,30656,30661},
         },
     }
 
@@ -4705,8 +4742,11 @@ function MopQuestFixes:LoadFactionFixes()
     local questFixesAlliance = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30359,30273}, --From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.preQuestGroup] = {30359,30273}, -- From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
             [questKeys.exclusiveTo] = {30360},
+        },
+        [31695] = { -- Beyond The Wall
+            [questKeys.preQuestGroup] = {30650,30651,30660},
         },
     }
 
