@@ -2653,6 +2653,7 @@ function MopQuestFixes.Load()
         },
         [30834] = { -- Father and Child Reunion
             [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {30467},
             [questKeys.triggerEnd] = {"Reunite Wu-Peng and Merchant Shi", {[zoneIDs.KUN_LAI_SUMMIT]={{74.92,88.72}}}},
         },
         [30879] = { -- Round 1: Brewmaster Chani
