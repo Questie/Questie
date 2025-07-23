@@ -2494,6 +2494,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59874}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Ken-Ken's Mask on Ik'thik Wing Commander"),0,{{"monster",56723}}}},
         },
+        [30625] = { -- Students No More
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Follow the students and help them"),0,{{"monster",59839}}}},
+        },
         [30627] = { -- The Savior of Stoneplow
             [questKeys.preQuestSingle] = {30626},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
