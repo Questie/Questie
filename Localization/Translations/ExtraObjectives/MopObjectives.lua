@@ -758,6 +758,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Reveal Virmen Pesters"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Enthülle Shed-Ling-Nervensägen",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do

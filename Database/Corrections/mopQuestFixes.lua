@@ -1389,6 +1389,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019}
         },
+        [29908] = { -- A Seemingly Endless Nuisance
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reveal Virmen Pesters"),0,{{"object",214638}}}},
+        },
         [29909] = { -- Low Turnip Turnout
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29908,29877},
