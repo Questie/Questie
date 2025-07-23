@@ -626,6 +626,18 @@ local searchLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "點一下顯示",
     },
+    ["NPCs dropping this item:"] = {
+        ["enUS"] = true,
+        ["deDE"] = "NPCs die diesen Gegenstand fallen lassen:",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(searchLocales) do
