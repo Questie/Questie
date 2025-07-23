@@ -2509,7 +2509,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31252},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Pick up an Explosives Barrel"),0,{{"object",211312}}}},
         },
         [30652] = { -- In Tents Channeling [Alliance]
             [questKeys.preQuestSingle] = {31252},
@@ -2525,7 +2524,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31253},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Pick up an Explosives Barrel"),0,{{"object",211312}}}},
         },
         [30657] = { -- In Tents Channeling [Horde]
             [questKeys.preQuestSingle] = {31253},

@@ -422,18 +422,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Pick up an Explosives Barrel"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Heb' ein Explosives Fass auf",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Cleanse the pool"] = {
         ["enUS"] = true,
         ["deDE"] = "Reinige den Teich",
