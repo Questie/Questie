@@ -2851,6 +2851,13 @@ function MopQuestFixes.Load()
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
+        [31030] = { -- Into the Monastery
+            [questKeys.exclusiveTo] = {31031},
+        },
+        [31031] = { -- Into the Monastery
+            [questKeys.preQuestSingle] = {30752},
+            [questKeys.exclusiveTo] = {31030},
+        },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
             [questKeys.exclusiveTo] = {31036,31037},
