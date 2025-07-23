@@ -2634,7 +2634,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60883,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [30821] = { -- The Burlap Grind (Daily)
-            [questKeys.preQuestSingle] = {30746},
+            [questKeys.preQuestSingle] = {30747},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Feed the Flask of Kafa to Kota Kon"),0,{{"monster",60587}}}},
         },
         [30823] = { -- Shut it Down
