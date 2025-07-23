@@ -206,7 +206,8 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
         },
         [212003] = { -- Yaungol Oil Barrel
-            [objectKeys.spawns] = {{26.2,59.9},{26.3,59.1},{26.6,59.4},{27.2,60.2},{27.4,60.8},{27.7,61},{28.4,61.5},{28.5,61.1},{28.5,61.5}},
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.2, 59.9}, {26.3, 59.1}, {26.6, 59.4}, {27.2, 60.2}, {27.4, 60.8}, {27.7, 61}, {28.4, 61.5}, {28.5, 61.1}, {28.5, 61.5}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [212294] = { -- Ocean-Worn Rocks
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{43.3,63.49}}},
