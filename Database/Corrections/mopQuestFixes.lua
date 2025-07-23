@@ -2596,6 +2596,9 @@ function MopQuestFixes.Load()
         [30751] = { -- A Terrible Sacrifice
             [questKeys.preQuestSingle] = {30724},
         },
+        [30752] = { -- Unbelievable!
+            [questKeys.preQuestSingle] = {30993},
+        },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
