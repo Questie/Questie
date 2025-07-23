@@ -126,6 +126,21 @@ function MopObjectFixes.Load()
         [210005] = { -- Weapon Rack
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{59.19,17.25},{58.67,16.32},{56.86,19.64},{57.59,17.59},{58.03,19.95},{57.85,20.06},{58.86,16.72},{57.24,16.73},{57.23,19.23},{56.98,20.49}}},
         },
+        [210191] = { -- Memorial Flame of Zhu
+            [objectKeys.name] = 'Memorial Flame of Zhu',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{72.75,18.2}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [210213] = { -- Memorial Flame of Rin
+            [objectKeys.name] = 'Memorial Flame of Rin',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{71.23,17.56}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [210214] = { -- Memorial Flame of Po
+            [objectKeys.name] = 'Memorial Flame of Po',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.95,16.88}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [210565] = { -- Dark Soil
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.82,47.98}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,

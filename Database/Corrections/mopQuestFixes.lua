@@ -1781,7 +1781,7 @@ function MopQuestFixes.Load()
         },
         [30084] = { -- Borderlands
             [questKeys.preQuestSingle] = {30091},
-            [questKeys.objectives] = {{{58161,nil,Questie.ICON_TYPE_INTERACT},{58170,nil,Questie.ICON_TYPE_INTERACT},{58173,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,{{210191},{210214},{210213}}},
         },
         [30085] = { -- Into the Brewery
             [questKeys.breadcrumbForQuestId] = 31327,
@@ -1889,6 +1889,11 @@ function MopQuestFixes.Load()
         },
         [30175] = { -- The Mantid
             [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+        },
+        [30178] = { -- Into the Wilds
+            [questKeys.preQuestSingle] = {30090},
+            [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredSourceItems] = {79825},
         },
         [30179] = { -- Poisoned! [Horde]
             [questKeys.preQuestSingle] = {},
@@ -2044,6 +2049,25 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30333,30334,30335,30336},
             [questKeys.objectives] = {{{59276,nil,Questie.ICON_TYPE_INTERACT},{59278,nil,Questie.ICON_TYPE_INTERACT},{59279,nil,Questie.ICON_TYPE_INTERACT},{59280,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30344] = { -- The Lost Dynasty
+            [questKeys.preQuestSingle] = {30274},
+        },
+        --[[[30346] = { -- Where are the Pools
+            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
+        },]]
+        [30348] = { -- Immortality?
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30347,30349}, -- might also need 30346/30351
+        },
+        [30349] = { -- Threat from Dojan
+            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
+        },
+        [30350] = { -- Squirmy Delight
+            [questKeys.preQuestSingle] = {29874},
+        },
+        [30351] = { -- Lotus Tea
+            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
+        },
         [30357] = { -- The Stoneplow Convoy [Alliance]
             --[questKeys.preQuestGroup] = {30229,30230,30163}, -- Prequests from horde version, will need changing
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2053,6 +2077,10 @@ function MopQuestFixes.Load()
         },
         [30360] = { -- Warn Stoneplow [Alliance]
             [questKeys.exclusiveTo] = {30376},
+        },
+        [30363] = { -- Going on the Offensive
+            [questKeys.preQuestSingle] = {30348},
+            [questKeys.exclusiveTo] = {30465},
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2068,6 +2096,9 @@ function MopQuestFixes.Load()
         },
         [30383] = { -- A Marsh Lily for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30384] = { -- Blind Them!
+            [questKeys.preQuestSingle] = {30274},
         },
         [30386] = { -- A Dish for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2246,6 +2277,9 @@ function MopQuestFixes.Load()
         },
         [30460] = { -- Hit Medicine
             [questKeys.objectives] = {{{59143,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30465] = { -- Going on the Offensive
+            [questKeys.exclusiveTo] = {30363},
         },
         [30466] = { -- Sufficient Motivation
             [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2582,7 +2616,7 @@ function MopQuestFixes.Load()
         },
         [30694] = { -- Tread Lightly
             [questKeys.preQuestSingle] = {30269},
-            [questKeys.objectives] = {nil,{{223819,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,{{223819}}},
         },
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270

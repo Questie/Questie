@@ -237,7 +237,10 @@ function MopItemFixes.Load()
         [79269] = { -- Marsh Lily
             [itemKeys.objectDrops] = {210565},
         },
-        [79745] = { -- Sunwalker Scout\'s Report
+        [79332] = { -- Sentinel Scout's Report
+            [itemKeys.npcDrops] = {59137},
+        },
+        [79745] = { -- Sunwalker Scout's Report
             [itemKeys.npcDrops] = {59136},
         },
         [79807] = { -- Waterspeaker's Staff
