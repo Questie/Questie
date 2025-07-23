@@ -502,6 +502,9 @@ function MopItemFixes.Load()
         [87389] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
+        [87813] = { -- Zan'thik Shackles
+            [itemKeys.npcDrops] = {64970},
+        },
         [87874] = { -- Kyparite Shards
             [itemKeys.npcDrops] = {65231},
         },
