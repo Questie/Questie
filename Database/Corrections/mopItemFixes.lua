@@ -442,6 +442,9 @@ function MopItemFixes.Load()
         [82299] = { -- Blood-Stained Blade
             [itemKeys.npcDrops] = {60580},
         },
+        [82389] = { -- Mao-Willow
+            [itemKeys.objectDrops] = {211779},
+        },
         [82393] = { -- Shen Dynasty Rubbing
             [itemKeys.objectDrops] = {211770},
         },
