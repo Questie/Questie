@@ -4295,6 +4295,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},
             [questKeys.preQuestSingle] = {31918},
         },
+        [31894] = { -- A Delicate Balance
+            [questKeys.preQuestSingle] = {30784},
+        },
         [31895] = { -- Better Off Dread
             [questKeys.breadcrumbForQuestId] = 31001,
         },
