@@ -798,7 +798,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1718,1818,1823},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {5658},
         },
         [4608] = { -- Father Lazarus
             [npcKeys.questStarts] = {},
