@@ -328,7 +328,7 @@ function MopItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [80307] = { -- Grummlepack
-            [itemKeys.npcDrops] = {59896,59897,59898},
+            [itemKeys.npcDrops] = {59408,59896,59897,59898},
         },
         [80311] = { -- Filled Oil Vial
             [itemKeys.objectDrops] = {211530,211531},

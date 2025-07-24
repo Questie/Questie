@@ -177,6 +177,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.24,79.33},{49.61,78.99},{49.34,81.06},{47.55,80.08}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211365] = { -- Ball and Chain
+            [objectKeys.spawns] = {[6088] = {{38.68,23.02}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211376] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Spare Plank',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.41,76.14}}},
@@ -193,8 +197,13 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211526] = { -- Waterfall Polished Stone
-            [objectKeys.name] = 'Waterfall Polished Stone',
+            [objectKeys.name] = 'Waterfall-Polished Stone',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.78,24.71},{58.96,24.63},{60.22,31.40},{60.11,31.09},{59.71,29.96},{59.69,29.61},{59.17,27.32},{58.96,27.32},{59.03,27.20}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211545] = { -- Incense of Life
+            [objectKeys.name] = 'Incense of Life',
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.95,33.33}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)

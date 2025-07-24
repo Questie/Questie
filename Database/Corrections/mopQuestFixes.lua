@@ -84,6 +84,8 @@ QuestieCorrections.itemObjectiveFirst[29749] = true
 QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.killCreditObjectiveFirst[30457] = true
 QuestieCorrections.killCreditObjectiveFirst[30466] = true
+QuestieCorrections.itemObjectiveFirst[30607] = true
+QuestieCorrections.itemObjectiveFirst[30800] = true
 QuestieCorrections.objectObjectiveFirst[30932] = true
 QuestieCorrections.killCreditObjectiveFirst[31019] = true
 QuestieCorrections.eventObjectiveFirst[31091] = true
@@ -2374,8 +2376,8 @@ function MopQuestFixes.Load()
             },
         },
         [30492] = { -- Back in Yak
-            [questKeys.preQuestGroup] = {30491,30490},
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30489,30491,30587}, -- probably needs 30804 too
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT]={{65.38,61.45}}}},
         },
@@ -2534,6 +2536,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30515},
         },
         [30599] = { -- A Monkey Idol
+            [questKeys.preQuestSingle] = {30603},
             [questKeys.objectives] = {nil,{{210931},{211275},{211276}}},
             [questKeys.requiredSourceItems] = {80428,80429,80430},
         },
@@ -2553,27 +2556,38 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30603},
         },
         [30605] = { -- Bros Before Hozen
+            [questKeys.name] = "Lucky Yakshoe",
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30599,30600,30604},
             [questKeys.objectives] = {{{60008,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30606] = { -- Thumping Knucklethump
             [questKeys.preQuestSingle] = {30605},
         },
         [30607] = { -- Hozen Love Their Keys
-            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_INTERACT}},nil,{{80535}}}, --sorry in advance Cheeq
+            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_INTERACT}},nil,{{80535}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the Ball and Chain"),0,{{"object",211365}}}},
         },
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}}
         },
         [30610] = { -- Grummle! Grummle! Grummle!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30606,30607,30608},
             [questKeys.objectives] = {nil,{{211686,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30611] = { -- Unleash The Yeti!
-            [questKeys.preQuestSingle] = {30606},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30606,30607,30608},
+        },
+        [30612] = { -- Unleash The Yeti!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30610,30611},
         },
         [30617] = { -- Roadside Assistance
-            [questKeys.preQuestGroup] = {30616,30616,30808},
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30616,30616,30808},
         },
         [30618] = { -- Resupplying One Keg
             [questKeys.preQuestSingle] = {30999},
@@ -2664,7 +2678,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60187,nil,Questie.ICON_TYPE_TALK},{60189,nil,Questie.ICON_TYPE_TALK},{60190,nil,Questie.ICON_TYPE_TALK},{60178,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30683] = { -- One Traveler's Misfortune
-            [questKeys.objectives] = {{{60765,nil,Questie.ICON_TYPE_OBJECT},{60769}}},
+            [questKeys.objectives] = {nil,{{212903}},nil,nil,{{{60769},60769}}},
         },
         [30684] = { -- Seeker's Folly
             [questKeys.preQuestSingle] = {30683},
@@ -2688,7 +2702,11 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
         [30715] = { -- A Line Unbroken
-            [questKeys.objectives] = {{{61808},{61806},{61810}}},
+            [questKeys.objectives] = {{{61808,nil,Questie.ICON_TYPE_INTERACT},{61806,nil,Questie.ICON_TYPE_INTERACT},{61810,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30724] = { -- To the Wall!
+            [questKeys.preQuestSingle] = {30715}, -- might also need 30723
+            [questKeys.objectives] = {{{61512,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30742] = { -- Shut it Down
             [questKeys.exclusiveTo] = {30823},
@@ -2714,6 +2732,11 @@ function MopQuestFixes.Load()
         },
         [30752] = { -- Unbelievable!
             [questKeys.preQuestSingle] = {30993},
+            [questKeys.objectives] = {{{62220,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30757] = { -- Lord of the Shado-Pan
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31030,31031},
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
@@ -2760,13 +2783,14 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",60796}}}},
         },
         [30797] = { -- It Was Almost Alive
-            [questKeys.objectives] = {nil, nil, {{81892,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.preQuestSingle] = {30684},
+            [questKeys.objectives] = {nil,{{211783}}},
         },
         [30800] = { -- Stealing Their Thunder King
-            [questKeys.objectives] = {nil, {{214572}},{{82764}}},
+            [questKeys.objectives] = {nil,{{214572}},{{82764}}},
         },
         [30801] = { -- Lessons from History
-            [questKeys.objectives] = {{{61316,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {nil,{{214572}}},
         },
         [30806] = { -- The Scent of Life
             [questKeys.preQuestSingle] = {30794},
@@ -2775,6 +2799,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30794},
         },
         [30808] = { -- A Grummle's Luck
+            [questKeys.preQuestSingle] = {},
+        },
+        [30814] = { -- A Foot in the Door
             [questKeys.preQuestSingle] = {},
         },
         [30816] = { -- Checking In
@@ -2786,7 +2813,7 @@ function MopQuestFixes.Load()
         },
         [30820] = { -- A Funeral
             [questKeys.preQuestSingle] = {30819},
-            [questKeys.objectives] = {{{60883,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {nil,{{211545}}},
         },
         [30821] = { -- The Burlap Grind (Daily)
             [questKeys.preQuestSingle] = {30747},
@@ -2813,6 +2840,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
         [30829] = { -- The Tongue of Ba-Shon
+            [questKeys.preQuestSingle] = {30684},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",61315}}}},
         },
         [30834] = { -- Father and Child Reunion
@@ -2925,11 +2953,18 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{61796,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30991] = { -- Do a Barrel Roll!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",60553}}}},
+        },
         [30992] = { -- Finish This!
             [questKeys.preQuestSingle] = {30991},
         },
         [30993] = { -- Where are My Reinforcements?
             [questKeys.preQuestSingle] = {30992},
+        },
+        [30994] = { -- Lao-Chin's Gambit
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30750,30751},
         },
         [30995] = { -- No Man Left Behind
             [questKeys.objectives] = {nil,nil,nil,nil,{{{61788,61780,61790},61788,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3029,10 +3064,12 @@ function MopQuestFixes.Load()
         },
         [31030] = { -- Into the Monastery
             [questKeys.exclusiveTo] = {31031},
+            [questKeys.breadcrumbForQuestId] = 30757,
         },
         [31031] = { -- Into the Monastery
             [questKeys.preQuestSingle] = {30752},
             [questKeys.exclusiveTo] = {31030},
+            [questKeys.breadcrumbForQuestId] = 30757,
         },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
