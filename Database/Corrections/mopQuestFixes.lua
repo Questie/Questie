@@ -3140,7 +3140,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31010},
         },
         [31108] = { -- Concentrated Fear
-            [questKeys.preQuestGroup] = {31008,31661},
+            [questKeys.preQuestSingle] = {31661},
         },
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
