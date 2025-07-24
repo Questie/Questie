@@ -2007,6 +2007,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [5643] = {
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
@@ -2015,6 +2018,9 @@ function QuestieQuestFixes:Load()
         },
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [5657] = {
+            [questKeys.startedBy] = {{4606},nil,nil},
         },
         [5658] = { -- #7083 and #1603
             [questKeys.startedBy] = {{4606},nil,nil},
@@ -2037,6 +2043,10 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
             [questKeys.exclusiveTo] = {5676,5677},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [5679] = {
+            [questKeys.startedBy] = {{4606},nil,nil},
+            [questKeys.objectives] = {},
         },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
