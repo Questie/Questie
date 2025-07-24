@@ -3662,6 +3662,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31066},
         },
+        [31266] = { -- Mogu Incursions
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,42000},
+        },
         [31267] = { -- Mistblade Destruction
             [questKeys.preQuestSingle] = {31066},
         },

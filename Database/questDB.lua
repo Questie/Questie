@@ -134,6 +134,7 @@ QuestieDB.factionIDs = {
     EXODAR = 930,
     THE_KALUAK = 1073,
     KIRIN_TOR = 1090,
+    SHADO_PAN = 1270,
     THE_TILLERS = 1272,
     JOGU_THE_DRUNK = 1273,
     ELLA = 1275,
