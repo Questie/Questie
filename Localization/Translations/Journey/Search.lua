@@ -634,9 +634,9 @@ local searchLocales = {
         ["frFR"] = "PNJs qui laissent tomber cet objet :",
         ["koKR"] = false,
         ["ptBR"] = "NPCs que derrubam este item:",
-        ["ruRU"] = false,
+        ["ruRU"] = "Предмет добывается с:",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "掉落此物品的 NPC:",
     },
 }
 
