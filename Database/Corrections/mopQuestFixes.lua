@@ -2800,6 +2800,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60948,nil,Questie.ICON_TYPE_EVENT},{60949,nil,Questie.ICON_TYPE_EVENT},{60950,nil,Questie.ICON_TYPE_EVENT},{61291,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30777},
         },
+        [30782] = { -- Spiteful Spirits
+            [questKeys.preQuestSingle] = {30827},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
