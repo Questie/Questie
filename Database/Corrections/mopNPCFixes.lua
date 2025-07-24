@@ -627,6 +627,9 @@ function MopNpcFixes.Load()
                 {19.91,75.67,phases.HEMETS_OUTSIDE_CAMP},
             }},
         },
+        [58545] = { -- Stonebark Trickster
+            [npcKeys.spawns] = {}, -- Remove invalid spawns
+        },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
         },
@@ -711,6 +714,9 @@ function MopNpcFixes.Load()
         [59193] = { -- Boneweaver
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59223] = { -- Brother Korloff
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49.3,52.4}}},
+        },
         [59240] = { -- Scarlet Hall Guardian
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
@@ -765,8 +771,14 @@ function MopNpcFixes.Load()
         [59611] = { -- Captured Yak
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.17,79.93}}},
         },
+        [59789] = { -- Thalnos the Soulrender
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER]={{26.2,45.6}}},
+        },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, --removed for quest clutter
+        },
+        [60040] = { -- Commander Durand
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49,80.4}}},
         },
         [60096] = { -- Eastern Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
@@ -1392,8 +1404,14 @@ function MopNpcFixes.Load()
         [65899] = { -- Master Kistane
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [65935] = { -- Unleashed Spirit
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.6,91.2}}},
+        },
         [65960] = { -- Master Woo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
+        [65978] = { -- Shao-Tien Soul-Render
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.4,92.6}}},
         },
         [66073] = { -- Master Yoon
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
