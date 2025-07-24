@@ -2836,7 +2836,7 @@ function MopQuestFixes.Load()
         [30827] = { -- What Lies Beneath
             [questKeys.preQuestGroup] = {30780,30781},
             [questKeys.preQuestSingle] = {30747},
-            [questKeys.objectives] = {{{60864,nil,Questie.ICON_TYPE_TALK},{60933,nil,Questie.ICON_TYPE_OBJECT},{60990,nil,Questie.ICON_TYPE_OBJECT},{60991,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {{{60864,nil,Questie.ICON_TYPE_TALK},{60933,nil,Questie.ICON_TYPE_OBJECT},{60990,nil,Questie.ICON_TYPE_OBJECT},{60991,nil,Questie.ICON_TYPE_OBJECT},{61015}}},
         },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
