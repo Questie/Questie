@@ -2734,6 +2734,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
         [30773] = { -- Pitching In
+            [questKeys.objectives] = {{{60705,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
