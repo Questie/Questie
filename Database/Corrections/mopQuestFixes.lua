@@ -2980,6 +2980,9 @@ function MopQuestFixes.Load()
         [30973] = { -- Up In Flames
             [questKeys.preQuestSingle] = {30972},
         },
+        [30975] = { -- The Taking of Dusklight Bridge
+            [questKeys.preQuestSingle] = {30973},
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
