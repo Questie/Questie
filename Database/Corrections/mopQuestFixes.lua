@@ -3409,6 +3409,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31034,31036},
             [questKeys.nextQuestInChain] = 0,
         },
+        [31038] = { -- The Challenger's Ring: Snow Blossom
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
+        },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
         },
