@@ -2657,6 +2657,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31512},
             [questKeys.objectives] = {{{59908,nil,Questie.ICON_TYPE_TALK},{59961,nil,Questie.ICON_TYPE_TALK},{64149,nil,Questie.ICON_TYPE_TALK},{64029,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30632] = { -- The Ruins of Guo-Lai
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.preQuestSingle] = {30631,30649},
+        },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
             [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
