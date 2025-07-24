@@ -4848,6 +4848,45 @@ function MopQuestFixes.Load()
                 [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
         },
+        [92336] = { -- Potion Master
+            [questKeys.name] = "Potion Master",
+            [questKeys.startedBy] = {{3347,5499}},
+            [questKeys.finishedBy] = {{3347,5499}}, -- might need more
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+            [questKeys.requiredSpell] = -28675, -- ok this is a clusterfuck, we need logic change for this field
+            [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
+            [questKeys.objectives] = {nil,nil,{{76097},{76098},{93351}}},
+            [questKeys.exclusiveTo] = {92237,92238},
+            [questKeys.zoneOrSort] = -181,
+        },
+        [92337] = { -- Elixir Master
+            [questKeys.name] = "Elixir Master",
+            [questKeys.startedBy] = {{3347,5499}},
+            [questKeys.finishedBy] = {{3347,5499}}, -- might need more
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+            [questKeys.requiredSpell] = -28677, -- ok this is a clusterfuck, we need logic change for this field
+            [questKeys.objectivesText] = {"Bring a variety of flasks to an alchemy trainer in any capital city."},
+            [questKeys.objectives] = {nil,nil,{{76088},{76087},{76085},{76084}}},
+            [questKeys.exclusiveTo] = {92236,92238},
+            [questKeys.zoneOrSort] = -181,
+        },
+        [92338] = { -- Transmutation Master
+            [questKeys.name] = "Transmutation Master",
+            [questKeys.startedBy] = {{3347,5499}},
+            [questKeys.finishedBy] = {{3347,5499}}, -- might need more
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+            [questKeys.requiredSpell] = -28672, -- ok this is a clusterfuck, we need logic change for this field
+            [questKeys.objectivesText] = {"Bring the requested materials to an alchemy trainer in any capital city."},
+            [questKeys.objectives] = {nil,nil,{{72104}}},
+            [questKeys.exclusiveTo] = {92236,92237},
+            [questKeys.zoneOrSort] = -181,
+        },
     }
 end
 
