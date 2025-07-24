@@ -3850,9 +3850,11 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31376,31380,31382},
         },
         [31379] = { -- Challenge At The Temple of the Red Crane
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31377,31381,31383},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
