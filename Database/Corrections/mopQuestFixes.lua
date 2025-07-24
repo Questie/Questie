@@ -2962,6 +2962,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30921,30923},
         },
+        [30927] = { -- Give Them Peace
+            [questKeys.objectives] = {{{62281,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30928] = { -- A Trail of Fear
             [questKeys.preQuestSingle] = {30925},
         },
