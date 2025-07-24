@@ -2896,6 +2896,9 @@ function MopQuestFixes.Load()
         [30946] = { -- Revelations
             [questKeys.objectives] = {{{62629,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30960] = { -- Returning from the Pass
+            [questKeys.preQuestGroup] = {30888,30890},
+        },
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
