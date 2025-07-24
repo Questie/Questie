@@ -2795,7 +2795,11 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",61205}}}},
         },
         [30778] = { -- Dust to Dust
+            [questKeys.preQuestSingle] = {30777},
             [questKeys.objectives] = {{{60925,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30779] = { -- Slaying the Scavengers
+            [questKeys.preQuestSingle] = {30777},
         },
         [30780] = { -- Totemic Research
             [questKeys.preQuestSingle] = {30777},
