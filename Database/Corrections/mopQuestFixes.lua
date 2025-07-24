@@ -2972,6 +2972,7 @@ function MopQuestFixes.Load()
         },
         [30892] = { -- Back on Their Feet
             [questKeys.preQuestGroup] = {30891,30960},
+            [questKeys.objectives] = {{{61692,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30894] = { -- Rummaging Through the Remains
             [questKeys.preQuestGroup] = {30891,30960},
