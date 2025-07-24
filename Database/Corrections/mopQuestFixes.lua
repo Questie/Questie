@@ -3097,6 +3097,8 @@ function MopQuestFixes.Load()
         [31084] = { -- Bind the Glamour
             [questKeys.triggerEnd] = {"Allow Chief Rikkitun to enchant the forked blade", {[zoneIDs.DREAD_WASTES]={{39.42,23.15}}}},
             [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31079,31080,31081,31082},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chief Rikkitun"),0,{{"monster",62771}}}},
         },
         [31085] = { -- Fires and Fears of Old
