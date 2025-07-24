@@ -484,8 +484,6 @@ local questsToBlacklistByPhase = {
         [32807] = true, -- The Warchief and the Darkness
         [32816] = true, -- Path of the Last Emperor
         [32863] = true, -- What We've Been Training For
-        [32868] = true, -- Beasts of Fable Book II
-        [32869] = true, -- Beasts of Fable Book III
         [32900] = true, -- Heroic Deeds
         [32901] = true, -- Heroic Deeds
     },
