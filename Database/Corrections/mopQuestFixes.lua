@@ -3145,6 +3145,9 @@ function MopQuestFixes.Load()
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
         },
+        [31111] = { -- Eradicating the Zan'thik
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
         },
