@@ -414,6 +414,10 @@ function MopItemFixes.Load()
         [82342] = { -- Violet Citron
             [itemKeys.objectDrops] = {211719,211721},
         },
+        [82723] = { -- Volatile Dread Orb
+            [itemKeys.npcDrops] = {61302,61811},
+            [itemKeys.objectDrops] = {211871,211872,211873},
+        },
         [82799] = { -- Yaungol Oil Barrel
             [itemKeys.objectDrops] = {212003},
         },

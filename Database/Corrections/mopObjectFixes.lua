@@ -224,6 +224,21 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.34,43.43}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211871] = { -- Dread Orb
+            [objectKeys.name] = 'Dread Orb',
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{56.8,7.6},{65.4,87.1},{65.4,88.7},{65.5,88.6},{66,87.7},{66.1,86.4},{66.1,86.6},{66.8,87.3},{66.8,87.5},{67.7,87.5},{67.9,86.4},{68,86.5},{68.3,89.1},{69.1,88.1},{69.1,89.5},{69.3,89.2}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [211872] = { -- Dread Orb
+            [objectKeys.name] = 'Dread Orb',
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{64.9,88.7},{66,87.7},{66.2,86.6},{67.3,86.9},{67.8,87.6},{67.9,86.7},{68.3,89.1},{69.1,88.1},{69.4,88.9}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [211873] = { -- Dread Orb
+            [objectKeys.name] = 'Dread Orb',
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{65.9,86.7},{66.2,87.5},{66.9,87.1},{68,86.4},{68,88.3},{68,88.6},{68.1,86.5},{69.1,88.1},{69.1,89.5},{69.3,89.1}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
         [211883] = { -- Scout Cage
             [objectKeys.name] = 'Scout Cage',
             [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
