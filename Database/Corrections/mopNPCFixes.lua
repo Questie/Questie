@@ -715,7 +715,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
         [59223] = { -- Brother Korloff
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49.3,52.4}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49.3,52.4}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
         },
         [59240] = { -- Scarlet Hall Guardian
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -772,13 +775,19 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.17,79.93}}},
         },
         [59789] = { -- Thalnos the Soulrender
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER]={{26.2,45.6}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER]={{26.2,45.6}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
         },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, --removed for quest clutter
         },
         [60040] = { -- Commander Durand
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49,80.4}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL]={{49,80.4}},
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
         },
         [60096] = { -- Eastern Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
