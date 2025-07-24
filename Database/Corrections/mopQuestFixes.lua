@@ -1943,6 +1943,7 @@ function MopQuestFixes.Load()
         },
         [30252] = { -- A Helping Hand
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {31372,31374},
         },
         [30254] = { -- Learn and Grow II: Tilling and Planting
             [questKeys.preQuestSingle] = {30535},
@@ -3840,6 +3841,12 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30565,30568},
             [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
+        },
+        [31372] = { -- The Tillers
+            [questKeys.breadcrumbForQuestId] = 30252,
+        },
+        [31374] = { -- The Tillers
+            [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511},
