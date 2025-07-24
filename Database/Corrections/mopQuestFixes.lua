@@ -3742,6 +3742,7 @@ function MopQuestFixes.Load()
         },
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
+            [questKeys.requiredSkill] = {profKeys.COOKING,500},
         },
         [31303] = { -- The Seal is Broken
             [questKeys.preQuestSingle] = {30485,31362},
