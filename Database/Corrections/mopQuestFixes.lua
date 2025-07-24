@@ -2832,6 +2832,9 @@ function MopQuestFixes.Load()
         [30791] = { -- Arconiss Thirsts
             [questKeys.preQuestSingle] = {30815},
         },
+        [30792] = { -- Orbiss Fades
+            [questKeys.preQuestSingle] = {30815},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
