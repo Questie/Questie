@@ -2757,7 +2757,7 @@ function MopQuestFixes.Load()
         },
         [30768] = { -- My Husband...
             [questKeys.preQuestSingle] = {30992},
-            [questKeys.exclusiveTo] = {31695},
+            [questKeys.exclusiveTo] = {31386,31388,31695},
         },
         [30769] = { -- First Assault
             [questKeys.preQuestSingle] = {30814},
@@ -3816,6 +3816,12 @@ function MopQuestFixes.Load()
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
+        [31386] = { -- The Shado-Pan Offensive
+            [questKeys.exclusiveTo] = {31388,30768,31695},
+        },
+        [31388] = { -- The Shado-Pan Offensive
+            [questKeys.exclusiveTo] = {31386,30768,31695},
+        },
         [31391] = { -- The Klaxxi
             [questKeys.breadcrumbForQuestId] = 31001,
         },
@@ -4207,7 +4213,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31695] = { -- Beyond the Wall
-            [questKeys.exclusiveTo] = {31695},
+            [questKeys.exclusiveTo] = {31386,31388,30768},
         },
         [31724] = { -- Old MacDonald
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},
