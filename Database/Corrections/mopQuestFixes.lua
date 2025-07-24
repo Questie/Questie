@@ -2826,6 +2826,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30787},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211515}}}},
         },
+        [30790] = { -- Golgoss Hungers
+            [questKeys.preQuestSingle] = {30815},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
