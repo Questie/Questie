@@ -2969,6 +2969,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30930] = { -- Pick a Yak
+            [questKeys.objectives] = {{{61635,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30929},
         },
         [30932] = { -- Father's Footsteps
