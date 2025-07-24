@@ -2818,6 +2818,9 @@ function MopQuestFixes.Load()
         [30784] = { -- The Point of No Return
             [questKeys.preQuestGroup] = {30782,30783},
         },
+        [30785] = { -- Gao-Ran Battlefront
+            [questKeys.breadcrumbForQuestId] = 30884,
+        },
         [30786] = { -- A Spear Through My Side, A Chain Through My Soul
             [questKeys.preQuestSingle] = {31894},
         },
@@ -2945,6 +2948,9 @@ function MopQuestFixes.Load()
         [30883] = { -- Round 3: The Wrestler
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to The Wrestler"),0,{{"monster",60997}}}},
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30884] = { -- Behind the Battlefront
+            [questKeys.breadcrumbs] = {30785},
         },
         [30885] = { -- Round 3: Master Boom Boom
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Boom Boom"),0,{{"monster",61013}}}},
