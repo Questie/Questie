@@ -85,7 +85,6 @@ QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.killCreditObjectiveFirst[30457] = true
 QuestieCorrections.killCreditObjectiveFirst[30466] = true
 QuestieCorrections.itemObjectiveFirst[30607] = true
-QuestieCorrections.objectObjectiveFirst[30774] = true
 QuestieCorrections.itemObjectiveFirst[30800] = true
 QuestieCorrections.objectObjectiveFirst[30932] = true
 QuestieCorrections.killCreditObjectiveFirst[31019] = true
@@ -2489,7 +2488,7 @@ function MopQuestFixes.Load()
         [30568] = { -- Helping the Cause
             [questKeys.preQuestSingle] = {30000},
             [questKeys.objectives] = {{{59572},{59562},{59609,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Open the cage"),0,{{"monster",59563}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"monster",59563}}}},
         },
         [30569] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30514},
@@ -2764,6 +2763,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30814},
         },
         [30770] = { -- Running Rampant
+            [questKeys.preQuestSingle] = {30814},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60739,60669},60669,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30771] = { -- Perfect Pitch
@@ -2779,9 +2779,13 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
         [30774] = { -- Ranger Rescue
-            [questKeys.objectives] = {{{60899, nil, Questie.ICON_TYPE_TALK}},{{440004}}},
             [questKeys.preQuestGroup] = {30069,30770,30771},
             [questKeys.requiredSourceItems] = {81178},
+            [questKeys.objectives] = {{{60730,nil,Questie.ICON_TYPE_EVENT},{60899,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211511}}}},
+        },
+        [30775] = { -- The Exile
+            [questKeys.preQuestGroup] = {30069,30770,30771},
         },
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},

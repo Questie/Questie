@@ -196,6 +196,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{61.01,21.52}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211511] = { -- Drywood Cage
+            [objectKeys.name] = 'Drywood Cage',
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{66.72,43.99},{65.9,44.81},{66.68,45.31},{66.15,46.24},{66.41,46.96},{67.39,46.31},{67.04,45.83},{67.5,46.92},{66.75,48.05},{67.28,49.51},{65.67,49.39},{66.13,48.83},{64.82,50.52},{66.26,51.48},{66.06,52.13},{67.29,51.36},{67.96,50.82}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
         [211515] = { -- Peat Mound
             [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{71.48,72.29}}},
             [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
@@ -454,11 +459,6 @@ function MopObjectFixes.Load()
         [440003] = { -- For Fires and Fears of Old 31085
             [objectKeys.name] = 'Enormous Landslide',
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
-            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
-        },
-        [440004] = { -- Drywood Cage for 30774 (coords copied from NPC 60730)
-            [objectKeys.name] = 'Drywood Cage',
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{66.72,43.99},{65.9,44.81},{66.68,45.31},{66.15,46.24},{66.41,46.96},{67.39,46.31},{67.04,45.83},{67.5,46.92},{66.75,48.05},{67.28,49.51},{65.67,49.39},{66.13,48.83},{64.82,50.52},{66.26,51.48},{66.06,52.13},{67.29,51.36},{67.96,50.82}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
     }
