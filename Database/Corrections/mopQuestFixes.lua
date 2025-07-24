@@ -2970,6 +2970,9 @@ function MopQuestFixes.Load()
                 {{61516,61517,61518},61516},
             }},
         },
+        [30926] = { -- The Terrible Truth
+            [questKeys.preQuestSingle] = {30925},
+        },
         [30927] = { -- Give Them Peace
             [questKeys.objectives] = {{{62281,nil,Questie.ICON_TYPE_INTERACT}}},
         },
