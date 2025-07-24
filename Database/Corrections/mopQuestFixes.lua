@@ -2741,6 +2741,9 @@ function MopQuestFixes.Load()
         [30774] = { -- Ranger Rescue
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
+        [30776] = { -- Jung Duk
+            [questKeys.preQuestGroup] = {30772,30773,30774},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
