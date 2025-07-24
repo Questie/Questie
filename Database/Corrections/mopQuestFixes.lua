@@ -2807,6 +2807,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30827},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place a totem next to the ranger"),0,{{"monster",61050}}}},
         },
+        [30784] = { -- The Point of No Return
+            [questKeys.preQuestGroup] = {30782,30783},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
