@@ -3069,6 +3069,7 @@ function MopQuestFixes.Load()
         [31077] = { -- Evie Stormstout
             [questKeys.finishedBy] = {{67138}},
             [questKeys.objectives] = {{{67138,nil,Questie.ICON_TYPE_EVENT}},{{440002,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {31129},
         },
         [31078] = { -- Han Stormstout
             [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_OBJECT}}},
