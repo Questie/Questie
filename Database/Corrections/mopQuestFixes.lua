@@ -3349,7 +3349,7 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Escort Kaz'tik the Manipulator to the Undisturbed Dirt", {[zoneIDs.DREAD_WASTES]={{41.75,71.89}}}},
             [questKeys.objectives] = {{{62542,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31089,31682},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Kaz'tik"),0,{{"monster",63876}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kaz'tik"),0,{{"monster",63876}}}},
         },
         [31092] = { -- Feed or Be Eaten
             [questKeys.preQuestSingle] = {31091},
