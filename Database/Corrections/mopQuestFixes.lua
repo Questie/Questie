@@ -1596,6 +1596,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{209672}}},
             [questKeys.preQuestSingle] = {29932},
         },
+        [30006] = { -- The Darkness Around Us
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {29967},
             [questKeys.preQuestGroup] = {},
@@ -1731,8 +1734,24 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30059},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the bait"),0,{{"object",210117}}}},
         },
+        [30063] = { -- Behind the Masks
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30064] = { -- Saving the Sutras
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30065] = { -- Arrows of Fortune
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [30066] = { -- Hidden Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{57316,57326,57400},57316,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30067] = { -- The Shadow of Doubt
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30068] = { -- Flames of the Void
+            [questKeys.preQuestSingle] = {31511,31512},
         },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
@@ -2732,9 +2751,66 @@ function MopQuestFixes.Load()
         [30715] = { -- A Line Unbroken
             [questKeys.objectives] = {{{61808,nil,Questie.ICON_TYPE_INTERACT},{61806,nil,Questie.ICON_TYPE_INTERACT},{61810,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30716] = { -- Chasing Hope
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30717] = { -- Gifts of the Great Crane
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30718] = { -- Students of Chi-Ji
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
         [30724] = { -- To the Wall!
             [questKeys.preQuestSingle] = {30715}, -- might also need 30723
             [questKeys.objectives] = {{{61512,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30725] = { -- Ellia Ravenmane
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30726] = { -- Minh Do-Tan
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30727] = { -- Ellia Ravenmane: Rematch
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30728] = { -- Fat Long-Fat
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30729] = { -- Julia Bates
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30730] = { -- Dextrous Izissha
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30731] = { -- Kuo-Na Quillpaw
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30732] = { -- Ellia Ravenmane: Revenge
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30733] = { -- Tukka-Tuk
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30734] = { -- Huck Wheelbarrow
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30735] = { -- Mindel Sunspeaker
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30736] = { -- Yan Quillpaw
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30737] = { -- Fat Long-Fat: Rematch
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30738] = { -- Thelonius
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30739] = { -- Ellia Ravenmane: Redemption
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30740] = { -- Champion of Chi-Ji
+            [questKeys.preQuestSingle] = {31511,31512},
         },
         [30742] = { -- Shut it Down
             [questKeys.exclusiveTo] = {30823},
@@ -3084,6 +3160,30 @@ function MopQuestFixes.Load()
         },
         [30946] = { -- Revelations
             [questKeys.objectives] = {{{62629,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30952] = { -- The Unending Siege
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30953] = { -- Fallen Sentinels
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30954] = { -- A Blade is a Blade
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30955] = { -- Paying Tribute
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30956] = { -- The Siege Swells
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30957] = { -- The Overwhelming Swarm
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30958] = { -- In Battle's Shadow
+            [questKeys.preQuestSingle] = {31511,31512},
+        },
+        [30959] = { -- The Big Guns
+            [questKeys.preQuestSingle] = {31511,31512},
         },
         [30960] = { -- Returning from the Pass
             [questKeys.preQuestSingle] = {},
@@ -3849,35 +3949,35 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31380,31382},
         },
         [31379] = { -- Challenge At The Temple of the Red Crane
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31381,31383},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31382},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31383},
         },
         [31382] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31380},
         },
         [31383] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
         [31386] = { -- The Shado-Pan Offensive
