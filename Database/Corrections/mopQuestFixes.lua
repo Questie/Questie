@@ -2805,6 +2805,7 @@ function MopQuestFixes.Load()
         },
         [30783] = { -- Hatred Becomes Us
             [questKeys.preQuestSingle] = {30827},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place a totem next to the ranger"),0,{{"monster",61050}}}},
         },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
