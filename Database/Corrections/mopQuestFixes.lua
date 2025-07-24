@@ -2836,6 +2836,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60862,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30815},
         },
+        [30793] = { -- Mists' Opportunity
+            [questKeys.preQuestGroup] = {30790.30791,30792},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
