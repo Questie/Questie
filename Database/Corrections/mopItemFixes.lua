@@ -324,6 +324,9 @@ function MopItemFixes.Load()
         [80241] = { -- Muskpaw's Keepsake
             [itemKeys.startQuest] = 30582,
         },
+        [80277] = { -- Jagged Abalone Meat
+            [itemKeys.objectDrops] = {211118},
+        },
         [80294] = { -- Mogu Relic
             [itemKeys.objectDrops] = {211143},
         },
