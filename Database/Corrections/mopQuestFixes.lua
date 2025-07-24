@@ -2976,6 +2976,10 @@ function MopQuestFixes.Load()
         [30894] = { -- Rummaging Through the Remains
             [questKeys.preQuestGroup] = {30891,30960},
         },
+        [30895] = { -- Improvised Ammunition
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30892,30893,30894},
+        },
         [30898] = { -- Cutting the Swarm
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
         },
