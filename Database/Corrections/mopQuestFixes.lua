@@ -2983,6 +2983,9 @@ function MopQuestFixes.Load()
         [30975] = { -- The Taking of Dusklight Bridge
             [questKeys.preQuestSingle] = {30973},
         },
+        [30981] = { -- Taoshi and Korvexxis
+            [questKeys.preQuestSingle] = {31065},
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
