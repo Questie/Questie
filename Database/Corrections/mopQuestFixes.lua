@@ -2785,6 +2785,7 @@ function MopQuestFixes.Load()
         },
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Plant the banner"),0,{{"object",211524}}}},
         },
         [30778] = { -- Dust to Dust
             [questKeys.objectives] = {{{60925,nil,Questie.ICON_TYPE_INTERACT}}},
