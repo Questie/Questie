@@ -2983,6 +2983,9 @@ function MopQuestFixes.Load()
         [30975] = { -- The Taking of Dusklight Bridge
             [questKeys.preQuestSingle] = {30973},
         },
+        [30977] = { -- Grounded Welcome
+            [questKeys.preQuestSingle] = {30976},
+        },
         [30981] = { -- Taoshi and Korvexxis
             [questKeys.preQuestSingle] = {31065},
         },
