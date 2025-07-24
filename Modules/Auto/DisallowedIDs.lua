@@ -304,6 +304,8 @@ _AutoQuesting.disallowedQuests = {
         [30437] = true, -- A Blue Feather for Jogu
         [30438] = true, -- A Marsh Lily for Jogu
         [30439] = true, -- A Dish for Jogu
+        [32016] = true, -- Elder Charms of Good Fortune
+        [32017] = true, -- Elder Charms of Good Fortune
 
         [82062] = true, -- Ever After SoD
         [83934] = true, -- Show Me The Money! - Costs one Tarnished Undermine Real
