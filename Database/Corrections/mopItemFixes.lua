@@ -408,6 +408,9 @@ function MopItemFixes.Load()
         [81293] = { -- Stolen Luckydos
             [itemKeys.objectDrops] = {211536,211537,211538},
         },
+        [81355] = { -- Palewind Totem
+            [itemKeys.objectDrops] = {211566},
+        },
         [82799] = { -- Yaungol Oil Barrel
             [itemKeys.objectDrops] = {212003},
         },
