@@ -3141,6 +3141,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31034,31036},
             [questKeys.nextQuestInChain] = 0,
         },
+        [31063] = { -- Lao-Chin and Serevex
+            [questKeys.preQuestSingle] = {31065},
+        },
         [31064] = { -- Nurong and Rothek
             [questKeys.preQuestSingle] = {31065},
         },
