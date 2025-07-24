@@ -1180,6 +1180,10 @@ function MopNpcFixes.Load()
         [62542] = { -- Kovok
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.33,71.29}}},
         },
+        [62562] = { -- Find Cave Credit
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{33.13,61.49}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [62666] = { -- Sapmaster Vu
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {51.21,11.39,phases.SAP_MASTERS_AT_BREWGARDEN},
