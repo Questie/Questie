@@ -2813,6 +2813,9 @@ function MopQuestFixes.Load()
         [30786] = { -- A Spear Through My Side, A Chain Through My Soul
             [questKeys.preQuestSingle] = {31894},
         },
+        [30786] = { -- The Torches
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mist-Shamans after they placed their torch"),0,{{"monster",60697}}}},
+        },
         [30788] = { -- Golgoss
             [questKeys.preQuestSingle] = {30787},
         },

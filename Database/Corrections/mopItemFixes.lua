@@ -395,6 +395,9 @@ function MopItemFixes.Load()
         [81174] = { -- Dark Pitch
             [itemKeys.objectDrops] = {211506,211507},
         },
+        [81176] = { -- Mist-Shaman's Torch
+            [itemKeys.npcDrops] = {60698},
+        },
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
         },

@@ -818,6 +818,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Kill the Mist-Shamans after they placed their torch"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Töte die Nebel-Schamanen, nachdem sie ihre Fackel platziert haben",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do
