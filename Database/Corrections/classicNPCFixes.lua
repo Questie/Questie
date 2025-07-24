@@ -797,8 +797,12 @@ function QuestieNPCFixes:Load()
         [4595] = { -- Baltus Fowler
             [npcKeys.questStarts] = {1718,1818,1823},
         },
+
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {5658},
+            [npcKeys.questStarts] = {5643,5657,5658,5679},
+        },
+        [4607] = { -- Father Lankester
+            [npcKeys.questStarts] = {},
         },
         [4608] = { -- Father Lazarus
             [npcKeys.questStarts] = {},
