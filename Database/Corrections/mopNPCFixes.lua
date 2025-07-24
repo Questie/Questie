@@ -781,7 +781,15 @@ function MopNpcFixes.Load()
             },
         },
         [59874] = { -- Manifestation of Fear
-            [npcKeys.spawns] = {}, --removed for quest clutter
+            [npcKeys.spawns] = {}, -- removed for quest clutter
+        },
+        [59971] = { -- Stone Guardian
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.69,29.61}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [60011] = { -- Kill Credit: Barring Entry
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{27.5,15.15}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [60040] = { -- Commander Durand
             [npcKeys.spawns] = {
@@ -1884,6 +1892,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{65.9,79.37}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questStarts] = {29901},
+        },
+        [110010] = { -- The Guo-Lai Halls
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.02,28.29}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+            [npcKeys.questStarts] = {30637},
         },
     }
 end

@@ -186,6 +186,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.84,70.98}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211306] = { -- Revelite Crystal
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.62,30.67}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [211312] = { -- Items for Barrels of Fun
             [objectKeys.name] = 'Explosives Barrel',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.24,79.33},{49.61,78.99},{49.34,81.06},{47.55,80.08}}},
@@ -359,6 +363,10 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Stormstout Secrets",
             [objectKeys.spawns] = {[zoneIDs.STORMSTOUT_BREWERY] = {{-1,-1}}}, -- TODO: Add coords from inside the dungeon
             [objectKeys.zoneID] = zoneIDs.STORMSTOUT_BREWERY,
+        },
+        [214062] = { -- Glowing Amber
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.87,63.71}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [214101] = { -- In the Shadow of the Light
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{58.91,81.74},{50.21,36.36},{76.73,48.96},{72.15,64.34},{53.37,53.62},{69.29,45.05},{65.87,78.88},{58.59,39.78},{-1,-1}}},

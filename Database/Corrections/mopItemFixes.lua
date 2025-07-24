@@ -366,6 +366,9 @@ function MopItemFixes.Load()
         [80430] = { -- Corpse of Tak Tak
             [itemKeys.npcDrops] = {59958},
         },
+        [80511] = { -- Revelite Crystal
+            [itemKeys.objectDrops] = {211306},
+        },
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
@@ -445,9 +448,6 @@ function MopItemFixes.Load()
         [82867] = { -- Mantid Relic
             [itemKeys.objectDrops] = {212078,212079},
         },
-        [82870] = { -- Strange Relic
-            [itemKeys.npcDrops] = {61970,63176},
-        },
         [83075] = { -- Sapfly Bits
             [itemKeys.npcDrops] = {62386},
         },
@@ -478,11 +478,18 @@ function MopItemFixes.Load()
         [82764] = { -- Bottom Fragment of Lei Shen\'s Tablet
             [itemKeys.objectDrops] = {211967},
         },
+        [82870] = { -- Strange Relic
+            [itemKeys.startQuest] = 31023,
+            [itemKeys.npcDrops] = {61970,63176},
+        },
         [83024] = { -- Shado-Pan Fire Arrows
             [itemKeys.objectDrops] = {212135,212136},
         },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
+        },
+        [83771] = { -- Fish Tales
+            [itemKeys.startQuest] = 31094,
         },
         [83780] = { -- The Ballad of Liu Lang
             [itemKeys.startQuest] = 31103,

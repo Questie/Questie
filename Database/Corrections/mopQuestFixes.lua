@@ -2658,7 +2658,28 @@ function MopQuestFixes.Load()
         },
         [30632] = { -- The Ruins of Guo-Lai
             [questKeys.startedBy] = {{58408}},
-            [questKeys.preQuestSingle] = {30631,30649},
+            [questKeys.preQuestSingle] = {30631,30649,31384},
+        },
+        [30633] = { -- Out with the Scouts
+            [questKeys.startedBy] = {{58465}},
+        },
+        [30634] = { -- Barring Entry
+            [questKeys.startedBy] = {{58471}},
+            [questKeys.preQuestSingle] = {30632},
+            [questKeys.objectives] = {{{65252,nil,Questie.ICON_TYPE_TALK},{60011,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [30635] = { -- Killing the Quilen
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30633,30634},
+        },
+        [30636] = { -- Stones of Power
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestGroup] = {30633,30634},
+        },
+        [30637] = { -- The Guo-Lai Halls
+            [questKeys.startedBy] = {{110010}},
+            [questKeys.preQuestGroup] = {30633,30634},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
@@ -4042,8 +4063,10 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30665,
         },
         [31454] = { -- A Legend in the Making
+            [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31488,31489},
+            [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31455] = { -- The Shado-Pan [Alliance]
             [questKeys.preQuestGroup] = {30650,30651,30660},
@@ -4074,8 +4097,16 @@ function MopQuestFixes.Load()
         [31467] = { -- Strong as a Tiger
             [questKeys.objectives] = {nil,nil,{{74642}},nil,nil,{{104298}}},
         },
+        [31468] = { -- Trial of the Black Prince
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {31454},
+        },
         [31471] = { -- Agile as a Tiger
             [questKeys.objectives] = {nil,nil,{{74643}},nil,nil,{{104301}}},
+        },
+        [31473] = { -- The Strength of One's Foes
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {31454},
         },
         [31474] = { -- The Soup of Contemplation
             [questKeys.objectives] = {nil,nil,{{74644}},nil,nil,{{104304}}},
@@ -4320,13 +4351,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31605] = { -- The Zan'thik Dig
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
             [questKeys.breadcrumbForQuestId] = 31606,
         },
         [31606] = { -- The Dissector Wakens
             [questKeys.objectives] = {{{67091}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
             [questKeys.breadcrumbs] = {31605},
         },
         [31656] = { -- The Threat in the South
