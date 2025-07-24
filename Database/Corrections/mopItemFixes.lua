@@ -442,6 +442,9 @@ function MopItemFixes.Load()
         [82299] = { -- Blood-Stained Blade
             [itemKeys.npcDrops] = {60580},
         },
+        [82332] = { -- Father's Crossbow
+            [itemKeys.npcDrops] = {61540},
+        },
         [82389] = { -- Mao-Willow
             [itemKeys.objectDrops] = {211779},
         },
