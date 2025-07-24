@@ -4109,6 +4109,9 @@ function MopQuestFixes.Load()
         [31687] = { -- Thinning the Sik'thik
             [questKeys.preQuestSingle] = {31065},
         },
+        [31688] = { -- The Search for Restless Leng
+            [questKeys.preQuestSingle] = {31065},
+        },
         [31689] = { -- The Dreadsworn
             [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
         },
