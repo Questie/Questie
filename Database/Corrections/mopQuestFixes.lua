@@ -2660,6 +2660,18 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
         },
+        [30660] = { -- The Ordo Warbringer
+            [questKeys.exclusiveTo] = {30662},
+        },
+        [30661] = { -- The Ordo Warbringer
+            [questKeys.exclusiveTo] = {30663},
+        },
+        [30662] = { -- The Ordo Warbringer
+            [questKeys.exclusiveTo] = {30660},
+        },
+        [30663] = { -- The Ordo Warbringer
+            [questKeys.exclusiveTo] = {30661},
+        },
         [30665] = { -- The Defense of Shado-Pan Fallback
             [questKeys.preQuestGroup] = {30459,30460},
             [questKeys.breadcrumbs] = {31453,31455},
@@ -2742,6 +2754,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.objectives] = {{{60727,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
+        },
+        [30768] = { -- My Husband...
+            [questKeys.preQuestSingle] = {30992},
+            [questKeys.exclusiveTo] = {31695},
         },
         [30769] = { -- First Assault
             [questKeys.preQuestSingle] = {30814},
@@ -3528,7 +3544,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31486},
         },
-        [31281] = { --
+        [31281] = { -- So You Want to Be a Chef...
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Learn to make Sliced Peaches"),0,{{"monster",64231}}}},
         },
@@ -4048,6 +4064,9 @@ function MopQuestFixes.Load()
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31695] = { -- Beyond the Wall
+            [questKeys.exclusiveTo] = {31695},
         },
         [31724] = { -- Old MacDonald
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},

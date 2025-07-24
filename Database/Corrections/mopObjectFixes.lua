@@ -179,7 +179,7 @@ function MopObjectFixes.Load()
         },
         [211365] = { -- Ball and Chain
             [objectKeys.spawns] = {[6088] = {{38.68,23.02}}},
-            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+            [objectKeys.zoneID] = 6088,
         },
         [211376] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Spare Plank',

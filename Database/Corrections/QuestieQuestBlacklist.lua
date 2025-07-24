@@ -5927,7 +5927,6 @@ function QuestieQuestBlacklist:Load()
         [30680] = true, -- Duplicate of 30682
         [30681] = true, -- Duplicate of 30682
         [30759] = true, -- Not in the game
-        [30768] = true, -- Not in the game
         [30817] = true, -- Not in the game
         [30818] = true, -- Not in the game
         [30934] = true, -- Not in the game
