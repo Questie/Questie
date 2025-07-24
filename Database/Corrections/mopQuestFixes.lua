@@ -2803,6 +2803,9 @@ function MopQuestFixes.Load()
         [30782] = { -- Spiteful Spirits
             [questKeys.preQuestSingle] = {30827},
         },
+        [30783] = { -- Hatred Becomes Us
+            [questKeys.preQuestSingle] = {30827},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
