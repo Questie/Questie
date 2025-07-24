@@ -2512,6 +2512,9 @@ function MopQuestFixes.Load()
         [30583] = { -- Blue Dwarf Needs Food Badly
             [questKeys.preQuestSingle] = {30514},
         },
+        [30585] = { -- What Lurks Below
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Fish in the Mysterious Whirlpool"),0,{{"object",440004}}}},
+        },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
             [questKeys.preQuestSingle] = {},

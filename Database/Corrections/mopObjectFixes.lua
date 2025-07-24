@@ -478,5 +478,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [440005] = { -- What Lurks Below 30585
+            [objectKeys.name] = 'Mysterious Whirlpool',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.17,31.69}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
     }
 end
