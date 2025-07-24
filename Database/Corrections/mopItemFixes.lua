@@ -210,6 +210,9 @@ function MopItemFixes.Load()
         [78958] = { -- Pillaged Jinyu Loot
             [itemKeys.npcDrops] = {58273,58274},
         },
+        [79030] = { -- Honeycomb
+            [itemKeys.npcDrops] = {58363},
+        },
         [79058] = { -- Darkhide's Head
             [itemKeys.npcDrops] = {58435},
         },
