@@ -3858,9 +3858,11 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31377,31381,31383},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31376,31378,31382},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31377,31379,31383},
         },
         [31382] = { -- Defense At Niuzao Temple
