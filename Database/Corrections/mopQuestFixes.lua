@@ -3443,6 +3443,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31066},
         },
+        [31267] = { -- Mistblade Destruction
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
