@@ -1973,6 +1973,9 @@ function QuestieQuestFixes:Load()
         [5625] = { -- Garments of the Light
             [questKeys.objectives] = {{{12427,"Heal and fortify Mountaineer Dolf",Questie.ICON_TYPE_INTERACT}}},
         },
+        [5631] = {
+            [questKeys.startedBy] = {{5489},nil,nil},
+        },
         [5634] = {
             [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.objectivesText] = {},
@@ -2016,8 +2019,14 @@ function QuestieQuestFixes:Load()
         [5648] = { -- Garments of Spirituality
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
+        [5649] = { -- In Favor of Spirituality
+            [questKeys.startedBy] = {{3707},nil,nil},
+        },
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [5656] = {
+            [questKeys.startedBy] = {{6018},nil,nil},
         },
         [5657] = {
             [questKeys.startedBy] = {{4606},nil,nil},

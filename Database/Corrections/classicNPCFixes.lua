@@ -601,6 +601,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{39.28,43.46}}},
         },
+        [3707] = { -- Ken'jai
+            [npcKeys.questStarts] = {5649},
+        },
         [3864] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP] = {{-1,-1}}},
         },
