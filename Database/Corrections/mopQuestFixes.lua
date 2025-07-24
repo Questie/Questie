@@ -2911,7 +2911,10 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30745},
         },
         [30827] = { -- What Lies Beneath
-            [questKeys.objectives] = {{{60864,nil,Questie.ICON_TYPE_TALK},{60933,nil,Questie.ICON_TYPE_OBJECT},{60990,nil,Questie.ICON_TYPE_OBJECT},{60991,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30778,30779,30780,30781},
+            [questKeys.objectives] = {{{60864,nil,Questie.ICON_TYPE_TALK},{60933,nil,Questie.ICON_TYPE_INTERACT},{60990,nil,Questie.ICON_TYPE_INTERACT},{60991,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.triggerEnd] = {"Ritual completed", {[zoneIDs.TOWNLONG_STEPPES]={{82.59,73.24}}}},
         },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
