@@ -2822,7 +2822,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211513}}}},
         },
         [30789] = { -- Arconiss
+            [questKeys.objectives] = {{{60734,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30787},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211515}}}},
         },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
