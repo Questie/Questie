@@ -3154,7 +3154,7 @@ function MopQuestFixes.Load()
         },
         [31129] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestGroup] = {29907,31067,31068},
+            [questKeys.preQuestSingle] = {31068},
             [questKeys.exclusiveTo] = {31076},
         },
         [31130] = { -- A Visit with Lorewalker Cho
