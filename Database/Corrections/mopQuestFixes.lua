@@ -2947,6 +2947,14 @@ function MopQuestFixes.Load()
             --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [30921] = { -- The Motives of the Mantid
+            [questKeys.objectives] = {nil,nil,nil,nil,{ -- all clues are found on the same NPCs
+                {{61376,61377},61376},
+                {{61376,61377},61376},
+                {{61376,61377},61376},
+                {{61376,61377},61376},
+            }},
+        },
         [30923] = { -- Set the Mantid Back
             [questKeys.objectives] = {nil,{{211677,nil,Questie.ICON_TYPE_EVENT},{211683,nil,Questie.ICON_TYPE_EVENT}}},
         },
