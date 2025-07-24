@@ -2986,6 +2986,9 @@ function MopQuestFixes.Load()
         [30977] = { -- Grounded Welcome
             [questKeys.preQuestSingle] = {30976},
         },
+        [30978] = { -- Hostile Skies
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the cannon"),0,{{"monster",62747}}}},
+        },
         [30981] = { -- Taoshi and Korvexxis
             [questKeys.preQuestSingle] = {31065},
         },
