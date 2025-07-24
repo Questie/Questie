@@ -2819,6 +2819,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30887},
         },
         [30889] = { -- Trap Setting
+            [questKeys.objectives] = {{{61426,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30887},
         },
         [30902] = { -- Round 4: Master Windfur
