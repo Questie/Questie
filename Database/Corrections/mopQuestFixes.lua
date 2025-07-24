@@ -3866,9 +3866,11 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31377,31379,31383},
         },
         [31382] = { -- Defense At Niuzao Temple
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31376,31378,31380},
         },
         [31383] = { -- Defense At Niuzao Temple
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31377,31379,31381},
         },
         [31386] = { -- The Shado-Pan Offensive
