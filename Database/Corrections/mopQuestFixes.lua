@@ -3410,6 +3410,7 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [31038] = { -- The Challenger's Ring: Snow Blossom
+            [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
         },
         [31063] = { -- Lao-Chin and Serevex
