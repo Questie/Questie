@@ -17,6 +17,7 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [159] = 4277, -- Azjol-Nerub (override wrong ID)
     [154] = 4416, -- Gundrak (override wrong ID)
     [126] = 4560, -- The Underbelly - Sub zone of Dalaran (override wrong ID)
+    [480] = 6219, -- Proving Grounds - (Dungeon/Raid)
 
     [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
