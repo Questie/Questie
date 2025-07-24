@@ -2962,6 +2962,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30921,30923},
         },
+        [30928] = { -- A Trail of Fear
+            [questKeys.preQuestSingle] = {30925},
+        },
         [30932] = { -- Father's Footsteps
             [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
