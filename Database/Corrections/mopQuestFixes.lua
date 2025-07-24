@@ -2855,6 +2855,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{61426,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30887},
         },
+        [30890] = { -- The Restless Watch
+            [questKeys.preQuestSingle] = {30887},
+        },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
