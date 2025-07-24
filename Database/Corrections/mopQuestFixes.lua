@@ -2947,6 +2947,9 @@ function MopQuestFixes.Load()
             --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [30923] = { -- Set the Mantid Back
+            [questKeys.objectives] = {nil,{{211677,nil,Questie.ICON_TYPE_EVENT},{211683,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [30932] = { -- Father's Footsteps
             [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
