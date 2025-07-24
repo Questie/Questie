@@ -542,6 +542,9 @@ function MopItemFixes.Load()
         [87389] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
+        [87401] = { -- Needler Wings
+            [itemKeys.npcDrops] = {64714},
+        },
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},
         },
