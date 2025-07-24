@@ -2973,6 +2973,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30929},
         },
         [30932] = { -- Father's Footsteps
+            [questKeys.preQuestSingle] = {30931},
             [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
         [30935] = { -- Fisherman's Tale
