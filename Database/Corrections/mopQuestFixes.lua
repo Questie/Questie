@@ -2744,6 +2744,9 @@ function MopQuestFixes.Load()
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},
         },
+        [30780] = { -- Totemic Research
+            [questKeys.preQuestSingle] = {30777},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
