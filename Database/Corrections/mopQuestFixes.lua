@@ -2977,6 +2977,9 @@ function MopQuestFixes.Load()
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30973] = { -- Up In Flames
+            [questKeys.preQuestSingle] = {30972},
+        },
         [30982] = { -- Animal Control
             [questKeys.preQuestSingle] = {},
         },
