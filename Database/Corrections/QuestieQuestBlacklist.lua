@@ -9,8 +9,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 function QuestieQuestBlacklist:Load()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
-        [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
-        [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
+        [5661] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [2358] = true, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
