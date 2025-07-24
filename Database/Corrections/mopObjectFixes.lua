@@ -473,5 +473,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [440004] = { -- For Who Knew Fish Liked Eggs? 30598
+            [objectKeys.name] = 'Crane Yolk Pool',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
     }
 end

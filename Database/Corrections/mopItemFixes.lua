@@ -333,6 +333,9 @@ function MopItemFixes.Load()
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [80303] = { -- Pristine Crane Egg
+            [itemKeys.objectDrops] = {211160},
+        },
         [80307] = { -- Grummlepack
             [itemKeys.npcDrops] = {59408,59896,59897,59898},
         },
