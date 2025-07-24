@@ -2958,6 +2958,10 @@ function MopQuestFixes.Load()
         [30923] = { -- Set the Mantid Back
             [questKeys.objectives] = {nil,{{211677,nil,Questie.ICON_TYPE_EVENT},{211683,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30924] = { -- The Wisdom of Niuzao
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30921,30923},
+        },
         [30932] = { -- Father's Footsteps
             [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
