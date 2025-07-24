@@ -2962,6 +2962,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30921,30923},
         },
+        [30925] = { -- Niuzao's Price
+            [questKeys.objectives] = {nil,nil,nil,nil,{ -- all clues are found on the same NPCs
+                {{61516,61517,61518},61516},
+                {{61516,61517,61518},61516},
+                {{61516,61517,61518},61516},
+                {{61516,61517,61518},61516},
+            }},
+        },
         [30927] = { -- Give Them Peace
             [questKeys.objectives] = {{{62281,nil,Questie.ICON_TYPE_INTERACT}}},
         },
