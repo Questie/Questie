@@ -411,6 +411,9 @@ function MopItemFixes.Load()
         [81355] = { -- Palewind Totem
             [itemKeys.objectDrops] = {211566},
         },
+        [82342] = { -- Violet Citron
+            [itemKeys.objectDrops] = {211719,211721},
+        },
         [82799] = { -- Yaungol Oil Barrel
             [itemKeys.objectDrops] = {212003},
         },
