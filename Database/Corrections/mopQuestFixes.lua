@@ -2965,6 +2965,9 @@ function MopQuestFixes.Load()
         [30928] = { -- A Trail of Fear
             [questKeys.preQuestSingle] = {30925},
         },
+        [30929] = { -- Bad Yak
+            [questKeys.objectives] = {{{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30932] = { -- Father's Footsteps
             [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
         },
