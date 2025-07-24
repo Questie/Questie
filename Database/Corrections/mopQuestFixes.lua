@@ -85,6 +85,7 @@ QuestieCorrections.objectObjectiveFirst[30325] = true
 QuestieCorrections.killCreditObjectiveFirst[30457] = true
 QuestieCorrections.killCreditObjectiveFirst[30466] = true
 QuestieCorrections.itemObjectiveFirst[30607] = true
+QuestieCorrections.objectObjectiveFirst[30774] = true
 QuestieCorrections.itemObjectiveFirst[30800] = true
 QuestieCorrections.objectObjectiveFirst[30932] = true
 QuestieCorrections.killCreditObjectiveFirst[31019] = true
@@ -2778,7 +2779,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
         [30774] = { -- Ranger Rescue
+            [questKeys.objectives] = {{60899,nil,Questie.ICON_TYPE_TALK}},{{440004}},
             [questKeys.preQuestGroup] = {30069,30770,30771},
+            [questKeys.requiredSourceItems] = {81178},
         },
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},

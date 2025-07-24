@@ -437,5 +437,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [440004] = { -- Drywood Cage for 30774 (coords copied from NPC 60730)
+            [objectKeys.name] = 'Drywood Cage',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{66.72,43.99},{65.9,44.81},{66.68,45.31},{66.15,46.24},{66.41,46.96},{67.39,46.31},{67.04,45.83},{67.5,46.92},{66.75,48.05},{67.28,49.51},{65.67,49.39},{66.13,48.83},{64.82,50.52},{66.26,51.48},{66.06,52.13},{67.29,51.36},{67.96,50.82}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
     }
 end
