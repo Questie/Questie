@@ -2025,6 +2025,10 @@ function QuestieQuestFixes:Load()
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
+        [5652] = { -- Hex of Weakness
+            [questKeys.startedBy] = {{6018},nil,nil},
+            [questKeys.objectivesText] = {},
+        },
         [5656] = {
             [questKeys.startedBy] = {{6018},nil,nil},
         },
@@ -2036,7 +2040,9 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {},
         },
         [5676] = {
+            [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.exclusiveTo] = {5677,5678},
+            [questKeys.objectivesText] = {},
         },
         [5677] = {
             [questKeys.exclusiveTo] = {5676,5678},
@@ -2055,7 +2061,7 @@ function QuestieQuestFixes:Load()
         },
         [5679] = {
             [questKeys.startedBy] = {{4606},nil,nil},
-            [questKeys.objectives] = {},
+            [questKeys.objectivesText] = {},
         },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
