@@ -2662,6 +2662,11 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {30504,31319}, -- became available after 30504/31319 only
         },
+        [30649] = { -- The Shrine of Two Moons
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.finishedBy] = {{58468}},
+            [questKeys.preQuestSingle] = {31511},
+        },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
