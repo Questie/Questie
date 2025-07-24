@@ -2632,6 +2632,11 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30626},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
         },
+        [30631] = { -- The Shrine of Seven Stars
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.preQuestSingle] = {31512},
+            [questKeys.objectives] = {{{59908,nil,Questie.ICON_TYPE_TALK},{59961,nil,Questie.ICON_TYPE_TALK},{64149,nil,Questie.ICON_TYPE_TALK},{64029,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
             [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
@@ -2843,7 +2848,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211513}}}},
         },
         [30789] = { -- Arconiss
-            [questKeys.objectives] = {{{60734,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{60764,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30787},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211515}}}},
         },
@@ -2890,6 +2895,11 @@ function MopQuestFixes.Load()
         },
         [30814] = { -- A Foot in the Door
             [questKeys.preQuestSingle] = {},
+        },
+        [30815] = { -- The Death of Me
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30788,30789},
+            [questKeys.objectives] = {{{60857,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30816] = { -- Checking In
             [questKeys.preQuestSingle] = {30935},
@@ -2991,7 +3001,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30892,30893,30894},
         },
+        [30896] = { -- Thieves and Troublemakers
+            [questKeys.preQuestGroup] = {30892,30893,30894},
+        },
+        [30897] = { -- In the Wrong Hands
+            [questKeys.preQuestGroup] = {30892,30893,30894},
+        },
         [30898] = { -- Cutting the Swarm
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30895,30896,30897},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
         },
         [30902] = { -- Round 4: Master Windfur
@@ -3029,7 +3047,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30925},
         },
         [30927] = { -- Give Them Peace
-            [questKeys.objectives] = {{{62281,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30925},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{62276,62277,62281,62282},62276,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30928] = { -- A Trail of Fear
             [questKeys.preQuestSingle] = {30925},
@@ -3043,7 +3062,7 @@ function MopQuestFixes.Load()
         },
         [30932] = { -- Father's Footsteps
             [questKeys.preQuestSingle] = {30931},
-            [questKeys.objectives] = {{{61685},{61683}},{{211836},{211837}}}, -- switch object objectives + objectObjectiveFirst
+            [questKeys.objectives] = {{{61685,nil,Questie.ICON_TYPE_INTERACT},{61683,nil,Questie.ICON_TYPE_TALK}},{{211836},{211837}}},
         },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
@@ -3075,6 +3094,9 @@ function MopQuestFixes.Load()
         [30968] = { -- The Sha of Hatred
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30981,31063,31064},
+        },
+        [30971] = { -- Taking Stock
+            [questKeys.preQuestSingle] = {30901},
         },
         [30973] = { -- Up In Flames
             [questKeys.preQuestSingle] = {30972},
@@ -3136,11 +3158,12 @@ function MopQuestFixes.Load()
         },
         [31000] = { -- Dread Space
             [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31390,31391,31656,31847,31886,31895},
         },
         [31001] = { -- Falling Down
             [questKeys.objectives] = {{{62166,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {31000,31391,31847,31886,31895},
+            [questKeys.breadcrumbs] = {31000,31390,31391,31656,31847,31886,31895},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the rope"),0,{{"object",212229}}}},
         },
         [31002] = { -- Nope
@@ -3154,6 +3177,10 @@ function MopQuestFixes.Load()
         },
         [31005] = { -- Wakening Sickness
             [questKeys.preQuestSingle] = {31004},
+        },
+        [31006] = { -- The Klaxxi Council
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31005,31676},
         },
         [31007] = { -- The Dread Clutches
             [questKeys.preQuestSingle] = {31006},
@@ -3230,6 +3257,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30752},
             [questKeys.exclusiveTo] = {31030},
             [questKeys.breadcrumbForQuestId] = 30757,
+        },
+        [31032] = { -- Choking the Skies
+            [questKeys.objectives] = {{{62128,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
@@ -3840,8 +3870,13 @@ function MopQuestFixes.Load()
         [31388] = { -- The Shado-Pan Offensive
             [questKeys.exclusiveTo] = {31386,30768,31695},
         },
+        [31390] = { -- The Klaxxi
+            [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31391,31656,31847,31886,31895},
+        },
         [31391] = { -- The Klaxxi
             [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },
         [31392] = { -- Temple of the White Tiger [Alliance]
             [questKeys.breadcrumbForQuestId] = 31394,
@@ -4172,6 +4207,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.breadcrumbs] = {31605},
         },
+        [31656] = { -- The Threat in the South
+            [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31390,31391,31847,31886,31895},
+        },
         [31660] = { -- Not Fit to Swarm
             [questKeys.preQuestSingle] = {31006},
         },
@@ -4222,6 +4261,7 @@ function MopQuestFixes.Load()
         },
         [31688] = { -- The Search for Restless Leng
             [questKeys.preQuestSingle] = {31065},
+            [questKeys.objectives] = {nil,{{214734},{214734}}},
         },
         [31689] = { -- The Dreadsworn
             [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
@@ -4493,6 +4533,7 @@ function MopQuestFixes.Load()
         },
         [31847] = { -- Better Dead then Dread
             [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31390,31391,31656,31886,31895},
         },
         [31850] = { -- Eric Davidson
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4576,6 +4617,7 @@ function MopQuestFixes.Load()
         },
         [31886] = { -- Dread Space
             [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31390,31391,31656,31847,31895},
         },
         [31889] = { -- Battle Pet Tamers: Kalimdor
             [questKeys.objectives] = {{{66352,nil,Questie.ICON_TYPE_PET_BATTLE},{66436,nil,Questie.ICON_TYPE_PET_BATTLE},{66452,nil,Questie.ICON_TYPE_PET_BATTLE},{66442,nil,Questie.ICON_TYPE_PET_BATTLE},{66412,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -4590,6 +4632,7 @@ function MopQuestFixes.Load()
         },
         [31895] = { -- Better Off Dread
             [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.exclusiveTo] = {31000,31390,31391,31656,31847,31886},
         },
         [31897] = { -- Grand Master Trixxy
             [questKeys.objectives] = {{{66466,nil,Questie.ICON_TYPE_PET_BATTLE}}},
