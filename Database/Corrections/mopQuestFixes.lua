@@ -2862,6 +2862,9 @@ function MopQuestFixes.Load()
         [30892] = { -- Back on Their Feet
             [questKeys.preQuestSingle] = {30891},
         },
+        [30894] = { -- Rummaging Through the Remains
+            [questKeys.preQuestSingle] = {30891},
+        },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
