@@ -3077,6 +3077,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31030},
             [questKeys.breadcrumbForQuestId] = 30757,
         },
+        [31032] = { -- Choking the Skies
+            [questKeys.preQuestSingle] = {30976},
+        },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},
             [questKeys.exclusiveTo] = {31036,31037},
