@@ -2729,6 +2729,10 @@ function MopQuestFixes.Load()
         [30771] = { -- Perfect Pitch
             [questKeys.preQuestSingle] = {30814},
         },
+        [30772] = { -- Seeing Red
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30069,30770,30771},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
