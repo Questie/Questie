@@ -454,6 +454,9 @@ function MopItemFixes.Load()
         [82764] = { -- Bottom Fragment of Lei Shen\'s Tablet
             [itemKeys.objectDrops] = {211967},
         },
+        [83024] = { -- Shado-Pan Fire Arrows
+            [itemKeys.objectDrops] = {212135,212136},
+        },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
