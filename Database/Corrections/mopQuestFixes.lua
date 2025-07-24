@@ -3724,6 +3724,9 @@ function MopQuestFixes.Load()
         [31504] = { -- Ordnance Disposal
             [questKeys.preQuestSingle] = {31439},
         },
+        [31505] = { -- Vess-Guard Duty
+            [questKeys.preQuestSingle] = {31066},
+        },
         [31506] = { -- Shackles of Manipulation
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
