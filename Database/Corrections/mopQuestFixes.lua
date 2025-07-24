@@ -2813,6 +2813,9 @@ function MopQuestFixes.Load()
         [30788] = { -- Golgoss
             [questKeys.preQuestSingle] = {30787},
         },
+        [30789] = { -- Arconiss
+            [questKeys.preQuestSingle] = {30787},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
