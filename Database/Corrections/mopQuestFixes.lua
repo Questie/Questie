@@ -2738,6 +2738,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30069,30770,30771},
         },
+        [30774] = { -- Ranger Rescue
+            [questKeys.preQuestGroup] = {30069,30770,30771},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
