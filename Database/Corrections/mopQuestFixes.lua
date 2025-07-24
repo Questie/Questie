@@ -2787,6 +2787,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30772,30773,30774},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Plant the banner"),0,{{"object",211524}}}},
         },
+        [30777] = { -- In Search of Suna
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",61205}}}},
+        },
         [30778] = { -- Dust to Dust
             [questKeys.objectives] = {{{60925,nil,Questie.ICON_TYPE_INTERACT}}},
         },
