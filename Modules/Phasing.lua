@@ -312,6 +312,8 @@ local phases = {
     HEMETS_OUTSIDE_CAMP = 1240,
     WU_PENG_ALONE = 1241,
     WU_PENG_REUNITED = 1242,
+    BEFORE_MANTID_INVASION = 1243,
+    AFTER_MANTID_INVASION = 1244,
 }
 Phasing.phases = phases
 
@@ -1350,6 +1352,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.WU_PENG_REUNITED then
         return ((complete[30834]) or (questLog[30834])) or false
+    end
+
+    if phase == phases.BEFORE_MANTID_INVASION then
+        return ((not complete[30241]) and (not complete[30360]) and (not complete[30376])) or false
+    end
+
+    if phase == phases.AFTER_MANTID_INVASION then
+        return ((complete[30241]) or (complete[30360]) or (complete[30376])) or false
     end
 
     return false
