@@ -1250,6 +1250,9 @@ function MopNpcFixes.Load()
         [63466] = { -- Muckscale Flesheater
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{25.73,52.79}}},
         },
+        [63576] = { -- Osul Fire-Warrior
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
+        },
         [63880] = { -- Shipwreck Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{44.66,78.66}}},
         },
