@@ -1926,6 +1926,9 @@ function MopQuestFixes.Load()
         [30230] = { -- Re-Reclaim
             [questKeys.preQuestSingle] = {30132},
         },
+        [30234] = { -- Vicejaw
+            [questKeys.objectives] = {{{58769}}},
+        },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
         },
