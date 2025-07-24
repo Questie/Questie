@@ -2810,6 +2810,9 @@ function MopQuestFixes.Load()
         [30784] = { -- The Point of No Return
             [questKeys.preQuestGroup] = {30782,30783},
         },
+        [30786] = { -- A Spear Through My Side, A Chain Through My Soul
+            [questKeys.preQuestSingle] = {31894},
+        },
         [30788] = { -- Golgoss
             [questKeys.preQuestSingle] = {30787},
         },
