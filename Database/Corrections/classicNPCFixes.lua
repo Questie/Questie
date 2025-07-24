@@ -1048,7 +1048,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [6018] = { -- Ur'kyo
-            [npcKeys.questStarts] = {5652,5657,5662,8254},
+            [npcKeys.questStarts] = {5652,5656,5662,8254},
         },
         [6028] = {
             [npcKeys.npcFlags] = npcFlags.REPAIR
