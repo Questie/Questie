@@ -2806,6 +2806,9 @@ function MopQuestFixes.Load()
         [30826] = { -- Trouble Brewing
             [questKeys.exclusiveTo] = {30745},
         },
+        [30827] = { -- What Lies Beneath
+            [questKeys.objectives] = {{{60864,nil,Questie.ICON_TYPE_TALK},{60933,nil,Questie.ICON_TYPE_OBJECT},{60990,nil,Questie.ICON_TYPE_OBJECT},{60991,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
         [30828] = { -- Cleansing the Mere
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Cleanse the pool"),0,{{"monster",61500}}}},
         },
