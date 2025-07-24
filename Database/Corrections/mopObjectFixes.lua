@@ -233,6 +233,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.34,43.43}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211863] = { -- Krik'thik Limb
+            [objectKeys.name] = 'Krik\'thik Limb',
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{77.19,88.74},{76.93,88.98},{76.72,88.92},{76.3,90.03},{74.87,82.69},{74.28,83.72},{74.33,83.81},{74.39,84.01},{74.19,84.34},{74.17,84.36},{74.27,85.47},{73.85,84.98},{73.34,84.29},{71.54,85.1}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
         [211871] = { -- Dread Orb
             [objectKeys.name] = 'Dread Orb',
             [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{56.8,7.6},{65.4,87.1},{65.4,88.7},{65.5,88.6},{66,87.7},{66.1,86.4},{66.1,86.6},{66.8,87.3},{66.8,87.5},{67.7,87.5},{67.9,86.4},{68,86.5},{68.3,89.1},{69.1,88.1},{69.1,89.5},{69.3,89.2}}},
