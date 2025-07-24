@@ -2796,6 +2796,9 @@ function MopQuestFixes.Load()
         [30780] = { -- Totemic Research
             [questKeys.preQuestSingle] = {30777},
         },
+        [30781] = { -- Last Toll of the Yaungol
+            [questKeys.preQuestSingle] = {30777},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
