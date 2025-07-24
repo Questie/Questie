@@ -3842,9 +3842,11 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
+            [questKeys.preQuestSingle] = {31511},
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
