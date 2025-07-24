@@ -2936,6 +2936,9 @@ function MopQuestFixes.Load()
         [30894] = { -- Rummaging Through the Remains
             [questKeys.preQuestSingle] = {30891},
         },
+        [30898] = { -- Cutting the Swarm
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
+        },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
