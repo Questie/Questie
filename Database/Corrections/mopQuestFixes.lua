@@ -2818,6 +2818,9 @@ function MopQuestFixes.Load()
         [30888] = { -- Breach in the Defenses
             [questKeys.preQuestSingle] = {30887},
         },
+        [30889] = { -- Trap Setting
+            [questKeys.preQuestSingle] = {30887},
+        },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
