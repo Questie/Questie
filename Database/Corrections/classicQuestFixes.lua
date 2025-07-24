@@ -1973,9 +1973,6 @@ function QuestieQuestFixes:Load()
         [5625] = { -- Garments of the Light
             [questKeys.objectives] = {{{12427,"Heal and fortify Mountaineer Dolf",Questie.ICON_TYPE_INTERACT}}},
         },
-        [5631] = {
-            [questKeys.startedBy] = {{5489},nil,nil},
-        },
         [5634] = {
             [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.objectivesText] = {},
@@ -2010,37 +2007,16 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [5643] = {
-            [questKeys.startedBy] = {{4606},nil,nil},
-        },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
         [5648] = { -- Garments of Spirituality
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
-        [5649] = { -- In Favor of Spirituality
-            [questKeys.startedBy] = {{3707},nil,nil},
-        },
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
-        [5652] = { -- Hex of Weakness
-            [questKeys.startedBy] = {{6018},nil,nil},
-            [questKeys.objectivesText] = {},
-        },
-        [5656] = {
-            [questKeys.startedBy] = {{6018},nil,nil},
-        },
-        [5657] = {
-            [questKeys.startedBy] = {{4606},nil,nil},
-        },
-        [5658] = { -- #7083 and #1603
-            [questKeys.startedBy] = {{4606},nil,nil},
-            [questKeys.objectivesText] = {},
-        },
         [5676] = {
-            [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.exclusiveTo] = {5677,5678},
             [questKeys.objectivesText] = {},
         },
@@ -2060,7 +2036,6 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [5679] = {
-            [questKeys.startedBy] = {{4606},nil,nil},
             [questKeys.objectivesText] = {},
         },
         [5713] = {

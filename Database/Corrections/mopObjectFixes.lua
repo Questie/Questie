@@ -63,7 +63,7 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{29.07,51.28},{29.2,51.22},{29.07,51.28},{29.2,51.22},{29.2,51.22},{29.07,51.28},{31.26,49.96},{31.47,49.92},{32.7,53.5},{32.5,53.58},{32.5,53.58},{31.47,49.92},{31.26,49.96},{32.7,53.5},{32.53,46.81},{32.48,46.66},{33.17,46.15},{33.45,50.86},{32.48,46.66},{33.13,46.3},{33.17,46.15},{33.13,46.3},{32.53,46.81},{33.45,50.86},{33.17,46.15},{33.13,46.3},{32.48,46.66},{32.53,46.81},{32.53,46.81},{32.48,46.66},{33.17,46.15},{33.13,46.3},{28.26,49.88},{28.26,49.58},{28.19,49.95},{28.19,49.95},{28.26,49.58},{28.26,49.88},{28.19,49.95},{28.26,49.58}}},
         },
         [209672] = { -- Firework Launcher
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{56.4,58.2},{56.9,58.8},{57.1,57.7},{57.2,59.9},{57.5,61.4},{57.5,61.5},{57.9,59.5},{58,58.8},{58.3,58.2},{58.4,57.2},{58.5,56.3},{58.6,56.9},{58.6,57.6}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.4,58.2},{56.9,58.8},{57.1,57.7},{57.2,59.9},{57.5,61.4},{57.5,61.5},{57.9,59.5},{58,58.8},{58.3,58.2},{58.4,57.2},{58.5,56.3},{58.6,56.9},{58.6,57.6}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [209826] = { -- Silk Patch
@@ -164,8 +164,19 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [211112] = { -- Mysterious Whirlpool
+            [objectKeys.name] = 'Mysterious Whirlpool',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.17,31.69}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [211118] = { -- Jagged Abalone
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{69.5,38.67},{69.34,37.76},{70.61,38.74},{70.53,41.76},{69.08,39.99},{69.14,39.19},{68.67,39.33},{68.26,40.18},{68.88,36.48},{69.18,36.89},{69.7,36.38},{71.31,37.11},{71.39,37.83},{71.87,38.29},{71.76,40.36},{71.01,40.86},{70.28,41.78}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [211169] = { -- Crane Yolk Pool
+            [objectKeys.name] = 'Crane Yolk Pool',
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [211275] = { -- Ko Ko's Altar
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.27,71.44}}},
@@ -473,15 +484,8 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440004] = { -- For Who Knew Fish Liked Eggs? 30598
-            [objectKeys.name] = 'Crane Yolk Pool',
-            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
-            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
-        },
-        [440005] = { -- What Lurks Below 30585
-            [objectKeys.name] = 'Mysterious Whirlpool',
-            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.17,31.69}}},
-            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        [440004] = {
+            [objectKeys.name] = "Elder Charm of Good Fortune",
         },
     }
 end

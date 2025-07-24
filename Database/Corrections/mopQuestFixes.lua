@@ -88,7 +88,6 @@ QuestieCorrections.itemObjectiveFirst[30607] = true
 QuestieCorrections.itemObjectiveFirst[30800] = true
 QuestieCorrections.objectObjectiveFirst[30932] = true
 QuestieCorrections.killCreditObjectiveFirst[31019] = true
-QuestieCorrections.eventObjectiveFirst[31091] = true
 QuestieCorrections.spellObjectiveFirst[31138] = true
 QuestieCorrections.spellObjectiveFirst[31142] = true
 QuestieCorrections.spellObjectiveFirst[31147] = true
@@ -2536,7 +2535,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30514},
         },
         [30585] = { -- What Lurks Below
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Fish in the Mysterious Whirlpool"),0,{{"object",440004}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Fish in the Mysterious Whirlpool"),0,{{"object",211112}}}},
         },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
@@ -2563,7 +2562,7 @@ function MopQuestFixes.Load()
         },
         [30598] = { -- Who Knew Fish Liked Eggs?
             [questKeys.requiredSourceItems] = {80303},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Use the crane egg and fish in the yolk"),0,{{"object",440004}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Use the crane egg and fish in the yolk"),0,{{"object",211169}}}},
         },
         [30599] = { -- A Monkey Idol
             [questKeys.preQuestSingle] = {30603},
@@ -3291,22 +3290,21 @@ function MopQuestFixes.Load()
         [31006] = { -- The Klaxxi Council
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31005,31676},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
         [31007] = { -- The Dread Clutches
             [questKeys.preQuestSingle] = {31006},
-        },
-        [31006] = { -- The Klaxxi Council
-            [questKeys.triggerEnd] = {"Meet with Kil'ruk the Wind-Reaver", {[zoneIDs.DREAD_WASTES]={{55,34}}}},
-            [questKeys.preQuestSingle] = {31005,31676},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
         [31008] = { -- Amber Arms
             [questKeys.preQuestSingle] = {31006},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
         [31009] = { -- Dead Zone
             [questKeys.finishedBy] = {nil,{110008}},
             [questKeys.objectives] = {nil,{{212524}}},
             [questKeys.preQuestSingle] = {31006},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
         [31010] = { -- In Her Clutch
             [questKeys.objectives] = {nil,{{214674}}},
@@ -3393,7 +3391,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31065},
         },
         [31066] = { -- A Cry From Darkness
-            [questKeys.preQuestSingle] = {31010},
+            [questKeys.preQuestGroup] = {31007,31010,31660},
         },
         [31067] = { -- The Heavens Hum With War
             [questKeys.preQuestSingle] = {31066},
@@ -3496,8 +3494,7 @@ function MopQuestFixes.Load()
         },
         [31091] = { -- Reunited
             [questKeys.finishedBy] = {{64344}},
-            [questKeys.triggerEnd] = {"Escort Kaz'tik the Manipulator to the Undisturbed Dirt", {[zoneIDs.DREAD_WASTES]={{41.75,71.89}}}},
-            [questKeys.objectives] = {{{62542,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,{{213444,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{62542},62542,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {31089,31682},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kaz'tik"),0,{{"monster",63876}}}},
         },
@@ -3506,7 +3503,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {86489},
         },
         [31107] = { -- Citizens of a New Empire
-            [questKeys.preQuestSingle] = {31010},
+            [questKeys.preQuestGroup] = {31007,31010,31660},
         },
         [31108] = { -- Concentrated Fear
             [questKeys.preQuestSingle] = {31661},
@@ -4389,7 +4386,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{214734},{214734}}},
         },
         [31689] = { -- The Dreadsworn
-            [questKeys.preQuestGroup] = {31007,31660}, -- not entirely sure. I also turned in 31008 and 31661 before checking
+            [questKeys.preQuestSingle] = {31661},
         },
         [31693] = { -- Julia Stevens
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5031,9 +5028,11 @@ function MopQuestFixes.Load()
         },
         [32016] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{64029}},
+            [questKeys.objectives] = {nil,{{440004}}},
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
+            [questKeys.objectives] = {nil,{{440004}}},
         },
         [32018] = { -- His Name Was... Stormstout
             [questKeys.exclusiveTo] = {32019},

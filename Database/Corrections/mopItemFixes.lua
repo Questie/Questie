@@ -563,6 +563,9 @@ function MopItemFixes.Load()
         [87874] = { -- Kyparite Shards
             [itemKeys.npcDrops] = {65231},
         },
+        [88538] = { -- Sha-Haunted Crystal
+            [itemKeys.startQuest] = 31661,
+        },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
