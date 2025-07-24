@@ -2681,6 +2681,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{110010}},
             [questKeys.preQuestGroup] = {30633,30634},
         },
+        [30638] = { -- Leaving an Opening
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestGroup] = {30635,30636,30637},
+        },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
             [questKeys.objectives] = {{{59899,nil,Questie.ICON_TYPE_TALK}}},
