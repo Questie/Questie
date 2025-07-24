@@ -2815,6 +2815,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Boom Boom"),0,{{"monster",61013}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [30888] = { -- Breach in the Defenses
+            [questKeys.preQuestSingle] = {30887},
+        },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
