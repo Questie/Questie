@@ -2977,6 +2977,10 @@ function MopQuestFixes.Load()
         [30967] = { -- Free the Dissenters
             [questKeys.objectives] = {{{61566,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30968] = { -- The Sha of Hatred
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30981,31063,31064},
+        },
         [30973] = { -- Up In Flames
             [questKeys.preQuestSingle] = {30972},
         },
