@@ -2833,6 +2833,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30815},
         },
         [30792] = { -- Orbiss Fades
+            [questKeys.objectives] = {{{60862,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30815},
         },
         [30794] = { -- Emergency Care
