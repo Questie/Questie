@@ -2971,10 +2971,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30887},
         },
         [30892] = { -- Back on Their Feet
-            [questKeys.preQuestSingle] = {30891},
+            [questKeys.preQuestGroup] = {30891,30960},
         },
         [30894] = { -- Rummaging Through the Remains
-            [questKeys.preQuestSingle] = {30891},
+            [questKeys.preQuestGroup] = {30891,30960},
         },
         [30898] = { -- Cutting the Swarm
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
