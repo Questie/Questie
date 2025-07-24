@@ -2726,6 +2726,9 @@ function MopQuestFixes.Load()
         [30770] = { -- Running Rampant
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60739,60669},60669,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30771] = { -- Perfect Pitch
+            [questKeys.preQuestSingle] = {30814},
+        },
         [30794] = { -- Emergency Care
             [questKeys.breadcrumbs] = {30816},
             [questKeys.objectives] = {{{60694,nil,Questie.ICON_TYPE_INTERACT}}},
