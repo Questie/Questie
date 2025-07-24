@@ -3141,6 +3141,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31034,31036},
             [questKeys.nextQuestInChain] = 0,
         },
+        [31064] = { -- Nurong and Rothek
+            [questKeys.preQuestSingle] = {31065},
+        },
         [31066] = { -- A Cry From Darkness
             [questKeys.preQuestSingle] = {31010},
         },
