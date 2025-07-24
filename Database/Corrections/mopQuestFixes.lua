@@ -2797,6 +2797,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30777},
         },
         [30781] = { -- Last Toll of the Yaungol
+            [questKeys.objectives] = {{{60948,nil,Questie.ICON_TYPE_EVENT},{60949,nil,Questie.ICON_TYPE_EVENT},{60950,nil,Questie.ICON_TYPE_EVENT},{61291,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30777},
         },
         [30794] = { -- Emergency Care

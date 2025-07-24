@@ -807,6 +807,21 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{68.84,64.88}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [60948] = { -- Kill Credit: Last Toll of the Yaungol 1
+            [npcKeys.name] = "Eastern Smoke Trail",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]={{84.66,71.6}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [60949] = { -- Kill Credit: Last Toll of the Yaungol 2
+            [npcKeys.name] = "Western Smoke Trail",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]={{81.08,72.06}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [60950] = { -- Kill Credit: Last Toll of the Yaungol 3
+            [npcKeys.name] = "Southern Smoke Trail",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]={{83.56,78.42}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
         [60970] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.87,81.67}}},
         },
@@ -899,6 +914,11 @@ function MopNpcFixes.Load()
                 [1497] = {{50.8,60},{59.2,29},{59.6,37},{59.8,36},{61.4,52.2},{64.2,33.4},{65.8,25.8},{66.2,27.8},{68,36},{68.8,36.8},{73.4,68.6},{78.2,72.6},{81.6,68.4},{83.4,33.8},{83.6,63.8},{84,41.8},{84.2,63.4}},
                 [5287] = {{39.8,72.6},{41.6,73},{42,68.4},{42,74.4},{42,74.6},{43,71.6},{43.2,71.2}},
             },
+        },
+        [61291] = { -- Kill Credit: Last Toll of the Yaungol 4
+            [npcKeys.name] = "Northwestern Smoke Trail",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]={{83.97,70.85}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [61297] = { -- Image of Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
