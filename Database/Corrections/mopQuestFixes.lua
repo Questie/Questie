@@ -2744,6 +2744,9 @@ function MopQuestFixes.Load()
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},
         },
+        [30778] = { -- Dust to Dust
+            [questKeys.objectives] = {{{60925,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30780] = { -- Totemic Research
             [questKeys.preQuestSingle] = {30777},
         },
