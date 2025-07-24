@@ -2817,7 +2817,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mist-Shamans after they placed their torch"),0,{{"monster",60697}}}},
         },
         [30788] = { -- Golgoss
+            [questKeys.objectives] = {{{60734,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {30787},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Plant the torch"),0,{{"object",211513}}}},
         },
         [30789] = { -- Arconiss
             [questKeys.preQuestSingle] = {30787},
