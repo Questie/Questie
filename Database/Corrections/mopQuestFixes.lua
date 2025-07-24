@@ -4873,6 +4873,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{3347,5499}}, -- might need more
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 90,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
             [questKeys.requiredSpell] = -28675, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
@@ -4886,6 +4887,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{3347,5499}}, -- might need more
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 90,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
             [questKeys.requiredSpell] = -28677, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a variety of flasks to an alchemy trainer in any capital city."},
@@ -4899,6 +4901,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{3347,5499}}, -- might need more
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 90,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
             [questKeys.requiredSpell] = -28672, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring the requested materials to an alchemy trainer in any capital city."},
