@@ -427,7 +427,7 @@ function MopObjectFixes.Load()
         },
         [214543] = { -- Dreadspore Bulb
             [objectKeys.name] = "Dreadspore Bulb",
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}},
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}}, -- there are like 100 more spawns, used one so we can have tooltips
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [214873] = { -- Vacant Destroyer

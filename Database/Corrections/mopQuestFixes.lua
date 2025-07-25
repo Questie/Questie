@@ -1859,15 +1859,15 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 30136,
         },
         [30136] = { -- Empty Nests
-            [questKeys.preQuestSingle] = {30135},
-            [questKeys.nextQuestInChain] = 30137,
+            [questKeys.preQuestSingle] = {30134},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST]={{63.33,31.46},{63.87,30.06},{64.28,29.03},{64.87,26.46},{65.32,26.38},{64.9,28.9},{65.15,30.07},{65.62,30.2},{65.68,30.67},{65.78,31.25}}}, Questie.ICON_TYPE_EVENT, l10n("Return the hatchlings to the nests")}},
         },
         [30137] = { -- Egg Collection
-            [questKeys.preQuestSingle] = {30136},
-            [questKeys.nextQuestInChain] = 30138,
+            [questKeys.preQuestSingle] = {30134},
         },
         [30138] = { -- Choosing the One
-            [questKeys.preQuestSingle] = {30137},
+            [questKeys.preQuestGroup] = {30135,30136,30137},
         },
         [30139] = { -- The Rider's Journey
             [questKeys.preQuestSingle] = {30138},
@@ -3531,7 +3531,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31072},
         },
         [31075] = { -- Sunset Kings
-            [questKeys.preQuestGroup] = {31073,31078},
+            [questKeys.preQuestGroup] = {31073,31074,31078},
         },
         [31076] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
@@ -3544,7 +3544,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31129},
         },
         [31078] = { -- Han Stormstout
-            [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES]={{47.29,16.82}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
         },
         [31079] = { -- The Horror Comes A-Rising
@@ -3643,7 +3643,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{63217}},
         },
         [31133] = { -- Kor'thik Aggression
-            [questKeys.preQuestGroup] = {31069,31070},
+            [questKeys.preQuestSingle] = {31070},
         },
         [31134] = { -- If These Stones Could Speak
             [questKeys.objectives] = {nil,{{212926},{212925},{212924}}},
@@ -3839,6 +3839,7 @@ function MopQuestFixes.Load()
         [31190] = { -- The Mariner's Revenge
             [questKeys.preQuestSingle] = {31189},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
+            [questKeys.objectives] = {{{63330},{63330},{63330},{63330}}},
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
@@ -4075,15 +4076,21 @@ function MopQuestFixes.Load()
         [31372] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
+        [31373] = { -- The Order of the Cloud Serpent
+            [questKeys.preQuestSingle] = {31782}, -- not entirely sure
+        },
         [31374] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
+        [31375] = { -- The Order of the Cloud Serpent
+            [questKeys.preQuestSingle] = {31782}, -- not entirely sure
+        },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestSingle] = {31511,31512,31782},
             [questKeys.exclusiveTo] = {31378,31380,31382},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestSingle] = {31511,31512,31782},
             [questKeys.exclusiveTo] = {31379,31381,31383},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
@@ -5206,10 +5213,12 @@ function MopQuestFixes.Load()
         [32016] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{64029}},
             [questKeys.objectives] = {nil,{{440004}}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
             [questKeys.objectives] = {nil,{{440004}}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [32018] = { -- His Name Was... Stormstout
             [questKeys.exclusiveTo] = {32019},
