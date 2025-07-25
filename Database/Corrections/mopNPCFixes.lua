@@ -1279,6 +1279,10 @@ function MopNpcFixes.Load()
         [63307] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.82,32.62}}},
         },
+        [63314] = { -- Wodin the Troll-Servant
+            [npcKeys.spawns] = {[zoneIDs.ARENA_OF_ANNIHILATION] = {{50,18.48}}},
+            [npcKeys.zoneID] = zoneIDs.ARENA_OF_ANNIHILATION,
+        },
         [63317] = { -- Captain "Soggy" Su-Dao
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={
                 {55.66,72.49,phases.SOGGY_IN_HUT},
@@ -1336,6 +1340,9 @@ function MopNpcFixes.Load()
         [64269] = { -- Sha of Doubt Portal
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]={{49.36,60.79},{49.13,59.67},{48.67,58.91},{48.14,58.81},{47.38,58.59},{46.58,58.95},{45.99,59.7},{45.93,60.64},{46.3,61.87},{46.93,62.54},{47.68,62.36},{48.37,62.03}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [64280] = { -- Maki Waterblade
+            [npcKeys.spawns] = {[zoneIDs.ARENA_OF_ANNIHILATION] = {{45.96,51.27}}},
         },
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.77,72.03}}},
