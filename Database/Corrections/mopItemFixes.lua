@@ -210,6 +210,9 @@ function MopItemFixes.Load()
         [78958] = { -- Pillaged Jinyu Loot
             [itemKeys.npcDrops] = {58273,58274},
         },
+        [78959] = { -- Serpent Egg
+            [itemKeys.objectDrops] = {210238,210239,210240},
+        },
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
         },
