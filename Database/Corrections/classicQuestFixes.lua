@@ -409,6 +409,13 @@ function QuestieQuestFixes:Load()
         [742] = {
             [questKeys.exclusiveTo] = {235,6382,6383},
         },
+        [752] = {
+            [questKeys.breadcrumbForQuestId] = 753,
+        },
+        [753] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {752},
+        },
         [754] = {
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well", {[zoneIDs.MULGORE]={{53.61, 66.2}}}},
         },
