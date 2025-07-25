@@ -501,6 +501,9 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [440004] = {
+            [objectKeys.name] = "Lesser Charm of Good Fortune",
+        },
+        [440005] = {
             [objectKeys.name] = "Elder Charm of Good Fortune",
         },
     }
