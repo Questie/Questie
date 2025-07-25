@@ -2072,6 +2072,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59342}},
             [questKeys.preQuestSingle] = {31131},
         },
+        [30317] = { -- Water, Water Everywhere
+            [questKeys.objectives] = {{{59574,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Borrow a kite"),0,{{"monster",60231}}}},
+        },
         [30319] = { -- Pest Problems
             [questKeys.preQuestSingle] = {30257},
         },
@@ -2087,6 +2091,9 @@ function MopQuestFixes.Load()
         },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
+        },
+        [30327] = { -- You Have to Burn the Ropes
+            [questKeys.objectives] = {nil,{{210760}}},
         },
         [30328] = { -- The Thousand-Year Dumpling
             [questKeys.preQuestSingle] = {30257},
@@ -2416,6 +2423,8 @@ function MopQuestFixes.Load()
         [30475] = { -- A Gift For Fung
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30476,30477,30478,30479},
+            [questKeys.requiredSourceItems] = {80232},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Ask him to cook the Bloody Plainshawk Leg"),0,{{"monster",58712}}}},
         },
         [30476] = { -- A Gift For Old Hillpaw
             [questKeys.preQuestSingle] = {30257},
@@ -4495,6 +4504,7 @@ function MopQuestFixes.Load()
         },
         [31672] = { -- A Pumpkin-y Perfume
             [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80592},
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943},
