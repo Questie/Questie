@@ -300,6 +300,9 @@ function MopItemFixes.Load()
         [80074] = { -- Celestial Jade
             [itemKeys.objectDrops] = {210921},
         },
+        [80122] = { -- Spideroot
+            [itemKeys.objectDrops] = {210945,211117},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },
