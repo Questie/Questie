@@ -1831,4 +1831,62 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
         end)
     end)
+
+    describe("Ban Bearheart", function()
+        it("should return true for outpost location when 30770 and 30771 are incomplete and not in the quest log", function()
+            Questie.db.char.complete[30770] = false
+            Questie.db.char.complete[30771] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+        end)
+
+        it("should return true for camp osul location when 30770 and 30771 are in the quest log", function()
+            Questie.db.char.complete[30770] = false
+            Questie.db.char.complete[30771] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30770]={isComplete=0}, [30771]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+        end)
+        
+        it("should return true for camp osul location when 30770 is complete", function()
+            Questie.db.char.complete[30770] = true
+            Questie.db.char.complete[30771] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30771]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+        end)
+        
+        it("should return true for camp osul location when 30771 is complete", function()
+            Questie.db.char.complete[30770] = false
+            Questie.db.char.complete[30771] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30770]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+        end)
+
+        it("should return true for outpost location when 30776 is in the quest log", function()
+            Questie.db.char.complete[30770] = true
+            Questie.db.char.complete[30771] = true
+            Questie.db.char.complete[30776] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30776]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+        end)
+
+        it("should return true for outpost location when 30776 is complete", function()
+            Questie.db.char.complete[30770] = true
+            Questie.db.char.complete[30771] = true
+            Questie.db.char.complete[30776] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BAN_AT_OUTPOST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
+        end)
+    end)
 end)

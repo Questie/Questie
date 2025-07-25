@@ -318,6 +318,8 @@ local phases = {
     KU_MO_AT_TEMPLE = 1246,
     SUNA_AT_OUTPOST = 1247,
     SUNA_AT_CAMP_OSUL = 1248,
+    BAN_AT_OUTPOST = 1249,
+    BAN_AT_CAMP_OSUL = 1250,
 }
 Phasing.phases = phases
 
@@ -1380,6 +1382,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SUNA_AT_CAMP_OSUL then
         return (complete[30769] or questLog[30769]) and true or false
+    end
+
+    if phase == phases.BAN_AT_OUTPOST then
+        return ((complete[30776] or questLog[30776]) or ((not questLog[30770]) and (not questLog[30771]))) and true or false
+    end
+
+    if phase == phases.BAN_AT_CAMP_OSUL then
+        return ((not complete[30776]) and (not questLog[30776]) and (complete[30770] or questLog[30770]) and (complete[30771] or questLog[30771])) and true or false
     end
 
     return false

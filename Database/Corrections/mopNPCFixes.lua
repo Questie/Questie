@@ -836,6 +836,12 @@ function MopNpcFixes.Load()
                 {67.2,52.2,phases.SUNA_AT_CAMP_OSUL},
             }}
         },
+        [60687] = { -- Ban Bearheart
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
+                {71,56.6,phases.BAN_AT_OUTPOST},
+                {67.2,52.2,phases.BAN_AT_CAMP_OSUL},
+            }}
+        },
         [60727] = { -- Explosion Triggered Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
