@@ -615,6 +615,9 @@ function MopNpcFixes.Load()
                 {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
             }},
         },
+        [58225] = { -- Instructor Tong
+            [npcKeys.questStarts] = {30135,30136,30137,30138,30139},
+        },
         [58421] = { -- Hemet Nesingwary
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {16.01,82.49,phases.HEMETS_AT_CAMP},

@@ -1874,10 +1874,12 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30140,30141},
         },
         [30140] = { -- The Rider's Journey
+            [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {30138},
             [questKeys.exclusiveTo] = {30139,30141},
         },
         [30141] = { -- The Rider's Journey
+            [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {30138},
             [questKeys.exclusiveTo] = {30139,30140},
         },
