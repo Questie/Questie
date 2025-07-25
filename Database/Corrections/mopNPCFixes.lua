@@ -898,7 +898,7 @@ function MopNpcFixes.Load()
         [61161] = { -- Bluesaddle
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
                 {39.21,61.99,phases.BLUESADDLE_TEMPLE},
-                {35.4,56.8,phases.BLUESADDLE_LAKE},
+                {35.42,56.67,phases.BLUESADDLE_LAKE},
             }},
         },
         [61166] = { -- Cho Summon Bunny
