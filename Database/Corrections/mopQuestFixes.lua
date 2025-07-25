@@ -3446,6 +3446,7 @@ function MopQuestFixes.Load()
         [31021] = { -- Living Amber
             [questKeys.preQuestSingle] = {31019},
             [questKeys.requiredSourceItems] = {82864},
+            [questKeys.objectives] = {{{62232,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31022] = { -- Kypari Zar
             [questKeys.triggerEnd] = {"Korven the Prime defeneded", {[zoneIDs.DREAD_WASTES]={{59.93,59.43}}}},
