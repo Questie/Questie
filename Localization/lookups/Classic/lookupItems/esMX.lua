@@ -1962,6 +1962,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [20803] = "Órdenes de batalla Crepusculares",
 [20806] = "Informe de tareas logísticas X",
 [20807] = "Informe de tareas logísticas I",
+[20810] = "Documentación de instrucción de campo firmada",
 [20860] = "Escarabajo de plata",
 [20861] = "Escarabajo de bronce",
 [20862] = "Escarabajo de cristal",
