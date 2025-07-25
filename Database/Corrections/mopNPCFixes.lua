@@ -1054,6 +1054,12 @@ function MopNpcFixes.Load()
         [61530] = { -- Explosive Hatred
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{74.8,88.4}}},
         },
+        [61539] = { -- Ku-Mo
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
+                {43.8,65.8,phases.KU_MO_AT_BRIDGE},
+                {39.4,61.8,phases.KU_MO_AT_TEMPLE},
+            }}
+        },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
         },

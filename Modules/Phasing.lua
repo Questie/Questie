@@ -314,6 +314,8 @@ local phases = {
     WU_PENG_REUNITED = 1242,
     ORBISS_AT_SUMPRUSH = 1243,
     ORBISS_AT_BORROW = 1244,
+    KU_MO_AT_BRIDGE = 1245,
+    KU_MO_AT_TEMPLE = 1246,
 }
 Phasing.phases = phases
 
@@ -1360,6 +1362,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ORBISS_AT_BORROW then
         return (complete[30793] or questLog[30793]) and true or false
+    end
+
+    if phase == phases.KU_MO_AT_BRIDGE then
+        return (not complete[30932]) and (not questLog[30932]) or false
+    end
+
+    if phase == phases.KU_MO_AT_TEMPLE then
+        return (complete[30932] or questLog[30932]) and true or false
     end
 
     return false

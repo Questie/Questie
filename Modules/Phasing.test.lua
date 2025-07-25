@@ -1767,4 +1767,42 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
         end)
     end)
+
+    describe("Ku-Mo", function()
+        it("should return true for bridge location when 30931 and 30932 are incomplete", function()
+            Questie.db.char.complete[30931] = false
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+        end)
+
+        it("should return true for bridge location when 30931 is complete", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+        end)
+
+        it("should return true for temple location when 30932 is in the quest log", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30932]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+        end)
+
+        it("should return true for temple location when 30932 is complete", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+        end)
+    end)
 end)
