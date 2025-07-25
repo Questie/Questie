@@ -3539,7 +3539,7 @@ function MopQuestFixes.Load()
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
         },
-        [31110] = { -- Through the Portal
+        [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
         },
         [31111] = { -- Eradicating the Zan'thik
