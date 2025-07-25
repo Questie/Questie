@@ -4062,6 +4062,12 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
+        [31367] = { -- The Lorewalkers
+            [questKeys.objectives] = {{{65716}}},
+        },
+        [31368] = { -- The Lorewalkers
+            [questKeys.objectives] = {{{65716}}},
+        },
         [31372] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
