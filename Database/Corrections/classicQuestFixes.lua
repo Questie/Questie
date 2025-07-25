@@ -183,8 +183,13 @@ function QuestieQuestFixes:Load()
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
+        [363] = {
+            [questKeys.nextQuestInChain] = 364,
+            [questKeys.breadcrumbForQuestId] = 364, -- #882
+        },
         [364] = {
             [questKeys.preQuestSingle] = {}, -- #882
+            [questKeys.breadcrumbs] = {363},
         },
         [367] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #888
