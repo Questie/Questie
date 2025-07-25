@@ -491,11 +491,20 @@ function MopItemFixes.Load()
         [83075] = { -- Sapfly Bits
             [itemKeys.npcDrops] = {62386},
         },
+        [83076] = { -- Between a Saurok and a Hard Place
+            [itemKeys.startQuest] = 31055,
+        },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [83769] = { -- Between a Saurok and a Hard Place
+            [itemKeys.startQuest] = 31055,
+        },
         [83771] = { -- Fish Tales
             [itemKeys.startQuest] = 31094,
+        },
+        [83773] = { -- Heart of the Mantid Swarm
+            [itemKeys.startQuest] = 31097,
         },
         [83777] = { -- The Song of the Yaungol
             [itemKeys.startQuest] = 31100,
