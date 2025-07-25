@@ -2857,7 +2857,6 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30825},
         },
         [30745] = { -- Trouble Brewing
-            [questKeys.requiredLevel] = 85,
             [questKeys.exclusiveTo] = {30826},
         },
         [30747] = { -- The Burlap Grind
@@ -3761,6 +3760,7 @@ function MopQuestFixes.Load()
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.objectives] = {{{64280}}},
         },
         [31208] = { -- Venomous Intent
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
@@ -4263,6 +4263,36 @@ function MopQuestFixes.Load()
         [31538] = { -- A Worthy Brew
             [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
         },
+        [31540] = { -- Staves for Tian Monastery
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
+            [questKeys.zoneOrSort] = 5931,
+        },
+        [31541] = { -- Set in Jade
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
+            [questKeys.zoneOrSort] = 5931,
+        },
+        [31542] = { -- Incarnadine Ink
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
+            [questKeys.zoneOrSort] = 5931,
+        },
+        [31543] = { -- Portrait of a Lady
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
+            [questKeys.zoneOrSort] = 5931,
+        },
+        [31544] = { -- A Tribute to the Dead
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
+            [questKeys.zoneOrSort] = 5931,
+        },
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
             [questKeys.requiredSpell] = 119467,
@@ -4762,7 +4792,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66372,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31876] = { -- The Inkmasters of the Arboretum
-            [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
         },
         [31878] = { -- Audrey Burnhep
             [questKeys.exclusiveTo] = {31316},
@@ -4777,7 +4807,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31316},
         },
         [31877] = { -- The Inkmasters of the Arboretum
-            [questKeys.requiredSkill] = {profKeys.INSCRIPTION, 1},
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
         },
         [31886] = { -- Dread Space
             [questKeys.breadcrumbForQuestId] = 31001,
