@@ -3607,6 +3607,7 @@ function MopQuestFixes.Load()
         [31092] = { -- Feed or Be Eaten
             [questKeys.preQuestSingle] = {31091},
             [questKeys.requiredSourceItems] = {86489},
+            [questKeys.objectives] = {{{64485,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestGroup] = {31007,31010,31660},
