@@ -4484,13 +4484,12 @@ function MopQuestFixes.Load()
         },
         [31605] = { -- The Zan'thik Dig
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
-            [questKeys.breadcrumbForQuestId] = 31606,
+            [questKeys.preQuestSingle] = {31026},
         },
         [31606] = { -- The Dissector Wakens
             [questKeys.objectives] = {{{67091}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
-            [questKeys.breadcrumbs] = {31605},
         },
         [31656] = { -- The Threat in the South
             [questKeys.breadcrumbForQuestId] = 31001,
