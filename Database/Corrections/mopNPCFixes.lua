@@ -895,6 +895,12 @@ function MopNpcFixes.Load()
                 [3711] = {{22,70},{36.4,80.4},{41.4,48.2},{51.8,30.4},{57.8,45}},
             },
         },
+        [61161] = { -- Bluesaddle
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
+                {39.21,61.99,phases.BLUESADDLE_TEMPLE},
+                {35.4,56.8,phases.BLUESADDLE_LAKE},
+            }},
+        },
         [61166] = { -- Cho Summon Bunny
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,

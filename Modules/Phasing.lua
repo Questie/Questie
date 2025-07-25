@@ -314,6 +314,8 @@ local phases = {
     WU_PENG_REUNITED = 1242,
     BEFORE_MANTID_INVASION = 1243,
     AFTER_MANTID_INVASION = 1244,
+    BLUESADDLE_TEMPLE = 1245,
+    BLUESADDLE_LAKE = 1246,
 }
 Phasing.phases = phases
 
@@ -1358,8 +1360,12 @@ function Phasing.IsSpawnVisible(phase)
         return ((not complete[30241]) and (not complete[30360]) and (not complete[30376])) or false
     end
 
-    if phase == phases.AFTER_MANTID_INVASION then
-        return ((complete[30241]) or (complete[30360]) or (complete[30376])) or false
+    if phase == phases.BLUESADDLE_TEMPLE then
+        return (not complete[30929]) or false
+    end
+
+    if phase == phases.BLUESADDLE_LAKE then
+        return (complete[30929]) or false
     end
 
     return false
