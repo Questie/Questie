@@ -22,6 +22,9 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [6455] = 3430, -- Sunstrider Isle -> Eversong Woods
     [6456] = 3524, -- Ammen Vale -> Azuremyst Isle
     [6457] = 1, -- New Tinkertown -> Dun Morogh
+    [6471] = 6182, -- Mogu'shan Palace - The Crimson Assembly Hall
+    [6473] = 6182, -- Mogu'shan Palace - Vaults of Kings Past
+    [6474] = 6182, -- Mogu'shan Palace - Throne of Ancient Conquerors
     [10000] = 2100, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 2017, -- Stratholme - The Gauntlet (fake ID for Stratholme)
     [10002] = 1584, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
@@ -94,9 +97,6 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10077] = 6066, -- Scholomance - Chamber of Summoning (fake ID for Scholomance MoP)
     [10078] = 6066, -- Scholomance - The Upper Study (fake ID for Scholomance MoP)
     [10079] = 6066, -- Scholomance - Headmaster's Study (fake ID for Scholomance MoP)
-    [10080] = 6143, -- Mogu'shan Palace - The Crimson Assembly Hall (fake ID for Mogu'shan Palace)
-    [10081] = 6143, -- Mogu'shan Palace - Vaults of Kings Past (fake ID for Mogu'shan Palace)
-    [10082] = 6143, -- Mogu'shan Palace - Throne of Ancient Conquerors (fake ID for Mogu'shan Palace)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon
