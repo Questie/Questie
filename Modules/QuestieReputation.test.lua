@@ -15,7 +15,7 @@ describe("QuestieReputation", function()
             return 1
         end)
         _G.GetFactionInfo = spy.new(function()
-            return "Wintersaber Trainer", nil, 5, nil, nil, 4500, nil, nil, false, nil, nil, nil, nil, 589, nil, nil
+            return "Wintersaber Trainer", "They are a faction in Winterspring", 5, nil, nil, 4500, nil, nil, false, nil, nil, nil, nil, 589, nil, nil
         end)
         _G.IsSpellKnown = spy.new(function()
             return false
