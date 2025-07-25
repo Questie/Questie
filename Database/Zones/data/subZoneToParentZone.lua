@@ -94,6 +94,9 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10077] = 6066, -- Scholomance - Chamber of Summoning (fake ID for Scholomance MoP)
     [10078] = 6066, -- Scholomance - The Upper Study (fake ID for Scholomance MoP)
     [10079] = 6066, -- Scholomance - Headmaster's Study (fake ID for Scholomance MoP)
+    [10080] = 6143, -- Mogu'shan Palace - The Crimson Assembly Hall (fake ID for Mogu'shan Palace)
+    [10081] = 6143, -- Mogu'shan Palace - Vaults of Kings Past (fake ID for Mogu'shan Palace)
+    [10082] = 6143, -- Mogu'shan Palace - Throne of Ancient Conquerors (fake ID for Mogu'shan Palace)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon
