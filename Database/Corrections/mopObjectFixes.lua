@@ -426,6 +426,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
         [214543] = { -- Dreadspore Bulb
+            [objectKeys.name] = "Dreadspore Bulb",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
