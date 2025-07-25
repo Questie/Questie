@@ -1890,7 +1890,47 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
         },
-        [30160] = { --A Ruby Shard for Ella
+        [30146] = { -- Snack Time
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30147] = { -- Fragments of the Past
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30148] = { -- Just a Flesh Wound
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.objectives] = {{{58416,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30149] = { -- A Feast for the Senses
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30150] = { -- Sweet as Honey
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30151] = { -- Catch!
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30152] = { -- The Sky Race
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30154] = { -- The Easiest Way To A Serpent's Heart
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30155] = { -- Restoring the Balance
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30156] = { -- The Easiest Way To A Serpent's Heart
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30157] = { -- They Grow Like Weeds
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30158] = { -- Disarming the Enemy
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30159] = { -- Preservation
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [30160] = { -- A Ruby Shard for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30163] = { -- For the Tribe
@@ -3841,6 +3881,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump in"),0,{{"monster",64350}}}},
             [questKeys.objectives] = {{{63330},{63330},{63330},{63330}}},
         },
+        [31194] = { -- Slitherscale Suppression
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.objectives] = {{{64280}}},
@@ -4566,6 +4609,72 @@ function MopQuestFixes.Load()
         },
         [31695] = { -- Beyond the Wall
             [questKeys.exclusiveTo] = {31386,31388,30768},
+        },
+        [31698] = { -- Thinning The Pack
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31699] = { -- Sprite Fright
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31700] = { -- The Shoe Is On The Other Foot
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31701] = { -- Dark Huntress
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31702] = { -- On The Prowl
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31703] = { -- Madcap Mayhem
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31704] = { -- Pooped
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31705] = { -- Needle Me Not
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31706] = { -- Weeping Widows
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31707] = { -- A Tangled Web
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31708] = { -- Serpent's Scale
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31709] = { -- Lingering Doubt
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31711] = { -- The Seed of Doubt
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31712] = { -- Monkey Mischief
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31713] = { -- The Big Brew-haha
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31714] = { -- Saving the Serpents
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31715] = { -- The Big Kah-Oona
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31717] = { -- The Trainer's Challenge: Ace Longpaw
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31718] = { -- The Trainer's Challenge: Big Bao
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31719] = { -- The Trainer's Challenge: Ningna Darkwheel
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31720] = { -- The Trainer's Challenge: Suchi the Sweet
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31721] = { -- The Trainer's Challenge: Qua-Ro Whitebrow
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31724] = { -- Old MacDonald
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},

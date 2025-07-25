@@ -216,6 +216,9 @@ function MopItemFixes.Load()
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
         },
+        [79049] = { -- Serpentrider Relic
+            [itemKeys.npcDrops] = {},
+        },
         [79058] = { -- Darkhide's Head
             [itemKeys.npcDrops] = {58435},
         },
@@ -539,6 +542,9 @@ function MopItemFixes.Load()
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [85282] = { -- Tiger Flank
+            [itemKeys.npcDrops] = {63537,63538,65612,67085},
+        },
         [85782] = { -- Mistfall Water Bucket
             [itemKeys.objectDrops] = {213369},
         },
@@ -599,6 +605,9 @@ function MopItemFixes.Load()
         },
         [88538] = { -- Sha-Haunted Crystal
             [itemKeys.startQuest] = 31661,
+        },
+        [89054] = { -- Stolen Boots
+            [itemKeys.objectDrops] = {214865,214866,214867,214868},
         },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
