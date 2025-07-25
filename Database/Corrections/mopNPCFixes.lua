@@ -830,6 +830,12 @@ function MopNpcFixes.Load()
                 {76.19,72.91,phases.ORBISS_AT_BORROW},
             }}
         },
+        [60684] = { -- Suna Silentstrike
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
+                {71.2,56.4,phases.SUNA_AT_OUTPOST},
+                {67.2,52.2,phases.SUNA_AT_CAMP_OSUL},
+            }}
+        },
         [60727] = { -- Explosion Triggered Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,

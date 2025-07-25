@@ -316,6 +316,8 @@ local phases = {
     ORBISS_AT_BORROW = 1244,
     KU_MO_AT_BRIDGE = 1245,
     KU_MO_AT_TEMPLE = 1246,
+    SUNA_AT_OUTPOST = 1247,
+    SUNA_AT_CAMP_OSUL = 1248,
 }
 Phasing.phases = phases
 
@@ -1370,6 +1372,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KU_MO_AT_TEMPLE then
         return (complete[30932] or questLog[30932]) and true or false
+    end
+
+    if phase == phases.SUNA_AT_OUTPOST then
+        return (not complete[30769]) and (not questLog[30769]) or false
+    end
+
+    if phase == phases.SUNA_AT_CAMP_OSUL then
+        return (complete[30769] or questLog[30769]) and true or false
     end
 
     return false

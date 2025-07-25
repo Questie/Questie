@@ -1805,4 +1805,30 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
         end)
     end)
+
+    describe("Suna Silentstrike (60684)", function()
+        it("should return true for outpost location when 30769 is incomplete", function()
+            Questie.db.char.complete[30769] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+        end)
+
+        it("should return true for camp osul location when 30769 is in the quest log", function()
+            Questie.db.char.complete[30769] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30769]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+        end)
+
+        it("should return true for temple location when 30769 is complete", function()
+            Questie.db.char.complete[30769] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+        end)
+    end)
 end)
