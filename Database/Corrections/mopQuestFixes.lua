@@ -3486,6 +3486,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
         },
+        [31048] = { -- Grave Consequences
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
+        },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
         },
@@ -3612,9 +3615,6 @@ function MopQuestFixes.Load()
         },
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
-        },
-        [31048] = { -- Grave Consequences
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
         },
         [31111] = { -- Eradicating the Zan'thik
             [questKeys.preQuestSingle] = {31066},
