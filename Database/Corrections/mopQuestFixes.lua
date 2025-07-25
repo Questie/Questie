@@ -1938,14 +1938,44 @@ function MopQuestFixes.Load()
         [30189] = { -- A Lovely Apple for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [30190] = { -- Sprite Plight
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.preQuestSingle] = {31242},
+        },
+        [30192] = { -- My Town, It's on Fire
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.preQuestSingle] = {31242},
+            [questKeys.requiredSourceItems] = {85782},
+        },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
         },
         [30230] = { -- Re-Reclaim
             [questKeys.preQuestSingle] = {30132},
         },
+        [30233] = { -- Cracklefang
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.finishedBy] = {{59343}},
+            [questKeys.objectives] = {{{58768}}},
+            [questKeys.preQuestGroup] = {30291,30314,30339,30342},
+        },
         [30234] = { -- Vicejaw
             [questKeys.objectives] = {{{58769}}},
+        },
+        [30237] = { -- The Pandaren Uprising Relived
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.preQuestSingle] = {31242},
+        },
+        [30238] = { -- Return to Rest
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.finishedBy] = {{59338}},
+            [questKeys.objectives] = {nil,{{210419}}},
+            [questKeys.preQuestSingle] = {31242},
+        },
+        [30239] = { -- Lao-Fe the Slavebinder
+            [questKeys.finishedBy] = {{59338}},
+            [questKeys.objectives] = {{{58817}}},
+            [questKeys.preQuestSingle] = {30237},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
@@ -2018,11 +2048,36 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30291] = { -- Stunning Display
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.preQuestSingle] = {31131},
+        },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
         },
+        [30307] = { -- The Eternal Vigil
+            [questKeys.startedBy] = {{58408}},
+        },
+        [30308] = { -- Stone Hard Quilen
+            [questKeys.startedBy] = {{58465}},
+        },
+        [30310] = { -- Thundering Skies
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
+        },
+        [30312] = { -- Given a Second Chance
+            [questKeys.startedBy] = {{58468}},
+        },
+        [30314] = { -- The Displaced Paleblade
+            [questKeys.startedBy] = {{59342}},
+            [questKeys.preQuestSingle] = {31131},
+        },
         [30319] = { -- Pest Problems
             [questKeys.preQuestSingle] = {30257},
+        },
+        [30320] = { -- Free Spirits
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
@@ -2073,6 +2128,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30333,30334,30335,30336},
             [questKeys.objectives] = {{{59276,nil,Questie.ICON_TYPE_INTERACT},{59278,nil,Questie.ICON_TYPE_INTERACT},{59279,nil,Questie.ICON_TYPE_INTERACT},{59280,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30339] = { -- Getting your Hands Dirty
+            [questKeys.startedBy] = {{59341}},
+            [questKeys.preQuestSingle] = {31131},
+        },
+        [30342] = { -- Fiery Tongue, Fragile Feet
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.preQuestSingle] = {31131},
         },
         [30344] = { -- The Lost Dynasty
             [questKeys.preQuestSingle] = {30274},
@@ -2680,6 +2743,7 @@ function MopQuestFixes.Load()
         [30637] = { -- The Guo-Lai Halls
             [questKeys.startedBy] = {{110010}},
             [questKeys.preQuestGroup] = {30633,30634},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Attack Zhao-Jin the Bloodletter"),0,{{"monster",59921}}}},
         },
         [30638] = { -- Leaving an Opening
             [questKeys.startedBy] = {{58465}},
@@ -2693,6 +2757,7 @@ function MopQuestFixes.Load()
         [30649] = { -- The Shrine of Two Moons
             [questKeys.startedBy] = {{58468}},
             [questKeys.finishedBy] = {{58468}},
+            [questKeys.objectives] = {{{59908,nil,Questie.ICON_TYPE_TALK},{59959,nil,Questie.ICON_TYPE_TALK},{62996,nil,Questie.ICON_TYPE_TALK},{63996,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31511},
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
@@ -3557,6 +3622,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{211659},{211661},{213191}}},
             [questKeys.finishedBy] = {{56287,61218}},
         },
+        [31131] = { -- Whitepetal Lake
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.exclusiveTo] = {31242},
+        },
         [31132] = { -- A Mile in My Shoes
             [questKeys.finishedBy] = {{63217}},
         },
@@ -3811,6 +3880,10 @@ function MopQuestFixes.Load()
         },
         [31241] = { -- Wicked Wikkets
             [questKeys.preQuestSingle] = {29879},
+        },
+        [31242] = { -- Mistfall Village
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.exclusiveTo] = {31131},
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
@@ -4532,6 +4605,18 @@ function MopQuestFixes.Load()
         },
         [31745] = { -- Onward and Inward
             [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
+        [31754] = { -- Cannonfire
+            [questKeys.startedBy] = {{58471}},
+            [questKeys.objectives] = {{{65762,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30638},
+        },
+        [31760] = { -- Striking First
+            [questKeys.startedBy] = {{58465}},
+        },
+        [31762] = { -- Crumbling Behemoth
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [31765] = { -- Paint it Red!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},

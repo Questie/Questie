@@ -509,6 +509,12 @@ function MopItemFixes.Load()
         [84239] = { -- Flitterling Dust
             [itemKeys.npcDrops] = {62764},
         },
+        [84240] = { -- Fresh Whitepetal Worm
+            [itemKeys.objectDrops] = {212742},
+        },
+        [84656] = { -- Stunned Whitepetal Carp
+            [itemKeys.npcDrops] = {62984},
+        },
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
@@ -517,6 +523,9 @@ function MopItemFixes.Load()
         },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85782] = { -- Mistfall Water Bucket
+            [itemKeys.objectDrops] = {213369},
         },
         [85783] = { -- Captain Jack's Head
             [itemKeys.npcDrops] = {63809},
