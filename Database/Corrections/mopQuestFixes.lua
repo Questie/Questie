@@ -3325,7 +3325,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
         },
         [31009] = { -- Dead Zone
-            [questKeys.finishedBy] = {nil,{110008}},
+            [questKeys.finishedBy] = {{110008}},
             [questKeys.objectives] = {nil,{{212524}}},
             [questKeys.preQuestSingle] = {31006},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
