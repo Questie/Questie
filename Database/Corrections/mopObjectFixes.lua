@@ -425,6 +425,10 @@ function MopObjectFixes.Load()
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
+        [214543] = { -- Dreadspore Bulb
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [214873] = { -- Vacant Destroyer
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.81,18.73},{47.75,18.26},{47.13,16.98},{47.82,16.4},{46.72,16.75},{46.91,16.16},{46.99,15.68},{46.29,15.78},{45.23,16.22},{48.55,16.22},{48.72,19.74},{48.97,20.27},{48.54,20.75},{48.11,20.25},{48.61,19.37},{48.32,18.78},{48.8,18.06},{48.8,17.7}}},
         },

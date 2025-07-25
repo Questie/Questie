@@ -4274,6 +4274,7 @@ function MopQuestFixes.Load()
         },
         [31509] = { -- Fear Takes Root
             [questKeys.preQuestSingle] = {31606},
+            [questKeys.objectives] = {nil,{{214543}}},
         },
         [31510] = { -- Quiet Now
             [questKeys.preQuestSingle] = {31439},
