@@ -26,8 +26,8 @@ function QuestieReputation:Update(isInit)
     local newFaction = false
 
     for i=1, GetNumFactions() do
-        local name, _, standingId, _, _, barValue, _, _, isHeader, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
-        if not isHeader and factionID then
+        local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
+        if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]
             if (not previousValues) then
                 --? Reset all autoBlacklisted quests if a faction gets discovered
