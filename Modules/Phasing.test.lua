@@ -1741,4 +1741,30 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
         end)
     end)
+
+    describe("Orbiss", function()
+        it("should return true for Sumprush location when 30793 is incomplete", function()
+            Questie.db.char.complete[30793] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+        end)
+
+        it("should return true for borrow location when 30793 is in the quest log", function()
+            Questie.db.char.complete[30793] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30793]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+        end)
+
+        it("should return true for borrow location when 30793 is complete", function()
+            Questie.db.char.complete[30793] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+        end)
+    end)
 end)

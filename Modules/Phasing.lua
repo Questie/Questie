@@ -312,6 +312,8 @@ local phases = {
     HEMETS_OUTSIDE_CAMP = 1240,
     WU_PENG_ALONE = 1241,
     WU_PENG_REUNITED = 1242,
+    ORBISS_AT_SUMPRUSH = 1243,
+    ORBISS_AT_BORROW = 1244,
 }
 Phasing.phases = phases
 
@@ -1350,6 +1352,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.WU_PENG_REUNITED then
         return ((complete[30834]) or (questLog[30834])) or false
+    end
+
+    if phase == phases.ORBISS_AT_SUMPRUSH then
+        return (not complete[30793]) and (not questLog[30793]) or false
+    end
+
+    if phase == phases.ORBISS_AT_BORROW then
+        return (complete[30793] or questLog[30793]) and true or false
     end
 
     return false

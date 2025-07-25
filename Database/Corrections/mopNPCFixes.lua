@@ -824,6 +824,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.58,12.61}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
+        [60622] = { -- Orbiss
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
+                {67.8,67.6,phases.ORBISS_AT_SUMPRUSH},
+                {76.19,72.91,phases.ORBISS_AT_BORROW},
+            }}
+        },
         [60727] = { -- Explosion Triggered Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
