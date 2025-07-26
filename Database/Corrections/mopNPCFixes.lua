@@ -1420,9 +1420,9 @@ function MopNpcFixes.Load()
         [64432] = { -- Sinan the Dreamer
             [npcKeys.spawns] = {
                 [zoneIDs.THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
-                [zoneIDs.MOGU_SHAN_PALACE] = {{-1,-1}},
+                [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
             },
-            [npcKeys.zoneID] = zoneIDs.MOGU_SHAN_PALACE,
+            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE,
         },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
