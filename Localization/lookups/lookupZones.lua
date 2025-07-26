@@ -2891,7 +2891,12 @@ l10n.zoneCategoryLookup = {
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
         [-376] = "Love is in the Air", -- Category added in WotLK
+        [-391] = "Pandaren Brewmasters", -- Category added in MoP
+        [-392] = "Scenario", -- Category added in MoP
+        [-396] = "Landfall", -- Category added in MoP
+        [-397] = "Pandaren Campaign", -- Category added in MoP
         [-398] = "Riding", -- Category added in Cata
+        [-399] = "Brawler's Guild", -- Category added in MoP
         [-641] = "Nightmare Incursions", -- Category added in SoD P3
         [-644] = "Blackrock Eruption", -- Category added in SoD P4
         -- Below are dummy IDs to not interfere with other IDs
