@@ -506,14 +506,26 @@ function MopItemFixes.Load()
         [83769] = { -- Between a Saurok and a Hard Place
             [itemKeys.startQuest] = 31055,
         },
+        [83770] = { -- Hozen in the Mist
+            [itemKeys.startQuest] = 31093,
+        },
         [83771] = { -- Fish Tales
             [itemKeys.startQuest] = 31094,
+        },
+        [83772] = { -- The Dark Heart of the Mogu
+            [itemKeys.startQuest] = 31095,
         },
         [83773] = { -- Heart of the Mantid Swarm
             [itemKeys.startQuest] = 31097,
         },
+        [83774] = { -- What is Worth Fighting For
+            [itemKeys.startQuest] = 31096,
+        },
         [83777] = { -- The Song of the Yaungol
             [itemKeys.startQuest] = 31100,
+        },
+        [83779] = { -- The Seven Burdens of Shaohao
+            [itemKeys.startQuest] = 31102,
         },
         [83780] = { -- The Ballad of Liu Lang
             [itemKeys.startQuest] = 31103,
