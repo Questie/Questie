@@ -484,6 +484,9 @@ function MopItemFixes.Load()
         [82867] = { -- Mantid Relic
             [itemKeys.objectDrops] = {212078,212079},
         },
+        [82869] = { -- Meaty Turtle Haunch
+            [itemKeys.npcDrops] = {62160},
+        },
         [82870] = { -- Strange Relic
             [itemKeys.startQuest] = 31023,
             [itemKeys.npcDrops] = {61970,63176},
