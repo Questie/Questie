@@ -1394,6 +1394,9 @@ function MopNpcFixes.Load()
         [64280] = { -- Maki Waterblade
             [npcKeys.spawns] = {[zoneIDs.ARENA_OF_ANNIHILATION] = {{45.96,51.27}}},
         },
+        [64281] = { -- Satay Byu
+            [npcKeys.spawns] = {[zoneIDs.ARENA_OF_ANNIHILATION] = {{45.96,51.27}}},
+        },
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{41.77,72.03}}},
         },

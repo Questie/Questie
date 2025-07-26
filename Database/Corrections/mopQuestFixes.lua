@@ -2002,7 +2002,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
         },
         [30234] = { -- Vicejaw
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.finishedBy] = {{59343}},
             [questKeys.objectives] = {{{58769}}},
+            [questKeys.preQuestGroup] = {30291,30314,30339,30342},
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
@@ -2109,6 +2112,7 @@ function MopQuestFixes.Load()
         },
         [30312] = { -- Given a Second Chance
             [questKeys.startedBy] = {{58468}},
+            [questKeys.objectives] = {{{59183,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
@@ -2179,6 +2183,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59276,nil,Questie.ICON_TYPE_INTERACT},{59278,nil,Questie.ICON_TYPE_INTERACT},{59279,nil,Questie.ICON_TYPE_INTERACT},{59280,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30339] = { -- Getting your Hands Dirty
+            [questKeys.startedBy] = {{59341}},
+            [questKeys.preQuestSingle] = {31131},
+        },
+        [30340] = { -- Stick in the Mud
             [questKeys.startedBy] = {{59341}},
             [questKeys.preQuestSingle] = {31131},
         },
@@ -3886,7 +3894,7 @@ function MopQuestFixes.Load()
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.objectives] = {{{64280}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{64280,64281},64280}}},
         },
         [31208] = { -- Venomous Intent
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
