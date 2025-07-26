@@ -533,6 +533,9 @@ function MopItemFixes.Load()
         [84240] = { -- Fresh Whitepetal Worm
             [itemKeys.objectDrops] = {212742},
         },
+        [84241] = { -- Whitepetal Reed
+            [itemKeys.objectDrops] = {212744},
+        },
         [84656] = { -- Stunned Whitepetal Carp
             [itemKeys.npcDrops] = {62984},
         },
