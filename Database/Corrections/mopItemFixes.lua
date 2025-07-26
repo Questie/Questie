@@ -606,6 +606,9 @@ function MopItemFixes.Load()
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},
         },
+        [87871] = { -- Massive Kyparite Core
+            [itemKeys.npcDrops] = {65229},
+        },
         [87874] = { -- Kyparite Shards
             [itemKeys.npcDrops] = {65231},
         },
