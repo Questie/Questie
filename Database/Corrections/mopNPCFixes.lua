@@ -1553,7 +1553,7 @@ function MopNpcFixes.Load()
         },
         [64432] = { -- Sinan the Dreamer
             [npcKeys.spawns] = {
-                [zoneIDs.THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
+                [zoneIDs.MOGUSHAN_PALACE_THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
                 [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
             },
             [npcKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE,

@@ -445,8 +445,8 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [214824] = { -- Ancient Mogu Chest
-            [objectKeys.spawns] = {[zoneIDs.VAULTS_OF_KINGS_PAST] = {{60.12,82.45},{38.92,88.24},{37.39,64.61},{42.97,59.72}}},
-            [objectKeys.zoneID] = zoneIDs.VAULTS_OF_KINGS_PAST,
+            [objectKeys.spawns] = {[zoneIDs.MOGUSHAN_PALACE_VAULTS_OF_KINGS_PAST] = {{60.12,82.45},{38.92,88.24},{37.39,64.61},{42.97,59.72}}},
+            [objectKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE_VAULTS_OF_KINGS_PAST,
         },
         [214873] = { -- Vacant Destroyer
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.81,18.73},{47.75,18.26},{47.13,16.98},{47.82,16.4},{46.72,16.75},{46.91,16.16},{46.99,15.68},{46.29,15.78},{45.23,16.22},{48.55,16.22},{48.72,19.74},{48.97,20.27},{48.54,20.75},{48.11,20.25},{48.61,19.37},{48.32,18.78},{48.8,18.06},{48.8,17.7}}},
