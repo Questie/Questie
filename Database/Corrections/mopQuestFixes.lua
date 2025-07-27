@@ -1426,7 +1426,7 @@ function MopQuestFixes.Load()
         },
         [29918] = { -- A Lesson in Bravery
             [questKeys.preQuestGroup] = {29916,29917},
-            [questKeys.sourceItemId] = 75208;
+            [questKeys.sourceItemId] = 75208,
         },
         [29919] = { -- Great Minds Drink Alike
             [questKeys.preQuestSingle] = {29918},
@@ -1500,7 +1500,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29919},
         },
         [29947] = { -- Crouching Carrot, Hidden Turnip
-            [questKeys.sourceItemId] = 76370;
+            [questKeys.sourceItemId] = 76370,
             [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29948] = { -- Thieves to the Core
@@ -1774,7 +1774,7 @@ function MopQuestFixes.Load()
         },
         [30077] = { -- Barrels, Man
             [questKeys.preQuestSingle] = {30074},
-            [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}};
+            [questKeys.objectives] = {{{57662,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30078] = { -- Cleaning House
             [questKeys.preQuestSingle] = {},
@@ -4319,7 +4319,7 @@ function MopQuestFixes.Load()
         },
         [31492] = { -- The Torch of Strength
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31517};
+            [questKeys.exclusiveTo] = {31517},
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
@@ -4373,7 +4373,7 @@ function MopQuestFixes.Load()
         },
         [31517] = { -- Contending With Bullies
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31492};
+            [questKeys.exclusiveTo] = {31492},
         },
         [31519] = {-- A Worthy Challenge: Yan-zhu the Uncasked
             [questKeys.exclusiveTo] = {31520,31522,31523,31524,31525,31526,31527,31528},
