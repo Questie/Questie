@@ -297,6 +297,9 @@ function MopItemFixes.Load()
         [79884] = { -- Bucket of Slicky Water
             [itemKeys.objectDrops] = {209974},
         },
+        [79894] = { -- Mushan Tail Stew
+            [itemKeys.objectDrops] = {214463},
+        },
         [79952] = { -- Pungent Sprite Needles
             [itemKeys.npcDrops] = {55593},
         },

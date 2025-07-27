@@ -2176,6 +2176,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30328,30329,30331,30332},
         },
         [30331] = { -- The Mile-High Grub
+            [questKeys.objectives] = {nil,nil,{{79894,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30328,30329,30330,30332},
         },
