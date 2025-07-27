@@ -17,6 +17,7 @@ local KalimdorPoints = {}--Maintains Kalimdor objective list
 local EKPoints = {}--Maintains Eastern Kingdoms objective list
 local OutlandPoints = {}--Maintains Outland objective list
 local NorthrendPoints = {}--Maintains Northrend Kingdoms objective list
+local PandariaPoints = {}--Maintains Pandaria objective list
 local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
@@ -99,6 +100,11 @@ do
                 RemoveHudQuestIcon(tableString)
             end
         end
+        if keepInstance ~= 860 and keepInstance ~= 870 then--Turtle island and main pandaria continent
+            for tableString, points in pairs(PandariaPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
     end
 
     local function ReAddHudIcons()
@@ -116,6 +122,10 @@ do
             end
         elseif LastInstanceMapID == 571 then--It means we are now in Northrend (but weren't before)
             for tableString, points in pairs(NorthrendPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 860 or LastInstanceMapID == 870 then--It means we are now in Pandaria (but weren't before)
+            for tableString, points in pairs(PandariaPoints) do
                 AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
             end
         end
@@ -172,6 +182,7 @@ do
             EKPoints = {}
             OutlandPoints = {}
             NorthrendPoints = {}
+            PandariaPoints = {}
             --Also used onClick for GUI option to turn feature off, of course, just pass disable arg
             if disable then
                 QuestieHUDEnabled = false
@@ -232,7 +243,7 @@ function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x
                 KalimdorPoints[tableString].g = g
                 KalimdorPoints[tableString].b = b
             end
-            --Object being reistered is in continent we currently reside, add to hud
+            --Object being registered is in continent we currently reside, add to hud
             if LastInstanceMapID == 1 then
                 AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
             --else
@@ -250,7 +261,7 @@ function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x
                 OutlandPoints[tableString].g = g
                 OutlandPoints[tableString].b = b
             end
-            --Object being reistered is in continent we currently reside, add to hud
+            --Object being registered is in continent we currently reside, add to hud
             if LastInstanceMapID == 530 then
                 AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
             --else
@@ -268,8 +279,26 @@ function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x
                 NorthrendPoints[tableString].g = g
                 NorthrendPoints[tableString].b = b
             end
-            --Object being reistered is in continent we currently reside, add to hud
+            --Object being registered is in continent we currently reside, add to hud
             if LastInstanceMapID == 571 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
+        elseif instanceID == 860 or instanceID == 870 then--Turtle island and main pandaria continent
+            --Build a Pandaria Points Table
+            if not PandariaPoints[tableString] then
+                PandariaPoints[tableString] = {}
+                PandariaPoints[tableString].icon = icon
+                PandariaPoints[tableString].AreaID = AreaID
+                PandariaPoints[tableString].x = x
+                PandariaPoints[tableString].y = y
+                PandariaPoints[tableString].r = r
+                PandariaPoints[tableString].g = g
+                PandariaPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 860 or LastInstanceMapID == 870 then
                 AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
             --else
                 --print("Rejecting point for being on a different continent")
@@ -286,6 +315,7 @@ function QuestieDBMIntegration:UnregisterHudQuestIcon(tableString)
         if EKPoints[tableString] then EKPoints[tableString] = nil end
         if OutlandPoints[tableString] then OutlandPoints[tableString] = nil end
         if NorthrendPoints[tableString] then OutlandPoints[tableString] = nil end
+        if PandariaPoints[tableString] then PandariaPoints[tableString] = nil end
         if AddedHudIds[tableString] then
             RemoveHudQuestIcon(tableString)
         end
