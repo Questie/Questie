@@ -2740,7 +2740,7 @@ function MopQuestFixes.Load()
         [30605] = { -- Bros Before Hozen
             [questKeys.name] = "Lucky Yakshoe",
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30599,30600,30604},
+            [questKeys.preQuestGroup] = {30599,30600},
             [questKeys.objectives] = {{{60008,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30606] = { -- Thumping Knucklethump
