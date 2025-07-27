@@ -4320,6 +4320,7 @@ function MopQuestFixes.Load()
         [31492] = { -- The Torch of Strength
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31517},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
