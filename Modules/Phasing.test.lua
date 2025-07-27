@@ -1889,4 +1889,82 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
         end)
     end)
+
+    describe("Brother Yakshoe", function()
+        it("should return true for Knucklehump Hole when 30607 is not in the quest log and not complete", function()
+            Questie.db.char.complete[30607] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for Burlap Camp when 30607 is in the quest log and not complete", function()
+            Questie.db.char.complete[30607] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30607]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for Burlap Waystation when 30607 is complete in the quest log", function()
+            Questie.db.char.complete[30607] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30607]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for Burlap Waystation when 30607 is complete", function()
+            Questie.db.char.complete[30607] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for Burlap Waystation when 30612 is in the quest log", function()
+            Questie.db.char.complete[30607] = false
+            Questie.db.char.complete[30612] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30612]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for Burlap Waystation when 30612 is complete", function()
+            Questie.db.char.complete[30607] = true
+            Questie.db.char.complete[30612] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+        end)
+
+        it("should return true for The Dooker Dome when 30610 is complete in the quest log", function()
+            Questie.db.char.complete[30607] = true
+            Questie.db.char.complete[30610] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30610]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+        end)
+
+        it("should return true for The Dooker Dome when 30610 is complete", function()
+            Questie.db.char.complete[30607] = true
+            Questie.db.char.complete[30610] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION))
+            assert.is_false(Phasing.IsSpawnVisible(phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE))
+        end)
+    end)
 end)

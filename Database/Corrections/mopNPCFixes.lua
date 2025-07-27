@@ -792,6 +792,20 @@ function MopNpcFixes.Load()
         [59424] = { -- Dak Dak
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.27,71.59}}},
         },
+        [59894] = { -- Brother Yakshoe
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {50.6,64.08,phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE},
+                {52.02,67.18,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
+                {45.94,64.13,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+            }},
+        },
+        [59452] = { -- Brother Rabbitsfoot
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                -- This phasing is good enough for now, even though it's not 100% correct to tie Rabbitsfoots' phasing for Yakshoes'
+                {51.97,67.21,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
+                {45.91,64.07,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+            }},
+        },
         [59467] = { -- Candlestick Mage
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },

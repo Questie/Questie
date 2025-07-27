@@ -324,6 +324,9 @@ local phases = {
     AFTER_MANTID_INVASION = 1252,
     BLUESADDLE_TEMPLE = 1253,
     BLUESADDLE_LAKE = 1254,
+    BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION = 1255,
+    BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE = 1256,
+    BROTHER_YAKSHOE_AT_THE_DOOKER_DOME = 1257,
 }
 Phasing.phases = phases
 
@@ -1410,6 +1413,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BLUESADDLE_LAKE then
         return (complete[30929]) or false
+    end
+
+    if phase == phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE then
+        return (not complete[30612]) and (not questLog[30612]) and (not complete[30610]) and ((not questLog[30610]) or questLog[30610].isComplete == 0) and (not complete[30607]) and ((not questLog[30607]) or questLog[30607].isComplete == 0) or false
+    end
+
+    if phase == phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION then
+        return (complete[30612] or questLog[30612] and true) or ((not complete[30610]) and ((not questLog[30610]) or questLog[30610].isComplete == 0) and (complete[30607] or (questLog[30607] and questLog[30607].isComplete == 1))) or false
+    end
+
+    if phase == phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME then
+        return (not complete[30612]) and (not questLog[30612]) and (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) or false
     end
 
     return false
