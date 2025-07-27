@@ -1,6 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- This data comes from QuestSort.dbc/db2
 l10n.questCategoryLookup = {
     [-1] = "Epic",
     [-21] = "Hallow's End",
@@ -48,9 +49,14 @@ l10n.questCategoryLookup = {
     [-379] = "Firelands Invasion",
     [-380] = "The Zandalari",
     [-381] = "Elemental Bonds",
+    [-391] = "Pandaren Brewmasters",
+    [-392] = "Scenario",
     [-394] = "Battle Pets",
     [-395] = "Monk",
+    [-396] = "Landfall",
+    [-397] = "Pandaren Campaign",
     [-398] = "Riding",
+    [-399] = "Brawler's Guild",
     [-400] = "Proving Grounds",
     [-641] = "Nightmare Incursions",
     [-644] = "Blackrock Eruption",

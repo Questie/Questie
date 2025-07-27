@@ -183,8 +183,13 @@ function QuestieQuestFixes:Load()
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
+        [363] = {
+            [questKeys.nextQuestInChain] = 364,
+            [questKeys.breadcrumbForQuestId] = 364, -- #882
+        },
         [364] = {
             [questKeys.preQuestSingle] = {}, -- #882
+            [questKeys.breadcrumbs] = {363},
         },
         [367] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #888
@@ -404,6 +409,13 @@ function QuestieQuestFixes:Load()
         [742] = {
             [questKeys.exclusiveTo] = {235,6382,6383},
         },
+        [752] = {
+            [questKeys.breadcrumbForQuestId] = 753,
+        },
+        [753] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {752},
+        },
         [754] = {
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well", {[zoneIDs.MULGORE]={{53.61, 66.2}}}},
         },
@@ -416,6 +428,10 @@ function QuestieQuestFixes:Load()
         [769] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSkill] = {165,10},
+        },
+        [788] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4641}, -- #1956
         },
         [793] = {
             [questKeys.requiredSourceItems] = {4843,4844,4845},
@@ -1663,7 +1679,7 @@ function QuestieQuestFixes:Load()
         },
         [4641] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
-            [questKeys.exclusiveTo] = {788}, -- #1956
+            [questKeys.breadcrumbForQuestId] = 788, -- #1956
         },
         [4726] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Draco-Incarcinatrix 900 and defeat the dragonkin."), 0, {{"monster",7047},{"monster",7048}},{"monster",7049}}},
@@ -2018,6 +2034,7 @@ function QuestieQuestFixes:Load()
         },
         [5676] = {
             [questKeys.exclusiveTo] = {5677,5678},
+            [questKeys.objectivesText] = {},
         },
         [5677] = {
             [questKeys.exclusiveTo] = {5676,5678},
@@ -2033,6 +2050,9 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
             [questKeys.exclusiveTo] = {5676,5677},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [5679] = {
+            [questKeys.objectivesText] = {},
         },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},

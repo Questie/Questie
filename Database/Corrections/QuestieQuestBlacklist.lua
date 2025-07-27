@@ -5927,16 +5927,19 @@ function QuestieQuestBlacklist:Load()
         [30680] = true, -- Duplicate of 30682
         [30681] = true, -- Duplicate of 30682
         [30759] = true, -- Not in the game
-        [30768] = true, -- Not in the game
         [30817] = true, -- Not in the game
         [30818] = true, -- Not in the game
         [30934] = true, -- Not in the game
+        [30936] = true, -- Not in the game
         [31025] = true, -- Not in the game
         [31028] = true, -- Not in the game
         [31033] = true, -- Not in the game
         [31035] = true, -- Not in the game
         [31115] = true, -- Not in the game
         [31172] = true, -- Not in the game
+        [31212] = true, -- Not in the game
+        [31213] = true, -- Not in the game
+        [31214] = true, -- Not in the game
         [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
         [31396] = true, -- Not in the game
         [31397] = true, -- Not in the game
@@ -5944,6 +5947,11 @@ function QuestieQuestBlacklist:Load()
         [31402] = true, -- Not in the game
         [31403] = true, -- Not in the game
         [31404] = true, -- Not in the game
+        [31423] = true, -- Not in the game
+        [31424] = true, -- Not in the game
+        [31425] = true, -- Not in the game
+        [31426] = true, -- Not in the game
+        [31427] = true, -- Not in the game
         [31429] = true, -- Not in the game
         [31430] = true, -- Not in the game
         [31431] = true, -- Not in the game
@@ -5958,6 +5966,7 @@ function QuestieQuestBlacklist:Load()
         [31604] = true, -- Not in the game
         [31665] = true, -- Not in the game
         [31666] = true, -- Not in the game
+        [31697] = true, -- Not in the game
         [31764] = true, -- Not in the game
         [31863] = true, -- Not in the game
         [31864] = true, -- Not in the game
@@ -5967,6 +5976,8 @@ function QuestieQuestBlacklist:Load()
         [31868] = true, -- Not in the game
         [31869] = true, -- Not in the game
         [31968] = true, -- Not in the game
+        [32010] = true, -- Not in the game
+        [32011] = true, -- Not in the game
         [32396] = true, -- Not in the game
         [32666] = true, -- Hidden quest
         [32890] = true, -- Not in the game
