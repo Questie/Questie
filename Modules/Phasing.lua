@@ -1400,6 +1400,10 @@ function Phasing.IsSpawnVisible(phase)
         return ((not complete[30241]) and (not complete[30360]) and (not complete[30376])) or false
     end
 
+    if phase == phases.AFTER_MANTID_INVASION then
+        return ((complete[30241]) or (complete[30360]) or (complete[30376])) or false
+    end
+
     if phase == phases.BLUESADDLE_TEMPLE then
         return (not complete[30929]) or false
     end
