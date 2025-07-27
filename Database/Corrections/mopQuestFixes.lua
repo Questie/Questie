@@ -3314,6 +3314,7 @@ function MopQuestFixes.Load()
         },
         [30929] = { -- Bad Yak
             [questKeys.objectives] = {{{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30921}, -- not 100% on this but it's definitely missing at least one prequest and showed up after I did a few including 30921
         },
         [30930] = { -- Pick a Yak
             [questKeys.objectives] = {{{61635,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3380,6 +3381,10 @@ function MopQuestFixes.Load()
         },
         [30971] = { -- Taking Stock
             [questKeys.preQuestSingle] = {30901},
+        },
+        [30972] = { -- Joining the Fight
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30970,30971},
         },
         [30973] = { -- Up In Flames
             [questKeys.preQuestSingle] = {30972},
@@ -3543,6 +3548,7 @@ function MopQuestFixes.Load()
         },
         [31032] = { -- Choking the Skies
             [questKeys.objectives] = {{{62128,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30976},
         },
         [31034] = { -- Enemies Below
             [questKeys.startedBy] = {{39605}},

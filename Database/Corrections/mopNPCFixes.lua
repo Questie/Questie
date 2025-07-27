@@ -557,6 +557,12 @@ function MopNpcFixes.Load()
         [56708] = { -- Syra Goldendraft
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{52.57,38.12}}},
         },
+        [56720] = { -- Loon Mai
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {19.55,56.87,phases.BEFORE_MANTID_INVASION},
+                {17.83,56.24,phases.AFTER_MANTID_INVASION},
+            }},
+        },
         [56732] = { -- Liu Flameheart
             [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{48.2,53.18},{-1,-1}}},
         },
@@ -635,6 +641,9 @@ function MopNpcFixes.Load()
         },
         [58455] = { -- Stillwater Crocolisk
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS]={{29.4,68.8},{29.4,69.6},{29.6,68.8},{31.2,66.6},{32.4,67.4},{33,65.4},{33,65.6},{34.4,61.8},{34.6,60.2},{34.8,58.4},{34.8,58.6},{35.4,56.8},{36.6,55},{36.6,56.4},{39.37,49.97},{40.7,47.36}}},
+        },
+        [58607] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},
         },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
@@ -779,6 +788,9 @@ function MopNpcFixes.Load()
         },
         [59411] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.78,67.09}}},
+        },
+        [59424] = { -- Dak Dak
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.27,71.59}}},
         },
         [59467] = { -- Candlestick Mage
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
@@ -974,6 +986,12 @@ function MopNpcFixes.Load()
                 [3521] = {{17.4,49.6},{33.8,47.4},{35.8,55.2},{43.6,54.4},{45,34.6},{46,35},{49.6,31.2},{60.8,38.8},{62.8,45.2},{65.6,50.4},{69.2,66},{73.8,84.6},{77.6,53.8},{78.2,56.6},{82.4,80.8},{84.8,50.2},{85.4,84.4}},
                 [3711] = {{22,70},{36.4,80.4},{41.4,48.2},{51.8,30.4},{57.8,45}},
             },
+        },
+        [61161] = { -- Bluesaddle
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
+                {39.21,61.99,phases.BLUESADDLE_TEMPLE},
+                {35.42,56.67,phases.BLUESADDLE_LAKE},
+            }},
         },
         [61166] = { -- Cho Summon Bunny
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.97,49.04}}},
@@ -1369,6 +1387,9 @@ function MopNpcFixes.Load()
         [63466] = { -- Muckscale Flesheater
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{25.73,52.79}}},
         },
+        [63576] = { -- Osul Fire-Warrior
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]={{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
+        },
         [63880] = { -- Shipwreck Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES]={{44.66,78.66}}},
         },
@@ -1529,6 +1550,13 @@ function MopNpcFixes.Load()
         [66401] = { -- Ship 2 Kill Credit
             [npcKeys.spawns] = {[zoneIDs.PANDARIA] = {{65.31,74.96}}},
             [npcKeys.zoneID] = zoneIDs.PANDARIA,
+        },
+        [64432] = { -- Sinan the Dreamer
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
+                [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
+            },
+            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE,
         },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},

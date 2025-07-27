@@ -320,6 +320,10 @@ local phases = {
     SUNA_AT_CAMP_OSUL = 1248,
     BAN_AT_OUTPOST = 1249,
     BAN_AT_CAMP_OSUL = 1250,
+    BEFORE_MANTID_INVASION = 1251,
+    AFTER_MANTID_INVASION = 1252,
+    BLUESADDLE_TEMPLE = 1253,
+    BLUESADDLE_LAKE = 1254,
 }
 Phasing.phases = phases
 
@@ -1390,6 +1394,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BAN_AT_CAMP_OSUL then
         return ((not complete[30776]) and (not questLog[30776]) and (complete[30770] or questLog[30770]) and (complete[30771] or questLog[30771])) and true or false
+    end
+
+    if phase == phases.BEFORE_MANTID_INVASION then
+        return ((not complete[30241]) and (not complete[30360]) and (not complete[30376])) or false
+    end
+
+    if phase == phases.AFTER_MANTID_INVASION then
+        return ((complete[30241]) or (complete[30360]) or (complete[30376])) or false
+    end
+
+    if phase == phases.BLUESADDLE_TEMPLE then
+        return (not complete[30929]) or false
+    end
+
+    if phase == phases.BLUESADDLE_LAKE then
+        return (complete[30929]) or false
     end
 
     return false

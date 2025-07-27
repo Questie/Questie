@@ -15,6 +15,9 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [4416] = 154, -- Gundrak (override wrong ID)
     [4560] = 126, -- The Underbelly - Sub zone of Dalaran (override wrong ID)
     [6219] = 480, -- Proving Grounds - (Dungeon/Raid)
+    [6471] = 453, -- Mogu'shan Palace - The Crimson Assembly Hall
+    [6473] = 454, -- Mogu'shan Palace - Vaults of Kings Past
+    [6474] = 455, -- Mogu'shan Palace - Throne of Ancient Conquerors
 
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
