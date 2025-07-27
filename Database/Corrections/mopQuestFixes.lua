@@ -4322,6 +4322,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31517};
         },
         [31494] = { -- Free From Her Clutches
+            [questKeys.objectives] ={nil,{{214292}}},
             [questKeys.preQuestGroup] = {31092,31359,31398},
         },
         [31495] = { -- Rank and File
