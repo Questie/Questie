@@ -190,6 +190,7 @@ ZoneDB.zoneIDs = {
     SCARLET_HALLS = 6052, -- this is also Training Grounds map for Scarlet Monastery (MoP)
     SCHOLOMANCE_MOP = 6066, -- this is also The Reliquary map for Scholomance (MoP)
     PEAK_OF_SERENITY = 6081,
+    THE_DEEPER = 6084, -- Cave in Kun-Lai Summit
     KRASARANG_WILDS = 6134,
     FROSTMANE_HOVEL = 6137,
     DREAD_WASTES = 6138,

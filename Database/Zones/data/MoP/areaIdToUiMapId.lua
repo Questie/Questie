@@ -18,6 +18,7 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [6471] = 453, -- Mogu'shan Palace - The Crimson Assembly Hall
     [6473] = 454, -- Mogu'shan Palace - Vaults of Kings Past
     [6474] = 455, -- Mogu'shan Palace - Throne of Ancient Conquerors
+    [6084] = 384, -- The Deeper - Case in Kun-Lai-Summit (override wrong ID)
 
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
