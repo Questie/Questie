@@ -2151,6 +2151,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
         },
+        [30321] = { -- Weed War II
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gai Lan"),0,{{"monster",57385}}}},
+        },
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
         },
