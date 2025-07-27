@@ -2075,10 +2075,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {79269},
         },
         [30258] = { --Mung-Mung's Vote I: A Hozen's Problem
-            [questKeys.requiredMinRep] = {1272,14600} -- available at 5600/12000 honored with Tillers
+            [questKeys.requiredMinRep] = {1272,14600}, -- available at 5600/12000 honored with Tillers
         },
         [30260] = { -- Growing the Farm I: The Weeds
-            [questKeys.requiredMinRep] = {1272,9000} -- Tillers at Honored (wowhead)
+            [questKeys.requiredMinRep] = {1272,9000},
         },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
@@ -2152,7 +2152,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30638},
         },
         [30321] = { -- Weed War II
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gai Lan"),0,{{"monster",57385}}}},
+            [questKeys.requiredMinRep] = {1272,9000},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385},{"monster",59529}}}},
         },
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
@@ -2179,7 +2180,6 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30328,30329,30331,30332},
         },
         [30331] = { -- The Mile-High Grub
-            [questKeys.objectives] = {nil,nil,{{79894,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30328,30329,30330,30332},
         },
@@ -2513,6 +2513,7 @@ function MopQuestFixes.Load()
         [30478] = { -- A Gift For Jogu
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30479},
+            [questKeys.requiredSourceItems] = {80234,80235},
         },
         [30479] = { -- A Gift For Gina
             [questKeys.preQuestSingle] = {30257},
@@ -2617,6 +2618,9 @@ function MopQuestFixes.Load()
         },
         [30515] = { -- Challenge Accepted [Horde]
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Set the Yaungol Banner ablaze"),0,{{"object",210933}}}},
+        },
+        [30516] = { -- Growing the Farm I: A Little Problem
+            [questKeys.requiredMinRep] = {1272,9000},
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
@@ -3349,12 +3353,14 @@ function MopQuestFixes.Load()
         },
         [30953] = { -- Fallen Sentinels
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.objectives] = {{{61570,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30954] = { -- A Blade is a Blade
             [questKeys.preQuestSingle] = {31511,31512},
         },
         [30955] = { -- Paying Tribute
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.objectives] = {nil,{{212131}}},
         },
         [30956] = { -- The Siege Swells
             [questKeys.preQuestSingle] = {31511,31512},
@@ -3569,6 +3575,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
         },
+        [31046] = { -- Little Hatchlings
+            [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
+        },
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
         },
@@ -3718,6 +3728,9 @@ function MopQuestFixes.Load()
         [31131] = { -- Whitepetal Lake
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {31242},
+        },
+        [31132] = { -- A Mile in My Shoes
+            [questKeys.finishedBy] = {{63217}},
         },
         [31133] = { -- Kor'thik Aggression
             [questKeys.preQuestSingle] = {31070},
@@ -5380,6 +5393,7 @@ function MopQuestFixes.Load()
         },
         [32030] = { -- Once in a Hundred Lifetimes
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31066,31086,31398,31354},
         },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
@@ -5394,6 +5408,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
         },
         [32428] = { -- Pandaren Spirit Tamer
+            [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
         },
         [32434] = { -- Burning Pandaren Spirit
@@ -5414,7 +5429,6 @@ function MopQuestFixes.Load()
         },
         [32604] = { -- Beasts of Fable Book I
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-            [questKeys.preQuestSingle] = {32603},
         },
         [32618] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
@@ -5482,11 +5496,9 @@ function MopQuestFixes.Load()
         },
         [32868] = { -- Beasts of Fable Book II
             [questKeys.objectives] = {{{68560,nil,Questie.ICON_TYPE_PET_BATTLE},{68561,nil,Questie.ICON_TYPE_PET_BATTLE},{68566,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-            [questKeys.preQuestSingle] = {32603},
         },
         [32869] = { -- Beasts of Fable Book III
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-            [questKeys.preQuestSingle] = {32603},
         },
         [33136] = { -- The Rainy Day is Here
             [questKeys.preQuestSingle] = {33137},

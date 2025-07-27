@@ -342,6 +342,15 @@ function MopItemFixes.Load()
         [80230] = {  -- Cast Iron Pot
             [itemKeys.objectDrops] = {211023},
         },
+        [80234] = {  -- Yoon's Apple
+            [itemKeys.objectDrops] = {211020},
+        },
+        [80235] = {  -- Yoon's Craneberry
+            [itemKeys.objectDrops] = {211022},
+        },
+        [80236] = {  -- Apple-Berry Hooch
+            [itemKeys.vendors] = {58717},
+        },
         [80241] = { -- Muskpaw's Keepsake
             [itemKeys.startQuest] = 30582,
         },
@@ -465,6 +474,9 @@ function MopItemFixes.Load()
         [82342] = { -- Violet Citron
             [itemKeys.objectDrops] = {211719,211721},
         },
+        [82353] = { -- Sra'thik Weapon
+            [itemKeys.objectDrops] = {211765,211766},
+        },
         [82389] = { -- Mao-Willow
             [itemKeys.objectDrops] = {211779},
         },
@@ -511,6 +523,9 @@ function MopItemFixes.Load()
         },
         [83076] = { -- Between a Saurok and a Hard Place
             [itemKeys.startQuest] = 31055,
+        },
+        [83129] = { -- Cloudrunner Egg
+            [itemKeys.objectDrops] = {212230,214479,214480,214481},
         },
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
@@ -647,6 +662,15 @@ function MopItemFixes.Load()
         },
         [89603] = { -- Encoded Captain's Log
             [itemKeys.npcDrops] = {66148},
+        },
+        [89812] = { -- "Jinyu Princess" Irrigation System
+            [itemKeys.startQuest] = 31936,
+        },
+        [89813] = { -- "Thunder King" Pest Repellers
+            [itemKeys.startQuest] = 31937,
+        },
+        [89814] = { -- "Earth-Slasher" Master Plow
+            [itemKeys.startQuest] = 31938,
         },
     }
 end
