@@ -65,7 +65,6 @@ local questsToBlacklistByPhase = {
         [32170] = true, -- Ancient's Fall
         [32171] = true, -- End of an Elder
         [32172] = true, -- A Colossal Victory
-        [32175] = true, -- Darkmoon Pet Battle!
         [32181] = true, -- Beastmaster's Quarry: The Crane
         [32182] = true, -- Beastmaster's Quarry: The Tiger
         [32183] = true, -- Beastmaster's Quarry: The Crab
