@@ -2000,6 +2000,7 @@ function MopQuestFixes.Load()
         [30195] = { -- Blooming Blossoms
             [questKeys.startedBy] = {{58820}},
             [questKeys.preQuestSingle] = {31242},
+            [questKeys.objectives] = {nil,nil,{{244172}}},
         },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},

@@ -672,5 +672,10 @@ function MopItemFixes.Load()
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
         },
+        [244172] = { -- Eternal Blossom
+            [itemKeys.name] = "Eternal Blossom",
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.objectDrops] = {210537,210538,210539},
+        },
     }
 end
