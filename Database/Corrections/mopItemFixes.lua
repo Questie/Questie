@@ -277,7 +277,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {56233},
         },
         [79824] = { -- Stolen Vegetable
-            [itemKeys.objectDrops] = {210763},
+            [itemKeys.objectDrops] = {210763,210764,210765,210766,210767,210768,210769},
         },
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
