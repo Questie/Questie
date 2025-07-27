@@ -1889,6 +1889,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52,75.8},{52.2,75.4},{52.6,80},{54.4,75.4},{54.6,58.6},{55.2,60.2},{55.8,60},{57.8,76.4},{58.4,59},{58.4,59.8},{58.6,59.4},{58.6,59.8},{58.6,80.2},{58.8,81},{67.6,55.2},{67.6,55.8},{69.2,59},{69.4,49}}},
         },
+        [244995] = { -- Quid <Spirit of the Misty Falls>
+            [npcKeys.name] = "Quid",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.47,80.05}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
 
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100002] = { -- A Personal Summons - Stormwind

@@ -1989,11 +1989,27 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31242},
             [questKeys.requiredSourceItems] = {85782},
         },
+        [30193] = { -- Meating Expectations
+            [questKeys.startedBy] = {{58818}},
+            [questKeys.preQuestSingle] = {31242},
+        },
+        [30194] = { -- Encroaching Storm
+            [questKeys.startedBy] = {{58818}},
+            [questKeys.preQuestSingle] = {31242},
+        },
+        [30195] = { -- Blooming Blossoms
+            [questKeys.startedBy] = {{58820}},
+            [questKeys.preQuestSingle] = {31242},
+        },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
         },
         [30230] = { -- Re-Reclaim
             [questKeys.preQuestSingle] = {30132},
+        },
+        [30231] = { -- Pomfruit Pickup
+            [questKeys.startedBy] = {{58818}},
+            [questKeys.preQuestSingle] = {31242},
         },
         [30233] = { -- Cracklefang
             [questKeys.startedBy] = {{59343}},
@@ -2006,6 +2022,12 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{59343}},
             [questKeys.objectives] = {{{58769}}},
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
+        },
+        [30235] = { -- Quid Pro Quo
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.finishedBy] = {{59338}},
+            [questKeys.objectives] = {{{244995}}},
+            [questKeys.preQuestGroup] = {30193,30194,30195,30231},
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},

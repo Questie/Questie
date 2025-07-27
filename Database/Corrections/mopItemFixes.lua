@@ -240,6 +240,15 @@ function MopItemFixes.Load()
         [79238] = { -- Enormous Crocolisk Tail
             [itemKeys.startQuest] = 30275,
         },
+        [79244] = { -- Fairlands Gazelle Meat
+            [itemKeys.npcDrops] = {58454},
+        },
+        [79246] = { -- Delicate Blossom Petals
+            [itemKeys.objectDrops] = {210537,210538,210539},
+        },
+        [79250] = { -- Fresh Pomfruit
+            [itemKeys.npcDrops] = {58767},
+        },
         [79252] = { -- Mogu Poisoned Blade
             [itemKeys.npcDrops] = {58377,65598},
         },
