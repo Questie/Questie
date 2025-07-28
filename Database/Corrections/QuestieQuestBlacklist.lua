@@ -5941,6 +5941,8 @@ function QuestieQuestBlacklist:Load()
         [31213] = true, -- Not in the game
         [31214] = true, -- Not in the game
         [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [31387] = true, -- Not in the game
+        [31389] = true, -- Not in the game
         [31396] = true, -- Not in the game
         [31397] = true, -- Not in the game
         [31399] = true, -- Not in the game
