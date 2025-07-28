@@ -2718,6 +2718,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Use the crane egg and fish in the yolk"),0,{{"object",211169}}}},
         },
         [30599] = { -- A Monkey Idol
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30602,30603},
             [questKeys.objectives] = {nil,{{210931},{211275},{211276}}},
             [questKeys.requiredSourceItems] = {80428,80429,80430},
