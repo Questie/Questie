@@ -2990,81 +2990,83 @@ function MopQuestFixes.Load()
         },
         [30725] = { -- Ellia Ravenmane
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30726] = { -- Minh Do-Tan
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30727] = { -- Ellia Ravenmane: Rematch
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30728] = { -- Fat Long-Fat
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30729] = { -- Julia Bates
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30730] = { -- Dextrous Izissha
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30731] = { -- Kuo-Na Quillpaw
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30732] = { -- Ellia Ravenmane: Revenge
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30733] = { -- Tukka-Tuk
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30734,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30734] = { -- Huck Wheelbarrow
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30735,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30735] = { -- Mindel Sunspeaker
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30736,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30736] = { -- Yan Quillpaw
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30737,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30737] = { -- Fat Long-Fat: Rematch
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30738,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30738] = { -- Thelonius
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30739},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30739] = { -- Ellia Ravenmane: Redemption
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30740] = { -- Champion of Chi-Ji
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30742] = { -- Shut it Down
             [questKeys.exclusiveTo] = {30823},
@@ -4260,35 +4262,35 @@ function MopQuestFixes.Load()
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511,31512,31782},
-            [questKeys.exclusiveTo] = {31378,31380,31382},
+            [questKeys.exclusiveTo] = {31378,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511,31512,31782},
-            [questKeys.exclusiveTo] = {31379,31381,31383},
+            [questKeys.exclusiveTo] = {31379,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31376,31380,31382},
+            [questKeys.exclusiveTo] = {31376,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31379] = { -- Challenge At The Temple of the Red Crane
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31377,31381,31383},
+            [questKeys.exclusiveTo] = {31377,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31376,31378,31382},
+            [questKeys.exclusiveTo] = {31376,31378,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31377,31379,31383},
+            [questKeys.exclusiveTo] = {31377,31379,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31382] = { -- Defense At Niuzao Temple
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31376,31378,31380},
+            [questKeys.exclusiveTo] = {31376,31378,31380,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.exclusiveTo] = {31377,31379,31381},
+            [questKeys.exclusiveTo] = {31377,31379,31381,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31386] = { -- The Shado-Pan Offensive
             [questKeys.exclusiveTo] = {31388,30768,31695},
