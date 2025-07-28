@@ -839,6 +839,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.69,29.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59973] = { -- Stone Guardian
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.55,26.63},{25.12,26.37},{23.77,27.37},{22.70,26.97},{22.28,27.26},{20.97,30.17},{21.71,30.58},{21.75,28.90},{22.69,29.77},{22.64,30.60},{23.55,29.50},{23.23,30.99},{24.01,31.82},{25.61,31.46},{25.60,30.70},{26.80,30.49}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [60011] = { -- Kill Credit: Barring Entry
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{27.5,15.15}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
