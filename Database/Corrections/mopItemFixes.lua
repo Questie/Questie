@@ -285,6 +285,9 @@ function MopItemFixes.Load()
         [79828] = { -- Yak Statuette
             [itemKeys.npcDrops] = {59124},
         },
+        [79833] = { -- Shadelight Truffle
+            [itemKeys.objectDrops] = {210810,210811,210812},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
@@ -439,6 +442,9 @@ function MopItemFixes.Load()
         },
         [81054] = { -- Kafa'kota Berry
             [itemKeys.objectDrops] = {211454,211480},
+        },
+        [81116] = { -- Suncrawler
+            [itemKeys.objectDrops] = {211474},
         },
         [81174] = { -- Dark Pitch
             [itemKeys.objectDrops] = {211506,211507},

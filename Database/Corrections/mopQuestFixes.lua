@@ -1735,22 +1735,32 @@ function MopQuestFixes.Load()
         },
         [30063] = { -- Behind the Masks
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30064] = { -- Saving the Sutras
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30065},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30065] = { -- Arrows of Fortune
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30064},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30066] = { -- Hidden Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{57316,57326,57400},57316,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30067] = { -- The Shadow of Doubt
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30068},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30068] = { -- Flames of the Void
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30067},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
@@ -2057,6 +2067,9 @@ function MopQuestFixes.Load()
         [30243] = { -- Mantid Under Fire
             [questKeys.preQuestSingle] = {30640},
         },
+        [30248] = { -- The Butcher
+            [questKeys.objectives] = {{{58949}}},
+        },
         [30252] = { -- A Helping Hand
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.breadcrumbs] = {31372,31374},
@@ -2116,18 +2129,27 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30288] = { -- My Town, It's On Fire Again
+            [questKeys.requiredSourceItems] = {85950},
+            [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
+        },
+        [30297] = { -- Baolai the Immolator
+            [questKeys.objectives] = {{{63695}}},
         },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
         },
         [30307] = { -- The Eternal Vigil
             [questKeys.startedBy] = {{58408}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30308] = { -- Stone Hard Quilen
             [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30310] = { -- Thundering Skies
             [questKeys.startedBy] = {{58465}},
@@ -2136,6 +2158,7 @@ function MopQuestFixes.Load()
         [30312] = { -- Given a Second Chance
             [questKeys.startedBy] = {{58468}},
             [questKeys.objectives] = {{{59183,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
@@ -2955,48 +2978,78 @@ function MopQuestFixes.Load()
         },
         [30725] = { -- Ellia Ravenmane
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30726] = { -- Minh Do-Tan
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30727] = { -- Ellia Ravenmane: Rematch
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30728] = { -- Fat Long-Fat
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30729] = { -- Julia Bates
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30730] = { -- Dextrous Izissha
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30731,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30731] = { -- Kuo-Na Quillpaw
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30732,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30732] = { -- Ellia Ravenmane: Revenge
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30733,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30733] = { -- Tukka-Tuk
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30734,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30734] = { -- Huck Wheelbarrow
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30735,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30735] = { -- Mindel Sunspeaker
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30736,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30736] = { -- Yan Quillpaw
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30737,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30737] = { -- Fat Long-Fat: Rematch
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30738,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30738] = { -- Thelonius
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30739},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30739] = { -- Ellia Ravenmane: Redemption
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30740] = { -- Champion of Chi-Ji
             [questKeys.preQuestSingle] = {31511,31512},
@@ -4803,6 +4856,7 @@ function MopQuestFixes.Load()
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [31762] = { -- Crumbling Behemoth
             [questKeys.startedBy] = {{58465}},
