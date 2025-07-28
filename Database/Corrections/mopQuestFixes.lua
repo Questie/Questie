@@ -2976,6 +2976,7 @@ function MopQuestFixes.Load()
         },
         [30716] = { -- Chasing Hope
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.objectives] = {{{60487,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30717] = { -- Gifts of the Great Crane
             [questKeys.preQuestSingle] = {31511,31512},
