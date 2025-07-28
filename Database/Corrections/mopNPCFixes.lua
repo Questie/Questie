@@ -1963,6 +1963,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.47,80.05}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [245163] = { -- Baolai the Immolator
+            [npcKeys.name] = "Baolai the Immolator",
+            [npcKeys.subName] = "Shao-Tien Imperion",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.48,81.47}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
 
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100002] = { -- A Personal Summons - Stormwind
