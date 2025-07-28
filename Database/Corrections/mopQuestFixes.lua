@@ -2151,6 +2151,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
         },
+        [30309] = { -- Set in Stone
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
+        },
         [30310] = { -- Thundering Skies
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
@@ -4199,7 +4203,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1280,25200}, -- Tina at Friend level or above (25200+)
         },
         [31338] = { -- Lost Sheepie
-            [questKeys.requiredMinRep] = {1277,8400}, -- Aquaintance level with Chee Chee
+            [questKeys.requiredMinRep] = {1277,16800}, -- Buddy level with Chee Chee
         },
         [31339] = { -- Lost Sheepie... Again
             [questKeys.requiredMinRep] = {1277,25200}, -- Friend level with Chee Chee
