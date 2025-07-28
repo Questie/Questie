@@ -2067,6 +2067,9 @@ function MopQuestFixes.Load()
         [30243] = { -- Mantid Under Fire
             [questKeys.preQuestSingle] = {30640},
         },
+        [30248] = { -- The Butcher
+            [questKeys.objectives] = {{{58949}}},
+        }
         [30252] = { -- A Helping Hand
             [questKeys.objectives] = {{{58719,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.breadcrumbs] = {31372,31374},
