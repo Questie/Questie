@@ -4866,14 +4866,17 @@ function MopQuestFixes.Load()
         [31757] = { -- Unleashed Spirits
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31760,31762},
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31757,31762},
         },
         [31762] = { -- Crumbling Behemoth
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31757,31760},
         },
         [31765] = { -- Paint it Red!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
