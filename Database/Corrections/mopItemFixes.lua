@@ -514,6 +514,9 @@ function MopItemFixes.Load()
         [82799] = { -- Yaungol Oil Barrel
             [itemKeys.objectDrops] = {212003},
         },
+        [82808] = { -- Call of the Lorewalkers
+            [itemKeys.startQuest] = 31016,
+        },
         [82864] = { -- Living Amber
             [itemKeys.objectDrops] = {212009,212012},
         },
