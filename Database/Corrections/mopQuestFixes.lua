@@ -3571,10 +3571,11 @@ function MopQuestFixes.Load()
         },
         [31015] = { -- Your Private Collection
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {31016},
+            [questKeys.breadcrumbs] = {31016,31367,31368},
         },
-        [31016] = { -- Your Private Collection
+        [31016] = { -- The Lorewalkers
             [questKeys.breadcrumbForQuestId] = 31015,
+            [questKeys.exclusiveTo] = {31367,31368},
         },
         [31018] = { -- Beneath the Heart of Fear
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
@@ -4216,9 +4217,13 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
         [31367] = { -- The Lorewalkers
+            [questKeys.breadcrumbForQuestId] = 31015,
+            [questKeys.exclusiveTo] = {31016,31368},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31368] = { -- The Lorewalkers
+            [questKeys.breadcrumbForQuestId] = 31015,
+            [questKeys.exclusiveTo] = {31016,31367},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31372] = { -- The Tillers
