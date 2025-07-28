@@ -2152,7 +2152,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245163}}},
-            [questKeys.preQuestGroup] = {30285,30288,30289,31293}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.preQuestGroup] = {30285,30288,30289,31293},
         },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
