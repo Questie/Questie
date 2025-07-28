@@ -2176,6 +2176,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {30312,31755},
+            [questKeys.objectives] = {{{59231,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30321] = { -- Weed War II
             [questKeys.requiredMinRep] = {1272,9000},
