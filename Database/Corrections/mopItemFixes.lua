@@ -327,6 +327,12 @@ function MopItemFixes.Load()
         [80122] = { -- Spideroot
             [itemKeys.objectDrops] = {210945,211117},
         },
+        [80133] = { -- Preserved Vegetables
+            [itemKeys.objectDrops] = {210956,210957},
+        },
+        [80134] = { -- Uncut Chrysoberyl
+            [itemKeys.objectDrops] = {210958,210959,210960},
+        },
         [80213] = { -- Spicemaster Jin Jao\'s Payment
             [itemKeys.npcDrops] = {59581},
         },

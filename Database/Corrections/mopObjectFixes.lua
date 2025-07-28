@@ -154,6 +154,31 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.2,84.09}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [210956] = { -- Preserved Vegetables
+            [objectKeys.name] = 'Preserved Vegetables',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.3,17.1},{43.8,22.7},{44.1,20.4},{44.9,18.7},{46.1,21.6},{46.7,21.7},{47.7,18.8},{48.3,19.6}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210957] = { -- Preserved Vegetables
+            [objectKeys.name] = 'Preserved Vegetables',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.2,19.9},{44.9,18.7},{44.9,19.8},{46.1,21.5},{46.2,21.4},{46.7,20.7},{47.2,20.4},{47.5,19},{48.5,18.2}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210958] = { -- Chrysoberyl Outcropping
+            [objectKeys.name] = 'Chrysoberyl Outcropping',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.7,20},{44,22.7},{47.3,21}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210959] = { -- Chrysoberyl Outcropping
+            [objectKeys.name] = 'Chrysoberyl Outcropping',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.2,18.9},{44.5,20.8}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210960] = { -- Chrysoberyl Outcropping
+            [objectKeys.name] = 'Chrysoberyl Outcropping',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.9,16.6},{45,18.9},{45.2,19.5},{48.9,19.2}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [210964] = { -- Pei-Wu Forest Gate
             [objectKeys.name] = 'Pei-Wu Forest Gate',
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{52.26,68.52}}},
