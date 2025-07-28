@@ -4860,6 +4860,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {30312,30320},
+            [questKeys.objectives] = {{{65817,65818,65804},65804,nil,Questie.ICON_TYPE_INTERACT}},
         },
         [31757] = { -- Unleashed Spirits
             [questKeys.startedBy] = {{58465}},
