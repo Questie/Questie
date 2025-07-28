@@ -225,6 +225,10 @@ function MopItemFixes.Load()
         [79059] = { -- Intact Tortoise Shell
             [itemKeys.npcDrops] = {58431},
         },
+        [79067] = { -- Stolen Egg
+            [itemKeys.npcDrops] = {63532},
+            [itemKeys.objectDrops] = {210238,210239,210240},
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
