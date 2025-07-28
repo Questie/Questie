@@ -396,6 +396,9 @@ function MopItemFixes.Load()
         [80430] = { -- Corpse of Tak Tak
             [itemKeys.npcDrops] = {59958},
         },
+        [80437] = { -- Armored Carp
+            [itemKeys.npcDrops] = {59936},
+        },
         [80511] = { -- Revelite Crystal
             [itemKeys.objectDrops] = {211306},
         },
