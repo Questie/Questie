@@ -245,6 +245,8 @@ _AutoQuesting.disallowedQuests = {
         [29283] = true, -- Calling the Ancients (Molten Front)
 
         -- Valley of the Four Winds (friend turn-in quests)
+        [30160] = true, -- A Ruby Shard for Ella
+        [30189] = true, -- A Lovely Apple for Ella
         [30379] = true, -- A Ruby Shard for Gina
         [30380] = true, -- A Lovely Apple for Gina
         [30381] = true, -- A Jade Cat for Ella
@@ -279,7 +281,7 @@ _AutoQuesting.disallowedQuests = {
         [30412] = true, -- A Blue Feather for Haohan
         [30413] = true, -- A Marsh Lily for Haohan
         [30414] = true, -- A Dish for Haohan
-        [30415] = true, -- A Ruby Shard for Chee Chee
+        [30415] = true, -- A Ruby Shard for Chee Chee -- duplicate of 30397 but keep it just in case
         [30416] = true, -- A Ruby Shard for Farmer Fung
         [30417] = true, -- A Lovely Apple for Farmer Fung
         [30418] = true, -- A Jade Cat for Farmer Fung
@@ -304,6 +306,7 @@ _AutoQuesting.disallowedQuests = {
         [30437] = true, -- A Blue Feather for Jogu
         [30438] = true, -- A Marsh Lily for Jogu
         [30439] = true, -- A Dish for Jogu
+
         [32016] = true, -- Elder Charms of Good Fortune
         [32017] = true, -- Elder Charms of Good Fortune
 

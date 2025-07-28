@@ -6396,6 +6396,7 @@ function QuestieQuestBlacklist:Load()
         [12445] = true, -- Not in the game
         [12731] = true, -- Not in the game
         [13541] = true, -- Not in the game
+        [30415] = true, -- A Ruby Shard for Chee Chee (duplicate of 30397) - wowhead even lists this as "Tracking Quest - Successful"
         [31533] = true, -- The Perfect Feather (not in the game)
         [31887] = true, -- Pet Battle Trainers: Kalimdor
         [31888] = true, -- Pet Battle Trainers: Kalimdor
