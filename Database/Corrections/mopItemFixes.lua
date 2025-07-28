@@ -291,6 +291,9 @@ function MopItemFixes.Load()
         [79870] = { -- Yu-Ping Soup
             [itemKeys.objectDrops] = {210873},
         },
+        [79871] = { -- Spicy Shrimp Dumplings
+            [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
+        },
         [79875] = { -- Song of the Vale
             [itemKeys.objectDrops] = {209582},
         },

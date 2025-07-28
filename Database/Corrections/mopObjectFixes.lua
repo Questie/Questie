@@ -146,11 +146,8 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210931] = { -- Dak Dak's Altar
-            [objectKeys.spawns] = {
-                [zoneIDs.KUN_LAI_SUMMIT] = {{49.56,39.54}},
-                [zoneIDs.THE_DEEPER] = {{49.56,39.54}},
-            },
-            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+            [objectKeys.spawns] = {[zoneIDs.THE_DEEPER] = {{49.56,39.54}}},
+            [objectKeys.zoneID] = zoneIDs.THE_DEEPER,
         },
         [210933] = { -- Yaungol Banner
             [objectKeys.name] = 'Yaungol Banner',
