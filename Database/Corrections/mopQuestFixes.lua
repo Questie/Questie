@@ -2120,6 +2120,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
         },
+        [30297] = { -- Baolai the Immolator
+            [questKeys.objectives] = {{{63695}}},
+        },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
         },
