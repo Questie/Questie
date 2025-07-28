@@ -558,5 +558,8 @@ function MopObjectFixes.Load()
         [440005] = {
             [objectKeys.name] = "Elder Charm of Good Fortune",
         },
+        [440006] = {
+            [objectKeys.name] = "Mogu Archaeology Fragment",
+        },
     }
 end

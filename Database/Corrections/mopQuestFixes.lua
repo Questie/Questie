@@ -4132,6 +4132,7 @@ function MopQuestFixes.Load()
         },
         [31288] = { -- Research Project: The Mogu Dynasties
             [questKeys.exclusiveTo] = {31289},
+            [questKeys.objectives] = {nil,{{440006}}},
         },
         [31289] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
