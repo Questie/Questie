@@ -633,6 +633,9 @@ function MopItemFixes.Load()
         [85998] = { -- Thresher Jaw
             [itemKeys.npcDrops] = {63944},
         },
+        [86099] = { -- Wu Kao Scouting Report
+            [itemKeys.objectDrops] = {213640},
+        },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
         },
