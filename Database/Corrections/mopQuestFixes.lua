@@ -2159,6 +2159,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.objectives] = {{{59183,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30320,31755},
         },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
@@ -2174,6 +2175,7 @@ function MopQuestFixes.Load()
         [30320] = { -- Free Spirits
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30312,31755},
         },
         [30321] = { -- Weed War II
             [questKeys.requiredMinRep] = {1272,9000},
@@ -4852,6 +4854,15 @@ function MopQuestFixes.Load()
         [31754] = { -- Cannonfire
             [questKeys.startedBy] = {{58471}},
             [questKeys.objectives] = {{{65762,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30638},
+        },
+        [31755] = { -- Acts of Cruelty
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30312,30320},
+        },
+        [31757] = { -- Unleashed Spirits
+            [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
         },
         [31760] = { -- Striking First
