@@ -31,16 +31,16 @@ function MopItemFixes.Load()
         [74033] = { -- Ancient Hozen Skull
             [itemKeys.objectDrops] = {209595},
         },
-        [74160] = { -- Zin\'Jun\'s Rifle
+        [74160] = { -- Zin'Jun's Rifle
             [itemKeys.npcDrops] = {55470,66917},
         },
-        [74161] = { -- Zin\'Jun\'s Left Eye
+        [74161] = { -- Zin'Jun's Left Eye
             [itemKeys.npcDrops] = {55470,66917},
         },
-        [74162] = { -- Zin\'Jun\'s Right Eye
+        [74162] = { -- Zin'Jun's Right Eye
             [itemKeys.npcDrops] = {55470,66917},
         },
-        [74163] = { -- Snuff\'s Corpse
+        [74163] = { -- Snuff's Corpse
             [itemKeys.npcDrops] = {55470,66917},
         },
         [74258] = { -- Staff of Pei-Zhi
@@ -324,6 +324,9 @@ function MopItemFixes.Load()
         [80074] = { -- Celestial Jade
             [itemKeys.objectDrops] = {210921},
         },
+        [80116] = { -- Partially Chewed Carrot
+            [itemKeys.objectDrops] = {210938,210942},
+        },
         [80122] = { -- Spideroot
             [itemKeys.objectDrops] = {210945,211117},
         },
@@ -333,17 +336,20 @@ function MopItemFixes.Load()
         [80134] = { -- Uncut Chrysoberyl
             [itemKeys.objectDrops] = {210958,210959,210960},
         },
-        [80213] = { -- Spicemaster Jin Jao\'s Payment
+        [80213] = { -- Spicemaster Jin Jao's Payment
             [itemKeys.npcDrops] = {59581},
         },
-        [80214] = { -- Trader Jambeezi\'s Payment
+        [80214] = { -- Trader Jambeezi's Payment
             [itemKeys.npcDrops] = {59583},
         },
-        [80215] = { -- Innkeeper Lei Lan\'s Payment
+        [80215] = { -- Innkeeper Lei Lan's Payment
             [itemKeys.npcDrops] = {59582},
         },
-        [80216] = { -- Lolo Lio\'s Payment
+        [80216] = { -- Lolo Lio's Payment
             [itemKeys.npcDrops] = {59585},
+        },
+        [80223] = { -- Old Hillpaw's Prize Chicken
+            [itemKeys.npcDrops] = {58918},
         },
         [80227] = { -- Root Vegetable
             [itemKeys.objectDrops] = {211017,211018,211019},
@@ -390,7 +396,7 @@ function MopItemFixes.Load()
         [80315] = { -- Stolen Supplies
             [itemKeys.objectDrops] = {211266,211268,211269,211270},
         },
-        [80316] = { -- Lucky Virmen\'s Foot
+        [80316] = { -- Lucky Virmen's Foot
             [itemKeys.npcDrops] = {59693,59967},
         },
         [80317] = { -- Lucky Yak Shoe
@@ -517,7 +523,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {61302,61811},
             [itemKeys.objectDrops] = {211871,211872,211873},
         },
-        [82764] = { -- Bottom Fragment of Lei Shen\'s Tablet
+        [82764] = { -- Bottom Fragment of Lei Shen's Tablet
             [itemKeys.objectDrops] = {211967},
         },
         [82799] = { -- Yaungol Oil Barrel

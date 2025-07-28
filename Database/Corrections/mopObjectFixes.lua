@@ -154,6 +154,14 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.2,84.09}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [210938] = { -- Partially Chewed Carrot
+            [objectKeys.name] = 'Partially Chewed Carrot',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{41.3,40},{41.5,38.4},{41.8,35.3},{42,40},{42.7,39.2},{43.6,37.5},{43.9,35.1},{44.2,40.1},{44.5,42.6},{44.6,40}}}, -- wowhead coords, might be more
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210942] = { -- Partially Chewed Carrot
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{41.6,39.2},{42.8,36.3},{43.4,38.5},{43.6,37.4},{43.6,41.4},{44.5,38.2},{44.7,42.2}}}, -- wowhead coords, might be more
+        },
         [210956] = { -- Preserved Vegetables
             [objectKeys.name] = 'Preserved Vegetables',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.3,17.1},{43.8,22.7},{44.1,20.4},{44.9,18.7},{46.1,21.6},{46.7,21.7},{47.7,18.8},{48.3,19.6}}}, -- wowhead coords, might be more
