@@ -4700,6 +4700,7 @@ function MopQuestFixes.Load()
         },
         [31681] = { -- Better With Age
             [questKeys.exclusiveTo] = {31090},
+            [questKeys.preQuestSingle] = {31087},
         },
         [31682] = { -- By the Sea, Nevermore
             [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
