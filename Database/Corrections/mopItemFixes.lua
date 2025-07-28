@@ -668,7 +668,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {63981},
         },
         [86542] = { -- Flying Tiger Gourami
-            [itemKeys.startQuest] = 31442,
+            [itemKeys.startQuest] = 31443,
         },
         [86544] = { -- Spinefish Alpha
             [itemKeys.startQuest] = 31444,
