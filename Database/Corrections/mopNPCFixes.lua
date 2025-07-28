@@ -1439,6 +1439,10 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64200] = { -- Golden Lotus Guard
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.49,72.28}}}, -- TO DO: add the rest of the spawns
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [64259] = { -- Master Angler Ju Lien
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {53.64,76.04,phases.JU_LIEN_AT_COAST},
