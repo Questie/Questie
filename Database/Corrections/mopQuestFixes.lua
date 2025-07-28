@@ -1735,26 +1735,32 @@ function MopQuestFixes.Load()
         },
         [30063] = { -- Behind the Masks
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30064] = { -- Saving the Sutras
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {30065},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30065] = { -- Arrows of Fortune
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {30064},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30066] = { -- Hidden Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{57316,57326,57400},57316,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30067] = { -- The Shadow of Doubt
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {30068},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30068] = { -- Flames of the Void
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {30067},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30069] = { -- No Plan Survives Contact with the Enemy
             [questKeys.preQuestSingle] = {31733},
