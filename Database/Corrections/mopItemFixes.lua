@@ -437,6 +437,9 @@ function MopItemFixes.Load()
         [81054] = { -- Kafa'kota Berry
             [itemKeys.objectDrops] = {211454,211480},
         },
+        [81116] = { -- Suncrawler
+            [itemKeys.objectDrops] = {211474},
+        },
         [81174] = { -- Dark Pitch
             [itemKeys.objectDrops] = {211506,211507},
         },
