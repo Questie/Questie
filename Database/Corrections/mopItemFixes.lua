@@ -630,6 +630,15 @@ function MopItemFixes.Load()
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
         },
+        [86542] = { -- Flying Tiger Gourami
+            [itemKeys.startQuest] = 31442,
+        },
+        [86544] = { -- Spinefish Alpha
+            [itemKeys.startQuest] = 31444,
+        },
+        [86545] = { -- Mimic Octopus
+            [itemKeys.startQuest] = 31446,
+        },
         [86598] = { -- Vor'thik Eggs
             [itemKeys.objectDrops] = {214170},
         },
