@@ -2149,7 +2149,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31131},
         },
         [30297] = { -- Baolai the Immolator
+            [questKeys.startedBy] = {{63939}},
+            [questKeys.finishedBy] = {{63939}},
             [questKeys.objectives] = {{{245163}}},
+            [questKeys.preQuestGroup] = {30285,30288,30289,31293}, -- might not be all, my turn in order was 30268, 30694, 30270
         },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
