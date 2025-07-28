@@ -2116,6 +2116,9 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30288] = { -- My Town, It's On Fire Again
+            [questKeys.requiredSourceItems] = {85950},
+        },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
@@ -2128,9 +2131,11 @@ function MopQuestFixes.Load()
         },
         [30307] = { -- The Eternal Vigil
             [questKeys.startedBy] = {{58408}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30308] = { -- Stone Hard Quilen
             [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30310] = { -- Thundering Skies
             [questKeys.startedBy] = {{58465}},
@@ -2139,6 +2144,7 @@ function MopQuestFixes.Load()
         [30312] = { -- Given a Second Chance
             [questKeys.startedBy] = {{58468}},
             [questKeys.objectives] = {{{59183,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
@@ -4806,6 +4812,7 @@ function MopQuestFixes.Load()
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
         },
         [31762] = { -- Crumbling Behemoth
             [questKeys.startedBy] = {{58465}},
