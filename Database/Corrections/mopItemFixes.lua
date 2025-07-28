@@ -437,6 +437,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [80832] = { -- Viseclaw Fisher Eye
+            [itemKeys.npcDrops] = {58880,58881,61090},
+        },
         [80907] = { -- Opalescent Blue Crab Shell
             [itemKeys.npcDrops] = {60437,63722},
         },
