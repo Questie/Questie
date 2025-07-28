@@ -2129,16 +2129,27 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30285] = { -- Wu Kao Scouting Reports
+            [questKeys.startedBy] = {{59337}},
+            [questKeys.preQuestSingle] = {31243},
+        },
         [30288] = { -- My Town, It's On Fire Again
+            [questKeys.startedBy] = {{59336}},
+            [questKeys.preQuestSingle] = {31243},
             [questKeys.requiredSourceItems] = {85950},
             [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30289] = { -- Freeing Mind and Body
+            [questKeys.startedBy] = {{59337}},
+            [questKeys.preQuestSingle] = {31243},
+            [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
         },
         [30297] = { -- Baolai the Immolator
-            [questKeys.objectives] = {{{63695}}},
+            [questKeys.objectives] = {{{245163}}},
         },
         [30306] = { -- The Battle Ring
             [questKeys.preQuestSingle] = {30640},
@@ -3783,7 +3794,7 @@ function MopQuestFixes.Load()
         },
         [31131] = { -- Whitepetal Lake
             [questKeys.startedBy] = {{58408}},
-            [questKeys.exclusiveTo] = {31242},
+            [questKeys.exclusiveTo] = {31242,31243},
         },
         [31132] = { -- A Mile in My Shoes
             [questKeys.finishedBy] = {{63217}},
@@ -4046,7 +4057,11 @@ function MopQuestFixes.Load()
         },
         [31242] = { -- Mistfall Village
             [questKeys.startedBy] = {{58408}},
-            [questKeys.exclusiveTo] = {31131},
+            [questKeys.exclusiveTo] = {31131,31243},
+        },
+        [31243] = { --Attack on Mistfall Village
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.exclusiveTo] = {31131,31242},
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
@@ -4114,6 +4129,10 @@ function MopQuestFixes.Load()
         },
         [31289] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
+        },
+        [31293] = { -- Mogu Make Poor House Guests
+            [questKeys.startedBy] = {{58911}},
+            [questKeys.preQuestSingle] = {31243},
         },
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
