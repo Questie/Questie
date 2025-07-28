@@ -1140,7 +1140,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SKYFIRE_JADE_FOREST then
-        return complete[29548] or (questLog[29548] and questLog[29548].isComplete == 1) or false
+        return (complete[29548] or (questLog[29548] and questLog[29548].isComplete == 1)) and not complete[30070] or false
     end
 
     if phase == phases.RELL_ON_BARRELS then
@@ -1152,7 +1152,19 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.RELL_ON_DOCKS_2 then
-        return complete[31735] or false
+        return (complete[31735] and (not (complete[31736] and complete[31737]))) or false
+    end
+
+    if phase == phases.RELL_PAWDON_VILLAGE then
+        return complete[31736] and complete[31737] and not complete[30070] and (not questLog[30070] or (questLog[30070] and questLog[30070].isComplete == 0)) or false
+    end
+
+    if phase == phases.RELL_TWINSPIRE_KEEP then
+        return complete[30070] or (questLog[30070] and questLog[30070].isComplete == 1) or false
+    end
+
+    if phase == phases.ADMIRAL_ROGERS_PAWDON_VILLAGE then
+        return complete[30070] or false
     end
 
     if phase == phases.SASHA_AT_DUSKHOWL_DEN then
@@ -1425,6 +1437,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME then
         return (not complete[30612]) and (not questLog[30612]) and (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) or false
+    end
+
+    if phase == phases.SULLY_BELOW_SKYFIRE then
+        return (not complete[31735]) or false
+    end
+
+    if phase == phases.SULLY_TWINSPIRE_KEEP then
+        return complete[31735] or false
     end
 
     return false

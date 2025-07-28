@@ -4857,23 +4857,24 @@ function MopQuestFixes.Load()
         [31738] = { -- Pillaging Peons
             [questKeys.preQuestGroup] = {31736,31737},
         },
-        [31739] = { -- The Cost of War
-            [questKeys.preQuestSingle] = {31737},
+        [31739] = { -- Priorities!
+            [questKeys.preQuestGroup] = {31736,31737},
             [questKeys.objectives] = {nil,{{215133}}},
         },
         [31741] = { -- Twinspire Keep
-            [questKeys.preQuestGroup] = {31738,31740},
+            [questKeys.preQuestGroup] = {29552,31738,31740},
         },
         [31742] = { -- Fractured Forces
-            [questKeys.preQuestGroup] = {31738,31740},
+            [questKeys.preQuestGroup] = {29552,31738,31740},
         },
         [31743] = { -- Smoke Before Fire
-            [questKeys.preQuestGroup] = {31738,31740},
+            [questKeys.preQuestGroup] = {29552,31738,31740},
             [questKeys.objectives] = {nil,{{215275,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{66279},66279,nil,Questie.ICON_TYPE_EVENT},{{66277},66277,nil,Questie.ICON_TYPE_EVENT},{{66278},66278,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31744] = { -- Unfair Trade
-            [questKeys.preQuestGroup] = {31738,31740},
+            [questKeys.preQuestGroup] = {29552,31738,31740},
             [questKeys.objectives] = {{{66366,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the eyes"),0,{{"monster",66367}}}},
         },
         [31745] = { -- Onward and Inward
             [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},

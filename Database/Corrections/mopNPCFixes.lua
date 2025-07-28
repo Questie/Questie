@@ -300,6 +300,9 @@ function MopNpcFixes.Load()
         [54567] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{55.1,32.55}}},
         },
+        [54614] = { -- Mishka
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.13,84.57}}},
+        },
         [54616] = { -- Sully "The Pickle" McLeary
             [npcKeys.spawns] = {
                 [zoneIDs.THE_JADE_FOREST] = {
@@ -315,7 +318,7 @@ function MopNpcFixes.Load()
                     {46.47,96.3,phases.RELL_ON_DOCKS},
                     {46.47,96.41,phases.RELL_ON_DOCKS_2},
                     {46.2,84.81,phases.RELL_PAWDON_VILLAGE},
-                    {45.17,94.98,phases.RELL_TWINSPIRE_KEEP},
+                    {41.46,79.15,phases.RELL_TWINSPIRE_KEEP},
                 },
             },
         },
@@ -1475,13 +1478,8 @@ function MopNpcFixes.Load()
             },
         },
         [64596] = { -- Teng Applebloom
-            [npcKeys.spawns] = {
-                [zoneIDs.THE_JADE_FOREST] = {
-                    {46.22,84.68,phases.TENG_VILLAGE},
-                    --{46.47,96.3,phases.RELL_ON_DOCKS},
-                    --{46.47,96.41,phases.RELL_ON_DOCKS_2},
-                },
-            },
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.22,84.68}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {
@@ -1548,6 +1546,9 @@ function MopNpcFixes.Load()
         [65899] = { -- Master Kistane
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [65910] = { -- Sunke Khang
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.25,84.72}}},
+        },
         [65935] = { -- Unleashed Spirit
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.6,91.2}}},
         },
@@ -1577,6 +1578,9 @@ function MopNpcFixes.Load()
                     {48.05,88.39,phases.ADMIRAL_ROGERS_PAWDON_VILLAGE},
                 },
             },
+        },
+        [66296] = { -- Taran Zhu
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.25,84.8}}},
         },
         [66297] = { -- Skyfire Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.02,92.51}}},
@@ -1610,8 +1614,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.93,10.63}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [66574] = { -- Mishka
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.13,84.57}}},
+        },
         [66581] = { -- Rell Nightwind
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.17,94.98}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.46,79.15}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84,28.6}}},
