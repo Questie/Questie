@@ -2118,6 +2118,7 @@ function MopQuestFixes.Load()
         },
         [30288] = { -- My Town, It's On Fire Again
             [questKeys.requiredSourceItems] = {85950},
+            [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
