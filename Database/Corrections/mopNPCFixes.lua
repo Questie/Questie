@@ -1948,6 +1948,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.47,80.05}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [246246] = { -- Shadowmaster Sydow
+            [npcKeys.name] = "Shadowmaster Sydow",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.84,48.08}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
 
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100002] = { -- A Personal Summons - Stormwind
