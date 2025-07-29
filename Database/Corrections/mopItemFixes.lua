@@ -709,6 +709,9 @@ function MopItemFixes.Load()
         [87874] = { -- Kyparite Shards
             [itemKeys.npcDrops] = {65231},
         },
+        [87878] = { -- Enormous Kunchong Mandibles
+            [itemKeys.startQuest] = 31599,
+        },
         [88538] = { -- Sha-Haunted Crystal
             [itemKeys.startQuest] = 31661,
         },
