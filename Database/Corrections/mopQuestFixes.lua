@@ -2137,6 +2137,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
         },
+        [30292] = { -- Rude Awakenings
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{63130,63082},63082}}},
+        },
         [30297] = { -- Baolai the Immolator
             [questKeys.objectives] = {{{63695}}},
         },
