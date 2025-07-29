@@ -434,6 +434,9 @@ function MopItemFixes.Load()
             [itemKeys.vendors] = {58718},
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [80600] = { -- Stinger
+            [itemKeys.npcDrops] = {60278},
+        },
         [80677] = { -- Emerald Tailfeather
             [itemKeys.npcDrops] = {60200},
         },
