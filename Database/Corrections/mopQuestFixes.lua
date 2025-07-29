@@ -1932,7 +1932,7 @@ function MopQuestFixes.Load()
         },
         [30156] = { -- The Easiest Way To A Serpent's Heart
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
-
+            [questKeys.requiredSourceItems] = {70927,70928},
         },
         [30157] = { -- Emptier Nests
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
