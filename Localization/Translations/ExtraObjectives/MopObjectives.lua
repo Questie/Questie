@@ -434,18 +434,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Bring the yak to the wash"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Bringe das Yak in die Reinigung",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Use the rope"] = {
         ["enUS"] = true,
         ["deDE"] = "Nutze das Seil",

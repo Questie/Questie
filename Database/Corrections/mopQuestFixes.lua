@@ -2664,10 +2664,8 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31456,31457},
         },
         [30491] = { -- At the Yak Wash
-            [questKeys.extraObjectives] = {
-                {{[zoneIDs.KUN_LAI_SUMMIT] = {{71.4,69.27}}}, Questie.ICON_TYPE_EVENT, l10n("Bring the yak to the wash")},
-                {nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59319},{"monster",59662},{"monster",61874}}}
-            },
+            [questKeys.triggerEnd] = {"Escaped Yak Washed", {[zoneIDs.KUN_LAI_SUMMIT] = {{71.4,69.27}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59319},{"monster",59662},{"monster",61874}}}},
         },
         [30492] = { -- Back in Yak
             [questKeys.preQuestSingle] = {},
