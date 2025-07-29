@@ -561,5 +561,8 @@ function MopObjectFixes.Load()
         [440006] = {
             [objectKeys.name] = "Mogu Archaeology Fragment",
         },
+        [440007] = {
+            [objectKeys.name] = "Pandaren Archaeology Fragment",
+        },
     }
 end

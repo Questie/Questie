@@ -609,6 +609,9 @@ function MopItemFixes.Load()
         [84241] = { -- Whitepetal Reed
             [itemKeys.objectDrops] = {212744},
         },
+        [84646] = { -- Ruby Eye
+            [itemKeys.objectDrops] = {212759,212760,212761},
+        },
         [84656] = { -- Stunned Whitepetal Carp
             [itemKeys.npcDrops] = {62984},
         },

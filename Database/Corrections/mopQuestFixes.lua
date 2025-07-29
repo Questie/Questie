@@ -2027,12 +2027,14 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{59343}},
             [questKeys.objectives] = {{{58768}}},
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
+            [questKeys.exclusiveTo] = {30234},
         },
         [30234] = { -- Vicejaw
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{59343}},
             [questKeys.objectives] = {{{58769}}},
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
+            [questKeys.exclusiveTo] = {30233},
         },
         [30235] = { -- Quid Pro Quo
             [questKeys.startedBy] = {{59338}},
@@ -2041,7 +2043,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30193,30194,30195,30231},
         },
         [30236] = { -- Aetha
-            [questKeys.startedBy] = {{59338}}, -- based on wowhead, need to confirm
+            -- [questKeys.startedBy] = {{59338}}, -- based on wowhead, need to confirm -- hiding until we can test
             [questKeys.finishedBy] = {{59338}}, -- based on wowhead, need to confirm
             [questKeys.objectives] = {{{58778}}},
             --[questKeys.preQuestGroup] = need to confirm
@@ -2103,6 +2105,11 @@ function MopQuestFixes.Load()
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestSingle] = {30640},
         },
+        [30265] = { -- Sparkle in the Eye
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30291,30338},
+        },
         [30266] = { -- Bloodied Skies
             [questKeys.preQuestSingle] = {30640},
         },
@@ -2152,6 +2159,11 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31131,31242,31243},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63087,63088,63089,63090},63087,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30284] = { -- A Thousand Pointy Teeth
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30342},
+        },
         [30285] = { -- Wu Kao Scouting Reports
             [questKeys.startedBy] = {{59337}},
             [questKeys.preQuestSingle] = {31243},
@@ -2170,6 +2182,7 @@ function MopQuestFixes.Load()
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30265,30338},
         },
         [30292] = { -- Rude Awakenings
             [questKeys.startedBy] = {{58471}},
@@ -2216,9 +2229,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {30320,31755},
         },
+        [30313] = { -- The Moving Mists
+            [questKeys.startedBy] = {{59342}},
+            [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30314,30341},
+        },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
             [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30313,30341},
         },
         [30317] = { -- Water, Water Everywhere
             [questKeys.objectives] = {{{59574,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2290,17 +2309,30 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30333,30334,30335,30336},
             [questKeys.objectives] = {{{59276,nil,Questie.ICON_TYPE_INTERACT},{59278,nil,Questie.ICON_TYPE_INTERACT},{59279,nil,Questie.ICON_TYPE_INTERACT},{59280,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30338] = { -- A Weighty Task
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30265,30291},
+        },
         [30339] = { -- Getting your Hands Dirty
             [questKeys.startedBy] = {{59341}},
             [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30340},
         },
         [30340] = { -- Stick in the Mud
             [questKeys.startedBy] = {{59341}},
             [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30339},
+        },
+        [30341] = { -- Under Watchful Eyes
+            [questKeys.startedBy] = {{59342}},
+            [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30313,30314},
         },
         [30342] = { -- Fiery Tongue, Fragile Feet
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
+            [questKeys.exclusiveTo] = {30284},
         },
         [30344] = { -- The Lost Dynasty
             [questKeys.preQuestSingle] = {30274},
@@ -4182,10 +4214,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{63517,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [31288] = { -- Research Project: The Mogu Dynasties
-            [questKeys.exclusiveTo] = {31289},
+            [questKeys.exclusiveTo] = {31291},
             [questKeys.objectives] = {nil,{{440006}}},
         },
-        [31289] = { -- Uncovering the Past
+        [31289] = { -- Research Project: The Pandaren Empire
+            [questKeys.objectives] = {nil,{{440007}}},
+        },
+        [31291] = { -- Uncovering the Past
             [questKeys.exclusiveTo] = {31288},
         },
         [31293] = { -- Mogu Make Poor House Guests
