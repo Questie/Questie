@@ -712,6 +712,9 @@ function MopNpcFixes.Load()
         [58998] = { -- Scarlet Defender
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [59037] = { -- Kung Din
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.65,80.1}}},
+        },
         [59080] = { -- Darkmaster Gandling
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP_HEADMASTERS_STUDY] = {{49.84,38.45}},
