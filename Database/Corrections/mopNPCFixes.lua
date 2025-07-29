@@ -1643,6 +1643,9 @@ function MopNpcFixes.Load()
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84,28.6}}},
         },
+        [66949] = { -- Rell Nightwind
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
+        },
         [67067] = { -- Rell's Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
         },
