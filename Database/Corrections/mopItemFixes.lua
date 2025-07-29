@@ -213,6 +213,9 @@ function MopItemFixes.Load()
         [78959] = { -- Serpent Egg
             [itemKeys.objectDrops] = {210238,210239,210240},
         },
+        [79025] = { -- Slitherscale Harpoon
+            [itemKeys.objectDrops] = {210277},
+        },
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
         },
