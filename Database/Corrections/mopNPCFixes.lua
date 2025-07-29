@@ -1786,6 +1786,11 @@ function MopNpcFixes.Load()
                 [zoneIDs.ISLE_OF_GIANTS] = {{67,75.2},{69.6,71.4},{69.8,71.6}}},
                 [zoneIDs.ISLE_OF_THUNDER] = {{50.4,42.8},{50.8,43.4},{51,43.6}},
         },
+        [70414] = { -- Skumblade Pillager
+            [npcKeys.name] = "Skumblade Pillager",
+            -- [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{}}}, Unknown location, not part of quest causing error
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [70434] = { -- Talak
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{28.8,67.4},{29,67.8}}},
