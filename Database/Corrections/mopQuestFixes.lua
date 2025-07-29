@@ -2248,6 +2248,7 @@ function MopQuestFixes.Load()
         },
         [30319] = { -- Pest Problems
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Wika-Wika"),0,{{"monster",59532}}}},
         },
         [30320] = { -- Free Spirits
             [questKeys.startedBy] = {{58468}},
