@@ -1508,6 +1508,7 @@ function MopQuestFixes.Load()
         },
         [29950] = { -- Li Li's Day Off
             [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.sourceItemId] = 76350,
         },
         [29951] = { -- Muddy Water
             [questKeys.preQuestSingle] = {29949},
