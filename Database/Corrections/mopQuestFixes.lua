@@ -2041,9 +2041,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30193,30194,30195,30231},
         },
         [30236] = { -- Aetha
-            [questKeys.startedBy] = {{59338}},
-            [questKeys.finishedBy] = {{59338}},
+            [questKeys.startedBy] = {{59338}}, -- based on wowhead, need to confirm
+            [questKeys.finishedBy] = {{59338}}, -- based on wowhead, need to confirm
             [questKeys.objectives] = {{{58778}}},
+            --[questKeys.preQuestGroup] = need to confirm
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
