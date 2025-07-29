@@ -654,6 +654,12 @@ function MopNpcFixes.Load()
         [58468] = { -- Sun Tenderheart
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.5,43.39}}},
         },
+        [58469] = { -- Ren Firetongue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.68,43.15}}},
+        },
+        [58470] = { -- He Softfoot
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.54,43.22}}},
+        },
         [58471] = { -- Kun Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.52,43.63}}},
         },
@@ -1385,6 +1391,22 @@ function MopNpcFixes.Load()
                 {44.41,16.8,phases.SKEER_IN_KLAXXI_VEES}
             }},
         },
+        [63087] = { -- Shao-Tien Ritual Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.81,44.73}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63088] = { -- Shao-Tien Ritual Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{44.19,44.25}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63089] = { -- Shao-Tien Ritual Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.36,42.84}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63090] = { -- Shao-Tien Ritual Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.99,43.37}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [63123] = { -- Mogu Ritual Destroyed Credit
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.6,43.77}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -2006,7 +2028,8 @@ function MopNpcFixes.Load()
         },
         [246246] = { -- Shadowmaster Sydow
             [npcKeys.name] = "Shadowmaster Sydow",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.84,48.08}}},
+            [npcKeys.subName] = "The Soul-Gatherer",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.78,48.04}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
 

@@ -2135,11 +2135,22 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30281] = { -- The Silent Approach
+            [questKeys.startedBy] = {{58470}},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
+            [questKeys.exclusiveTo] = {31131,31242,31243},
+        },
         [30282] = { -- Burning Away the Filth
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
             [questKeys.objectives] = {{{63076,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {31131,31242,31243},
         },
         [30283] = { -- A Smashing Impression
-            -- maybe needs an extraobjective to click statues but couldn't get the ids
+            [questKeys.startedBy] = {{58469}},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
+            [questKeys.exclusiveTo] = {31131,31242,31243},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{63087,63088,63089,63090},63087,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30285] = { -- Wu Kao Scouting Reports
             [questKeys.startedBy] = {{59337}},
@@ -2161,7 +2172,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31131},
         },
         [30292] = { -- Rude Awakenings
+            [questKeys.startedBy] = {{58471}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63130,63082},63082}}},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
+            [questKeys.exclusiveTo] = {30293,31131,31242,31243},
+        },
+        [30293] = { -- In Enemy Hands
+            [questKeys.startedBy] = {{58471}},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
+            [questKeys.exclusiveTo] = {30292,31131,31242,31243},
         },
         [30297] = { -- Baolai the Immolator
             [questKeys.startedBy] = {{58911}},
@@ -2589,6 +2608,7 @@ function MopQuestFixes.Load()
         },
         [30482] = { -- The Soul-Gatherer
             [questKeys.startedBy] = {{58470}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30484] = { -- Gauging Our Progress
             [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
@@ -3828,7 +3848,7 @@ function MopQuestFixes.Load()
         },
         [31131] = { -- Whitepetal Lake
             [questKeys.startedBy] = {{58408}},
-            [questKeys.exclusiveTo] = {31242,31243},
+            [questKeys.exclusiveTo] = {30281,30282,30283,30292,30293,31242,31243},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
         [31132] = { -- A Mile in My Shoes
@@ -4092,12 +4112,12 @@ function MopQuestFixes.Load()
         },
         [31242] = { -- Mistfall Village
             [questKeys.startedBy] = {{58408}},
-            [questKeys.exclusiveTo] = {31131,31243},
+            [questKeys.exclusiveTo] = {30281,30282,30283,30292,30293,31131,31243},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
-        [31243] = { --Attack on Mistfall Village
+        [31243] = { -- Attack on Mistfall Village
             [questKeys.startedBy] = {{58408}},
-            [questKeys.exclusiveTo] = {31131,31242},
+            [questKeys.exclusiveTo] = {30281,30282,30283,30292,30293,31131,31242},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
         [31251] = { -- Best Meals Anywhere!
