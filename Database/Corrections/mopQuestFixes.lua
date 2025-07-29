@@ -3736,6 +3736,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
         },
+        [31047] = { -- Born Free
+            [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_OBJECT}}},
+        },
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
         },
