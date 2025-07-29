@@ -5941,6 +5941,8 @@ function QuestieQuestBlacklist:Load()
         [31213] = true, -- Not in the game
         [31214] = true, -- Not in the game
         [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [31387] = true, -- Not in the game
+        [31389] = true, -- Not in the game
         [31396] = true, -- Not in the game
         [31397] = true, -- Not in the game
         [31399] = true, -- Not in the game
@@ -5968,6 +5970,7 @@ function QuestieQuestBlacklist:Load()
         [31666] = true, -- Not in the game
         [31697] = true, -- Not in the game
         [31764] = true, -- Not in the game
+        [31809] = true, -- Not in the game
         [31863] = true, -- Not in the game
         [31864] = true, -- Not in the game
         [31865] = true, -- Not in the game
@@ -6393,9 +6396,7 @@ function QuestieQuestBlacklist:Load()
         [12445] = true, -- Not in the game
         [12731] = true, -- Not in the game
         [13541] = true, -- Not in the game
-        [29547] = true, -- Not available in prepatch. Remove once MoP hits
-        [29611] = true, -- Not available in prepatch. Remove once MoP hits
-        [29612] = true, -- Not available in prepatch. Remove once MoP hits
+        [30415] = true, -- A Ruby Shard for Chee Chee (duplicate of 30397) - wowhead even lists this as "Tracking Quest - Successful"
         [31533] = true, -- The Perfect Feather (not in the game)
         [31887] = true, -- Pet Battle Trainers: Kalimdor
         [31888] = true, -- Pet Battle Trainers: Kalimdor
