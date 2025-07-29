@@ -3742,6 +3742,9 @@ function MopQuestFixes.Load()
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
         },
+        [31061] = { -- Riding the Storm
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584},62311}}},
+        },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
         },
