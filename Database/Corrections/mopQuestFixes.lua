@@ -2132,6 +2132,9 @@ function MopQuestFixes.Load()
         [30282] = { -- Burning Away the Filth
             [questKeys.objectives] = {{{63076,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [30283] = { -- A Smashing Impression
+            -- maybe needs an extraobjective to click statues but couldn't get the ids
+        },
         [30288] = { -- My Town, It's On Fire Again
             [questKeys.requiredSourceItems] = {85950},
             [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
