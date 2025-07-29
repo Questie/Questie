@@ -98,6 +98,30 @@ local questStateLocales = {
         ["zhCN"] = "符文",
         ["zhTW"] = "符文",
     },
+    ["Daily"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Weekly"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(questStateLocales) do
