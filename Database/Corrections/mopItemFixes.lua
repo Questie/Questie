@@ -596,6 +596,9 @@ function MopItemFixes.Load()
         [85159] = { -- Amber-Filled Jar
             [itemKeys.objectDrops] = {212923},
         },
+        [85161] = { -- Soul-Gatherer's Beads
+            [itemKeys.npcDrops] = {246246},
+        },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
