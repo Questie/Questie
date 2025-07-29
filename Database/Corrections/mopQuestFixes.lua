@@ -3044,6 +3044,7 @@ function MopQuestFixes.Load()
         },
         [30691] = { -- Misery
             [questKeys.preQuestSingle] = {30669},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS] = {{46,79.23}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
         },
         [30692] = { -- The Burlap Trail: To Kota Basecamp
             [questKeys.preQuestSingle] = {30612},
