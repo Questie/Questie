@@ -2040,6 +2040,12 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{244995}}},
             [questKeys.preQuestGroup] = {30193,30194,30195,30231},
         },
+        [30236] = { -- Aetha
+            [questKeys.startedBy] = {{59338}}, -- based on wowhead, need to confirm
+            [questKeys.finishedBy] = {{59338}}, -- based on wowhead, need to confirm
+            [questKeys.objectives] = {{{58778}}},
+            --[questKeys.preQuestGroup] = need to confirm
+        },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
             [questKeys.preQuestSingle] = {31242},
@@ -2129,6 +2135,12 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.preQuestSingle] = {30640},
         },
+        [30282] = { -- Burning Away the Filth
+            [questKeys.objectives] = {{{63076,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30283] = { -- A Smashing Impression
+            -- maybe needs an extraobjective to click statues but couldn't get the ids
+        },
         [30285] = { -- Wu Kao Scouting Reports
             [questKeys.startedBy] = {{59337}},
             [questKeys.preQuestSingle] = {31243},
@@ -2148,6 +2160,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
         },
+        [30292] = { -- Rude Awakenings
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{63130,63082},63082}}},
+        },
         [30297] = { -- Baolai the Immolator
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
@@ -2165,6 +2180,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
         },
+        [30309] = { -- Set in Stone
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
+        },
         [30310] = { -- Thundering Skies
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
@@ -2173,6 +2192,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.objectives] = {{{59183,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30320,31755},
         },
         [30314] = { -- The Displaced Paleblade
             [questKeys.startedBy] = {{59342}},
@@ -2188,6 +2208,8 @@ function MopQuestFixes.Load()
         [30320] = { -- Free Spirits
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30312,31755},
+            [questKeys.objectives] = {{{59231,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30321] = { -- Weed War II
             [questKeys.requiredMinRep] = {1272,9000},
@@ -2561,6 +2583,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30468,30967}, -- might also be 30496
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530}}},
+        },
+        [30482] = { -- The Soul-Gatherer
+            [questKeys.startedBy] = {{58470}},
         },
         [30484] = { -- Gauging Our Progress
             [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
@@ -4221,7 +4246,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1280,33600}, -- Tina at Good Friend level or above (33600+)
         },
         [31338] = { -- Lost Sheepie
-            [questKeys.requiredMinRep] = {1277,8400}, -- Aquaintance level with Chee Chee
+            [questKeys.requiredMinRep] = {1277,16800}, -- Buddy level with Chee Chee
         },
         [31339] = { -- Lost Sheepie... Again
             [questKeys.requiredMinRep] = {1277,25200}, -- Friend level with Chee Chee
@@ -4722,6 +4747,7 @@ function MopQuestFixes.Load()
         },
         [31681] = { -- Better With Age
             [questKeys.exclusiveTo] = {31090},
+            [questKeys.preQuestSingle] = {31087},
         },
         [31682] = { -- By the Sea, Nevermore
             [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4884,13 +4910,26 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{65762,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30638},
         },
+        [31755] = { -- Acts of Cruelty
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30312,30320},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{65817,65818,65804},65804,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31757] = { -- Unleashed Spirits
+            [questKeys.startedBy] = {{58465}},
+            [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31760,31762},
+        },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31757,31762},
         },
         [31762] = { -- Crumbling Behemoth
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31757,31760},
         },
         [31765] = { -- Paint it Red!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
