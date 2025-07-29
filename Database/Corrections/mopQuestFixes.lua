@@ -5376,8 +5376,12 @@ function MopQuestFixes.Load()
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
             [questKeys.preQuestSingle] = {30518},
         },
-        [31949] = { --Nana's Vote III: Witchberry Julep
+        [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
+        },
+        [31951] = { -- Grand Master Aki
+            [questKeys.startedBy] = {{66741}},
+            [questKeys.preQuestSingle] = {31930,31952},
         },
         [31952] = { -- Battle Pet Tamers: Pandaria
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
