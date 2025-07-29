@@ -627,6 +627,9 @@ function MopNpcFixes.Load()
         [58225] = { -- Instructor Tong
             [npcKeys.questStarts] = {30135,30136,30137,30138,30139},
         },
+        [58408] = { -- Leven Dawnblade
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59}}},
+        },
         [58421] = { -- Hemet Nesingwary
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {16.01,82.49,phases.HEMETS_AT_CAMP},
@@ -644,6 +647,15 @@ function MopNpcFixes.Load()
         },
         [58455] = { -- Stillwater Crocolisk
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{29.4,68.8},{29.4,69.6},{29.6,68.8},{31.2,66.6},{32.4,67.4},{33,65.4},{33,65.6},{34.4,61.8},{34.6,60.2},{34.8,58.4},{34.8,58.6},{35.4,56.8},{36.6,55},{36.6,56.4},{39.37,49.97},{40.7,47.36}}},
+        },
+        [58465] = { -- Anji Autumnlight
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.56,43.61}}},
+        },
+        [58468] = { -- Sun Tenderheart
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.5,43.39}}},
+        },
+        [58471] = { -- Kun Autumnlight
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.52,43.63}}},
         },
         [58607] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},

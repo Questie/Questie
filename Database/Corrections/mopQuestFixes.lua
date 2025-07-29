@@ -1504,7 +1504,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29948] = { -- Thieves to the Core
-            [questKeys.preQuestSingle] = {29944}, -- might be prequestgroup with 29945
+            [questKeys.preQuestSingle] = {29944}, -- might be preQuestGroup with 29945
         },
         [29950] = { -- Li Li's Day Off
             [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2179,14 +2179,17 @@ function MopQuestFixes.Load()
         [30308] = { -- Stone Hard Quilen
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30309,30310},
         },
         [30309] = { -- Set in Stone
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30308,30310},
         },
         [30310] = { -- Thundering Skies
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {30308,30309},
         },
         [30312] = { -- Given a Second Chance
             [questKeys.startedBy] = {{58468}},
@@ -3826,6 +3829,7 @@ function MopQuestFixes.Load()
         [31131] = { -- Whitepetal Lake
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {31242,31243},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
         [31132] = { -- A Mile in My Shoes
             [questKeys.finishedBy] = {{63217}},
@@ -4089,10 +4093,12 @@ function MopQuestFixes.Load()
         [31242] = { -- Mistfall Village
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {31131,31243},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
         [31243] = { --Attack on Mistfall Village
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {31131,31242},
+            [questKeys.preQuestGroup] = {30307,30308,30312,31754,31757},
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
@@ -4909,6 +4915,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58471}},
             [questKeys.objectives] = {{{65762,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31756,31758},
         },
         [31755] = { -- Acts of Cruelty
             [questKeys.startedBy] = {{58468}},
@@ -4916,10 +4923,20 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30312,30320},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{65817,65818,65804},65804,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [31756] = { -- High Chance of Rain
+            [questKeys.startedBy] = {{58471}},
+            [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31754,31758},
+        },
         [31757] = { -- Unleashed Spirits
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {31760,31762},
+        },
+        [31758] = { -- Laosy Scouting
+            [questKeys.startedBy] = {{58471}},
+            [questKeys.preQuestSingle] = {30638},
+            [questKeys.exclusiveTo] = {31754,31756},
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
