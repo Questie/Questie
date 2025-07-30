@@ -378,6 +378,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [213365] = { -- Stolen Mistfall Keg
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.6,75.32}}}, -- needs more spawns
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [213454] = { -- Soggy's Footlocker
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.7,78.6}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
