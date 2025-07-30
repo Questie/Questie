@@ -9,6 +9,7 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [3545] = 3483,  -- Hellfire Citadel -> Hellfire Peninsula
     [4913] = 14, -- Spitescale Cavern -> Durotar
     [5786] = 4265, -- The Nexus -> The Nexus
+    [5931] = 5785, -- The Arboretum -> The Jade Forest
     [6137] = 1, -- Frostmane Hovel -> Dun Morogh
     [6170] = 12, -- Northshire -> Elwynn Forest
     [6176] = 1, -- Coldridge Valley -> Dun Morogh
