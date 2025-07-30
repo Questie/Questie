@@ -2073,6 +2073,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{244995}}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {30236,30239},
         },
         [30236] = { -- Aetha
             [questKeys.startedBy] = {{59338}},
@@ -2080,6 +2081,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58778}}}, -- check ID
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {30235,30239},
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
@@ -2097,6 +2099,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{58817}}}, -- check ID
+            [questKeys.exclusiveTo] = {30235,30236},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.preQuestSingle] = {30640},
