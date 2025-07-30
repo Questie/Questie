@@ -645,6 +645,9 @@ function MopItemFixes.Load()
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
         },
+        [85778] = { -- Stolen Mistfall Keg
+            [itemKeys.objectDrops] = {213365},
+        },
         [85782] = { -- Mistfall Water Bucket
             [itemKeys.objectDrops] = {213369},
         },
