@@ -840,6 +840,7 @@ globals = {
     "CursorHasMacro",
     "CursorHasMoney",
     "CursorHasSpell",
+    "DAILY",
     "DeathRecap_GetEvents",
     "DeathRecap_HasEvents",
     "DeclineChannelInvite",
@@ -2468,6 +2469,7 @@ globals = {
     "tremove",
     "type",
     "unpack",
+    "WEEKLY",
     "wipe",
     "xpcall",
     ------------------------------------------------------> FRAMES
