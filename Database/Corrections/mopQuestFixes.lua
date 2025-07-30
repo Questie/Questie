@@ -2063,7 +2063,7 @@ function MopQuestFixes.Load()
         [30234] = { -- Vicejaw
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{59343}},
-            [questKeys.objectives] = {{{58769}}}, -- check ID
+            [questKeys.objectives] = {{{246176}}},
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
             [questKeys.exclusiveTo] = {30233},
         },
@@ -2098,7 +2098,7 @@ function MopQuestFixes.Load()
         [30239] = { -- Lao-Fe the Slavebinder
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
-            [questKeys.objectives] = {{{58817}}}, -- check ID
+            [questKeys.objectives] = {{{246479}}},
             [questKeys.exclusiveTo] = {30235,30236},
         },
         [30240] = { -- Survival Ring: Flame
