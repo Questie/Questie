@@ -2050,6 +2050,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.48,81.47}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [246176] = { -- Vicejaw
+            [npcKeys.name] = "Vicejaw",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.41,50.91}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [246246] = { -- Shadowmaster Sydow
             [npcKeys.name] = "Shadowmaster Sydow",
             [npcKeys.subName] = "The Soul-Gatherer",
