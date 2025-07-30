@@ -3993,7 +3993,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58470}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {30482},
-            [questKeys.preQuestGroup] = {30281,30282,30283,30292},
+            [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.objectives] = {{{63101}}}, -- check ID
         },
         [31137] = { -- Meet the High Tinker
