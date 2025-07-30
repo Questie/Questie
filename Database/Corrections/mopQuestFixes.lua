@@ -3956,6 +3956,7 @@ function MopQuestFixes.Load()
         },
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31111] = { -- Eradicating the Zan'thik
             [questKeys.preQuestSingle] = {31066},
@@ -4217,12 +4218,15 @@ function MopQuestFixes.Load()
         },
         [31231] = { -- Dreadspinner Extermination
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31232] = { -- An Ancient Empire
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31233] = { -- Sap Tapping
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31234] = { -- Putting An Eye Out
             [questKeys.preQuestSingle] = {31606},
@@ -4231,6 +4235,7 @@ function MopQuestFixes.Load()
         [31235] = { -- Nope Nope Nope
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31237] = { -- Debugging the Terrace
             [questKeys.preQuestSingle] = {31439},
@@ -4291,9 +4296,11 @@ function MopQuestFixes.Load()
         },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31269] = { -- The Scale-Lord
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31270] = { -- The Fight Against Fear
             [questKeys.preQuestSingle] = {31026},
@@ -4602,6 +4609,7 @@ function MopQuestFixes.Load()
         },
         [31487] = { -- Sonic Disruption
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,63218,64047,64144,64457,66225,66409,66415}},
@@ -4646,6 +4654,7 @@ function MopQuestFixes.Load()
         },
         [31507] = { -- Meltdown
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31508] = { -- Specimen Request
             [questKeys.preQuestSingle] = {31606},
@@ -4889,9 +4898,6 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31599] = { -- The Matriarch's Maw
-            [questKeys.questFlags] = questFlags.DAILY,
-        },
-        [31603] = { -- Seeds of Fear
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31605] = { -- The Zan'thik Dig
@@ -5209,6 +5215,7 @@ function MopQuestFixes.Load()
         },
         [31808] = { -- Rampage Against the Machine
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.preQuestGroup] = {30139,30187},
