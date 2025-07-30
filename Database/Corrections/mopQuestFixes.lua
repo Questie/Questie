@@ -3761,7 +3761,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31367,31368},
         },
         [31018] = { -- Beneath the Heart of Fear
+            [questKeys.objectives] = {{{62073},{62074},{62075},{62076}},{{212038}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES] = {{28.22,42.45}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
         },
         [31019] = { -- Amber Is Life
             [questKeys.preQuestSingle] = {31066},
