@@ -569,6 +569,7 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 31055,
         },
         [83129] = { -- Cloudrunner Egg
+            [itemKeys.npcDrops] = {62268},
             [itemKeys.objectDrops] = {212230,214479,214480,214481},
         },
         [83135] = { -- Amber Blade
