@@ -715,6 +715,18 @@ function MopItemFixes.Load()
         [87401] = { -- Needler Wings
             [itemKeys.npcDrops] = {64714},
         },
+        [87553] = { -- Red Radish
+            [itemKeys.npcDrops] = {57298},
+        },
+        [87554] = { -- Sweet Lakemelon
+            [itemKeys.npcDrops] = {57402},
+        },
+        [87555] = { -- Fuzzy Peach
+            [itemKeys.npcDrops] = {58706},
+        },
+        [87556] = { -- Black Cherrie
+            [itemKeys.npcDrops] = {58705},
+        },
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},
         },
