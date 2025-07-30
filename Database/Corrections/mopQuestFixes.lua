@@ -1911,6 +1911,7 @@ function MopQuestFixes.Load()
         [30148] = { -- Just a Flesh Wound
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
             [questKeys.objectives] = {{{58416,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {72985,72986},
         },
         [30149] = { -- A Feast for the Senses
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},

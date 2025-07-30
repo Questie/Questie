@@ -25,6 +25,12 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {54930},
             [itemKeys.objectDrops] = {209436},
         },
+        [72985] = { -- Windwool Bandage
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [72986] = { -- Heavy Windwool Bandage
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [73193] = { -- Blushleaf Extrac
             [itemKeys.objectDrops] = {209550},
         },
