@@ -3876,22 +3876,22 @@ function MopQuestFixes.Load()
         },
         [31040] = { -- Spiteful Sprites
             [questKeys.exclusiveTo] = {31042,31048},
-        }
+        },
         [31041] = { -- Egg Rescue!
             [questKeys.exclusiveTo] = {31044,31047},
-        }
+        },
         [31042] = { -- Onyx Hearts
             [questKeys.exclusiveTo] = {31040,31048},
-        }
+        },
         [31043] = { -- Dark Arts
             [questKeys.exclusiveTo] = {31045,31046},
-        }
+        },
         [31044] = { -- Bronze Claws
             [questKeys.exclusiveTo] = {31041,31047},
-        }
+        },
         [31045] = { -- Illusions Of The Past
             [questKeys.exclusiveTo] = {31043,31046},
-        }
+        },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
@@ -3907,7 +3907,7 @@ function MopQuestFixes.Load()
         },
         [31049] = { -- In Sprite Of Everything
             [questKeys.exclusiveTo] = {31061,31062},
-        }
+        },
         [31061] = { -- Riding the Storm
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584},62311}}},
             [questKeys.exclusiveTo] = {31049,31062},
