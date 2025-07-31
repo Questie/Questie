@@ -3914,7 +3914,7 @@ function MopQuestFixes.Load()
         },
         [31062] = { -- When The Dead Speak
             [questKeys.exclusiveTo] = {31049,31061},
-        }
+        },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
         },
