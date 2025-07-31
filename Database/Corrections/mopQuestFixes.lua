@@ -5882,13 +5882,11 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{64029}},
             [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.questFlags] = 0,
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
             [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.questFlags] = 0,
         },
         [32018] = { -- His Name Was... Stormstout
             [questKeys.exclusiveTo] = {32019},
