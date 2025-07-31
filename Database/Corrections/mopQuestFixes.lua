@@ -1948,6 +1948,7 @@ function MopQuestFixes.Load()
         },
         [30160] = { -- A Ruby Shard for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30163] = { -- For the Tribe
             [questKeys.preQuestSingle] = {30132},
@@ -1995,6 +1996,7 @@ function MopQuestFixes.Load()
         },
         [30189] = { -- A Lovely Apple for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30190] = { -- Sprite Plight
             [questKeys.startedBy] = {{59338}},
@@ -2398,12 +2400,15 @@ function MopQuestFixes.Load()
         },
         [30381] = { -- A Jade Cat for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30382] = { -- A Blue Feather for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30383] = { -- A Marsh Lily for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30384] = { -- Blind Them!
             [questKeys.preQuestSingle] = {30274},
