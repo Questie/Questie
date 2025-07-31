@@ -2499,18 +2499,23 @@ function MopQuestFixes.Load()
         },
         [30409] = { -- A Ruby Shard for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30410] = { -- A Lovely Apple for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30411] = { -- A Jade Cat for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30412] = { -- A Blue Feather for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30413] = { -- A Marsh Lily for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30414] = { -- A Dish for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
