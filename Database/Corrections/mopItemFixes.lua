@@ -222,8 +222,11 @@ function MopItemFixes.Load()
         [79025] = { -- Slitherscale Harpoon
             [itemKeys.objectDrops] = {210277},
         },
+        [79027] = { -- Saltback Meat
+            [itemKeys.npcDrops] = {58218},
+        },
         [79028] = { -- Saltback Meat Scrap
-            [itemKeys.npcDrops] = {58218,58219},
+            [itemKeys.npcDrops] = {58219},
         },
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
