@@ -525,7 +525,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56222] = { -- Bold Karasshi
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.97,81.69}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.98,81.7}}},
         },
         [56310] = { -- Mist Horror
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.2,90}}},
@@ -992,7 +992,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [60970] = { -- Admiral Taylor
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.87,81.67}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.88,81.67}}},
         },
         [61071] = { -- Small Frog
             [npcKeys.spawns] = {
