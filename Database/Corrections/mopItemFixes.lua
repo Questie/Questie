@@ -659,6 +659,9 @@ function MopItemFixes.Load()
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
         },
+        [85571] = { -- Venomous Stinger
+            [itemKeys.npcDrops] = {63586,63588},
+        },
         [85572] = { -- Scarab Wing
             [itemKeys.npcDrops] = {63587},
         },
