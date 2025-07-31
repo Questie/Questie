@@ -476,7 +476,7 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 30675;
         },
         [80830] = { -- Rusty Shipwreck Debris
-            [itemKeys.objectDrops] = {214547},
+            [itemKeys.objectDrops] = {211423},
         },
         [80832] = { -- Viseclaw Fisher Eye
             [itemKeys.npcDrops] = {58880,58881,61090},
