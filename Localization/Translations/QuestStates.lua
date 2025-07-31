@@ -118,7 +118,7 @@ local questStateLocales = {
         ["frFR"] = "Hebdomadaire",
         ["koKR"] = "주간",
         ["ptBR"] = "Semanal",
-        ["ruRU"] = false,
+        ["ruRU"] = "Еженедельное",
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
