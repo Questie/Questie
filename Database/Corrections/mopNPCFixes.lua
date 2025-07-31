@@ -2081,6 +2081,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.78,48.04}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [246386] = { -- Bai-Jin the Butcher
+            [npcKeys.name] = "Bai-Jin the Butcher",
+            [npcKeys.subName] = "Shao-Tien Imperion",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.47,24.99}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [246479] = { -- Spirit of Lao-Fe
             [npcKeys.name] = "Spirit of Lao-Fe",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{47.44,65.68}}},
