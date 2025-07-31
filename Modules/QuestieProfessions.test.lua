@@ -68,6 +68,17 @@ describe("QuestieProfessions", function()
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
         end)
 
+        it("should detect skill updates that cross a 5 level threshold", function()
+            QuestieProfessions:Update()
+            mockedProfessionSkill = 6
+
+            local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()
+
+            assert.is_true(hasProfessionUpdate)
+            assert.is_false(hasNewProfession)
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+        end)
+
         it("should ignore skill updates that do not cross a 5 level threshold", function()
             QuestieProfessions:Update()
             mockedProfessionSkill = 2
