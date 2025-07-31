@@ -407,6 +407,9 @@ function MopItemFixes.Load()
         [80307] = { -- Grummlepack
             [itemKeys.npcDrops] = {59408,59896,59897,59898},
         },
+        [80310] = { -- Silver Goby
+            [itemKeys.objectDrops] = {211169},
+        },
         [80311] = { -- Filled Oil Vial
             [itemKeys.objectDrops] = {211530,211531},
         },
