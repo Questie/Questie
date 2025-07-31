@@ -521,6 +521,10 @@ function MopItemFixes.Load()
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
         },
+        [81407] = { -- Four Wind Soju
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {64319}, -- This is the closest vendor to Jogu the Drunk
+        },
         [82298] = { -- Handful of Volatile Blooms
             [itemKeys.objectDrops] = {211684},
         },
