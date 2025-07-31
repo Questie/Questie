@@ -2517,6 +2517,7 @@ function MopQuestFixes.Load()
         },
         [30415] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30416] = { -- A Ruby Shard for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
