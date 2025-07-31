@@ -964,7 +964,6 @@ local mopObjectiveLocales = {
     },
 }
 
-
 for k, v in pairs(mopObjectiveLocales) do
     l10n.translations[k] = v
 end
