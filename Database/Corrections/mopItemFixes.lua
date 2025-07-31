@@ -353,6 +353,9 @@ function MopItemFixes.Load()
         [80133] = { -- Preserved Vegetables
             [itemKeys.objectDrops] = {210956,210957},
         },
+        [80136] = { -- Waxed Plank
+            [itemKeys.objectDrops] = {211120,211122},
+        },
         [80134] = { -- Uncut Chrysoberyl
             [itemKeys.objectDrops] = {210958,210959,210960},
         },
