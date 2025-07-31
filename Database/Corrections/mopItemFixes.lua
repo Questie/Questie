@@ -659,6 +659,9 @@ function MopItemFixes.Load()
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
         },
+        [85572] = { -- Scarab Wing
+            [itemKeys.npcDrops] = {63587},
+        },
         [85681] = { -- Lushroom
             [itemKeys.objectDrops] = {213350,213352,213353},
         },
