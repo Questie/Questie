@@ -2528,18 +2528,23 @@ function MopQuestFixes.Load()
         },
         [30422] = { -- A Ruby Shard for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30423] = { -- A Lovely Apple for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30424] = { -- A Jade Cat for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30425] = { -- A Blue Feather for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30426] = { -- A Marsh Lily for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30427] = { -- A Dish for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
