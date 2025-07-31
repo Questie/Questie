@@ -2453,18 +2453,23 @@ function MopQuestFixes.Load()
         },
         [30397] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30398] = { -- A Lovely Apple for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30399] = { -- A Jade Cat for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30400] = { -- A Blue Feather for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30401] = { -- A Marsh Lily for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30402] = { -- A Dish for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
