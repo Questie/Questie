@@ -1901,6 +1901,7 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
+            [questKeys.objectives] = {{{58420,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30146] = { -- Snack Time
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
