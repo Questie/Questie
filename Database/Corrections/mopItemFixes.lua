@@ -25,6 +25,12 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {54930},
             [itemKeys.objectDrops] = {209436},
         },
+        [72985] = { -- Windwool Bandage
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [72986] = { -- Heavy Windwool Bandage
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [73193] = { -- Blushleaf Extrac
             [itemKeys.objectDrops] = {209550},
         },
@@ -215,6 +221,9 @@ function MopItemFixes.Load()
         },
         [79025] = { -- Slitherscale Harpoon
             [itemKeys.objectDrops] = {210277},
+        },
+        [79028] = { -- Saltback Meat Scrap
+            [itemKeys.npcDrops] = {58218,58219},
         },
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
@@ -687,6 +696,9 @@ function MopItemFixes.Load()
         [86431] = { -- Stormstout Secrets
             [itemKeys.objectDrops] = {213795},
         },
+        [86446] = { -- Sheepie
+            [itemKeys.npcDrops] = {64386},
+        },
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
         },
@@ -713,6 +725,18 @@ function MopItemFixes.Load()
         },
         [87401] = { -- Needler Wings
             [itemKeys.npcDrops] = {64714},
+        },
+        [87553] = { -- Red Radish
+            [itemKeys.npcDrops] = {57298},
+        },
+        [87554] = { -- Sweet Lakemelon
+            [itemKeys.npcDrops] = {57402},
+        },
+        [87555] = { -- Fuzzy Peach
+            [itemKeys.npcDrops] = {58706},
+        },
+        [87556] = { -- Black Cherrie
+            [itemKeys.npcDrops] = {58705},
         },
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},

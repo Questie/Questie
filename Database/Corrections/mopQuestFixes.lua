@@ -1900,6 +1900,7 @@ function MopQuestFixes.Load()
         },
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
         },
         [30146] = { -- Snack Time
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
@@ -1910,6 +1911,7 @@ function MopQuestFixes.Load()
         [30148] = { -- Just a Flesh Wound
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
             [questKeys.objectives] = {{{58416,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {72985,72986},
         },
         [30149] = { -- A Feast for the Senses
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
@@ -1931,6 +1933,7 @@ function MopQuestFixes.Load()
         },
         [30156] = { -- The Easiest Way To A Serpent's Heart
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.requiredSourceItems] = {70927,70928},
         },
         [30157] = { -- Emptier Nests
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1945,6 +1948,7 @@ function MopQuestFixes.Load()
         },
         [30160] = { -- A Ruby Shard for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30163] = { -- For the Tribe
             [questKeys.preQuestSingle] = {30132},
@@ -1992,6 +1996,7 @@ function MopQuestFixes.Load()
         },
         [30189] = { -- A Lovely Apple for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30190] = { -- Sprite Plight
             [questKeys.startedBy] = {{58819}},
@@ -2465,18 +2470,23 @@ function MopQuestFixes.Load()
         },
         [30379] = { -- A Ruby Shard for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30380] = { -- A Lovely Apple for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30381] = { -- A Jade Cat for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30382] = { -- A Blue Feather for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30383] = { -- A Marsh Lily for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30384] = { -- Blind Them!
             [questKeys.preQuestSingle] = {30274},
@@ -2486,141 +2496,180 @@ function MopQuestFixes.Load()
         },
         [30387] = { -- A Jade Cat for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30388] = { -- A Blue Feather for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30389] = { -- A Marsh Lily for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30390] = { -- A Dish for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30391] = { -- A Ruby Shard for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30392] = { -- A Lovely Apple for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30393] = { -- A Jade Cat for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30394] = { -- A Blue Feather for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30395] = { -- A Marsh Lily for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30396] = { -- A Dish for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30397] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30398] = { -- A Lovely Apple for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30399] = { -- A Jade Cat for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30400] = { -- A Blue Feather for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30401] = { -- A Marsh Lily for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30402] = { -- A Dish for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30403] = { -- A Ruby Shard for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30404] = { -- A Lovely Apple for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30405] = { -- A Jade Cat for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30406] = { -- A Blue Feather for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30407] = { -- A Marsh Lily for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30408] = { -- A Dish for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30409] = { -- A Ruby Shard for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30410] = { -- A Lovely Apple for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30411] = { -- A Jade Cat for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30412] = { -- A Blue Feather for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30413] = { -- A Marsh Lily for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30414] = { -- A Dish for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30415] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30416] = { -- A Ruby Shard for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30417] = { -- A Lovely Apple for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30418] = { -- A Jade Cat for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30419] = { -- A Blue Feather for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30420] = { -- A Marsh Lily for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30421] = { -- A Dish for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30422] = { -- A Ruby Shard for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30423] = { -- A Lovely Apple for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30424] = { -- A Jade Cat for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30425] = { -- A Blue Feather for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30426] = { -- A Marsh Lily for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30427] = { -- A Dish for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30428] = { -- A Ruby Shard for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30429] = { -- A Lovely Apple for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30430] = { -- A Jade Cat for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30431] = { -- A Blue Feather for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30432] = { -- A Marsh Lily for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30433] = { -- A Dish for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2629,26 +2678,31 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30435] = { -- A Lovely Apple for Jogu
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30436] = { -- A Jade Cat for Jogu
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30437] = { -- A Blue Feather for Jogu
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30438] = { -- A Marsh Lily for Jogu
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2884,6 +2938,9 @@ function MopQuestFixes.Load()
         },
         [30583] = { -- Blue Dwarf Needs Food Badly
             [questKeys.preQuestSingle] = {30514},
+        },
+        [30584] = { -- Shocking!
+            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS]={{64.51,28.12}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Dojani Eel")}},
         },
         [30585] = { -- What Lurks Below
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Fish in the Mysterious Whirlpool"),0,{{"object",211112}}}},

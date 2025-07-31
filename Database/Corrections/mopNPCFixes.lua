@@ -1884,7 +1884,7 @@ function MopNpcFixes.Load()
         [70414] = { -- Skumblade Pillager
             [npcKeys.name] = "Skumblade Pillager",
             -- [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{}}}, Unknown location, not part of quest causing error
-            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+            -- [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [70434] = { -- Talak
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
