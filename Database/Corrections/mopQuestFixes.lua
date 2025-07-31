@@ -1933,7 +1933,8 @@ function MopQuestFixes.Load()
         },
         [30156] = { -- The Easiest Way To A Serpent's Heart
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
-            [questKeys.requiredSourceItems] = {70927,70928},
+            [questKeys.requiredSourceItems] = {79027,79028},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58348,58349,58350},58348,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30157] = { -- Emptier Nests
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2119,7 +2120,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30640},
         },
         [30248] = { -- The Butcher
-            [questKeys.objectives] = {{{58949}}}, -- check ID
+            [questKeys.objectives] = {{{246386}}},
         },
         [30249] = { -- Under the Setting Sun
             [questKeys.objectives] = {{{63978}}}, -- check ID
@@ -2941,9 +2942,17 @@ function MopQuestFixes.Load()
         },
         [30584] = { -- Shocking!
             [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS]={{64.51,28.12}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Dojani Eel")}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30585] = { -- What Lurks Below
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Fish in the Mysterious Whirlpool"),0,{{"object",211112}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30586] = { -- Jagged Abalone
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30588] = { -- Fishing for a Bruising
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30589] = { -- Wrecking the Wreck
             [questKeys.requiredLevel] = 5,
@@ -2971,6 +2980,7 @@ function MopQuestFixes.Load()
         [30598] = { -- Who Knew Fish Liked Eggs?
             [questKeys.requiredSourceItems] = {80303},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_NODE_FISH,l10n("Use the crane egg and fish in the yolk"),0,{{"object",211169}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30599] = { -- A Monkey Idol
             [questKeys.preQuestSingle] = {},
@@ -3022,6 +3032,9 @@ function MopQuestFixes.Load()
         [30612] = { -- Unleash The Yeti!
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30610,30611},
+        },
+        [30613] = { -- Armored Carp
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestSingle] = {},
@@ -3139,6 +3152,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
         },
+        [30658] = { -- Huff & Puff
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [30660] = { -- The Ordo Warbringer
             [questKeys.exclusiveTo] = {30662},
         },
@@ -3164,6 +3180,10 @@ function MopQuestFixes.Load()
         [30674] = { -- Balance Without Violence
             [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{60367,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30678] = { -- Like Bombing Fish In A Barrel
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Use the raft"),0,{{"object",211596}}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30682] = { -- Holed Up
             [questKeys.objectives] = {{{60187,nil,Questie.ICON_TYPE_TALK},{60189,nil,Questie.ICON_TYPE_TALK},{60190,nil,Questie.ICON_TYPE_TALK},{60178,nil,Questie.ICON_TYPE_TALK}}},
@@ -3192,6 +3212,15 @@ function MopQuestFixes.Load()
         },
         [30695] = { -- Ahead on the Way
             [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+        },
+        [30698] = { -- Scavenger Hunt
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30700] = { -- Snapclaw
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30701] = { -- Viseclaw Soup
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30715] = { -- A Line Unbroken
             [questKeys.objectives] = {{{61808,nil,Questie.ICON_TYPE_INTERACT},{61806,nil,Questie.ICON_TYPE_INTERACT},{61810,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3315,12 +3344,19 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30993},
             [questKeys.objectives] = {{{62220,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30753] = { -- Jumping the Shark
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30754] = { -- Bright Bait
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [30757] = { -- Lord of the Shado-Pan
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31030,31031},
         },
         [30763] = { -- Piranha!
             [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS]={{36.56,41.41}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Wolf Piranha")}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30767] = { -- Risking It All
             [questKeys.requiredLevel] = 5,
