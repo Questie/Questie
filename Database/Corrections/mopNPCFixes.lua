@@ -420,16 +420,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.98,81.82}}},
         },
         [55349] = { -- Sully SE Credit
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{49.9,63.44}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{49.32,61.74}}},
         },
         [55350] = { -- Sully SW Credit
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.18,62.54}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.28,61.86}}},
         },
         [55351] = { -- Sully N Credit
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.02,57.03}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.85,58.36}}},
         },
         [55352] = { -- Sully Return Credit
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{51.08,63.2}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{50.93,63.06}}},
         },
         [55368] = { -- Widow Greenpaw
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.34,46.22}}},
