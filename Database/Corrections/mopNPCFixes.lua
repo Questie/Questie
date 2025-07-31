@@ -383,6 +383,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.THE_JADE_FOREST] = {
                     {58.04,80.55,phases.LUSSHAN_TOP_STAIRS},
                     {58.58,82.89,phases.LUSSHAN_PUDDLE},
+                    {58.89,81.48,phases.LUSSHAN_PEARLS},
                 },
             },
         },

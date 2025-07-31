@@ -1435,7 +1435,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29922] = { -- In Search of Wisdom
-            [questKeys.preQuestSingle] = {29901},
+            [questKeys.preQuestGroup] = {29901,29905,29906},
             [questKeys.objectives] = {{{56737,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29924] = { -- Kill Kher Shan

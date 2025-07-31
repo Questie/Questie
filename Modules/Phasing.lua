@@ -1452,11 +1452,15 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.LUSSHAN_TOP_STAIRS then
-        return not complete[29887] or false
+        return not complete[29887] or (complete[29894] and not(complete[29905] and complete[29906]) and not (questLog[29905] and questLog[29905].isComplete == 1) and not (questLog[29906] and questLog[29906].isComplete == 1)) or false
     end
 
     if phase == phases.LUSSHAN_PUDDLE then
-        return complete[29887] or false
+        return (complete[29887] and not complete[29894]) or false
+    end
+
+    if phase == phases.LUSSHAN_PEARLS then
+        return (complete[29905] and complete[29906]) or ((questLog[29905] and questLog[29905].isComplete == 1) and (questLog[29906] and questLog[29906].isComplete == 1)) or false
     end
 
     if phase == phases.CHO_NEAR_BEER_TABLE then
