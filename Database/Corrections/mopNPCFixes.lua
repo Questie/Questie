@@ -361,12 +361,28 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [54961] = { -- Lorewalker Cho
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {53.66,91.4,phases.CHO_NEAR_BEER_TABLE},
+                    {53.77,90.64,phases.CHO_NEAR_PAGODAS},
+                },
+            },
+        },
         [54975] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
                     {65.59,42.61,phases.AYSA_LIANG_POOL_HOUSE},
                     {78.61,42.81,phases.AYSA_LIANG_BRIDGE},
                     {79.81,39.31,phases.AYSA_LIANG_LAKE},
+                },
+            },
+        },
+        [54960] = { -- Elder Lusshan
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_JADE_FOREST] = {
+                    {58.04,80.55,phases.LUSSHAN_TOP_STAIRS},
+                    {58.58,82.89,phases.LUSSHAN_PUDDLE},
                 },
             },
         },

@@ -327,6 +327,10 @@ local phases = {
     BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION = 1255,
     BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE = 1256,
     BROTHER_YAKSHOE_AT_THE_DOOKER_DOME = 1257,
+    LUSSHAN_TOP_STAIRS = 1258,
+    LUSSHAN_PUDDLE = 1259,
+    CHO_NEAR_BEER_TABLE = 1260,
+    CHO_NEAR_PAGODAS = 1261,
 }
 Phasing.phases = phases
 
@@ -1445,6 +1449,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SULLY_TWINSPIRE_KEEP then
         return complete[31735] or false
+    end
+
+    if phase == phases.LUSSHAN_TOP_STAIRS then
+        return not complete[29887] or false
+    end
+
+    if phase == phases.LUSSHAN_PUDDLE then
+        return complete[29887] or false
+    end
+
+    if phase == phases.CHO_NEAR_BEER_TABLE then
+        return not complete[31130] or false
+    end
+
+    if phase == phases.CHO_NEAR_PAGODAS then
+        return complete[31130] or false
     end
 
     return false
