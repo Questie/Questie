@@ -3163,6 +3163,7 @@ function MopQuestFixes.Load()
         [30639] = { -- The Secrets of Guo-Lai
             [questKeys.startedBy] = {{58408}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
