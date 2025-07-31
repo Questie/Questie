@@ -335,6 +335,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.76,41.66}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [212038] = { -- Ancient Amber Chunk
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.92,42.43}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [212389] = { -- Scroll of Auspice
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.08,12.35}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
@@ -376,6 +380,10 @@ function MopObjectFixes.Load()
         },
         [213255] = { -- Meeting Stone (Mogu Shan Palace)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [213365] = { -- Stolen Mistfall Keg
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.6,75.32}}}, -- needs more spawns
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [213454] = { -- Soggy's Footlocker

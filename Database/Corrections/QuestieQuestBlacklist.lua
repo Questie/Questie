@@ -5965,6 +5965,7 @@ function QuestieQuestBlacklist:Load()
         [31437] = true, -- Not in the game
         [31438] = true, -- Not in the game
         [31530] = true, -- Not in the game
+        [31603] = true, -- Not in the game -- remove after first MoP raid reset
         [31604] = true, -- Not in the game
         [31665] = true, -- Not in the game
         [31666] = true, -- Not in the game

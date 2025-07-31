@@ -675,6 +675,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
             },
         },
+        [58673] = { -- Angry Hound
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.6,75.32}}}, -- needs more spawns
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [58674] = { -- Angry Hound
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
@@ -809,9 +813,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.87,72.21}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59341] = { -- Merchant Tantan
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.22,45.93}}},
+        },
         [59342] = { -- He Softfoot
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.8,49.18}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [59343] = { -- Ren Firetongue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.4,46}}}, -- wowhead coords, need ingame ones
         },
         [59372] = { -- Scarlet Scholar
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -1287,6 +1297,9 @@ function MopNpcFixes.Load()
                 [1657] = {{32,70.8},{32.6,41.6},{41.2,81.6},{42.2,47.4},{45,80.8},{45.2,35.4},{49.2,74.2},{55.2,66.4},{67.2,51.6},{68,47.4}},
             },
         },
+        [62180] = { -- Korven the Prime
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.31,36.09}}},
+        },
         [62184] = { -- Rock Viper
             [npcKeys.spawns] = {
                 [405] = {{24.2,68.8},{24.2,70.8},{24.4,70.4},{25.2,71.4},{25.4,70.2},{28,82.8},{29,79},{29.2,77.6},{29.8,66.6},{30.4,71},{30.4,81.4},{30.6,33.2},{30.8,52.6},{30.8,60.2},{30.8,76.4},{31.6,61.8},{32,69.6},{32,77.4},{32.2,69.2},{33.4,50.8},{33.4,52.6},{33.8,51},{33.8,74.6},{35.2,38.8},{35.4,80.8},{36.4,61.2},{36.6,40.8},{37.6,36.6},{39.2,89.6},{39.4,33.8},{39.8,35},{40.6,31.2},{40.8,69.4},{41,25},{41.8,25},{41.8,52},{42.2,33.6},{42.2,86.2},{42.4,59},{42.6,82.8},{42.6,85.8},{44,39.2},{44.2,50.8},{44.6,76.8},{45,17.2},{45,27.6},{45,88},{47.2,29.2},{48.6,31.8},{49.6,67.4},{49.8,27.6},{50.2,68.8},{50.6,68.8},{51,63.8},{52.2,60.8},{52.8,66.6},{53,6.4},{53,6.6},{54,11.8},{54,84},{54.2,34.4},{54.4,8.8},{54.6,8.8},{54.8,13},{54.8,33},{54.8,68.6},{55.2,10},{55.4,66.4},{55.4,85},{56,14.4},{56,14.6},{56,22.8},{56.4,16.2},{56.8,81.2},{57,64.4},{57,84},{57.2,15.4},{57.2,15.6},{57.4,24.2},{57.6,29},{57.6,63.8},{58.4,77.8},{58.6,16.2},{58.8,22.2},{59,19.8},{59,30},{59,70.8},{59.2,25.4},{59.2,79},{59.4,73.4},{59.4,75.8},{59.6,75.8},{60.2,32.2},{60.4,26.8},{60.4,76.6},{60.6,77},{61,78},{61.4,29.8},{61.8,27.8},{62.2,72.8},{62.4,27},{62.8,24.8},{63.8,92.2},{64.4,17.4},{64.4,23.4},{64.4,35.6},{64.6,17.4},{64.6,90.4},{64.6,90.6},{64.8,23.4},{64.8,23.6},{65,20},{65.8,25.6},{66,25.4},{66,30.8},{66.2,10},{66.2,19.2},{66.2,31.6},{66.6,17.2},{67,22.2},{67,22.6},{67.2,20.4},{67.2,20.8},{67.2,23.6},{67.2,26.4},{67.6,31.4},{67.8,31.8},{68,23.4},{68,49.8},{68.2,18.6},{68.2,54.2},{68.4,18},{68.4,24},{68.8,32.8},{68.8,59},{69.2,44.4},{69.2,44.6},{69.4,25.6},{69.4,32.2},{69.4,35.2},{69.4,43.2},{69.4,49.6},{69.6,49.4},{70,25.6},{70,61.2},{70.2,40.4},{70.2,40.6},{70.2,47.2},{70.4,25.2},{70.4,30.2},{70.4,55.4},{70.6,30.2},{70.6,41.2},{70.6,55},{70.8,35.2},{71,15.4},{71,15.6},{71,35.8},{71.2,60.4},{71.4,27},{71.4,44.6},{71.4,46.8},{71.4,56.6},{71.6,17.8},{71.6,27},{72,41.8},{72.2,23},{72.2,32.4},{72.2,32.6},{72.4,37},{72.4,49.8},{72.8,18.2},{72.8,33},{72.8,36.8},{72.8,64.6},{73,49},{73,56.8},{73.4,21.4},{73.4,21.6},{73.6,21.4},{73.6,21.6},{73.8,27},{73.8,30},{73.8,34.4},{74,29.4},{74,35.4},{74,47.4},{74,47.6},{74,51.8},{74.2,24.4},{74.2,25},{74.2,45.6},{75.2,30},{75.2,33.2},{75.4,33.6},{76,23.4},{76,23.6},{76.2,17.8},{76.4,25},{76.4,25.6},{76.4,33.8},{76.6,25.4},{76.6,33.8},{76.8,52.2},{77.4,25.6},{77.6,18.4},{77.6,18.6},{78,25.4},{78,25.6},{78.8,21.2},{80.2,17}},
@@ -1329,7 +1342,7 @@ function MopNpcFixes.Load()
         [62538] = { -- Kil'ruk the Wind-Reaver
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {55.09,33.83,phases.KIL_RUK_AT_PILLAR},
-                {55.06,35.86,phases.KIL_RUK_NEXT_TO_ZIKK},
+                {55.06,35.85,phases.KIL_RUK_NEXT_TO_ZIKK},
             }},
         },
         [62542] = { -- Kovok
@@ -1391,6 +1404,9 @@ function MopNpcFixes.Load()
                 {44.41,16.8,phases.SKEER_IN_KLAXXI_VEES}
             }},
         },
+        [63072] = { -- Rik'kal the Dissector
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.37,35.94}}},
+        },
         [63087] = { -- Shao-Tien Ritual Statue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.81,44.73}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1446,6 +1462,9 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{52.04,43.12}}},
         },
+        [63758] = { -- Kaz'tik the Manipulator
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78}}},
+        },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}},
@@ -1472,6 +1491,7 @@ function MopNpcFixes.Load()
         },
         [63943] = { -- Mistfall Village Fire Bunny
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.54,75.39},{32.45,73.56},{34.06,73.93},{36.10,76.54},{38.54,71.85},{36.60,71.08}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [63944] = { -- Longfin Thresher
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{38.8,78.2},{39,79.6},{39.4,77.4},{39.4,78.6},{39.8,79.8},{40.2,78.4},{40.2,78.6},{40.8,80.6},{41.2,76.8},{41.2,78.2},{41.2,80},{41.4,76.4},{41.4,79},{41.6,76},{41.6,79.2},{41.8,80.6},{42,79.6},{42.4,77.4},{42.4,77.8},{42.6,77.4},{42.8,76.4},{42.8,78.8},{43,81},{43.2,75.4},{43.2,80.2},{43.4,70.4},{43.4,77.8},{43.8,80},{44,69.6},{44,76},{44,79},{44,80.6},{44.2,77.2},{44.4,75.2},{44.4,78.4},{44.6,77.4},{44.8,74.2},{44.8,78},{45,71.2},{45,74.6},{45,80.4},{45,80.6},{45.2,72.8},{45.2,78.6},{45.2,81.6},{45.4,75.6},{45.6,74.6},{45.6,76},{45.8,76.6},{45.8,78.2},{45.8,80},{45.8,82.2},{46,73.2},{46,80.6},{46.2,74.4},{46.2,79.2},{46.6,76},{46.6,78.6},{46.6,80.6},{46.8,71.4},{46.8,72.2},{46.8,74.4},{46.8,77.4},{46.8,77.6},{47,82},{47,83.2},{47.2,75.2},{47.4,72.8},{47.4,79.6},{47.6,73},{47.6,75.6},{47.6,77.6},{47.6,79.8},{47.8,75.2},{48,77},{48,79.4},{48.2,74},{48.2,82.8},{48.6,72.4},{48.8,77}}},
@@ -1521,6 +1541,9 @@ function MopNpcFixes.Load()
         [64596] = { -- Teng Applebloom
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.22,84.68}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [64599] = { -- Ambersmith Zikk
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{55.02,35.55}}},
         },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {
@@ -2018,7 +2041,7 @@ function MopNpcFixes.Load()
         [244995] = { -- Quid
             [npcKeys.name] = "Quid",
             [npcKeys.subName] = "Spirit of the Misty Falls",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.47,80.05}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.82,79.3}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [245163] = { -- Baolai the Immolator
@@ -2027,10 +2050,20 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.48,81.47}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [246176] = { -- Vicejaw
+            [npcKeys.name] = "Vicejaw",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.41,50.91}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [246246] = { -- Shadowmaster Sydow
             [npcKeys.name] = "Shadowmaster Sydow",
             [npcKeys.subName] = "The Soul-Gatherer",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.78,48.04}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246479] = { -- Spirit of Lao-Fe
+            [npcKeys.name] = "Spirit of Lao-Fe",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{47.44,65.68}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
 

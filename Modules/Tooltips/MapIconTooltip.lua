@@ -515,9 +515,9 @@ local function _GetQuestTag(quest)
         elseif (questType == 41) then
             return "(" .. l10n("PvP") .. ")";
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
-            return "(" .. l10n("Weekly") .. ")";
+            return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
-            return "(" .. l10n("Daily") .. ")";
+            return "(" .. (DAILY or l10n("Daily")) .. ")";
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return "(" .. l10n("Repeatable") .. ")";
         elseif (questType == 81 or questType == 83 or questType == 62 or questType == 1) then

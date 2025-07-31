@@ -297,6 +297,7 @@ function MopItemFixes.Load()
         },
         [79827] = { -- Authentic Valley Stir Fry
             [itemKeys.npcDrops] = {59124},
+            [itemKeys.objectDrops] = {210803},
         },
         [79828] = { -- Yak Statuette
             [itemKeys.npcDrops] = {59124},
@@ -468,6 +469,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
         },
+        [80830] = { -- Rusty Shipwreck Debris
+            [itemKeys.objectDrops] = {214547},
+        },
         [80832] = { -- Viseclaw Fisher Eye
             [itemKeys.npcDrops] = {58880,58881,61090},
         },
@@ -574,6 +578,7 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 31055,
         },
         [83129] = { -- Cloudrunner Egg
+            [itemKeys.npcDrops] = {62268},
             [itemKeys.objectDrops] = {212230,214479,214480,214481},
         },
         [83135] = { -- Amber Blade
@@ -644,6 +649,9 @@ function MopItemFixes.Load()
         },
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
+        },
+        [85681] = { -- Lushroom
+            [itemKeys.objectDrops] = {213350,213352,213353},
         },
         [85778] = { -- Stolen Mistfall Keg
             [itemKeys.objectDrops] = {213365},
