@@ -2520,18 +2520,23 @@ function MopQuestFixes.Load()
         },
         [30416] = { -- A Ruby Shard for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30417] = { -- A Lovely Apple for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30418] = { -- A Jade Cat for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30419] = { -- A Blue Feather for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30420] = { -- A Marsh Lily for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30421] = { -- A Dish for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
