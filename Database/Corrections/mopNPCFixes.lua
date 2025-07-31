@@ -213,6 +213,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{36.37,40.84},{37.17,40.98},{37.97,41.33},{38.59,40.54},{39.06,40.72},{39.98,40.43},{40.99,40.26}}},
             [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
         },
+        [43929] = { -- Blingtron 4000
+            [npcKeys.name] = "Blingtron 4000",
+        },
         [45847] = { -- S.A.F.E. Operative
             [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.32,73.84},{48.16,44.14},{48.44,44.2},{48.69,44.23},{58.77,23.21},{59.04,23.28},{59.31,23.34},{55.83,85.03},{55.38,85.46},{55.33,79.45},{54.59,75.91},{53.36,75.82},{49.12,62.94},{49.13,61.97},{51.02,32.35},{50.47,31.5},{40.88,34.77},{41.13,29.76},{36.62,29.92},{36.34,30.46},{36.34,32.24},{33.21,31.64},{34.43,35.26},{35.07,33.52},{36.55,33.61},{38.13,33.66},{39.89,33.6},{39.96,32.61},{40.09,31.64},{40.17,30.71}}},
             [npcKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
@@ -692,8 +695,12 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
             },
         },
-        [58673] = { -- Angry Hound
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.6,75.32}}}, -- needs more spawns
+        [58672] = { -- Fog Walker
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{36.6,57.8},{37.4,47.4},{37.4,47.6},{37.6,47.4},{37.6,47.8},{38,56.6},{38.2,45.4},{38.2,45.6},{38.2,58.2},{38.4,43.2},{38.4,43.6},{38.4,55.4},{38.4,55.8},{38.6,43.2},{38.6,43.6},{38.6,44.6},{38.6,46},{38.6,55.6},{39,52.6},{39.2,52.4},{39.2,54.8},{39.4,54.4},{39.6,44},{39.6,54.6},{39.8,42.4},{39.8,42.8},{40.4,53.4},{40.4,53.6},{40.4,55.6},{40.6,53.8},{40.6,55.4},{40.6,55.8},{40.8,42.6},{41.2,40},{41.2,41.2},{41.2,41.6},{41.2,52.8},{41.4,52.2},{41.6,41},{41.6,52.4},{41.6,53},{43,51.8},{43.4,46.2},{43.4,50.8},{43.6,46.2},{43.6,49.2},{43.6,51.4},{43.8,52},{43.8,52.6},{44,40.4},{44,50},{44.2,40.6},{44.4,47.2},{44.6,41.4},{44.6,41.6},{44.6,47.2},{44.6,47.6},{46.2,45.2}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [58673] = { -- Slateskin Troublemaker
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.4,71.8},{32.4,75},{32.6,75},{32.8,72.2},{32.8,73},{33.2,73.8},{33.2,75.6},{33.6,73.6},{33.8,73.4},{34.4,72.4},{35.4,72.4},{35.4,72.6},{35.4,74.4},{35.4,74.6},{35.6,74.6},{36,71.4},{36,71.8},{36.2,70.4},{36.2,72.8},{36.4,73.6},{36.4,75.6},{36.4,79.2},{36.4,79.6},{36.6,73.4},{36.6,73.6},{36.8,74.8},{36.8,79},{37,76.2},{37,76.8},{37,78.4},{37.2,79.8},{37.4,81.4},{37.4,81.6},{37.6,81.2},{37.6,81.6},{37.8,79.4},{38.2,78.2},{38.4,77.4},{38.4,80.4},{38.6,78.2},{38.6,79.6},{39,74.6},{39,76},{39,76.6},{39.2,74.4},{39.4,78.6},{39.6,77.4},{39.6,78.2},{39.6,78.6}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [58674] = { -- Angry Hound
@@ -732,6 +739,10 @@ function MopNpcFixes.Load()
         },
         [58955] = { -- Stoneplow Envoy
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{17.01,35.22},{15.89,34.65},{15.41,35.45},{14.23,35.62},{13.57,36.29},{14.43,36.67},{15.92,36.63},{15.45,37.74},{16.67,37.62}}},
+        },
+        [58967] = { -- Survival Ring Flame Credit
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{18.87,67.83}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [58978] = { -- Koro Mistwalker
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.79,38.30}}},
@@ -830,6 +841,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.87,72.21}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59340] = { -- Leven Dawnblade
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{21.49,71.18}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [59341] = { -- Merchant Tantan
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.22,45.93}}},
         },
@@ -838,7 +853,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59343] = { -- Ren Firetongue
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.4,46}}}, -- wowhead coords, need ingame ones
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.31,46.01}}},
         },
         [59372] = { -- Scarlet Scholar
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -849,18 +864,15 @@ function MopNpcFixes.Load()
         [59391] = { -- Foreman Raike
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.31,61.35}}},
         },
+        [59404] = { -- Knifetooth Swarmer
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{38.4,50.4},{38.4,50.6},{38.6,50.4},{38.6,51},{38.6,51.6},{39.4,45.4},{39.4,46.2},{39.4,47.2},{39.4,47.6},{39.4,49.4},{39.6,46},{39.6,47},{39.6,47.6},{40.4,44.4},{40.4,45},{40.4,48.8},{40.4,50.4},{40.4,50.8},{40.6,44.4},{40.6,50.4},{40.6,50.8},{40.8,45.2},{40.8,45.6},{41,48.6},{41.2,47.4},{41.2,48},{41.6,49.4},{41.6,49.8},{42,47.6},{42.2,47.4}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [59411] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.78,67.09}}},
         },
         [59424] = { -- Dak Dak
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.27,71.59}}},
-        },
-        [59894] = { -- Brother Yakshoe
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
-                {50.6,64.08,phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE},
-                {52.02,67.18,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
-                {45.94,64.13,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
-            }},
         },
         [59452] = { -- Brother Rabbitsfoot
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
@@ -893,6 +905,13 @@ function MopNpcFixes.Load()
         },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, -- removed for quest clutter
+        },
+        [59894] = { -- Brother Yakshoe
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {50.6,64.08,phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE},
+                {52.02,67.18,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
+                {45.94,64.13,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+            }},
         },
         [59908] = { -- Jaluu the Generous
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.15,72.61}}},
@@ -2085,7 +2104,7 @@ function MopNpcFixes.Load()
         [246386] = { -- Bai-Jin the Butcher
             [npcKeys.name] = "Bai-Jin the Butcher",
             [npcKeys.subName] = "Shao-Tien Imperion",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.47,24.99}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.33,24.92}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246479] = { -- Spirit of Lao-Fe

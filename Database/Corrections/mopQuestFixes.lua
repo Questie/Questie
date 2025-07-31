@@ -2065,6 +2065,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58768}}}, -- check ID
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
             [questKeys.exclusiveTo] = {30234},
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30234] = { -- Vicejaw
             [questKeys.startedBy] = {{59343}},
@@ -2072,6 +2073,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{246176}}},
             [questKeys.preQuestGroup] = {30291,30314,30339,30342},
             [questKeys.exclusiveTo] = {30233},
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30235] = { -- Quid Pro Quo
             [questKeys.startedBy] = {{59338}},
@@ -2108,19 +2110,57 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30235,30236},
         },
         [30240] = { -- Survival Ring: Flame
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.startedBy] = {{59340}},
+            [questKeys.finishedBy] = {{58743}},
+            [questKeys.exclusiveTo] = {30242},
+            [questKeys.preQuestSingle] = {30385,31247,31250,31297},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58967,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30241] = { -- Warn Stoneplow [Horde]
             [questKeys.exclusiveTo] = {30376},
         },
         [30242] = { -- Survival Ring: Blades
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.startedBy] = {{59340}},
+            [questKeys.finishedBy] = {{59340}},
+            [questKeys.exclusiveTo] = {30240},
+            [questKeys.preQuestSingle] = {30385,31247,31250,31297},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30243] = { -- Mantid Under Fire
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30245,30246,30266,30444},
+        },
+        [30244] = { -- Along the Serpent's Spine
+            [questKeys.startedBy] = {{58920}},
+            [questKeys.finishedBy] = {{58920}},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {30245,30246,30266,30444},
+        },
+        [30245] = { -- Lost Scouts
+            [questKeys.startedBy] = {{58920}},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30243,30244,30246,30266},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58947,58930},58930,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [30246] = { -- Upon the Ramparts
+            [questKeys.startedBy] = {{58919}},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30243,30244,30245,30444},
         },
         [30248] = { -- The Butcher
+            [questKeys.startedBy] = {{58920}},
+            [questKeys.finishedBy] = {{58920}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {{{246386}}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30249] = { -- Under the Setting Sun
             [questKeys.objectives] = {{{63978}}}, -- check ID
@@ -2163,7 +2203,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30291,30338},
         },
         [30266] = { -- Bloodied Skies
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30243,30244,30245,30444},
         },
         [30268] = { -- The Murksweats
             [questKeys.preQuestSingle] = {30269},
@@ -2287,7 +2329,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62880,62881,63691},62880}}}, -- check ID
         },
         [30306] = { -- The Battle Ring
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.startedBy] = {{58919}},
+            [questKeys.finishedBy] = {{58962}},
+            [questKeys.preQuestSingle] = {30385,31247,31250,31297},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30307] = { -- The Eternal Vigil
             [questKeys.startedBy] = {{58408}},
@@ -2410,6 +2455,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59341}},
             [questKeys.preQuestSingle] = {31131},
             [questKeys.exclusiveTo] = {30339},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30341] = { -- Under Watchful Eyes
             [questKeys.startedBy] = {{59342}},
@@ -2707,6 +2753,12 @@ function MopQuestFixes.Load()
         },
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [30444] = { -- No Reprieve
+            [questKeys.startedBy] = {{58919}},
+            [questKeys.preQuestSingle] = {30306,30240},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30243,30244,30246,30266},
         },
         [30457] = { -- Call Out Their Leader
             [questKeys.preQuestSingle] = {},
@@ -3107,6 +3159,10 @@ function MopQuestFixes.Load()
         [30638] = { -- Leaving an Opening
             [questKeys.startedBy] = {{58465}},
             [questKeys.preQuestGroup] = {30635,30636,30637},
+        },
+        [30639] = { -- The Secrets of Guo-Lai
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
@@ -4351,6 +4407,13 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {30281,30282,30283,30292,30293,31131,31242},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31760},
+        },
+        [31247] = { -- Setting Sun Garrison
+            [questKeys.startedBy] = {{59343}},
+            [questKeys.finishedBy] = {{58919}},
+            [questKeys.exclusiveTo] = {30385,31250,31297},
+            [questKeys.preQuestGroup] = {30313,30265,30340,30284}, -- Whitepetal Lake Peace
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
