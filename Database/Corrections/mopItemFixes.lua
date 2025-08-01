@@ -715,6 +715,10 @@ function MopItemFixes.Load()
         [86431] = { -- Stormstout Secrets
             [itemKeys.objectDrops] = {213795},
         },
+        [86433] = { -- Nice Necklace
+            [itemKeys.startQuest] = 31325,
+            [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
+        },
         [86446] = { -- Sheepie
             [itemKeys.npcDrops] = {64386},
         },
@@ -777,6 +781,9 @@ function MopItemFixes.Load()
         },
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89317] = { -- Claw of Anger
+            [itemKeys.startQuest] = 31809,
         },
         [89603] = { -- Encoded Captain's Log
             [itemKeys.npcDrops] = {66148},
