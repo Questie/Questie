@@ -407,8 +407,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [55234] = { -- An Windfur
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.65,46.15,phases.AN_WINDFUR_DAWNS_BLOSSOM_GATE}}},
+        },
         [55274] = { -- An Windfur
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.47,47.55}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.47,47.55,phases.AN_WINDFUR_FOREST_HEART}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [55282] = { -- Sully "The Pickle" McLeary
@@ -438,11 +441,18 @@ function MopNpcFixes.Load()
         [55368] = { -- Widow Greenpaw
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.34,46.22}}},
         },
+        [55369] = { -- An Windfur
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.88,46.28,phases.AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE}}},
+        },
         [55378] = { -- Lifelike Jade Statue
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{38.85,45.92},{38.84,46.19},{38.88,46.42},{39.04,46.51},{38.93,46},{39.08,46.01},{39.15,45.79}}},
         },
         [55381] = { -- Widow Greenpaw
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{39.24,46.21}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [55413] = { -- An Windfur
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.77,44.71,phases.AN_WINDFUR_DAWNS_BLOSSOM_UP}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [55438] = { -- Outcast Sprite

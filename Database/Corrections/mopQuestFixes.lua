@@ -1003,7 +1003,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31230},
         },
         [29717] = { -- Down Kitty!
-            [questKeys.startedBy] = {{55274,55413}},
+            [questKeys.startedBy] = {{55274,55413,55369}},
             [questKeys.preQuestSingle] = {31230},
         },
         [29725] = { -- SI:7 Report: Fire From the Sky

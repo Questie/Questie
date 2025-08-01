@@ -331,6 +331,10 @@ local phases = {
     LUSSHAN_PUDDLE = 1259,
     CHO_NEAR_BEER_TABLE = 1260,
     CHO_NEAR_PAGODAS = 1261,
+    AN_WINDFUR_DAWNS_BLOSSOM_GATE = 1262,
+    AN_WINDFUR_DAWNS_BLOSSOM_UP = 1263,
+    AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE = 1264,
+    AN_WINDFUR_FOREST_HEART = 1265,
 }
 Phasing.phases = phases
 
@@ -1469,6 +1473,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CHO_NEAR_PAGODAS then
         return complete[31130] or false
+    end
+
+    if phase == phases.AN_WINDFUR_DAWNS_BLOSSOM_GATE then
+        return (not complete[29723]) and ((not questLog[29723]) or questLog[29723].isComplete == 0) or false
+    end
+
+    if phase == phases.AN_WINDFUR_DAWNS_BLOSSOM_UP then
+        return complete[29723] or (questLog[29723] and questLog[29723].isComplete == 1) or false
+    end
+
+    if phase == phases.AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE then
+        return (questLog[29723] and questLog[29723].isComplete == 0) or false
+    end
+
+    if phase == phases.AN_WINDFUR_FOREST_HEART then
+        return (not complete[29723]) and ((not questLog[29723]) or questLog[29723].isComplete == 0) or complete[29723] or false
     end
 
     return false
