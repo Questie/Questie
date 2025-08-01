@@ -1902,6 +1902,7 @@ function MopQuestFixes.Load()
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
+            [questKeys.objectives] = {{{58420,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30146] = { -- Snack Time
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
@@ -4025,18 +4026,46 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
         },
+        [31040] = { -- Spiteful Sprites
+            [questKeys.exclusiveTo] = {31042,31048},
+        },
+        [31041] = { -- Egg Rescue!
+            [questKeys.exclusiveTo] = {31044,31047},
+        },
+        [31042] = { -- Onyx Hearts
+            [questKeys.exclusiveTo] = {31040,31048},
+        },
+        [31043] = { -- Dark Arts
+            [questKeys.exclusiveTo] = {31045,31046},
+        },
+        [31044] = { -- Bronze Claws
+            [questKeys.exclusiveTo] = {31041,31047},
+        },
+        [31045] = { -- Illusions Of The Past
+            [questKeys.exclusiveTo] = {31043,31046},
+        },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
+            [questKeys.exclusiveTo] = {31043,31045},
         },
         [31047] = { -- Born Free
             [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.exclusiveTo] = {31041,31044},
         },
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
+            [questKeys.exclusiveTo] = {31040,31042},
+        },
+        [31049] = { -- In Sprite Of Everything
+            [questKeys.exclusiveTo] = {31061,31062},
         },
         [31061] = { -- Riding the Storm
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584,62585,62586},62311}}},
+            [questKeys.exclusiveTo] = {31049,31062},
+        },
+        [31062] = { -- When The Dead Speak
+            [questKeys.exclusiveTo] = {31049,31061},
         },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
