@@ -68,6 +68,15 @@ describe("Tooltip", function()
             assert.are.same({}, tooltip)
         end)
 
+        it("should return nil when no tooltip is registered", function()
+            QuestieTooltips.lookupByKey = {}
+
+            local tooltip = QuestieTooltips.GetTooltip("key")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
+            assert.is_nil(tooltip)
+        end)
+
         it("should return quest name and objective when tooltip has spell objective", function()
             QuestieDB.QueryItemSingle = spy.new(function()
                 return "Item Name"
