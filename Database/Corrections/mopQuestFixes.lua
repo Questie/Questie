@@ -4071,6 +4071,7 @@ function MopQuestFixes.Load()
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
             [questKeys.exclusiveTo] = {31040,31042},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31049] = { -- In Sprite Of Everything
             [questKeys.exclusiveTo] = {31061,31062},
@@ -4079,9 +4080,6 @@ function MopQuestFixes.Load()
         [31061] = { -- Riding the Storm
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584,62585,62586},62311}}},
             [questKeys.exclusiveTo] = {31049,31062},
-        },
-        [31062] = { -- When The Dead Speak
-            [questKeys.exclusiveTo] = {31049,31061},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31062] = { -- When The Dead Speak
