@@ -2043,27 +2043,27 @@ function MopQuestFixes.Load()
         },
         [30200] = { -- In Ashen Webs
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30225,30227}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30204] = { -- That's Not a Rock!
             [questKeys.startedBy] = {{58504}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30205,30206,30225,30227}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30205] = { -- Runelocked
             [questKeys.startedBy] = {{63266}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30204,30225,30227,30304}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30206] = { -- Runes in the Ruins
             [questKeys.startedBy] = {{63266}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30204,30225,30227,30304}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2077,7 +2077,7 @@ function MopQuestFixes.Load()
         },
         [30226] = { -- Blood on the Rise
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30225,30227,30228}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2090,7 +2090,7 @@ function MopQuestFixes.Load()
         },
         [30228] = { -- Troubling the Troublemakers
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30225,30226,30227}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2384,7 +2384,7 @@ function MopQuestFixes.Load()
         },
         [30304] = { -- Hard as a Rock
             [questKeys.startedBy] = {{58504}},
-            [questKeys.preQuestSingle] = {31296},
+            [questKeys.preQuestSingle] = {31294,31296},
             [questKeys.exclusiveTo] = {30204,30206,30225,30227}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2990,11 +2990,15 @@ function MopQuestFixes.Load()
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
-            [questKeys.requiredMinRep] = {1272,25500} -- Tillers 4500 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,25200} -- Tillers 4200 into Revered (wowhead)
+        },
+        [30518] = { -- Farmer Fung's Vote I: Yak Attack
+            [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.44,34.33}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
+            [questKeys.objectives] = {{{59491,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
-            [questKeys.requiredMinRep] = {1272,29500} -- Tillers 8500 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,29400} -- Tillers 8400 into Revered (wowhead)
         },
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
             [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
@@ -3053,7 +3057,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30514},
         },
         [30584] = { -- Shocking!
-            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS]={{64.51,28.12}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Dojani Eel")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS] = {{64.51,28.12}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Dojani Eel")}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30585] = { -- What Lurks Below
@@ -3472,7 +3476,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31030,31031},
         },
         [30763] = { -- Piranha!
-            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS]={{36.56,41.41}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Wolf Piranha")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KRASARANG_WILDS] = {{36.56,41.41}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Wolf Piranha")}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30767] = { -- Risking It All
@@ -4026,32 +4030,43 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
         },
+        [31039] = { -- The Mogu Menace
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [31040] = { -- Spiteful Sprites
             [questKeys.exclusiveTo] = {31042,31048},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31041] = { -- Egg Rescue!
             [questKeys.exclusiveTo] = {31044,31047},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31042] = { -- Onyx Hearts
             [questKeys.exclusiveTo] = {31040,31048},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31043] = { -- Dark Arts
             [questKeys.exclusiveTo] = {31045,31046},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31044] = { -- Bronze Claws
             [questKeys.exclusiveTo] = {31041,31047},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31045] = { -- Illusions Of The Past
             [questKeys.exclusiveTo] = {31043,31046},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
             [questKeys.exclusiveTo] = {31043,31045},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31047] = { -- Born Free
             [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.exclusiveTo] = {31041,31044},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
@@ -4059,6 +4074,7 @@ function MopQuestFixes.Load()
         },
         [31049] = { -- In Sprite Of Everything
             [questKeys.exclusiveTo] = {31061,31062},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31061] = { -- Riding the Storm
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584,62585,62586},62311}}},
@@ -4066,6 +4082,11 @@ function MopQuestFixes.Load()
         },
         [31062] = { -- When The Dead Speak
             [questKeys.exclusiveTo] = {31049,31061},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31062] = { -- When The Dead Speak
+            [questKeys.exclusiveTo] = {31049,31061},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31063] = { -- Lao-Chin and Serevex
             [questKeys.preQuestSingle] = {31065},
@@ -4186,6 +4207,12 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {86489},
             [questKeys.objectives] = {{{64485,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [31105] = { -- The Mogu Menace
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31106] = { -- The Mogu Menace
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [31107] = { -- Citizens of a New Empire
             [questKeys.preQuestGroup] = {31007,31010,31660},
         },
@@ -4198,6 +4225,27 @@ function MopQuestFixes.Load()
         },
         [31111] = { -- Eradicating the Zan'thik
             [questKeys.preQuestSingle] = {31066},
+        },
+        [31113] = { -- Assault Fire Camp Gai-Cho
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31114] = { -- Assault Deadtalker's Plateau
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31116] = { -- Spirit Dust
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31117] = { -- Uruk!
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31118] = { -- The Deadtalker Cipher
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31119] = { -- The Enemy of My Enemy... Is Still My Enemy!
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31120] = { -- Cheng Bo!
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
@@ -4427,6 +4475,30 @@ function MopQuestFixes.Load()
         },
         [31194] = { -- Slitherscale Suppression
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+        },
+        [31196] = { -- Sra'vess Wetwork
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31197] = { -- The Bigger They Come...
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31198] = { -- A Morale Victory
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31199] = { -- Destroy the Siege Weapons!
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31200] = { -- Fumigation
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31201] = { -- Friends, Not Food!
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31203] = { -- Target of Opportunity: Sra'thik Swarmlord
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31204] = { -- Target of Opportunity: Sra'thik Hivelord
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
@@ -4989,6 +5061,7 @@ function MopQuestFixes.Load()
         },
         [31537] = { -- Ella's Taste Test
             [questKeys.requiredMinRep] = {1275,25200}, -- Friend level with Ella
+            [questKeys.objectives] = {{{58710,nil,Questie.ICON_TYPE_INTERACT},{58717,nil,Questie.ICON_TYPE_INTERACT},{58646,nil,Questie.ICON_TYPE_INTERACT},{64597,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31538] = { -- A Worthy Brew
             [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
