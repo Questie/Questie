@@ -691,8 +691,35 @@ function MopNpcFixes.Load()
                 {19.91,75.67,phases.HEMETS_OUTSIDE_CAMP},
             }},
         },
-        [58545] = { -- Stonebark Trickster
-            [npcKeys.spawns] = {}, -- Remove invalid spawns
+        [58428] = { -- Azure Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58429] = { -- Golden Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58430] = { -- Jade Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58440] = { -- Azure Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58441] = { -- Golden Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58442] = { -- Jade Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58444] = { -- Instructor Windblade
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.61,43.65}}},
+        },
+        [58497] = { -- Azure Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58498] = { -- Jade Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58499] = { -- Golden Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
         },
         [58455] = { -- Stillwater Crocolisk
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{29.4,68.8},{29.4,69.6},{29.6,68.8},{31.2,66.6},{32.4,67.4},{33,65.4},{33,65.6},{34.4,61.8},{34.6,60.2},{34.8,58.4},{34.8,58.6},{35.4,56.8},{36.6,55},{36.6,56.4},{39.37,49.97},{40.7,47.36}}},
@@ -722,6 +749,9 @@ function MopNpcFixes.Load()
         },
         [58504] = { -- Kun Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.06,38.11}}},
+        },
+        [58545] = { -- Stonebark Trickster
+            [npcKeys.spawns] = {}, -- Remove invalid spawns
         },
         [58607] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},
