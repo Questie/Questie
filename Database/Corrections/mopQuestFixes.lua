@@ -1904,6 +1904,13 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
             [questKeys.objectives] = {{{58420,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30144] = { -- Flight Training: Ring Round-Up
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58428},{"monster",58429},{"monster",58430}}}},
+        },
+        [30145] = { -- Flight Training: Flight Training: Full Speed Ahead
+            [questKeys.objectives] = {{{58444,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58440},{"monster",58441},{"monster",58442}}}},
+        },
         [30146] = { -- Snack Time
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
@@ -1993,6 +2000,9 @@ function MopQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Hemet"),0,{{"monster",58461}}},
                 {{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{21.9,74.18}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")},
             },
+        },
+        [30187] = { -- Flight Training: In Due Course
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58440},{"monster",58441},{"monster",58442}}}},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
@@ -5547,6 +5557,11 @@ function MopQuestFixes.Load()
         },
         [31782] = { -- Overthrone
             [questKeys.preQuestSingle] = {32030},
+        },
+        [31784] = { -- Onyx To Goodness
+            [questKeys.preQuestSingle] = {30142},
+            [questKeys.questFlags] = 0,
+            [questKeys.requiredMinRep] = {},
         },
         [31808] = { -- Rampage Against the Machine
             [questKeys.preQuestGroup] = {31092,31359,31398},
