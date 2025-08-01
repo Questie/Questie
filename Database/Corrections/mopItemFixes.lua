@@ -657,8 +657,14 @@ function MopItemFixes.Load()
         [85161] = { -- Soul-Gatherer's Beads
             [itemKeys.npcDrops] = {246246},
         },
+        [85204] = { -- Ancient Mogu Artifact
+            [itemKeys.npcDrops] = {63273},
+        },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85278] = { -- Guo-Lai Runestone
+            [itemKeys.objectDrops] = {213180},
         },
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},

@@ -1463,10 +1463,11 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{56527,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [29931] = { -- The Serpent's Heart
-            [questKeys.preQuestSingle] = {29930},
+            [questKeys.preQuestGroup] = {29926,29930},
         },
         [29932] = { -- The Temple of the Jade Serpent
             [questKeys.objectives] = {{{57242,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to the Temple of the Jade Serpent"),0,{{"monster",59392}}}},
         },
         [29933] = { -- The Bees' Knees
             [questKeys.preQuestSingle] = {31167},
@@ -1582,7 +1583,7 @@ function MopQuestFixes.Load()
         },
         [30000] = { -- The Jade Serpent
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29999,30005,30011}, -- might need more than these 3
+            [questKeys.preQuestGroup] = {29999,30004,30005,30011},
         },
         [30002] = { -- Pages of History
             [questKeys.preQuestSingle] = {29998},
@@ -2039,8 +2040,58 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31242},
             [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
         },
+        [30200] = { -- In Ashen Webs
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30225,30227}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+        },
+        [30204] = { -- That's Not a Rock!
+            [questKeys.startedBy] = {{58504}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30205,30206,30225,30227}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30205] = { -- Runelocked
+            [questKeys.startedBy] = {{63266}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30204,30225,30227,30304}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30206] = { -- Runes in the Ruins
+            [questKeys.startedBy] = {{63266}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30204,30225,30227,30304}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+        },
         [30225] = { -- The Ashweb Matriarch
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.preQuestGroup] = {30200,30226,30205,30206}, -- needs daily module
             [questKeys.objectives] = {{{58474}}}, -- check ID
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {30227},
+        },
+        [30226] = { -- Blood on the Rise
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30225,30227,30228}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+        },
+        [30227] = { -- Wulon, the Granite Sentinel
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {30225},
+            [questKeys.objectives] = {{{63510}}},
+        },
+        [30228] = { -- Troubling the Troublemakers
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30225,30226,30227}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30229] = { -- The Greater Danger
             [questKeys.preQuestSingle] = {30132},
@@ -2261,37 +2312,37 @@ function MopQuestFixes.Load()
         [30285] = { -- Wu Kao Scouting Reports
             [questKeys.startedBy] = {{59337}},
             [questKeys.preQuestSingle] = {31243},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30286] = { -- Backed Into a Corner
             [questKeys.startedBy] = {{59337}},
             [questKeys.preQuestSingle] = {31243},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{64187,63949},63949,nil,Questie.ICON_TYPE_INTERACT}}}, -- both IDs need spawns
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30287] = { -- Mogu Make Poor House Guests
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30288] = { -- My Town, It's On Fire Again
             [questKeys.startedBy] = {{59336}},
             [questKeys.preQuestSingle] = {31243},
             [questKeys.requiredSourceItems] = {85950},
             [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30289] = { -- Freeing Mind and Body
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243},
             [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30290] = { -- Stonebound Killers
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243},
             [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
@@ -2314,19 +2365,27 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{62881}}}, -- check ID
             [questKeys.preQuestSingle] = {30285,30286,30287,30288,30289,30290,31293}, -- needs daily module
-            [questKeys.exclusiveTo] = {30297},
+            [questKeys.exclusiveTo] = {30297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30297] = { -- Baolai the Immolator
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245163}}},
             [questKeys.preQuestSingle] = {30285,30286,30287,30288,30289,30290,31293}, -- needs daily module
-            [questKeys.exclusiveTo] = {30296},
+            [questKeys.exclusiveTo] = {30296,31296},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30302] = { -- The Imperion Threat
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62880,62881,63691},62880}}}, -- check ID
+        },
+        [30304] = { -- Hard as a Rock
+            [questKeys.startedBy] = {{58504}},
+            [questKeys.preQuestSingle] = {31296},
+            [questKeys.exclusiveTo] = {30204,30206,30225,30227}, -- not visible once the final quest in hub is picked up
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30306] = { -- The Battle Ring
             [questKeys.startedBy] = {{58919}},
@@ -2968,7 +3027,7 @@ function MopQuestFixes.Load()
         [30568] = { -- Helping the Cause
             [questKeys.preQuestSingle] = {30000},
             [questKeys.objectives] = {{{59572},{59562},{59609,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"monster",59563}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),2,{{"monster",59563}}}},
         },
         [30569] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30514},
@@ -4408,6 +4467,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58408}},
             [questKeys.exclusiveTo] = {30281,30282,30283,30292,30293,31131,31242},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31760},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31247] = { -- Setting Sun Garrison
             [questKeys.startedBy] = {{59343}},
@@ -4492,7 +4552,13 @@ function MopQuestFixes.Load()
         [31293] = { -- Mogu Make Poor House Guests
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243},
-            [questKeys.exclusiveTo] = {30296,30297}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
+        },
+        [31296] = { -- The Ruins of Guo-Lai
+            [questKeys.startedBy] = {{59337}},
+            [questKeys.finishedBy] = {{58503}},
+            [questKeys.preQuestSingle] = {30285,30286,30287,30288,30289,30290,31293}, -- needs daily module
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
@@ -5904,6 +5970,7 @@ function MopQuestFixes.Load()
         [32019] = { -- They Call Him... Stormstout
             [questKeys.exclusiveTo] = {32018},
             [questKeys.breadcrumbForQuestId] = 29907,
+            [questKeys.preQuestSingle] = {30495},
         },
         [32030] = { -- Once in a Hundred Lifetimes
             [questKeys.preQuestSingle] = {},
