@@ -10,6 +10,8 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [4913] = 14, -- Spitescale Cavern -> Durotar
     [5786] = 4265, -- The Nexus -> The Nexus
     [5931] = 5785, -- The Arboretum -> The Jade Forest
+    [5955] = 5785, -- Greenstone Quarry Lower Quarry(fake ID cave in The Jade Forest)
+    [6074] = 5840, -- Guo-Lai Halls -> Vale of Eternal Blossoms
     [6137] = 1, -- Frostmane Hovel -> Dun Morogh
     [6170] = 12, -- Northshire -> Elwynn Forest
     [6176] = 1, -- Coldridge Valley -> Dun Morogh
@@ -98,6 +100,8 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10077] = 6066, -- Scholomance - Chamber of Summoning (fake ID for Scholomance MoP)
     [10078] = 6066, -- Scholomance - The Upper Study (fake ID for Scholomance MoP)
     [10079] = 6066, -- Scholomance - Headmaster's Study (fake ID for Scholomance MoP)
+    [10080] = 5840, -- Guo-Lai Halls - The Hall of the Serpent (fake ID cave in Vale of Eternal Blossoms)
+    [10081] = 5785, -- Greenstone Quarry Lower Quarry(fake ID cave in The Jade Forest)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon

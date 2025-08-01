@@ -222,8 +222,11 @@ function MopItemFixes.Load()
         [79025] = { -- Slitherscale Harpoon
             [itemKeys.objectDrops] = {210277},
         },
+        [79027] = { -- Saltback Meat
+            [itemKeys.npcDrops] = {58218},
+        },
         [79028] = { -- Saltback Meat Scrap
-            [itemKeys.npcDrops] = {58218,58219},
+            [itemKeys.npcDrops] = {58219},
         },
         [79030] = { -- Honeycomb
             [itemKeys.npcDrops] = {58363},
@@ -350,6 +353,9 @@ function MopItemFixes.Load()
         [80133] = { -- Preserved Vegetables
             [itemKeys.objectDrops] = {210956,210957},
         },
+        [80136] = { -- Waxed Plank
+            [itemKeys.objectDrops] = {211120,211122},
+        },
         [80134] = { -- Uncut Chrysoberyl
             [itemKeys.objectDrops] = {210958,210959,210960},
         },
@@ -403,6 +409,9 @@ function MopItemFixes.Load()
         },
         [80307] = { -- Grummlepack
             [itemKeys.npcDrops] = {59408,59896,59897,59898},
+        },
+        [80310] = { -- Silver Goby
+            [itemKeys.objectDrops] = {211169},
         },
         [80311] = { -- Filled Oil Vial
             [itemKeys.objectDrops] = {211530,211531},
@@ -470,7 +479,7 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 30675;
         },
         [80830] = { -- Rusty Shipwreck Debris
-            [itemKeys.objectDrops] = {214547},
+            [itemKeys.objectDrops] = {211423},
         },
         [80832] = { -- Viseclaw Fisher Eye
             [itemKeys.npcDrops] = {58880,58881,61090},
@@ -511,6 +520,10 @@ function MopItemFixes.Load()
         },
         [81385] = { -- Stolen Inkgill Ritual Staff
             [itemKeys.npcDrops] = {59180},
+        },
+        [81407] = { -- Four Wind Soju
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {64319}, -- This is the closest vendor to Jogu the Drunk
         },
         [82298] = { -- Handful of Volatile Blooms
             [itemKeys.objectDrops] = {211684},
@@ -644,11 +657,23 @@ function MopItemFixes.Load()
         [85161] = { -- Soul-Gatherer's Beads
             [itemKeys.npcDrops] = {246246},
         },
+        [85204] = { -- Ancient Mogu Artifact
+            [itemKeys.npcDrops] = {63273},
+        },
         [85230] = { -- Sea Monarch Chunks
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [85278] = { -- Guo-Lai Runestone
+            [itemKeys.objectDrops] = {213180},
+        },
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
+        },
+        [85571] = { -- Venomous Stinger
+            [itemKeys.npcDrops] = {63586,63588},
+        },
+        [85572] = { -- Scarab Wing
+            [itemKeys.npcDrops] = {63587},
         },
         [85681] = { -- Lushroom
             [itemKeys.objectDrops] = {213350,213352,213353},
@@ -695,6 +720,10 @@ function MopItemFixes.Load()
         },
         [86431] = { -- Stormstout Secrets
             [itemKeys.objectDrops] = {213795},
+        },
+        [86433] = { -- Nice Necklace
+            [itemKeys.startQuest] = 31325,
+            [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
         },
         [86446] = { -- Sheepie
             [itemKeys.npcDrops] = {64386},
@@ -759,17 +788,23 @@ function MopItemFixes.Load()
         [89163] = { -- Requisitioned Firework Launcher
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [89317] = { -- Claw of Anger
+            [itemKeys.startQuest] = 31809,
+        },
         [89603] = { -- Encoded Captain's Log
             [itemKeys.npcDrops] = {66148},
         },
         [89812] = { -- "Jinyu Princess" Irrigation System
             [itemKeys.startQuest] = 31936,
+            [itemKeys.npcDrops] = {58706},
         },
         [89813] = { -- "Thunder King" Pest Repellers
             [itemKeys.startQuest] = 31937,
+            [itemKeys.npcDrops] = {58706},
         },
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
+            [itemKeys.npcDrops] = {58706},
         },
         [244172] = { -- Eternal Blossom
             [itemKeys.name] = "Eternal Blossom",

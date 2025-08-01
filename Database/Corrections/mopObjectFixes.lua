@@ -331,6 +331,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{43.3,63.49}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [212744] = { -- Whitepetal Reeds
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{38.4,48.1},{38.4,49.4},{38.4,49.5},{38.5,49.4},{38.5,49.5},{38.6,47.3},{38.6,47.5},{38.8,44.4},{38.8,53.2},{38.9,45.5},{39,44.8},{39.4,52},{39.7,43.9},{40,51.4},{40.4,42.9},{40.4,51.6},{40.5,51.4},{40.5,51.6},{40.7,42.4},{40.7,42.8},{42.3,52.5},{42.4,52.4},{42.5,52.4},{42.5,52.5},{43.3,48.4},{43.3,48.6},{43.3,51},{43.4,47},{43.5,47},{43.6,49.2},{43.6,50.5},{43.8,50.2}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [214674] = { -- Ancient Amber Chunk
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.76,41.66}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
