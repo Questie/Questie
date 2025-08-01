@@ -3010,6 +3010,10 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.44,34.33}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
             [questKeys.objectives] = {{{59491,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [30518] = { -- Farmer Fung's Vote II: On the Loose
+            [questKeys.triggerEnd] = {"Escaped Shagskin recovered", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.47,34.31}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59491}}}},
+        },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
             [questKeys.requiredMinRep] = {1272,29400} -- Tillers 8400 into Revered (wowhead)
