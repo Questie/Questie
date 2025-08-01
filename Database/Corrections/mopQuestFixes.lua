@@ -2004,12 +2004,12 @@ function MopQuestFixes.Load()
         [30190] = { -- Sprite Plight
             [questKeys.startedBy] = {{58819}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30191] = { -- Steer Clear of the Beer Here
             [questKeys.startedBy] = {{58819}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Attack it to drop the Stolen Mistfall Keg"),0,{{"monster",58673}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -2017,29 +2017,29 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58819}},
             [questKeys.preQuestSingle] = {31242},
             [questKeys.requiredSourceItems] = {85782},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30193] = { -- Meating Expectations
             [questKeys.startedBy] = {{58818}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30194] = { -- Encroaching Storm
             [questKeys.startedBy] = {{59338}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30195] = { -- Blooming Blossoms
             [questKeys.startedBy] = {{58820}},
             [questKeys.preQuestSingle] = {31242},
             [questKeys.objectives] = {nil,nil,{{244172}}},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30196] = { -- Lushroom Rush
             [questKeys.startedBy] = {{58818}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30200] = { -- In Ashen Webs
             [questKeys.startedBy] = {{58503}},
@@ -2083,6 +2083,7 @@ function MopQuestFixes.Load()
         },
         [30227] = { -- Wulon, the Granite Sentinel
             [questKeys.startedBy] = {{58503}},
+            [questKeys.preQuestGroup] = {30200,30226,30205,30206}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {30225},
@@ -2103,12 +2104,12 @@ function MopQuestFixes.Load()
         [30231] = { -- Pomfruit Pickup
             [questKeys.startedBy] = {{58818}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30232] = { -- Ruffling Some Feathers
             [questKeys.startedBy] = {{58818}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30233] = { -- Cracklefang
@@ -2133,7 +2134,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{244995}}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30236,30239},
+            [questKeys.exclusiveTo] = {30236,30239,31294},
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30236] = { -- Aetha
             [questKeys.startedBy] = {{59338}},
@@ -2141,25 +2143,27 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58778}}}, -- check ID
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30235,30239},
+            [questKeys.exclusiveTo] = {30235,30239,31294},
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30238] = { -- Return to Rest
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {nil,{{210419}}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30239] = { -- Lao-Fe the Slavebinder
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{246479}}},
-            [questKeys.exclusiveTo] = {30235,30236},
+            [questKeys.exclusiveTo] = {30235,30236,31294},
+            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.startedBy] = {{59340}},
@@ -2247,7 +2251,7 @@ function MopQuestFixes.Load()
         [30263] = { -- Clearing in the Forest
             [questKeys.startedBy] = {{59338}},
             [questKeys.preQuestSingle] = {31242},
-            [questKeys.exclusiveTo] = {30235,30236,30239}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30235,30236,30239,31294}, -- not visible once the final quest in hub is picked up
         },
         [30265] = { -- Sparkle in the Eye
             [questKeys.startedBy] = {{59343}},
@@ -4653,11 +4657,19 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31243},
             [questKeys.exclusiveTo] = {30296,30297,31296}, -- not visible once the final quest in hub is picked up
         },
+        [31294] = { -- The Ruins of Guo-Lai
+            [questKeys.startedBy] = {{59338}},
+            [questKeys.finishedBy] = {{58503}},
+            [questKeys.preQuestSingle] = {30285,30286,30287,30288,30289,30290,31293}, -- needs daily module
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {31296},
+        },
         [31296] = { -- The Ruins of Guo-Lai
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30285,30286,30287,30288,30289,30290,31293}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {31294},
         },
         [31302] = { -- Ready For Greatness
             [questKeys.preQuestSingle] = {31281},
