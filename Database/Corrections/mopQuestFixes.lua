@@ -3010,10 +3010,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.44,34.33}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
             [questKeys.objectives] = {{{59491,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
-        [30518] = { -- Farmer Fung's Vote II: On the Loose
-            [questKeys.triggerEnd] = {"Escaped Shagskin recovered", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.47,34.31}}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59491}}}},
-        },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
             [questKeys.requiredMinRep] = {1272,29400} -- Tillers 8400 into Revered (wowhead)
@@ -4015,6 +4011,7 @@ function MopQuestFixes.Load()
         },
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.exclusiveTo] = {31238,31494,31506}, -- exclusivity for honored The Klaxxi
         },
         [31030] = { -- Into the Monastery
             [questKeys.exclusiveTo] = {31031},
@@ -4238,9 +4235,11 @@ function MopQuestFixes.Load()
         [31109] = { -- Culling the Swarm
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31111,31231,31267}, -- exclusivity for honored The Klaxxi
         },
         [31111] = { -- Eradicating the Zan'thik
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.exclusiveTo] = {31109,31231,31267}, -- exclusivity for honored The Klaxxi
         },
         [31113] = { -- Assault Fire Camp Gai-Cho
             [questKeys.questFlags] = questFlags.DAILY,
@@ -4534,6 +4533,7 @@ function MopQuestFixes.Load()
         },
         [31216] = { -- Dark Skies
             [questKeys.preQuestSingle] = {31018},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31228] = { -- Prophet Khar'zul
             [questKeys.objectives] = {{{65855,nil,Questie.ICON_TYPE_TALK},{61541}},nil,nil,nil,{{{64631,64639,64643,64642},64642}}}
@@ -4545,29 +4545,35 @@ function MopQuestFixes.Load()
         [31231] = { -- Dreadspinner Extermination
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31109,31111,31267}, -- exclusivity for honored The Klaxxi
         },
         [31232] = { -- An Ancient Empire
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31270,31496,31507}, -- exclusivity for honored The Klaxxi
         },
         [31233] = { -- Sap Tapping
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31269,31502,31508}, -- exclusivity for honored The Klaxxi
         },
         [31234] = { -- Putting An Eye Out
             [questKeys.preQuestSingle] = {31606},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31271,31503,31509}, -- exclusivity for honored The Klaxxi
         },
         [31235] = { -- Nope Nope Nope
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31268,31487,31505}, -- exclusivity for honored The Klaxxi
         },
         [31237] = { -- Debugging the Terrace
             [questKeys.preQuestSingle] = {31439},
         },
         [31238] = { -- Brain Food
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.exclusiveTo] = {31024,31494,31506}, -- exclusivity for honored The Klaxxi
         },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
@@ -4627,20 +4633,25 @@ function MopQuestFixes.Load()
         },
         [31267] = { -- Mistblade Destruction
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.exclusiveTo] = {31109,31111,31231}, -- exclusivity for honored The Klaxxi
         },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31235,31487,31505}, -- exclusivity for honored The Klaxxi
         },
         [31269] = { -- The Scale-Lord
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31233,31502,31508}, -- exclusivity for honored The Klaxxi
         },
         [31270] = { -- The Fight Against Fear
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.exclusiveTo] = {31232,31496,31507}, -- exclusivity for honored The Klaxxi
         },
         [31271] = { -- Bad Genes
             [questKeys.preQuestSingle] = {31606},
+            [questKeys.exclusiveTo] = {31234,31503,31509}, -- exclusivity for honored The Klaxxi
         },
         [31272] = { -- Infection
             [questKeys.preQuestSingle] = {31439},
@@ -4958,6 +4969,7 @@ function MopQuestFixes.Load()
         [31487] = { -- Sonic Disruption
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31235,31268,31505}, -- exclusivity for honored The Klaxxi
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,63218,64047,64144,64457,66225,66409,66415}},
@@ -4977,39 +4989,48 @@ function MopQuestFixes.Load()
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.exclusiveTo] = {31024,31238,31506}, -- exclusivity for honored The Klaxxi
         },
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
         },
         [31496] = { -- Sampling the Empire's Finest
             [questKeys.preQuestSingle] = {31026},
+            [questKeys.exclusiveTo] = {31232,31270,31507}, -- exclusivity for honored The Klaxxi
         },
         [31502] = { -- Wing Clip
             [questKeys.preQuestSingle] = {31606},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31233,31269,31508}, -- exclusivity for honored The Klaxxi
         },
         [31503] = { -- Shortcut to Ruin
             [questKeys.preQuestSingle] = {31606},
+            [questKeys.exclusiveTo] = {31234,31271,31509}, -- exclusivity for honored The Klaxxi
         },
         [31504] = { -- Ordnance Disposal
             [questKeys.preQuestSingle] = {31439},
         },
         [31505] = { -- Vess-Guard Duty
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.exclusiveTo] = {31235,31268,31487}, -- exclusivity for honored The Klaxxi
         },
         [31506] = { -- Shackles of Manipulation
             [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.exclusiveTo] = {31024,31238,31494}, -- exclusivity for honored The Klaxxi
         },
         [31507] = { -- Meltdown
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31232,31270,31496}, -- exclusivity for honored The Klaxxi
         },
         [31508] = { -- Specimen Request
             [questKeys.preQuestSingle] = {31606},
+            [questKeys.exclusiveTo] = {31233,31269,31502}, -- exclusivity for honored The Klaxxi
         },
         [31509] = { -- Fear Takes Root
             [questKeys.preQuestSingle] = {31606},
             [questKeys.objectives] = {nil,{{214543}}},
+            [questKeys.exclusiveTo] = {31234,31271,31503}, -- exclusivity for honored The Klaxxi
         },
         [31510] = { -- Quiet Now
             [questKeys.preQuestSingle] = {31439},
@@ -5570,6 +5591,7 @@ function MopQuestFixes.Load()
         [31808] = { -- Rampage Against the Machine
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.preQuestGroup] = {30139,30187},
