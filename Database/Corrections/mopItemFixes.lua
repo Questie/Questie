@@ -790,12 +790,15 @@ function MopItemFixes.Load()
         },
         [89812] = { -- "Jinyu Princess" Irrigation System
             [itemKeys.startQuest] = 31936,
+            [itemKeys.npcDrops] = {58706},
         },
         [89813] = { -- "Thunder King" Pest Repellers
             [itemKeys.startQuest] = 31937,
+            [itemKeys.npcDrops] = {58706},
         },
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
+            [itemKeys.npcDrops] = {58706},
         },
         [244172] = { -- Eternal Blossom
             [itemKeys.name] = "Eternal Blossom",

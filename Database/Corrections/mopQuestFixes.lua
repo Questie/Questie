@@ -5715,6 +5715,15 @@ function MopQuestFixes.Load()
         [31935] = { -- Grand Master Payne
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31936] = { -- The "Jinyu Princess" Irrigation System
+            [questKeys.preQuestSingle] = {30516},
+        },
+        [31937] = { -- "Thunder King" Pest Repellers
+            [questKeys.preQuestSingle] = {30524},
+        },
+        [31938] = { -- The "Earth-Slasher" Master Plow
+            [questKeys.preQuestSingle] = {30529},
+        },
         [31941] = { -- Squash Those Foul Odors
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943},
         },
