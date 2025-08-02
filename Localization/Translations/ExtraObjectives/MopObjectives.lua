@@ -986,6 +986,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Collect the thousand-year water"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do

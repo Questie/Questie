@@ -5965,6 +5965,9 @@ function MopQuestFixes.Load()
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
             [questKeys.preQuestSingle] = {30518},
         },
+        [31948] = { -- Nana's Vote II: The Sacred Springs
+            [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{56.67,21.98}}}, Questie.ICON_TYPE_INTERACT, l10n("Collect the thousand-year water")}},
+        },
         [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
         },
