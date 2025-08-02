@@ -903,6 +903,14 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.8,38.6}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59333] = { -- Rook Stonetoe
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{}}}, -- TO DO wowhead coords, need recheck
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [59334] = { -- Sun Tenderheart
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.2,39}}}, -- TO DO wowhead coords, need recheck
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [59336] = { -- Mayor Shiyo
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.29,76.78}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -2207,10 +2215,22 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52,75.8},{52.2,75.4},{52.6,80},{54.4,75.4},{54.6,58.6},{55.2,60.2},{55.8,60},{57.8,76.4},{58.4,59},{58.4,59.8},{58.6,59.4},{58.6,59.8},{58.6,80.2},{58.8,81},{67.6,55.2},{67.6,55.8},{69.2,59},{69.4,49}}},
         },
+        [244975] = { -- Aetha
+            [npcKeys.name] = "Aetha",
+            [npcKeys.subName] = "Spirit of the Golden Winds",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.03,89.98}}}, -- guesstimate coords from wowhead, need to find out where it spawns
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [244995] = { -- Quid
             [npcKeys.name] = "Quid",
             [npcKeys.subName] = "Spirit of the Misty Falls",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{30.82,79.3}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [245153] = { -- Gaohun the Soul-Severer
+            [npcKeys.name] = "Gaohun the Soul-Severer",
+            [npcKeys.subName] = "Shao-Tien Imperion",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{39.1,74.63}}}, -- guesstimate coords from wowhead, need to find out where it spawns
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [245163] = { -- Baolai the Immolator
@@ -2219,15 +2239,45 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.48,81.47}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [245926] = { -- Bloodtip
+            [npcKeys.name] = "Bloodtip",
+            [npcKeys.subName] = "Ashweb Matriarch",
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{75.77,47.59}}},
+            [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
         [246176] = { -- Vicejaw
             [npcKeys.name] = "Vicejaw",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.41,50.91}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246178] = { -- Cracklefang
+            [npcKeys.name] = "Cracklefang",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.68,56.17}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246242] = { -- General Temuja 
+            [npcKeys.name] = "General Temuja ",
+            [npcKeys.subName] = "The Soul-Slaver",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.4,51.2}}},
+            [npcKeys.waypoints] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{{26.4,51.2},{26.6,51.4},{26.6,52.2},{26.6,52.6},{27.4,53.6},{27.6,54},{28,55.2},{28.2,55.6},{28.4,56.6},{28.6,56.6},{29.4,57.6},{29.6,57.6},{30.2,57.6},{30.6,58.2}}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246246] = { -- Shadowmaster Sydow
             [npcKeys.name] = "Shadowmaster Sydow",
             [npcKeys.subName] = "The Soul-Gatherer",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.78,48.04}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246383] = { -- Vyraxxis
+            [npcKeys.name] = "Vyraxxis",
+            [npcKeys.subName] = "Krik'thik Swarm-Lord",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{7.93,33.84}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246384] = { -- Kri'chon
+            [npcKeys.name] = "Kri\'chon",
+            [npcKeys.subName] = "The Corpse-Reaver",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{5.9,58.65}}}, -- guesstimate coords from wowhead, need to find out where it spawns
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246386] = { -- Bai-Jin the Butcher

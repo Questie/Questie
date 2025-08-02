@@ -687,6 +687,10 @@ function MopItemFixes.Load()
         [85572] = { -- Scarab Wing
             [itemKeys.npcDrops] = {63587},
         },
+        [85582] = { -- Shao-Tien Cage Key
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {63610,63611,63641},
+        },
         [85681] = { -- Lushroom
             [itemKeys.objectDrops] = {213350,213352,213353},
         },
