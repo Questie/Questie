@@ -2614,6 +2614,7 @@ function MopQuestFixes.Load()
         },
         [30386] = { -- A Dish for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1275,41999} -- Not available at Best Friend
         },
         [30387] = { -- A Jade Cat for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2629,6 +2630,7 @@ function MopQuestFixes.Load()
         },
         [30390] = { -- A Dish for Gina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1281,41999} -- Not available at Best Friend
         },
         [30391] = { -- A Ruby Shard for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2652,6 +2654,7 @@ function MopQuestFixes.Load()
         },
         [30396] = { -- A Dish for Old Hillpaw
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1276,41999} -- Not available at Best Friend
         },
         [30397] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2675,6 +2678,7 @@ function MopQuestFixes.Load()
         },
         [30402] = { -- A Dish for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1277,41999} -- Not available at Best Friend
         },
         [30403] = { -- A Ruby Shard for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2698,6 +2702,7 @@ function MopQuestFixes.Load()
         },
         [30408] = { -- A Dish for Sho
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1278,41999} -- Not available at Best Friend
         },
         [30409] = { -- A Ruby Shard for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2721,6 +2726,7 @@ function MopQuestFixes.Load()
         },
         [30414] = { -- A Dish for Haohan
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1279,41999} -- Not available at Best Friend
         },
         [30415] = { -- A Ruby Shard for Chee Chee
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2748,6 +2754,7 @@ function MopQuestFixes.Load()
         },
         [30421] = { -- A Dish for Farmer Fung
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1283,41999} -- Not available at Best Friend
         },
         [30422] = { -- A Ruby Shard for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2771,6 +2778,7 @@ function MopQuestFixes.Load()
         },
         [30427] = { -- A Dish for Fish
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1282,41999} -- Not available at Best Friend
         },
         [30428] = { -- A Ruby Shard for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2794,6 +2802,7 @@ function MopQuestFixes.Load()
         },
         [30433] = { -- A Dish for Tina
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1280,41999} -- Not available at Best Friend
         },
         [30434] = { -- A Ruby Shard for Jogu
             [questKeys.requiredLevel] = 90,
@@ -2827,6 +2836,7 @@ function MopQuestFixes.Load()
         },
         [30439] = { -- A Dish for Jogu
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {1273,41999} -- Not available at Best Friend
         },
         [30444] = { -- No Reprieve
             [questKeys.startedBy] = {{58919}},
