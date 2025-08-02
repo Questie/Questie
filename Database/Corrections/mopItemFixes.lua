@@ -80,6 +80,9 @@ function MopItemFixes.Load()
         [74763] = { -- Spirit Bottle
             [itemKeys.npcDrops] = {55291,65779},
         },
+        [74840] = { -- Green Cabbage
+            [itemKeys.npcDrops] = {58567},
+        },
         [74843] = { -- Scallions
             [itemKeys.npcDrops] = {59547,59751,59808,61216,61239,61240,61242,63164,63165,63521,63536,63997,64194,64196,64197,65317},
         },

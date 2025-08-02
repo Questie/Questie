@@ -5964,6 +5964,7 @@ function MopQuestFixes.Load()
         },
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
             [questKeys.preQuestSingle] = {30518},
+            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{58566,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74840}}},
         },
         [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
