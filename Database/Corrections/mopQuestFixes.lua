@@ -4436,7 +4436,7 @@ function MopQuestFixes.Load()
         },
         [31104] = { -- The Challenger's Ring: Yalia Sagewhisper
             [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK},{62825}}},
-            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,12000},
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
         },
         [31105] = { -- The Mogu Menace
             [questKeys.questFlags] = questFlags.DAILY,
