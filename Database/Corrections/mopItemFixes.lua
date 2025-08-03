@@ -362,6 +362,12 @@ function MopItemFixes.Load()
         [80134] = { -- Uncut Chrysoberyl
             [itemKeys.objectDrops] = {210958,210959,210960},
         },
+        [80140] = { -- Bloodbloom
+            [itemKeys.objectDrops] = {210968},
+        },
+        [80141] = { -- Cave Lily
+            [itemKeys.objectDrops] = {210969},
+        },
         [80213] = { -- Spicemaster Jin Jao's Payment
             [itemKeys.npcDrops] = {59581},
         },
