@@ -199,7 +199,7 @@ function MopObjectFixes.Load()
         },
         [210968] = { -- Bloodbloom
             [objectKeys.name] = 'Bloodbloom',
-            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{43.85,20.2},{44.36,19.66},{44.38,19.03},{45.03,18.77},{45.24,19.3}}},
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{43.85,20.20},{44.36,19.66},{44.38,19.03},{45.03,18.77},{45.24,19.30}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210969] = { -- Cave Lily
@@ -207,7 +207,12 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.15},{48.08,18.93},{48.93,19.31},{49.05,18.67},{48.61,18.19},{48.41,18.38}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
-        [210969] = { -- Violet Lichen
+        [210970] = { -- Ghostcap
+            [objectKeys.name] = 'Ghostcap',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.53,18.70},{38.61,17.38},{38.54,17.22},{38.58,16.82},{39.02,16.55},{39.41,17.20},{39.30,17.77},{39.37,18.15}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210971] = { -- Violet Lichen
             [objectKeys.name] = 'Violet Lichen',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{40.24,21.23},{41.43,22.57},{38.53,21.65},{36.41,21.03}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
