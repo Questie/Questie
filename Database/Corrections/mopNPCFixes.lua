@@ -987,6 +987,10 @@ function MopNpcFixes.Load()
         [59503] = { -- Brittle Skeleton
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59505] = { -- Suspicious Footprint
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.94,45.21},{38.66,46.56},{37.75,46.37},{37.9,43.67},{38.06,45.31},{38.17,46.44},{39.35,46.14},{39.24,45.28},{39.67,45.17},{39.23,44.16},{38.99,43.95},{38.74,43.99},{38.48,44.38}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [59550] = { -- Sully "The Pickle" McLeary
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.55,82.3}}},
         },
