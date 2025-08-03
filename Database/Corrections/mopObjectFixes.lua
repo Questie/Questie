@@ -576,5 +576,10 @@ function MopObjectFixes.Load()
         [440007] = {
             [objectKeys.name] = "Pandaren Archaeology Fragment",
         },
+        [440008] = {
+            [objectKeys.name] = "Golden Falls",
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
     }
 end

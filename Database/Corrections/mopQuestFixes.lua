@@ -834,6 +834,7 @@ function MopQuestFixes.Load()
         },
         [29577] = { -- Ashyo's Vision
             [questKeys.objectives] = {{{56113,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.breadcrumbs] = {29871},
         },
         [29578] = { -- Defiance
             [questKeys.preQuestSingle] = {},
@@ -1299,21 +1300,22 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31230},
         },
         [29871] = { -- Clever Ashyo
-            [questKeys.preQuestSingle] = {30086},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbForQuestId] = 29577,
         },
         [29872] = { -- Lin Tenderpaw
-            [questKeys.preQuestSingle] = {30086},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 29981,
         },
         [29873] = { -- Ken-Ken
             [questKeys.breadcrumbForQuestId] = 30079,
-            [questKeys.preQuestSingle] = {30086},
+            [questKeys.preQuestSingle] = {},
         },
         [29874] = { -- Kang Bramblestaff [Alliance]
-            [questKeys.preQuestSingle] = {30086},
+            [questKeys.preQuestSingle] = {},
         },
         [29875] = { -- Kang Bramblestaff [Horde]
-            [questKeys.preQuestSingle] = {30086},
+            [questKeys.preQuestSingle] = {},
         },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
@@ -1926,21 +1928,26 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30150] = { -- Sweet as Honey
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30151] = { -- Catch!
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30152] = { -- The Sky Race
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30154] = { -- The Easiest Way To A Serpent's Heart
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30155] = { -- Restoring the Balance
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30156] = { -- The Easiest Way To A Serpent's Heart
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
             [questKeys.requiredSourceItems] = {79027,79028},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58348,58349,58350},58348,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1949,8 +1956,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST] = {{63.33,31.46},{63.87,30.06},{64.28,29.03},{64.87,26.46},{65.32,26.38},{64.9,28.9},{65.15,30.07},{65.62,30.2},{65.68,30.67},{65.78,31.25}}}, Questie.ICON_TYPE_EVENT, l10n("Return the hatchlings to the nests")}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [30158] = { -- Disarming the Enemy
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30159] = { -- Preservation
@@ -3995,6 +4004,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30931},
             [questKeys.objectives] = {{{61685,nil,Questie.ICON_TYPE_INTERACT},{61683,nil,Questie.ICON_TYPE_TALK}},{{211836},{211837}}},
         },
+        [30933] = { -- Seeking Father
+            [questKeys.preQuestSingle] = {30932},
+        },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
         },
@@ -4281,7 +4293,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31047] = { -- Born Free
-            [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.exclusiveTo] = {31041,31044},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -4421,6 +4433,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31091},
             [questKeys.requiredSourceItems] = {86489},
             [questKeys.objectives] = {{{64485,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31104] = { -- The Challenger's Ring: Yalia Sagewhisper
+            [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK},{62825}}},
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,12000},
         },
         [31105] = { -- The Mogu Menace
             [questKeys.questFlags] = questFlags.DAILY,
@@ -4692,6 +4708,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{63330},{63330},{63330},{63330}}},
         },
         [31194] = { -- Slitherscale Suppression
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31196] = { -- Sra'vess Wetwork
@@ -5377,6 +5394,7 @@ function MopQuestFixes.Load()
         },
         [31538] = { -- A Worthy Brew
             [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
+            [questKeys.objectives] = {{{64946,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31539] = { -- A Thing of Beauty
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
@@ -5636,6 +5654,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31704] = { -- Pooped
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31705] = { -- Needle Me Not
@@ -5648,39 +5667,55 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31708] = { -- Serpent's Scale
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31709] = { -- Lingering Doubt
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
+        [31710] = { -- Tiny Treats
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [31711] = { -- The Seed of Doubt
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31712] = { -- Monkey Mischief
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31713] = { -- The Big Brew-haha
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31714] = { -- Saving the Serpents
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31715] = { -- The Big Kah-Oona
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
+        [31716] = { -- Pooped
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [31717] = { -- The Trainer's Challenge: Ace Longpaw
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31718] = { -- The Trainer's Challenge: Big Bao
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31719] = { -- The Trainer's Challenge: Ningna Darkwheel
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31720] = { -- The Trainer's Challenge: Suchi the Sweet
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31721] = { -- The Trainer's Challenge: Qua-Ro Whitebrow
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31724] = { -- Old MacDonald

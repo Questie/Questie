@@ -311,6 +311,9 @@ function MopItemFixes.Load()
         [79833] = { -- Shadelight Truffle
             [itemKeys.objectDrops] = {210810,210811,210812},
         },
+        [79864] = { -- Cindergut Pepper
+            [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
@@ -356,11 +359,14 @@ function MopItemFixes.Load()
         [80133] = { -- Preserved Vegetables
             [itemKeys.objectDrops] = {210956,210957},
         },
+        [80134] = { -- Uncut Chrysoberyl
+            [itemKeys.objectDrops] = {210958,210959,210960},
+        },
         [80136] = { -- Waxed Plank
             [itemKeys.objectDrops] = {211120,211122},
         },
-        [80134] = { -- Uncut Chrysoberyl
-            [itemKeys.objectDrops] = {210958,210959,210960},
+        [80144] = { -- Tasty T-Bone
+            [itemKeys.npcDrops] = {64309},
         },
         [80213] = { -- Spicemaster Jin Jao's Payment
             [itemKeys.npcDrops] = {59581},
@@ -754,7 +760,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
         },
         [86446] = { -- Sheepie
-            [itemKeys.npcDrops] = {64386},
+            [itemKeys.npcDrops] = {64385,64386},
         },
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
@@ -884,6 +890,9 @@ function MopItemFixes.Load()
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
             [itemKeys.npcDrops] = {58706},
+        },
+        [89903] = { -- Thousand-Year Water
+            [itemKeys.objectDrops] = {440008},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
