@@ -987,6 +987,10 @@ function MopNpcFixes.Load()
         [59503] = { -- Brittle Skeleton
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
+        [59505] = { -- Suspicious Footprint
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.75,44.49},{39.45,45.79},{39.13,44.67},{38.97,45.27},{38.87,45.85},{38.08,45.32},{38.61,45.11},{37.73,43.81},{38.03,43.10}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [59550] = { -- Sully "The Pickle" McLeary
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.55,82.3}}},
         },
@@ -2255,7 +2259,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.68,56.17}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
-        [246242] = { -- General Temuja 
+        [246242] = { -- General Temuja
             [npcKeys.name] = "General Temuja ",
             [npcKeys.subName] = "The Soul-Slaver",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.4,51.2}}},
