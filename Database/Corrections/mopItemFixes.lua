@@ -374,6 +374,9 @@ function MopItemFixes.Load()
         [80143] = { -- Violet Lichen
             [itemKeys.objectDrops] = {210971},
         },
+        [80144] = { -- Tasty T-Bone
+            [itemKeys.npcDrops] = {64309},
+        },
         [80213] = { -- Spicemaster Jin Jao's Payment
             [itemKeys.npcDrops] = {59581},
         },
