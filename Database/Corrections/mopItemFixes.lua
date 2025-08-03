@@ -368,6 +368,9 @@ function MopItemFixes.Load()
         [80141] = { -- Cave Lily
             [itemKeys.objectDrops] = {210969},
         },
+        [80143] = { -- Violet Lichen
+            [itemKeys.objectDrops] = {210971},
+        },
         [80213] = { -- Spicemaster Jin Jao's Payment
             [itemKeys.npcDrops] = {59581},
         },
