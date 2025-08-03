@@ -3561,6 +3561,7 @@ function MopQuestFixes.Load()
         },
         [30698] = { -- Scavenger Hunt
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Use the raft"),0,{{"object",211596}}}},
         },
         [30700] = { -- Snapclaw
             [questKeys.questFlags] = questFlags.DAILY,
