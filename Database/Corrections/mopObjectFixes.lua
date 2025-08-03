@@ -197,6 +197,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [210968] = { -- Bloodbloom
+            [objectKeys.name] = 'Bloodbloom',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{43.85,20.2},{44.36,19.66},{44.38,19.03},{45.03,18.77},{45.24,19.3}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [210969] = { -- Cave Lily
             [objectKeys.name] = 'Cave Lily',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.15},{48.08,18.93},{48.93,19.31},{49.05,18.67},{48.61,18.19},{48.41,18.38}}},
