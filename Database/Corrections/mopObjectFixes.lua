@@ -207,6 +207,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.15},{48.08,18.93},{48.93,19.31},{49.05,18.67},{48.61,18.19},{48.41,18.38}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [210969] = { -- Violet Lichen
+            [objectKeys.name] = 'Violet Lichen',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{40.24,21.23},{41.43,22.57},{38.53,21.65},{36.41,21.03}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [211020] = { -- Yoon's Apples
             [objectKeys.name] = 'Yoon\'s Apples',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.63,47.8}}},
