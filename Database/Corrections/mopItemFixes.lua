@@ -368,6 +368,9 @@ function MopItemFixes.Load()
         [80141] = { -- Cave Lily
             [itemKeys.objectDrops] = {210969},
         },
+        [80142] = { -- Ghostcap
+            [itemKeys.objectDrops] = {210970},
+        },
         [80143] = { -- Violet Lichen
             [itemKeys.objectDrops] = {210971},
         },
