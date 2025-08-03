@@ -2512,7 +2512,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63610,63611,63641},63610}}}, -- TO DO: check this
         },
@@ -2522,7 +2522,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30305}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302,30305}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63333,63447,63556,63674},63333}}}, -- TO DO: check this. 63333,63447 have no spawns atm
         },
@@ -2532,7 +2532,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30481}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302,30481}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63640,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_INTERACT}}}, -- TO DO: 63655 -> 63657 have no spawns atm
             -- [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}}, -- TO DO: find out cage id
@@ -2544,7 +2544,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,{{210680}}}, -- TO DO: check this
         },
@@ -2571,7 +2571,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30299,30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30299,30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             --[questKeys.objectives] = {}, -- TO DO: need to check this
         },
@@ -3108,7 +3108,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30300,30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30300,30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,{{85278}}},
         },
@@ -3229,6 +3229,9 @@ function MopQuestFixes.Load()
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
             [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
             [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
+        },
+        [30522] = { -- Haohan's Vote II: The Real Culprits
+            [questKeys.objectives] = {{{59505,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30523] = { -- Growing the Farm II: The Broken Wagon
             [questKeys.requiredMinRep] = {1272,21000} -- Tillers at Revered (wowhead)
