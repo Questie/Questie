@@ -2264,7 +2264,7 @@ function MopNpcFixes.Load()
         },
         [246178] = { -- Cracklefang
             [npcKeys.name] = "Cracklefang",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.68,56.17}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.44,59.32}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246242] = { -- General Temuja 
