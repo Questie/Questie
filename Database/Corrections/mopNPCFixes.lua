@@ -2230,7 +2230,7 @@ function MopNpcFixes.Load()
         [244975] = { -- Aetha
             [npcKeys.name] = "Aetha",
             [npcKeys.subName] = "Spirit of the Golden Winds",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.03,89.98}}}, -- guesstimate coords from wowhead, need to find out where it spawns
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.03,89.98}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [244995] = { -- Quid
