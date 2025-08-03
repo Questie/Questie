@@ -1694,6 +1694,12 @@ function MopNpcFixes.Load()
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03}}},
         },
+        [64385] = { -- Sheepie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.99,38.5,phases.SHEEPIE_FIRST_TIME}}},
+        },
+        [64386] = { -- Sheepie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.54,37.64,phases.SHEEPIE_SECOND_TIME}}},
+        },
         [64475] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.84,81.08}}},
         },

@@ -335,6 +335,8 @@ local phases = {
     AN_WINDFUR_DAWNS_BLOSSOM_UP = 1263,
     AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE = 1264,
     AN_WINDFUR_FOREST_HEART = 1265,
+    SHEEPIE_FIRST_TIME = 1266,
+    SHEEPIE_SECOND_TIME = 1267,
 }
 Phasing.phases = phases
 
@@ -1489,6 +1491,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.AN_WINDFUR_FOREST_HEART then
         return (not complete[29723]) and ((not questLog[29723]) or questLog[29723].isComplete == 0) or complete[29723] or false
+    end
+
+    if phase == phases.SHEEPIE_FIRST_TIME then
+        return not complete[31338] or false
+    end
+
+    if phase == phases.SHEEPIE_SECOND_TIME then
+        return complete[31338] or false
     end
 
     return false
