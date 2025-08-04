@@ -16,6 +16,7 @@ describe("DailyQuests", function()
                 limit = 3,
             }
         }
+        DailyQuests.Initialize()
     end)
     
     describe("ShouldBeHidden", function()

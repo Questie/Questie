@@ -210,26 +210,40 @@ pvpDailyIds = {
     [11342] = true,
 }
 
+---@type table<QuestId, Hub>
+local hubQuestLookup = {}
+
+function DailyQuests.Initialize()
+    for _, hub in pairs(DailyQuests.hubs) do
+        for _, hubQuestId in pairs(hub.quests) do
+            hubQuestLookup[hubQuestId] = hub
+        end
+    end
+end
+
 ---@param questId QuestId
 ---@param completedQuests table<QuestId, boolean> A table of completed quests
 ---@param questLog table<QuestId, Quest> A table of quests in the quest log
 ---@return boolean true if the quest should be hidden, false otherwise
 function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
-    for _, hub in pairs(DailyQuests.hubs) do
-        local completedCount = 0
-        local questBelongsToHub = false
-        for _, hubQuestId in pairs(hub.quests) do
-            if completedQuests[hubQuestId] or questLog[hubQuestId] then
-                completedCount = completedCount + 1
-            end
-            if hubQuestId == questId then
-                questBelongsToHub = true
-            end
-        end
+    if (not hubQuestLookup[questId]) then
+        return false
+    end
 
-        if questBelongsToHub and completedCount >= hub.limit then
-            return true
+    local hub = hubQuestLookup[questId]
+    local completedCount = 0
+    local questBelongsToHub = false
+    for _, hubQuestId in pairs(hub.quests) do
+        if completedQuests[hubQuestId] or questLog[hubQuestId] then
+            completedCount = completedCount + 1
         end
+        if hubQuestId == questId then
+            questBelongsToHub = true
+        end
+    end
+
+    if questBelongsToHub and completedCount >= hub.limit then
+        return true
     end
 
     return false
