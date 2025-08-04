@@ -585,5 +585,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [440009] = {
+            [objectKeys.name] = "Rappelling Rope",
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.51,11.1},{31.43,10.69},{31.55,10.43}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
     }
 end

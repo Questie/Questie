@@ -5854,7 +5854,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
         },
         [31766] = { -- Touching Ground
-            [questKeys.objectives] = {nil,{{210039}}},
+            [questKeys.objectives] = {nil,{{440009}}},
         },
         [31768] = { -- Fire Is Always the Answer
             [questKeys.objectives] = {{{66308,nil,Questie.ICON_TYPE_INTERACT}}},
