@@ -221,13 +221,14 @@ DailyQuests.hubs = {}
 
 ---@param questId QuestId
 ---@param completedQuests table<QuestId, boolean> A table of completed quests
+---@param questLog table<QuestId, Quest> A table of quests in the quest log
 ---@return boolean true if the quest should be hidden, false otherwise
-function DailyQuests.ShouldBeHidden(questId, completedQuests)
+function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
     for _, hub in pairs(DailyQuests.hubs) do
         local completedCount = 0
         local questBelongsToHub = false
         for _, hubQuestId in pairs(hub.quests) do
-            if completedQuests[hubQuestId] then
+            if completedQuests[hubQuestId] or questLog[hubQuestId] then
                 completedCount = completedCount + 1
             end
             if hubQuestId == questId then

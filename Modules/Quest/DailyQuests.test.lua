@@ -25,14 +25,24 @@ describe("DailyQuests", function()
                 [3] = true,
                 [4] = true,
             }
+            local questLog = {}
 
-            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests)
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
 
             assert.is_true(shouldBeHidden)
         end)
 
         it("should return true when quest is registered and limit of quests is reached by quests in quest log", function()
+            local completedQuests = {}
+            local questLog = {
+                [2] = {},
+                [3] = {},
+                [4] = {},
+            }
 
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
         end)
 
         it("should return true when quest is registered and limit of quests is reached by completed quests and quests in quest log", function()
