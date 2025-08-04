@@ -5125,7 +5125,10 @@ function MopQuestFixes.Load()
         },
         [31272] = { -- Infection
             [questKeys.preQuestSingle] = {31439},
+            [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31504,31510}, -- exclusivity for revered The Klaxxi
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{63725,63726,63729,65118},63725}}}, -- 63833 63827
         },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
