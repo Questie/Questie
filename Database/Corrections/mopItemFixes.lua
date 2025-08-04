@@ -840,6 +840,9 @@ function MopItemFixes.Load()
         [86616] = { -- Dread Amber Focus
             [itemKeys.npcDrops] = {62814},
         },
+        [87263] = { -- Venom-Coated Mandible
+            [itemKeys.npcDrops] = {64831},
+        },
         [87282] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
