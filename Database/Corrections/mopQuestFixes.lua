@@ -5694,18 +5694,23 @@ function MopQuestFixes.Load()
         },
         [31717] = { -- The Trainer's Challenge: Ace Longpaw
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31718,31719,31720,31721},
         },
         [31718] = { -- The Trainer's Challenge: Big Bao
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31717,31719,31720,31721},
         },
         [31719] = { -- The Trainer's Challenge: Ningna Darkwheel
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31717,31718,31720,31721},
         },
         [31720] = { -- The Trainer's Challenge: Suchi the Sweet
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31717,31718,31719,31721},
         },
         [31721] = { -- The Trainer's Challenge: Qua-Ro Whitebrow
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31717,31718,31719,31720},
         },
         [31724] = { -- Old MacDonald
             [questKeys.objectives] = {{{65648,nil,Questie.ICON_TYPE_PET_BATTLE}}},
