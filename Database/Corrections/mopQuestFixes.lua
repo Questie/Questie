@@ -6330,6 +6330,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31989},
         },
         [31945] = { -- Learn and Grow VI: Gina's Vote
+            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{63165,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74843}}},
             [questKeys.requiredSourceItems] = {80591},
         },
         [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
