@@ -8,7 +8,7 @@ describe("DailyQuests", function()
     before_each(function()
         _G["Questie"] = {db = {char = {complete = {}}}}
 
-        DailyQuests = require("Modules.Quest.DailyQuests")
+        DailyQuests = require("Modules.Quest.DailyQuests.DailyQuests")
 
         DailyQuests.hubs = {
             TEST_HUB = {
