@@ -5372,6 +5372,7 @@ function MopQuestFixes.Load()
         },
         [31439] = { -- Dropping Our Signal
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+            [questKeys.objectives] = {{{64645,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31450] = { -- A New Fate
             [questKeys.requiredLevel] = 5,
