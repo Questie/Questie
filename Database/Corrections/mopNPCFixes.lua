@@ -1738,6 +1738,10 @@ function MopNpcFixes.Load()
         [64599] = { -- Ambersmith Zikk
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{55.02,35.55}}},
         },
+        [64645] = { -- Hisek the Swarmkeeper
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.28,58.24}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [64647] = { -- He Softfoot
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{40.88,52.31}}},
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
@@ -1745,6 +1749,10 @@ function MopNpcFixes.Load()
         [64663] = { -- Zhao-Jin the Bloodletter
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{47.93,27.35}}},
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
+        [64705] = { -- Hisek the Swarmkeeper
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.26,57.6}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {
