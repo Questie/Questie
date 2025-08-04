@@ -6344,7 +6344,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {79102},
         },
         [31949] = { -- Nana's Vote III: Witchberry Julep
+            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{66085,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74846}}},
             [questKeys.preQuestSingle] = {31948},
+            [questKeys.requiredSourceItems] = {89326},
         },
         [31951] = { -- Grand Master Aki
             [questKeys.startedBy] = {{66741}},
