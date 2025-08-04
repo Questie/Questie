@@ -19,6 +19,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
@@ -210,7 +212,8 @@ _CalculateAndDrawAvailableQuests = function()
             ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or            -- Don't show raid quests if option is disabled
             ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or         -- Don't show AQ War Effort quests if the option disabled
             (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
-            (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
+            (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) or          -- Don't show SoD Rune quests with the option disabled
+            DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog)
         ) then
             availableQuests[questId] = nil
             return
