@@ -2003,7 +2003,7 @@ function MopQuestFixes.Load()
                 {{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{21.9,74.18}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")},
             },
         },
-        [58438] = { -- Flight Training: In Due Course
+        [30187] = { -- Flight Training: In Due Course
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58440},{"monster",58441},{"monster",58442}}}},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_EVENT}}},
         },
