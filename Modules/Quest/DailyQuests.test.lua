@@ -59,8 +59,19 @@ describe("DailyQuests", function()
             assert.is_true(shouldBeHidden)
         end)
 
-        it("should return false when quest is not registered", function()
+        it("should return false when quest does not belong to a hub", function()
+            local completedQuests = {
+                [1] = true,
+                [2] = true,
+                [3] = true,
+                [4] = true,
+                [5] = true,
+            }
+            local questLog = {}
 
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(6, completedQuests, questLog)
+
+            assert.is_false(shouldBeHidden)
         end)
 
         it("should return false when quest is registered and limit is not reached", function()
