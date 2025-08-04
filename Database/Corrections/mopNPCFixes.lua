@@ -700,6 +700,9 @@ function MopNpcFixes.Load()
         [58430] = { -- Jade Cloud Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
         },
+        [58438] = { -- Checkpoint
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{60.70,39.36},{59.72,31.46},{61.35,25.18},{66.30,35.88},{66.10,42.39},{66.81,51.43},{64.09,51.01},{61.86,54.50},{60.45,52.88},{58.79,46.82}}},
+        },
         [58440] = { -- Azure Cloud Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
         },

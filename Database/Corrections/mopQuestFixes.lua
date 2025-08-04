@@ -1391,7 +1391,7 @@ function MopQuestFixes.Load()
         },
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {32018,32019}
+            [questKeys.breadcrumbs] = {32018,32019},
         },
         [29908] = { -- A Seemingly Endless Nuisance
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reveal Virmen Pesters"),0,{{"object",214638}}}},
@@ -1540,7 +1540,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {29872},
         },
         [29982] = { -- Evacuation Orders
-            [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK},},}
+            [questKeys.objectives] = {{{57120,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{57122,57121},57121,nil,Questie.ICON_TYPE_TALK},{{57124,57123},57123,nil,Questie.ICON_TYPE_TALK},{{57127,57126},57126,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29983] = { -- The Hidden Master
             [questKeys.preQuestSingle] = {},
@@ -1936,8 +1936,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30152] = { -- The Sky Race
+            [questKeys.preQuestSingle] = {30187}, -- need to check if this is good
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
         },
         [30154] = { -- The Easiest Way To A Serpent's Heart
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2011,10 +2012,13 @@ function MopQuestFixes.Load()
             },
         },
         [30187] = { -- Flight Training: In Due Course
+            [questKeys.objectives] = {{{58438,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58440},{"monster",58441},{"monster",58442}}}},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
             [questKeys.preQuestGroup] = {30140,30187},
+            [questKeys.exclusiveTo] = {31810,31811},
         },
         [30189] = { -- A Lovely Apple for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2143,7 +2147,7 @@ function MopQuestFixes.Load()
         },
         [30227] = { -- Wulon, the Granite Sentinel
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestGroup] = {30200,30226}, -- is offered after Anji quests are turned in
+            [questKeys.preQuestSingle] = {30200}, -- is offered after 30200 + one of the other quests from this hub are turned in - needs daily module
             [questKeys.objectives] = {{{63510}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2521,7 +2525,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63610,63611,63641},63610}}}, -- TO DO: check this
         },
@@ -2531,7 +2535,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30305}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302,30305}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63333,63447,63556,63674},63333}}}, -- TO DO: check this. 63333,63447 have no spawns atm
         },
@@ -2541,7 +2545,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30481}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302,30481}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63640,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_INTERACT}}}, -- TO DO: 63655 -> 63657 have no spawns atm
             -- [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}}, -- TO DO: find out cage id
@@ -2553,7 +2557,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,{{210680}}}, -- TO DO: check this
         },
@@ -2580,7 +2584,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30299,30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30299,30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             --[questKeys.objectives] = {}, -- TO DO: need to check this
         },
@@ -3117,7 +3121,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30300,30302}, -- TO DO: check if still showing once the elite quest is picked up. 
+            [questKeys.exclusiveTo] = {30300,30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,{{85278}}},
         },
@@ -3347,7 +3351,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30603},
         },
         [30601] = { -- Instant Courage
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30602] = { -- The Rabbitsfoot
             [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
@@ -3373,7 +3377,7 @@ function MopQuestFixes.Load()
         },
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30610] = { -- Grummle! Grummle! Grummle!
             [questKeys.preQuestSingle] = {},
@@ -3466,7 +3470,7 @@ function MopQuestFixes.Load()
         [30639] = { -- The Secrets of Guo-Lai
             [questKeys.startedBy] = {{58408}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
@@ -4034,7 +4038,7 @@ function MopQuestFixes.Load()
         },
         [30944] = { -- It Takes A Village
             [questKeys.preQuestSingle] = {30935},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{61417,61554,61381},61381,nil,Questie.ICON_TYPE_TALK}}}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{61417,61554,61381},61381,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30945] = { -- What's Yours Is Mine
             [questKeys.preQuestSingle] = {30935},
@@ -4272,7 +4276,10 @@ function MopQuestFixes.Load()
         },
         [31038] = { -- The Challenger's Ring: Snow Blossom
             [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
-            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000}
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
+            [questKeys.exclusiveTo] = {31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
         },
         [31039] = { -- The Mogu Menace
             [questKeys.questFlags] = questFlags.DAILY,
@@ -4426,7 +4433,7 @@ function MopQuestFixes.Load()
         },
         [31088] = { -- Crime and Punishment
             [questKeys.preQuestSingle] = {31087},
-            [questKeys.exclusiveTo] = {31680}
+            [questKeys.exclusiveTo] = {31680},
         },
         [31089] = { -- By the Sea, Nevermore
             [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4452,6 +4459,9 @@ function MopQuestFixes.Load()
         [31104] = { -- The Challenger's Ring: Yalia Sagewhisper
             [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK},{62825}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
+            [questKeys.exclusiveTo] = {31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
         },
         [31105] = { -- The Mogu Menace
             [questKeys.questFlags] = questFlags.DAILY,
@@ -4497,6 +4507,18 @@ function MopQuestFixes.Load()
         },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
+        },
+        [31127] = { -- The Challenger's Ring: Chao the Voice
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
+        },
+        [31128] = { -- The Challenger's Ring: Lao-Chin the Iron Belly
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
         },
         [31129] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
@@ -4770,8 +4792,20 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31018},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
+        [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
+        },
+        [31221] = { -- The Challenger's Ring: Tenwu of the Red Smoke
+            [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
+        },
         [31228] = { -- Prophet Khar'zul
-            [questKeys.objectives] = {{{65855,nil,Questie.ICON_TYPE_TALK},{61541}},nil,nil,nil,{{{64631,64639,64643,64642},64642}}}
+            [questKeys.objectives] = {{{65855,nil,Questie.ICON_TYPE_TALK},{61541}},nil,nil,nil,{{{64631,64639,64643,64642},64642}}},
         },
         [31230] = { -- Welcome to Dawn's Blossom
             [questKeys.objectives] = {{{59160,nil,Questie.ICON_TYPE_TALK},{55809,nil,Questie.ICON_TYPE_TALK},{59173,nil,Questie.ICON_TYPE_TALK}}},
@@ -5278,7 +5312,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31454,
         },
         [31490] = { -- Rank and File
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}},
         },
         [31492] = { -- The Torch of Strength
             [questKeys.preQuestSingle] = {31511,31512},
@@ -5291,7 +5325,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31024,31238,31506}, -- exclusivity for honored The Klaxxi
         },
         [31495] = { -- Rank and File
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}}
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}},
         },
         [31496] = { -- Sampling the Empire's Finest
             [questKeys.preQuestSingle] = {31026},
@@ -5916,6 +5950,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30142},
             [questKeys.questFlags] = 0,
             [questKeys.requiredMinRep] = {},
+            [questKeys.requiredMaxRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
         },
         [31808] = { -- Rampage Against the Machine
             [questKeys.preQuestGroup] = {31092,31359,31398},
@@ -5923,10 +5958,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
             [questKeys.preQuestGroup] = {30139,30187},
+            [questKeys.exclusiveTo] = {30188,31811},
         },
         [31811] = { -- Riding the Skies (Golden Cloud Serpent)
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
             [questKeys.preQuestGroup] = {30141,30187},
+            [questKeys.exclusiveTo] = {30188,31810},
         },
         [31812] = { -- Zunta, The Pet Tamer
             [questKeys.objectives] = {{{66126,nil,Questie.ICON_TYPE_PET_BATTLE}}},
