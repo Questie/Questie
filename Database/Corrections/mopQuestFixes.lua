@@ -4942,6 +4942,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31208,31209,31210}, -- being offered only when the NPC reaches the quest hub during quest 31211
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {31808},
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
@@ -6133,6 +6134,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+            [questKeys.exclusiveTo] = {31216},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
