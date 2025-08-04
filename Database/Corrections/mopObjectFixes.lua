@@ -197,6 +197,25 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{51.59,61.29}}},
             [objectKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
+        [210968] = { -- Bloodbloom
+            [objectKeys.name] = 'Bloodbloom',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.36,19.67},{44.38,19.03},{45,18.75},{45.22,19.28},{44.71,20.57}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210969] = { -- Cave Lily
+            [objectKeys.name] = 'Cave Lily',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.16},{48.93,19.3},{49.05,18.68},{48.62,18.17},{48.41,18.39},{47.45,18.99}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210970] = { -- Ghostcap
+            [objectKeys.name] = 'Ghostcap',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.7,17.88},{38.6,17.39},{38.53,17.22},{38.58,16.8},{39,16.56},{39.39,17.22},{39.3,17.76},{39.24,19.23}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [210971] = { -- Violet Lichen
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.38,21.96},{40.25,21.23},{42.49,22.36},{41.44,22.58},{40.13,19.76},{38.56,21.67},{47.14,20.31},{36.42,21.09}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [211020] = { -- Yoon's Apples
             [objectKeys.name] = 'Yoon\'s Apples',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.63,47.8}}},
