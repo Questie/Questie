@@ -5422,6 +5422,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30650,30651,30660},
         },
         [31465] = { -- Extracting Answers
+            [questKeys.preQuestSingle] = {31441},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31467] = { -- Strong as a Tiger
