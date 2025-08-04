@@ -5523,7 +5523,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31234,31271,31503}, -- exclusivity for honored The Klaxxi
         },
         [31510] = { -- Quiet Now
-            [questKeys.preQuestSingle] = {31439},
+            [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31272,31504}, -- exclusivity for revered The Klaxxi
         },
         [31511] = { -- A Witness to History [Horde]
