@@ -5679,6 +5679,7 @@ function MopQuestFixes.Load()
         },
         [31711] = { -- The Seed of Doubt
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31715},
         },
         [31712] = { -- Monkey Mischief
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
@@ -5691,6 +5692,7 @@ function MopQuestFixes.Load()
         },
         [31715] = { -- The Big Kah-Oona
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31711},
         },
         [31717] = { -- The Trainer's Challenge: Ace Longpaw
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
