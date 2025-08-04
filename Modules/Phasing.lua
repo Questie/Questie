@@ -336,6 +336,7 @@ local phases = {
     AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE = 1264,
     AN_WINDFUR_FOREST_HEART = 1265,
     OLD_HILLPAW_HALFHILL = 1266,
+    TINA_MUDCLAW_HALFHILL = 1267,
 }
 Phasing.phases = phases
 
@@ -1494,6 +1495,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.OLD_HILLPAW_HALFHILL then
         return ((complete[30318]) or (questLog[30318])) or false
+    end
+
+    if phase == phases.TINA_MUDCLAW_HALFHILL then
+        return ((complete[30323]) or (questLog[30323])) or false
     end
 
     return false
