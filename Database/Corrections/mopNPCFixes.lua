@@ -1787,6 +1787,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
+        [64937] = { -- Great Cliff Hawk
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},
+        },
         [65310] = { -- Turnip Punching Bag
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
