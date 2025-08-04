@@ -75,7 +75,28 @@ describe("DailyQuests", function()
         end)
 
         it("should return false when quest is registered and limit is not reached", function()
+            local completedQuests = {
+                [2] = true,
+            }
+            local questLog = {}
 
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+            assert.is_false(shouldBeHidden)
+
+            completedQuests[3] = true
+            shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+            assert.is_false(shouldBeHidden)
+
+            completedQuests = {}
+            questLog = {
+                [2] = {},
+            }
+            shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+            assert.is_false(shouldBeHidden)
+
+            questLog[3] = {}
+            shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+            assert.is_false(shouldBeHidden)
         end)
     end)
 end)
