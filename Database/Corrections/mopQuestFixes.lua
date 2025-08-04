@@ -3256,7 +3256,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1272,33600}, -- Tillers 12600 into Revered (wowpedia)
         },
         [30527] = { -- Haohan's Vote IV: Melons For Felons
+            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{66129,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74848}}},
             [questKeys.preQuestSingle] = {30525},
+            [questKeys.requiredSourceItems] = {89329},
         },
         [30528] = { -- Haohan's Vote V: Chief Yip-Yip
             [questKeys.preQuestSingle] = {30527},
