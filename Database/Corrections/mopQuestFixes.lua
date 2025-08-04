@@ -5124,7 +5124,6 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31234,31503,31509}, -- exclusivity for honored The Klaxxi
         },
         [31272] = { -- Infection
-            [questKeys.preQuestSingle] = {31439},
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31504,31510}, -- exclusivity for revered The Klaxxi
             [questKeys.questFlags] = questFlags.DAILY,
@@ -5501,8 +5500,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31234,31271,31509}, -- exclusivity for honored The Klaxxi
         },
         [31504] = { -- Ordnance Disposal
-            [questKeys.preQuestSingle] = {31439},
+            [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31272,31510}, -- exclusivity for revered The Klaxxi
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31505] = { -- Vess-Guard Duty
             [questKeys.preQuestSingle] = {31066},
