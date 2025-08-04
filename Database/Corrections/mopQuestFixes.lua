@@ -2009,6 +2009,7 @@ function MopQuestFixes.Load()
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.preQuestGroup] = {30140,30187},
+            [questKeys.exclusiveTo] = {31810,31811},
         },
         [30189] = { -- A Lovely Apple for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -5886,9 +5887,11 @@ function MopQuestFixes.Load()
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.preQuestGroup] = {30139,30187},
+            [questKeys.exclusiveTo] = {31811,30188},
         },
         [31811] = { -- Riding the Skies (Golden Cloud Serpent)
             [questKeys.preQuestGroup] = {30141,30187},
+            [questKeys.exclusiveTo] = {31810,30188},
         },
         [31812] = { -- Zunta, The Pet Tamer
             [questKeys.objectives] = {{{66126,nil,Questie.ICON_TYPE_PET_BATTLE}}},
