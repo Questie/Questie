@@ -5409,6 +5409,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31458] = { -- Damage Control
+            [questKeys.preQuestSingle] = {31441},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
         },
         [31459] = { -- Cho's Missive [Horde]
