@@ -3218,7 +3218,7 @@ function MopQuestFixes.Load()
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             --[questKeys.preQuestSingle] = {31946}, -- Conflicting info that Mung-Mung's chain needs to be completed before Farmer Fung's - some comments on wowhead about doing in parallel. Placeholder prequest in case this is a requirement
-            [questKeys.requiredMinRep] = {1272,25200} -- Tillers 4200 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,25200}, -- Tillers 4200 into Revered (wowhead)
         },
         [30518] = { -- Farmer Fung's Vote I: Yak Attack
             [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{50.44,34.33}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
@@ -3226,23 +3226,23 @@ function MopQuestFixes.Load()
         },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
-            [questKeys.requiredMinRep] = {1272,29400} -- Tillers 8400 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,29400}, -- Tillers 8400 into Revered (wowhead)
         },
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
             [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
-            [questKeys.requiredMinRep] = {1272,37800} -- Tillers 16800 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,37800}, -- Tillers 16800 into Revered (wowhead)
         },
         [30522] = { -- Haohan's Vote II: The Real Culprits
             [questKeys.objectives] = {{{59505,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30523] = { -- Growing the Farm II: The Broken Wagon
-            [questKeys.requiredMinRep] = {1272,21000} -- Tillers at Revered (wowhead)
+            [questKeys.requiredMinRep] = {1272,21000}, -- Tillers at Revered (wowhead)
         },
         [30525] = { -- Haohan's Vote III: Pure Poison
             [questKeys.preQuestSingle] = {30522},
         },
         [30526] = { -- Lost and Lonely
-            [questKeys.requiredMinRep] = {1272,33600} -- Tillers 12600 into Revered (wowpedia)
+            [questKeys.requiredMinRep] = {1272,33600}, -- Tillers 12600 into Revered (wowpedia)
         },
         [30527] = { -- Haohan's Vote IV: Melons For Felons
             [questKeys.preQuestSingle] = {30525},
@@ -3251,7 +3251,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30527},
         },
         [30529] = { -- Growing the Farm III: The Mossy Boulder
-            [questKeys.requiredMinRep] = {1272,42000} -- Tillers at Exalted
+            [questKeys.requiredMinRep] = {1272,42000}, -- Tillers at Exalted
             [questKeys.preQuestSingle] = {30528},
         },
         [30535] = { -- Learn and Grow I: Seeds
