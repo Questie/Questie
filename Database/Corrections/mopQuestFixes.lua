@@ -5677,6 +5677,9 @@ function MopQuestFixes.Load()
         [31709] = { -- Lingering Doubt
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
         },
+        [31710] = { -- Tiny Treats
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
+        },
         [31711] = { -- The Seed of Doubt
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
             [questKeys.exclusiveTo] = {31715},
