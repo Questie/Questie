@@ -5591,12 +5591,15 @@ function MopQuestFixes.Load()
         },
         [31669] = { -- The Cabbage Test
             [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {79102},
         },
         [31670] = { -- That Dangling Carrot
             [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80590},
         },
         [31671] = { -- Why Not Scallions?
             [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80591},
         },
         [31672] = { -- A Pumpkin-y Perfume
             [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943},
@@ -5604,12 +5607,15 @@ function MopQuestFixes.Load()
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80593},
         },
         [31674] = { -- The Pink Turnip Challenge
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80594},
         },
         [31675] = { -- The White Turnip Treatment
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943},
+            [questKeys.requiredSourceItems] = {80595},
         },
         [31676] = { -- Ancient Vengeance
             [questKeys.preQuestSingle] = {31004},
@@ -6268,12 +6274,15 @@ function MopQuestFixes.Load()
         },
         [31941] = { -- Squash Those Foul Odors
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943},
+            [questKeys.requiredSourceItems] = {89328},
         },
         [31942] = { -- It's Melon Time
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943},
+            [questKeys.requiredSourceItems] = {89329},
         },
         [31943] = { -- Which Berries? Witchberries.
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942},
+            [questKeys.requiredSourceItems] = {89326},
         },
         [31944] = { -- Complete Your Training: The Final Test
             [questKeys.requiredClasses] = classIDs.MONK,

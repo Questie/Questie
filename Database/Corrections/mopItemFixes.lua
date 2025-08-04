@@ -271,6 +271,10 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {63532},
             [itemKeys.objectDrops] = {210238,210239,210240},
         },
+        [79102] = { -- Green Cabbage Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -482,7 +486,27 @@ function MopItemFixes.Load()
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
+        [80590] = { -- Juicycrunch Carrot Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [80591] = { -- Scallion Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80592] = { -- Mogu Pumpkin Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80593] = { -- Red Blossom Leek Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80594] = { -- Pink Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80595] = { -- White Turnip Seeds
             [itemKeys.vendors] = {58718},
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -899,6 +923,18 @@ function MopItemFixes.Load()
         },
         [89317] = { -- Claw of Anger
             [itemKeys.startQuest] = 31809,
+        },
+        [89326] = { -- Witchberry Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89328] = { -- Jade Squash Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89329] = { -- Striped Melon Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [89603] = { -- Encoded Captain's Log
             [itemKeys.npcDrops] = {66148},
