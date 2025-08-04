@@ -193,6 +193,7 @@ ZoneDB.zoneIDs = {
     GUO_LAI_HALLS = 6074, -- Cave in Vale of Eternal Blossoms
     PEAK_OF_SERENITY = 6081,
     THE_DEEPER = 6084, -- Cave in Kun-Lai Summit
+    MOGUSHAN_VAULTS = 6125, -- Dais of Conquerors
     KRASARANG_WILDS = 6134,
     FROSTMANE_HOVEL = 6137,
     DREAD_WASTES = 6138,

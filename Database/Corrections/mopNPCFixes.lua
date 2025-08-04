@@ -1672,6 +1672,11 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64183] = { -- Enormous Stone Quilen
+            [npcKeys.name] = "Enormous Stone Quilen",
+            [npcKeys.spawns] = {[zoneIDs.MOGUSHAN_VAULTS] = {{48.1,63},{55.2,66.1},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_VAULTS,
+        },
         [64200] = { -- Golden Lotus Guard
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.49,72.28}}}, -- TO DO: add the rest of the spawns
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
