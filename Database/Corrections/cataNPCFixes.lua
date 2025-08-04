@@ -6690,8 +6690,20 @@ function CataNpcFixes.Load()
         [48061] = { -- 2nd Lieutenant Wansworth
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{53.11,46.41}}},
         },
+        [48062] = { -- Staff Sergeant Lazgar
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{48.72,53.65}}},
+        },
         [48066] = { -- Sergeant Parker
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{54.56,46.34}}},
+        },
+        [48069] = { -- Commander Zanoth
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{48.02,54.79}}},
+        },
+        [48070] = { -- Drillmaster Razgoth
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{49.23,53.85}}},
+        },
+        [48071] = { -- Private Garnoth
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{48.47,55.23}}},
         },
         [48074] = { -- Marshal Fallows
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD] = {{53.53,47.01}}},
