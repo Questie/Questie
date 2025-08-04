@@ -843,6 +843,9 @@ function MopItemFixes.Load()
         [87263] = { -- Venom-Coated Mandible
             [itemKeys.npcDrops] = {64831},
         },
+        [87269] = { -- Kypari Ik Resonating Crystal
+            [itemKeys.objectDrops] = {214281},
+        },
         [87282] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
         },
