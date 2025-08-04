@@ -4989,8 +4989,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31268,31487,31505}, -- exclusivity for honored The Klaxxi
         },
         [31237] = { -- Debugging the Terrace
-            [questKeys.preQuestSingle] = {31439},
+            [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31272,31504,31510}, -- exclusivity for revered The Klaxxi
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31238] = { -- Brain Food
             [questKeys.preQuestGroup] = {31092,31359,31398},
