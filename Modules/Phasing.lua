@@ -335,6 +335,7 @@ local phases = {
     AN_WINDFUR_DAWNS_BLOSSOM_UP = 1263,
     AN_WINDFUR_DAWNS_BLOSSOM_JADE_HOUSE = 1264,
     AN_WINDFUR_FOREST_HEART = 1265,
+    OLD_HILLPAW_HALFHILL = 1266,
 }
 Phasing.phases = phases
 
@@ -1489,6 +1490,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.AN_WINDFUR_FOREST_HEART then
         return (not complete[29723]) and ((not questLog[29723]) or questLog[29723].isComplete == 0) or complete[29723] or false
+    end
+
+    if phase == phases.OLD_HILLPAW_HALFHILL then
+        return ((complete[30318]) or (questLog[30318])) or false
     end
 
     return false
