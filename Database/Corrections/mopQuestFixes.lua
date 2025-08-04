@@ -3259,7 +3259,7 @@ function MopQuestFixes.Load()
         },
         [30529] = { -- Growing the Farm III: The Mossy Boulder
             [questKeys.requiredMinRep] = {1272,42000}, -- Tillers at Exalted (wowhead)
-            [questKeys.preQuestSingle] = {30525},
+            [questKeys.preQuestSingle] = {30528},
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
