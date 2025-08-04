@@ -4711,6 +4711,7 @@ function MopQuestFixes.Load()
         },
         [31194] = { -- Slitherscale Suppression
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31701,31702,31703,31705},
         },
         [31196] = { -- Sra'vess Wetwork
             [questKeys.questFlags] = questFlags.DAILY,
@@ -5647,18 +5648,22 @@ function MopQuestFixes.Load()
         },
         [31701] = { -- Dark Huntress
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31194,31702,31703,31705},
         },
         [31702] = { -- On The Prowl
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31194,31701,31703,31705},
         },
         [31703] = { -- Madcap Mayhem
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31194,31701,31702,31705},
         },
         [31704] = { -- Pooped
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31705] = { -- Needle Me Not
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
+            [questKeys.exclusiveTo] = {31194,31701,31702,31703},
         },
         [31706] = { -- Weeping Widows
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
