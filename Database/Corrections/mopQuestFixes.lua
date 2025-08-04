@@ -5391,6 +5391,7 @@ function MopQuestFixes.Load()
         },
         [31538] = { -- A Worthy Brew
             [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
+            [questKeys.objectives] = {{{64946,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31539] = { -- A Thing of Beauty
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
