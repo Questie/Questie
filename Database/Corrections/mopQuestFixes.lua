@@ -4284,59 +4284,112 @@ function MopQuestFixes.Load()
             },
         },
         [31039] = { -- The Mogu Menace
+            [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31040] = { -- Spiteful Sprites
-            [questKeys.exclusiveTo] = {31042,31048},
+            [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31041] = { -- Egg Rescue!
-            [questKeys.exclusiveTo] = {31044,31047},
+            [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31042] = { -- Onyx Hearts
-            [questKeys.exclusiveTo] = {31040,31048},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31043] = { -- Dark Arts
-            [questKeys.exclusiveTo] = {31045,31046},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31044] = { -- Bronze Claws
-            [questKeys.exclusiveTo] = {31041,31047},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31045] = { -- Illusions Of The Past
-            [questKeys.exclusiveTo] = {31043,31046},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
-            [questKeys.exclusiveTo] = {31043,31045},
+            [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
-        [31047] = { -- Born Free
+        [31047] = { -- Born Free -- i saw this quest being offered early. last order 31042 31105 31043 31047. turn in 31047 first, see what happens
             [questKeys.objectives] = {{{62539,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {31041,31044},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31048] = { -- Grave Consequences
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Release Ancestors"),0,{{"object",212324}}}},
-            [questKeys.exclusiveTo] = {31040,31042},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31049] = { -- In Sprite Of Everything
-            [questKeys.exclusiveTo] = {31061,31062},
+            [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31061] = { -- Riding the Storm
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584,62585,62586},62311}}},
-            [questKeys.exclusiveTo] = {31049,31062},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31062] = { -- When The Dead Speak
-            [questKeys.exclusiveTo] = {31049,31061},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31063] = { -- Lao-Chin and Serevex
@@ -4466,9 +4519,19 @@ function MopQuestFixes.Load()
             },
         },
         [31105] = { -- The Mogu Menace
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31106] = { -- The Mogu Menace
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31107] = { -- Citizens of a New Empire
@@ -4487,24 +4550,63 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31109,31231,31267}, -- exclusivity for honored The Klaxxi
         },
         [31113] = { -- Assault Fire Camp Gai-Cho
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31114] = { -- Assault Deadtalker's Plateau
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31116] = { -- Spirit Dust
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31118, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31117] = { -- Uruk!
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31120, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31118] = { -- The Deadtalker Cipher
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31116, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31119] = { -- The Enemy of My Enemy... Is Still My Enemy!
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31120] = { -- Cheng Bo!
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31117, -- Blackguard dailies
+                                       31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31121] = { -- Stay a While, and Listen
@@ -4751,27 +4853,69 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [31196] = { -- Sra'vess Wetwork
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31197] = { -- The Bigger They Come...
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31198] = { -- A Morale Victory
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31199] = { -- Destroy the Siege Weapons!
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31200] = { -- Fumigation
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31201] = { -- Friends, Not Food!
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31203] = { -- Target of Opportunity: Sra'thik Swarmlord
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31204, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31204] = { -- Target of Opportunity: Sra'thik Hivelord
+            [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
+                                       31042,31043,31047,31061,31105, -- Omnia dailies set 2
+                                       31044,31045,31048,31062,31106, -- Omnia dailies set 3
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31203, -- Wu Kao dailies
+            },
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31207] = { -- The Arena of Annihilation
@@ -4779,20 +4923,25 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{64280,64281},64280}}},
         },
         [31208] = { -- Venomous Intent
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
-        },
-        [31209] = { -- Dark Wings, Dark Things
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
-        },
-        [31210] = { -- A Shade of Dread
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000}, -- TODO: These actually have some sort of pre-quest
-        },
-        [31211] = { -- The Poisoned Mind
-            [questKeys.preQuestSingle] = {31018},
-        },
-        [31216] = { -- Dark Skies
             [questKeys.preQuestSingle] = {31018},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
+        [31209] = { -- Dark Wings, Dark Things
+            [questKeys.preQuestSingle] = {31018},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
+        [31210] = { -- A Shade of Dread
+            [questKeys.preQuestSingle] = {31018},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+        },
+        [31211] = { -- The Poisoned Mind
+            [questKeys.preQuestGroup] = {31208,31209,31210},
+            [questKeys.objectives] = {{{62151,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63615,63635,63636,65455,63613},63613},{{63637,65513,63625},63625}}},
+        },
+        [31216] = { -- Dark Skies
+            [questKeys.preQuestGroup] = {31208,31209,31210}, -- being offered only when the NPC reaches the quest hub during quest 31211
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
@@ -4841,6 +4990,7 @@ function MopQuestFixes.Load()
         },
         [31237] = { -- Debugging the Terrace
             [questKeys.preQuestSingle] = {31439},
+            [questKeys.exclusiveTo] = {31272,31504,31510}, -- exclusivity for revered The Klaxxi
         },
         [31238] = { -- Brain Food
             [questKeys.preQuestGroup] = {31092,31359,31398},
@@ -4974,6 +5124,7 @@ function MopQuestFixes.Load()
         },
         [31272] = { -- Infection
             [questKeys.preQuestSingle] = {31439},
+            [questKeys.exclusiveTo] = {31237,31504,31510}, -- exclusivity for revered The Klaxxi
         },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
@@ -5344,6 +5495,7 @@ function MopQuestFixes.Load()
         },
         [31504] = { -- Ordnance Disposal
             [questKeys.preQuestSingle] = {31439},
+            [questKeys.exclusiveTo] = {31237,31272,31510}, -- exclusivity for revered The Klaxxi
         },
         [31505] = { -- Vess-Guard Duty
             [questKeys.preQuestSingle] = {31066},
@@ -5369,6 +5521,7 @@ function MopQuestFixes.Load()
         },
         [31510] = { -- Quiet Now
             [questKeys.preQuestSingle] = {31439},
+            [questKeys.exclusiveTo] = {31237,31272,31504}, -- exclusivity for revered The Klaxxi
         },
         [31511] = { -- A Witness to History [Horde]
             [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
@@ -5602,9 +5755,19 @@ function MopQuestFixes.Load()
         },
         [31598] = { -- Kypa'rak's Core
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
+                                      31024,31267,31268,31269,31270,31271,31272, -- Lake
+                                      31231,31232,31233,31234,31235,31237,31238, -- Terrace
+                                      31109,31487,31494,31496,31502,31503,31504, -- Clutches
+            },
         },
         [31599] = { -- The Matriarch's Maw
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
+                                      31024,31267,31268,31269,31270,31271,31272, -- Lake
+                                      31231,31232,31233,31234,31235,31237,31238, -- Terrace
+                                      31111,31505,31506,31507,31508,31509,31510, -- Zan'vess
+            },
         },
         [31605] = { -- The Zan'thik Dig
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
@@ -5658,6 +5821,11 @@ function MopQuestFixes.Load()
         },
         [31677] = { -- The Warlord's Ashes
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
+                                      31024,31267,31268,31269,31270,31271,31272, -- Lake
+                                      31109,31487,31494,31496,31502,31503,31504, -- Clutches
+                                      31111,31505,31506,31507,31508,31509,31510, -- Zan'vess
+            },
         },
         [31679] = { -- Extending Our Coverage
             [questKeys.exclusiveTo] = {31087},
