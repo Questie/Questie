@@ -1727,6 +1727,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_90}},
             },
         },
+        [64583] = { -- Klaxxi Traitor
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.19,57.52}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [64596] = { -- Teng Applebloom
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.22,84.68}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
