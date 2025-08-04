@@ -210,15 +210,6 @@ pvpDailyIds = {
     [11342] = true,
 }
 
----@alias HubId string
-
----@class Hub
----@field quests QuestId[]
----@field limit number
-
----@type table<HubId, Hub>
-DailyQuests.hubs = {}
-
 ---@param questId QuestId
 ---@param completedQuests table<QuestId, boolean> A table of completed quests
 ---@param questLog table<QuestId, Quest> A table of quests in the quest log
