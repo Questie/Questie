@@ -6334,11 +6334,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {80591},
         },
         [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
+            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{63154,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74841}}},
             [questKeys.preQuestSingle] = {30259},
+            [questKeys.requiredSourceItems] = {80590},
         },
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
-            [questKeys.preQuestSingle] = {30518},
             [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{58566,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74840}}},
+            [questKeys.preQuestSingle] = {30518},
+            [questKeys.requiredSourceItems] = {79102},
         },
         [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
