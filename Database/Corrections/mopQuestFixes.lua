@@ -1966,7 +1966,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30159] = { -- Preservation
-            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
+            [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,9000},
         },
         [30160] = { -- A Ruby Shard for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2016,7 +2016,6 @@ function MopQuestFixes.Load()
         [30187] = { -- Flight Training: In Due Course
             [questKeys.objectives] = {{{58438,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",58440},{"monster",58441},{"monster",58442}}}},
-            [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30188] = { -- Riding the Skies (Jade Cloud Serpent)
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
