@@ -3269,6 +3269,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30528},
             [questKeys.requiredMinRep] = {1272,42000}, -- Tillers at Exalted
         },
+        [30534] = { -- A Second Hand
+            [questKeys.preQuestSingle] = {30529},
+        },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
@@ -4370,6 +4373,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31049] = { -- In Sprite Of Everything
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31039,31040,31041,31046}, -- might not need all
             [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
@@ -4378,6 +4383,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31061] = { -- Riding the Storm
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31042,31043,31047,31105}, -- might not need all
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62311,62584,62585,62586},62311}}},
             [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
@@ -4387,6 +4394,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31062] = { -- When The Dead Speak
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31044,31045,31048,31106}, -- might not need all, turned 31106 last. turn others last
             [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
                                        31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
