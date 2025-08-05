@@ -421,7 +421,6 @@ local questsToBlacklistByPhase = {
         [32679] = true, -- Thunder Calls
         [32680] = true, -- The Storm Gathers
         [32681] = true, -- The Storm Gathers
-        [32682] = true, -- Inherit the Earth
         [32683] = true, -- So You Want to Be a Blacksmith...
         [32684] = true, -- You Want Fish?
         [32685] = true, -- No Fishing Pole Necessary!
