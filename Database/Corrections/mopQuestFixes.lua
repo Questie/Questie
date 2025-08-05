@@ -6275,9 +6275,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30518},
             [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{58566,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74840}}},
         },
-        [31948] = { -- Nana's Vote II: The Sacred Springs
-            [questKeys.extraObjectives] = {{{[zoneIDs.VALLEY_OF_THE_FOUR_WINDS]={{56.67,21.98}}}, Questie.ICON_TYPE_INTERACT, l10n("Collect the thousand-year water")}},
-        },
         [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.preQuestSingle] = {31948},
         },
