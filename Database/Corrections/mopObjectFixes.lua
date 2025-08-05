@@ -199,22 +199,21 @@ function MopObjectFixes.Load()
         },
         [210968] = { -- Bloodbloom
             [objectKeys.name] = 'Bloodbloom',
-            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{43.85,20.20},{44.36,19.66},{44.38,19.03},{45.03,18.77},{45.24,19.30}}},
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.36,19.67},{44.38,19.03},{45,18.75},{45.22,19.28},{44.71,20.57}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210969] = { -- Cave Lily
             [objectKeys.name] = 'Cave Lily',
-            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.15},{48.08,18.93},{48.93,19.31},{49.05,18.67},{48.61,18.19},{48.41,18.38}}},
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.83,20.16},{48.93,19.3},{49.05,18.68},{48.62,18.17},{48.41,18.39},{47.45,18.99}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210970] = { -- Ghostcap
             [objectKeys.name] = 'Ghostcap',
-            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.53,18.70},{38.61,17.38},{38.54,17.22},{38.58,16.82},{39.02,16.55},{39.41,17.20},{39.30,17.77},{39.37,18.15}}},
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.7,17.88},{38.6,17.39},{38.53,17.22},{38.58,16.8},{39,16.56},{39.39,17.22},{39.3,17.76},{39.24,19.23}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [210971] = { -- Violet Lichen
-            [objectKeys.name] = 'Violet Lichen',
-            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{40.24,21.23},{41.43,22.57},{38.53,21.65},{36.41,21.03}}},
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.38,21.96},{40.25,21.23},{42.49,22.36},{41.44,22.58},{40.13,19.76},{38.56,21.67},{47.14,20.31},{36.42,21.09}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [211020] = { -- Yoon's Apples
@@ -295,6 +294,10 @@ function MopObjectFixes.Load()
             [objectKeys.name] = 'Incense of Life',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.95,33.33}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [211596] = { -- Goblin Fishing Raft
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.43,44.77}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
@@ -595,6 +598,16 @@ function MopObjectFixes.Load()
         },
         [440007] = {
             [objectKeys.name] = "Pandaren Archaeology Fragment",
+        },
+        [440008] = {
+            [objectKeys.name] = "Golden Falls",
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [440009] = {
+            [objectKeys.name] = "Rappelling Rope",
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.51,11.1},{31.43,10.69},{31.55,10.43}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
 end

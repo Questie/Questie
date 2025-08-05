@@ -1007,7 +1007,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
         },
         [59505] = { -- Suspicious Footprint
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.75,44.49},{39.45,45.79},{39.13,44.67},{38.97,45.27},{38.87,45.85},{38.08,45.32},{38.61,45.11},{37.73,43.81},{38.03,43.10}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{39.94,45.21},{38.66,46.56},{37.75,46.37},{37.9,43.67},{38.06,45.31},{38.17,46.44},{39.35,46.14},{39.24,45.28},{39.67,45.17},{39.23,44.16},{38.99,43.95},{38.74,43.99},{38.48,44.38}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [59550] = { -- Sully "The Pickle" McLeary
@@ -1568,10 +1568,12 @@ function MopNpcFixes.Load()
             }},
         },
         [62923] = { -- Empty Package
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
-            [npcKeys.spawns] = {
-                [zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}
-            },
+        },
+        [62984] = { -- Stunned Whitepetal Carp
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.45,49.71},{40.69,50.28},{42.27,47.42},{41.99,47.4},{41.45,46.73},{41.4,46.48}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [63071] = { -- Skeer the Bloodseeker
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
@@ -1689,6 +1691,11 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64183] = { -- Enormous Stone Quilen
+            [npcKeys.name] = "Enormous Stone Quilen",
+            [npcKeys.spawns] = {[zoneIDs.MOGUSHAN_VAULTS] = {{48.1,63},{55.2,66.1},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_VAULTS,
+        },
         [64200] = { -- Golden Lotus Guard
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.49,72.28}}}, -- TO DO: add the rest of the spawns
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1715,6 +1722,12 @@ function MopNpcFixes.Load()
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03}}},
         },
+        [64385] = { -- Sheepie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.99,38.5,phases.SHEEPIE_FIRST_TIME}}},
+        },
+        [64386] = { -- Sheepie
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.54,37.64,phases.SHEEPIE_SECOND_TIME}}},
+        },
         [64475] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.84,81.08}}},
         },
@@ -1730,12 +1743,20 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_90}},
             },
         },
+        [64583] = { -- Klaxxi Traitor
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.19,57.52}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [64596] = { -- Teng Applebloom
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.22,84.68}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [64599] = { -- Ambersmith Zikk
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{55.02,35.55}}},
+        },
+        [64645] = { -- Hisek the Swarmkeeper
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.28,58.24}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [64647] = { -- He Softfoot
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{40.88,52.31}}},
@@ -1744,6 +1765,10 @@ function MopNpcFixes.Load()
         [64663] = { -- Zhao-Jin the Bloodletter
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{47.93,27.35}}},
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
+        [64705] = { -- Hisek the Swarmkeeper
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.26,57.6}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [64738] = { -- Hooded Crusader
             [npcKeys.spawns] = {
@@ -1792,6 +1817,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.14,24.63}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [64937] = { -- Great Cliff Hawk
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},
         },
         [65310] = { -- Turnip Punching Bag
             [npcKeys.zoneID] = 0,
@@ -2241,7 +2269,7 @@ function MopNpcFixes.Load()
         [244975] = { -- Aetha
             [npcKeys.name] = "Aetha",
             [npcKeys.subName] = "Spirit of the Golden Winds",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.03,89.98}}}, -- guesstimate coords from wowhead, need to find out where it spawns
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.03,89.98}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [244995] = { -- Quid
@@ -2275,7 +2303,7 @@ function MopNpcFixes.Load()
         },
         [246178] = { -- Cracklefang
             [npcKeys.name] = "Cracklefang",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.68,56.17}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{46.44,59.32}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246242] = { -- General Temuja

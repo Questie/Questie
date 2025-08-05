@@ -81,10 +81,34 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {55291,65779},
         },
         [74840] = { -- Green Cabbage
-            [itemKeys.npcDrops] = {58567},
+            [itemKeys.npcDrops] = {58567,63157},
+        },
+        [74841] = { -- Juicycrunch Carrot
+            [itemKeys.npcDrops] = {63154,63158},
+        },
+        [74842] = { -- Mogu Pumpkin
+            [itemKeys.npcDrops] = {63180,63185},
         },
         [74843] = { -- Scallions
-            [itemKeys.npcDrops] = {63165},
+            [itemKeys.npcDrops] = {63160,63165},
+        },
+        [74844] = { -- Red Blossom Leek
+            [itemKeys.npcDrops] = {63223,63229},
+        },
+        [74846] = { -- Witchberries
+            [itemKeys.npcDrops] = {66080,66085},
+        },
+        [74847] = { -- Jade Squash
+            [itemKeys.npcDrops] = {66108,66113},
+        },
+        [74848] = { -- Striped Melon
+            [itemKeys.npcDrops] = {66123,66129},
+        },
+        [74849] = { -- Pink Turnip
+            [itemKeys.npcDrops] = {63245,63250},
+        },
+        [74850] = { -- White Turnip
+            [itemKeys.npcDrops] = {63260,63265},
         },
         [75023] = { -- Pristine Silk Strand
             [itemKeys.objectDrops] = {209826},
@@ -247,6 +271,10 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {63532},
             [itemKeys.objectDrops] = {210238,210239,210240},
         },
+        [79102] = { -- Green Cabbage Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [79104] = { -- Rusty Watering Can
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -311,6 +339,9 @@ function MopItemFixes.Load()
         [79833] = { -- Shadelight Truffle
             [itemKeys.objectDrops] = {210810,210811,210812},
         },
+        [79864] = { -- Cindergut Pepper
+            [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
@@ -356,11 +387,26 @@ function MopItemFixes.Load()
         [80133] = { -- Preserved Vegetables
             [itemKeys.objectDrops] = {210956,210957},
         },
+        [80134] = { -- Uncut Chrysoberyl
+            [itemKeys.objectDrops] = {210958,210959,210960},
+        },
         [80136] = { -- Waxed Plank
             [itemKeys.objectDrops] = {211120,211122},
         },
-        [80134] = { -- Uncut Chrysoberyl
-            [itemKeys.objectDrops] = {210958,210959,210960},
+        [80140] = { -- Bloodbloom
+            [itemKeys.objectDrops] = {210968},
+        },
+        [80141] = { -- Cave Lily
+            [itemKeys.objectDrops] = {210969},
+        },
+        [80142] = { -- Ghostcap
+            [itemKeys.objectDrops] = {210970},
+        },
+        [80143] = { -- Violet Lichen
+            [itemKeys.objectDrops] = {210971},
+        },
+        [80144] = { -- Tasty T-Bone
+            [itemKeys.npcDrops] = {64309},
         },
         [80140] = { -- Bloodbloom
             [itemKeys.objectDrops] = {210968},
@@ -467,7 +513,27 @@ function MopItemFixes.Load()
         [80528] = { -- Explosives Barrel
             [itemKeys.objectDrops] = {211312},
         },
+        [80590] = { -- Juicycrunch Carrot Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [80591] = { -- Scallion Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80592] = { -- Mogu Pumpkin Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80593] = { -- Red Blossom Leek Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80594] = { -- Pink Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [80595] = { -- White Turnip Seeds
             [itemKeys.vendors] = {58718},
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -769,7 +835,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
         },
         [86446] = { -- Sheepie
-            [itemKeys.npcDrops] = {64386},
+            [itemKeys.npcDrops] = {64385,64386},
         },
         [86489] = { -- Succulent Turtle Filet
             [itemKeys.npcDrops] = {63981},
@@ -788,6 +854,12 @@ function MopItemFixes.Load()
         },
         [86616] = { -- Dread Amber Focus
             [itemKeys.npcDrops] = {62814},
+        },
+        [87263] = { -- Venom-Coated Mandible
+            [itemKeys.npcDrops] = {64831},
+        },
+        [87269] = { -- Kypari Ik Resonating Crystal
+            [itemKeys.objectDrops] = {214281},
         },
         [87282] = { -- Blade of the Anointed
             [itemKeys.objectDrops] = {214284},
@@ -885,6 +957,18 @@ function MopItemFixes.Load()
         [89317] = { -- Claw of Anger
             [itemKeys.startQuest] = 31809,
         },
+        [89326] = { -- Witchberry Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89328] = { -- Jade Squash Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89329] = { -- Striped Melon Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [89603] = { -- Encoded Captain's Log
             [itemKeys.npcDrops] = {66148},
         },
@@ -899,6 +983,9 @@ function MopItemFixes.Load()
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
             [itemKeys.npcDrops] = {58706},
+        },
+        [89903] = { -- Thousand-Year Water
+            [itemKeys.objectDrops] = {440008},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
