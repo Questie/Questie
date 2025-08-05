@@ -1071,32 +1071,32 @@ describe("Phasing", function()
     end)
 
     describe("Rivett Clutchpop (56406)", function()
-        it("should return true for Next to Naszgrim when 29939 is not complete and not in the quest log", function()
-            Questie.db.char.complete[29939] = false
+        it("should return true for Next to Naszgrim when 29937 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29937] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
             assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
         end)
 
-        it("should return true for Next to Naszgrim when 29939 is not complete and incomplete in the quest log", function()
-            Questie.db.char.complete[29939] = false
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[29939]={isComplete=0}}
+        it("should return true for Next to Naszgrim when 29937 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[29937] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29937]={isComplete=0}}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
             assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
         end)
 
-        it("should return true for Grookin Hill South End when 29939 is not complete and complete in the quest log", function()
-            Questie.db.char.complete[29939] = false
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[29939]={isComplete=1}}
+        it("should return true for Grookin Hill South End when 29937 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[29937] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29937]={isComplete=1}}
 
             assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
             assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
         end)
 
-        it("should return true for Grookin Hill South End when 29939 is complete", function()
-            Questie.db.char.complete[29939] = true
+        it("should return true for Grookin Hill South End when 29937 is complete", function()
+            Questie.db.char.complete[29937] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))

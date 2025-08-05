@@ -1235,11 +1235,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM then
-        return (not complete[29939]) and ((not questLog[29939] or questLog[29939].isComplete == 0)) or false
+        return (not complete[29937]) and ((not questLog[29937] or questLog[29937].isComplete == 0)) or false
     end
 
     if phase == phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END then
-        return complete[29939] or (questLog[29939] and questLog[29939].isComplete == 1) or false
+        return complete[29937] or (questLog[29937] and questLog[29937].isComplete == 1) or false
     end
 
     if phase == phases.HIGH_ELDER_CLOUDFALL_AT_TOWER then
