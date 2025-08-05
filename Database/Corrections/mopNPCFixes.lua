@@ -759,6 +759,23 @@ function MopNpcFixes.Load()
         [58545] = { -- Stonebark Trickster
             [npcKeys.spawns] = {}, -- Remove invalid spawns
         },
+        [58563] = { -- Tilled Soil
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
         [58607] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},
         },

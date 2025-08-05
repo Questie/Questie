@@ -339,6 +339,9 @@ local phases = {
     SHEEPIE_SECOND_TIME = 1267,
     OLD_HILLPAW_HALFHILL = 1268,
     TINA_MUDCLAW_HALFHILL = 1269,
+    FARM_HAS_8_SLOTS = 1270,
+    FARM_HAS_12_SLOTS = 1271,
+    FARM_HAS_16_SLOTS = 1272,
 }
 Phasing.phases = phases
 
@@ -1502,13 +1505,25 @@ function Phasing.IsSpawnVisible(phase)
     if phase == phases.SHEEPIE_SECOND_TIME then
         return complete[31338] or false
     end
-  
+
     if phase == phases.OLD_HILLPAW_HALFHILL then
         return ((complete[30318]) or (questLog[30318])) or false
     end
 
     if phase == phases.TINA_MUDCLAW_HALFHILL then
         return ((complete[30323]) or (questLog[30323])) or false
+    end
+
+    if phase == phases.FARM_HAS_8_SLOTS then
+        return complete[30516] or false
+    end
+
+    if phase == phases.FARM_HAS_12_SLOTS then
+        return complete[30524] or false
+    end
+
+    if phase == phases.FARM_HAS_16_SLOTS then
+        return complete[30529] or false
     end
 
     return false
