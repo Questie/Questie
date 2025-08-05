@@ -663,6 +663,9 @@ function MopNpcFixes.Load()
         [57242] = { -- Elder Sage Wind-Yi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.84,57.08}}},
         },
+        [57402] = { -- Haohan Mudclaw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.64,34.07}}},
+        },
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
         },
