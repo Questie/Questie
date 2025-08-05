@@ -1286,6 +1286,7 @@ function MopQuestFixes.Load()
         },
         [29823] = { -- Scouting Report: The Friend of My Enemy
             [questKeys.preQuestSingle] = {29731},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Kiryn"),0,{{"monster",55688}}}},
         },
         [29824] = { -- Scouting Report: Like Jinyu in a Barrel
             [questKeys.preQuestSingle] = {29823},
