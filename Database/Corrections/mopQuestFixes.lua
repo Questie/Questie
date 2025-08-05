@@ -5285,6 +5285,7 @@ function MopQuestFixes.Load()
         },
         [31340] = { -- Oh Sheepie...
             [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
+            [questKeys.objectives] = {{{64391,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31354] = { -- Mazu's Bounty
             [questKeys.preQuestSingle] = {31190},
