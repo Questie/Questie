@@ -2816,7 +2816,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58919}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31294,31295},
+            [questKeys.exclusiveTo] = {31245,31249,31294,31295}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [30386] = { -- A Dish for Ella
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -5071,7 +5071,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59337}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31296},
+            [questKeys.exclusiveTo] = {31246,31296}, -- 31246 to not show this one if mistfall is 3rd hub
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
@@ -5166,21 +5166,21 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {30385,31240,31244,31248,31295,31296},
+            [questKeys.exclusiveTo] = {31245,31249,30385,31240,31244,31248,31295,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31295] = { -- Mogu within the Ruins of Guo-Lai -- Mistfall Peace to Ruins Attack lead out
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59332}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {30385,31240,31244,31248,31294,31296},
+            [questKeys.exclusiveTo] = {31245,31249,30385,31240,31244,31248,31294,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31296] = { -- The Ruins of Guo-Lai -- Mistfall Attack to Ruins Peace lead out
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31240,31244,31248,31250,31294,31295},
+            [questKeys.exclusiveTo] = {31246,31240,31244,31248,31250,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
         },
         [31297] = { -- Setting Sun Garrison -- Lake Attack to Garrison
             [questKeys.startedBy] = {{59337}},
