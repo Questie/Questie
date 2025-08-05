@@ -212,8 +212,7 @@ _CalculateAndDrawAvailableQuests = function()
             ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or            -- Don't show raid quests if option is disabled
             ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or         -- Don't show AQ War Effort quests if the option disabled
             (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
-            (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) or          -- Don't show SoD Rune quests with the option disabled
-            DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog)
+            (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
             availableQuests[questId] = nil
             return
@@ -221,7 +220,8 @@ _CalculateAndDrawAvailableQuests = function()
 
         if (
             (not IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
-            (not IsDoable(questId, debugEnabled))
+            (not IsDoable(questId, debugEnabled)) or
+            DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog)
         ) then
             --If the quests are not within level range we want to unload them
             --(This is for when people level up or change settings etc)
