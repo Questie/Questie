@@ -4735,6 +4735,7 @@ function MopQuestFixes.Load()
         },
         [31152] = { -- Peering Into the Past
             [questKeys.triggerEnd] = {"Lorewalker Cho escorted to Circle of Stone", {[zoneIDs.THE_JADE_FOREST] = {{29,32.4}}}},
+            [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31134},
         },
         [31156] = { -- Calligraphed Parchment
