@@ -6131,6 +6131,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29804},
         },
         [31778] = { -- Unreliable Allies
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67090,65974},65974,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {29804},
         },
         [31779] = { -- The Darkness Within
