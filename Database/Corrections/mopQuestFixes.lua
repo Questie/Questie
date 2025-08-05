@@ -3489,18 +3489,18 @@ function MopQuestFixes.Load()
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30652] = { -- In Tents Channeling [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30593,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
         },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
