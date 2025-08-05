@@ -1021,6 +1021,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use it"),0,{{"object",209621}}}},
         },
         [29730] = { -- Scouting Report: Hostile Natives
+            [questKeys.objectives] = {{{55378,nil,Questie.ICON_TYPE_EVENT},{55381,nil,Questie.ICON_TYPE_TALK}},{{209615}}},
             [questKeys.preQuestSingle] = {29971},
         },
         [29731] = { -- Scouting Report: On the Right Track
