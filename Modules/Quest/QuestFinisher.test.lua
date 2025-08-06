@@ -35,6 +35,9 @@ describe("QuestFinisher", function()
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
         QuestiePlayer.currentQuestlog = {}
+        QuestiePlayer.GetCurrentZoneId = function()
+            return 440
+        end
         QuestieTooltips.lookupByKey = {}
 
         QuestFinisher = require("Modules.Quest.QuestFinisher")
