@@ -131,16 +131,13 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[440]={{10,10}}}
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should return nil for objects which are not in the zone of the player", function()
@@ -150,15 +147,12 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[1]={{10,10}}}
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.is_nil(tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should return quest name and objective description when players zone ID is 0", function()
@@ -174,16 +168,13 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[440]={{10,10}}}
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 0
-            end)
+            local playerZone = 0
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should return quest name and objective description when object has no spawn", function()
@@ -199,11 +190,9 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return nil
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)

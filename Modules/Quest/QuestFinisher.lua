@@ -44,17 +44,22 @@ function QuestFinisher.AddFinisher(quest)
     end
 
     if quest.Finisher.GameObject then
+        local playerZone = QuestiePlayer:GetCurrentZoneId()
         for i = 1, #quest.Finisher.GameObject do
             local finisher = QuestieDB:GetObject(quest.Finisher.GameObject[i])
-            _AddFinisherToMap(finisher, quest, "o_" .. finisher.id)
+            _AddFinisherToMap(finisher, quest, "o_" .. finisher.id, playerZone)
         end
     end
 end
 
-_AddFinisherToMap = function(finisher, quest, key)
+---@param finisher NPC|Object
+---@param quest Quest
+---@param key string
+---@param playerZone AreaId|nil
+_AddFinisherToMap = function(finisher, quest, key, playerZone)
     -- Clear duplicate keys if they exist
     if QuestieTooltips.lookupByKey[key] then
-        _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1])
+        _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1], playerZone)
     end
 
     QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key)
@@ -143,8 +148,8 @@ end
 -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
 -- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
 -- any duplicate keys before registering the Quest Finisher.
-_RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjective)
-    local tooltip = QuestieTooltips.GetTooltip(key)
+_RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjective, playerZone)
+    local tooltip = QuestieTooltips.GetTooltip(key, playerZone)
     if tooltip and #tooltip > 1 then
         for ttline = 1, #tooltip do
             for index, line in pairs(tooltip) do

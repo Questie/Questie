@@ -191,8 +191,9 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
 end
 
 ---@param key string
+---@param playerZone AreaId|nil
 ---@return table<number, string>|nil tooltipLines
-function QuestieTooltips.GetTooltip(key)
+function QuestieTooltips.GetTooltip(key, playerZone)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips.GetTooltip]", key)
     if (not key) then
         return nil
@@ -213,7 +214,6 @@ function QuestieTooltips.GetTooltip(key)
         local objectId = tonumber(key:sub(3))
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
-            local playerZone = QuestiePlayer:GetCurrentZoneId()
             if playerZone == 0 then
                 objectIsInCurrentZone = true
             else
@@ -448,7 +448,8 @@ function QuestieTooltips:Initialize()
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
                 ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
-                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
+                local playerZone = QuestiePlayer:GetCurrentZoneId()
+                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
             QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()

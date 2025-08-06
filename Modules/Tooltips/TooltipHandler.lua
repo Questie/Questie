@@ -82,7 +82,9 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-function _QuestieTooltips.AddObjectDataToTooltip(name)
+---@param name string
+---@param playerZone AreaId
+function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
@@ -108,7 +110,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
         if tooltipData then
             for _, line in pairs (tooltipData) do
                 if (not alreadyAddedObjectiveLines[line]) then
