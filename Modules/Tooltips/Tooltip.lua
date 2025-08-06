@@ -213,6 +213,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         local objectIsInCurrentZone = false
         if playerZone == 0 then
             objectIsInCurrentZone = true
+        elseif (not playerZone) then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
+            objectIsInCurrentZone = true
         else
             local objectId = tonumber(key:sub(3))
             local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
