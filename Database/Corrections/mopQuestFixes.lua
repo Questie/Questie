@@ -5658,6 +5658,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31539,31540,31541,31543,31544},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.requiredSourceItems] = {87821},
         },
         [31543] = { -- Portrait of a Lady
             [questKeys.startedBy] = {{56064}},
