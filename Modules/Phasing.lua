@@ -342,6 +342,7 @@ local phases = {
     FARM_HAS_8_SLOTS = 1270,
     FARM_HAS_12_SLOTS = 1271,
     FARM_HAS_16_SLOTS = 1272,
+    ZIN_AT_AXE_OF_THUNDER_KING = 1273,
 }
 Phasing.phases = phases
 
@@ -1524,6 +1525,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.FARM_HAS_16_SLOTS then
         return complete[30529] or false
+    end
+
+    if phase == phases.ZIN_AT_AXE_OF_THUNDER_KING then
+        return complete[30642] or (questLog[30642] and questLog[30642].isComplete == 1) or false
     end
 
     return false

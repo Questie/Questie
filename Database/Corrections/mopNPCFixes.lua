@@ -1065,6 +1065,10 @@ function MopNpcFixes.Load()
                 {45.94,64.13,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
             }},
         },
+        [59905] = { -- Zhi the Harmonious
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{57.25,42.99},{44.79,76.33,phases.ZIN_AT_AXE_OF_THUNDER_KING}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [59908] = { -- Jaluu the Generous
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.15,72.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1095,6 +1099,10 @@ function MopNpcFixes.Load()
         },
         [60099] = { -- Western Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
+        },
+        [60376] = { -- Kill Credit: Battle Axe Trial
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{48,29.8}}},
+            [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [60401] = { -- Snapclaw
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.8,38.36}}},
@@ -1837,6 +1845,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.14,24.63}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [64889] = { -- Ren Firetongue
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{58.58,44.28}}},
+            [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [64937] = { -- Great Cliff Hawk
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},

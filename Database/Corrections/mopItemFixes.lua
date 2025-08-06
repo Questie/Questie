@@ -420,6 +420,9 @@ function MopItemFixes.Load()
         [80216] = { -- Lolo Lio's Payment
             [itemKeys.npcDrops] = {59585},
         },
+        [80222] = { -- Battle Helm of the Thunder King
+            [itemKeys.objectDrops] = {211393},
+        },
         [80223] = { -- Old Hillpaw's Prize Chicken
             [itemKeys.npcDrops] = {58918},
         },
@@ -542,6 +545,12 @@ function MopItemFixes.Load()
         },
         [80817] = { -- Buried Hozen Treasure
             [itemKeys.objectDrops] = {211420},
+        },
+        [80807] = { -- Battle Axe of the Thunder King
+            [itemKeys.objectDrops] = {211396},
+        },
+        [80808] = { -- Battle Spear of the Thunder King
+            [itemKeys.objectDrops] = {211395},
         },
         [80827] = { -- Confusing Treasure Map
             [itemKeys.npcDrops] = {60299,60357},
@@ -714,6 +723,9 @@ function MopItemFixes.Load()
         [84646] = { -- Ruby Eye
             [itemKeys.objectDrops] = {212759,212760,212761},
         },
+        [84655] = { -- Mogu Artifact
+            [itemKeys.objectDrops] = {212762,212763,212764,212765,212766},
+        },
         [84656] = { -- Stunned Whitepetal Carp
             [itemKeys.npcDrops] = {62984},
         },
@@ -866,6 +878,9 @@ function MopItemFixes.Load()
         },
         [87556] = { -- Black Cherrie
             [itemKeys.npcDrops] = {58705},
+        },
+        [87790] = { -- Ancient Guo-Lai Artifact
+            [itemKeys.objectDrops] = {214394},
         },
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},

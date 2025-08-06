@@ -2133,7 +2133,7 @@ function MopQuestFixes.Load()
         },
         [30225] = { -- The Ashweb Matriarch
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestGroup] = {30200,30226}, -- TO DO: check if it is offered after Anji quests are turned in
+            [questKeys.preQuestSingle] = {30200}, -- is offered after 30200 + one of the other quests from this hub are turned in - needs daily module
             [questKeys.objectives] = {{{245926}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2405,7 +2405,7 @@ function MopQuestFixes.Load()
         [30277] = { -- The Crumbling Hall
             [questKeys.startedBy] = {{58503,58919}},
             [questKeys.finishedBy] = {{58503,58919}},
-            --[questKeys.objectives] = {{{65286}},nil,{{87790}}}, -- TO DO: check this
+            [questKeys.objectives] = {nil,{{214477}},{{87790}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestGroup] = {30642,31240}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
@@ -3480,6 +3480,22 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58408}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [30640] = { -- Battle Spear of the Thunder King
+            [questKeys.startedBy] = {{59905}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
+        },
+        [30641] = { -- Battle Helm of the Thunder King
+            [questKeys.startedBy] = {{59905}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
+            [questKeys.preQuestSingle] = {30640},
+            [questKeys.objectives] = {{{64889,nil,Questie.ICON_TYPE_TALK}},nil,{{80222}}},
+        },
+        [30642] = { -- Battle Axe of the Thunder King
+            [questKeys.startedBy] = {{59905}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
+            [questKeys.preQuestSingle] = {30641},
+            [questKeys.objectives] = {{{60376,nil,Questie.ICON_TYPE_EVENT}},nil,{{80222}}},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},

@@ -271,6 +271,20 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{52.24,77.89}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211393] = { -- Battle Helm of the Thunder King
+            [objectKeys.name] = 'Battle Helm of the Thunder King',
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS_THE_HALL_OF_THE_SERPENT] = {{50.01,82.1}}},
+            [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS_THE_HALL_OF_THE_SERPENT,
+        },
+        [211395] = { -- Battle Spear of the Thunder King
+            [objectKeys.name] = 'Battle Spear of the Thunder King',
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{21.4,19.79}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [211396] = { -- Battle Axe of the Thunder King
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{45.49,76.19}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [211510] = { -- Sage Liao's Belongings
             [objectKeys.name] = 'Sage Liao\'s Belongings',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{61.01,21.52}}},
@@ -506,6 +520,14 @@ function MopObjectFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+        },
+        [214394] = { -- Ancient Guo-Lai Artifact
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.8,30.81}}},
+            [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
+        [214477] = { -- Deactivate Final Spirit Wall
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{41.67,18.15}}},
+            [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214543] = { -- Dreadspore Bulb
             [objectKeys.name] = "Dreadspore Bulb",
