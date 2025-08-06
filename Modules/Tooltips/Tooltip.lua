@@ -211,21 +211,21 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     local isObjectTooltip = key:sub(1, 2) == "o_"
     if isObjectTooltip then
         local objectIsInCurrentZone = false
-        local objectId = tonumber(key:sub(3))
-        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-        if spawns then
-            if playerZone == 0 then
-                objectIsInCurrentZone = true
-            else
+        if playerZone == 0 then
+            objectIsInCurrentZone = true
+        else
+            local objectId = tonumber(key:sub(3))
+            local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+            if spawns then
                 for zoneId in pairs(spawns) do
                     if zoneId == playerZone then
                         objectIsInCurrentZone = true
                         break
                     end
                 end
+            else
+                objectIsInCurrentZone = true
             end
-        else
-            objectIsInCurrentZone = true
         end
 
         if (not objectIsInCurrentZone) then

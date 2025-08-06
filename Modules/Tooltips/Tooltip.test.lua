@@ -165,16 +165,14 @@ describe("Tooltip", function()
                 }
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
-            QuestieDB.QueryObjectSingle = spy.new(function()
-                return {[440]={{10,10}}}
-            end)
+            QuestieDB.QueryObjectSingle = spy.new(function() end)
             local playerZone = 0
 
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
-            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestieDB.QueryObjectSingle).was_not_called()
         end)
 
         it("should return quest name and objective description when object has no spawn", function()
