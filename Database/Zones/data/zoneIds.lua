@@ -187,6 +187,7 @@ ZoneDB.zoneIDs = {
     GREENSTONE_QUARRY = 5955, -- Cave in The Jade Forest -- Upper Quarry
     TEMPLE_OF_THE_JADE_SERPENT = 5956, -- Dungeon
     STORMSTOUT_BREWERY = 5963, -- Dungeon
+    THE_HALFHILL_MARKET = 5981,
     THE_VEILED_STAIRS = 6006,
     SCARLET_HALLS = 6052, -- this is also Training Grounds map for Scarlet Monastery (MoP)
     SCHOLOMANCE_MOP = 6066, -- this is also The Reliquary map for Scholomance (MoP)

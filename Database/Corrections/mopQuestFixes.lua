@@ -5610,6 +5610,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.COOKING,600},
             [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
             [questKeys.objectives] = {{{64930},{64931},{64932},{64933},{64934},{64935}}},
+            [questKeys.zoneOrSort] = zoneIDs.THE_HALFHILL_MARKET,
         },
         [31522] = {-- A Worthy Challenge: Sha of Hatred
             [questKeys.exclusiveTo] = {31519,31520,31523,31524,31525,31526,31527,31528},
