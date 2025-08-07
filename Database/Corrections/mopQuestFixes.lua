@@ -855,10 +855,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{54990,61472},54990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29611] = { -- The Art of War
-            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {25951,29612},
         },
         [29612] = { -- The Art of War
-            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{54870,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {29611},
+            [questKeys.preQuestSingle] = {25951},
         },
         [29617] = { -- Tian Monastery
             [questKeys.nextQuestInChain] = 29618,
@@ -2675,23 +2678,23 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{210760}}},
         },
         [30328] = { -- The Thousand-Year Dumpling
-            [questKeys.preQuestSingle] = {30257},
+            [questKeys.preQuestSingle] = {31279},
             [questKeys.exclusiveTo] = {30329,30330,30331,30332},
         },
         [30329] = { -- Cindergut Peppers
-            [questKeys.preQuestSingle] = {30257},
+            [questKeys.preQuestSingle] = {31279},
             [questKeys.exclusiveTo] = {30328,30330,30331,30332},
         },
         [30330] = { -- The Truffle Shuffle
-            [questKeys.preQuestSingle] = {30257},
+            [questKeys.preQuestSingle] = {31279},
             [questKeys.exclusiveTo] = {30328,30329,30331,30332},
         },
         [30331] = { -- The Mile-High Grub
-            [questKeys.preQuestSingle] = {30257},
+            [questKeys.preQuestSingle] = {31279},
             [questKeys.exclusiveTo] = {30328,30329,30330,30332},
         },
         [30332] = { -- Fatty Goatsteak
-            [questKeys.preQuestSingle] = {30257},
+            [questKeys.preQuestSingle] = {31279},
             [questKeys.exclusiveTo] = {30328,30329,30330,30331},
         },
         [30333] = { -- The Lesser of Two Evils
@@ -5250,13 +5253,16 @@ function MopQuestFixes.Load()
                 --{1283,42000} -- Farmer Fung
             --},
         },
-        [31313] = { -- Just A Folk Stor
+        [31313] = { -- Just A Folk Story
             [questKeys.preQuestSingle] = {31312},
             [questKeys.nextQuestInChain] = 31314,
+            [questKeys.objectives] = {{{64312,nil,Questie.ICON_TYPE_TALK},{64315,nil,Questie.ICON_TYPE_TALK},{64313,nil,Questie.ICON_TYPE_TALK},{64327,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31314] = { -- Old Man Thistle's Treasure
             [questKeys.preQuestSingle] = {31313},
             [questKeys.nextQuestInChain] = 31315,
+            [questKeys.objectives] = {{{64328,nil,Questie.ICON_TYPE_EVENT}},{{213767}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Clear the rocks"),0,{{"object",211305}}}},
         },
         [31315] = { -- The Heartland Legacy
             [questKeys.preQuestSingle] = {31314},
@@ -5510,6 +5516,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31517},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,{{214628}}},
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
@@ -5562,6 +5569,7 @@ function MopQuestFixes.Load()
         [31510] = { -- Quiet Now
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31272,31504}, -- exclusivity for revered The Klaxxi
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the crystal"),0,{{"object",214455}}}},
         },
         [31511] = { -- A Witness to History [Horde]
             [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
@@ -5830,31 +5838,31 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31006},
         },
         [31669] = { -- The Cabbage Test
-            [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {79102},
         },
         [31670] = { -- That Dangling Carrot
-            [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80590},
         },
         [31671] = { -- Why Not Scallions?
-            [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80591},
         },
         [31672] = { -- A Pumpkin-y Perfume
-            [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80592},
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80593},
         },
         [31674] = { -- The Pink Turnip Challenge
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80594},
         },
         [31675] = { -- The White Turnip Treatment
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80595},
         },
         [31676] = { -- Ancient Vengeance
@@ -6181,6 +6189,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.exclusiveTo] = {31216},
+            [questKeys.objectives] = {{{63765,nil,Questie.ICON_TYPE_MOUNT_UP}},nil,nil,nil,{{{67030,67033,67035,67036,67037,67039,67034},67034}}},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
@@ -6537,15 +6546,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30529},
         },
         [31941] = { -- Squash Those Foul Odors
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943,32682},
             [questKeys.requiredSourceItems] = {89328},
         },
         [31942] = { -- It's Melon Time
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943,32682},
             [questKeys.requiredSourceItems] = {89329},
         },
         [31943] = { -- Which Berries? Witchberries.
-            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942},
+            [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942,32682},
             [questKeys.requiredSourceItems] = {89326},
         },
         [31944] = { -- Complete Your Training: The Final Test

@@ -400,7 +400,7 @@ function MopNpcFixes.Load()
             },
         },
         [55054] = { -- General Nazgrim
-            [npcKeys.spawns] = {[zoneIDs.KALIMDOR] = {{61.2,44.6}}},
+            [npcKeys.spawns] = {[zoneIDs.KALIMDOR] = {{61.23,44.59}}},
             [npcKeys.zoneID] = zoneIDs.KALIMDOR,
         },
         [55205] = { -- Water Spirit Coaxed Credit
@@ -1177,6 +1177,24 @@ function MopNpcFixes.Load()
         [60970] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.88,81.67}}},
         },
+        [60979] = { -- Ken-Ken
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.65,45.24}}}, -- only used at these coords
+        },
+        [60980] = { -- Clever Ashyo
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.67,45.32}}}, -- only used at these coords
+        },
+        [60997] = { -- The Wrestler
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.72,46.53}}}, -- only used at these coords
+        },
+        [61004] = { -- Healiss
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{69,43.74}}}, -- only used at these coords
+        },
+        [61006] = { -- Tankiss
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.83,43.41}}}, -- only used at these coords
+        },
+        [61007] = { -- Hackiss
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.59,43.65}}}, -- only used at these coords
+        },
         [61071] = { -- Small Frog
             [npcKeys.spawns] = {
                 [10] = {{2.8,35.6},{3.8,28.8},{4.4,26.8},{4.8,28},{5.6,36},{6,35.2},{7.4,29.4},{7.6,29.2},{7.8,42.6},{7.8,46.6},{8,42.2},{8.2,48.2},{8.6,50.8},{10,30.2},{10.4,28.6},{11.4,27.2},{11.4,28},{14.4,23.4},{14.4,23.6},{14.8,23.6},{15,22.8},{15.6,22.6},{16.8,22.2},{23.4,24.8},{24.4,24.8},{30.4,23.6},{31.8,22.6},{32.2,22},{35.2,19.8},{37,18.4},{38,17.4},{38,17.6},{46,15.6},{46.4,15.2},{46.6,15},{48.6,12.4},{48.6,12.8},{55.4,11},{55.4,11.6},{57.8,13},{60.4,13.8},{65.2,14.4},{65.4,14.6},{65.6,14.6},{70.2,15.2},{71.2,15.6},{71.6,15.6},{75.4,16},{75.6,16},{79.6,16.4}},
@@ -1699,6 +1717,9 @@ function MopNpcFixes.Load()
         [63576] = { -- Osul Fire-Warrior
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
         },
+        [63765] = { -- Kovok
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.79,41.37}}},
+        },
         [63880] = { -- Shipwreck Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.66,78.66}}},
         },
@@ -1746,6 +1767,10 @@ function MopNpcFixes.Load()
         },
         [64281] = { -- Satay Byu
             [npcKeys.spawns] = {[zoneIDs.ARENA_OF_ANNIHILATION] = {{45.96,51.27}}},
+        },
+        [64328] = { -- Kill Credit: Find Cave Entrance
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{37.05,23.86}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03}}},
@@ -1892,7 +1917,6 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.4,11.2}}},
         },
         [66292] = { -- Sky Admiral Rogers
-            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
             [npcKeys.spawns] = {
                 [zoneIDs.EASTERN_KINGDOMS] = {
                     {41.48,70.2,phases.SKYFIRE_STORMWIND},
@@ -1902,6 +1926,7 @@ function MopNpcFixes.Load()
                     {48.05,88.39,phases.ADMIRAL_ROGERS_PAWDON_VILLAGE},
                 },
             },
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
         [66296] = { -- Taran Zhu
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.25,84.8}}},

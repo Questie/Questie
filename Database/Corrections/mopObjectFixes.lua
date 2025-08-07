@@ -248,6 +248,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.84,70.98}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211305] = { -- Rocks
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{37.01,23.69}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [211306] = { -- Revelite Crystal
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.15,30.87},{23.49,33.25},{26.96,32.85},{27.65,29.00},{26.07,28.38},{26.33,25.12},{24.14,27.42},{21.59,28.46},{20.39,30.60},{22.37,30.78},{21.57,31.41},{23.16,30.73},{23.18,26.58},{22.11,27.19}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -458,6 +462,10 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Potent Dream Brew",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.68,92.06}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [213767] = { -- Hidden Treasure
+            [objectKeys.spawns] = {[zoneIDs.CAVERN_OF_ENDLESS_ECHOES] = {{31.36,52.86}}},
+            [objectKeys.zoneID] = zoneIDs.CAVERN_OF_ENDLESS_ECHOES,
         },
         [213795] = { -- Stormstout Secrets
             [objectKeys.name] = "Stormstout Secrets",

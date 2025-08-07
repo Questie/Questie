@@ -811,6 +811,7 @@ function MopItemFixes.Load()
         },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
+            [itemKeys.startQuest] = 31312,
         },
         [86431] = { -- Stormstout Secrets
             [itemKeys.objectDrops] = {213795},
@@ -887,6 +888,7 @@ function MopItemFixes.Load()
         },
         [87871] = { -- Massive Kyparite Core
             [itemKeys.npcDrops] = {65229},
+            [itemKeys.startQuest] = 31598,
         },
         [87874] = { -- Kyparite Shards
             [itemKeys.npcDrops] = {65231},
