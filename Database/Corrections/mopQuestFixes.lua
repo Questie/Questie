@@ -2270,7 +2270,7 @@ function MopQuestFixes.Load()
         },
         [30242] = { -- Survival Ring: Blades
             [questKeys.startedBy] = {{59340}},
-            [questKeys.finishedBy] = {{59340}},
+            [questKeys.finishedBy] = {{58743}},
             [questKeys.exclusiveTo] = {30240},
             [questKeys.preQuestSingle] = {30385, -- Setting Sun Garrison from 59338 Mistfall Peace
                                           31247, -- Setting Sun Garrison from 59343 Lake Peace
