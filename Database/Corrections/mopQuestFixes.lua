@@ -4053,6 +4053,10 @@ function MopQuestFixes.Load()
         },
         [30933] = { -- Seeking Father
             [questKeys.preQuestSingle] = {30932},
+            [questKeys.objectives] = {{{61694,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
+                                       31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+            },
         },
         [30935] = { -- Fisherman's Tale
             [questKeys.objectives] = {{{61382,nil,Questie.ICON_TYPE_TALK},{61380,nil,Questie.ICON_TYPE_TALK}}},
@@ -4395,7 +4399,7 @@ function MopQuestFixes.Load()
         },
         [31049] = { -- In Sprite Of Everything
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31039,31040,31041,31046}, -- might not need all
+            [questKeys.preQuestGroup] = {31039,31040,31041,31046}, -- order 31039 31046 31041 31040 autoaccepted after last. turn in 31040 first
             [questKeys.exclusiveTo] = {31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
@@ -4907,6 +4911,7 @@ function MopQuestFixes.Load()
                                        31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31203,31204, -- Final quests in hub
             },
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -4915,7 +4920,9 @@ function MopQuestFixes.Load()
                                        31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31203,31204, -- Final quests in hub
             },
+            [questKeys.objectives] = {nil,{{213307},{213308},{213310},{213311}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31200] = { -- Fumigation
@@ -4923,6 +4930,7 @@ function MopQuestFixes.Load()
                                        31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31203,31204, -- Final quests in hub
             },
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -4931,7 +4939,9 @@ function MopQuestFixes.Load()
                                        31042,31043,31047,31061,31105, -- Omnia dailies set 2
                                        31044,31045,31048,31062,31106, -- Omnia dailies set 3
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
+                                       31203,31204, -- Final quests in hub
             },
+            [questKeys.objectives] = {{{64461,nil,Questie.ICON_TYPE_TALK},{64460,nil,Questie.ICON_TYPE_TALK},{64459,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31203] = { -- Target of Opportunity: Sra'thik Swarmlord
@@ -4979,12 +4989,14 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31808},
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
+            [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK},{64473}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
             },
         },
         [31221] = { -- The Challenger's Ring: Tenwu of the Red Smoke
+            [questKeys.objectives] = {{{63616,nil,Questie.ICON_TYPE_TALK},{64473}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies

@@ -1404,6 +1404,9 @@ function MopNpcFixes.Load()
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
         },
+        [61694] = { -- Sentinel Ku-Yao
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{17.44,57.01}}},
+        },
         [61716] = { -- Invoker Xorenth
             [npcKeys.spawns] = {
                 [zoneIDs.RAGEFIRE_CHASM] = {
@@ -1696,6 +1699,9 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{52.04,43.12}}},
         },
+        [63618] = { -- Hawkmaster Nurong
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
+        },
         [63758] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78}}},
         },
@@ -1780,6 +1786,21 @@ function MopNpcFixes.Load()
         },
         [64386] = { -- Sheepie
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.54,37.64,phases.SHEEPIE_SECOND_TIME}}},
+        },
+        [64459] = { -- Shado-Pan Trainee
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{17.57,58.04}}},
+        },
+        [64460] = { -- Shado-Pan Trainee
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{17.4,56.92}}},
+        },
+        [64461] = { -- Shado-Pan Trainee
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{18,53.45}}},
+        },
+        [64473] = { -- Tenwu of the Red Smoke
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{50.62,68.5}}},
+        },
+        [64474] = { -- Hawkmaster Nurong
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{50.7,68.18}}},
         },
         [64475] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.84,81.08}}},
@@ -1885,6 +1906,9 @@ function MopNpcFixes.Load()
         [65325] = { -- Puntable Marmot
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = {},
+        },
+        [65341] = { -- Ku-Mo
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.66,71.07}}},
         },
         [65354] = { -- Ancient Amber Chunk
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{66.88,65.4}}},
