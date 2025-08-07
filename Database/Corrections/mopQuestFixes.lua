@@ -2258,8 +2258,8 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30242},
             [questKeys.preQuestSingle] = {30385, -- Setting Sun Garrison from 59338 Mistfall Peace
                                           31247, -- Setting Sun Garrison from 59343 Lake Peace
-                                          31250, -- Setting Sun Garrison from 59337 Mistfall Attack
-                                          31297, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31250, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31297, -- Setting Sun Garrison from 59337 Mistfall Attack
                                           },
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2274,11 +2274,12 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30240},
             [questKeys.preQuestSingle] = {30385, -- Setting Sun Garrison from 59338 Mistfall Peace
                                           31247, -- Setting Sun Garrison from 59343 Lake Peace
-                                          31250, -- Setting Sun Garrison from 59337 Mistfall Attack
-                                          31297, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31250, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31297, -- Setting Sun Garrison from 59337 Mistfall Attack
                                           },
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{64895,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30243] = { -- Mantid Under Fire -- TO DO check it
             [questKeys.preQuestGroup] = {30306,30240},
@@ -2450,7 +2451,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30286] = { -- Backed Into a Corner
             [questKeys.startedBy] = {{59337}},
@@ -2458,14 +2459,14 @@ function MopQuestFixes.Load()
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
             [questKeys.objectives] = {nil,nil,nil,nil,{{{64187,63949},63949,nil,Questie.ICON_TYPE_INTERACT}}}, -- both IDs need spawns
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30287] = { -- Mogu Make Poor House Guests
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30288] = { -- My Town, It's On Fire Again
             [questKeys.startedBy] = {{59336}},
@@ -2474,7 +2475,7 @@ function MopQuestFixes.Load()
                                           },
             [questKeys.requiredSourceItems] = {85950},
             [questKeys.objectives] = {{{63943,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30289] = { -- Freeing Mind and Body
             [questKeys.startedBy] = {{58911}},
@@ -2482,15 +2483,15 @@ function MopQuestFixes.Load()
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
             [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30290] = { -- Stonebound Killers
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{64186,63950},63950}}},
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
@@ -2513,7 +2514,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245153}}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
-            [questKeys.exclusiveTo] = {30297,31250,31296},
+            [questKeys.exclusiveTo] = {30297,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2522,7 +2523,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245163}}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
-            [questKeys.exclusiveTo] = {30296,31250,31296},
+            [questKeys.exclusiveTo] = {30296,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -2600,8 +2601,8 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58962}},
             [questKeys.preQuestSingle] = {30385, -- Setting Sun Garrison from 59338 Mistfall Peace
                                           31247, -- Setting Sun Garrison from 59343 Lake Peace
-                                          31250, -- Setting Sun Garrison from 59337 Mistfall Attack
-                                          31297, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31250, -- Setting Sun Garrison from 58408 Lake Attack
+                                          31297, -- Setting Sun Garrison from 59337 Mistfall Attack
                                           },
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -3135,7 +3136,7 @@ function MopQuestFixes.Load()
         [30482] = { -- The Soul-Gatherer
             [questKeys.startedBy] = {{58470}},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {31136,31248,31249,31297},
+            [questKeys.exclusiveTo] = {31136,31248,31249,31250},
             [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30484] = { -- Gauging Our Progress
@@ -4691,7 +4692,7 @@ function MopQuestFixes.Load()
         [31136] = { -- Behind Our Lines
             [questKeys.startedBy] = {{58470}},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30482,31248,31249,31297},
+            [questKeys.exclusiveTo] = {30482,31248,31249,31250},
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.objectives] = {{{246242}}},
             [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
@@ -5099,22 +5100,22 @@ function MopQuestFixes.Load()
         [31248] = { -- The Ruins of Guo-Lai -- Lake Attack to Ruins Peace
             [questKeys.startedBy] = {{58408}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31240,31244,31249,31294,31295,31296,31297},
+            [questKeys.exclusiveTo] = {31240,31244,31249,31250,31294,31295,31296},
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [31249] = { -- Mistfall Village -- Lake Attack to Mistfall Peace
             [questKeys.startedBy] = {{58408}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31248,31297},
+            [questKeys.exclusiveTo] = {31248,31250},
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
-        [31250] = { -- Setting Sun Garrison -- Mistfall Attack to Garrison lead out
-            [questKeys.startedBy] = {{59337}},
-            [questKeys.preQuestSingle] = {30288}, -- needs daily module
+        [31250] = { -- Setting Sun Garrison -- Lake Attack to Garrison lead out
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31246,31296}, -- 31246 to not show this one if mistfall is 3rd hub
+            [questKeys.exclusiveTo] = {31248,31249},
         },
         [31251] = { -- Best Meals Anywhere!
             [questKeys.preQuestSingle] = {30515},
@@ -5202,7 +5203,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31250,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [31294] = { -- The Ruins of Guo-Lai -- Mistfall Peace to Ruins Peace lead out
             [questKeys.startedBy] = {{59338}},
@@ -5223,13 +5224,13 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31246,31240,31244,31248,31250,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
+            [questKeys.exclusiveTo] = {31246,31240,31244,31248,31297,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
         },
-        [31297] = { -- Setting Sun Garrison -- Lake Attack to Garrison
+        [31297] = { -- Setting Sun Garrison -- Mistfall Attack to Garrison lead out
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58919}},
-            [questKeys.exclusiveTo] = {31248,31249},
-            [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
+            [questKeys.exclusiveTo] = {31296,31246}, -- 31246 to not show this one if mistfall is 3rd hub
+            [questKeys.preQuestSingle] = {30288}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [31302] = { -- Ready For Greatness
