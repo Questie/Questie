@@ -3778,21 +3778,21 @@ function MopQuestFixes.Load()
         },
         [30772] = { -- Seeing Red
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30069,30770,30771},
+            [questKeys.preQuestGroup] = {30769,30770,30771},
         },
         [30773] = { -- Pitching In
             [questKeys.objectives] = {{{60705,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30069,30770,30771},
+            [questKeys.preQuestGroup] = {30769,30770,30771},
         },
         [30774] = { -- Ranger Rescue
-            [questKeys.preQuestGroup] = {30069,30770,30771},
+            [questKeys.preQuestGroup] = {30769,30770,30771},
             [questKeys.requiredSourceItems] = {81178},
             [questKeys.objectives] = {{{60730,nil,Questie.ICON_TYPE_EVENT},{60899,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211511}}}},
         },
         [30775] = { -- The Exile
-            [questKeys.preQuestGroup] = {30069,30770,30771},
+            [questKeys.preQuestGroup] = {30769,30770,30771},
         },
         [30776] = { -- Jung Duk
             [questKeys.preQuestGroup] = {30772,30773,30774},
