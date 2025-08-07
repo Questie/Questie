@@ -3555,10 +3555,14 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30663},
         },
         [30662] = { -- The Ordo Warbringer
+            [questKeys.startedBy] = {{59441}},
             [questKeys.exclusiveTo] = {30660},
+            [questKeys.preQuestSingle] = {30652},
         },
         [30663] = { -- The Ordo Warbringer
+            [questKeys.startedBy] = {{59442}},
             [questKeys.exclusiveTo] = {30661},
+            [questKeys.preQuestSingle] = {30657},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
             [questKeys.preQuestGroup] = {30459,30460},
