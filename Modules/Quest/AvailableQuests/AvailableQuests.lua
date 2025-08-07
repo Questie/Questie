@@ -19,6 +19,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
@@ -218,7 +220,8 @@ _CalculateAndDrawAvailableQuests = function()
 
         if (
             (not IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
-            (not IsDoable(questId, debugEnabled))
+            (not IsDoable(questId, debugEnabled)) or
+            DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog)
         ) then
             --If the quests are not within level range we want to unload them
             --(This is for when people level up or change settings etc)

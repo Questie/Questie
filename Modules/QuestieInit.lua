@@ -83,6 +83,8 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type WatchFrameHook
@@ -301,6 +303,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
     QuestieMenu:OnLogin()
+
+    coYield()
+    DailyQuests.Initialize()
 
     coYield()
     if Questie.db.profile.debugEnabled then
