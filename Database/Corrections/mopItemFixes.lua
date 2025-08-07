@@ -216,6 +216,9 @@ function MopItemFixes.Load()
         [77034] = { -- Malted Cave Barley
             [itemKeys.objectDrops] = {210037},
         },
+        [77419] = { -- Mask of Doubt
+            [itemKeys.npcDrops] = {57327,57330,57396},
+        },
         [77452] = { -- Defender's Arrow
             [itemKeys.objectDrops] = {210087},
         },
