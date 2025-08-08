@@ -14,7 +14,13 @@ describe("DailyQuests", function()
             TEST_HUB = {
                 quests = { 1, 2, 3, 4, 5 },
                 limit = 3,
-            }
+                exclusiveHubs = { TEST_HUB_2 = true },
+            },
+            TEST_HUB_2 = {
+                quests = { 6, 7, 8 },
+                limit = 1,
+                exclusiveHubs = { TEST_HUB = true },
+            },
         }
         DailyQuests.Initialize()
     end)
@@ -60,6 +66,28 @@ describe("DailyQuests", function()
             assert.is_true(shouldBeHidden)
         end)
 
+        it("should return true when quest is part of a hub that is exclusive to a quest in the quest log", function()
+            local completedQuests = {}
+            local questLog = {
+                [6] = {},
+            }
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
+        end)
+
+        it("should return true when quest is part of a hub that is exclusive to a completed quest", function()
+            local completedQuests = {
+                [6] = {},
+            }
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
+        end)
+
         it("should return false when quest does not belong to a hub", function()
             local completedQuests = {
                 [1] = true,
@@ -70,7 +98,7 @@ describe("DailyQuests", function()
             }
             local questLog = {}
 
-            local shouldBeHidden = DailyQuests.ShouldBeHidden(6, completedQuests, questLog)
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(100, completedQuests, questLog)
 
             assert.is_false(shouldBeHidden)
         end)
