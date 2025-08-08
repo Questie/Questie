@@ -2364,6 +2364,8 @@ function MopQuestFixes.Load()
         },
         [30261] = { -- Roll Club: Serpent's Spine
             [questKeys.preQuestGroup] = {30306,30640},
+            [questKeys.exclusiveTo] = {30264},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
         },
         [30263] = { -- Clearing in the Forest
             [questKeys.startedBy] = {{59338}},
@@ -2373,12 +2375,20 @@ function MopQuestFixes.Load()
                                           },
             [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
+        [30264] = { -- Enemy at the Gates
+            [questKeys.startedBy] = {{58919}},
+            [questKeys.exclusiveTo] = {30261},
+            [questKeys.preQuestGroup] = {30306,30640},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
+            [questKeys.objectives] = {{{65336,nil,Questie.ICON_TYPE_MOUNT_UP},{63972},{64274},{64275}}},
+        },
         [30265] = { -- Sparkle in the Eye
             [questKeys.startedBy] = {{59343}},
             [questKeys.preQuestSingle] = {31131},
             [questKeys.exclusiveTo] = {30291,30338},
         },
         [30266] = { -- Bloodied Skies
+            [questKeys.startedBy] = {{59340}},
             [questKeys.preQuestGroup] = {30306,30240},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {30243,30244,30245,30444}, -- the other 2 groups of 2 quests in this hub stage
@@ -2408,21 +2418,23 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chi-Ji"),0,{{"monster",59653}}}},
         },
         [30277] = { -- The Crumbling Hall
-            [questKeys.startedBy] = {{58503,58919}},
-            [questKeys.finishedBy] = {{58503,58919}},
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.finishedBy] = {{58503}},
             [questKeys.objectives] = {nil,{{214477}},{{87790}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestGroup] = {30642,31240}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
+            [questKeys.preQuestGroup] = {30642},
+            [questKeys.preQuestSingle] = {31240,31244,31248,31294,31295,31296}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
             [questKeys.exclusiveTo] = {30280},
         },
         [30280] = { -- The Thunder Below
-            [questKeys.startedBy] = {{58503,58919}},
-            [questKeys.finishedBy] = {{58503,58919}},
+            [questKeys.startedBy] = {{58503}},
+            [questKeys.finishedBy] = {{58503}},
             --[questKeys.objectives] = {{{64965}}}, -- TO DO: check ID and Milau needs spawn anyway
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestGroup] = {30642,31240}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
+            [questKeys.preQuestGroup] = {30642},
+            [questKeys.preQuestSingle] = {31240,31244,31248,31294,31295,31296}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
             [questKeys.exclusiveTo] = {30277},
         },
         [30281] = { -- The Silent Approach
@@ -5056,7 +5068,7 @@ function MopQuestFixes.Load()
         [31240] = { -- Guo-Lai Infestation -- Lake Peace to Ruins Peace
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31244,31245,31246,31247,31248,31294,31295,31296},
+            [questKeys.exclusiveTo] = {31244,31245,31246,31247},
             [questKeys.preQuestGroup] = {30313,30265,30340,30284}, -- Whitepetal Lake Peace
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -5077,7 +5089,7 @@ function MopQuestFixes.Load()
         [31244] = { -- Guo-Lai Encampment -- Lake Peace to Ruins Attack
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{59332}},
-            [questKeys.exclusiveTo] = {31240,31245,31246,31247,31248,31294,31295,31296},
+            [questKeys.exclusiveTo] = {31240,31245,31246,31247},
             [questKeys.preQuestGroup] = {30313,30265,30340,30284}, -- Whitepetal Lake Peace
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -5105,7 +5117,7 @@ function MopQuestFixes.Load()
         [31248] = { -- The Ruins of Guo-Lai -- Lake Attack to Ruins Peace
             [questKeys.startedBy] = {{58408}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31240,31244,31249,31250,31294,31295,31296},
+            [questKeys.exclusiveTo] = {31249,31250},
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -5215,21 +5227,21 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31245,31249,30385,31240,31244,31248,31295,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
+            [questKeys.exclusiveTo] = {31245,31249,30385,31295,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31295] = { -- Mogu within the Ruins of Guo-Lai -- Mistfall Peace to Ruins Attack lead out
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59332}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31245,31249,30385,31240,31244,31248,31294,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
+            [questKeys.exclusiveTo] = {31245,31249,30385,31294,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31296] = { -- The Ruins of Guo-Lai -- Mistfall Attack to Ruins Peace lead out
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58503}},
             [questKeys.preQuestSingle] = {30288}, -- needs daily module
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.exclusiveTo] = {31246,31240,31244,31248,31297,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
+            [questKeys.exclusiveTo] = {31246,31297,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
         },
         [31297] = { -- Setting Sun Garrison -- Mistfall Attack to Garrison lead out
             [questKeys.startedBy] = {{59337}},
@@ -6121,6 +6133,8 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31754,31756},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredSpell] = 115913,
+            [questKeys.objectives] = {{{65868,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",214948}}}},
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
