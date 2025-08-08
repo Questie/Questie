@@ -923,17 +923,17 @@ function MopQuestFixes.Load()
         },
         [29639] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29637},
             [questKeys.exclusiveTo] = {29646,29647},
         },
         [29646] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29637},
             [questKeys.exclusiveTo] = {29639,29647},
         },
         [29647] = { -- Flying Colors
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29635,29637},
+            [questKeys.preQuestGroup] = {29624,29628,29629,29630,29637},
             [questKeys.exclusiveTo] = {29639,29646},
         },
         [29661] = { -- The Lesson of Dry Fur
@@ -1044,6 +1044,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110004}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29744},
+            [questKeys.objectives] = {{{55288},{55471,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29747] = { -- Break the Cycle
             [questKeys.finishedBy] = {{110005}},
@@ -1073,8 +1074,7 @@ function MopQuestFixes.Load()
         },
         [29754] = { -- To Bridge Earth and Sky
             [questKeys.finishedBy] = {{110006}},
-            [questKeys.triggerEnd] = {"Protect Pei-Zhi during his ritual", {[zoneIDs.THE_JADE_FOREST] = {{43.77,12.58}}}},
-            [questKeys.objectives] = {},
+            [questKeys.objectives] = {{{55892,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {29753,29756},
         },
         [29755] = { -- Pei-Back
@@ -2363,7 +2363,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1272,9000},
         },
         [30261] = { -- Roll Club: Serpent's Spine
-            [questKeys.preQuestSingle] = {30640},
+            [questKeys.preQuestGroup] = {30306,30640},
         },
         [30263] = { -- Clearing in the Forest
             [questKeys.startedBy] = {{59338}},

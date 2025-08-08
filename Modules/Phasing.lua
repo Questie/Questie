@@ -1244,11 +1244,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.HIGH_ELDER_CLOUDFALL_AT_TOWER then
-        return (complete[29639] or complete[29646] or complete[29647]) or (complete[29620] or (not questLog[29620]) and (not (complete[29624] and complete[29635] and complete[29637]))) or false
+        return (complete[29639] or complete[29646] or complete[29647]) or (complete[29620] or (not questLog[29620]) and (not (complete[29624] and complete[29628] and complete[29629] and complete[29630] and complete[29637]))) or false
     end
 
     if phase == phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET then
-        return (not (complete[29639] or complete[29646] or complete[29647])) and (complete[29624] and complete[29635] and complete[29637]) or questLog[29620] and true or false
+        return (not (complete[29639] or complete[29646] or complete[29647])) and (complete[29624] and complete[29628] and complete[29629] and complete[29630] and complete[29637]) or questLog[29620] and true or false
     end
 
     if phase == phases.MALIK_AT_PILLAR then

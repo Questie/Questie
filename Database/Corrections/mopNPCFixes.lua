@@ -458,6 +458,13 @@ function MopNpcFixes.Load()
         [55438] = { -- Outcast Sprite
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.67,24.94},{47.87,21.61},{47.49,21.26},{47.88,21.32},{48.16,21.3},{48.12,21.1},{47.68,20.73},{49.47,22.51},{49.44,21.36},{49.47,21.45},{49.34,21.94},{49.29,22.59},{49.43,22.84},{48.93,22.8},{49.15,21.45},{48.99,23.45},{48.98,22.99},{49.1,21.98},{49.19,22.51},{48.77,21.85},{48.73,21.86},{48.95,22.8},{49.03,22.4},{48.93,22.4},{48.91,24.44},{48.79,24.88},{48.64,24.2},{48.78,24.65},{48.52,24.34},{48.69,24.69},{49.03,23.94},{49.06,24.01},{48.93,23.95},{48.91,23.96}}},
         },
+        [55471] = { -- Mogu Ruins Discovery Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.95,20.53}}},
+            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [55480] = { -- Pei-Zhi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.2,14.94}}},
+        },
         [55521] = { -- Rivett Clutchpop
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {
                 {31.2,21.6,phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK},
@@ -478,6 +485,9 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [55614] = { -- Pei-Zhi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.24,15.02}}},
+        },
         [55768] = { -- Lore Walker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27.59,32.68}}},
         },
@@ -489,6 +499,9 @@ function MopNpcFixes.Load()
         },
         [55790] = { -- Raging Beast Spirit
             [npcKeys.spawns] = {},
+        },
+        [55892] = { -- Pei-Zhi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.83,12.53}}},
         },
         [55942] = { -- Ji Firepaw
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.36,72.53}}},
@@ -598,6 +611,12 @@ function MopNpcFixes.Load()
         [56548] = { -- Waterfall Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{74.85,42.36}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [56595] = { -- Stonebound Colossus
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.54,10.57}}},
+        },
+        [56596] = { -- Shan Jitong
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.48,10.31}}},
         },
         [56686] = { -- Master Shang Xi
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{19.46,51.22}}},
@@ -1019,6 +1038,9 @@ function MopNpcFixes.Load()
         },
         [59467] = { -- Candlestick Mage
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
+        },
+        [59492] = { -- Pei-Zhi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.83,12.52}}},
         },
         [59501] = { -- Reanimated Corpse
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
@@ -1707,8 +1729,9 @@ function MopNpcFixes.Load()
         },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {
-                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.37,50.18},{69.99,23.56}},
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.32,50.15},{70.02,23.57}},
                 [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
+                [zoneIDs.THE JADE_FOREST] = {{45.72,43.8}},
             }
         },
         [63879] = { -- Silt Vents Kill Credit
@@ -2444,13 +2467,13 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Win PvP Pet Battles",
         },
         [110002] = { -- Monstrosity
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{29.38,21.77}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29743},
         },
         [110003] = { -- Kill Kher Shan
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.37,41.98}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29924},
@@ -2462,25 +2485,25 @@ function MopNpcFixes.Load()
             [npcKeys.questEnds] = {29745},
         },
         [110005] = { -- Break the Cycle & Simulacrumble
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.73,16.71}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29747,29748},
         },
         [110006] = { -- To Bridge Earth and Sky
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.77,12.58}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
             [npcKeys.questEnds] = {29754},
         },
         [110007] = { -- Moving On
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{86.04,21.82}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [npcKeys.questEnds] = {29754},
         },
         [110008] = { -- Dead Zone
-            [npcKeys.name] = "!",
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.07,38.99}}},
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
             [npcKeys.questEnds] = {31009},
