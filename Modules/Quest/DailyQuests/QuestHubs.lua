@@ -6,20 +6,24 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@class Hub
 ---@field quests QuestId[]
 ---@field limit number
+---@field exclusiveHubs table<HubId, boolean> A list of other hubs that are exclusive to this hub. If the player has quests from any of these hubs, they cannot have quests from this hub.
 
 ---@type table<HubId, Hub>
 DailyQuests.hubs = {
     TOL_BARAD_ALLIANCE = {
         quests = {27944,27948,27949,27966,27967,27970,27971,27972,27973,27975,27978,27987,27991,27992,28046,28050,28059,28063,28130,28137,28275},
         limit = 6,
+        exclusiveHubs = {},
     },
     TOL_BARAD_HORDE = {
         quests = {28678,28679,28680,28681,28682,28683,28684,28685,28686,28687,28689,28690,28691,28692,28693,28694,28695,28696,28697,28698,28700},
         limit = 6,
+        exclusiveHubs = {},
     },
     THE_ANGLERS = {
         quests = {30584,30585,30586,30588,30598,30613,30658,30678,30698,30700,30701,30753,30754,30763},
         limit = 3,
+        exclusiveHubs = {},
     },
     THE_TILLERS = {
         quests = {30317,30318,30319,30321,30322,30323,30324,30325,30326,30327},
