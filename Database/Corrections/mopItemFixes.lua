@@ -772,6 +772,9 @@ function MopItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {63610,63611,63641},
         },
+        [85664] = { -- Amber Sap
+            [itemKeys.objectDrops] = {213319,213326},
+        },
         [85681] = { -- Lushroom
             [itemKeys.objectDrops] = {213350,213352,213353},
         },
