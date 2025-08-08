@@ -5410,11 +5410,11 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },
         [31392] = { -- Temple of the White Tiger [Alliance]
+            [questKeys.startedBy] = {{55809,60289,63754,64448,64521,66247}},
             [questKeys.breadcrumbForQuestId] = 31394,
-            [questKeys.exclusiveTo] = {31394},
         },
-        [31393] = { -- Temple of the White Tiger
-            [questKeys.startedBy] = {{55809,60289,63751,64448,64521}},
+        [31393] = { -- Temple of the White Tiger [Horde]
+            [questKeys.startedBy] = {{55809,60289,63751,64448,64521,66247}},
             [questKeys.breadcrumbForQuestId] = 31395,
         },
         [31394] = { -- A Celestial Experience [Alliance]
