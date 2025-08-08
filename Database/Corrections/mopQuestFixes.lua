@@ -5041,6 +5041,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31269,31502,31508}, -- exclusivity for honored The Klaxxi
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the Amber Tap"),0,{{"monster",63740}}}},
         },
         [31234] = { -- Putting An Eye Out
             [questKeys.preQuestSingle] = {31606},
