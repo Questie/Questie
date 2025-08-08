@@ -91,6 +91,11 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
     end
 end
 
+local preQuestExclusions = {
+    [30277] = true,
+    [30280] = true,
+}
+
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@return table<QuestId, string>
@@ -100,7 +105,7 @@ function Validators.checkPreQuestExclusiveness(quests, questKeys)
     for questId, questData in pairs(quests) do
         local preQuestSingle = questData[questKeys.preQuestSingle]
         local preQuestGroup = questData[questKeys.preQuestGroup]
-        if preQuestSingle and next(preQuestSingle) and preQuestGroup and next(preQuestGroup) then
+        if preQuestSingle and next(preQuestSingle) and preQuestGroup and next(preQuestGroup) and (not preQuestExclusions[questId]) then
             invalidQuests[questId] = true
         end
     end

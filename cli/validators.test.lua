@@ -126,6 +126,34 @@ describe("Validators", function()
             assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()
         end)
+
+        it("should not report anything for quest 30277", function()
+            local quests = {
+                [30277] = {
+                    preQuestSingle = {1},
+                    preQuestGroup = {2,3},
+                },
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report anything for quest 30280", function()
+            local quests = {
+                [30280] = {
+                    preQuestSingle = {1},
+                    preQuestGroup = {2,3},
+                },
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
     end)
 
     describe("checkParentChildQuestRelations", function()
