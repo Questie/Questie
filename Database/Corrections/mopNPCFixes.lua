@@ -500,6 +500,9 @@ function MopNpcFixes.Load()
         [55790] = { -- Raging Beast Spirit
             [npcKeys.spawns] = {},
         },
+        [55809] = { -- Peiji Goldendraft
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.72,43.7}}},
+        },
         [55892] = { -- Pei-Zhi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.83,12.53}}},
         },
