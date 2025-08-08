@@ -2435,16 +2435,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.78,48.04}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
-        [246383] = { -- Vyraxxis
-            [npcKeys.name] = "Vyraxxis",
-            [npcKeys.subName] = "Krik'thik Swarm-Lord",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{7.93,33.84}}},
-            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
-        },
-        [246384] = { -- Kri'chon
+        [246383] = { -- Kri'chon
             [npcKeys.name] = "Kri\'chon",
             [npcKeys.subName] = "The Corpse-Reaver",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{5.9,58.65}}}, -- guesstimate coords from wowhead, need to find out where it spawns
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [246384] = { -- Vyraxxis
+            [npcKeys.name] = "Vyraxxis",
+            [npcKeys.subName] = "Krik'thik Swarm-Lord",
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{7.93,33.84}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246386] = { -- Bai-Jin the Butcher
