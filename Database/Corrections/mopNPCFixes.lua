@@ -1731,7 +1731,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.32,50.15},{70.02,23.57}},
                 [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
-                [zoneIDs.THE JADE_FOREST] = {{45.72,43.8}},
+                [zoneIDs.THE_JADE_FOREST] = {{45.72,43.8}},
             }
         },
         [63879] = { -- Silt Vents Kill Credit
