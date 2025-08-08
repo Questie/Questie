@@ -902,6 +902,9 @@ function MopItemFixes.Load()
         [88538] = { -- Sha-Haunted Crystal
             [itemKeys.startQuest] = 31661,
         },
+        [88715] = { -- Ashes of Warlord Gurthan
+            [itemKeys.startQuest] = 31677,
+        },
         [89054] = { -- Stolen Boots
             [itemKeys.objectDrops] = {214865,214866,214867,214868},
         },
