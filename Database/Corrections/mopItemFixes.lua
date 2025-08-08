@@ -772,6 +772,9 @@ function MopItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {63610,63611,63641},
         },
+        [85635] = { -- Pristine Mire Beast Eye
+            [itemKeys.npcDrops] = {63731},
+        },
         [85664] = { -- Amber Sap
             [itemKeys.objectDrops] = {213319,213326},
         },
