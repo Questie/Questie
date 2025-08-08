@@ -427,6 +427,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.8,30.3}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [213319] = { -- Amber Pot
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{73.33,31.47},{72.17,30.64},{71.13,30.28},{72.27,35.54},{69.64,34.17},{70.20,38.00},{68.60,33.72}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [213365] = { -- Stolen Mistfall Keg
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.6,75.32}}}, -- needs more spawns
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
