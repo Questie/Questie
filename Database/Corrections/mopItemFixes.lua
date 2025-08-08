@@ -778,6 +778,9 @@ function MopItemFixes.Load()
         [85664] = { -- Amber Sap
             [itemKeys.objectDrops] = {213319,213326},
         },
+        [85665] = { -- Mushan Tongue
+            [itemKeys.npcDrops] = {62029,66599},
+        },
         [85681] = { -- Lushroom
             [itemKeys.objectDrops] = {213350,213352,213353},
         },
