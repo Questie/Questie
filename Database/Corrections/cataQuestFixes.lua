@@ -2491,7 +2491,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{33001,nil,Questie.ICON_TYPE_TALK},{33033,nil,Questie.ICON_TYPE_TALK},{33035,nil,Questie.ICON_TYPE_TALK},{33037,nil,Questie.ICON_TYPE_TALK}}},
         },
         [13557] = { -- Bearer of Good Fortune
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{33023,33024},33023,"Uncorrupted animals freed",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{33023,33024},33023,"Uncorrupted animals freed",Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",194124},{"object",194133}}}},
         },
@@ -3567,7 +3567,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14391},
             [questKeys.requiredSourceItems] = {49533},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 197332}}}},
-            [questKeys.objectives] = {{{36722,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{36722,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14299] = { -- Xylem's Asylum
             [questKeys.preQuestGroup] = {14300,24478,24479},
@@ -3833,7 +3833,7 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",196486}}},
                 {nil,Questie.ICON_TYPE_EVENT,l10n("Bring the raptors to The Velocistar"),0,{{"monster",36527}}},
             },
-            [questKeys.objectives] = {{{36509,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{36509,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14424] = { -- Need More Science
             [questKeys.preQuestSingle] = {14423},
@@ -4678,7 +4678,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = 215,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",202112}}}},
-            [questKeys.objectives] = {{{38345,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{38345,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24854] = { -- Finding Stormclaw
             [questKeys.nextQuestInChain] = 24719,
@@ -6044,7 +6044,7 @@ function CataQuestFixes.Load()
         },
         [25662] = { -- Free Our Sisters
             [questKeys.preQuestSingle] = {25652},
-            [questKeys.objectives] = {{{41070,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{41070,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",430027}}}},
             [questKeys.requiredSourceItems] = {55200},
         },
@@ -6062,7 +6062,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25724},
         },
         [25669] = { -- Rumble in the Lumber... Mill
-            [questKeys.objectives] = {{{41071,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{41071,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",430028}}}},
             [questKeys.requiredSourceItems] = {55213},
         },
@@ -6433,7 +6433,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25868,
             [questKeys.exclusiveTo] = {},
             [questKeys.requiredSourceItems] = {56081},
-            [questKeys.objectives] = {{{41410,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{41410,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203282}}}},
         },
         [25868] = { -- Yorla Darksnare
@@ -7070,7 +7070,7 @@ function CataQuestFixes.Load()
         },
         [26144] = { -- Prisoners
             [questKeys.preQuestSingle] = {26140},
-            [questKeys.objectives] = {{{42225,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{42225,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26145] = { -- The Trogg Threat
@@ -7081,7 +7081,7 @@ function CataQuestFixes.Load()
         },
         [26149] = { -- Prisoners
             [questKeys.preQuestSingle] = {26140},
-            [questKeys.objectives] = {{{42234,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{42234,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
@@ -7387,6 +7387,7 @@ function CataQuestFixes.Load()
         },
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.objectives] = {{{42645,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",430003}}}},
             [questKeys.requiredRaces] = raceIDs.GNOME,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST, -- gnome DKs don't get these quests
@@ -8768,7 +8769,7 @@ function CataQuestFixes.Load()
         [26955] = { -- Zen'Kiki and the Cultists
             [questKeys.preQuestGroup] = {26954,27057},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 430023}}}},
-            [questKeys.objectives] = {{{44902,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{44902,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26956] = { -- I Ain't Sayin' You a Gourd-Digger...
             [questKeys.objectives] = {nil,{{205054},{205053},{205052}}},
@@ -9375,7 +9376,7 @@ function CataQuestFixes.Load()
         [27245] = { -- Prisoners of the Grimtotems
             [questKeys.preQuestSingle] = {27242},
             [questKeys.requiredSourceItems] = {33061},
-            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [27251] = { -- They Call Him Smiling Jim

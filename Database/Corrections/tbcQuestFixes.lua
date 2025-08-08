@@ -1310,7 +1310,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9544] = {
             [questKeys.requiredSourceItems] = {23801},
-            [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410019}}}},
         },
         [9545] = {
@@ -1427,7 +1427,7 @@ function QuestieTBCQuestFixes:Load()
                 {nil,Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}},
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
             },
-            [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9668] = {
             [questKeys.nextQuestInChain] = 9693,
@@ -1720,7 +1720,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
-            [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
         [9955] = {
@@ -3420,7 +3420,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
-            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [11146] = {
