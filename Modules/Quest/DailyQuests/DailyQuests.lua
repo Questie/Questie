@@ -238,6 +238,15 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
         end
     end
 
+    for hubId, _ in pairs(hub.exclusiveHubs) do
+        local exclusiveHub = DailyQuests.hubs[hubId]
+        for _, exclusiveHubQuestId in pairs(exclusiveHub.quests) do
+            if completedQuests[exclusiveHubQuestId] or questLog[exclusiveHubQuestId] then
+                return true
+            end
+        end
+    end
+
     if completedCount >= hub.limit then
         return true
     end
