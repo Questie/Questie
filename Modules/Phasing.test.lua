@@ -1129,9 +1129,11 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
         end)
 
-        it("should return true for banquet location when 29624, 29635 and 29637 are complete", function()
+        it("should return true for banquet location when 29624, 29628, 29629, 29630 and 29637 are complete", function()
             Questie.db.char.complete[29624] = true
-            Questie.db.char.complete[29635] = true
+            Questie.db.char.complete[29628] = true
+            Questie.db.char.complete[29629] = true
+            Questie.db.char.complete[29630] = true
             Questie.db.char.complete[29637] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
@@ -1141,7 +1143,9 @@ describe("Phasing", function()
 
         it("should return true for tower location when 29639, 29646 or 29647 is complete", function()
             Questie.db.char.complete[29624] = true
-            Questie.db.char.complete[29635] = true
+            Questie.db.char.complete[29628] = true
+            Questie.db.char.complete[29629] = true
+            Questie.db.char.complete[29630] = true
             Questie.db.char.complete[29637] = true
 
             Questie.db.char.complete[29639] = true
