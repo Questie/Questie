@@ -735,6 +735,9 @@ function MopItemFixes.Load()
         [84727] = { -- Ancient Spirit Dust
             [itemKeys.npcDrops] = {62679},
         },
+        [84762] = { -- Highly Explosive Yaungol Oil
+            [itemKeys.objectDrops] = {212877},
+        },
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
