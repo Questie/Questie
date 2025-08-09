@@ -4595,11 +4595,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31661},
         },
         [31109] = { -- Culling the Swarm
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31111,31231,31267}, -- exclusivity for honored The Klaxxi
         },
         [31111] = { -- Eradicating the Zan'thik
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31109,31231,31267}, -- exclusivity for honored The Klaxxi
         },
@@ -4627,6 +4631,8 @@ function MopQuestFixes.Load()
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {84727},
+            [questKeys.objectives] = {nil,{{212779}}},
         },
         [31117] = { -- Uruk!
             [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
@@ -4636,6 +4642,7 @@ function MopQuestFixes.Load()
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestGroup] = {31113,31114,31116,31119},
         },
         [31118] = { -- The Deadtalker Cipher
             [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
@@ -4653,6 +4660,7 @@ function MopQuestFixes.Load()
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {84762},
         },
         [31120] = { -- Cheng Bo!
             [questKeys.exclusiveTo] = {31039,31040,31041,31046,31049, -- Omnia dailies set 1
@@ -4662,17 +4670,20 @@ function MopQuestFixes.Load()
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestGroup] = {31113,31114,31116,31119},
         },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
         },
         [31127] = { -- The Challenger's Ring: Chao the Voice
+            [questKeys.objectives] = {{{62550,nil,Questie.ICON_TYPE_TALK},{63128}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
         },
         [31128] = { -- The Challenger's Ring: Lao-Chin the Iron Belly
+            [questKeys.objectives] = {{{62978,nil,Questie.ICON_TYPE_TALK},{63136}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
@@ -5028,6 +5039,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29922,30015},
         },
         [31231] = { -- Dreadspinner Extermination
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31109,31111,31267}, -- exclusivity for honored The Klaxxi
@@ -5049,6 +5062,8 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31271,31503,31509}, -- exclusivity for honored The Klaxxi
         },
         [31235] = { -- Nope Nope Nope
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.objectives] = {{{62077,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -5168,6 +5183,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,42000},
         },
         [31267] = { -- Mistblade Destruction
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31109,31111,31231}, -- exclusivity for honored The Klaxxi
         },
@@ -5576,6 +5593,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31505] = { -- Vess-Guard Duty
+            [questKeys.startedBy] = {{62538,66800}},
+            [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31235,31268,31487}, -- exclusivity for honored The Klaxxi
         },
@@ -5859,6 +5878,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
         },
+        [31612] = { -- Shadow of the Empire
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{62538,66800},66800,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [31656] = { -- The Threat in the South
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31391,31847,31886,31895},
@@ -6121,6 +6143,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {31754,31758},
             [questKeys.requiredSpell] = 115913,
+            [questKeys.objectives] = {nil,{{214895},{214899},{214900},{214901}}},
         },
         [31757] = { -- Unleashed Spirits
             [questKeys.startedBy] = {{58465}},
@@ -6142,6 +6165,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {31762},
             [questKeys.requiredSpell] = 115913,
+            [questKeys.objectives] = {{{65962,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31762] = { -- Crumbling Behemoth
             [questKeys.startedBy] = {{58465}},
@@ -6640,6 +6664,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66741,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31959] = { -- The Empress' Gambit
+            [questKeys.finishedBy] = {{110011}},
             [questKeys.preQuestGroup] = {
                 31004, -- Kil'ruk the Wind-Reaver
                 31085, -- Iyyokuk the Lucid
@@ -6653,6 +6678,7 @@ function MopQuestFixes.Load()
                 31682, -- Kaz'tik the Manipulator
             },
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,42000},
+            [questKeys.objectives] = {{{66776,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31966] = { -- Battle Pet Tamers: Cataclysm
             [questKeys.objectives] = {{{66819,nil,Questie.ICON_TYPE_PET_BATTLE},{66815,nil,Questie.ICON_TYPE_PET_BATTLE},{66822,nil,Questie.ICON_TYPE_PET_BATTLE}}},

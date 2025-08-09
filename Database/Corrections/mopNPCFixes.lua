@@ -1678,6 +1678,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.6,43.77}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [63128] = { -- Chao the Voice
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{43.6,43.77}}},
+        },
+        [63136] = { -- Lao-Chin the Iron Belly
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.56,67.86}}},
+        },
         [63206] = { -- Ik'thik Harvester
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.4,50},{32.6,50.4},{33.2,50.6},{34,51},{34.4,51.6},{35,51.8},{37.2,51.8},{38.4,49.4},{38.4,49.6},{38.6,49.4},{38.6,49.6},{40.2,47.8},{40.2,52.2},{40.6,52.4},{42.4,50.4},{42.4,50.6},{42.6,50.4},{43.2,52},{43.6,52.4},{44.8,57.8},{45,56.4},{45,56.6},{45.2,53.2},{45.6,58},{46,53.2},{47.6,60.2},{48.6,61.4},{49,62.4},{49,63.6}}},
         },
@@ -1717,6 +1723,12 @@ function MopNpcFixes.Load()
         [63369] = { -- Rockshell Snapclaw
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{39,79.4},{39.2,79.6},{39.4,78.4},{39.6,78.2},{40,79.6},{40.2,79.4},{40.8,77.8},{41,77.4},{41.6,76},{41.8,78},{42,77},{42.2,75},{42.4,79.2},{42.6,79.2},{42.6,79.6},{42.8,77},{43,78.4},{43.2,76.2},{43.4,74.8},{43.6,74.8},{43.8,71.8},{43.8,79.6},{44,78.6},{44.4,76.4},{44.4,77.4},{44.4,78},{44.6,76.4},{44.6,76.6},{45.2,78.4},{45.2,79.4},{45.4,79.6},{45.6,69},{45.6,76},{45.6,78.4},{45.6,78.6},{46.6,74.8},{46.6,78.6},{47,77.4},{47,77.6},{47,80.2},{47,81.4},{47,81.6},{47.8,71.4},{47.8,75.4},{48,76},{48.8,76.6},{49,75.4},{49.2,75.8}}},
         },
+        [63465] = { -- Muckscale Flesheater
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.73,52.79}}},
+        },
+        [63466] = { -- Muckscale Flesheater
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.73,52.79}}},
+        },
         [63510] = { -- Wulon
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{75.36,71.72}}},
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
@@ -1724,11 +1736,17 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{52.04,43.12}}},
         },
+        [63576] = { -- Osul Fire-Warrior
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
+        },
         [63618] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
         },
         [63758] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78}}},
+        },
+        [63765] = { -- Kovok
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.79,41.37}}},
         },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {
@@ -1739,18 +1757,6 @@ function MopNpcFixes.Load()
         },
         [63879] = { -- Silt Vents Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.42,73.94}}},
-        },
-        [63465] = { -- Muckscale Flesheater
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.73,52.79}}},
-        },
-        [63466] = { -- Muckscale Flesheater
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.73,52.79}}},
-        },
-        [63576] = { -- Osul Fire-Warrior
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
-        },
-        [63765] = { -- Kovok
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.79,41.37}}},
         },
         [63880] = { -- Shipwreck Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.66,78.66}}},
@@ -1812,6 +1818,13 @@ function MopNpcFixes.Load()
         },
         [64386] = { -- Sheepie
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.54,37.64,phases.SHEEPIE_SECOND_TIME}}},
+        },
+        [64432] = { -- Sinan the Dreamer
+            [npcKeys.spawns] = {
+                [zoneIDs.MOGUSHAN_PALACE_THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
+                [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
+            },
+            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE,
         },
         [64459] = { -- Shado-Pan Trainee
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{17.57,58.04}}},
@@ -2008,13 +2021,6 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.PANDARIA] = {{65.31,74.96}}},
             [npcKeys.zoneID] = zoneIDs.PANDARIA,
         },
-        [64432] = { -- Sinan the Dreamer
-            [npcKeys.spawns] = {
-                [zoneIDs.MOGUSHAN_PALACE_THE_CRIMSON_ASSEMBLY_HALL] = {{30.40,19.60}},
-                [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
-            },
-            [npcKeys.zoneID] = zoneIDs.MOGUSHAN_PALACE,
-        },
         [66449] = { -- Ang the Wise
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
         },
@@ -2035,6 +2041,12 @@ function MopNpcFixes.Load()
         },
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.5,40.6}}},
+        },
+        [66776] = { -- Malik the Unscathed
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.4,34.56}}},
+        },
+        [66800] = { -- Kil'ruk the Wind-Reaver
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.01,34.51,phases.KILRUK_REVEALED}}},
         },
         [66949] = { -- Rell Nightwind
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
@@ -2531,6 +2543,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.02,28.29}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             [npcKeys.questStarts] = {30637},
+        },
+        [110011] = { -- The Empress' Gambit
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{39.99,34.7}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.questEnds] = {31959},
         },
     }
 end

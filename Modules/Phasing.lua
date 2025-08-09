@@ -343,6 +343,7 @@ local phases = {
     FARM_HAS_12_SLOTS = 1271,
     FARM_HAS_16_SLOTS = 1272,
     ZIN_AT_AXE_OF_THUNDER_KING = 1273,
+    KILRUK_REVEALED = 1274,
 }
 Phasing.phases = phases
 
@@ -1529,6 +1530,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ZIN_AT_AXE_OF_THUNDER_KING then
         return complete[30642] or (questLog[30642] and questLog[30642].isComplete == 1) or false
+    end
+
+    if phase == phases.KILRUK_REVEALED then
+        return (questLog[31612] and questLog[31612].isComplete == 1) or false
     end
 
     return false
