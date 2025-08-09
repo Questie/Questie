@@ -337,7 +337,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {210803},
         },
         [79828] = { -- Yak Statuette
-            [itemKeys.npcDrops] = {59124},
+            [itemKeys.npcDrops] = {59124,59154},
         },
         [79833] = { -- Shadelight Truffle
             [itemKeys.objectDrops] = {210810,210811,210812},
