@@ -1606,6 +1606,7 @@ function MopQuestFixes.Load()
         },
         [30006] = { -- The Darkness Around Us
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30067,30068},
         },
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {29967},
@@ -1745,31 +1746,31 @@ function MopQuestFixes.Load()
         [30063] = { -- Behind the Masks
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30064},
+            [questKeys.exclusiveTo] = {30067,30068},
         },
         [30064] = { -- Saving the Sutras
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30063},
+            [questKeys.exclusiveTo] = {30067,30068},
         },
         [30065] = { -- Arrows of Fortune
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30066},
+            [questKeys.exclusiveTo] = {30067,30068},
         },
         [30066] = { -- Hidden Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{57316,57326,57400},57316,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30065},
+            [questKeys.exclusiveTo] = {30067,30068},
         },
         [30067] = { -- The Shadow of Doubt
-            [questKeys.preQuestGroup] = {30006,30063,30065},
+            [questKeys.preQuestSingle] = {30006,30063,60064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30068},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30068] = { -- Flames of the Void
-            [questKeys.preQuestGroup] = {30006,30063,30065},
+            [questKeys.preQuestSingle] = {30006,30063,60064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30067},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",57871}}}},
@@ -3651,82 +3652,82 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{61512,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30725] = { -- Ellia Ravenmane
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30726] = { -- Minh Do-Tan
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30727] = { -- Ellia Ravenmane: Rematch
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30728] = { -- Fat Long-Fat
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30729] = { -- Julia Bates
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30730] = { -- Dextrous Izissha
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30731] = { -- Kuo-Na Quillpaw
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30732] = { -- Ellia Ravenmane: Revenge
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30733] = { -- Tukka-Tuk
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30734] = { -- Huck Wheelbarrow
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30735] = { -- Mindel Sunspeaker
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30736] = { -- Yan Quillpaw
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30737] = { -- Fat Long-Fat: Rematch
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30738] = { -- Thelonius
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30739] = { -- Ellia Ravenmane: Redemption
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30740] = { -- Champion of Chi-Ji
-            [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -4098,6 +4099,7 @@ function MopQuestFixes.Load()
         },
         [30952] = { -- The Unending Siege
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30956},
         },
         [30953] = { -- Fallen Sentinels
             [questKeys.preQuestSingle] = {31511,31512},
@@ -4113,6 +4115,7 @@ function MopQuestFixes.Load()
         },
         [30956] = { -- The Siege Swells
             [questKeys.preQuestSingle] = {31511,31512},
+            [questKeys.exclusiveTo] = {30952},
         },
         [30957] = { -- The Overwhelming Swarm
             [questKeys.preQuestSingle] = {31511,31512},
@@ -5623,9 +5626,11 @@ function MopQuestFixes.Load()
         },
         [31511] = { -- A Witness to History [Horde]
             [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31512},
         },
         [31512] = { -- A Witness to History [Alliance]]
             [questKeys.objectives] = {{{64848,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31511},
         },
         [31514] = { -- Unto Dust Thou Shalt Return
             [questKeys.objectives] = {{{3977,nil,Questie.ICON_TYPE_INTERACT}}},

@@ -24,5 +24,26 @@ DailyQuests.hubs = {
     THE_TILLERS = {
         quests = {30317,30318,30319,30321,30322,30323,30324,30325,30326,30327},
         limit = 2,
+        exclusiveHubs = {},
+    },
+    AUGUST_CELESTIALS_RED_CRANE = {
+        quests = {30716,30717,30718},
+        limit = 3, -- 3(TO DO - progressive daily chain)
+        exclusiveHubs = {AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_WHITE_TIGER = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+    },
+    AUGUST_CELESTIALS_JADE_SERPENT = {
+        quests = {30006,30063,60064,30065,30066},
+        limit = 3, -- 3 (random of 5)
+        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_WHITE_TIGER = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+    },
+    AUGUST_CELESTIALS_WHITE_TIGER = {
+        quests = {31492,31517,30879,30880},
+        limit = 2, -- 1 (random of 2) + 1 (2 random chains of 4 each,showing only firs one)
+        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+    },
+    AUGUST_CELESTIALS_NIUZAO_TEMPLE = {
+        quests = {30952,30953,30954,30955,30956,30957,30958,30959},
+        limit = 4, -- 1 (random of 2) + 3 (random of 6)
+        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_WHITE_TIGER = true},
     },
 }
