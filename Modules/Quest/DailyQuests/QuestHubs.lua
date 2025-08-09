@@ -182,4 +182,54 @@ DailyQuests.hubs = {
             THE_KLAXXI_CLUTCHES = true,
         },
     },
+    SHADO_PAN_OMNIA_MYSTICS_1 = {
+        quests = {31039,31040,31041,31046},
+        limit = 4, -- followups are not here
+        exclusiveHubs = {
+            SHADO_PAN_OMNIA_MYSTICS_2 = true,
+            SHADO_PAN_OMNIA_MYSTICS_3 = true,
+            SHADO_PAN_WU_KAO_ASSASSINS = true,
+            SHADO_PAN_BLACKGUARD_DEFENDERS = true,
+        },
+    },
+    SHADO_PAN_OMNIA_MYSTICS_2 = {
+        quests = {31042,31043,31047,31105},
+        limit = 4, -- followups are not here
+        exclusiveHubs = {
+            SHADO_PAN_OMNIA_MYSTICS_1 = true,
+            SHADO_PAN_OMNIA_MYSTICS_3 = true,
+            SHADO_PAN_WU_KAO_ASSASSINS = true,
+            SHADO_PAN_BLACKGUARD_DEFENDERS = true,
+        },
+    },
+    SHADO_PAN_OMNIA_MYSTICS_3 = {
+        quests = {31044,31045,31048,31106},
+        limit = 4, -- followups are not here
+        exclusiveHubs = {
+            SHADO_PAN_OMNIA_MYSTICS_1 = true,
+            SHADO_PAN_OMNIA_MYSTICS_2 = true,
+            SHADO_PAN_WU_KAO_ASSASSINS = true,
+            SHADO_PAN_BLACKGUARD_DEFENDERS = true,
+        },
+    },
+    SHADO_PAN_WU_KAO_ASSASSINS = {
+        quests = {31196,31197,31198,31199,31200,31201},
+        limit = 4, -- followups are not here
+        exclusiveHubs = {
+            SHADO_PAN_OMNIA_MYSTICS_1 = true,
+            SHADO_PAN_OMNIA_MYSTICS_2 = true,
+            SHADO_PAN_OMNIA_MYSTICS_3 = true,
+            SHADO_PAN_BLACKGUARD_DEFENDERS = true,
+        },
+    },
+    SHADO_PAN_BLACKGUARD_DEFENDERS = {
+        quests = {31113,31114,31116,31118,31119},
+        limit = 4, -- followups are not here
+        exclusiveHubs = {
+            SHADO_PAN_OMNIA_MYSTICS_1 = true,
+            SHADO_PAN_OMNIA_MYSTICS_2 = true,
+            SHADO_PAN_OMNIA_MYSTICS_3 = true,
+            SHADO_PAN_WU_KAO_ASSASSINS = true,
+        },
+    },
 }
