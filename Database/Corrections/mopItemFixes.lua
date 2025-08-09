@@ -714,6 +714,9 @@ function MopItemFixes.Load()
         [84118] = { -- Fragrant Corewood
             [itemKeys.npcDrops] = {62876},
         },
+        [84121] = { -- Silken Feather
+            [itemKeys.npcDrops] = {58457},
+        },
         [84239] = { -- Flitterling Dust
             [itemKeys.npcDrops] = {62764},
         },
