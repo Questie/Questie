@@ -4852,7 +4852,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31204] = { -- Target of Opportunity: Sra'thik Hivelord
-            [questKeys.exclusiveTo] = 31203},
+            [questKeys.exclusiveTo] = {31203},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31207] = { -- The Arena of Annihilation
