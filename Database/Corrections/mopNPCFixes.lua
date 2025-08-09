@@ -1126,8 +1126,8 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
         },
         [60376] = { -- Kill Credit: Battle Axe Trial
-            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{48,29.8}}},
-            [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{44.32,76.41}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [60401] = { -- Snapclaw
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.8,38.36}}},

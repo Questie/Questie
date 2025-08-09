@@ -3512,7 +3512,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59905}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.preQuestSingle] = {30641},
-            [questKeys.objectives] = {{{60376,nil,Questie.ICON_TYPE_EVENT}},nil,{{80222}}},
+            [questKeys.objectives] = {{{60376,nil,Questie.ICON_TYPE_EVENT}},nil,{{80807}}},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
