@@ -146,4 +146,40 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
         },
     },
+    THE_KLAXXI_LAKE = {
+        quests = {31024,31267,31268,31269,31270,31271,31272},
+        limit = 7, -- 6 honored + 1 revered
+        exclusiveHubs = {
+            THE_KLAXXI_TERRACE = true,
+            THE_KLAXXI_CLUTCHES = true,
+            THE_KLAXXI_ZANVESS = true,
+        },
+    },
+    THE_KLAXXI_TERRACE = {
+        quests = {31231,31232,31233,31234,31235,31237,31238,31677},
+        limit = 8, -- 6 honored + 1 revered + 1 hidden
+        exclusiveHubs = {
+            THE_KLAXXI_LAKE = true,
+            THE_KLAXXI_CLUTCHES = true,
+            THE_KLAXXI_ZANVESS = true,
+        },
+    },
+    THE_KLAXXI_CLUTCHES = {
+        quests = {31109,31487,31494,31496,31502,31503,31504,31599},
+        limit = 8, -- 6 honored + 1 revered + 1 hidden
+        exclusiveHubs = {
+            THE_KLAXXI_LAKE = true,
+            THE_KLAXXI_TERRACE = true,
+            THE_KLAXXI_ZANVESS = true,
+        },
+    },
+    THE_KLAXXI_ZANVESS = {
+        quests = {31111,31505,31506,31507,31508,31509,31510,31598},
+        limit = 8, -- 6 honored + 1 revered + 1 hidden
+        exclusiveHubs = {
+            THE_KLAXXI_LAKE = true,
+            THE_KLAXXI_TERRACE = true,
+            THE_KLAXXI_CLUTCHES = true,
+        },
+    },
 }
