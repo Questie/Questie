@@ -732,6 +732,9 @@ function MopItemFixes.Load()
         [84656] = { -- Stunned Whitepetal Carp
             [itemKeys.npcDrops] = {62984},
         },
+        [84727] = { -- Ancient Spirit Dust
+            [itemKeys.npcDrops] = {62679},
+        },
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
