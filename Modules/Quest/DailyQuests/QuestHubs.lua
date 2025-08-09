@@ -29,21 +29,121 @@ DailyQuests.hubs = {
     AUGUST_CELESTIALS_RED_CRANE = {
         quests = {30716,30717,30718},
         limit = 3, -- 3(TO DO - progressive daily chain)
-        exclusiveHubs = {AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_WHITE_TIGER = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+        exclusiveHubs = {
+            AUGUST_CELESTIALS_JADE_SERPENT = true,
+            AUGUST_CELESTIALS_WHITE_TIGER = true,
+            AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
+        },
     },
     AUGUST_CELESTIALS_JADE_SERPENT = {
         quests = {30006,30063,60064,30065,30066},
         limit = 3, -- 3 (random of 5)
-        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_WHITE_TIGER = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+        exclusiveHubs = {
+            AUGUST_CELESTIALS_RED_CRANE = true,
+            AUGUST_CELESTIALS_WHITE_TIGER = true,
+            AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
+        },
     },
     AUGUST_CELESTIALS_WHITE_TIGER = {
         quests = {31492,31517,30879,30880},
         limit = 2, -- 1 (random of 2) + 1 (2 random chains of 4 each,showing only firs one)
-        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_NIUZAO_TEMPLE = true},
+        exclusiveHubs = {
+            AUGUST_CELESTIALS_RED_CRANE = true,
+            AUGUST_CELESTIALS_JADE_SERPENT = true,
+            AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
+        },
     },
     AUGUST_CELESTIALS_NIUZAO_TEMPLE = {
         quests = {30952,30953,30954,30955,30956,30957,30958,30959},
         limit = 4, -- 1 (random of 2) + 3 (random of 6)
-        exclusiveHubs = {AUGUST_CELESTIALS_RED_CRANE = true, AUGUST_CELESTIALS_JADE_SERPENT = true, AUGUST_CELESTIALS_WHITE_TIGER = true},
+        exclusiveHubs = {
+            AUGUST_CELESTIALS_RED_CRANE = true,
+            AUGUST_CELESTIALS_JADE_SERPENT = true,
+            AUGUST_CELESTIALS_WHITE_TIGER = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = {
+        quests = {30150,30151,31704,31705,31716},
+        limit = 3, -- 2 (random of 4) + 1 (Needle Me Not)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = {
+        quests = {30156,30157,30158,31194},
+        limit = 3, -- 2 (random of 3) + 1 (Slitherscale Suppression)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_SPRITES = {
+        quests = {31699,31700,31703},
+        limit = 3, -- all 3
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_TIGERS = {
+        quests = {30154,30155,31698,31701,31702},
+        limit = 3, -- 2 (random of 4) + 1 (random of 2)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = {
+        quests = {30152,31717,31718,31719,31720,31721},
+        limit = 3, -- 1 (The Sky Race) + 2 (random of 5)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = {
+        quests = {31706,31707,31708,31709,31710,31711},
+        limit = 3, -- 2 (random of 5) + 1 (The Seed of Doubt)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
+        },
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = {
+        quests = {30159,31712,31713,31714,31715},
+        limit = 3, -- 2 (random of 4) + 1 (The Big Kah-Oona)
+        exclusiveHubs = {
+            ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
+            ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
+            ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
+            ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
+        },
     },
 }
