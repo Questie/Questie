@@ -2228,18 +2228,18 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{244995}}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestGroup] = {31245}, -- only shown if mistfall is 3rd hub
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30236,30239,30385,31294,31295},
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30236,30239,30385,31294,31295,30237}, -- cant be an option if we have 30237 as daily in this hub
         },
         [30236] = { -- Aetha
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{244975}}},
             [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestGroup] = {31245}, -- only shown if mistfall is 3rd hub
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {30235,30239,30385,31294,31295},
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.exclusiveTo] = {30235,30239,30385,31294,31295,30237}, -- cant be an option if we have 30237 as daily in this hub
         },
         [30237] = { -- The Pandaren Uprising Relived
             [questKeys.startedBy] = {{59338}},
@@ -2264,7 +2264,8 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{246479}}},
             [questKeys.exclusiveTo] = {30235,30236,30385,31294,31295},
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.preQuestSingle] = {31245,31249}, -- only offered if mistfall is 3rd hub
+            [questKeys.preQuestGroup] = {30237},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.startedBy] = {{59340}},
@@ -2539,19 +2540,17 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245153}}},
-            [questKeys.preQuestSingle] = {30288}, -- needs daily module
+            [questKeys.preQuestGroup] = {30288,30246}, -- needs daily module, only offered if mistfall is 3rd hub
             [questKeys.exclusiveTo] = {30297,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30297] = { -- Baolai the Immolator
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245163}}},
-            [questKeys.preQuestSingle] = {30288}, -- needs daily module
+            [questKeys.preQuestGroup] = {30288,30246}, -- needs daily module, only offered if mistfall is 3rd hub
             [questKeys.exclusiveTo] = {30296,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30298] = { -- Painting the Ruins Red
             [questKeys.startedBy] = {{59332}},
@@ -4978,7 +4977,7 @@ function MopQuestFixes.Load()
         [31245] = { -- Mistfall Village -- Lake Peace to Mistfall Peace
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{59338}},
-            [questKeys.exclusiveTo] = {31240,31244,31246,31247},
+            [questKeys.exclusiveTo] = {31240,31244,31246,31247,31249}, -- funny stuff might happen becuase 31249 is here
             [questKeys.preQuestGroup] = {30313,30265,30340,30284}, -- Whitepetal Lake Peace
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -5006,7 +5005,7 @@ function MopQuestFixes.Load()
         [31249] = { -- Mistfall Village -- Lake Attack to Mistfall Peace
             [questKeys.startedBy] = {{58408}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31248,31250},
+            [questKeys.exclusiveTo] = {31248,31250,31245}, -- funny stuff might happen becuase 31245 is here
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },

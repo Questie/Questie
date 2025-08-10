@@ -92,8 +92,13 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
 end
 
 local preQuestExclusions = {
+    [30235] = true,
+    [30236] = true,
+    [30239] = true,
     [30277] = true,
     [30280] = true,
+    [30296] = true,
+    [30297] = true,
 }
 
 ---@param quests table<QuestId, Quest>
