@@ -4850,10 +4850,12 @@ function MopQuestFixes.Load()
         [31203] = { -- Target of Opportunity: Sra'thik Swarmlord
             [questKeys.exclusiveTo] = {31204},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {31196}, -- TO DO needs prequest involving 2 out of 4
         },
         [31204] = { -- Target of Opportunity: Sra'thik Hivelord
             [questKeys.exclusiveTo] = {31203},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {31196}, -- TO DO needs prequest involving 2 out of 4
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
