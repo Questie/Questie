@@ -1577,6 +1577,12 @@ function MopNpcFixes.Load()
         [62281] = { -- Fear-Stricken Sentinel
             [npcKeys.spawns] = {{{32.4,61.2},{32.4,61.8},{32.8,61},{33,61.6},{34.2,61.2},{34.2,62},{34.4,60.4},{34.8,61.8},{35.4,57.4},{35.4,57.6},{35.4,60.2},{35.6,60.8},{35.6,61.6},{35.8,60},{36.2,58.2},{36.4,57},{36.4,59},{36.6,57.2},{36.6,58.6},{36.6,61.8},{36.8,59.8},{37,61.4},{37.2,57.6},{37.6,59.4},{38,60.2},{38,60.8}}},
         },
+        [62304] = { -- Ban Bearheart
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
+                {49.02,70.45,phases.SHADO_PAN_GARRISON_NORMAL},
+                {49.17,71.05,phases.SHADO_PAN_GARRISON_SURPRISE_ATTACK},
+            }},
+        },
         [62373] = { -- Silky Moth
             [npcKeys.spawns] = {
                 [490] = {{30.2,30.6},{34.2,28.6},{47.4,28.6}},
@@ -1648,6 +1654,12 @@ function MopNpcFixes.Load()
         [62984] = { -- Stunned Whitepetal Carp
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{40.45,49.71},{40.69,50.28},{42.27,47.42},{41.99,47.4},{41.45,46.73},{41.4,46.48}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63009] = { -- Master Snowdrift
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
+                {49.49,70.5,phases.SHADO_PAN_GARRISON_NORMAL},
+                {49.24,70.85,phases.SHADO_PAN_GARRISON_SURPRISE_ATTACK},
+            }},
         },
         [63071] = { -- Skeer the Bloodseeker
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
@@ -1739,6 +1751,11 @@ function MopNpcFixes.Load()
         [63576] = { -- Osul Fire-Warrior
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
         },
+        [63614] = { -- Ling of the Six Pools
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
+                {49.01,71.33,phases.SHADO_PAN_GARRISON_NORMAL},
+            }},
+        },
         [63618] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
         },
@@ -1763,6 +1780,9 @@ function MopNpcFixes.Load()
         },
         [63881] = { -- Whale Corpse Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.01,78.89}}},
+        },
+        [63908] = { -- Ban Bearheart
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{42.62,63.92}}},
         },
         [63943] = { -- Mistfall Village Fire Bunny
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.54,75.39},{32.45,73.56},{34.06,73.93},{36.10,76.54},{38.54,71.85},{36.60,71.08}}},

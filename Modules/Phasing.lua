@@ -344,6 +344,8 @@ local phases = {
     FARM_HAS_16_SLOTS = 1272,
     ZIN_AT_AXE_OF_THUNDER_KING = 1273,
     KILRUK_REVEALED = 1274,
+    SHADO_PAN_GARRISON_NORMAL = 1275,
+    SHADO_PAN_GARRISON_SURPRISE_ATTACK = 1276,
 }
 Phasing.phases = phases
 
@@ -1534,6 +1536,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KILRUK_REVEALED then
         return (questLog[31612] and questLog[31612].isComplete == 1) or false
+    end
+
+    if phase == phases.SHADO_PAN_GARRISON_NORMAL then
+        return not (questLog[31277] and questLog[31277].isComplete == 1) or false
+    end
+
+    if phase == phases.SHADO_PAN_GARRISON_SURPRISE_ATTACK then
+        return (questLog[31277] and questLog[31277].isComplete == 1) or false
     end
 
     return false

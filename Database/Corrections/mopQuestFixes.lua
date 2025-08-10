@@ -5077,6 +5077,9 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63725,63726,63729,65118},63725}}}, -- 63833 63827
         },
+        [31277] = { -- Surprise Attack!
+            [questKeys.objectives] = {{{63908,nil,Questie.ICON_TYPE_TALK},{63920}}},
+        },
         [31279] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31486},
