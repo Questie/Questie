@@ -36,7 +36,7 @@ DailyQuests.hubs = {
         },
     },
     AUGUST_CELESTIALS_JADE_SERPENT = {
-        quests = {30006,30063,60064,30065,30066},
+        quests = {30006,30063,30064,30065,30066},
         limit = 3, -- 3 (random of 5)
         exclusiveHubs = {
             AUGUST_CELESTIALS_RED_CRANE = true,
@@ -46,7 +46,7 @@ DailyQuests.hubs = {
     },
     AUGUST_CELESTIALS_WHITE_TIGER = {
         quests = {31492,31517,30879,30880},
-        limit = 2, -- 1 (random of 2) + 1 (2 random chains of 4 each,showing only firs one)
+        limit = 2, -- 1 (random of 2) + 1 (2 random chains of 4 each, showing only first one)
         exclusiveHubs = {
             AUGUST_CELESTIALS_RED_CRANE = true,
             AUGUST_CELESTIALS_JADE_SERPENT = true,

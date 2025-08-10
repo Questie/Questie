@@ -346,6 +346,11 @@ local phases = {
     KILRUK_REVEALED = 1274,
     SHADO_PAN_GARRISON_NORMAL = 1275,
     SHADO_PAN_GARRISON_SURPRISE_ATTACK = 1276,
+    XUEN_START = 1277,
+    XUEN_AFTER_FIRST_FIGHT = 1278,
+    XUEN_AFTER_SECOND_FIGHT = 1279,
+    XUEN_AFTER_THIRD_FIGHT = 1280,
+    XUEN_AFTER_FOURTH_FIGHT = 1281,
 }
 Phasing.phases = phases
 
@@ -1544,6 +1549,26 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SHADO_PAN_GARRISON_SURPRISE_ATTACK then
         return (questLog[31277] and questLog[31277].isComplete == 1) or false
+    end
+
+    if phase == phases.XUEN_START then
+        return not (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) or false
+    end
+
+    if phase == phases.XUEN_AFTER_FIRST_FIGHT then
+        return (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) and not (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) or false
+    end
+
+    if phase == phases.XUEN_AFTER_SECOND_FIGHT then
+        return (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) and not (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) or false
+    end
+
+    if phase == phases.XUEN_AFTER_THIRD_FIGHT then
+        return (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) and not (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
+    end
+
+    if phase == phases.XUEN_AFTER_FOURTH_FIGHT then
+        return (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
     end
 
     return false

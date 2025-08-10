@@ -1199,6 +1199,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{83.56,78.42}}},
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
+        [60968] = { -- Xuen
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {67.24,55.9,phases.XUEN_START},
+                {70.29,51.28,phases.XUEN_AFTER_FIRST_FIGHT},
+                {71.77,44.86,phases.XUEN_AFTER_SECOND_FIGHT},
+                {66.39,46.33,phases.XUEN_AFTER_THIRD_FIGHT},
+                {68.48,44.6,phases.XUEN_AFTER_FOURTH_FIGHT},
+            }},
+        },
         [60970] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.88,81.67}}},
         },
@@ -1207,6 +1216,9 @@ function MopNpcFixes.Load()
         },
         [60980] = { -- Clever Ashyo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.67,45.32}}}, -- only used at these coords
+        },
+        [60996] = { -- Brewmaster Chani
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.95,51.81}}}, -- only used at these coords
         },
         [60997] = { -- The Wrestler
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.72,46.53}}}, -- only used at these coords
