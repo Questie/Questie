@@ -4977,7 +4977,7 @@ function MopQuestFixes.Load()
         [31245] = { -- Mistfall Village -- Lake Peace to Mistfall Peace
             [questKeys.startedBy] = {{59343}},
             [questKeys.finishedBy] = {{59338}},
-            [questKeys.exclusiveTo] = {31240,31244,31246,31247,31249}, -- funny stuff might happen becuase 31249 is here
+            [questKeys.exclusiveTo] = {31240,31244,31246,31247,31249}, -- funny stuff might happen because 31249 is here
             [questKeys.preQuestGroup] = {30313,30265,30340,30284}, -- Whitepetal Lake Peace
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
@@ -5005,7 +5005,7 @@ function MopQuestFixes.Load()
         [31249] = { -- Mistfall Village -- Lake Attack to Mistfall Peace
             [questKeys.startedBy] = {{58408}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.exclusiveTo] = {31248,31250,31245}, -- funny stuff might happen becuase 31245 is here
+            [questKeys.exclusiveTo] = {31248,31250,31245}, -- funny stuff might happen because 31245 is here
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
