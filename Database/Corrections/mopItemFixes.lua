@@ -81,34 +81,34 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {55291,65779},
         },
         [74840] = { -- Green Cabbage
-            [itemKeys.npcDrops] = {58567,63157},
+            [itemKeys.npcDrops] = {58567,60113,63157},
         },
         [74841] = { -- Juicycrunch Carrot
-            [itemKeys.npcDrops] = {63154,63158},
+            [itemKeys.npcDrops] = {63154,63156,63158},
         },
         [74842] = { -- Mogu Pumpkin
-            [itemKeys.npcDrops] = {63180,63185},
+            [itemKeys.npcDrops] = {63180,63184,63185},
         },
         [74843] = { -- Scallions
-            [itemKeys.npcDrops] = {63160,63165},
+            [itemKeys.npcDrops] = {63160,63164,63165},
         },
         [74844] = { -- Red Blossom Leek
-            [itemKeys.npcDrops] = {63223,63229},
+            [itemKeys.npcDrops] = {63223,63228,63229},
         },
         [74846] = { -- Witchberries
-            [itemKeys.npcDrops] = {66080,66085},
+            [itemKeys.npcDrops] = {66080,66084,66085},
         },
         [74847] = { -- Jade Squash
-            [itemKeys.npcDrops] = {66108,66113},
+            [itemKeys.npcDrops] = {66108,66112,66113},
         },
         [74848] = { -- Striped Melon
-            [itemKeys.npcDrops] = {66123,66129},
+            [itemKeys.npcDrops] = {66123,66128,66129},
         },
         [74849] = { -- Pink Turnip
-            [itemKeys.npcDrops] = {63245,63250},
+            [itemKeys.npcDrops] = {63245,63249,63250},
         },
         [74850] = { -- White Turnip
-            [itemKeys.npcDrops] = {63260,63265},
+            [itemKeys.npcDrops] = {63260,63264,63265},
         },
         [75023] = { -- Pristine Silk Strand
             [itemKeys.objectDrops] = {209826},
