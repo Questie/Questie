@@ -14,6 +14,7 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [4277] = 159, -- Azjol-Nerub (override wrong ID)
     [4416] = 154, -- Gundrak (override wrong ID)
     [4560] = 126, -- The Underbelly - Sub zone of Dalaran (override wrong ID)
+    [6182] = 453, -- Mogu'shan Palace - (Dungeon/Raid) - base ID to -1,-1 spawns
     [6219] = 480, -- Proving Grounds - (Dungeon/Raid)
     [6471] = 453, -- Mogu'shan Palace - The Crimson Assembly Hall
     [6473] = 454, -- Mogu'shan Palace - Vaults of Kings Past
