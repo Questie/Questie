@@ -23,6 +23,12 @@ describe("DailyQuests", function()
                 exclusiveHubs = { TEST_HUB = true },
                 preQuestHubs = {},
             },
+            TEST_HUB_3 = {
+                quests = { 9 },
+                limit = 1,
+                exclusiveHubs = {},
+                preQuestHubs = { TEST_HUB_2 = true },
+            },
         }
         DailyQuests.Initialize()
     end)
@@ -86,6 +92,15 @@ describe("DailyQuests", function()
             local questLog = {}
 
             local shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
+        end)
+
+        it("should return true when quest is part of a hub for which the preQuestHub is not complete", function()
+            local completedQuests = {}
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(9, completedQuests, questLog)
 
             assert.is_true(shouldBeHidden)
         end)
