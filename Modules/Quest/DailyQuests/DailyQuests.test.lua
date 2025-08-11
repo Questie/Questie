@@ -105,6 +105,17 @@ describe("DailyQuests", function()
             assert.is_true(shouldBeHidden)
         end)
 
+        it("should return true when quest is part of a hub for which the preQuestHub is complete in the quest log", function()
+            local completedQuests = {}
+            local questLog = {
+                [6] = {},
+            }
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(9, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
+        end)
+
         it("should return false when quest does not belong to a hub", function()
             local completedQuests = {
                 [1] = true,
@@ -142,6 +153,17 @@ describe("DailyQuests", function()
 
             questLog[3] = {}
             shouldBeHidden = DailyQuests.ShouldBeHidden(1, completedQuests, questLog)
+            assert.is_false(shouldBeHidden)
+        end)
+
+        it("should return false when quest is part of a hub for which the preQuestHub is complete", function()
+            local completedQuests = {
+                [6] = true,
+            }
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(9, completedQuests, questLog)
+
             assert.is_false(shouldBeHidden)
         end)
     end)
