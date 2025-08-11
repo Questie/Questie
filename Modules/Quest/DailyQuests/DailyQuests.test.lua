@@ -15,11 +15,13 @@ describe("DailyQuests", function()
                 quests = { 1, 2, 3, 4, 5 },
                 limit = 3,
                 exclusiveHubs = { TEST_HUB_2 = true },
+                preQuestHubs = {},
             },
             TEST_HUB_2 = {
                 quests = { 6, 7, 8 },
                 limit = 1,
                 exclusiveHubs = { TEST_HUB = true },
+                preQuestHubs = {},
             },
         }
         DailyQuests.Initialize()
