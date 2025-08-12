@@ -31,8 +31,8 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
     },
     AUGUST_CELESTIALS_RED_CRANE = {
-        quests = {30716,30717,30718},
-        limit = 3, -- 3(TO DO - progressive daily chain)
+        quests = {30716,30717,30718,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
+        limit = 4, -- 3(TO DO - progressive daily chain)
         exclusiveHubs = {
             AUGUST_CELESTIALS_JADE_SERPENT = true,
             AUGUST_CELESTIALS_WHITE_TIGER = true,
@@ -235,5 +235,66 @@ DailyQuests.hubs = {
             SHADO_PAN_OMNIA_MYSTICS_3 = true,
             SHADO_PAN_WU_KAO_ASSASSINS = true,
         },
+        preQuestHubs = {},
+    },
+    GOLDEN_LOTUS_MISTFALL_PEACE = {
+        quests = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263},
+        limit = 4, -- 2 random sets of 2
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    GOLDEN_LOTUS_MISTFALL_PEACE_LEADOUTS = {
+        quests = {30385,31294,31295},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+    },
+    GOLDEN_LOTUS_MISTFALL_PEACE_ELITES = {
+        quests = {30235,30236,30239},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+    },
+    GOLDEN_LOTUS_MISTFALL_ATTACK = {
+        quests = {30285,30286,30287,30288,30289,30290,31293},
+        limit = 4, -- 2 random sets of 2
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    GOLDEN_LOTUS_MISTFALL_ATTACK_LEADOUTS = {
+        quests = {31296,31297},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+    },
+    GOLDEN_LOTUS_MISTFALL_ATTACK_ELITES = {
+        quests = {30296,30297},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+    },
+    GOLDEN_LOTUS_RUINS_PEACE = {
+        quests = {30200,30204,30205,30206,30226,30228,30304},
+        limit = 4,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    GOLDEN_LOTUS_RUINS_PEACE_ELITES = {
+        quests = {30225,30227},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_RUINS_PEACE = true},
+    },
+    GOLDEN_LOTUS_RUINS_ATTACK = {
+        quests = {30298,30299,30300,30301,30305,30481},
+        limit = 4,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    GOLDEN_LOTUS_RUINS_ATTACK_ELITES = {
+        quests = {30302},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_RUINS_ATTACK = true},
     },
 }

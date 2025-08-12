@@ -2059,7 +2059,7 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30192,30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Attack it to drop the Stolen Mistfall Keg"),0,{{"monster",58673}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -2070,7 +2070,7 @@ function MopQuestFixes.Load()
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
             [questKeys.requiredSourceItems] = {85782},
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30191,30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30193] = { -- Meating Expectations
@@ -2087,7 +2087,7 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30232,30235,30236,30239,30263,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30195] = { -- Blooming Blossoms
             [questKeys.startedBy] = {{58820}},
@@ -2104,7 +2104,7 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30235,30236,30238,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30200] = { -- In Ashen Webs
             [questKeys.startedBy] = {{58503}},
@@ -2113,44 +2113,40 @@ function MopQuestFixes.Load()
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227}, -- not visible once the final quest in hub is picked up
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
-        [30204] = { -- That's Not a Rock! -- 2 out of 4 - 30204 30205 30206 30304
+        [30204] = { -- That's Not a Rock!
             [questKeys.startedBy] = {{58504}},
             [questKeys.preQuestSingle] = {31240, -- Guo-Lai Infestation from 59343 Lake Peace
                                           31248, -- The Ruins of Guo-Lai from 58408 Lake Attack
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227}, -- TO DO. fugly fix to stop showing them once the elite quest is picked up. That one doesn't need these though
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
         },
-        [30205] = { -- Runelocked -- 2 out of 4 - 30204 30205 30206 30304
+        [30205] = { -- Runelocked
             [questKeys.startedBy] = {{63266}},
             [questKeys.preQuestSingle] = {31240, -- Guo-Lai Infestation from 59343 Lake Peace
                                           31248, -- The Ruins of Guo-Lai from 58408 Lake Attack
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227}, -- TO DO. fugly fix to stop showing them once the elite quest is picked up. That one doesn't need these though
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
         },
-        [30206] = { -- Runes in the Ruins -- 2 out of 4 - 30204 30205 30206 30304
+        [30206] = { -- Runes in the Ruins
             [questKeys.startedBy] = {{63266}},
             [questKeys.preQuestSingle] = {31240, -- Guo-Lai Infestation from 59343 Lake Peace
                                           31248, -- The Ruins of Guo-Lai from 58408 Lake Attack
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227}, -- TO DO. fugly fix to stop showing them once the elite quest is picked up. That one doesn't need these though
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30225] = { -- The Ashweb Matriarch
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {30200}, -- is offered after 30200 + one of the other quests from this hub are turned in - needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.objectives] = {{{245926}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2163,12 +2159,12 @@ function MopQuestFixes.Load()
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227,30228}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30228},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30227] = { -- Wulon, the Granite Sentinel
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {30200}, -- is offered after 30200 + one of the other quests from this hub are turned in - needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.objectives] = {{{63510}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2181,7 +2177,7 @@ function MopQuestFixes.Load()
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30226,30227}, -- not visible once the final quest in hub is picked up
+            [questKeys.exclusiveTo] = {30226},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30229] = { -- The Greater Danger
@@ -2196,7 +2192,6 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30232] = { -- Ruffling Some Feathers
             [questKeys.startedBy] = {{58818}},
@@ -2204,7 +2199,7 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30194,30263,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30233] = { -- Cracklefang
@@ -2227,7 +2222,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{244995}}},
-            [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.preQuestGroup] = {31245}, -- only shown if mistfall is 3rd hub
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {30236,30239,30385,31294,31295,30237}, -- cant be an option if we have 30237 as daily in this hub
@@ -2236,7 +2231,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{244975}}},
-            [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.preQuestGroup] = {31245}, -- only shown if mistfall is 3rd hub
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {30235,30239,30385,31294,31295,30237}, -- cant be an option if we have 30237 as daily in this hub
@@ -2257,15 +2252,15 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30196,30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30239] = { -- Lao-Fe the Slavebinder
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59338}},
             [questKeys.objectives] = {{{246479}}},
             [questKeys.exclusiveTo] = {30235,30236,30385,31294,31295},
-            [questKeys.preQuestSingle] = {31245,31249}, -- only offered if mistfall is 3rd hub
-            [questKeys.preQuestGroup] = {30237},
+            [questKeys.preQuestGroup] = {31245,30237}, -- only shown if mistfall is 3rd hub
+            [questKeys.preQuestSingle] = {},
         },
         [30240] = { -- Survival Ring: Flame
             [questKeys.startedBy] = {{59340}},
@@ -2296,17 +2291,17 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{64895,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [30243] = { -- Mantid Under Fire -- TO DO check it
+        [30243] = { -- Mantid Under Fire
             [questKeys.preQuestGroup] = {30306,30240},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {30245,30246,30266,30444}, -- the other 2 groups of 2 quests in this hub stage
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use it"),0,{{"monster",64369}}}},
         },
-        [30244] = { -- Along the Serpent's Spine -- TO DO check it
+        [30244] = { -- Along the Serpent's Spine
             [questKeys.startedBy] = {{58920}},
             [questKeys.finishedBy] = {{58920}},
             [questKeys.preQuestGroup] = {30306,30240},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{63974,63976},63974}}}, -- TO DO check it
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{63974,63976},63974}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {30245,30246,30266,30444}, -- the other 2 groups of 2 quests in this hub stage
@@ -2380,6 +2375,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30306,30642,30240},
             [questKeys.exclusiveTo] = {30264},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
+            [questKeys.objectives] = {{{58704,nil,Questie.ICON_TYPE_TALK},{64897}}},
         },
         [30263] = { -- Clearing in the Forest
             [questKeys.startedBy] = {{59338}},
@@ -2387,7 +2383,7 @@ function MopQuestFixes.Load()
                                           31245, -- Mistfall Village from 59343 Lake Peace
                                           31249, -- Mistfall Village from 58408 Lake Attack
                                           },
-            [questKeys.exclusiveTo] = {30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30194,30232,30235,30236,30239,30385,31294,31295}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30264] = { -- Enemy at the Gates
             [questKeys.startedBy] = {{58919}},
@@ -2478,7 +2474,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30286,30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30286] = { -- Backed Into a Corner
             [questKeys.startedBy] = {{59337}},
@@ -2486,14 +2482,14 @@ function MopQuestFixes.Load()
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
             [questKeys.objectives] = {nil,nil,nil,nil,{{{64187,63949},63949,nil,Questie.ICON_TYPE_INTERACT}}}, -- both IDs need spawns
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30285,30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30287] = { -- Mogu Make Poor House Guests
             [questKeys.startedBy] = {{58911}},
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30289,30296,30297,31293,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30288] = { -- My Town, It's On Fire Again
             [questKeys.startedBy] = {{59336}},
@@ -2510,7 +2506,7 @@ function MopQuestFixes.Load()
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
             [questKeys.objectives] = {{{64200,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30287,30290,30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30290] = { -- Stonebound Killers
             [questKeys.startedBy] = {{58911}},
@@ -2518,7 +2514,7 @@ function MopQuestFixes.Load()
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
             [questKeys.objectives] = {nil,nil,nil,nil,{{{64186,63950},63950}}},
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30289,30296,30297,31293,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [30291] = { -- Stunning Display
             [questKeys.startedBy] = {{59343}},
@@ -2558,7 +2554,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63610,63611,63641},63610}}}, -- TO DO: check this
         },
@@ -2568,7 +2563,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30305}, -- TO DO: check if still showing once the elite quest is picked up.
+            [questKeys.exclusiveTo] = {30305},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63333,63447,63556,63674},63333}}}, -- TO DO: check this. 63333,63447 have no spawns atm
         },
@@ -2578,7 +2573,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302,30481}, -- TO DO: check if still showing once the elite quest is picked up.
+            [questKeys.exclusiveTo] = {30481},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63640,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_EVENT}}}, -- TO DO: 63655 -> 63657 have no spawns atm
             -- [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}}, -- TO DO: find out cage id
@@ -2590,7 +2585,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30302}, -- TO DO: check if still showing once the elite quest is picked up.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,{{210680}}}, -- TO DO: check this
         },
@@ -2601,14 +2595,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62880,62881,63691},62880}}}, -- check IDs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
-        [30304] = { -- Hard as a Rock -- 2 out of 4 - 30204 30205 30206 30304
+        [30304] = { -- Hard as a Rock
             [questKeys.startedBy] = {{58504}},
             [questKeys.preQuestSingle] = {31240, -- Guo-Lai Infestation from 59343 Lake Peace
                                           31248, -- The Ruins of Guo-Lai from 58408 Lake Attack
                                           31294, -- The Ruins of Guo-Lai from 59338 Mistfall Peace
                                           31296, -- The Ruins of Guo-Lai from 59337 Mistfall Attack
                                           },
-            [questKeys.exclusiveTo] = {30225,30227}, -- TO DO. fugly fix to stop showing them once the elite quest is picked up. That one doesn't need these though
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30305] = { -- He Knows What He's Doing
@@ -2617,7 +2610,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30299,30302}, -- TO DO: check if still showing once the elite quest is picked up.
+            [questKeys.exclusiveTo] = {30299},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             --[questKeys.objectives] = {}, -- TO DO: need to check this
         },
@@ -2845,7 +2838,7 @@ function MopQuestFixes.Load()
         [30385] = { -- Setting Sun Garrison -- Mistfall Peace to Garrison lead out
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{58919}},
-            [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {31245,31249,31294,31295}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
@@ -3154,7 +3147,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31244, -- Guo-Lai Encampment from 59343 Lake Peace
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
-            [questKeys.exclusiveTo] = {30300,30302}, -- TO DO: check if still showing once the elite quest is picked up.
+            [questKeys.exclusiveTo] = {30300},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,{{85278}}},
         },
@@ -5125,26 +5118,26 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31243, -- Attack on Mistfall Village from 58408 Pagoda
                                           31246, -- Attack on Mistfall Village from 59343 Lake Peace
                                           },
-            [questKeys.exclusiveTo] = {30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
+            [questKeys.exclusiveTo] = {30287,30290,30296,30297,31297,31296}, -- not visible once the final quest in hub is picked up or lead outs
         },
         [31294] = { -- The Ruins of Guo-Lai -- Mistfall Peace to Ruins Peace lead out
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {31245,31249,30385,31295,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31295] = { -- Mogu within the Ruins of Guo-Lai -- Mistfall Peace to Ruins Attack lead out
             [questKeys.startedBy] = {{59338}},
             [questKeys.finishedBy] = {{59332}},
-            [questKeys.preQuestSingle] = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {31245,31249,30385,31294,31296}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [31296] = { -- The Ruins of Guo-Lai -- Mistfall Attack to Ruins Peace lead out
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {30288}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {31246,31297,31294,31295}, -- 31246 to not show this one if mistfall is 3rd hub
         },
@@ -5152,7 +5145,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59337}},
             [questKeys.finishedBy] = {{58919}},
             [questKeys.exclusiveTo] = {31296,31246}, -- 31246 to not show this one if mistfall is 3rd hub
-            [questKeys.preQuestSingle] = {30288}, -- needs daily module
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [31302] = { -- Ready For Greatness
@@ -6038,7 +6031,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58468}},
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {30312,30320},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{65817,65818,65804},65804,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{65817,65818,65804},65804,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSpell] = 115913,
         },
         [31756] = { -- High Chance of Rain
