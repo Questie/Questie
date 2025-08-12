@@ -1480,11 +1480,91 @@ function QuestieTracker:Update()
         end
     end
 
+    local function _UpdateScenarioObjectives()
+        local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
+
+        line = TrackerLinePool.GetNextLine()
+        if (not line) then
+            return
+        end
+
+        line:SetMode("zone")
+        line:SetZone(scenarioName)
+        line.expandQuest:Hide()
+        line.criteriaMark:Hide()
+        line.playButton:Hide()
+
+        line.label:ClearAllPoints()
+        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+
+        line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "|r")
+
+        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
+        line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
+        line:SetWidth(line.label:GetWidth())
+
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+
+        line:SetHeight(line.label:GetHeight() + 4)
+
+        line:Show()
+        line.label:Show()
+        line.Quest = nil
+        line.Objective = nil
+
+        for i = 1, numSteps do
+            local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(i)
+
+            -- We re-shape the criteriaInfo to match quest objectives used by the tracker.
+            local objective = {
+                Description = criteriaInfo.description,
+                Collected = criteriaInfo.quantity,
+                Needed = criteriaInfo.totalQuantity,
+                Completed = criteriaInfo.completed,
+            }
+
+            line = TrackerLinePool.GetNextLine()
+            if (not line) then
+                break
+            end
+
+            line:SetMode("objective")
+
+            line:SetObjective(objective)
+            line.expandZone:Hide()
+            line.expandQuest:Hide()
+            line.criteriaMark:Hide()
+            line.playButton:Hide()
+
+            line.label:ClearAllPoints()
+            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+
+            local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+
+            -- Set Objective text
+            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
+
+            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+
+            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft + trackerMarginRight)
+            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+
+            -- Adds 1 pixel between multiple Objectives
+            line:SetHeight(line.label:GetHeight() + 1)
+
+            -- Set Objective state
+            line:Show()
+            line.label:Show()
+        end
+    end
+
     -- Populate Achievements first then Quests
     if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
+        _UpdateScenarioObjectives()
         _UpdateAchievements()
         _UpdateQuests()
     else
+        _UpdateScenarioObjectives()
         _UpdateQuests()
         _UpdateAchievements()
     end
