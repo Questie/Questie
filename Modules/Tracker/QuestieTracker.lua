@@ -2253,4 +2253,9 @@ function QuestieTracker.UpdateQuestLines(questId)
     TrackerLinePool.UpdateQuestLines(questId)
 end
 
+---@param criteriaIndex number
+function QuestieTracker.UpdateScenarioLines(criteriaIndex)
+    TrackerLinePool.UpdateScenarioLines(criteriaIndex)
+end
+
 return QuestieTracker
