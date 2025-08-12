@@ -1504,11 +1504,16 @@ function QuestieTracker:Update()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
         line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "|r")
+        line:Show()
+        line.label:Show()
+        line.Quest = nil
+        line.Objective = nil
 
         QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
         line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
         line:SetWidth(line.label:GetWidth())
 
+        -- Compare largest text Label in the tracker with current Label, then save widest width
         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
         line:SetHeight(line.label:GetHeight() + 4)
