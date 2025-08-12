@@ -2556,8 +2556,14 @@ function MopNpcFixes.Load()
         [66138] = { -- Master Cheng
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [66180] = { -- Master Cheng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
         [66190] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.4,11.2}}},
+        },
+        [66256] = { -- Master Cheng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.53,41.5}}},
         },
         [66292] = { -- Sky Admiral Rogers
             [npcKeys.spawns] = {

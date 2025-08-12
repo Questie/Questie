@@ -6214,7 +6214,7 @@ function MopQuestFixes.Load()
         },
         [31837] = { -- Continue Your Training: Master Cheng
             [questKeys.requiredClasses] = classIDs.MONK,
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66256}}}},
             [questKeys.breadcrumbs] = {31859},
         },
         [31838] = { -- Continue Your Training: Master Tsang
