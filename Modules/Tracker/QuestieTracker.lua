@@ -1568,6 +1568,7 @@ function QuestieTracker:Update()
 
             -- We re-shape the criteriaInfo to match quest objectives used by the tracker.
             local objective = {
+                Id = i,
                 Description = criteriaInfo.description,
                 Collected = criteriaInfo.quantity,
                 Needed = criteriaInfo.totalQuantity,
@@ -1580,8 +1581,7 @@ function QuestieTracker:Update()
             end
 
             line:SetMode("objective")
-
-            line:SetObjective(objective)
+            line:SetScenarioCriteria(objective)
             line.expandZone:Hide()
             line.expandQuest:Hide()
             line.criteriaMark:Hide()
