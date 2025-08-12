@@ -1481,6 +1481,12 @@ function QuestieTracker:Update()
     end
 
     local function _UpdateScenarioObjectives()
+        local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
+        if (not challengeMapId) then
+            -- Not in a Challenge Mode or Challenge Mode wasn't started yet
+            return
+        end
+
         local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
 
         line = TrackerLinePool.GetNextLine()
