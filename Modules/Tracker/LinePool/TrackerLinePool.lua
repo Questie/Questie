@@ -375,4 +375,21 @@ function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
     end
 end
 
+---@param criteriaIndex number
+function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
+    if not linesByScenarioIndex[criteriaIndex] then
+        return
+    end
+
+    local lines = linesByScenarioIndex[criteriaIndex]
+    for _, line in pairs(lines) do
+        if line.Objective then
+            ---@type QuestObjective
+            local objective = line.Objective
+            local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
+        end
+    end
+end
+
 return TrackerLinePool
