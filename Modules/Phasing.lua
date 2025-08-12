@@ -351,6 +351,10 @@ local phases = {
     XUEN_AFTER_SECOND_FIGHT = 1279,
     XUEN_AFTER_THIRD_FIGHT = 1280,
     XUEN_AFTER_FOURTH_FIGHT = 1281,
+    ZIN_AT_PAGODA = 1282,
+    PAGODA_UNDER_ATTACK = 1283,
+    PAGODA_NOT_UNDER_ATTACK = 1284,
+    TANTAN_AT_LAKE = 1285,
 }
 Phasing.phases = phases
 
@@ -1569,6 +1573,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.XUEN_AFTER_FOURTH_FIGHT then
         return (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
+    end
+
+    if phase == phases.ZIN_AT_PAGODA then
+        return not complete[30642] or false
+    end
+
+    if phase == phases.PAGODA_UNDER_ATTACK then
+        return (complete[30644] and (not complete[30646] and (not questLog[30646] or questLog[30646].isComplete == 0))) or false
+    end
+
+    if phase == phases.PAGODA_NOT_UNDER_ATTACK then
+        return not (complete[30644] and (not complete[30646] and (not questLog[30646] or questLog[30646].isComplete == 0))) or false
+    end
+
+    if phase == phases.TANTAN_AT_LAKE then
+        return not complete[30644] or complete[30646] or false
     end
 
     return false

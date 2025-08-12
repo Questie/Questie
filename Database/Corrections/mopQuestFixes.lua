@@ -1765,12 +1765,12 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30067,30068},
         },
         [30067] = { -- The Shadow of Doubt
-            [questKeys.preQuestSingle] = {30006,30063,60064,30065,30066}, -- 3 out of 5
+            [questKeys.preQuestSingle] = {30006,30063,30064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30068},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30068] = { -- Flames of the Void
-            [questKeys.preQuestSingle] = {30006,30063,60064,30065,30066}, -- 3 out of 5
+            [questKeys.preQuestSingle] = {30006,30063,30064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30067},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",57871}}}},
@@ -2377,7 +2377,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {1272,9000},
         },
         [30261] = { -- Roll Club: Serpent's Spine
-            [questKeys.preQuestGroup] = {30306,30640},
+            [questKeys.preQuestGroup] = {30306,30642,30240},
             [questKeys.exclusiveTo] = {30264},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
         },
@@ -2392,7 +2392,7 @@ function MopQuestFixes.Load()
         [30264] = { -- Enemy at the Gates
             [questKeys.startedBy] = {{58919}},
             [questKeys.exclusiveTo] = {30261},
-            [questKeys.preQuestGroup] = {30306,30640},
+            [questKeys.preQuestGroup] = {30306,30642,30240},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.objectives] = {{{65336,nil,Questie.ICON_TYPE_MOUNT_UP},{63972},{64274},{64275}}},
         },
@@ -3525,6 +3525,25 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.preQuestSingle] = {30641},
             [questKeys.objectives] = {{{60376,nil,Questie.ICON_TYPE_EVENT}},nil,{{80807}}},
+        },
+        [30643] = { -- The Mogu's Message
+            [questKeys.startedBy] = {{58408}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,42000},
+            [questKeys.preQuestSingle] = {30642},
+        },
+        [30644] = { -- What Comes to Pass
+            [questKeys.startedBy] = {{59905}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,42000},
+            [questKeys.preQuestSingle] = {30643},
+        },
+        [30645] = { -- The Might of Three
+            [questKeys.startedBy] = {{58468}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,42000},
+            [questKeys.preQuestSingle] = {30644},
+        },
+        [30646] = { -- The Final Power
+            [questKeys.startedBy] = {{59906}},
+            [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,42000},
         },
         [30648] = { -- Moving On
             [questKeys.finishedBy] = {{110007}},
