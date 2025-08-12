@@ -482,6 +482,18 @@ local genericsLocales = {
         ["zhCN"] = "可行",
         ["zhTW"] = "可行",
     },
+    ["Challenge Mode"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Herausforderungsdungeon",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(genericsLocales) do
