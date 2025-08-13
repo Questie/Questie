@@ -2704,6 +2704,9 @@ function MopNpcFixes.Load()
         [67067] = { -- Rell's Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
         },
+        [67091] = { -- Rik'kal the Dissector
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.8,89,phases.RIKKAL_AT_ZANVESS}}},
+        },
         [67138] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {54.11,20.48,phases.CHEN_AT_FEAR_CLUTCH},

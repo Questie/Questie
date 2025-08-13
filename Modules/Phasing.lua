@@ -383,6 +383,7 @@ local phases = {
     GINA_MUDCLAW_MARKET = 1311,
     JOGU_THE_DRUNK_FARM = 1312,
     JOGU_THE_DRUNK_MARKET = 1313,
+    RIKKAL_AT_ZANVESS = 1314,
 }
 Phasing.phases = phases
 
@@ -1729,6 +1730,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.JOGU_THE_DRUNK_MARKET then
         return not complete[30373] or false
+    end
+
+    if phase == phases.RIKKAL_AT_ZANVESS then
+        return not complete[31606] or false
     end
 
     return false
