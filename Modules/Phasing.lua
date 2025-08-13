@@ -337,24 +337,52 @@ local phases = {
     AN_WINDFUR_FOREST_HEART = 1265,
     SHEEPIE_FIRST_TIME = 1266,
     SHEEPIE_SECOND_TIME = 1267,
-    OLD_HILLPAW_HALFHILL = 1268,
-    TINA_MUDCLAW_HALFHILL = 1269,
-    FARM_HAS_8_SLOTS = 1270,
-    FARM_HAS_12_SLOTS = 1271,
-    FARM_HAS_16_SLOTS = 1272,
-    ZIN_AT_AXE_OF_THUNDER_KING = 1273,
-    KILRUK_REVEALED = 1274,
-    SHADO_PAN_GARRISON_NORMAL = 1275,
-    SHADO_PAN_GARRISON_SURPRISE_ATTACK = 1276,
-    XUEN_START = 1277,
-    XUEN_AFTER_FIRST_FIGHT = 1278,
-    XUEN_AFTER_SECOND_FIGHT = 1279,
-    XUEN_AFTER_THIRD_FIGHT = 1280,
-    XUEN_AFTER_FOURTH_FIGHT = 1281,
-    ZIN_AT_PAGODA = 1282,
-    PAGODA_UNDER_ATTACK = 1283,
-    PAGODA_NOT_UNDER_ATTACK = 1284,
-    TANTAN_AT_LAKE = 1285,
+    FARM_HAS_8_SLOTS = 1268,
+    FARM_HAS_12_SLOTS = 1269,
+    FARM_HAS_16_SLOTS = 1270,
+    ZIN_AT_AXE_OF_THUNDER_KING = 1271,
+    KILRUK_REVEALED = 1272,
+    SHADO_PAN_GARRISON_NORMAL = 1273,
+    SHADO_PAN_GARRISON_SURPRISE_ATTACK = 1274,
+    XUEN_START = 1275,
+    XUEN_AFTER_FIRST_FIGHT = 1276,
+    XUEN_AFTER_SECOND_FIGHT = 1277,
+    XUEN_AFTER_THIRD_FIGHT = 1278,
+    XUEN_AFTER_FOURTH_FIGHT = 1279,
+    ZIN_AT_PAGODA = 1280,
+    PAGODA_UNDER_ATTACK = 1281,
+    PAGODA_NOT_UNDER_ATTACK = 1282,
+    TANTAN_AT_LAKE = 1283,
+    OLD_HILLPAW_NORMAL = 1284,
+    OLD_HILLPAW_FARM = 1285,
+    OLD_HILLPAW_MARKET = 1286,
+    TINA_MUDCLAW_NORMAL = 1287,
+    TINA_MUDCLAW_FARM = 1288,
+    TINA_MUDCLAW_MARKET = 1289,
+    FARMER_FUNG_NORMAL = 1290,
+    FARMER_FUNG_FARM = 1291,
+    FARMER_FUNG_MARKET = 1292,
+    HAOHAN_MUDCLAW_NORMAL = 1293,
+    HAOHAN_MUDCLAW_FARM = 1294,
+    HAOHAN_MUDCLAW_MARKET = 1295,
+    SHO_NORMAL = 1296,
+    SHO_FARM = 1297,
+    SHO_MARKET = 1298,
+    ELLA_NORMAL = 1299,
+    ELLA_FARM = 1300,
+    ELLA_MARKET = 1301,
+    FISH_FELLREED_NORMAL = 1302,
+    FISH_FELLREED_FARM = 1303,
+    FISH_FELLREED_MARKET = 1304,
+    CHEE_CHEE_NORMAL = 1305,
+    CHEE_CHEE_FARM = 1306,
+    CHEE_CHEE_MARKET = 1307,
+    FARMER_YOON_FARM = 1308,
+    FARMER_YOON_MARKET = 1309,
+    GINA_MUDCLAW_FARM = 1310,
+    GINA_MUDCLAW_MARKET = 1311,
+    JOGU_THE_DRUNK_FARM = 1312,
+    JOGU_THE_DRUNK_MARKET = 1313,
 }
 Phasing.phases = phases
 
@@ -1519,14 +1547,6 @@ function Phasing.IsSpawnVisible(phase)
         return complete[31338] or false
     end
 
-    if phase == phases.OLD_HILLPAW_HALFHILL then
-        return ((complete[30318]) or (questLog[30318])) or false
-    end
-
-    if phase == phases.TINA_MUDCLAW_HALFHILL then
-        return ((complete[30323]) or (questLog[30323])) or false
-    end
-
     if phase == phases.FARM_HAS_8_SLOTS then
         return complete[30516] or false
     end
@@ -1589,6 +1609,126 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TANTAN_AT_LAKE then
         return not complete[30644] or complete[30646] or false
+    end
+
+    if phase == phases.OLD_HILLPAW_NORMAL then
+        return not complete[30368] and not (complete[30318] or questLog[30318]) or false
+    end
+
+    if phase == phases.OLD_HILLPAW_FARM then
+        return complete[30368] and not (complete[30318] or questLog[30318]) or false
+    end
+
+    if phase == phases.OLD_HILLPAW_MARKET then
+        return complete[30318] or questLog[30318] or false
+    end
+
+    if phase == phases.TINA_MUDCLAW_NORMAL then
+        return not complete[30371] and not (complete[30323] or questLog[30323]) or false
+    end
+
+    if phase == phases.TINA_MUDCLAW_FARM then
+        return complete[30371] and not (complete[30323] or questLog[30323]) or false
+    end
+
+    if phase == phases.TINA_MUDCLAW_MARKET then
+        return complete[30323] or questLog[30323] or false
+    end
+
+    if phase == phases.FARMER_FUNG_NORMAL then
+        return not complete[30370] and not (complete[30317] or questLog[30317]) or false
+    end
+
+    if phase == phases.FARMER_FUNG_FARM then
+        return complete[30370] and not (complete[30317] or questLog[30317]) or false
+    end
+
+    if phase == phases.FARMER_FUNG_MARKET then
+        return complete[30317] or questLog[30317] or false
+    end
+
+    if phase == phases.HAOHAN_MUDCLAW_NORMAL then
+        return not complete[30369] and not (complete[30319] or questLog[30319]) or false
+    end
+
+    if phase == phases.HAOHAN_MUDCLAW_FARM then
+        return complete[30369] and not (complete[30319] or questLog[30319]) or false
+    end
+
+    if phase == phases.HAOHAN_MUDCLAW_MARKET then
+        return complete[30319] or questLog[30319] or false
+    end
+
+    if phase == phases.SHO_NORMAL then
+        return not complete[30367] and not (complete[30325] or questLog[30325]) or false
+    end
+
+    if phase == phases.SHO_FARM then
+        return complete[30367] and not (complete[30325] or questLog[30325]) or false
+    end
+
+    if phase == phases.SHO_MARKET then
+        return complete[30325] or questLog[30325] or false
+    end
+
+    if phase == phases.ELLA_NORMAL then
+        return not complete[30366] and not (complete[30327] or questLog[30327]) or false
+    end
+
+    if phase == phases.ELLA_FARM then
+        return complete[30366] and not (complete[30327] or questLog[30327]) or false
+    end
+
+    if phase == phases.ELLA_MARKET then
+        return complete[30327] or questLog[30327] or false
+    end
+
+    if phase == phases.FISH_FELLREED_NORMAL then
+        return not complete[30372] and not (complete[30326] or questLog[30326]) or false
+    end
+
+    if phase == phases.FISH_FELLREED_FARM then
+        return complete[30372] and not (complete[30326] or questLog[30326]) or false
+    end
+
+    if phase == phases.FISH_FELLREED_MARKET then
+        return complete[30326] or questLog[30326] or false
+    end
+
+    if phase == phases.CHEE_CHEE_NORMAL then
+        return not complete[30365] and not (complete[30324] or questLog[30324]) or false
+    end
+
+    if phase == phases.CHEE_CHEE_FARM then
+        return complete[30365] and not (complete[30324] or questLog[30324]) or false
+    end
+
+    if phase == phases.CHEE_CHEE_MARKET then
+        return complete[30324] or questLog[30324] or false
+    end
+
+    if phase == phases.FARMER_YOON_FARM then
+        return not complete[32682] or false
+    end
+
+    if phase == phases.FARMER_YOON_MARKET then
+        return complete[32682] or false
+    end
+
+    if phase == phases.GINA_MUDCLAW_FARM then
+        return complete[30374] and not (complete[30322] or questLog[30322]) or false
+    end
+
+    if phase == phases.GINA_MUDCLAW_MARKET then
+        return not complete[30374] or false
+    end
+
+    if phase == phases.JOGU_THE_DRUNK_FARM then
+        return complete[30373] and not (complete[30321] or questLog[30321]) or false
+    end
+
+    if phase == phases.JOGU_THE_DRUNK_MARKET then
+        return not complete[30373] or false
     end
 
     return false

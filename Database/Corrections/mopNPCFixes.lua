@@ -678,15 +678,30 @@ function MopNpcFixes.Load()
         [57242] = { -- Elder Sage Wind-Yi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.84,57.08}}},
         },
+        [57298] = { -- Farmer Fung
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {48.28,33.85,phases.FARMER_FUNG_NORMAL},
+                    {52.14,47.97,phases.FARMER_FUNG_FARM},
+                    {52.8,51.6,phases.FARMER_FUNG_MARKET}, -- TO DO double check existing coords
+                },
+            },
+        },
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
+        },
+        [57402] = { -- Haohan Mudclaw
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {44.64,34.07,phases.HAOHAN_MUDCLAW_NORMAL}, -- TO DO double check existing coords
+                    {52.14,47.97,phases.HAOHAN_MUDCLAW_FARM}, -- TEST TO DO coords those are fake coords
+                    {52.99,51.72,phases.HAOHAN_MUDCLAW_MARKET},
+                },
+            },
         },
         [57476] = { -- Crossing Rocks Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.7,39.07}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
-        },
-        [57402] = { -- Haohan Mudclaw
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.64,34.07}}},
         },
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
@@ -827,6 +842,23 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
             },
         },
+        [58646] = { -- Farmer Yoon
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.25,48.79,phases.FARMER_YOON_FARM},
+                    {52.92,51.82,phases.FARMER_YOON_MARKET},
+                },
+            },
+        },
+        [58647] = { -- Ella
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {31.51,58.07,phases.ELLA_NORMAL},
+                    {51.87,48.65,phases.ELLA_FARM},
+                    {53.04,51.72,phases.ELLA_MARKET}, -- TO DO double check existing coords
+                },
+            },
+        },
         [58672] = { -- Fog Walker
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{36.6,57.8},{37.4,47.4},{37.4,47.6},{37.6,47.4},{37.6,47.8},{38,56.6},{38.2,45.4},{38.2,45.6},{38.2,58.2},{38.4,43.2},{38.4,43.6},{38.4,55.4},{38.4,55.8},{38.6,43.2},{38.6,43.6},{38.6,44.6},{38.6,46},{38.6,55.6},{39,52.6},{39.2,52.4},{39.2,54.8},{39.4,54.4},{39.6,44},{39.6,54.6},{39.8,42.4},{39.8,42.8},{40.4,53.4},{40.4,53.6},{40.4,55.6},{40.6,53.8},{40.6,55.4},{40.6,55.8},{40.8,42.6},{41.2,40},{41.2,41.2},{41.2,41.6},{41.2,52.8},{41.4,52.2},{41.6,41},{41.6,52.4},{41.6,53},{43,51.8},{43.4,46.2},{43.4,50.8},{43.6,46.2},{43.6,49.2},{43.6,51.4},{43.8,52},{43.8,52.6},{44,40.4},{44,50},{44.2,40.6},{44.4,47.2},{44.6,41.4},{44.6,41.6},{44.6,47.2},{44.6,47.6},{46.2,45.2}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -850,11 +882,55 @@ function MopNpcFixes.Load()
         [58685] = { -- Scarlet Evangelist
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [58705] = { -- Fish Fellreed
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {41.73,30.02,phases.FISH_FELLREED_NORMAL},
+                    {52.53,49.06,phases.FISH_FELLREED_FARM},
+                    {53.00,51.95,phases.FISH_FELLREED_MARKET}, -- TEST TO DO coords those are fake coords
+                },
+            },
+        },
+        [58706] = { -- Gina Mudclaw
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.23,48.7,phases.GINA_MUDCLAW_FARM},
+                    {53.16,51.8,phases.GINA_MUDCLAW_MARKET},
+                },
+            },
+        },
         [58707] = { -- Old Hillpaw
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
-                    {30.95,53.10}, -- Regular spot at farm
-                    {53.04,51.97,phases.OLD_HILLPAW_HALFHILL}, -- When offering daily moves to Halfhill
+                    {30.95,53.1,phases.OLD_HILLPAW_NORMAL},
+                    {51.6,49.42,phases.OLD_HILLPAW_FARM},
+                    {53.04,51.97,phases.OLD_HILLPAW_MARKET}, -- TO DO double check coords
+                },
+            },
+        },
+        [58708] = { -- Sho
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {29.52,30.6,phases.SHO_NORMAL},
+                    {51.6,49.42,phases.SHO_FARM}, -- TEST TO DO coords those are fake coords
+                    {53.14,52.06,phases.SHO_MARKET},
+                },
+            },
+        },
+        [58709] = { -- Chee Chee
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {34.41,46.76,phases.CHEE_CHEE_NORMAL},
+                    {52.85,49.99,phases.CHEE_CHEE_FARM},
+                    {53.00,51.95,phases.CHEE_CHEE_MARKET}, -- TEST TO DO coords those are fake coords
+                },
+            },
+        },
+        [58710] = { -- Jogu the Drunk
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.63,49.33,phases.JOGU_THE_DRUNK_FARM},
+                    {53.56,52.57,phases.JOGU_THE_DRUNK_MARKET},
                 },
             },
         },
@@ -867,8 +943,9 @@ function MopNpcFixes.Load()
         [58761] = { -- Tina Mudclaw
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
-                    {45.12,33.81}, -- Regular spot at farm
-                    {52.97,51.79,phases.TINA_MUDCLAW_HALFHILL}, -- When offering daily moves to Halfhill
+                    {45.09,33.78,phases.TINA_MUDCLAW_NORMAL},
+                    {52.75,47.91,phases.TINA_MUDCLAW_FARM},
+                    {52.97,51.79,phases.TINA_MUDCLAW_MARKET}, -- TO DO double check coords
                 },
             },
         },
