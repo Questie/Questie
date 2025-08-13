@@ -6885,6 +6885,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91703,91705,91707,91709,91711,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE_MOP,
         },
         [91702] = { -- A Celestial Challenge: Darkmaster Gandling
             [questKeys.name] = "A Celestial Challenge: Darkmaster Gandling",
@@ -6899,6 +6900,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91704,91706,91708,91710,91712,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE_MOP,
         },
         [91703] = { -- A Celestial Challenge: Flameweaver Koegler
             [questKeys.name] = "A Celestial Challenge: Flameweaver Koegler",
@@ -6913,6 +6915,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91705,91707,91709,91711,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_HALLS,
         },
         [91704] = { -- A Celestial Challenge: Flameweaver Koegler
             [questKeys.name] = "A Celestial Challenge: Flameweaver Koegler",
@@ -6927,6 +6930,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91706,91708,91710,91712,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_HALLS,
         },
         [91705] = { -- A Celestial Challenge: Durand
             [questKeys.name] = "A Celestial Challenge: Durand",
@@ -6941,6 +6945,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91707,91709,91711,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY_MOP,
         },
         [91706] = { -- A Celestial Challenge: Durand
             [questKeys.name] = "A Celestial Challenge: Durand",
@@ -6955,6 +6960,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91708,91710,91712,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_MONASTERY_MOP,
         },
         [91707] = { -- A Celestial Challenge: Wing Leader Ner'onok
             [questKeys.name] = "A Celestial Challenge: Wing Leader Ner'onok",
@@ -6969,6 +6975,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91709,91711,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SIEGE_OF_NIUZAO_TEMPLE,
         },
         [91708] = { -- A Celestial Challenge: Wing Leader Ner'onok
             [questKeys.name] = "A Celestial Challenge: Wing Leader Ner'onok",
@@ -6983,6 +6990,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91710,91712,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SIEGE_OF_NIUZAO_TEMPLE,
         },
         [91709] = { -- A Celestial Challenge: Raigonn
             [questKeys.name] = "A Celestial Challenge: Raigonn",
@@ -6997,6 +7005,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91707,91711,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.GATE_OF_THE_SETTING_SUN,
         },
         [91710] = { -- A Celestial Challenge: Raigonn
             [questKeys.name] = "A Celestial Challenge: Raigonn",
@@ -7011,6 +7020,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91708,91712,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.GATE_OF_THE_SETTING_SUN,
         },
         [91711] = { -- A Celestial Challenge: Xin the Weaponmaster
             [questKeys.name] = "A Celestial Challenge: Xin the Weaponmaster",
@@ -7025,6 +7035,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91707,91709,91713,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.MOGUSHAN_PALACE,
         },
         [91712] = { -- A Celestial Challenge: Xin the Weaponmaster
             [questKeys.name] = "A Celestial Challenge: Xin the Weaponmaster",
@@ -7039,6 +7050,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91708,91710,91714,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.MOGUSHAN_PALACE,
         },
         [91713] = { -- A Celestial Challenge: Sha of Hatred
             [questKeys.name] = "A Celestial Challenge: Sha of Hatred",
@@ -7053,6 +7065,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91707,91709,91711,91715,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SHADO_PAN_MONASTERY,
         },
         [91714] = { -- A Celestial Challenge: Sha of Hatred
             [questKeys.name] = "A Celestial Challenge: Sha of Hatred",
@@ -7067,6 +7080,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91708,91710,91712,91716,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.SHADO_PAN_MONASTERY,
         },
         [91715] = { -- A Celestial Challenge: Yan-zhu the Uncasked
             [questKeys.name] = "A Celestial Challenge: Yan-zhu the Uncasked",
@@ -7081,6 +7095,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91707,91709,91711,91713,91717},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.STORMSTOUT_BREWERY,
         },
         [91716] = { -- A Celestial Challenge: Yan-zhu the Uncasked
             [questKeys.name] = "A Celestial Challenge: Yan-zhu the Uncasked",
@@ -7095,6 +7110,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91708,91710,91712,91714,91718},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.STORMSTOUT_BREWERY,
         },
         [91717] = { -- A Celestial Challenge: Sha of Doubt
             [questKeys.name] = "A Celestial Challenge: Sha of Doubt",
@@ -7109,6 +7125,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91701,91703,91705,91707,91709,91711,91713,91715},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
         },
         [91718] = { -- A Celestial Challenge: Sha of Doubt
             [questKeys.name] = "A Celestial Challenge: Sha of Doubt",
@@ -7123,6 +7140,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {91702,91704,91706,91708,91710,91712,91714,91716},
             [questKeys.specialFlags] = specialFlags.REPEATABLE + specialFlags.CELESTIAL,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
         },
         [92336] = { -- Potion Master
             [questKeys.name] = "Potion Master",
