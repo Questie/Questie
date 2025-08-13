@@ -675,18 +675,33 @@ function MopNpcFixes.Load()
         [57237] = { -- Bookworm
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.64,59.98},{55.84,59.62},{56.31,60.1},{56.71,60.02},{56.76,60.24},{56.53,61.16},{56.29,60.81},{55.51,60.64},{55.79,60.12},{55.69,59.71},{56.3,59.8},{56.47,60.82},{56.84,60.46},{56.57,61.03},{55.72,60.78}}},
         },
+        [57242] = { -- Elder Sage Wind-Yi
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.84,57.08}}},
+        },
+        [57298] = { -- Farmer Fung
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {48.28,33.85,phases.FARMER_FUNG_NORMAL},
+                    {52.14,47.97,phases.FARMER_FUNG_FARM},
+                    {52.8,51.6,phases.FARMER_FUNG_MARKET}, -- TO DO double check existing coords
+                },
+            },
+        },
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
+        },
+        [57402] = { -- Haohan Mudclaw
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {44.64,34.07,phases.HAOHAN_MUDCLAW_NORMAL}, -- TO DO double check existing coords
+                    {52.14,47.97,phases.HAOHAN_MUDCLAW_FARM}, -- TEST TO DO coords those are fake coords
+                    {52.99,51.72,phases.HAOHAN_MUDCLAW_MARKET},
+                },
+            },
         },
         [57476] = { -- Crossing Rocks Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.7,39.07}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
-        },
-        [57242] = { -- Elder Sage Wind-Yi
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.84,57.08}}},
-        },
-        [57402] = { -- Haohan Mudclaw
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.64,34.07}}},
         },
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
@@ -798,6 +813,23 @@ function MopNpcFixes.Load()
                 {51.89,47.65,phases.FARM_HAS_16_SLOTS},
             }},
         },
+        [58567] = { -- Ripe Green Cabbage
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
         [58607] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},
         },
@@ -808,6 +840,23 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_HALLS_ATHENAEUM] = {{61.78,45.22}},
                 [zoneIDs.SCARLET_HALLS] = {{-1,-1}},
+            },
+        },
+        [58646] = { -- Farmer Yoon
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.25,48.79,phases.FARMER_YOON_FARM},
+                    {52.92,51.82,phases.FARMER_YOON_MARKET},
+                },
+            },
+        },
+        [58647] = { -- Ella
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {31.51,58.07,phases.ELLA_NORMAL},
+                    {51.87,48.65,phases.ELLA_FARM},
+                    {53.04,51.72,phases.ELLA_MARKET}, -- TO DO double check existing coords
+                },
             },
         },
         [58672] = { -- Fog Walker
@@ -833,11 +882,55 @@ function MopNpcFixes.Load()
         [58685] = { -- Scarlet Evangelist
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
+        [58705] = { -- Fish Fellreed
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {41.73,30.02,phases.FISH_FELLREED_NORMAL},
+                    {52.53,49.06,phases.FISH_FELLREED_FARM},
+                    {53.00,51.95,phases.FISH_FELLREED_MARKET}, -- TEST TO DO coords those are fake coords
+                },
+            },
+        },
+        [58706] = { -- Gina Mudclaw
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.23,48.7,phases.GINA_MUDCLAW_FARM},
+                    {53.16,51.8,phases.GINA_MUDCLAW_MARKET},
+                },
+            },
+        },
         [58707] = { -- Old Hillpaw
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
-                    {30.95,53.10}, -- Regular spot at farm
-                    {53.04,51.97,phases.OLD_HILLPAW_HALFHILL}, -- When offering daily moves to Halfhill
+                    {30.95,53.1,phases.OLD_HILLPAW_NORMAL},
+                    {51.6,49.42,phases.OLD_HILLPAW_FARM},
+                    {53.04,51.97,phases.OLD_HILLPAW_MARKET}, -- TO DO double check coords
+                },
+            },
+        },
+        [58708] = { -- Sho
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {29.52,30.6,phases.SHO_NORMAL},
+                    {51.6,49.42,phases.SHO_FARM}, -- TEST TO DO coords those are fake coords
+                    {53.14,52.06,phases.SHO_MARKET},
+                },
+            },
+        },
+        [58709] = { -- Chee Chee
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {34.41,46.76,phases.CHEE_CHEE_NORMAL},
+                    {52.85,49.99,phases.CHEE_CHEE_FARM},
+                    {53.00,51.95,phases.CHEE_CHEE_MARKET}, -- TEST TO DO coords those are fake coords
+                },
+            },
+        },
+        [58710] = { -- Jogu the Drunk
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.63,49.33,phases.JOGU_THE_DRUNK_FARM},
+                    {53.56,52.57,phases.JOGU_THE_DRUNK_MARKET},
                 },
             },
         },
@@ -850,8 +943,9 @@ function MopNpcFixes.Load()
         [58761] = { -- Tina Mudclaw
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
-                    {45.12,33.81}, -- Regular spot at farm
-                    {52.97,51.79,phases.TINA_MUDCLAW_HALFHILL}, -- When offering daily moves to Halfhill
+                    {45.09,33.78,phases.TINA_MUDCLAW_NORMAL},
+                    {52.75,47.91,phases.TINA_MUDCLAW_FARM},
+                    {52.97,51.79,phases.TINA_MUDCLAW_MARKET}, -- TO DO double check coords
                 },
             },
         },
@@ -989,7 +1083,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59341] = { -- Merchant Tantan
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.22,45.93}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {42.22,45.93,phases.TANTAN_AT_LAKE},
+                {73.49,41.36,phases.PAGODA_UNDER_ATTACK},
+            }},
         },
         [59342] = { -- He Softfoot
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.8,49.18}}},
@@ -1091,7 +1188,11 @@ function MopNpcFixes.Load()
             }},
         },
         [59905] = { -- Zhi the Harmonious
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{57.25,42.99},{44.79,76.33,phases.ZIN_AT_AXE_OF_THUNDER_KING}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{57.25,42.99,phases.ZIN_AT_PAGODA},{44.79,76.33,phases.ZIN_AT_AXE_OF_THUNDER_KING}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [59906] = { -- Sinan the Dreamer
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.17,41.83}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59908] = { -- Jaluu the Generous
@@ -1124,6 +1225,31 @@ function MopNpcFixes.Load()
         },
         [60099] = { -- Western Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
+        },
+        [60121] = { -- Reanimated Jade Warrior
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.2,24.6},{44.8,23},{47.8,30},{51.8,42.2},{63,42.8},{64.4,31.6},{65.4,30.8}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [60113] = { -- Plump Green Cabbage
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [60273] = { -- Zhao-Jin the Bloodletter
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{78.65,35.69}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [60376] = { -- Kill Credit: Battle Axe Trial
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{44.32,76.41}}},
@@ -1714,8 +1840,331 @@ function MopNpcFixes.Load()
         [63136] = { -- Lao-Chin the Iron Belly
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.56,67.86}}},
         },
+        [63154] = { -- Ripe Juicycrunch Carrot
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63156] = { -- Plump Juicycrunch Carrot
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63157] = { -- Bursting Green Cabbage
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63158] = { -- Bursting Juicycrunch Carrot
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63160] = { -- Bursting Scallions
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63164] = { -- Plump Scallions
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63165] = { -- Ripe Scallions
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63180] = { -- Bursting Mogu Pumpkin
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63184] = { -- Plump Mogu Pumpkin
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63185] = { -- Ripe Mogu Pumpkin
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
         [63206] = { -- Ik'thik Harvester
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.4,50},{32.6,50.4},{33.2,50.6},{34,51},{34.4,51.6},{35,51.8},{37.2,51.8},{38.4,49.4},{38.4,49.6},{38.6,49.4},{38.6,49.6},{40.2,47.8},{40.2,52.2},{40.6,52.4},{42.4,50.4},{42.4,50.6},{42.6,50.4},{43.2,52},{43.6,52.4},{44.8,57.8},{45,56.4},{45,56.6},{45.2,53.2},{45.6,58},{46,53.2},{47.6,60.2},{48.6,61.4},{49,62.4},{49,63.6}}},
+        },
+        [63223] = { -- Bursting Red Blossom Leek
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63228] = { -- Plump Red Blossom Leek
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63229] = { -- Ripe Red Blossom Leek
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63245] = { -- Bursting Pink Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63249] = { -- Plump Pink Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63250] = { -- Ripe Pink Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63260] = { -- Bursting White Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63264] = { -- Plump White Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [63265] = { -- Ripe White Turnip
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
         },
         [63266] = { -- Sinan the Dreamer
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.49,40.79}}},
@@ -1997,6 +2446,10 @@ function MopNpcFixes.Load()
         [65365] = { -- Kor'ik
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{48.12,49.62}}},
         },
+        [65824] = { -- Shao-Tien Behemoth
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{44.1,15.24}}},
+            [npcKeys.waypoints] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{{47.53,37.16},{47.51,36.79},{47.47,36.12},{47.44,35.46},{47.45,34.78},{47.45,34.27},{47.46,33.81},{47.46,33.35},{47.44,32.89},{47.41,32.43},{47.38,31.98},{47.36,31.52},{47.30,31.07},{47.21,30.63},{47.08,30.21},{46.92,29.82},{46.69,29.34},{46.45,28.78},{46.29,28.15},{46.17,27.51},{46.04,27.03},{45.88,26.64},{45.70,26.26},{45.52,25.88},{45.34,25.51},{45.16,25.14},{44.99,24.76},{44.83,24.37},{44.68,23.96},{44.55,23.56},{44.41,23.14},{44.30,22.71},{44.22,22.26},{44.17,21.81},{44.13,21.36},{44.09,20.90},{44.06,20.44},{44.03,19.99},{44.02,19.53},{44.01,18.93},{44.01,18.26},{44.01,17.59},{44.04,16.92},{44.05,16.39},{44.06,16.11},{44.1,15.24}}}},
+        },
         [65868] = { -- Lao Softfoot
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.62,22.99},{39.2,19.09},{40.71,18.28},{39.67,25.98},{43.1,22.36},{47.56,18.96},{50.44,23.43}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -2024,11 +2477,170 @@ function MopNpcFixes.Load()
         [66073] = { -- Master Yoon
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [66080] = { -- Bursting Witchberries
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66084] = { -- Plump Witchberries
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66085] = { -- Ripe Witchberries
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66108] = { -- Bursting Jade Squash
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66112] = { -- Plump Jade Squash
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66113] = { -- Ripe Jade Squash
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66123] = { -- Bursting Striped Melon
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66128] = { -- Plump Striped Melon
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
+        [66129] = { -- Ripe Striped Melon
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
         [66138] = { -- Master Cheng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
+        [66180] = { -- Master Cheng
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
         [66190] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.4,11.2}}},
+        },
+        [66256] = { -- Master Cheng
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.53,41.5}}},
         },
         [66292] = { -- Sky Admiral Rogers
             [npcKeys.spawns] = {
@@ -2091,6 +2703,9 @@ function MopNpcFixes.Load()
         },
         [67067] = { -- Rell's Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
+        },
+        [67091] = { -- Rik'kal the Dissector
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.8,89,phases.RIKKAL_AT_ZANVESS}}},
         },
         [67138] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {

@@ -517,6 +517,9 @@ local function _GetQuestTag(quest)
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
             return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
+            if QuestieDB.IsCelestialQuest(quest.Id) then
+                return "(" .. l10n("Daily Celestial") .. ")";
+            end
             return "(" .. (DAILY or l10n("Daily")) .. ")";
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return "(" .. l10n("Repeatable") .. ")";
