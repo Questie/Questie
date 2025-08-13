@@ -225,6 +225,7 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("SCENARIO_CRITERIA_UPDATE", function(_, criteriaIndex)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_CRITERIA_UPDATE")
             QuestieTracker.UpdateScenarioLines(criteriaIndex)
+            QuestieTracker.UpdateScenarioLines(0) -- Always update 0 index, because that is the trash count
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
