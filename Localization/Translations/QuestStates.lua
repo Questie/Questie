@@ -107,8 +107,8 @@ local questStateLocales = {
         ["koKR"] = "일일",
         ["ptBR"] = "Diário",
         ["ruRU"] = "Ежедневное",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "日常",
+        ["zhTW"] = "日常",
     },
     ["Weekly"] = {
         ["enUS"] = true,
@@ -119,8 +119,20 @@ local questStateLocales = {
         ["koKR"] = "주간",
         ["ptBR"] = "Semanal",
         ["ruRU"] = "Еженедельное",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "每周",
+        ["zhTW"] = "每周",
+    },
+    ["Daily Celestial"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Täglich Himmlisch",
+        ["esES"] = "Diaria Celestial",
+        ["esMX"] = "Diaria Celestial",
+        ["frFR"] = "Journalière Astral",
+        ["koKR"] = "일일 천신",
+        ["ptBR"] = "Diário Celestial",
+        ["ruRU"] = "Ежедневно Небожители",
+        ["zhCN"] = "日常 天神",
+        ["zhTW"] = "日常 天尊",
     },
 }
 
