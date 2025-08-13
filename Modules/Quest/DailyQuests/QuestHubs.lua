@@ -25,11 +25,6 @@ DailyQuests.hubs = {
         limit = 3,
         exclusiveHubs = {},
     },
-    THE_TILLERS = {
-        quests = {30317,30318,30319,30321,30322,30323,30324,30325,30326,30327},
-        limit = 2,
-        exclusiveHubs = {},
-    },
     AUGUST_CELESTIALS_RED_CRANE = {
         quests = {30716,30717,30718,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         limit = 4, -- 3(TO DO - progressive daily chain)

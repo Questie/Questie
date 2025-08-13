@@ -2667,10 +2667,15 @@ function MopQuestFixes.Load()
         [30317] = { -- Water, Water Everywhere
             [questKeys.objectives] = {{{59574,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Borrow a kite"),0,{{"monster",60231}}}},
+            [questKeys.exclusiveTo] = {30318,30319,30321,30322},
+        },
+        [30318] = { -- Chasing the Chicken
+            [questKeys.exclusiveTo] = {30317,30319,30321,30322},
         },
         [30319] = { -- Pest Problems
             [questKeys.preQuestSingle] = {30257},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Wika-Wika"),0,{{"monster",59532}}}},
+            [questKeys.exclusiveTo] = {30317,30318,30321,30322},
         },
         [30320] = { -- Free Spirits
             [questKeys.startedBy] = {{58468}},
@@ -2683,18 +2688,29 @@ function MopQuestFixes.Load()
         [30321] = { -- Weed War II
             [questKeys.requiredMinRep] = {1272,9000},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385},{"monster",59529}}}},
+            [questKeys.exclusiveTo] = {30317,30318,30319,30322},
         },
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30317,30318,30319,30321},
+        },
+        [30323] = { -- They Don't Even Wear Them
+            [questKeys.exclusiveTo] = {30324,30325,30326,30327},
+        },
+        [30324] = { -- Not in Chee-Chee's Backyard
+            [questKeys.exclusiveTo] = {30323,30325,30326,30327},
         },
         [30325] = { -- Where it Counts
             [questKeys.objectives] = {{{59123}},{{210890},{210955}}},
+            [questKeys.exclusiveTo] = {30323,30324,30326,30327},
         },
         [30326] = { -- The Kunzen Legend-Chief
             [questKeys.preQuestSingle] = {30257},
+            [questKeys.exclusiveTo] = {30323,30324,30325,30327},
         },
         [30327] = { -- You Have to Burn the Ropes
             [questKeys.objectives] = {nil,{{210760}}},
+            [questKeys.exclusiveTo] = {30323,30324,30325,30326},
         },
         [30328] = { -- The Thousand-Year Dumpling
             [questKeys.preQuestSingle] = {31279},
