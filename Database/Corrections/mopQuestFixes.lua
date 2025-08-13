@@ -3994,33 +3994,33 @@ function MopQuestFixes.Load()
         },
         [30879] = { -- Round 1: Brewmaster Chani
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Brewmaster Chani"),0,{{"monster",60996}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",60996}}}},
             [questKeys.exclusiveTo] = {30880},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30880] = { -- Round 1: The Streetfighter
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lun-Chi"),0,{{"monster",60994}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",60994}}}},
             [questKeys.exclusiveTo] = {30879},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30881] = { -- Round 2: Clever Ashyo & Ken-Ken
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",60979},{"monster",60980}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30882] = { -- Round 2: Kang Bramblestaff
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kang Bramblestaff"),0,{{"monster",60978}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",60978}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30883] = { -- Round 3: The Wrestler
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to The Wrestler"),0,{{"monster",60997}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",60997}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30884] = { -- Behind the Battlefront
             [questKeys.breadcrumbs] = {30785},
         },
         [30885] = { -- Round 3: Master Boom Boom
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Boom Boom"),0,{{"monster",61013}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",61013}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30888] = { -- Breach in the Defenses
@@ -4057,11 +4057,11 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
         },
         [30902] = { -- Round 4: Master Windfur
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Master Windfur"),0,{{"monster",61012}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",61012}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30907] = { -- Round 4: The P.U.G
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to ??"),0,{{"monster",??}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",61004},{"monster",61006},{"monster",61007}}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30921] = { -- The Motives of the Mantid

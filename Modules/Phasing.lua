@@ -1577,23 +1577,26 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.XUEN_START then
-        return not (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) or false
+        return not (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) and not (complete[30880] or (questLog[30880] and questLog[30880].isComplete == 1)) or false
     end
 
     if phase == phases.XUEN_AFTER_FIRST_FIGHT then
-        return (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) and not (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) or false
+        return (complete[30879] or (questLog[30879] and questLog[30879].isComplete == 1)) and not (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) or 
+               (complete[30880] or (questLog[30880] and questLog[30880].isComplete == 1)) and not (complete[30882] or (questLog[30882] and questLog[30882].isComplete == 1)) or false
     end
 
     if phase == phases.XUEN_AFTER_SECOND_FIGHT then
-        return (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) and not (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) or false
+        return (complete[30881] or (questLog[30881] and questLog[30881].isComplete == 1)) and not (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) or 
+               (complete[30882] or (questLog[30882] and questLog[30882].isComplete == 1)) and not (complete[30885] or (questLog[30885] and questLog[30885].isComplete == 1)) or false
     end
 
     if phase == phases.XUEN_AFTER_THIRD_FIGHT then
-        return (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) and not (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
+        return (complete[30883] or (questLog[30883] and questLog[30883].isComplete == 1)) and not (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or 
+               (complete[30885] or (questLog[30885] and questLog[30885].isComplete == 1)) and not (complete[30902] or (questLog[30902] and questLog[30902].isComplete == 1)) or false
     end
 
     if phase == phases.XUEN_AFTER_FOURTH_FIGHT then
-        return (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
+        return (complete[30902] or (questLog[30902] and questLog[30902].isComplete == 1)) or (complete[30907] or (questLog[30907] and questLog[30907].isComplete == 1)) or false
     end
 
     if phase == phases.ZIN_AT_PAGODA then

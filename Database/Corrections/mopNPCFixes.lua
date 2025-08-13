@@ -1337,6 +1337,9 @@ function MopNpcFixes.Load()
         [60970] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.88,81.67}}},
         },
+        [60978] = { -- Kang Bramblestaff
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.68,45.27}}}, -- only used at these coords
+        },
         [60979] = { -- Ken-Ken
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.65,45.24}}}, -- only used at these coords
         },
@@ -1357,6 +1360,12 @@ function MopNpcFixes.Load()
         },
         [61007] = { -- Hackiss
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.59,43.65}}}, -- only used at these coords
+        },
+        [61012] = { -- Master Windfur
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.8,43.69}}}, -- only used at these coords
+        },
+        [61013] = { -- Master Boom Boom
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.68,46.49}}}, -- only used at these coords
         },
         [61071] = { -- Small Frog
             [npcKeys.spawns] = {
