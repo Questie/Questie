@@ -2295,12 +2295,12 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30306,30240},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {30245,30246,30266,30444}, -- the other 2 groups of 2 quests in this hub stage
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use it"),0,{{"monster",64369}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",64369}}}},
         },
         [30244] = { -- Along the Serpent's Spine
             [questKeys.startedBy] = {{58920}},
             [questKeys.finishedBy] = {{58920}},
-            [questKeys.preQuestGroup] = {30306,30240},
+            [questKeys.preQuestGroup] = {30306,30240,30243},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63974,63976},63974}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
