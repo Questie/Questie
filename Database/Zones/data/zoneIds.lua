@@ -217,6 +217,7 @@ ZoneDB.zoneIDs = {
     NEW_TINKERTOWN = 6457,
     CAVERN_OF_ENDLESS_ECHOES = 6466,
     ISLE_OF_THUNDER = 6507,
+    OONA_KAGU = 6512, -- cave in The Jade Forest
     ISLE_OF_GIANTS = 6661,
     TIMELESS_ISLE = 6757,
     KALIMDOR = 10073, -- continent map

@@ -693,8 +693,8 @@ function MopNpcFixes.Load()
         [57402] = { -- Haohan Mudclaw
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
-                    {44.64,34.07,phases.HAOHAN_MUDCLAW_NORMAL}, -- TO DO double check existing coords
-                    {52.14,47.97,phases.HAOHAN_MUDCLAW_FARM}, -- TEST TO DO coords those are fake coords
+                    {44.64,34.07,phases.HAOHAN_MUDCLAW_NORMAL},
+                    {52.23,48.7,phases.HAOHAN_MUDCLAW_FARM},
                     {52.99,51.72,phases.HAOHAN_MUDCLAW_MARKET},
                 },
             },
@@ -855,7 +855,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {31.51,58.07,phases.ELLA_NORMAL},
                     {51.87,48.65,phases.ELLA_FARM},
-                    {53.04,51.72,phases.ELLA_MARKET}, -- TO DO double check existing coords
+                    {53.04,51.72,phases.ELLA_MARKET},
                 },
             },
         },
@@ -912,7 +912,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {29.52,30.6,phases.SHO_NORMAL},
-                    {51.6,49.42,phases.SHO_FARM}, -- TEST TO DO coords those are fake coords
+                    {52.16,47.87,phases.SHO_FARM},
                     {53.14,52.06,phases.SHO_MARKET},
                 },
             },

@@ -82,7 +82,7 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
-    ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = {
+    ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = { -- not good
         quests = {30156,30157,30158,31194},
         limit = 3, -- 2 (random of 3) + 1 (Slitherscale Suppression)
         exclusiveHubs = {
@@ -147,7 +147,7 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
-    ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = {
+    ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = { -- good
         quests = {30159,31712,31713,31714,31715},
         limit = 3, -- 2 (random of 4) + 1 (The Big Kah-Oona)
         exclusiveHubs = {
