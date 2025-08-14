@@ -772,7 +772,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [58465] = { -- Anji Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.56,43.61}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {33.97,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+                {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            }},
+        },
         },
         [58468] = { -- Sun Tenderheart
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.5,43.39}}},
@@ -784,7 +788,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.54,43.22}}},
         },
         [58471] = { -- Kun Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.52,43.63}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {34.06,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+                {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            }},
         },
         [58503] = { -- Anji Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.97,38.11}}},
@@ -1089,7 +1096,10 @@ function MopNpcFixes.Load()
             }},
         },
         [59342] = { -- He Softfoot
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.8,49.18}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {43.8,49.18,phases.HE_SOFTFOOT_NOT_DAILY},
+                {43.67,46.06,phases.HE_SOFTFOOT_DAILY},
+            }},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59343] = { -- Ren Firetongue

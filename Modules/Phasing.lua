@@ -384,6 +384,10 @@ local phases = {
     JOGU_THE_DRUNK_FARM = 1312,
     JOGU_THE_DRUNK_MARKET = 1313,
     RIKKAL_AT_ZANVESS = 1314,
+    HE_SOFTFOOT_DAILY = 1315,
+    HE_SOFTFOOT_NOT_DAILY = 1316,
+    GOLDEN_LOTUS_DAILY_LOCKED = 1317,
+    GOLDEN_LOTUS_DAILY_UNLOCKED = 1318,
 }
 Phasing.phases = phases
 
@@ -1737,6 +1741,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RIKKAL_AT_ZANVESS then
         return not complete[31606] or false
+    end
+
+    if phase == phases.HE_SOFTFOOT_DAILY then
+        return complete[31131] or questLog[31131] or false
+    end
+
+    if phase == phases.HE_SOFTFOOT_NOT_DAILY then
+        return not complete[31131] and not questLog[31131] or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_DAILY_LOCKED then
+        return not complete[30638] or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_DAILY_UNLOCKED then
+        return complete[30638] or false
     end
 
     return false
