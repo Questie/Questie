@@ -70,8 +70,8 @@ DailyQuests.hubs = {
         preQuestHubs = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = {
-        quests = {30150,30151,31704,31705,31716},
-        limit = 3, -- 2 (random of 4) + 1 (Needle Me Not)
+        quests = {30150,30151,31704,31705}, -- 31716 seems to be @ race day
+        limit = 3, -- 2 (random of 3) + 1 (Needle Me Not)
         exclusiveHubs = {
             ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
             ORDER_OF_THE_CLOUD_SERPENT_SPRITES = true,
@@ -122,7 +122,7 @@ DailyQuests.hubs = {
         preQuestHubs = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = {
-        quests = {30152,31717,31718,31719,31720,31721},
+        quests = {30152,31716,31717,31718,31719,31720,31721}, -- 31716 uncertain
         limit = 3, -- 1 (The Sky Race) + 2 (random of 5)
         exclusiveHubs = {
             ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
