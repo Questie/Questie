@@ -777,7 +777,6 @@ function MopNpcFixes.Load()
                 {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
             }},
         },
-        },
         [58468] = { -- Sun Tenderheart
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.5,43.39}}},
         },
