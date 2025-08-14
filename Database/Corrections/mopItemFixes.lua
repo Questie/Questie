@@ -927,6 +927,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {65621,65624,65628},
             [itemKeys.objectDrops] = {214845,214986},
         },
+        [89053] = { -- Big Bag of Poop
+            [itemKeys.npcDrops] = {65711,67084},
+        },
         [89054] = { -- Stolen Boots
             [itemKeys.objectDrops] = {214865,214866,214867,214868},
         },
