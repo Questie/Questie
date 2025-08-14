@@ -244,6 +244,12 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
+    SHADO_PAN_WU_KAO_ASSASSINS_ELITES = {
+        quests = {31203,31204},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {SHADO_PAN_WU_KAO_ASSASSINS = true},
+    },
     SHADO_PAN_BLACKGUARD_DEFENDERS = {
         quests = {31113,31114,31116,31118,31119},
         limit = 4, -- followups are not here

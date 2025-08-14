@@ -4863,6 +4863,7 @@ function MopQuestFixes.Load()
         },
         [31198] = { -- A Morale Victory
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,{{213304},{213305},{213303},{213306}}},
         },
         [31199] = { -- Destroy the Siege Weapons!
             [questKeys.objectives] = {nil,{{213307},{213308},{213310},{213311}}},
@@ -4876,14 +4877,12 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31203] = { -- Target of Opportunity: Sra'thik Swarmlord
-            [questKeys.exclusiveTo] = {31204},
+            [questKeys.exclusiveTo] = {31204}, -- check if it's direct followup of 31197
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {31196}, -- TO DO needs prequest involving 2 out of 4
         },
         [31204] = { -- Target of Opportunity: Sra'thik Hivelord
             [questKeys.exclusiveTo] = {31203},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {31196}, -- TO DO needs prequest involving 2 out of 4
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
