@@ -521,16 +521,28 @@ function MopNpcFixes.Load()
         [56113] = { -- Clever Ashyo
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {59.25,27.56,phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY},
-                {61.23,34.23,phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY},
+                {61.23,34.23,phases.CLEVER_ASHYO_AT_NEW_CIFERA},
             }},
         },
         [56133] = { -- Chen Stormstout
-            -- Placeholder all locations until phasing implementation
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.64,21.45},{75.6,24.33},{68.8,43.2},{55.8,49.6},{32.2,68.4},{32.2,68.4}}},
+            --[npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{75.6,24.33},{68.8,43.2},{55.8,49.6},{32.2,68.4},{32.2,68.4}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {85.93,22.11,phases.CHEN_AT_EAST_BRIDGE},
+                {83.64,21.45,phases.CHEN_AT_PANGS_STEAD},
+                {75.28,35.5,phases.CHEN_AT_SHANGS_STEAD},
+                {68.88,43.14,phases.CHEN_AT_MUDMUGS_PLACE},
+                {68.86,43.4,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
+                {55.89,49.44,phases.CHEN_AT_HALFHILL},
+            }},
         },
         [56138] = { -- Li Li
-            -- Placeholder all locations until phasing implementation
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.81,21.59},{75.61,24.52},{68.8,43.2},{52.6,62.8},{36.0,69.0},{32.2,68.4}}},
+            --[npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.81,21.59},{75.61,24.52},{68.8,43.2},{52.6,62.8},{36.0,69.0},{32.2,68.4}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {68.88,43.31,phases.CHEN_AT_MUDMUGS_PLACE},
+                {68.77,43.44,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
+               -- {75.28,35.5,phases.CHEN_AT_SHANGS_STEAD},
+                --{68.88,43.14,phases.CHEN_AT_MUDMUGS_PLACE},
+            }},
         },
         [56146] = { -- Barrow Tree
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{79.14,25.83}}},
@@ -566,6 +578,14 @@ function MopNpcFixes.Load()
                 {74.68,34.59,phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS},
             }},
         },
+        [56343] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.78,21.16}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [56344] = { -- Li Li
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.83,21.56}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [56347] = { -- Hao Mann
             [npcKeys.spawns] = {[zoneIDs.GREENSTONE_QUARRY] = {{60.9,36.4}}},
             [npcKeys.zoneID] = zoneIDs.GREENSTONE_QUARRY,
@@ -600,11 +620,21 @@ function MopNpcFixes.Load()
         [56467] = { -- Hao Mann
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.3,29.39}}},
         },
+        [56474] = { -- Mudmug
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE},
+                {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
+                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+            }},
+        },
         [56527] = { -- Jade Cart
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.27,29.47}}},
         },
         [56546] = { -- Silk Farm Exploration Credit
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.34,59.03}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{62.06,59.32}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56547] = { -- Water Village Exploration Credit
@@ -613,6 +643,14 @@ function MopNpcFixes.Load()
         },
         [56548] = { -- Waterfall Exploration Credit
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{74.85,42.36}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [56571] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{68.88,43.15}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [56572] = { -- Li Li
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{68.88,43.31}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [56595] = { -- Stonebound Colossus
@@ -689,6 +727,9 @@ function MopNpcFixes.Load()
         },
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
+        },
+        [57401] = { -- Mung-Mung
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.16,34.23}}},
         },
         [57402] = { -- Haohan Mudclaw
             [npcKeys.spawns] = {
@@ -942,6 +983,9 @@ function MopNpcFixes.Load()
         },
         [58719] = { -- Unbudging Rock
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.21,47.66},{52.17,48.21},{52.83,49.88},{52.37,49.23},{51.92,49.18},{51.57,49.29},{51.70,48.71}}},
+        },
+        [58721] = { -- Farmer Yoon
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.02,48.01}}},
         },
         [58756] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -1752,6 +1796,10 @@ function MopNpcFixes.Load()
                 [616] = {{39.4,25.6},{39.6,25.8},{40.2,26.6},{40.6,30.6},{40.8,29.8},{41.4,24.6},{46.2,32.6},{48.4,22.4},{48.4,22.6},{49.2,22.4},{49.2,23.6},{49.6,21.4},{50,28.8},{51.2,26.6},{59,24},{59,26.2},{59.4,28.8},{59.6,29},{59.8,23.4},{59.8,23.6},{60.4,29.6},{60.6,29.4},{60.6,29.6},{61,21.4},{61,21.6},{61.4,23.2},{61.4,27.4},{61.4,27.6},{61.6,23.2},{61.6,27.4},{62.2,27.8},{62.4,21},{62.6,21.2},{62.8,22.8},{62.8,26},{63.8,23.6},{64,22.8},{65.2,23.4}},
             },
         },
+        [62385] = { -- Den Mudclaw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.26,34.21}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [62463] = { -- Sho the Wise
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{82.8,38.8}}},
@@ -2256,6 +2304,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
                 [zoneIDs.THE_JADE_FOREST] = {{45.72,43.8}},
             }
+        },
+        [63822] = { -- Tani
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{16.2,82.54}}},
         },
         [63879] = { -- Silt Vents Kill Credit
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.42,73.94}}},

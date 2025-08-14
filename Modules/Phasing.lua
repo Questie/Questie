@@ -298,7 +298,7 @@ local phases = {
     SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS = 1226,
     SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
     CLEVER_ASHYO_AT_POOLS_OF_PURITY = 1228,
-    CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY = 1229,
+    CLEVER_ASHYO_AT_NEW_CIFERA = 1229,
     KANG_AT_THUNDER_CLEFT = 1230,
     KANG_AT_DAWNCHASER_RETREAT = 1231,
     KOR_AT_THUNDER_CLEFT = 1232,
@@ -388,6 +388,12 @@ local phases = {
     HE_SOFTFOOT_NOT_DAILY = 1316,
     GOLDEN_LOTUS_DAILY_LOCKED = 1317,
     GOLDEN_LOTUS_DAILY_UNLOCKED = 1318,
+    CHEN_AT_EAST_BRIDGE = 1319,
+    CHEN_AT_PANGS_STEAD = 1320,
+    CHEN_AT_SHANGS_STEAD = 1321,
+    CHEN_AT_MUDMUGS_PLACE = 1322,
+    CHEN_AT_MUDMUGS_PLACE_LEGACY = 1323,
+    CHEN_AT_HALFHILL = 1324,
 }
 Phasing.phases = phases
 
@@ -1384,8 +1390,8 @@ function Phasing.IsSpawnVisible(phase)
         return complete[29577] or questLog[29577] and true or false
     end
 
-    if phase == phases.CLEVER_ASHYO_SOUTH_OF_POOLS_OF_PURITY then
-        return (not complete[29577]) and (not questLog[29577]) and (complete[29871] or questLog[29871]) and true or false
+    if phase == phases.CLEVER_ASHYO_AT_NEW_CIFERA then
+        return not (complete[29577] or questLog[29577]) or false
     end
 
     if phase == phases.KANG_AT_THUNDER_CLEFT then
@@ -1757,6 +1763,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GOLDEN_LOTUS_DAILY_UNLOCKED then
         return complete[30638] or false
+    end
+
+    if phase == phases.CHEN_AT_EAST_BRIDGE then
+        return not (complete[29907] or questLog[29907]) or false
+    end
+
+    if phase == phases.CHEN_AT_PANGS_STEAD then
+        return (complete[29907] or questLog[29907])and not complete[29918] or false
+    end
+
+    if phase == phases.CHEN_AT_SHANGS_STEAD then
+        return complete[29918] and not (complete[29919] or questLog[29919]) or false
+    end
+
+    if phase == phases.CHEN_AT_MUDMUGS_PLACE then
+        return (complete[29919] or questLog[29919]) and not (complete[29949] or questLog[29949]) or false
+    end
+
+    if phase == phases.CHEN_AT_MUDMUGS_PLACE_LEGACY then
+        return (complete[29949] or questLog[29949]) and not (complete[30046] or questLog[30046]) or false
+    end
+
+    if phase == phases.CHEN_AT_HALFHILL then
+        return (complete[30046] or questLog[30046]) or false -- WIP
     end
 
     return false

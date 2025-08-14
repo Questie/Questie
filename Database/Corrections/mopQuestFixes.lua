@@ -834,6 +834,7 @@ function MopQuestFixes.Load()
         },
         [29577] = { -- Ashyo's Vision
             [questKeys.objectives] = {{{56113,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {29871},
         },
         [29578] = { -- Defiance
@@ -1397,6 +1398,7 @@ function MopQuestFixes.Load()
         [29907] = { -- Chen and Li Li
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32018,32019},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56344,56343},56343,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29908] = { -- A Seemingly Endless Nuisance
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Reveal Virmen Pesters"),0,{{"object",214638}}}},
@@ -1437,8 +1439,7 @@ function MopQuestFixes.Load()
         },
         [29919] = { -- Great Minds Drink Alike
             [questKeys.preQuestSingle] = {29918},
-            [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"Escort Chen and Li Li", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{68.87,43.14}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{56572,56571},56571,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29922] = { -- In Search of Wisdom
@@ -1509,10 +1510,14 @@ function MopQuestFixes.Load()
         },
         [29947] = { -- Crouching Carrot, Hidden Turnip
             [questKeys.sourceItemId] = 76370,
-            [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{56538,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29948] = { -- Thieves to the Core
-            [questKeys.preQuestSingle] = {29944}, -- might be preQuestGroup with 29945
+            [questKeys.preQuestSingle] = {29944},
+        },
+        [29949] = { -- Legacy
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29946,29947,29948},
         },
         [29950] = { -- Li Li's Day Off
             [questKeys.objectives] = {{{56546,nil,Questie.ICON_TYPE_EVENT},{56547,nil,Questie.ICON_TYPE_EVENT},{56548,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1704,7 +1709,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
         [30046] = { -- Chen's Resolution
-            [questKeys.preQuestSingle] = {29952},
+            [questKeys.preQuestGroup] = {29951,29952},
         },
         [30048] = { -- Li Li and the Grain
             [questKeys.preQuestSingle] = {30046},
@@ -1832,6 +1837,7 @@ function MopQuestFixes.Load()
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestGroup] = {29908,29877},
+            [questKeys.exclusiveTo] = {30087}, -- estimated guess
         },
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
