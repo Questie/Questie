@@ -910,7 +910,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {30.95,53.1,phases.OLD_HILLPAW_NORMAL},
                     {51.6,49.42,phases.OLD_HILLPAW_FARM},
-                    {53.04,51.97,phases.OLD_HILLPAW_MARKET}, -- TO DO double check coords
+                    {53.06,51.86,phases.OLD_HILLPAW_MARKET},
                 },
             },
         },
@@ -928,7 +928,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {34.41,46.76,phases.CHEE_CHEE_NORMAL},
                     {52.85,49.99,phases.CHEE_CHEE_FARM},
-                    {53.00,51.95,phases.CHEE_CHEE_MARKET}, -- TEST TO DO coords those are fake coords
+                    {53.1,52.09,phases.CHEE_CHEE_MARKET},
                 },
             },
         },
