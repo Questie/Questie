@@ -514,6 +514,8 @@ local function _GetQuestTag(quest)
             return "(" .. l10n("Event") .. ")";
         elseif (questType == 41) then
             return "(" .. l10n("PvP") .. ")";
+        elseif (questType == 102) then
+            return "(" .. l10n("Account") .. ")";
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
             return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
