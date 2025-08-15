@@ -5182,6 +5182,7 @@ function MopQuestFixes.Load()
         },
         [31308] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31548,31552,31556,31582,31591},
         },
         [31309] = { -- On The Mend
             [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
@@ -5664,6 +5665,7 @@ function MopQuestFixes.Load()
         [31548] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63075}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31308,31552,31556,31582,31591},
         },
         [31549] = { -- On The Mend
             [questKeys.objectives] = {{{9980,nil,Questie.ICON_TYPE_TALK}}},
@@ -5674,6 +5676,7 @@ function MopQuestFixes.Load()
         [31552] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63070}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31308,31548,31556,31582,31591},
         },
         [31553] = { -- On The Mend
             [questKeys.startedBy] = {{63070}},
@@ -5682,6 +5685,7 @@ function MopQuestFixes.Load()
         [31556] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63077}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31308,31548,31552,31582,31591},
         },
         [31568] = { -- On The Mend
             [questKeys.startedBy] = {{63077}},
@@ -5692,6 +5696,7 @@ function MopQuestFixes.Load()
         },
         [31571] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31573,31576,31579,31585,31588},
         },
         [31572] = { -- On The Mend
             [questKeys.startedBy] = {{63061}},
@@ -5700,6 +5705,7 @@ function MopQuestFixes.Load()
         [31573] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63067}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31571,31576,31579,31585,31588},
         },
         [31574] = { -- On The Mend
             [questKeys.startedBy] = {{63067}},
@@ -5711,6 +5717,7 @@ function MopQuestFixes.Load()
         [31576] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63073}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31571,31573,31579,31585,31588},
         },
         [31577] = { -- On The Mend
             [questKeys.startedBy] = {{63073}},
@@ -5721,6 +5728,7 @@ function MopQuestFixes.Load()
         },
         [31579] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31571,31573,31576,31585,31588},
         },
         [31580] = { -- On The Mend
             [questKeys.startedBy] = {{63080}},
@@ -5732,6 +5740,7 @@ function MopQuestFixes.Load()
         [31582] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63083}},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31308,31548,31552,31556,31591},
         },
         [31583] = { -- On The Mend
             [questKeys.startedBy] = {{63083}},
@@ -5739,6 +5748,7 @@ function MopQuestFixes.Load()
         },
         [31585] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31571,31573,31576,31579,31588},
         },
         [31586] = { -- On The Mend
             [questKeys.startedBy] = {{63086}},
@@ -5749,12 +5759,14 @@ function MopQuestFixes.Load()
         },
         [31588] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31571,31573,31576,31579,31585},
         },
         [31589] = { -- On The Mend
             [questKeys.objectives] = {{{47764,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31591] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
+            [questKeys.exclusiveTo] = {31308,31548,31552,31556,31582},
         },
         [31592] = { -- On The Mend
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
