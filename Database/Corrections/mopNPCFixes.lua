@@ -2766,6 +2766,7 @@ function MopNpcFixes.Load()
         },
         [66800] = { -- Kil'ruk the Wind-Reaver
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.01,34.51,phases.KILRUK_REVEALED}}},
+            [npcKeys.questEnds] = {31612}, -- This is only possible for a short moment, the NPC will despawn quite fast
         },
         [66949] = { -- Rell Nightwind
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
