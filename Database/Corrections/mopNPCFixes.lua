@@ -540,7 +540,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {68.88,43.31,phases.CHEN_AT_MUDMUGS_PLACE},
                 {68.77,43.44,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
-               -- {75.28,35.5,phases.CHEN_AT_SHANGS_STEAD},
+                {52.69,62.83,phases.CHEN_AT_HALFHILL},
                 --{68.88,43.14,phases.CHEN_AT_MUDMUGS_PLACE},
             }},
         },
@@ -624,7 +624,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE},
                 {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
-                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+                {54.28,38.74,phases.CHEN_AT_HALFHILL},
                 -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
                 -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
                 -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
