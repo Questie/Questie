@@ -297,6 +297,8 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
                     return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK or Questie.icons["talk"]
                 elseif iconType == Questie.ICON_TYPE_INTERACT then
                     return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT or Questie.icons["interact"]
+                elseif iconType == Questie.ICON_TYPE_PET_BATTLE then
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["petbattle"] or Questie.db.profile.ICON_TYPE_PET_BATTLE or Questie.icons["petbattle"]
                 --? icon types below here are never reached or just not used on nameplates ?
                 elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
                     return Questie.icons["available"]
