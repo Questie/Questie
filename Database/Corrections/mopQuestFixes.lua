@@ -3888,7 +3888,8 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30884,
         },
         [30786] = { -- A Spear Through My Side, A Chain Through My Soul
-            [questKeys.preQuestSingle] = {31894},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {31894},
         },
         [30787] = { -- The Torches
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mist-Shamans after they placed their torch"),0,{{"monster",60697}}}},
@@ -6397,6 +6398,7 @@ function MopQuestFixes.Load()
         },
         [31894] = { -- A Delicate Balance
             [questKeys.preQuestSingle] = {30784},
+            [questKeys.breadcrumbForQuestId] = 30786,
         },
         [31895] = { -- Better Off Dread
             [questKeys.breadcrumbForQuestId] = 31001,
