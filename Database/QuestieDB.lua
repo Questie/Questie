@@ -1812,10 +1812,10 @@ end
 -- Modifications to questDB
 
 local questsRequiringNewbieAchievement = {
-    [31316] = true, -- Julia, The Pet Tamer
-    [31812] = true, -- Zunta, The Pet Tamer
-    [32008] = true, -- Audrey Burnhep
-    [32009] = true, -- Varzok
+    [31316] = true, -- Julia, The Pet Tamer -- Alliance
+    [31812] = true, -- Zunta, The Pet Tamer -- Horde
+    [32008] = true, -- Audrey Burnhep -- Alliance
+    [32009] = true, -- Varzok -- Horde
 }
 
 local questsRequiringTamingKalimdorAchievement = {

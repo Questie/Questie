@@ -5185,7 +5185,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31548,31552,31556,31582,31591},
         },
         [31309] = { -- On The Mend
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{6749,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31549,31553,31568,31583,31592},
         },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
@@ -5221,6 +5223,7 @@ function MopQuestFixes.Load()
         },
         [31316] = { -- Julia, The Pet Tamer
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+            [questKeys.preQuestSingle] = {},
         },
         [31319] = { -- Emergency Response
             [questKeys.objectives] = {{{64491,nil,Questie.ICON_TYPE_INTERACT},{64493,nil,Questie.ICON_TYPE_INTERACT},{64494,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5668,10 +5671,19 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31308,31552,31556,31582,31591},
         },
         [31549] = { -- On The Mend
+            [questKeys.startedBy] = {{63075}},
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{9980,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31309,31553,31568,31583,31592},
+        },
+        [31550] = { -- Got one!
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31551,31555,31569,31584,31593},
         },
         [31551] = { -- Got one!
             [questKeys.startedBy] = {{63075}},
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31550,31555,31569,31584,31593},
         },
         [31552] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63070}},
@@ -5680,7 +5692,13 @@ function MopQuestFixes.Load()
         },
         [31553] = { -- On The Mend
             [questKeys.startedBy] = {{63070}},
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{10051,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31309,31549,31568,31583,31592},
+        },
+        [31555] = { -- Got one!
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31550,31551,31569,31584,31593},
         },
         [31556] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63077}},
@@ -5689,10 +5707,18 @@ function MopQuestFixes.Load()
         },
         [31568] = { -- On The Mend
             [questKeys.startedBy] = {{63077}},
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{17485,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31309,31549,31553,31583,31592},
         },
         [31569] = { -- Got one!
             [questKeys.startedBy] = {{63077}},
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31550,31551,31555,31584,31593},
+        },
+        [31570] = { -- Got one!
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31575,31578,31581,31587,31590},
         },
         [31571] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
@@ -5700,7 +5726,9 @@ function MopQuestFixes.Load()
         },
         [31572] = { -- On The Mend
             [questKeys.startedBy] = {{63061}},
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{9987,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31574,31577,31580,31586,31589},
         },
         [31573] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63067}},
@@ -5709,10 +5737,14 @@ function MopQuestFixes.Load()
         },
         [31574] = { -- On The Mend
             [questKeys.startedBy] = {{63067}},
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{10050,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31572,31577,31580,31586,31589},
         },
         [31575] = { -- Got one!
             [questKeys.startedBy] = {{63067}},
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31570,31578,31581,31587,31590},
         },
         [31576] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63073}},
@@ -5721,10 +5753,14 @@ function MopQuestFixes.Load()
         },
         [31577] = { -- On The Mend
             [questKeys.startedBy] = {{63073}},
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{10055,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31572,31574,31580,31586,31589},
         },
         [31578] = { -- Got one!
             [questKeys.startedBy] = {{63073}},
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31570,31575,31581,31587,31590},
         },
         [31579] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
@@ -5732,10 +5768,14 @@ function MopQuestFixes.Load()
         },
         [31580] = { -- On The Mend
             [questKeys.startedBy] = {{63080}},
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{16185,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31572,31574,31577,31586,31589},
         },
         [31581] = { -- Got one!
             [questKeys.startedBy] = {{63080}},
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31570,31575,31578,31587,31590},
         },
         [31582] = { -- Learning the Ropes
             [questKeys.startedBy] = {{63083}},
@@ -5744,7 +5784,13 @@ function MopQuestFixes.Load()
         },
         [31583] = { -- On The Mend
             [questKeys.startedBy] = {{63083}},
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{10085,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31309,31549,31553,31568,31592},
+        },
+        [31584] = { -- Got one!
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31550,31551,31555,31569,31593},
         },
         [31585] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
@@ -5752,24 +5798,40 @@ function MopQuestFixes.Load()
         },
         [31586] = { -- On The Mend
             [questKeys.startedBy] = {{63086}},
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{45789,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31572,31574,31577,31580,31589},
         },
         [31587] = { -- Got one!
             [questKeys.startedBy] = {{63086}},
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31570,31575,31578,31581,31590},
         },
         [31588] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
             [questKeys.exclusiveTo] = {31571,31573,31576,31579,31585},
         },
         [31589] = { -- On The Mend
+            [questKeys.preQuestSingle] = {31571,31573,31576,31579,31585,31588},
             [questKeys.objectives] = {{{47764,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31572,31574,31577,31580,31586},
+        },
+        [31590] = { -- Got one!
+            [questKeys.preQuestSingle] = {31823,31824,31827,31828,31830,31831},
+            [questKeys.exclusiveTo] = {31570,31575,31578,31581,31587},
         },
         [31591] = { -- Learning the Ropes
             [questKeys.requiredSpell] = 119467,
             [questKeys.exclusiveTo] = {31308,31548,31552,31556,31582},
         },
         [31592] = { -- On The Mend
+            [questKeys.preQuestSingle] = {31308,31548,31552,31556,31582,31591},
             [questKeys.objectives] = {{{11069,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {31309,31549,31553,31568,31583},
+        },
+        [31593] = { -- Got one!
+            [questKeys.preQuestSingle] = {31785,31821,31822,31825,31826,31832},
+            [questKeys.exclusiveTo] = {31550,31551,31555,31569,31584},
         },
         [31598] = { -- Kypa'rak's Core
             [questKeys.questFlags] = questFlags.DAILY,
@@ -6174,6 +6236,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {},
             [questKeys.requiredMaxRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
         },
+        [31785] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31821,31822,31825,31826,31832},
+        },
         [31808] = { -- Rampage Against the Machine
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -6193,6 +6259,7 @@ function MopQuestFixes.Load()
         },
         [31812] = { -- Zunta, The Pet Tamer
             [questKeys.objectives] = {{{66126,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+            [questKeys.preQuestSingle] = {},
         },
         [31813] = { -- Dagra the Fierce
             [questKeys.objectives] = {{{66135,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -6214,11 +6281,52 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{66135,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [31821] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31785,31822,31825,31826,31832},
+        },
+        [31822] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31785,31821,31825,31826,31832},
+        },
+        [31823] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31824,31827,31828,31830,31831},
+        },
         [31824] = { -- Level Up!
             [questKeys.startedBy] = {{63080}},
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31823,31827,31828,31830,31831},
+        },
+        [31825] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31785,31821,31822,31826,31832},
+        },
+        [31826] = { -- Level Up!
+            [questKeys.startedBy] = {{63070}},
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31785,31821,31822,31825,31832},
+        },
+        [31827] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31823,31824,31828,31830,31831},
+        },
+        [31828] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31823,31824,31827,31830,31831},
+        },
+        [31830] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31823,31824,31827,31828,31831},
         },
         [31831] = { -- Level Up!
             [questKeys.startedBy] = {{63067}},
+            [questKeys.preQuestSingle] = {31572,31574,31577,31580,31586,31589},
+            [questKeys.exclusiveTo] = {31823,31824,31827,31828,31830},
+        },
+        [31832] = { -- Level Up!
+            [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
+            [questKeys.exclusiveTo] = {31785,31821,31822,31825,31826},
         },
         [31833] = { -- Continue Your Training: Master Woo
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6710,7 +6818,10 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31998,32000,32001,32002,32003,32004,32005,32006},
         },
         [32008] = { -- Audrey Burnhep
-            [questKeys.exclusiveTo] = {31316},
+            [questKeys.exclusiveTo] = {31785,31821,31822,31825,31826,31832}, -- not available once you turn any of these in
+        },
+        [32009] = { -- Varzok
+            [questKeys.exclusiveTo] = {31823,31824,31827,31828,31830,31831}, -- not available once you turn any of these in
         },
         [32016] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{64029}},
