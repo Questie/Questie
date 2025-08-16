@@ -2076,6 +2076,9 @@ function MopNpcFixes.Load()
                 {51.89,47.65,phases.FARM_HAS_16_SLOTS},
             }},
         },
+        [63194] = { -- Steven Lisbane
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46,40.45}}},
+        },
         [63206] = { -- Ik'thik Harvester
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.4,50},{32.6,50.4},{33.2,50.6},{34,51},{34.4,51.6},{35,51.8},{37.2,51.8},{38.4,49.4},{38.4,49.6},{38.6,49.4},{38.6,49.6},{40.2,47.8},{40.2,52.2},{40.6,52.4},{42.4,50.4},{42.4,50.6},{42.6,50.4},{43.2,52},{43.6,52.4},{44.8,57.8},{45,56.4},{45,56.6},{45.2,53.2},{45.6,58},{46,53.2},{47.6,60.2},{48.6,61.4},{49,62.4},{49,63.6}}},
         },
@@ -2521,6 +2524,15 @@ function MopNpcFixes.Load()
         [65648] = { -- Old MacDonald
             [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{60.85,18.5}}},
         },
+        [65651] = { -- Lindsay
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{33.3,52.57}}},
+        },
+        [65655] = { -- Eric Davidson
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{19.88,44.62}}},
+        },
+        [65656] = { -- Bill Buckler
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{51.47,73.39}}},
+        },
         [65824] = { -- Shao-Tien Behemoth
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{44.1,15.24}}},
             [npcKeys.waypoints] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{{47.53,37.16},{47.51,36.79},{47.47,36.12},{47.44,35.46},{47.45,34.78},{47.45,34.27},{47.46,33.81},{47.46,33.35},{47.44,32.89},{47.41,32.43},{47.38,31.98},{47.36,31.52},{47.30,31.07},{47.21,30.63},{47.08,30.21},{46.92,29.82},{46.69,29.34},{46.45,28.78},{46.29,28.15},{46.17,27.51},{46.04,27.03},{45.88,26.64},{45.70,26.26},{45.52,25.88},{45.34,25.51},{45.16,25.14},{44.99,24.76},{44.83,24.37},{44.68,23.96},{44.55,23.56},{44.41,23.14},{44.30,22.71},{44.22,22.26},{44.17,21.81},{44.13,21.36},{44.09,20.90},{44.06,20.44},{44.03,19.99},{44.02,19.53},{44.01,18.93},{44.01,18.26},{44.01,17.59},{44.04,16.92},{44.05,16.39},{44.06,16.11},{44.1,15.24}}}},
@@ -2738,6 +2750,9 @@ function MopNpcFixes.Load()
         [66308] = { -- Thunder Hold Munitions
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.6,13.4},{34.86,12.21},{33.91,12.15},{33.66,12.1},{34.38,13.37},{34.49,13.01},{34.65,11.68},{34.99,11.61},{34.05,11.7},{33.55,11.47},{33.68,9.69},{34.13,9.53},{34.63,9.55},{35.11,9.45},{34.86,9.2},{34.59,9.14},{34.77,8.22},{34.07,9.06},{33.62,9.11},{34.45,7.32},{35.47,8.47},{35.59,7.41},{35.28,7.03},{34.37,6.68},{33.88,6.52},{33.22,6.16},{33.02,6.59},{32.8,6.79},{32.48,5.74},{32.14,5.96},{33.85,10.17},{33.86,11.05},{34.48,11.2},{33.29,10.03},{34.69,10.04},{34.88,10.92}}},
         },
+        [66352] = { -- Traitor Gluk
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{59.75,49.64}}},
+        },
         [66400] = { -- Ship 1 Kill Credit
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.13,99.38}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
@@ -2746,8 +2761,41 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.PANDARIA] = {{65.31,74.96}}},
             [npcKeys.zoneID] = zoneIDs.PANDARIA,
         },
+        [66412] = { -- Elena Flutterfly
+            [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{46.13,60.27}}},
+        },
+        [66436] = { -- Grazzle the Great
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{53.85,74.88}}},
+        },
+        [66442] = { -- Zoltan
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{39.95,56.57}}},
+        },
         [66449] = { -- Ang the Wise
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.4,17},{68.6,17}}},
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.5,17}}},
+        },
+        [66452] = { -- Kela Grimtotem
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{31.88,32.94}}},
+        },
+        [66466] = { -- Stone Cold Trixxy
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{65.64,64.52}}},
+        },
+        [66478] = { -- David Kosse
+            [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{62.99,54.58}}},
+        },
+        [66512] = { -- Deiza Plaguehorn
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{66.96,52.42}}},
+        },
+        [66515] = { -- Kortas Darkhammer
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{35.3,27.76}}},
+        },
+        [66518] = { -- Everessa
+            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{76.81,41.5}}},
+        },
+        [66520] = { -- Durin Darkhammer
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{25.54,47.5}}},
+        },
+        [66522] = { -- Lydia Accoste
+            [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{40.05,76.46}}},
         },
         [66555] = { -- Alliance Barricade
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.72,9.95}}},

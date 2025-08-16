@@ -1830,7 +1830,6 @@ local questsRequiringTamingKalimdorAchievement = {
     [31906] = true, -- Kela Grimtotem
     [31907] = true, -- Zoltan
     [31908] = true, -- Elena Flutterfly
-    [31909] = true, -- Grand Master Trixxy
 }
 
 local questsRequiringTamingEasternKingdomsAchievement = {
@@ -1845,7 +1844,6 @@ local questsRequiringTamingEasternKingdomsAchievement = {
     [31912] = true, -- Kortas Darkhammer
     [31913] = true, -- Everessa
     [31914] = true, -- Durin Darkhammer
-    [31916] = true, -- Grand Master Lydia Accoste
 }
 
 local questsRequiringTamingOutlandAchievement = {

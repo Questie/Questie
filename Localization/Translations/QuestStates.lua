@@ -134,6 +134,30 @@ local questStateLocales = {
         ["zhCN"] = "日常 天神",
         ["zhTW"] = "日常 天尊",
     },
+    ["Daily Account"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Täglich Account", -- eh, wowhead might be ooked. "Täglich Konto"?
+        ["esES"] = "Diaria Cuenta",
+        ["esMX"] = "Diaria Cuenta",
+        ["frFR"] = "Journalière Compte",
+        ["koKR"] = "일일 계정",
+        ["ptBR"] = "Diário Conta",
+        ["ruRU"] = "Ежедневно Учетная запись",
+        ["zhCN"] = "日常 账号",
+        ["zhTW"] = "日常 帳號",
+    },
+    ["Weekly Account"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wöchentlich Account", -- eh, wowhead might be ooked. "Wöchentlich Konto"?
+        ["esES"] = "Semanal Cuenta",
+        ["esMX"] = "Semanal Cuenta",
+        ["frFR"] = "Chaque semaine Compte",
+        ["koKR"] = "매주 계정",
+        ["ptBR"] = "Semanal Conta",
+        ["ruRU"] = "Раз в неделю Учетная запись",
+        ["zhCN"] = "每周 账号",
+        ["zhTW"] = "每周 帳號",
+    },
 }
 
 for k, v in pairs(questStateLocales) do
