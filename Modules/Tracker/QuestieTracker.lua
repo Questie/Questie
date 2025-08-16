@@ -1506,12 +1506,6 @@ function QuestieTracker:Update()
     end
 
     local function _UpdateChallengeObjectives()
-        local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
-        if (not challengeMapId) then
-            -- Not in a Challenge Mode or Challenge Mode wasn't started yet
-            return
-        end
-
         line = TrackerLinePool.GetNextLine()
         if (not line) then
             return
@@ -1609,15 +1603,20 @@ function QuestieTracker:Update()
         end
     end
 
-    -- Populate Achievements first then Quests
-    if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
-        _UpdateChallengeObjectives()
-        _UpdateAchievements()
-        _UpdateQuests()
+    local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
+    if (not challengeMapId) then
+        -- Not in a Challenge Mode or Challenge Mode wasn't started yet
+
+        -- Populate Achievements first then Quests
+        if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
+            _UpdateAchievements()
+            _UpdateQuests()
+        else
+            _UpdateQuests()
+            _UpdateAchievements()
+        end
     else
         _UpdateChallengeObjectives()
-        _UpdateQuests()
-        _UpdateAchievements()
     end
 
     -- Safety check in case we hit the linePool limit
