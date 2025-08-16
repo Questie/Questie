@@ -1519,38 +1519,8 @@ function QuestieTracker:Update()
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
-        line.label:SetText("|cFFC0C0C0" .. l10n("Challenge Mode") .. "|r")
-
         local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
-
-        line = TrackerLinePool.GetNextLine()
-        if (not line) then
-            return
-        end
-
-        line:SetMode("zone")
-        line:SetZone(scenarioName)
-        line.expandQuest:Hide()
-        line.criteriaMark:Hide()
-        line.playButton:Hide()
-
-        line.label:ClearAllPoints()
-        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
-
-        line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "|r")
-        line:Show()
-        line.label:Show()
-        line.Quest = nil
-        line.Objective = nil
-
-        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
-        line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
-        line:SetWidth(line.label:GetWidth())
-
-        -- Compare largest text Label in the tracker with current Label, then save widest width
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
-
-        line:SetHeight(line.label:GetHeight() + 4)
+        line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "(" .. l10n("Challenge Mode") .. ")|r")
 
         line:Show()
         line.label:Show()
