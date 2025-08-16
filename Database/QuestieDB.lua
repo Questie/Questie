@@ -1076,7 +1076,10 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- quest in the DB in order to update icons, while
     -- IsDoableVerbose is only called manually by the user.
 
-    if Questie.db.char.complete[questId] then
+    local completedQuests = Questie.db.char.complete
+    local currentQuestlog = QuestiePlayer.currentQuestlog
+
+    if completedQuests[questId] then
         if returnText and returnBrief then
             return "Ineligible: Already complete"
         elseif returnText then
@@ -1234,7 +1237,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
-        if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
+        if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
             local msg = "Follow up quests already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
                 return "Ineligible: Later quest completed or active " .. nextQuestInChain
@@ -1249,7 +1252,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
+            if completedQuests[v] or currentQuestlog[v] then
                 local msg = "Player has completed a quest exclusive with quest " .. questId
                 if returnText and returnBrief then
                     return "Ineligible: Exclusive quest completed"
@@ -1317,7 +1320,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         -- Check the target quest of this breadcrumb
-        if Questie.db.char.complete[breadcrumbForQuestId] or QuestiePlayer.currentQuestlog[breadcrumbForQuestId] then
+        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
             if returnText and returnBrief then
                 return "Ineligible: Breadcrumb target " .. breadcrumbForQuestId .. " active or finished"
             elseif returnText and not returnBrief then
@@ -1327,7 +1330,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         -- Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs) do
-            if breadcrumbId ~= questId and QuestiePlayer.currentQuestlog[breadcrumbId] then
+            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
                     return "Ineligible: Another breadcrumb is active: " .. breadcrumbId
                 elseif returnText and not returnBrief then
@@ -1341,13 +1344,21 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if QuestiePlayer.currentQuestlog[breadcrumbId] then
+            if currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
                     return "Ineligible: A breadcrumb is active: " .. breadcrumbId
                 elseif returnText and not returnBrief then
                     return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId
                 end
             end
+        end
+    end
+
+    if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
+        if returnText and returnBrief then
+            return "Ineligible: Daily quest not active"
+        elseif returnText then
+            return "Daily quest " .. questId .. " is not active"
         end
     end
 
