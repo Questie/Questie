@@ -2920,6 +2920,9 @@ function MopNpcFixes.Load()
         [66550] = { -- Nicki Tinytech
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{64.31,49.3}}},
         },
+        [66553] = { -- Morulu The Elder
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{58.76,70.05}}},
+        },
         [66555] = { -- Alliance Barricade
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.72,9.95}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
