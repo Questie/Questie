@@ -965,7 +965,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {41.73,30.02,phases.FISH_FELLREED_NORMAL},
                     {52.53,49.06,phases.FISH_FELLREED_FARM},
-                    {53.00,51.95,phases.FISH_FELLREED_MARKET}, -- TEST TO DO coords those are fake coords
+                    {52.76,51.85,phases.FISH_FELLREED_MARKET},
                 },
             },
         },
