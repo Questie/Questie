@@ -220,8 +220,7 @@ _CalculateAndDrawAvailableQuests = function()
 
         if (
             (not IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
-            (not IsDoable(questId, debugEnabled)) or
-            DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog)
+            (not IsDoable(questId, debugEnabled))
         ) then
             --If the quests are not within level range we want to unload them
             --(This is for when people level up or change settings etc)
