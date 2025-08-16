@@ -1,5 +1,5 @@
 ## Interface: 30404
-## Title: Questie|cFF00FF00 v11.2.14|r
+## Title: Questie|cFF00FF00 v11.2.15|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
@@ -9,7 +9,7 @@
 ## Notes-ruRU: Помощник по заданиям в WoW Classic
 ## Notes-zhCN: 独立的怀旧服任务助手
 ## Notes-zhTW: 獨立的經典版任務助手
-## Version: 11.2.14
+## Version: 11.2.15
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
