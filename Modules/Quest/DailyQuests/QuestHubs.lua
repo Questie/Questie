@@ -321,4 +321,10 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubs = {GOLDEN_LOTUS_RUINS_ATTACK = true},
     },
+    GOLDEN_LOTUS_RUINS_EXTRA = {
+        quests = {30277,30280},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {GOLDEN_LOTUS_RUINS_PEACE = true, GOLDEN_LOTUS_RUINS_ATTACK = true},
+    },
 }
