@@ -687,6 +687,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.57,56.04}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [56797] = { -- Stack of Bamboo Reeds
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.36,32.18}}},
+        },
+        [56800] = { -- Stack of Wooden Planks
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.25,32.22}}},
+        },
+        [56801] = { -- Stack of Stone Blocks
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.15,32.18}}},
+        },
         [56838] = { -- Shokia
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.4,51.8}}},
         },
@@ -861,8 +870,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {}, -- Remove invalid spawns
         },
         [58563] = { -- Tilled Soil
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -878,8 +889,10 @@ function MopNpcFixes.Load()
             }},
         },
         [58567] = { -- Ripe Green Cabbage
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -909,6 +922,7 @@ function MopNpcFixes.Load()
         [58646] = { -- Farmer Yoon
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                    {52.75,47.94,phases.FARMER_YOON_HOUSE},
                     {52.25,48.79,phases.FARMER_YOON_FARM},
                     {52.92,51.82,phases.FARMER_YOON_MARKET},
                 },
@@ -1247,6 +1261,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
+        [59833] = { -- Ripe EZ-Gro Green Cabbage
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, -- removed for quest clutter
         },
@@ -1277,6 +1295,33 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.55,26.63},{25.12,26.37},{23.77,27.37},{22.70,26.97},{22.28,27.26},{20.97,30.17},{21.71,30.58},{21.75,28.90},{22.69,29.77},{22.64,30.60},{23.55,29.50},{23.23,30.99},{24.01,31.82},{25.61,31.46},{25.60,30.70},{26.80,30.49}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59985] = { -- Untilled Soil
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [59987] = { -- Parched EZ-Gro Green Cabbage
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [59990] = { -- Tilled Soil
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
+                {51.78,48.45,phases.FARM_HAS_8_SLOTS},
+                {51.81,48.25,phases.FARM_HAS_8_SLOTS},
+                {51.71,48.24,phases.FARM_HAS_8_SLOTS},
+                {51.68,48.46,phases.FARM_HAS_8_SLOTS},
+                {51.66,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.77,47.87,phases.FARM_HAS_12_SLOTS},
+                {51.78,47.65,phases.FARM_HAS_12_SLOTS},
+                {51.67,47.67,phases.FARM_HAS_12_SLOTS},
+                {51.86,47.86,phases.FARM_HAS_16_SLOTS},
+                {51.98,47.84,phases.FARM_HAS_16_SLOTS},
+                {51.99,47.64,phases.FARM_HAS_16_SLOTS},
+                {51.89,47.65,phases.FARM_HAS_16_SLOTS},
+            }},
+        },
         [60011] = { -- Kill Credit: Barring Entry
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{27.5,15.15}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1301,8 +1346,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [60113] = { -- Plump Green Cabbage
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -1924,8 +1971,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.56,67.86}}},
         },
         [63154] = { -- Ripe Juicycrunch Carrot
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -1941,8 +1990,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63156] = { -- Plump Juicycrunch Carrot
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -1958,8 +2009,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63157] = { -- Bursting Green Cabbage
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -1975,8 +2028,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63158] = { -- Bursting Juicycrunch Carrot
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -1992,8 +2047,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63160] = { -- Bursting Scallions
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2009,8 +2066,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63164] = { -- Plump Scallions
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2026,8 +2085,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63165] = { -- Ripe Scallions
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2043,8 +2104,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63180] = { -- Bursting Mogu Pumpkin
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2060,8 +2123,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63184] = { -- Plump Mogu Pumpkin
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2077,8 +2142,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63185] = { -- Ripe Mogu Pumpkin
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2100,8 +2167,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.4,50},{32.6,50.4},{33.2,50.6},{34,51},{34.4,51.6},{35,51.8},{37.2,51.8},{38.4,49.4},{38.4,49.6},{38.6,49.4},{38.6,49.6},{40.2,47.8},{40.2,52.2},{40.6,52.4},{42.4,50.4},{42.4,50.6},{42.6,50.4},{43.2,52},{43.6,52.4},{44.8,57.8},{45,56.4},{45,56.6},{45.2,53.2},{45.6,58},{46,53.2},{47.6,60.2},{48.6,61.4},{49,62.4},{49,63.6}}},
         },
         [63223] = { -- Bursting Red Blossom Leek
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2117,8 +2186,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63228] = { -- Plump Red Blossom Leek
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2134,8 +2205,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63229] = { -- Ripe Red Blossom Leek
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2151,8 +2224,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63245] = { -- Bursting Pink Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2168,8 +2243,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63249] = { -- Plump Pink Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2185,8 +2262,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63250] = { -- Ripe Pink Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2202,8 +2281,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63260] = { -- Bursting White Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2219,8 +2300,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63264] = { -- Plump White Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2236,8 +2319,10 @@ function MopNpcFixes.Load()
             }},
         },
         [63265] = { -- Ripe White Turnip
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2582,8 +2667,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
         [66080] = { -- Bursting Witchberries
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2599,8 +2686,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66084] = { -- Plump Witchberries
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2616,8 +2705,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66085] = { -- Ripe Witchberries
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2633,8 +2724,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66108] = { -- Bursting Jade Squash
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2650,8 +2743,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66112] = { -- Plump Jade Squash
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2667,8 +2762,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66113] = { -- Ripe Jade Squash
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2684,8 +2781,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66123] = { -- Bursting Striped Melon
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2701,8 +2800,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66128] = { -- Plump Striped Melon
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2718,8 +2819,10 @@ function MopNpcFixes.Load()
             }},
         },
         [66129] = { -- Ripe Striped Melon
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {51.9,48.44},{51.92,48.24},{52.03,48.23},{52.01,48.43},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
+                {52.03,48.24},{52.01,48.44},
+                {51.9,48.44,phases.FARM_HAS_4_SLOTS},
+                {51.92,48.24,phases.FARM_HAS_4_SLOTS},
                 {51.78,48.45,phases.FARM_HAS_8_SLOTS},
                 {51.81,48.25,phases.FARM_HAS_8_SLOTS},
                 {51.71,48.24,phases.FARM_HAS_8_SLOTS},
@@ -2850,6 +2953,15 @@ function MopNpcFixes.Load()
         },
         [67091] = { -- Rik'kal the Dissector
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.8,89,phases.RIKKAL_AT_ZANVESS}}},
+        },
+        [67099] = { -- Succula
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{51.44,26.76}}},
+        },
+        [67125] = { -- Thundergill
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{55.95,25.38}}},
+        },
+        [67128] = { -- Kracor
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.06,33.83}}},
         },
         [67138] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {

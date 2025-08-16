@@ -403,6 +403,8 @@ local phases = {
     MUDMUG_AT_STORMSTOUT_BREWERY_SIDE = 1331,
     LI_LI_AT_STORMSTOUT_BREWERY_SIDE = 1332,
     CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE = 1333,
+    FARMER_YOON_HOUSE = 1334,
+    FARM_HAS_4_SLOTS = 1335,
 }
 Phasing.phases = phases
 
@@ -1567,6 +1569,10 @@ function Phasing.IsSpawnVisible(phase)
         return complete[31338] or false
     end
 
+    if phase == phases.FARM_HAS_4_SLOTS then
+        return complete[30256] or false
+    end
+
     if phase == phases.FARM_HAS_8_SLOTS then
         return complete[30516] or false
     end
@@ -1730,14 +1736,6 @@ function Phasing.IsSpawnVisible(phase)
         return complete[30324] or questLog[30324] or false
     end
 
-    if phase == phases.FARMER_YOON_FARM then
-        return not complete[32682] or false
-    end
-
-    if phase == phases.FARMER_YOON_MARKET then
-        return complete[32682] or false
-    end
-
     if phase == phases.GINA_MUDCLAW_FARM then
         return complete[30374] and not (complete[30322] or questLog[30322]) or false
     end
@@ -1832,6 +1830,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE then
         return (complete[30078] or (questLog[30078] and questLog[30078].isComplete == 1)) or false
+    end
+
+    if phase == phases.FARMER_YOON_HOUSE then
+        return questLog[30252] or false
+    end
+
+    if phase == phases.FARMER_YOON_FARM then
+        return complete[30252] and not complete[32682] or false
+    end
+
+    if phase == phases.FARMER_YOON_MARKET then
+        return complete[32682] or false
     end
 
     return false
