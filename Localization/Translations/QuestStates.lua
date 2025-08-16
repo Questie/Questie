@@ -136,7 +136,7 @@ local questStateLocales = {
     },
     ["Daily Account"] = {
         ["enUS"] = true,
-        ["deDE"] = "Täglich Account", -- eh, wowhead might be ooked. "Täglich Konto"?
+        ["deDE"] = "Täglich Account",
         ["esES"] = "Diaria Cuenta",
         ["esMX"] = "Diaria Cuenta",
         ["frFR"] = "Journalière Compte",
@@ -148,7 +148,7 @@ local questStateLocales = {
     },
     ["Weekly Account"] = {
         ["enUS"] = true,
-        ["deDE"] = "Wöchentlich Account", -- eh, wowhead might be ooked. "Wöchentlich Konto"?
+        ["deDE"] = "Wöchentlich Account",
         ["esES"] = "Semanal Cuenta",
         ["esMX"] = "Semanal Cuenta",
         ["frFR"] = "Chaque semaine Compte",

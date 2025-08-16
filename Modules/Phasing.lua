@@ -394,6 +394,15 @@ local phases = {
     CHEN_AT_MUDMUGS_PLACE = 1322,
     CHEN_AT_MUDMUGS_PLACE_LEGACY = 1323,
     CHEN_AT_HALFHILL = 1324,
+    CHEN_AT_HALFHILL_BREWED = 1325,
+    CHEN_AT_STORMSTOUT_BREWERY_DOOR = 1326,
+    CHEN_AT_STORMSTOUT_BREWERY_HOZEN = 1327,
+    MUDMUG_AT_STORMSTOUT_BREWERY_HOZEN = 1328,
+    LI_LI_AT_STORMSTOUT_BREWERY_HOZEN = 1329,
+    CHEN_AT_STORMSTOUT_BREWERY_SIDE = 1330,
+    MUDMUG_AT_STORMSTOUT_BREWERY_SIDE = 1331,
+    LI_LI_AT_STORMSTOUT_BREWERY_SIDE = 1332,
+    CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE = 1333,
 }
 Phasing.phases = phases
 
@@ -1786,7 +1795,43 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.CHEN_AT_HALFHILL then
-        return (complete[30046] or questLog[30046]) or false -- WIP
+        return ((complete[30046] or questLog[30046]) and not (complete[30073] or (questLog[30073] and questLog[30073].isComplete == 1))) or false
+    end
+
+    if phase == phases.CHEN_AT_HALFHILL_BREWED then
+        return (complete[30073] or (questLog[30073] and questLog[30073].isComplete == 1)) and not questLog[30074] and not complete[30074] or false
+    end
+
+    if phase == phases.CHEN_AT_STORMSTOUT_BREWERY_DOOR then
+        return questLog[30074] and not complete[30074] or false
+    end
+
+    if phase == phases.CHEN_AT_STORMSTOUT_BREWERY_HOZEN then
+        return complete[30074] and not (complete[30075] or (questLog[30075] and questLog[30075].isComplete == 1)) or false
+    end
+
+    if phase == phases.MUDMUG_AT_STORMSTOUT_BREWERY_HOZEN then
+        return complete[30074] and not (complete[30076] or (questLog[30076] and questLog[30076].isComplete == 1)) or false
+    end
+
+    if phase == phases.LI_LI_AT_STORMSTOUT_BREWERY_HOZEN then
+        return complete[30074] and not (complete[30077] or (questLog[30077] and questLog[30077].isComplete == 1)) or false
+    end
+
+    if phase == phases.CHEN_AT_STORMSTOUT_BREWERY_SIDE then
+        return (complete[30075] or (questLog[30075] and questLog[30075].isComplete == 1)) and not (complete[30078] or (questLog[30078] and questLog[30078].isComplete == 1)) or false
+    end
+
+    if phase == phases.MUDMUG_AT_STORMSTOUT_BREWERY_SIDE then
+        return (complete[30076] or (questLog[30076] and questLog[30076].isComplete == 1)) and not (complete[30078] or (questLog[30078] and questLog[30078].isComplete == 1)) or false
+    end
+
+    if phase == phases.LI_LI_AT_STORMSTOUT_BREWERY_SIDE then
+        return (complete[30077] or (questLog[30077] and questLog[30077].isComplete == 1)) and not (complete[30078] or (questLog[30078] and questLog[30078].isComplete == 1)) or false
+    end
+
+    if phase == phases.CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE then
+        return (complete[30078] or (questLog[30078] and questLog[30078].isComplete == 1)) or false
     end
 
     return false

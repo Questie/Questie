@@ -525,7 +525,6 @@ function MopNpcFixes.Load()
             }},
         },
         [56133] = { -- Chen Stormstout
-            --[npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{75.6,24.33},{68.8,43.2},{55.8,49.6},{32.2,68.4},{32.2,68.4}}},
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {85.93,22.11,phases.CHEN_AT_EAST_BRIDGE},
                 {83.64,21.45,phases.CHEN_AT_PANGS_STEAD},
@@ -533,15 +532,21 @@ function MopNpcFixes.Load()
                 {68.88,43.14,phases.CHEN_AT_MUDMUGS_PLACE},
                 {68.86,43.4,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
                 {55.89,49.44,phases.CHEN_AT_HALFHILL},
+                {55.83,49.34,phases.CHEN_AT_HALFHILL_BREWED},
+                {32.26,68.56,phases.CHEN_AT_STORMSTOUT_BREWERY_DOOR},
+                {32.12,68.34,phases.CHEN_AT_STORMSTOUT_BREWERY_HOZEN},
+                {36.04,68.98,phases.CHEN_AT_STORMSTOUT_BREWERY_SIDE},
+                {36,69.12,phases.CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE},
             }},
         },
         [56138] = { -- Li Li
-            --[npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.81,21.59},{75.61,24.52},{68.8,43.2},{52.6,62.8},{36.0,69.0},{32.2,68.4}}},
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {68.88,43.31,phases.CHEN_AT_MUDMUGS_PLACE},
                 {68.77,43.44,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
                 {52.69,62.83,phases.CHEN_AT_HALFHILL},
-                --{68.88,43.14,phases.CHEN_AT_MUDMUGS_PLACE},
+                {32.27,68.45,phases.CHEN_AT_STORMSTOUT_BREWERY_DOOR},
+                {32.33,68.48,phases.LI_LI_AT_STORMSTOUT_BREWERY_HOZEN},
+                {36.13,69.06,phases.LI_LI_AT_STORMSTOUT_BREWERY_SIDE},
             }},
         },
         [56146] = { -- Barrow Tree
@@ -625,9 +630,9 @@ function MopNpcFixes.Load()
                 {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE},
                 {68.71,43.12,phases.CHEN_AT_MUDMUGS_PLACE_LEGACY},
                 {54.28,38.74,phases.CHEN_AT_HALFHILL},
-                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
-                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
-                -- {68.71,43.12,phases.MUDMUG_AT_MUDMUGS_PLACE},
+                {32.13,68.43,phases.CHEN_AT_STORMSTOUT_BREWERY_DOOR},
+                {32.26,68.28,phases.MUDMUG_AT_STORMSTOUT_BREWERY_HOZEN},
+                {36,69.1,phases.MUDMUG_AT_STORMSTOUT_BREWERY_SIDE},
             }},
         },
         [56527] = { -- Jade Cart
@@ -740,12 +745,24 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [57408] = { -- Mina Mudclaw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{41.33,38.14}}},
+        },
         [57476] = { -- Crossing Rocks Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.7,39.07}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
         },
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
+        },
+        [58014] = { -- Eddy
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{33.84,70.73}}},
+        },
+        [58015] = { -- Jooga
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.55,70.47}}},
+        },
+        [58017] = { -- Fizzy Yellow Alemental
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.77,69.65}}},
         },
         [58113] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
@@ -2797,6 +2814,9 @@ function MopNpcFixes.Load()
         [66522] = { -- Lydia Accoste
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS] = {{40.05,76.46}}},
         },
+        [66550] = { -- Nicki Tinytech
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{64.31,49.3}}},
+        },
         [66555] = { -- Alliance Barricade
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.72,9.95}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
@@ -3326,6 +3346,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{39.99,34.7}}},
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
             [npcKeys.questEnds] = {31959},
+        },
+        [110012] = { -- Hop Hunting
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.26,34.21},{38.58,51.72},{48.31,33.48}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+            [npcKeys.questEnds] = {30053},
         },
     }
 end

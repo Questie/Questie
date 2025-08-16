@@ -1733,16 +1733,21 @@ function MopQuestFixes.Load()
         [30053] = { -- Hop Hunting
             [questKeys.preQuestSingle] = {30046},
             [questKeys.objectives] = {{{62377,nil,Questie.ICON_TYPE_TALK},{57385,nil,Questie.ICON_TYPE_TALK},{62385,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.finishedBy] = {{110012}},
         },
         [30054] = { -- Enough is Ookin' Enough
             [questKeys.preQuestSingle] = {30046},
+        },
+        [30055] = { -- Stormstout's Hops
+            [questKeys.startedBy] = {{56133}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30047,30050,30052,30053,30054,30057,30028,30172}, -- 30028,30053 not super certain, but high probability. turn those in last to check
         },
         [30056] = { -- The Farmer's Daughter
             [questKeys.preQuestSingle] = {30046},
         },
         [30057] = { -- Seeing Orange
-            [questKeys.triggerEnd] = {"Bring Mina Mudclaw home to her father", {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.22,34.65}}}},
-            [questKeys.objectives] = {},
+            [questKeys.objectives] = {{{62385,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30058] = { -- Mothallus!
             [questKeys.preQuestSingle] = {30059},
@@ -1791,8 +1796,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32035}, --ingame bug
         },
         [30073] = { -- The Emperor
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30047,30172,30055},
+            [questKeys.preQuestSingle] = {30055},
         },
         [30075] = { -- Clear the Way
             [questKeys.preQuestSingle] = {30074},
@@ -1807,7 +1811,12 @@ function MopQuestFixes.Load()
         [30078] = { -- Cleaning House
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30075,30076,30077},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),0,{{"monster",58027}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),0,{{"monster",58028}}},{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",58029}}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),1,{{"monster",58027}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),2,{{"monster",58028}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),3,{{"monster",58029}}}
+            },
         },
         [30079] = { -- What's Eating Zhu's Watch?
             [questKeys.preQuestSingle] = {},
