@@ -2165,7 +2165,7 @@ function MopQuestFixes.Load()
         },
         [30225] = { -- The Ashweb Matriarch
             [questKeys.startedBy] = {{58503}},
-            [questKeys.preQuestSingle] = {}, -- handled in questHubs
+            [questKeys.preQuestSingle] = {}, -- handled in questHubs. offered after 30200+30228.
             [questKeys.objectives] = {{{245926}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2446,7 +2446,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestGroup] = {30642},
-            [questKeys.preQuestSingle] = {31240,31244,31248,31294,31295,31296}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
+            --[questKeys.preQuestSingle] = {test}, -- offered after 30200+30228.
             [questKeys.exclusiveTo] = {30280},
         },
         [30280] = { -- The Thunder Below
@@ -2456,7 +2456,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestGroup] = {30642},
-            [questKeys.preQuestSingle] = {31240,31244,31248,31294,31295,31296}, -- TO DO: 31240 needs exclusiveTo with the other Ruins lead ins
+            --[questKeys.preQuestSingle] = {31240,31244,31248,31294,31295,31296},
             [questKeys.exclusiveTo] = {30277},
         },
         [30281] = { -- The Silent Approach
