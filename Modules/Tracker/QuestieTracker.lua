@@ -1505,7 +1505,7 @@ function QuestieTracker:Update()
         end
     end
 
-    local function _UpdateScenarioObjectives()
+    local function _UpdateChallengeObjectives()
         local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
         if (not challengeMapId) then
             -- Not in a Challenge Mode or Challenge Mode wasn't started yet
@@ -1611,11 +1611,11 @@ function QuestieTracker:Update()
 
     -- Populate Achievements first then Quests
     if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
-        _UpdateScenarioObjectives()
+        _UpdateChallengeObjectives()
         _UpdateAchievements()
         _UpdateQuests()
     else
-        _UpdateScenarioObjectives()
+        _UpdateChallengeObjectives()
         _UpdateQuests()
         _UpdateAchievements()
     end
