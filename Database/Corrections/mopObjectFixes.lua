@@ -539,6 +539,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
         [214394] = { -- Ancient Guo-Lai Artifact
+            [objectKeys.name] = "Ancient Guo-Lai Artifact",
             [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.8,30.81}}},
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
