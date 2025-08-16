@@ -543,8 +543,16 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.8,30.81}}},
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
+        [214475] = { -- Deactivate First Spirit Wall
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{36.3,36.74}}},
+            [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
+        [214476] = { -- Deactivate Second Spirit Wall
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{22.97,28.71}}},
+            [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
         [214477] = { -- Deactivate Final Spirit Wall
-            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{41.67,18.15}}},
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{38.13,31.48},{41.67,18.15}}},
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214543] = { -- Dreadspore Bulb

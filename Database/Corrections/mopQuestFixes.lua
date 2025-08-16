@@ -2448,6 +2448,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30642},
             --[questKeys.preQuestSingle] = {test}, -- offered after 30200+30228.
             [questKeys.exclusiveTo] = {30280},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Deactivate Spirit Wall"),0,{{"object",214475},{"object",214476}}}},
         },
         [30280] = { -- The Thunder Below
             [questKeys.startedBy] = {{58503}},
