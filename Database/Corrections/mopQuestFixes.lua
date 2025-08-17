@@ -2690,6 +2690,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30317,30319,30321,30322},
         },
         [30319] = { -- Pest Problems
+            [questKeys.startedBy] = {{57402}},
             [questKeys.preQuestSingle] = {30257},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Wika-Wika"),0,{{"monster",59532}}}},
             [questKeys.exclusiveTo] = {30317,30318,30321,30322},
@@ -2722,6 +2723,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30323,30324,30326,30327},
         },
         [30326] = { -- The Kunzen Legend-Chief
+            [questKeys.startedBy] = {{58705}},
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30323,30324,30325,30327},
         },
