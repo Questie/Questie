@@ -3,7 +3,7 @@ local AutoCompleteFrame = QuestieLoader:CreateModule("AutoCompleteFrame")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
-local MARGIN = 200
+local MARGIN = 250
 
 local autoCompleteFrame
 local trackerBaseFrame
