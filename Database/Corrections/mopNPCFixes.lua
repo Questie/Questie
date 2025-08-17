@@ -485,6 +485,9 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [55597] = { -- Na Lek
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.92,32.71}}},
+        },
         [55614] = { -- Pei-Zhi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.24,15.02}}},
         },
@@ -522,6 +525,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {59.25,27.56,phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY},
                 {61.23,34.23,phases.CLEVER_ASHYO_AT_NEW_CIFERA},
+            }},
+        },
+        [56114] = { -- Kang Bramblestaff
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
+                {25.2,34.54},
+                {66.41,32.54,phases.KANG_AT_THE_INCURSION_OUTSIDE},
+                {67.36,32.75,phases.KANG_AT_THE_INCURSION_INSIDE},
             }},
         },
         [56133] = { -- Chen Stormstout
@@ -633,6 +643,7 @@ function MopNpcFixes.Load()
                 {32.13,68.43,phases.CHEN_AT_STORMSTOUT_BREWERY_DOOR},
                 {32.26,68.28,phases.MUDMUG_AT_STORMSTOUT_BREWERY_HOZEN},
                 {36,69.1,phases.MUDMUG_AT_STORMSTOUT_BREWERY_SIDE},
+                {18.08,55.67,phases.MUDMUG_AT_STONEPLOW},
             }},
         },
         [56527] = { -- Jade Cart
@@ -742,6 +753,9 @@ function MopNpcFixes.Load()
         [57306] = { -- Ugly Weed
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{38.54,49.84},{38.88,49.91},{39.14,50.01},{39.08,50.34},{38.74,50.37},{38.45,50.37},{38.19,50.47},{38.20,50.88},{38.48,50.85},{38.80,50.83},{39.01,50.88},{38.96,51.25},{38.61,51.28},{38.34,51.31},{38.07,51.41},{38.51,79.00},{38.27,51.76},{38.84,51.70},{39.10,51.80},{39.02,52.22},{38.70,52.27},{38.37,52.26},{38.09,52.25}}},
         },
+        [57310] = { -- Yi-Mo Longbrow
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{81.31,6.84}}},
+        },
         [57401] = { -- Mung-Mung
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.16,34.23}}},
         },
@@ -764,6 +778,9 @@ function MopNpcFixes.Load()
         [57662] = { -- Barreled Pandaren
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.97,67.94},{34.28,67.24},{35.10,66.44},{35.30,66.23},{35.72,65.55},{35.86,66.11},{36.20,65.79},{36.69,65.85},{36.88,65.73},{37.08,65.30},{37.25,65.02},{37.51,64.80},{37.51,64.64},{37.72,64.77}}},
         },
+        [57744] = { -- Mei Barrelbottom
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{75.84,7.6}}},
+        },
         [58014] = { -- Eddy
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{33.84,70.73}}},
         },
@@ -780,11 +797,20 @@ function MopNpcFixes.Load()
                 {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
             }},
         },
+        [58224] = { -- Groundbreaker Brojai
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{23.59,48.69}}},
+        },
         [58225] = { -- Instructor Tong
             [npcKeys.questStarts] = {30135,30136,30137,30138,30139},
         },
+        [58376] = { -- Yi-Mo Longbrow
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{81.31,6.84}}},
+        },
         [58408] = { -- Leven Dawnblade
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59}}},
+        },
+        [58410] = { -- Yi-Mo Longbrow
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.49,8.78}}},
         },
         [58421] = { -- Hemet Nesingwary
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
@@ -810,6 +836,12 @@ function MopNpcFixes.Load()
         [58438] = { -- Checkpoint
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{60.70,39.36},{59.72,31.46},{61.35,25.18},{66.30,35.88},{66.10,42.39},{66.81,51.43},{64.09,51.01},{61.86,54.50},{60.45,52.88},{58.79,46.82}}},
         },
+        [58435] = { -- Darkhide
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{26.17,75.52}}},
+        },
+        [58439] = { -- Torjar's Bane
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{24.42,74.6}}},
+        },
         [58440] = { -- Azure Cloud Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
         },
@@ -822,21 +854,15 @@ function MopNpcFixes.Load()
         [58444] = { -- Instructor Windblade
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.61,43.65}}},
         },
-        [58497] = { -- Azure Cloud Serpent
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
-        },
-        [58498] = { -- Jade Cloud Serpent
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
-        },
-        [58499] = { -- Golden Cloud Serpent
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
-        },
         [58455] = { -- Stillwater Crocolisk
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{29.4,68.8},{29.4,69.6},{29.6,68.8},{31.2,66.6},{32.4,67.4},{33,65.4},{33,65.6},{34.4,61.8},{34.6,60.2},{34.8,58.4},{34.8,58.6},{35.4,56.8},{36.6,55},{36.6,56.4},{39.37,49.97},{40.7,47.36}}},
         },
         [58459] = { -- Ashweb Weaver
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{18.4,30.2},{19.2,28.8},{19.2,30.6},{19.4,29.8},{19.6,29.8},{19.6,30.6},{19.8,29.4},{20,34.4},{20,34.6},{21,35.4},{21.2,35.6},{21.4,30},{21.4,30.6},{21.6,29.8},{21.6,30.6},{21.8,29.2},{22.4,39},{22.4,40.2},{22.6,40.6},{23.2,39.4},{23.2,39.6},{23.2,42.2},{23.2,42.6},{23.4,27.4},{23.4,27.8},{23.4,29.2},{23.8,27.2},{23.8,27.8},{23.8,39.4},{23.8,42.4},{24.2,37.4},{24.2,40.6},{24.2,42.6},{24.4,29.4},{24.4,29.6},{24.4,37.6},{24.4,40.2},{24.6,27.8},{24.6,38.6},{24.6,39.8},{24.6,40.6},{24.8,28.8},{24.8,29.6},{24.8,42},{25,26.6},{25,38},{25.4,25},{25.4,42.6},{25.6,25},{25.6,37},{25.8,38.6},{26,30.6},{26,42.4},{26,42.6},{26.2,26.4},{26.2,27},{26.2,29.4},{26.2,29.6},{26.2,37.8},{26.4,27.6},{26.4,41.4},{26.6,27},{26.6,28},{26.6,41.4},{26.6,42},{26.6,43.2},{26.8,30.8},{27,29.4},{27,29.6},{27,37.6},{27.2,37.2},{27.6,37},{27.8,29.4},{27.8,29.6}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [58461] = { -- Hemet Nesingwary Jr.
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{24.54,74.63}}},
         },
         [58465] = { -- Anji Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
@@ -859,6 +885,15 @@ function MopNpcFixes.Load()
                 {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
             }},
         },
+        [58497] = { -- Azure Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58498] = { -- Jade Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
+        [58499] = { -- Golden Cloud Serpent
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
+        },
         [58503] = { -- Anji Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.97,38.11}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -868,6 +903,9 @@ function MopNpcFixes.Load()
         },
         [58545] = { -- Stonebark Trickster
             [npcKeys.spawns] = {}, -- Remove invalid spawns
+        },
+        [58547] = { -- Koro Mistwalker
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{44.2,42.89}}},
         },
         [58563] = { -- Tilled Soil
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
@@ -912,6 +950,9 @@ function MopNpcFixes.Load()
         },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
+        },
+        [58609] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{40.49,34.65}}},
         },
         [58632] = { -- Armsmaster Harlan
             [npcKeys.spawns] = {
@@ -1018,6 +1059,18 @@ function MopNpcFixes.Load()
         [58721] = { -- Farmer Yoon
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.02,48.01}}},
         },
+        [58735] = { -- Lyalia
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.45,32.7}}},
+        },
+        [58745] = { -- Lorekeeper Vaeldrin
+            [npcKeys.spawns] = {
+                [zoneIDs.KRASARANG_WILDS] = {
+                    {67.45,32.64,phases.VAELDRIN_AT_THE_INCURSION},
+                    {15.09,39.42,phases.VAELDRIN_SHATTERED_CONVOY},
+                    {24.69,33.99,phases.VAELDRIN_AT_SENTINEL_BASECAMP},
+                },
+            },
+        },
         [58756] = { -- Scarlet Evoker
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
@@ -1030,8 +1083,15 @@ function MopNpcFixes.Load()
                 },
             },
         },
+        [58814] = { -- Kang Bramblestaff
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.36,32.75}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [58821] = { -- Lyalia
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{24.7,34.04}}},
+        },
         [58858] = { -- Riverblade Pathstalker
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{38.63,38.77},{38.81,40.63},{41.58,43.11},{40.43,42.09},{41.19,40.06},{46.40,40.66},{47.08,37.93},{47.66,37.27},{47.28,36.67},{47.96,35.52},{47.42,33.35},{46.45,34.28},{45.79,33.29},{47.22,30.59},{46.13,30.18},{47.49,77.92},{44.90,27.42},{42.32,29.31},{41.27,29.69},{36.75,31.35},{37.4,34.41}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{38.63,38.77},{38.81,40.63},{41.58,43.11},{40.43,42.09},{41.19,40.06},{46.40,40.66},{47.08,37.93},{47.66,37.27},{47.28,36.67},{47.96,35.52},{47.42,33.35},{46.45,34.28},{45.79,33.29},{47.22,30.59},{46.13,30.18},{44.90,27.42},{42.32,29.31},{41.27,29.69},{36.75,31.35},{37.4,34.41}}},
         },
         [58876] = { -- Starving Hound
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
@@ -1050,6 +1110,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{18.87,67.83}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [58970] = { -- Lorekeeper Vaeldrin
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{24.69,33.99}}},
+        },
+        [58976] = { -- Lyalia
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{23.57,48.84}}},
+        },
         [58978] = { -- Koro Mistwalker
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.79,38.30}}},
         },
@@ -1064,6 +1130,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP_HEADMASTERS_STUDY] = {{49.84,38.45}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
+        },
+        [59137] = { -- Incursion Sentinel
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.92,43.39}}},
         },
         [59150] = { -- Flameweaver Koegler
             [npcKeys.spawns] = {
@@ -1092,6 +1161,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP_CHAMBER_OF_SUMMONING] = {{58.85,18.32}},
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
+        },
+        [59189] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{40.63,33.73}}},
         },
         [59191] = { -- Commander Lindon
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{48.88,51.44},{-1,-1}}},
@@ -1246,6 +1318,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{45.8,52.84},{43.15,50.27},{39.71,51.11},{32.35,57.1},{33.11,50.09},{34.61,43.2},{35.16,38},{37.35,33.19},{40.29,39.54},{43.24,34.72},{47.32,33.06},{46.99,38.41},{45.87,42.88},{47.93,45.63},{48.27,48.73}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [59608] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{40.63,33.73}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [59609] = { -- Wounded Pearlfin
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.82,86.61},{60.03,86.34},{60.37,86.85},{60.29,87.43},{60.61,86.83},{60.86,86.86},{61.1,86.79},{61.18,86.79},{61.18,86.93},{61.08,87.19},{61.08,87.74},{60.63,88.07},{60.29,87.43},{60.25,87.91},{60.31,88.22},{60.35,88.52},{59.86,88.44},{59.56,88.61},{59.55,87.9},{59.4,87.56},{59.15,87.14},{59,86.89},{58.96,86.59},{59.34,86.96},{59.61,87.49},{59.72,87.21},{59.9,86.92}}},
         },
@@ -1264,6 +1340,13 @@ function MopNpcFixes.Load()
         [59833] = { -- Ripe EZ-Gro Green Cabbage
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [59855] = { -- Mei Barrelbottom
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{17.96,56.45}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [59856] = { -- Master Bruised Paw
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{17.91,55.74}}},
         },
         [59874] = { -- Manifestation of Fear
             [npcKeys.spawns] = {}, -- removed for quest clutter
@@ -1363,6 +1446,9 @@ function MopNpcFixes.Load()
                 {51.99,47.64,phases.FARM_HAS_16_SLOTS},
                 {51.89,47.65,phases.FARM_HAS_16_SLOTS},
             }},
+        },
+        [60139] = { -- Wise Ana Wu
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{45.98,78.91}}},
         },
         [60273] = { -- Zhao-Jin the Bloodletter
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{78.65,35.69}}},
@@ -2403,12 +2489,18 @@ function MopNpcFixes.Load()
         [63765] = { -- Kovok
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.79,41.37}}},
         },
+        [63767] = { -- Chasheen
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{61.7,32.14}}},
+        },
         [63778] = { -- Messenger Grummie
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.32,50.15},{70.02,23.57}},
                 [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
                 [zoneIDs.THE_JADE_FOREST] = {{45.72,43.8}},
             }
+        },
+        [63796] = { -- Needlebeak
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.87,20.45}}},
         },
         [63822] = { -- Tani
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{16.2,82.54}}},
@@ -2919,6 +3011,9 @@ function MopNpcFixes.Load()
         },
         [66550] = { -- Nicki Tinytech
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{64.31,49.3}}},
+        },
+        [66551] = { -- Ras'an
+            [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{17.24,50.52}}},
         },
         [66553] = { -- Morulu The Elder
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{58.76,70.05}}},
@@ -3467,6 +3562,30 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.26,34.21},{38.58,51.72},{48.31,33.48}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [npcKeys.questEnds] = {30053},
+        },
+        [110013] = { -- The Arcanic Oubliette
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.38,32.65}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {30274},
+        },
+        [110014] = { -- Balance Without Violence
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{48.62,85.83}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {30674},
+        },
+        [110015] = { -- Balance Without Violence
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{48.62,85.83}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questEnds] = {30674,30675},
+        },
+        [110016] = { -- It Does You No Good In The Keg, 
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{17.9,56.01}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+            [npcKeys.questEnds] = {30623,30624},
         },
     }
 end

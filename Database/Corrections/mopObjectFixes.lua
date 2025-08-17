@@ -141,6 +141,18 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.95,16.88}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [210527] = { -- Northeast Oubliette Shackle
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.94,31.54}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [210533] = { -- Northwest Oubliette Shackle
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.7,31.58}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [210535] = { -- Southwest Oubliette Shackle
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.71,33.69}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [210565] = { -- Dark Soil
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.82,47.98}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,

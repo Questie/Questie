@@ -2043,7 +2043,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30181},
         },
         [30185] = { -- Tortoise Mastery
-            [questKeys.preQuestSingle] = {30184},
+            [questKeys.preQuestGroup] = {30182,30184,32038},
         },
         [30186] = { -- Parental Mastery
             [questKeys.extraObjectives] = {
@@ -2420,24 +2420,28 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30269},
         },
         [30269] = { -- Unsafe Passage
-            [questKeys.preQuestSingle] = {30133,30178}, -- Either Horde or Alliance version as prequest
+            [questKeys.preQuestSingle] = {30133,30178},
             [questKeys.triggerEnd] = {"Accompany Koro to Crane Wing Refuge", {[zoneIDs.KRASARANG_WILDS] = {{43.86,36.77}}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Koro Mistwalker"),0,{{"monster",58547}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Koro Mistwalker"),0,{{"monster",58978}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Koro Mistwalker"),0,{{"monster",58547},{"monster",58978}}}},
+            [questKeys.objectives] = {},
         },
         [30270] = { -- Blinding the Riverblades
             [questKeys.preQuestSingle] = {30269},
         },
         [30271] = { -- Sha Can Awe
-            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.preQuestGroup] = {30268,30270,30694},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58968,58969,59297},59297,nil,Questie.ICON_TYPE_EVENT},},},
         },
         [30272] = { -- Striking the Rain
-            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.preQuestGroup] = {30268,30270,30694},
         },
         [30273] = { -- In the House of the Red Crane
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30271,30272,30695}, -- might not be all, my turn in order was 30695, 30271, 30272
+            [questKeys.preQuestGroup] = {30271,30272,30695},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chi-Ji"),0,{{"monster",59653}}}},
+        },
+        [30274] = { -- The Arcanic Oubliette
+            [questKeys.startedBy] = {{110013}},
         },
         [30277] = { -- The Crumbling Hall
             [questKeys.startedBy] = {{58503}},
@@ -2448,7 +2452,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30642},
             --[questKeys.preQuestSingle] = {test}, -- offered after 30200+30228.
             [questKeys.exclusiveTo] = {30280},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Deactivate Spirit Wall"),0,{{"object",214475},{"object",214476}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Deactivate Spirit Wall"),1,{{"object",214475},{"object",214476}}}},
         },
         [30280] = { -- The Thunder Below
             [questKeys.startedBy] = {{58503}},
@@ -2796,21 +2800,25 @@ function MopQuestFixes.Load()
         [30344] = { -- The Lost Dynasty
             [questKeys.preQuestSingle] = {30274},
         },
-        --[[[30346] = { -- Where are the Pools
-            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
-        },]]
+        [30346] = { -- Where are the Pools
+            [questKeys.preQuestGroup] = {30344,30350,30384},
+        },
+        [30347] = { -- The Pools of Youth
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",55597}}}},
+        },
         [30348] = { -- Immortality?
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30347,30349}, -- might also need 30346/30351
+            [questKeys.preQuestGroup] = {30346,30347,30349,30351},
+            [questKeys.objectives] = {{{58745,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30349] = { -- Threat from Dojan
-            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
+            [questKeys.preQuestGroup] = {30344,30350,30384},
         },
         [30350] = { -- Squirmy Delight
-            [questKeys.preQuestSingle] = {29874},
+            [questKeys.preQuestSingle] = {30274},
         },
         [30351] = { -- Lotus Tea
-            [questKeys.preQuestSingle] = {30344}, -- it might also need 30350
+            [questKeys.preQuestGroup] = {30344,30350,30384},
         },
         [30354] = { -- No Sister Left Behind
             [questKeys.preQuestSingle] = {30363,30465},
@@ -2829,6 +2837,7 @@ function MopQuestFixes.Load()
         [30359] = { -- The Lord Reclaimer
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30357,30361},
+            [questKeys.objectives] = {{{58224}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
         },
         [30360] = { -- Warn Stoneplow [Alliance]
@@ -3102,6 +3111,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30306,30240},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.exclusiveTo] = {30243,30244,30246,30266}, -- the other 2 groups of 2 quests in this hub stage
+        },
+        [30445] = { -- The Waters of Youth
+            [questKeys.objectives] = {{{58970,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30457] = { -- Call Out Their Leader
             [questKeys.preQuestSingle] = {},
@@ -3475,11 +3487,13 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
         },
         [30623] = { -- The Mantidote
+            [questKeys.finishedBy] = {{110016}},
             [questKeys.preQuestSingle] = {30241,30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {{{59874}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Ken-Ken's Mask on Ik'thik Wing Commander"),0,{{"monster",56723}}}},
         },
         [30624] = { -- It Does You No Good Inside The Keg
+            [questKeys.finishedBy] = {{110016}},
             [questKeys.preQuestSingle] = {30360,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59849,59850},59849,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -3641,8 +3655,13 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30671},
         },
         [30674] = { -- Balance Without Violence
-            [questKeys.preQuestSingle] = {30671},
+            [questKeys.startedBy] = {{110014}},
+            [questKeys.finishedBy] = {{110015}},
+            [questKeys.preQuestSingle] = {30671}, -- double check if it's this or one of the previous ones
             [questKeys.objectives] = {{{60367,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [30675] = { -- Buried Hozen Treasure
+            [questKeys.finishedBy] = {{110015}},
         },
         [30678] = { -- Like Bombing Fish In A Barrel
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Use the raft"),0,{{"object",211596}}}},
@@ -3674,7 +3693,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{223819}}},
         },
         [30695] = { -- Ahead on the Way
-            [questKeys.preQuestGroup] = {30268,30270,30694}, -- might not be all, my turn in order was 30268, 30694, 30270
+            [questKeys.preQuestGroup] = {30268,30270,30694},
         },
         [30698] = { -- Scavenger Hunt
             [questKeys.questFlags] = questFlags.DAILY,

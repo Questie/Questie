@@ -405,6 +405,12 @@ local phases = {
     CHEN_AT_STORMSTOUT_BREWERY_CLEANED_HOUSE = 1333,
     FARMER_YOON_HOUSE = 1334,
     FARM_HAS_4_SLOTS = 1335,
+    KANG_AT_THE_INCURSION_OUTSIDE = 1336,
+    KANG_AT_THE_INCURSION_INSIDE = 1337,
+    VAELDRIN_AT_THE_INCURSION = 1338,
+    VAELDRIN_SHATTERED_CONVOY = 1339,
+    VAELDRIN_AT_SENTINEL_BASECAMP = 1340,
+    MUDMUG_AT_STONEPLOW = 1341,
 }
 Phasing.phases = phases
 
@@ -1842,6 +1848,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.FARMER_YOON_MARKET then
         return complete[32682] or false
+    end
+
+    if phase == phases.KANG_AT_THE_INCURSION_OUTSIDE then
+        return (questLog[30274] and questLog[30274].isComplete == 0) or false
+    end
+
+    if phase == phases.KANG_AT_THE_INCURSION_INSIDE then
+        return complete[30274] and not complete[30363] or false
+    end
+
+    if phase == phases.VAELDRIN_AT_THE_INCURSION then
+        return complete[30465] and not complete[30363] or false
+    end
+
+    if phase == phases.VAELDRIN_SHATTERED_CONVOY then
+        return complete[30363] and not (complete[30359] or (questLog[30359] and questLog[30359].isComplete == 1))or false
+    end
+
+    if phase == phases.VAELDRIN_AT_SENTINEL_BASECAMP then
+        return complete[30359] or (questLog[30359] and questLog[30359].isComplete == 1) or false
+    end
+
+    if phase == phases.MUDMUG_AT_STONEPLOW then
+        return complete[30360] or false
     end
 
     return false

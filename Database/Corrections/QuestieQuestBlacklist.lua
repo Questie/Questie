@@ -5892,9 +5892,10 @@ function QuestieQuestBlacklist:Load()
         [30173] = true, -- Not in the game
         [30454] = true, -- Not in the game
         [30455] = true, -- Not in the game
-        [30461] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
-        [30462] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
-        [30464] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [30461] = true, -- Believe this is duplicate and not actually in game
+        [30462] = true, -- Believe this is duplicate and not actually in game
+        [30464] = true, -- Believe this is duplicate and not actually in game
+        [30465] = true, -- Believe this is duplicate and not actually in game
         [30537] = true, -- Not in the game
         [30538] = true, -- Not in the game
         [30539] = true, -- Hidden quest
