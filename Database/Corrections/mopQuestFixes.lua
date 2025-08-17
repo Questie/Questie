@@ -4432,7 +4432,7 @@ function MopQuestFixes.Load()
         },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31047] = { -- Born Free -- i saw this quest being offered early. last order 31042 31105 31043 31047. turn in 31047 first, see what happens
