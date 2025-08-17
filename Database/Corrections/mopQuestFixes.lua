@@ -2801,6 +2801,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30274},
         },
         [30346] = { -- Where are the Pools
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30344,30350,30384},
         },
         [30347] = { -- The Pools of Youth
