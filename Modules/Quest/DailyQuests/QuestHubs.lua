@@ -83,7 +83,7 @@ DailyQuests.hubs = {
         preQuestHubs = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = { -- not good
-        quests = {30156,30157,30158,31194},
+        quests = {30155,30156,30157,30158,31194},
         limit = 3, -- 2 (random of 3) + 1 (Slitherscale Suppression)
         exclusiveHubs = {
             ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
@@ -109,7 +109,7 @@ DailyQuests.hubs = {
         preQuestHubs = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_TIGERS = {
-        quests = {30154,30155,31698,31701,31702},
+        quests = {30154,31698,31701,31702},
         limit = 3, -- 2 (random of 4) + 1 (random of 2)
         exclusiveHubs = {
             ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true,
