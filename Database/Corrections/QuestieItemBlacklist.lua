@@ -6,6 +6,7 @@ function QuestieItemBlacklist:Load()
     return {
         [765] = true, -- silverleaf
         [774] = true, -- malachite
+        [783] = true, -- Light Hide
         [785] = true, -- mageroyal
         [929] = true, -- Healing Potion
         [1179] = true, -- ice cold milk
@@ -37,7 +38,9 @@ function QuestieItemBlacklist:Load()
         [3821] = true, -- goldthorn
         [3864] = true, -- citrine
         [3927] = true, -- fine aged cheddar
+        [4232] = true, -- Medium Hide
         [4234] = true, -- Heavy Leather
+        [4235] = true, -- Heavy Hide
         [4304] = true, -- Thick Leather
         [4306] = true, -- silk cloth
         [4338] = true, -- mageweave
@@ -46,7 +49,9 @@ function QuestieItemBlacklist:Load()
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
         [8153] = true, -- wildvine
+        [8169] = true, -- Thick Hide
         [8170] = true, -- Rugged Leather
+        [8171] = true, -- Rugged Hide
         [8244] = true, -- flawless-draenethyst-sphere
         [8831] = true, -- purple lotus
         [8836] = true, -- arthas tears
@@ -231,7 +236,7 @@ function QuestieItemBlacklist:Load()
         [30809] = true, -- Mark of Sargeras
         [30810] = true, -- Sunfury Signet
         [32569] = true, -- Apexis Shard
-        
+
         -- Wrath of the Lich King : Phase 1
         [33470] = true, -- Frostweave Cloth
         [42780] = true, -- Relic of Ulduar
