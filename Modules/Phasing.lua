@@ -1647,115 +1647,115 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.OLD_HILLPAW_NORMAL then
-        return not complete[30368] and not (complete[30318] or questLog[30318]) or false
+        return not complete[30368] and not (complete[30318] or questLog[30318] or complete[30476] or questLog[30476]) or false
     end
 
     if phase == phases.OLD_HILLPAW_FARM then
-        return complete[30368] and not (complete[30318] or questLog[30318]) or false
+        return complete[30368] and not (complete[30318] or questLog[30318] or complete[30476] or questLog[30476]) or false
     end
 
     if phase == phases.OLD_HILLPAW_MARKET then
-        return complete[30318] or questLog[30318] or false
+        return complete[30318] or questLog[30318] or complete[30476] or questLog[30476] or false
     end
 
     if phase == phases.TINA_MUDCLAW_NORMAL then
-        return not complete[30371] and not (complete[30323] or questLog[30323]) or false
+        return not complete[30371] and not (complete[30323] or questLog[30323] or complete[30470] or questLog[30470]) or false
     end
 
     if phase == phases.TINA_MUDCLAW_FARM then
-        return complete[30371] and not (complete[30323] or questLog[30323]) or false
+        return complete[30371] and not (complete[30323] or questLog[30323] or complete[30470] or questLog[30470]) or false
     end
 
     if phase == phases.TINA_MUDCLAW_MARKET then
-        return complete[30323] or questLog[30323] or false
+        return complete[30323] or questLog[30323] or complete[30470] or questLog[30470] or false
     end
 
     if phase == phases.FARMER_FUNG_NORMAL then
-        return not complete[30370] and not (complete[30317] or questLog[30317]) or false
+        return not complete[30370] and not (complete[30317] or questLog[30317] or complete[30475] or questLog[30475]) or false
     end
 
     if phase == phases.FARMER_FUNG_FARM then
-        return complete[30370] and not (complete[30317] or questLog[30317]) or false
+        return complete[30370] and not (complete[30317] or questLog[30317] or complete[30475] or questLog[30475]) or false
     end
 
     if phase == phases.FARMER_FUNG_MARKET then
-        return complete[30317] or questLog[30317] or false
+        return complete[30317] or questLog[30317] or complete[30475] or questLog[30475] or false
     end
 
     if phase == phases.HAOHAN_MUDCLAW_NORMAL then
-        return not complete[30369] and not (complete[30319] or questLog[30319]) or false
+        return not complete[30369] and not (complete[30319] or questLog[30319] or complete[30477] or questLog[30477]) or false
     end
 
     if phase == phases.HAOHAN_MUDCLAW_FARM then
-        return complete[30369] and not (complete[30319] or questLog[30319]) or false
+        return complete[30369] and not (complete[30319] or questLog[30319] or complete[30477] or questLog[30477]) or false
     end
 
     if phase == phases.HAOHAN_MUDCLAW_MARKET then
-        return complete[30319] or questLog[30319] or false
+        return complete[30319] or questLog[30319] or complete[30477] or questLog[30477] or false
     end
 
     if phase == phases.SHO_NORMAL then
-        return not complete[30367] and not (complete[30325] or questLog[30325]) or false
+        return not complete[30367] and not (complete[30325] or questLog[30325] or complete[30472] or questLog[30472]) or false
     end
 
     if phase == phases.SHO_FARM then
-        return complete[30367] and not (complete[30325] or questLog[30325]) or false
+        return complete[30367] and not (complete[30325] or questLog[30325] or complete[30472] or questLog[30472]) or false
     end
 
     if phase == phases.SHO_MARKET then
-        return complete[30325] or questLog[30325] or false
+        return complete[30325] or questLog[30325] or complete[30472] or questLog[30472] or false
     end
 
     if phase == phases.ELLA_NORMAL then
-        return not complete[30366] and not (complete[30327] or questLog[30327]) or false
+        return not complete[30366] and not (complete[30327] or questLog[30327] or complete[30474] or questLog[30474]) or false
     end
 
     if phase == phases.ELLA_FARM then
-        return complete[30366] and not (complete[30327] or questLog[30327]) or false
+        return complete[30366] and not (complete[30327] or questLog[30327] or complete[30474] or questLog[30474]) or false
     end
 
     if phase == phases.ELLA_MARKET then
-        return complete[30327] or questLog[30327] or false
+        return complete[30327] or questLog[30327] or complete[30474] or questLog[30474] or false
     end
 
     if phase == phases.FISH_FELLREED_NORMAL then
-        return not complete[30372] and not (complete[30326] or questLog[30326]) or false
+        return not complete[30372] and not (complete[30326] or questLog[30326] or complete[30473] or questLog[30473]) or false
     end
 
     if phase == phases.FISH_FELLREED_FARM then
-        return complete[30372] and not (complete[30326] or questLog[30326]) or false
+        return complete[30372] and not (complete[30326] or questLog[30326] or complete[30473] or questLog[30473]) or false
     end
 
     if phase == phases.FISH_FELLREED_MARKET then
-        return complete[30326] or questLog[30326] or false
+        return complete[30326] or questLog[30326] or complete[30473] or questLog[30473] or false
     end
 
     if phase == phases.CHEE_CHEE_NORMAL then
-        return not complete[30365] and not (complete[30324] or questLog[30324]) or false
+        return not complete[30365] and not (complete[30324] or questLog[30324] or complete[30471] or questLog[30471]) or false
     end
 
     if phase == phases.CHEE_CHEE_FARM then
-        return complete[30365] and not (complete[30324] or questLog[30324]) or false
+        return complete[30365] and not (complete[30324] or questLog[30324] or complete[30471] or questLog[30471]) or false
     end
 
     if phase == phases.CHEE_CHEE_MARKET then
-        return complete[30324] or questLog[30324] or false
+        return complete[30324] or questLog[30324] or complete[30471] or questLog[30471] or false
     end
 
     if phase == phases.GINA_MUDCLAW_FARM then
-        return complete[30374] and not (complete[30322] or questLog[30322]) or false
+        return complete[30374] and not (complete[30322] or questLog[30322] or complete[30479] or questLog[30479]) or false
     end
 
     if phase == phases.GINA_MUDCLAW_MARKET then
-        return not complete[30374] or false
+        return not complete[30374] or complete[30479] or questLog[30479] or false
     end
 
     if phase == phases.JOGU_THE_DRUNK_FARM then
-        return complete[30373] and not (complete[30321] or questLog[30321]) or false
+        return complete[30373] and not (complete[30321] or questLog[30321] or complete[30478] or questLog[30478]) or false
     end
 
     if phase == phases.JOGU_THE_DRUNK_MARKET then
-        return not complete[30373] or false
+        return not complete[30373] or complete[30478] or questLog[30478] or false
     end
 
     if phase == phases.RIKKAL_AT_ZANVESS then
