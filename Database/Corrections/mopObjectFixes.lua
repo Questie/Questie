@@ -242,6 +242,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.82,47.84}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [211025] = { -- Goldenfire Orchid
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{47.26,47.73},{46.44,49},{45.11,49.76},{38.28,37.15},{37.84,38.39},{42.06,40.9},{42.4,41.53},{41.77,43.68},{36.65,36.09},{45.65,49.57},{46.1,50.15}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [211112] = { -- Mysterious Whirlpool
             [objectKeys.name] = 'Mysterious Whirlpool',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.17,31.69}}},
