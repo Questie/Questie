@@ -103,6 +103,8 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10079] = 6066, -- Scholomance - Headmaster's Study (fake ID for Scholomance MoP)
     [10080] = 5840, -- Guo-Lai Halls - The Hall of the Serpent (fake ID cave in Vale of Eternal Blossoms)
     [10081] = 5785, -- Greenstone Quarry Lower Quarry(fake ID cave in The Jade Forest)
+    [10082] = 6141, -- Shrine of Two Moons - The Imperial Mercantile - Top Floor
+    [10083] = 6142, -- Shrine of Seven Stars - The Imperial Exchange - Top Floor
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon

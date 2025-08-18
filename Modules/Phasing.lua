@@ -411,6 +411,12 @@ local phases = {
     VAELDRIN_SHATTERED_CONVOY = 1339,
     VAELDRIN_AT_SENTINEL_BASECAMP = 1340,
     MUDMUG_AT_STONEPLOW = 1341,
+    BO_TSULAN_YAUNGOL_ROAD = 1342,
+    BO_TSULAN_WESTWIND_REST_1 = 1343,
+    BO_TSULAN_WESTWIND_REST_2 = 1344,
+    GORAI_EDGE = 1345,
+    GORAI_LIGHTPOLE = 1346,
+    GORAI_RITUAL = 1347,
 }
 Phasing.phases = phases
 
@@ -1871,7 +1877,31 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.MUDMUG_AT_STONEPLOW then
-        return complete[30360] or false
+        return complete[30360] or complete[30376] or false
+    end
+
+    if phase == phases.BO_TSULAN_YAUNGOL_ROAD then
+        return complete[30508] and not (questLog[30514] and questLog[30514].isComplete == 1) and not complete[30514] or false
+    end
+
+    if phase == phases.BO_TSULAN_WESTWIND_REST_1 then
+        return questLog[30514] and questLog[30514].isComplete == 1 or false
+    end
+
+    if phase == phases.BO_TSULAN_WESTWIND_REST_2 then
+        return complete[30514] or false
+    end
+
+    if phase == phases.GORAI_EDGE then
+        return not complete[30496] and not (questLog[30496] and questLog[30496].isComplete == 1) or false
+    end
+
+    if phase == phases.GORAI_LIGHTPOLE then
+        return (complete[30496] or (questLog[30496] and questLog[30496].isComplete == 1)) and not (complete[30480] or (questLog[30480] and questLog[30480].isComplete == 1)) or false
+    end
+
+    if phase == phases.GORAI_RITUAL then
+        return complete[30480] or (questLog[30480] and questLog[30480].isComplete == 1) or false
     end
 
     return false

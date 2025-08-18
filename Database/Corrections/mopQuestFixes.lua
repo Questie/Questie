@@ -3181,7 +3181,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30475,30476,30477,30478},
         },
         [30480] = { -- The Ritual
-            [questKeys.preQuestGroup] = {30468,30967}, -- might also be 30496
+            [questKeys.preQuestGroup] = {30468,30496,30967},
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530}}},
         },
@@ -3225,7 +3225,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30489,30491,30587}, -- probably needs 30804 too
             [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"	Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT] = {{65.38,61.45}}}},
+            [questKeys.triggerEnd] = {"Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT] = {{65.38,61.45}}}},
         },
         [30495] = { -- Love's Labor
             [questKeys.objectives] = {{{59395,nil,Questie.ICON_TYPE_TALK},{59401,nil,Questie.ICON_TYPE_TALK},{59392,nil,Questie.ICON_TYPE_TALK},{59397,nil,Questie.ICON_TYPE_TALK}}},
@@ -3365,8 +3365,8 @@ function MopQuestFixes.Load()
         },
         [30575] = { -- Round 'Em Up
             [questKeys.preQuestSingle] = {30514},
-            [questKeys.objectives] = {{{59611,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Round up a yak"),0,{{"monster",59610}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59610,59611},59610,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT] = {{54.26,84.01}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
         },
         [30581] = { -- ...and the Pot, Too!
             [questKeys.preQuestSingle] = {30569,30570},
@@ -3409,7 +3409,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30515},
         },
         [30595] = { -- Profiting off of the Past
-            [questKeys.preQuestSingle] = {30515},
+            [questKeys.preQuestSingle] = {30514,30515},
         },
         [30598] = { -- Who Knew Fish Liked Eggs?
             [questKeys.requiredSourceItems] = {80303},
@@ -5096,8 +5096,8 @@ function MopQuestFixes.Load()
         },
         [31256] = { -- Round 'Em Up
             [questKeys.preQuestSingle] = {30515},
-            [questKeys.objectives] = {{{59611,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Round up a yak"),0,{{"monster",59610}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59610,59611},59610,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT] = {{62.17,79.93}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
         },
         [31261] = { -- Captain Jack's Dead
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

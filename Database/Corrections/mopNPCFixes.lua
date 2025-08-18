@@ -1152,6 +1152,9 @@ function MopNpcFixes.Load()
         [59178] = { -- Lo Wanderbrew
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.63,45.31}}},
         },
+        [59180] = { -- Orachi
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{74.74,79.73}}},
+        },
         [59183] = { -- Wounded Defender
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{55.09,27.63},{53.87,28.26},{52.52,27.43},{51.46,30.18},{52.52,30.79},{52.81,29.92},{53.97,29.28}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1285,6 +1288,9 @@ function MopNpcFixes.Load()
         [59424] = { -- Dak Dak
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.27,71.59}}},
         },
+        [59441] = { -- Admiral Taylor
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.77,82.67}}},
+        },
         [59452] = { -- Brother Rabbitsfoot
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 -- This phasing is good enough for now, even though it's not 100% correct to tie Rabbitsfoots' phasing for Yakshoes'
@@ -1294,6 +1300,9 @@ function MopNpcFixes.Load()
         },
         [59467] = { -- Candlestick Mage
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}}},
+        },
+        [59483] = { -- Ur-Bataar
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.24,84.39}}},
         },
         [59492] = { -- Pei-Zhi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{43.83,12.52}}},
@@ -1336,6 +1345,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{26.2,45.6}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [59797] = { -- Mogujia Soul-Caller
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.11,70.9}}},
         },
         [59833] = { -- Ripe EZ-Gro Green Cabbage
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
@@ -1540,6 +1552,13 @@ function MopNpcFixes.Load()
         [60970] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.88,81.67}}},
         },
+        [60973] = { -- Waterspeaker Gorai
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {75.13,87.94,phases.GORAI_EDGE},
+                {75.2,88.26,phases.GORAI_LIGHTPOLE},
+                {74.9,88.58,phases.GORAI_RITUAL},
+            }},
+        },
         [60978] = { -- Kang Bramblestaff
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.68,45.27}}}, -- only used at these coords
         },
@@ -1569,6 +1588,9 @@ function MopNpcFixes.Load()
         },
         [61013] = { -- Master Boom Boom
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.68,46.49}}}, -- only used at these coords
+        },
+        [61065] = { -- Waterspeaker Gorai
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.59,82.92}}},
         },
         [61071] = { -- Small Frog
             [npcKeys.spawns] = {
@@ -2472,6 +2494,13 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{52.04,43.12}}},
         },
+        [63542] = { -- Elder Tsulan
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {56.35,84.4,phases.BO_TSULAN_YAUNGOL_ROAD},
+                {54.7,84.22,phases.BO_TSULAN_WESTWIND_REST_1},
+                {54.16,83.43,phases.BO_TSULAN_WESTWIND_REST_2},
+            }},
+        },
         [63576] = { -- Osul Fire-Warrior
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
         },
@@ -2482,6 +2511,13 @@ function MopNpcFixes.Load()
         },
         [63618] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
+        },
+        [63754] = { -- Farmhand Bo
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {58.87,80.47,phases.BO_TSULAN_YAUNGOL_ROAD},
+                {54.68,84.29,phases.BO_TSULAN_WESTWIND_REST_1},
+                {53.78,84.11,phases.BO_TSULAN_WESTWIND_REST_2},
+            }},
         },
         [63758] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78}}},
@@ -2497,7 +2533,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{18.47,56.60},{55.32,50.15},{70.02,23.57}},
                 [zoneIDs.KRASARANG_WILDS] = {{40.46,33.92}},
                 [zoneIDs.THE_JADE_FOREST] = {{45.72,43.8}},
-            }
+            },
         },
         [63796] = { -- Needlebeak
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.87,20.45}}},
@@ -2530,6 +2566,16 @@ function MopNpcFixes.Load()
         },
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [64044] = { -- Thaumaturge Anjool
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{64.04,17.38}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
+            [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
+        },
+        [64045] = { -- Warpweaver Ramahesh
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{53.06,89.16}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
+            [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
         },
         [64183] = { -- Enormous Stone Quilen
             [npcKeys.name] = "Enormous Stone Quilen",
@@ -2611,6 +2657,11 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_90},{-1,-1}},
                 [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_90}},
             },
+        },
+        [64573] = { -- Warpweaver Ramahesh
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{56.41,85.44}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
+            [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
         },
         [64583] = { -- Klaxxi Traitor
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.19,57.52}}},
@@ -3045,6 +3096,11 @@ function MopNpcFixes.Load()
         },
         [66949] = { -- Rell Nightwind
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
+        },
+        [67014] = { -- Warpweaver Shafiee
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{59.04,18.33}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
+            [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
         },
         [67067] = { -- Rell's Gyrocopter
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.51,79.75}}},
