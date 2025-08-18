@@ -49,6 +49,12 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
+    AUGUST_CELESTIALS_JADE_SERPENT_ELITES = {
+        quests = {30067,30068},
+        limit = 1, -- 1 (random of 2)
+        exclusiveHubs = {},
+        preQuestHubs = {AUGUST_CELESTIALS_JADE_SERPENT = true},
+    },
     AUGUST_CELESTIALS_WHITE_TIGER = {
         quests = {31492,31517,30879,30880},
         limit = 2, -- 1 (random of 2) + 1 (2 random chains of 4 each, showing only first one)

@@ -1778,12 +1778,10 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30067,30068},
         },
         [30067] = { -- The Shadow of Doubt
-            [questKeys.preQuestSingle] = {30006,30063,30064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30068},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30068] = { -- Flames of the Void
-            [questKeys.preQuestSingle] = {30006,30063,30064,30065,30066}, -- 3 out of 5
             [questKeys.exclusiveTo] = {30067},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",57871}}}},
