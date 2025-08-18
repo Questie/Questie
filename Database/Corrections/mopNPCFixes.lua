@@ -895,7 +895,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
         },
         [58503] = { -- Anji Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.97,38.11}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.97,38.11,phases.GOLDEN_LOTUS_RUINS_PEACE}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [58504] = { -- Kun Autumnlight
@@ -1211,15 +1211,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
         [59332] = { -- Leven Dawnblade
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.8,38.6}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.82,38.5,phases.GOLDEN_LOTUS_RUINS_ATTACK}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59333] = { -- Rook Stonetoe
-            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{}}}, -- TO DO wowhead coords, need recheck
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.4,38.03}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59334] = { -- Sun Tenderheart
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.2,39}}}, -- TO DO wowhead coords, need recheck
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.12,38.97}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59336] = { -- Mayor Shiyo
@@ -2481,6 +2481,12 @@ function MopNpcFixes.Load()
         [63369] = { -- Rockshell Snapclaw
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{39,79.4},{39.2,79.6},{39.4,78.4},{39.6,78.2},{40,79.6},{40.2,79.4},{40.8,77.8},{41,77.4},{41.6,76},{41.8,78},{42,77},{42.2,75},{42.4,79.2},{42.6,79.2},{42.6,79.6},{42.8,77},{43,78.4},{43.2,76.2},{43.4,74.8},{43.6,74.8},{43.8,71.8},{43.8,79.6},{44,78.6},{44.4,76.4},{44.4,77.4},{44.4,78},{44.6,76.4},{44.6,76.6},{45.2,78.4},{45.2,79.4},{45.4,79.6},{45.6,69},{45.6,76},{45.6,78.4},{45.6,78.6},{46.6,74.8},{46.6,78.6},{47,77.4},{47,77.6},{47,80.2},{47,81.4},{47,81.6},{47.8,71.4},{47.8,75.4},{48,76},{48.8,76.6},{49,75.4},{49.2,75.8}}},
         },
+        [63447] = { -- Mogu Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS]={{24.72,39.57},{24.71,40.19},{22.45,38.6},{32.92,33.95},{18.49,30.06},{21.3,31.37},{22.33,27.12},{22.79,26.76},{24.73,28.87},{24.57,28.19},{25.02,27.15},{25.6,29.72},{25.92,25.89},{26.52,30.91},{28.09,37.35},{30.77,32.48},{31,33.26},{30.88,34.26},{29.22,24.59},{27.67,20.23},{26.96,18.63},{26.22,43.56},{26.1,41.57}},
+                                [zoneIDs.GUO_LAI_HALLS]={{61.68,53.13},{50.07,46.26},{45.16,63.1},{46.93,64.13},{48.7,65.18},{57.65,70.48},{55.85,69.42},{54.05,68.32},{45.74,83.99},{47.65,85.22}},
+            },
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [63465] = { -- Muckscale Flesheater
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.73,52.79}}},
         },
@@ -2501,6 +2507,11 @@ function MopNpcFixes.Load()
                 {54.16,83.43,phases.BO_TSULAN_WESTWIND_REST_2},
             }},
         },
+        [63556] = { -- Mogu Statue
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS]={{25.55,40.45},{24.72,39.57},{24.71,40.19},{22.45,38.6},{32.92,33.95},{18.49,30.06},{21.3,31.37},{22.33,27.12},{22.79,26.76},{24.73,28.87},{24.57,28.19},{25.02,27.15},{25.6,29.72},{25.92,25.89},{26.52,30.91},{28.09,37.35},{30.77,32.48},{31,33.26},{30.88,34.26},{29.22,24.59},{27.67,20.23},{26.96,18.63},{26.22,43.56},{26.1,41.57}},
+                                [zoneIDs.GUO_LAI_HALLS]={{61.68,53.13},{50.07,46.26},{45.16,63.1},{46.93,64.13},{48.7,65.18},{57.65,70.48},{55.85,69.42},{54.05,68.32},{45.74,83.99},{47.65,85.22}},
+            },
+        },
         [63576] = { -- Osul Fire-Warrior
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
         },
@@ -2511,6 +2522,22 @@ function MopNpcFixes.Load()
         },
         [63618] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
+        },
+        [63640] = { -- Golden Lotus Captive
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63652] = { -- Golden Lotus Captive
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63653] = { -- Golden Lotus Captive
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63654] = { -- Golden Lotus Captive
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [63754] = { -- Farmhand Bo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
@@ -3490,6 +3517,12 @@ function MopNpcFixes.Load()
             [npcKeys.subName] = "Ashweb Matriarch",
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{75.77,47.59}}},
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
+        },
+        [246031] = { -- Gochao the Ironfist
+            [npcKeys.name] = "Gochao the Ironfist",
+            [npcKeys.subName] = "Shao-Tien Imperion",
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{77.71,73.21}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246176] = { -- Vicejaw
             [npcKeys.name] = "Vicejaw",

@@ -417,6 +417,8 @@ local phases = {
     GORAI_EDGE = 1345,
     GORAI_LIGHTPOLE = 1346,
     GORAI_RITUAL = 1347,
+    GOLDEN_LOTUS_RUINS_PEACE = 1348,
+    GOLDEN_LOTUS_RUINS_ATTACK = 1349,
 }
 Phasing.phases = phases
 
@@ -1902,6 +1904,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GORAI_RITUAL then
         return complete[30480] or (questLog[30480] and questLog[30480].isComplete == 1) or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_RUINS_PEACE then
+        return complete[31240] or complete[31248] or complete[31294] or complete[31296] or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_RUINS_ATTACK then
+        return complete[31244] or complete[31295] or false
     end
 
     return false

@@ -2444,19 +2444,19 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{110013}},
         },
         [30277] = { -- The Crumbling Hall
-            [questKeys.startedBy] = {{58503}},
-            [questKeys.finishedBy] = {{58503}},
+            [questKeys.startedBy] = {{58503,59332}},
+            [questKeys.finishedBy] = {{58503,59332}},
             [questKeys.objectives] = {nil,{{214477}},{{87790}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestGroup] = {30642},
-            --[questKeys.preQuestSingle] = {test}, -- offered after 30200+30228.
+            --[questKeys.preQuestSingle] = {test}, -- offered after 30200+30228. 30298+30299.
             [questKeys.exclusiveTo] = {30280},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Deactivate Spirit Wall"),1,{{"object",214475},{"object",214476}}}},
         },
         [30280] = { -- The Thunder Below
-            [questKeys.startedBy] = {{58503}},
-            [questKeys.finishedBy] = {{58503}},
+            [questKeys.startedBy] = {{58503,59332}},
+            [questKeys.finishedBy] = {{58503,59332}},
             --[questKeys.objectives] = {{{64965}}}, -- TO DO: check ID and Milau needs spawn anyway
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2592,9 +2592,8 @@ function MopQuestFixes.Load()
                                           },
             [questKeys.exclusiveTo] = {30481},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{63640,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_EVENT}}}, -- TO DO: 63655 -> 63657 have no spawns atm
-            -- [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}}, -- TO DO: find out cage id
-            [questKeys.requiredSourceItems] = {85582},
+            [questKeys.objectives] = {nil,nil,{{85582}},nil,{{{63640,63651,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_EVENT}}}, -- 63651,63655 -> 63657 are the NPCs after you rescue them
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213289}}}},
         },
         [30301] = { -- Offering a Warm Welcome
             [questKeys.startedBy] = {{59332}},
@@ -2603,13 +2602,13 @@ function MopQuestFixes.Load()
                                           31295, -- Mogu within the Ruins of Guo-Lai 59338 from Mistfall Peace
                                           },
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
-            [questKeys.objectives] = {nil,{{210680}}}, -- TO DO: check this
+            [questKeys.objectives] = {nil,{{210680,nil,Questie.ICON_TYPE_INTERACT}}}, -- not visible, use INTERACT icon
         },
         [30302] = { -- The Imperion Threat
             [questKeys.startedBy] = {{59332}},
             [questKeys.finishedBy] = {{59332}},
-            [questKeys.preQuestGroup] = {30298,30301,30305,30481}, -- TO DO: check if it needs 4 prequests
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{62880,62881,63691},62880}}}, -- check IDs
+            [questKeys.preQuestGroup] = {30298,30301,30305,30481}, -- was available after only 30298 30299
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{246031,245153,63691},246031}}}, -- check Huo-Shuang ID + spawn.
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30304] = { -- Hard as a Rock
@@ -5331,35 +5330,29 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31782}, -- not entirely sure
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512,31782},
+            [questKeys.preQuestSingle] = {31782},
             [questKeys.exclusiveTo] = {31378,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512,31782},
+            [questKeys.preQuestSingle] = {31782},
             [questKeys.exclusiveTo] = {31379,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31379] = { -- Challenge At The Temple of the Red Crane
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31382] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31380,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31383] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31381,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31386] = { -- The Shado-Pan Offensive
@@ -6993,12 +6986,12 @@ function MopQuestFixes.Load()
         [32016] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{64029}},
             [questKeys.objectives] = {nil,{{440004}}},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE, -- repeatable until you get max charms
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
             [questKeys.objectives] = {nil,{{440004}}},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE, -- repeatable until you get max charms
         },
         [32018] = { -- His Name Was... Stormstout
             [questKeys.exclusiveTo] = {32019},
