@@ -1131,6 +1131,21 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
+        [59126] = { -- Jokka-Jokka
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
+        },
+        [59127] = { -- Kon-Kon
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
+        },
+        [59128] = { -- Jim-Jim
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
+        },
+        [59129] = { -- Maaka
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
+        },
+        [59130] = { -- Teeku
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
+        },
         [59137] = { -- Incursion Sentinel
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.92,43.39}}},
         },
