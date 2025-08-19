@@ -139,6 +139,50 @@ describe("QuestieLib", function()
             assert.are_same("[60++] ", levelString)
         end)
 
+        it("should handle Scenario quests", function()
+            QuestieDB.GetQuestTagInfo = function() return 98, "Scenario" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60S] ", levelString)
+        end)
+
+        it("should handle Scenario quests for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuestTagInfo = function() return 98, "场景战役" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60S] ", levelString)
+        end)
+
+        it("should handle Scenario quests for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            QuestieDB.GetQuestTagInfo = function() return 98, "事件" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60S] ", levelString)
+        end)
+
+        it("should handle Scenario quests for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            QuestieDB.GetQuestTagInfo = function() return 98, "시나리오" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60S] ", levelString)
+        end)
+
+        it("should handle Scenario quests for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            QuestieDB.GetQuestTagInfo = function() return 98, "Сценарий" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60S] ", levelString)
+        end)
+
         it("should handle Account quests", function()
             QuestieDB.GetQuestTagInfo = function() return 102, "Account" end
 
