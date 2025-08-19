@@ -534,8 +534,8 @@ local function _GetQuestTag(quest)
             return "(" .. (DAILY or l10n("Daily")) .. ")";
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return "(" .. l10n("Repeatable") .. ")";
-        elseif (questType == 1 or questType == 62 or questType == 81 or questType == 83 or questType == 85 or questType == 98 or questType == 294) then
-            -- Group(Elite) or Raid or Dungeon or Legendary or Heroic or Scenario or Celestial
+        elseif (questType == 1 or questType == 62 or questType == 81 or questType == 83 or questType == 85 or questType == 88 or questType == 89 or questType == 98 or questType == 294) then
+            -- Group(Elite) or Raid or Dungeon or Legendary or Heroic or Raid(10) or Raid(25) or Scenario or Celestial
             return "(" .. questTag .. ")";
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
             return "(" .. l10n("Rune") .. ")";
