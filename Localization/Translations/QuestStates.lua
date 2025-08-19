@@ -158,6 +158,30 @@ local questStateLocales = {
         ["zhCN"] = "每周 账号",
         ["zhTW"] = "每周 帳號",
     },
+    ["Daily Heroic"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Täglich Heroisch",
+        ["esES"] = "Diaria Heroica",
+        ["esMX"] = "Diaria Heroica",
+        ["frFR"] = "Journalière Héroïque",
+        ["koKR"] = "일일 영웅",
+        ["ptBR"] = "Diário Heroico",
+        ["ruRU"] = "Ежедневно Героический",
+        ["zhCN"] = "日常 英雄",
+        ["zhTW"] = "日常 英雄",
+    },
+    ["Daily Dungeon"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Täglich Dungeon",
+        ["esES"] = "Diaria Mazmorra",
+        ["esMX"] = "Diaria Calabozo",
+        ["frFR"] = "Journalière Donjon",
+        ["koKR"] = "일일 던전",
+        ["ptBR"] = "Diário Masmorra",
+        ["ruRU"] = "Ежедневно Подземелье",
+        ["zhCN"] = "日常 地下城",
+        ["zhTW"] = "日常 地城",
+    },
 }
 
 for k, v in pairs(questStateLocales) do
