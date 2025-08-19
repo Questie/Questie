@@ -1966,6 +1966,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 58420}}}},
+            [questKeys.objectives] = {{{58438,nil,Questie.ICON_TYPE_EVENT},{58530}}},
         },
         [30154] = { -- The Easiest Way To A Serpent's Heart
             [questKeys.preQuestSingle] = {30142},
