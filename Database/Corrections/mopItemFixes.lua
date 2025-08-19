@@ -1050,5 +1050,10 @@ function MopItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.objectDrops] = {210537,210538,210539},
         },
+        [248204] = { -- Chimera of Doubt
+            [itemKeys.name] = "Chimera of Doubt",
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {56439},
+        },
     }
 end
