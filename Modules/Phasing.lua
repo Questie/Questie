@@ -1907,11 +1907,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GOLDEN_LOTUS_RUINS_PEACE then
-        return complete[31240] or complete[31248] or complete[31294] or complete[31296] or false
+        return complete[31240] or complete[31248] or complete[31294] or complete[31296] or questLog[31240] or questLog[31248] or questLog[31294] or questLog[31296] or false
     end
 
     if phase == phases.GOLDEN_LOTUS_RUINS_ATTACK then
-        return complete[31244] or complete[31295] or false
+        return complete[31244] or complete[31295] or questLog[31244] or questLog[31295] or false
     end
 
     return false
