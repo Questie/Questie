@@ -338,8 +338,8 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
-            [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{51.7,69.4}}},
-            [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIRS,
+            [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{51.7,69.4}}},
+            [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
         },
         [211754] = { -- Curious Text
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.11,47.89}}},

@@ -2513,7 +2513,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [63517] = { -- The Spring Drifter
-            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIRS] = {{52.04,43.12}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{52.04,43.12}}},
         },
         [63542] = { -- Elder Tsulan
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
