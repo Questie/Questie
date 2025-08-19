@@ -928,6 +928,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {65621,65624,65628},
             [itemKeys.objectDrops] = {214845,214986},
         },
+        [88895] = { -- Serpent's Scale
+            [itemKeys.objectDrops] = {214843,214844},
+        },
         [89053] = { -- Big Bag of Poop
             [itemKeys.npcDrops] = {65711,67084},
         },
