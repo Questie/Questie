@@ -234,8 +234,7 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
 
     local retLevel = tostring(level)
     if questType and questTag then
-        local char = "+"
-        char = stringSub(questTag, 1, 1)
+        local char = stringSub(questTag, 1, 1)
         -- the string.sub above doesn't work for multi byte characters in Chinese
         local langCode = l10n:GetUILocale()
         if questType == 1 then
