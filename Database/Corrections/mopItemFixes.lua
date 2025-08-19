@@ -875,6 +875,9 @@ function MopItemFixes.Load()
         [86616] = { -- Dread Amber Focus
             [itemKeys.npcDrops] = {62814},
         },
+        [87210] = { -- Chimera of Fear
+            [itemKeys.npcDrops] = {60999},
+        },
         [87263] = { -- Venom-Coated Mandible
             [itemKeys.npcDrops] = {64831},
         },

@@ -5469,6 +5469,11 @@ function MopQuestFixes.Load()
         [31480] = { -- Have a Drink
             [questKeys.objectives] = {nil,nil,{{75026}},nil,nil,{{124052}}},
         },
+        [31481] = { -- Fear Itself
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {31473},
+            [questKeys.exclusiveTo] = {91786},
+        },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31279},
