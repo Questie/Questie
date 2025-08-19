@@ -2719,6 +2719,9 @@ function MopNpcFixes.Load()
         [64599] = { -- Ambersmith Zikk
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{55.02,35.55}}},
         },
+        [64616] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
+        },
         [64645] = { -- Hisek the Swarmkeeper
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.28,58.24}}},
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
