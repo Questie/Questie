@@ -227,6 +227,50 @@ describe("QuestieLib", function()
             assert.are_same("[60A] ", levelString)
         end)
 
+        it("should handle Celestial quests", function()
+            QuestieDB.GetQuestTagInfo = function() return 294, "Celestial" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60C] ", levelString)
+        end)
+
+        it("should handle Celestial quests for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuestTagInfo = function() return 294, "天神" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60C] ", levelString)
+        end)
+
+        it("should handle Celestial quests for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            QuestieDB.GetQuestTagInfo = function() return 294, "天尊" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60C] ", levelString)
+        end)
+
+        it("should handle Celestial quests for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            QuestieDB.GetQuestTagInfo = function() return 294, "천신" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60C] ", levelString)
+        end)
+
+        it("should handle Celestial quests for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            QuestieDB.GetQuestTagInfo = function() return 294, "Небожители" end
+
+            local levelString = QuestieLib:GetLevelString(QUEST_ID, 60, false)
+
+            assert.are_same("[60C] ", levelString)
+        end)
+
         it("should handle unknown quests", function()
             QuestieDB.GetQuestTagInfo = function() return 999, "Unknown" end
 
