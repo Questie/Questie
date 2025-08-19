@@ -56,6 +56,15 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
+    -- ELITE = 1,
+    -- PVP = 41,
+    -- RAID = 62,
+    -- DUNGEON = 81,
+    -- LEGENDARY = 83,
+    -- HEROIC = 85,
+    -- SCENARIO = 98,
+    -- ACCOUNT = 102,
+    -- CELESTIAL = 294,
     [208] = Expansions.Current < Expansions.Cata and {1, "Elite"} or nil,
     [373] = {81, "Dungeon"},
     [644] = {1, "Elite"},
@@ -388,6 +397,8 @@ local questTagCorrections = {
     [9422] = {41, "PvP"},
     [9664] = {41, "PvP"},
     [9665] = {41, "PvP"},
+
+    -- MoP quests
 }
 
 -- * race bitmask data, for easy access
@@ -692,13 +703,6 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB.IsCelestialQuest(questId)
-    local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
-    return flags and bitband(flags, 8) ~= 0
-end
-
----@param questId number
----@return boolean
 function QuestieDB.IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
     -- test a bit flag: (value % (2*flag) >= flag)
@@ -711,6 +715,41 @@ function QuestieDB.IsWeeklyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
     -- test a bit flag: (value % (2*flag) >= flag)
     return flags and (flags % QUEST_FLAGS_WEEKLY_X2) >= QUEST_FLAGS_WEEKLY
+end
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsCelestialQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 294
+end
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsAccountQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 102
+end
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsScenarioQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 98
+end
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsHeroicQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 85
+end
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsLegendaryQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 83
 end
 
 ---@param questId number
