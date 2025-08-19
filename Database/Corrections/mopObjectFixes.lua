@@ -573,7 +573,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214477] = { -- Deactivate Final Spirit Wall
-            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{38.13,31.48},{41.67,18.15}}},
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.29,22.55},{38.13,31.48},{41.67,18.15}}},
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214543] = { -- Dreadspore Bulb
