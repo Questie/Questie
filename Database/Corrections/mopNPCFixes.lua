@@ -746,7 +746,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {48.28,33.85,phases.FARMER_FUNG_NORMAL},
                     {52.14,47.97,phases.FARMER_FUNG_FARM},
-                    {52.8,51.6,phases.FARMER_FUNG_MARKET}, -- TO DO double check existing coords
+                    {52.9,51.69,phases.FARMER_FUNG_MARKET},
                 },
             },
         },
@@ -1079,7 +1079,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                     {45.09,33.78,phases.TINA_MUDCLAW_NORMAL},
                     {52.75,47.91,phases.TINA_MUDCLAW_FARM},
-                    {52.97,51.79,phases.TINA_MUDCLAW_MARKET}, -- TO DO double check coords
+                    {52.97,51.79,phases.TINA_MUDCLAW_MARKET},
                 },
             },
         },
