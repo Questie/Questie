@@ -245,45 +245,30 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
     local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
 
     if questTagId == questTagIds.ELITE then
-        levelString = levelString .. "+"
+        char = "+"
     elseif questTagId == questTagIds.PVP then
-        levelString = levelString
-        -- name = level .. questTag .. name
-    elseif questTagId == questTagIds.RAID or questTagId == questTagIds.RAID10 or questTagId == questTagIds.RAID25 then
-        if isMultiByteLocale then
-            char = "R"
-        end
-        levelString = levelString .. char
-    elseif questTagId == questTagIds.DUNGEON then
-        if isMultiByteLocale then
-            char = "D"
-        end
-        levelString = levelString .. char
+        char = ""
     elseif questTagId == questTagIds.LEGENDARY then
-        levelString = levelString .. "++"
-    elseif questTagId == questTagIds.HEROIC then
-        if isMultiByteLocale then
+        char = "++"
+    elseif isMultiByteLocale then
+        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID10 or questTagId == questTagIds.RAID25 then
+            char = "R"
+        elseif questTagId == questTagIds.DUNGEON then
+            char = "D"
+        elseif questTagId == questTagIds.HEROIC then
             char = "H"
-        end
-        levelString = levelString .. char
-    elseif questTagId == questTagIds.SCENARIO then
-        if isMultiByteLocale then
+        elseif questTagId == questTagIds.SCENARIO then
             char = "S"
-        end
-        levelString = levelString .. char
-    elseif questTagId == questTagIds.ACCOUNT then
-        if isMultiByteLocale then
+        elseif questTagId == questTagIds.ACCOUNT then
             char = "A"
-        end
-        levelString = levelString .. char
-    elseif questTagId == questTagIds.CELESTIAL then
-        if isMultiByteLocale then
+        elseif questTagId == questTagIds.CELESTIAL then
             char = "C"
+        else
+            char = ""
         end
-        levelString = levelString .. char
     end
 
-    return "[" .. levelString .. "] "
+    return "[" .. levelString .. char .. "] "
 end
 
 function QuestieLib:GetRaceString(raceMask)
