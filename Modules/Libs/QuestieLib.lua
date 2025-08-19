@@ -230,6 +230,7 @@ end
 ---@param blizzLike boolean @True = [40+], false = [40D/R]
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level, blizzLike)
+    local questTagIds = QuestieDB.questTagIds
     local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
 
     local retLevel = tostring(level)
@@ -238,52 +239,45 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
         -- the string.sub above doesn't work for multi byte characters in Chinese
         local langCode = l10n:GetUILocale()
         local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
-        if questTagId == 1 then
-            -- Elite quest
+
+        if questTagId == questTagIds.ELITE then
             retLevel = "[" .. retLevel .. "+" .. "] "
-        elseif questTagId == 41 then
+        elseif questTagId == questTagIds.PVP then
             -- Which one? This is just default.
             retLevel = "[" .. retLevel .. "] "
             -- PvP quest
             -- name = "[" .. level .. questTag .. "] " .. name
-        elseif questTagId == 62 or questTagId == 88 or questTagId == 89 then
+        elseif questTagId == questTagIds.RAID or questTagId == questTagIds.RAID10 or questTagId == questTagIds.RAID25 then
             if isMultiByteLocale then
                 char = "R"
             end
-            -- Raid quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questTagId == 81 then
+        elseif questTagId == questTagIds.DUNGEON then
             if isMultiByteLocale then
                 char = "D"
             end
-            -- Dungeon quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questTagId == 83 then
-            -- Legendary quest
+        elseif questTagId == questTagIds.LEGENDARY then
             retLevel = "[" .. retLevel .. "++" .. "] "
-        elseif questTagId == 85 then
+        elseif questTagId == questTagIds.HEROIC then
             if isMultiByteLocale then
                 char = "H"
             end
-            -- Heroic quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questTagId == 98 then
+        elseif questTagId == questTagIds.SCENARIO then
             if isMultiByteLocale then
                 char = "S"
             end
-            -- Scenario quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questTagId == 102 then
+        elseif questTagId == questTagIds.ACCOUNT then
             if isMultiByteLocale then
                 char = "A"
             end
-            -- Account quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questTagId == 294 then
+        elseif questTagId == questTagIds.CELESTIAL then
             if isMultiByteLocale then
                 char = "C"
             end
-            -- Celestial quest
             retLevel = "[" .. retLevel .. char .. "] "
         else
             -- Some other irrelevant type

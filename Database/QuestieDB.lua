@@ -50,21 +50,25 @@ local QUEST_FLAGS_WEEKLY = 32768
 local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 local QUEST_FLAGS_WEEKLY_X2 = 2 * QUEST_FLAGS_WEEKLY
 
+---@enum QuestTagIds
+QuestieDB.questTagIds = {
+    ELITE = 1,
+    PVP = 41,
+    RAID = 62,
+    DUNGEON = 81,
+    LEGENDARY = 83,
+    HEROIC = 85,
+    RAID10 = 88,
+    RAID25 = 89,
+    SCENARIO = 98,
+    ACCOUNT = 102,
+    CELESTIAL = 294,
+}
+
 --- Tag corrections for quests for which the API returns the wrong values.
---- Strucute: [questId] = {tagId, "questType"}
----@type table<number, {[1]: number, [2]: string}>
+--- Structure: [questId] = {tagId, "questType"}
+---@type table<number, {[1]: QuestTagIds, [2]: string}>
 local questTagCorrections = {
-    -- ELITE = 1,
-    -- PVP = 41,
-    -- RAID = 62,
-    -- DUNGEON = 81,
-    -- LEGENDARY = 83,
-    -- HEROIC = 85,
-    -- RAID10 = 88,
-    -- RAID25 = 89,
-    -- SCENARIO = 98,
-    -- ACCOUNT = 102,
-    -- CELESTIAL = 294,
     [208] = Expansions.Current < Expansions.Cata and {1, "Elite"} or nil,
     [373] = {81, "Dungeon"},
     [644] = {1, "Elite"},
@@ -720,63 +724,63 @@ end
 ---@return boolean
 function QuestieDB.IsCelestialQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 294
+    return questTagId == QuestieDB.questTagIds.CELESTIAL
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsAccountQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 102
+    return questTagId == QuestieDB.questTagIds.ACCOUNT
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsScenarioQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 98
+    return questTagId == QuestieDB.questTagIds.SCENARIO
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsHeroicQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 85
+    return questTagId == QuestieDB.questTagIds.HEROIC
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsLegendaryQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 83
+    return questTagId == QuestieDB.questTagIds.LEGENDARY
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsDungeonQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 81
+    return questTagId == QuestieDB.questTagIds.DUNGEON
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsRaidQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 62
+    return questTagId == QuestieDB.questTagIds.RAID or questTagId == QuestieDB.questTagIds.RAID_10 or questTagId == QuestieDB.questTagIds.RAID_25
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsPvPQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 41
+    return questTagId == QuestieDB.questTagIds.PVP
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsGroupQuest(questId)
     local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questTagId == 1
+    return questTagId == QuestieDB.questTagIds.ELITE
 end
 
 --[[ Commented out because not used anywhere
