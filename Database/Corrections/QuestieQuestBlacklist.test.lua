@@ -10,6 +10,10 @@ local QuestieCorrections = require("Database.Corrections.QuestieCorrections")
 local ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
 
 describe("QuestieQuestBlacklist", function()
+    before_each(function()
+        _G.GetLocale = function() return "enUS" end
+    end)
+
     it("should blacklist SoD quests which are never available", function()
         Questie.IsSoD = true
 
