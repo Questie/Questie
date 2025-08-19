@@ -237,6 +237,7 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
         local char = stringSub(questTag, 1, 1)
         -- the string.sub above doesn't work for multi byte characters in Chinese
         local langCode = l10n:GetUILocale()
+        local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
         if questType == 1 then
             -- Elite quest
             retLevel = "[" .. retLevel .. "+" .. "] "
@@ -246,13 +247,13 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
             -- PvP quest
             -- name = "[" .. level .. questTag .. "] " .. name
         elseif questType == 62 or questType == 88 or questType == 89 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "R"
             end
             -- Raid quest
             retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 81 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "D"
             end
             -- Dungeon quest
@@ -261,25 +262,25 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
             -- Legendary quest
             retLevel = "[" .. retLevel .. "++" .. "] "
         elseif questType == 85 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "H"
             end
             -- Heroic quest
             retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 98 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "S"
             end
             -- Scenario quest
             retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 102 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "A"
             end
             -- Account quest
             retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 294 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+            if isMultiByteLocale then
                 char = "C"
             end
             -- Celestial quest
