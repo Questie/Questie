@@ -1,12 +1,10 @@
 dofile("setupTests.lua")
 
-dofile("Database/Corrections/QuestieCorrections.lua")
 dofile("Database/Corrections/ContentPhases/Anniversary.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
 local QuestieQuestBlacklist = require("Database.Corrections.QuestieQuestBlacklist")
-local QuestieCorrections = require("Database.Corrections.QuestieCorrections")
 local ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
 
 describe("QuestieQuestBlacklist", function()
