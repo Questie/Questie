@@ -231,10 +231,10 @@ end
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level, blizzLike)
     local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
-    local retLevel = tostring(level)
+    local levelString = tostring(level)
 
     if (not questTagId) or (not questTagName) then
-        return "[" .. retLevel .. "] "
+        return "[" .. levelString .. "] "
     end
 
     local questTagIds = QuestieDB.questTagIds
@@ -245,48 +245,45 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
     local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
 
     if questTagId == questTagIds.ELITE then
-        retLevel = "[" .. retLevel .. "+" .. "] "
+        levelString = levelString .. "+"
     elseif questTagId == questTagIds.PVP then
-        retLevel = "[" .. retLevel .. "] "
-        -- name = "[" .. level .. questTag .. "] " .. name
+        levelString = levelString
+        -- name = level .. questTag .. name
     elseif questTagId == questTagIds.RAID or questTagId == questTagIds.RAID10 or questTagId == questTagIds.RAID25 then
         if isMultiByteLocale then
             char = "R"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
+        levelString = levelString .. char
     elseif questTagId == questTagIds.DUNGEON then
         if isMultiByteLocale then
             char = "D"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
+        levelString = levelString .. char
     elseif questTagId == questTagIds.LEGENDARY then
-        retLevel = "[" .. retLevel .. "++" .. "] "
+        levelString = levelString .. "++"
     elseif questTagId == questTagIds.HEROIC then
         if isMultiByteLocale then
             char = "H"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
+        levelString = levelString .. char
     elseif questTagId == questTagIds.SCENARIO then
         if isMultiByteLocale then
             char = "S"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
+        levelString = levelString .. char
     elseif questTagId == questTagIds.ACCOUNT then
         if isMultiByteLocale then
             char = "A"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
+        levelString = levelString .. char
     elseif questTagId == questTagIds.CELESTIAL then
         if isMultiByteLocale then
             char = "C"
         end
-        retLevel = "[" .. retLevel .. char .. "] "
-    else
-        -- Some other irrelevant type
-        retLevel = "[" .. retLevel .. "] "
+        levelString = levelString .. char
     end
 
-    return retLevel
+    return "[" .. levelString .. "] "
 end
 
 function QuestieLib:GetRaceString(raceMask)
