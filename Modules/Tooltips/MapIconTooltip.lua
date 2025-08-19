@@ -300,8 +300,8 @@ function MapIconTooltip:Show()
                             end
 
                             if (QuestieDB.IsGroupQuest(nextQuest.Id) or QuestieDB.IsDungeonQuest(nextQuest.Id) or QuestieDB.IsRaidQuest(nextQuest.Id)) then
-                                local _, nextQuestTag = QuestieDB.GetQuestTagInfo(nextQuest.Id)
-                                nextQuestTagString = Questie:Colorize(string.format(" (%s)", nextQuestTag))
+                                local _, nextQuestTagName = QuestieDB.GetQuestTagInfo(nextQuest.Id)
+                                nextQuestTagString = Questie:Colorize(string.format(" (%s)", nextQuestTagName))
                             end
 
                             local nextQuestString = string.format("      %s%s%s%s%s", nextQuestTitleString, nextQuestIdString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString) -- we need an offset to align with description
@@ -508,13 +508,13 @@ local function _GetQuestTag(quest)
     if quest.Type == "complete" then
         return "(" .. l10n("Complete") .. ")";
     else
-        local questType, questTag = QuestieDB.GetQuestTagInfo(quest.Id)
+        local questTagId, questTagName = QuestieDB.GetQuestTagInfo(quest.Id)
 
         if (QuestieEvent and QuestieEvent.activeQuests[quest.Id]) then
             return "(" .. l10n("Event") .. ")";
-        elseif (questType == 41) then
+        elseif (questTagId == 41) then
             return "(" .. l10n("PvP") .. ")";
-        elseif (questType == 102) then
+        elseif (questTagId == 102) then
             if QuestieDB.IsWeeklyQuest(quest.Id) then
                 return "(" .. l10n("Weekly Account") .. ")";
             elseif QuestieDB.IsDailyQuest(quest.Id) then
@@ -524,19 +524,19 @@ local function _GetQuestTag(quest)
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
             return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
-            if questType == 81 then
+            if questTagId == 81 then
                 return "(" .. l10n("Daily Dungeon") .. ")";
-            elseif questType == 85 then
+            elseif questTagId == 85 then
                 return "(" .. l10n("Daily Heroic") .. ")";
-            elseif questType == 294 then
+            elseif questTagId == 294 then
                 return "(" .. l10n("Daily Celestial") .. ")";
             end
             return "(" .. (DAILY or l10n("Daily")) .. ")";
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return "(" .. l10n("Repeatable") .. ")";
-        elseif (questType == 1 or questType == 62 or questType == 81 or questType == 83 or questType == 85 or questType == 88 or questType == 89 or questType == 98 or questType == 294) then
+        elseif (questTagId == 1 or questTagId == 62 or questTagId == 81 or questTagId == 83 or questTagId == 85 or questTagId == 88 or questTagId == 89 or questTagId == 98 or questTagId == 294) then
             -- Group(Elite) or Raid or Dungeon or Legendary or Heroic or Raid(10) or Raid(25) or Scenario or Celestial
-            return "(" .. questTag .. ")";
+            return "(" .. questTagName .. ")";
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
             return "(" .. l10n("Rune") .. ")";
         else

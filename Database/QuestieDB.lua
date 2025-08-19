@@ -719,64 +719,64 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsCelestialQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 294
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 294
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsAccountQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 102
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 102
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsScenarioQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 98
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 98
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsHeroicQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 85
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 85
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsLegendaryQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 83
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 83
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsDungeonQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 81
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 81
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsRaidQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 62
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 62
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsPvPQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 41
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 41
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsGroupQuest(questId)
-    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
-    return questType == 1
+    local questTagId, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questTagId == 1
 end
 
 --[[ Commented out because not used anywhere
@@ -798,23 +798,24 @@ local questTagInfoCache = {}
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard and cache the results.
 ---@param questId number
----@return number|nil questType, string|nil questTag
+---@return number|nil questTagId
+---@return string|nil questTagName
 function QuestieDB.GetQuestTagInfo(questId)
     if questTagInfoCache[questId] then
         return questTagInfoCache[questId][1], questTagInfoCache[questId][2]
     end
 
-    local questType, questTag
+    local questTagId, questTagName
     if questTagCorrections[questId] then
-        questType, questTag = questTagCorrections[questId][1], questTagCorrections[questId][2]
+        questTagId, questTagName = questTagCorrections[questId][1], questTagCorrections[questId][2]
     else
-        questType, questTag = GetQuestTagInfo(questId)
+        questTagId, questTagName = GetQuestTagInfo(questId)
     end
 
     -- cache the result to avoid hitting the API throttling limit
-    questTagInfoCache[questId] = {questType, questTag}
+    questTagInfoCache[questId] = {questTagId, questTagName}
 
-    return questType, questTag
+    return questTagId, questTagName
 end
 
 ---@param questId number
