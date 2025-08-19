@@ -426,7 +426,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         end
     end
 
-    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.enableTooltipsQuestLevel, true)
 
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 

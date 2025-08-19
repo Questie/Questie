@@ -136,7 +136,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                 }
             end
             for playerName, _ in pairs(playerList) do
@@ -158,7 +158,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                 }
             end
             for playerName, objectives in pairs(playerList) do
@@ -272,7 +272,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
 
             if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
-                    local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                    local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                     tinsert(tooltipLines, questString)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then
@@ -284,7 +284,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
-                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                     }
                 end
                 if not QuestiePlayer.currentQuestlog[questId] then

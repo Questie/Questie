@@ -127,13 +127,12 @@ end
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
+function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
     local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
-        name = QuestieLib:GetLevelString(questId, level, blizzLike) .. name
+        name = QuestieLib:GetLevelString(questId, level) .. name
     end
 
     if Questie.db.profile.enableTooltipsQuestID then
@@ -227,9 +226,8 @@ end
 
 ---@param questId QuestId
 ---@param level Level @The quest level
----@param blizzLike boolean @True = [40+], false = [40D/R]
 ---@return string levelString @String of format "[40+]"
-function QuestieLib:GetLevelString(questId, level, blizzLike)
+function QuestieLib:GetLevelString(questId, level)
     local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
     local levelString = tostring(level)
 

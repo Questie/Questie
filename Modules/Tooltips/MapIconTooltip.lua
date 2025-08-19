@@ -280,7 +280,7 @@ function MapIconTooltip:Show()
                             end
 
                             if Questie.db.profile.enableTooltipsQuestLevel then
-                                nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, nextQuest.level, true) .. nextQuest.name)
+                                nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, nextQuest.level) .. nextQuest.name)
                             else
                                 nextQuestTitleString = string.format("%s", nextQuest.name)
                             end
@@ -366,7 +366,7 @@ function MapIconTooltip:Show()
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
             local quest = QuestieDB.GetQuest(questId);
-            local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true);
+            local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true);
             local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel);
             r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
             if haveGiver then
@@ -548,7 +548,7 @@ end
 function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
     tip.type = _GetQuestTag(icon.data)
-    tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.profile.enableTooltipsQuestLevel, false, true)
+    tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.profile.enableTooltipsQuestLevel, false)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
 
