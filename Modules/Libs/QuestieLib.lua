@@ -245,7 +245,7 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
             retLevel = "[" .. retLevel .. "] "
             -- PvP quest
             -- name = "[" .. level .. questTag .. "] " .. name
-        elseif questType == 62 then
+        elseif questType == 62 or questType == 88 or questType == 89 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
@@ -263,18 +263,6 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
         elseif questType == 85 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "H"
-            end
-            -- Heroic quest
-            retLevel = "[" .. retLevel .. char .. "] "
-        elseif questType == 88 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "R"
-            end
-            -- Heroic quest
-            retLevel = "[" .. retLevel .. char .. "] "
-        elseif questType == 89 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "R"
             end
             -- Heroic quest
             retLevel = "[" .. retLevel .. char .. "] "
