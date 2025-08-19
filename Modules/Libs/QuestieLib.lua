@@ -235,39 +235,55 @@ function QuestieLib:GetLevelString(questId, level, blizzLike)
     local retLevel = tostring(level)
     if questType and questTag then
         local char = "+"
-        if (not blizzLike) then
-            char = stringSub(questTag, 1, 1)
-        end
+        char = stringSub(questTag, 1, 1)
         -- the string.sub above doesn't work for multi byte characters in Chinese
         local langCode = l10n:GetUILocale()
         if questType == 1 then
             -- Elite quest
             retLevel = "[" .. retLevel .. "+" .. "] "
-        elseif questType == 81 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "D"
-            end
-            -- Dungeon quest
-            retLevel = "[" .. retLevel .. char .. "] "
+        elseif questType == 41 then
+            -- Which one? This is just default.
+            retLevel = "[" .. retLevel .. "] "
+            -- PvP quest
+            -- name = "[" .. level .. questTag .. "] " .. name
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
             -- Raid quest
             retLevel = "[" .. retLevel .. char .. "] "
-        elseif questType == 41 then
-            -- Which one? This is just default.
-            retLevel = "[" .. retLevel .. "] "
-            -- PvP quest
-            -- name = "[" .. level .. questTag .. "] " .. name
+        elseif questType == 81 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "D"
+            end
+            -- Dungeon quest
+            retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 83 then
             -- Legendary quest
             retLevel = "[" .. retLevel .. "++" .. "] "
+        elseif questType == 85 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "H"
+            end
+            -- Heroic quest
+            retLevel = "[" .. retLevel .. char .. "] "
+        elseif questType == 98 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "S"
+            end
+            -- Scenario quest
+            retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 102 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "A"
             end
             -- Account quest
+            retLevel = "[" .. retLevel .. char .. "] "
+        elseif questType == 294 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "C"
+            end
+            -- Celestial quest
             retLevel = "[" .. retLevel .. char .. "] "
         else
             -- Some other irrelevant type

@@ -479,7 +479,6 @@ QuestieDB.classKeys = {
 QuestieDB.specialFlags = {
     NONE = 0,
     REPEATABLE = 1,
-    CELESTIAL = 8, -- Daily Celestial quests
 }
 
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
