@@ -5919,30 +5919,37 @@ function MopQuestFixes.Load()
         [31669] = { -- The Cabbage Test
             [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {79102},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31670] = { -- That Dangling Carrot
             [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80590},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31671] = { -- Why Not Scallions?
             [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80591},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31672] = { -- A Pumpkin-y Perfume
             [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80592},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80593},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31674] = { -- The Pink Turnip Challenge
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80594},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31675] = { -- The White Turnip Treatment
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80595},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31676] = { -- Ancient Vengeance
             [questKeys.preQuestSingle] = {31004},
@@ -6779,14 +6786,17 @@ function MopQuestFixes.Load()
         [31941] = { -- Squash Those Foul Odors
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943,32682},
             [questKeys.requiredSourceItems] = {89328},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31942] = { -- It's Melon Time
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943,32682},
             [questKeys.requiredSourceItems] = {89329},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31943] = { -- Which Berries? Witchberries.
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942,32682},
             [questKeys.requiredSourceItems] = {89326},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31944] = { -- Complete Your Training: The Final Test
             [questKeys.requiredClasses] = classIDs.MONK,
