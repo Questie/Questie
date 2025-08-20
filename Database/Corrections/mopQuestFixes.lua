@@ -3354,7 +3354,7 @@ function MopQuestFixes.Load()
         [30571] = { -- Farmhand Freedom
             [questKeys.preQuestSingle] = {30569,30570},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay the overseers"),0,{{"monster",59580}}}},
-            [questKeys.objectives] = {{{59577,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{59577,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30575] = { -- Round 'Em Up
             [questKeys.preQuestSingle] = {30514},
@@ -3590,36 +3590,36 @@ function MopQuestFixes.Load()
         },
         [30650] = { -- Pandaren Prisoners [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619},
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30651] = { -- Barrels of Fun [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30652] = { -- In Tents Channeling [Alliance]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31252,30619}, -- might also need 30575 30583
+            [questKeys.preQuestGroup] = {31252,30619},
         },
         [30653] = { -- It Does You No Good Inside The Keg
             [questKeys.preQuestSingle] = {30241,30376}, -- any of the (mandatory) breadcrumbs that trigger the mantid invasion phase in western four winds
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59851,59853},59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30655] = { -- Pandaren Prisoners [Horde]
-            --[questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
+            [questKeys.preQuestGroup] = {31253,30620},
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30656] = { -- Barrels of Fun [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
+            [questKeys.preQuestGroup] = {31253,30620},
             [questKeys.requiredSourceItems] = {80528},
             [questKeys.objectives] = {{{60096,nil,Questie.ICON_TYPE_INTERACT},{60098,nil,Questie.ICON_TYPE_INTERACT},{60099,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30657] = { -- In Tents Channeling [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31253,30594,30620}, -- might also need 30595 31251 31256
+            [questKeys.preQuestGroup] = {31253,30620},
         },
         [30658] = { -- Huff & Puff
             [questKeys.questFlags] = questFlags.DAILY,
@@ -3641,7 +3641,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30657},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
-            [questKeys.preQuestGroup] = {30459,30460},
+            [questKeys.preQuestGroup] = {30457,30459,30460},
             [questKeys.breadcrumbs] = {31453,31455},
         },
         [30670] = { -- Turnabout
@@ -5416,11 +5416,11 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30665,
         },
         [31456] = { -- Muskpaw Ranch [Alliance]
-            [questKeys.preQuestGroup] = {30650,30651,30660},
+            [questKeys.preQuestGroup] = {30650,30651,30660}, -- might only need 30660/30062
             [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31457] = { -- Muskpaw Ranch [Horde]
-            [questKeys.preQuestGroup] = {30655,30656,30661},
+            [questKeys.preQuestGroup] = {30655,30656,30661}, -- might only need 30661/30063
             [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31458] = { -- Damage Control
