@@ -431,6 +431,7 @@ function MopItemFixes.Load()
         },
         [80227] = { -- Root Vegetable
             [itemKeys.objectDrops] = {211017,211018,211019},
+            [itemKeys.npcDrops] = {59655},
         },
         [80228] = { -- Enormous Cattail Grouper Tooth
             [itemKeys.npcDrops] = {59639},
