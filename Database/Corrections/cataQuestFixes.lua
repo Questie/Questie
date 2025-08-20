@@ -9924,6 +9924,10 @@ function CataQuestFixes.Load()
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524,nil,Questie.ICON_TYPE_TALK},{45526,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [27469] = { -- Friends on The Other Side
+            [questKeys.startedBy] = {{56899}},
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [27472] = { -- Rise, Godfrey
             [questKeys.preQuestSingle] = {27438},
             [questKeys.objectives] = {{{45606,nil,Questie.ICON_TYPE_EVENT}}},
