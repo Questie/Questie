@@ -1338,6 +1338,9 @@ function MopNpcFixes.Load()
         [59572] = { -- Pearlfin Recruit
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.66,84.53},{59.44,85.22},{58.95,85.14},{59.35,84.73},{59.13,84.57},{60.11,83.93},{59.97,83.53},{59.68,83.93},{59.5,83.86},{59.34,84.17},{59.26,83.69},{59.01,83.69},{58.24,84.33},{58.23,83.89}}},
         },
+        [59573] = { -- Farmer Chow
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.24,85.79}}},
+        },
         [59574] = { -- Dusty Spot
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{45.8,52.84},{43.15,50.27},{39.71,51.11},{32.35,57.1},{33.11,50.09},{34.61,43.2},{35.16,38},{37.35,33.19},{40.29,39.54},{43.24,34.72},{47.32,33.06},{46.99,38.41},{45.87,42.88},{47.93,45.63},{48.27,48.73}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
@@ -1354,6 +1357,9 @@ function MopNpcFixes.Load()
         },
         [59620] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.85,81.11}}},
+        },
+        [59636] = { -- Uyen Chow
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.17,85.92}}},
         },
         [59789] = { -- Thalnos the Soulrender
             [npcKeys.spawns] = {
@@ -1397,6 +1403,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.15,72.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59969] = { -- Musaan the Blazecaster
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.45,78.6}}},
+        },
         [59971] = { -- Stone Guardian
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.69,29.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1436,6 +1445,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{27.5,15.15}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [60030] = { -- Harala the Firespeaker
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.43,78.48}}},
+        },
+        [60031] = { -- Pao-kun the Pyromancer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.13,80.31}}},
+        },
+        [60032] = { -- Akonu the Embercaller
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.71,80.01}}},
+        },
         [60040] = { -- Commander Durand
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49,80.4}},
@@ -1443,13 +1461,13 @@ function MopNpcFixes.Load()
             },
         },
         [60096] = { -- Eastern Oil Rig
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.29}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.41}}},
         },
         [60098] = { -- Southern Oil Rig
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.61,80.99}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.65,81.06}}},
         },
         [60099] = { -- Western Oil Rig
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.79,81.61}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{47.87,81.52}}},
         },
         [60121] = { -- Reanimated Jade Warrior
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.2,24.6},{44.8,23},{47.8,30},{51.8,42.2},{63,42.8},{64.4,31.6},{65.4,30.8}}},
@@ -1473,6 +1491,9 @@ function MopNpcFixes.Load()
                 {51.99,47.64,phases.FARM_HAS_16_SLOTS},
                 {51.89,47.65,phases.FARM_HAS_16_SLOTS},
             }},
+        },
+        [60127] = { -- Ordo Warbringer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.35,76.72}}},
         },
         [60139] = { -- Wise Ana Wu
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{45.98,78.91}}},
