@@ -4627,7 +4627,7 @@ function MopQuestFixes.Load()
         [31120] = { -- Cheng Bo!
             [questKeys.exclusiveTo] = {31117},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestGroup] = {31113,31114,31116,31119},
+            [questKeys.preQuestGroup] = {31113,31114,31119}, -- this one doesn't actually need 31116
         },
         [31121] = { -- Stay a While, and Listen
             [questKeys.objectives] = {nil,{{212900}}},
