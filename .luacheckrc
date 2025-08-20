@@ -1893,6 +1893,7 @@ globals = {
     "QuestLogPushQuest",
     "Quit",
     "QuestTimerFrame_Update",
+    "RAID",
     "RaidProfileExists",
     "RaidProfileHasUnsavedChanges",
     "RandomRoll",
