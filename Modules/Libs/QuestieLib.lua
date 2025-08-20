@@ -249,7 +249,7 @@ function QuestieLib:GetLevelString(questId, level)
     elseif questTagId == questTagIds.LEGENDARY then
         char = "++"
     elseif isMultiByteLocale then
-        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID10 or questTagId == questTagIds.RAID25 then
+        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
             char = "R"
         elseif questTagId == questTagIds.DUNGEON then
             char = "D"

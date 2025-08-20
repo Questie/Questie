@@ -522,6 +522,10 @@ local function _GetQuestTag(quest)
             end
             return "(" .. l10n("Account") .. ")";
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
+            -- These show as "Raid"
+            if questTagId == 62 then
+                return "(" .. (RAID or l10n("Raid")) .. ")";
+            end
             return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
             if questTagId == 81 then
