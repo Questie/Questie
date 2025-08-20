@@ -3608,6 +3608,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59844,59845},59844,nil,Questie.ICON_TYPE_EVENT},{{59846,59847,59848},59846,nil,Questie.ICON_TYPE_EVENT},{{59829,59830,59831},59829,nil,Questie.ICON_TYPE_EVENT},{{59851,59853},59851,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30655] = { -- Pandaren Prisoners [Horde]
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31253,30620},
             [questKeys.objectives] = {{{60038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
