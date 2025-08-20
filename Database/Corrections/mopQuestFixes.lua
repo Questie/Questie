@@ -5463,6 +5463,18 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31473},
             [questKeys.exclusiveTo] = {91786},
         },
+        [31482] = { -- Breath of the Black Prince
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.finishedBy] = {{64616,64822}},
+            [questKeys.preQuestSingle] = {31481,91786},
+            [questKeys.nextQuestInChain] = 31483,
+            [questKeys.objectives] = {{{66586,nil,Questie.ICON_TYPE_EVENT},{64822,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [31483] = { -- Incoming...
+            [questKeys.startedBy] = {{64616,64822}},
+            [questKeys.preQuestSingle] = {31482},
+            [questKeys.objectives] = {{{64681,nil,Questie.ICON_TYPE_EVENT},{64822,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [31486] = { -- Everything I Know About Cooking
             [questKeys.requiredLevel] = 86,
             [questKeys.exclusiveTo] = {31279},
