@@ -912,6 +912,9 @@ function MopItemFixes.Load()
         [87813] = { -- Zan'thik Shackles
             [itemKeys.npcDrops] = {64970},
         },
+        [87821] = { -- Coagulated Tiger's Blood
+            [itemKeys.npcDrops] = {54988,55238,56198,56272,58070,58221,58432,59102,59116,59534,59753,63537,63767,65612,66184,66187,66668,67085},
+        },
         [87871] = { -- Massive Kyparite Core
             [itemKeys.npcDrops] = {65229},
             [itemKeys.startQuest] = 31598,
