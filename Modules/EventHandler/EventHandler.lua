@@ -241,6 +241,10 @@ function _EventHandler:PlayerLogin()
         return
     end
 
+    if GetCVar("questPOI") == "0" then
+        WorldMapFrame:Hide() -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard
+    end
+
     do
         -- All this information was researched here: https://www.townlong-yak.com/framexml/live/GlobalStrings.lua
 
