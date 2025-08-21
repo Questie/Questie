@@ -1400,10 +1400,6 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
     elseif value == "blizzard" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")
-            if shouldMapBeHidden then
-                -- Changing questPOI will open the map, so we hide it again
-                WorldMapFrame:Hide()
-            end
         end
         if WorldMapQuestShowObjectives then
             -- Blizzard objectives button exists
