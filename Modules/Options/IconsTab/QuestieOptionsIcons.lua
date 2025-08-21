@@ -1348,14 +1348,9 @@ end
 
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
-    local shouldMapBeHidden = (not WorldMapFrame:IsShown())
     if value == "questie" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
-            if shouldMapBeHidden then
-                -- Changing questPOI will open the map, so we hide it again
-                WorldMapFrame:Hide()
-            end
         end
         if WorldMapQuestShowObjectives then
             -- Blizzard objectives button exists
@@ -1376,10 +1371,6 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
     elseif value == "pfquest" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
-            if shouldMapBeHidden then
-                -- Changing questPOI will open the map, so we hide it again
-                WorldMapFrame:Hide()
-            end
         end
         if WorldMapQuestShowObjectives then
             -- Blizzard objectives button exists
