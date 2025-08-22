@@ -3396,7 +3396,8 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
         [30592] = { -- The Burlap Trail: To Burlap Waystation
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{59526,59527},59527,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Escort grummles to the Burlap Waystation", {[zoneIDs.KUN_LAI_SUMMIT] = {{52.95,66.57}}}},
         },
         [30593] = { -- Deanimate the Reanimated
             [questKeys.preQuestSingle] = {30514},
