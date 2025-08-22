@@ -29,6 +29,12 @@ describe("TrackerUtils", function()
             collapsedQuests = {},
             collapsedZones = {},
         }
+        Questie.Colorize = spy.new(function(_, text, color)
+            return text
+        end)
+        _G.C_ChallengeMode = {
+            GetChallengeModeMapTimes = spy.new(function() return {400, 300, 200} end)
+        }
         CreateFrame.resetMockedFrames()
         C_ItemMock = mock(_G.C_Item, true)
 
@@ -653,6 +659,64 @@ describe("TrackerUtils", function()
             local hasQuest = TrackerUtils.HasQuest()
 
             assert.is_false(hasQuest)
+        end)
+    end)
+
+    describe("GetChallengeModeTimer", function()
+
+        it("should return placeholder timer when not in Challenge Mode", function()
+            _G.GetWorldElapsedTime = function() return nil, 0 end
+            _G.GetInstanceInfo = function() return nil, nil, nil, "10 Player", nil, nil, nil, 123 end
+
+            local timer = TrackerUtils.GetChallengeModeTimer()
+
+            assert.is_equal("00:00 / 00:00", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was_not_called()
+            assert.spy(Questie.Colorize).was_called_with(Questie, "00:00 / 00:00", "white")
+        end)
+
+        it("should return correct timer when within gold range", function()
+            _G.GetWorldElapsedTime = function() return nil, 100 end
+            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+
+            local timer = TrackerUtils.GetChallengeModeTimer()
+
+            assert.is_equal("01:40 / |cffF1E15603:20|r", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
+            assert.spy(Questie.Colorize).was_called_with(Questie, "01:40 / ", "white")
+        end)
+
+        it("should return correct timer when within silver range", function()
+            _G.GetWorldElapsedTime = function() return nil, 201 end
+            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+
+            local timer = TrackerUtils.GetChallengeModeTimer()
+
+            assert.is_equal("03:21 / |cffC7B8BD05:00|r", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
+            assert.spy(Questie.Colorize).was_called_with(Questie, "03:21 / ", "white")
+        end)
+
+        it("should return correct timer when within bronze range", function()
+            _G.GetWorldElapsedTime = function() return nil, 301 end
+            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+
+            local timer = TrackerUtils.GetChallengeModeTimer()
+
+            assert.is_equal("05:01 / |cffDB8B3406:40|r", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
+            assert.spy(Questie.Colorize).was_called_with(Questie, "05:01 / ", "white")
+        end)
+
+        it("should return correct timer when below bronze range", function()
+            _G.GetWorldElapsedTime = function() return nil, 401 end
+            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+
+            local timer = TrackerUtils.GetChallengeModeTimer()
+
+            assert.is_equal("06:41 / |cff84532100:00|r", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
+            assert.spy(Questie.Colorize).was_called_with(Questie, "06:41 / ", "white")
         end)
     end)
 end)

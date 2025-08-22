@@ -1512,6 +1512,7 @@ function QuestieTracker:Update()
         end
 
         line:SetMode("achieve") -- Re-using the "achieve" mode for font and height
+        line.expandZone:Hide()
         line.expandQuest:Hide()
         line.criteriaMark:Hide()
         line.playButton:Hide()
@@ -1521,6 +1522,28 @@ function QuestieTracker:Update()
 
         local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
         line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "(" .. l10n("Challenge Mode") .. ")|r")
+
+        line:Show()
+        line.label:Show()
+        line.Quest = nil
+        line.Objective = nil
+
+        line = TrackerLinePool.GetNextLine()
+        if (not line) then
+            return
+        end
+
+        line:SetMode("achieve")
+        line.expandZone:Hide()
+        line.expandQuest:Hide()
+        line.criteriaMark:Hide()
+        line.playButton:Hide()
+
+        line.label:ClearAllPoints()
+        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+
+        local timer = TrackerUtils.GetChallengeModeTimer()
+        line.label:SetText(timer)
 
         line:Show()
         line.label:Show()
