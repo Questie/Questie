@@ -4336,7 +4336,7 @@ function MopQuestFixes.Load()
         },
         [31016] = { -- The Lorewalkers
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31367,31368},
+            [questKeys.exclusiveTo] = {31367,31368,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
         },
         [31018] = { -- Beneath the Heart of Fear
             [questKeys.objectives] = {{{62073},{62074},{62075},{62076}},{{212038}}},
@@ -5296,12 +5296,12 @@ function MopQuestFixes.Load()
         },
         [31367] = { -- The Lorewalkers
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31016,31368},
+            [questKeys.exclusiveTo] = {31016,31368,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31368] = { -- The Lorewalkers
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31016,31367},
+            [questKeys.exclusiveTo] = {31016,31367,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31372] = { -- The Tillers
