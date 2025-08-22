@@ -1,6 +1,25 @@
 ---@class ChallengeModeTimer
 local ChallengeModeTimer = QuestieLoader:CreateModule("ChallengeModeTimer")
 
+---@class Label
+---@field SetText fun(self: Label, text: string)
+local timerLabel
+
+function ChallengeModeTimer.Initialize()
+    C_Timer.NewTicker(1, function()
+        if (not timerLabel) then
+            return
+        end
+
+        local timerString = ChallengeModeTimer.GetTimerString()
+        timerLabel:SetText(timerString)
+    end)
+end
+
+---@param label Label|nil
+function ChallengeModeTimer.SetTimerLabel(label)
+    timerLabel = label
+end
 
 ---@return string @Returns the Challenge Mode timer in the format "MM:SS / MM:SS" with the appropriate color based on the elapsed time
 function ChallengeModeTimer.GetTimerString()
