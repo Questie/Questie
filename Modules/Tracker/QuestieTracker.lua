@@ -1522,6 +1522,10 @@ function QuestieTracker:Update()
 
         local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
         line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. " (" .. l10n("Challenge Mode") .. ")|r")
+
+        line.label:SetWidth(trackerBaseFrame:GetWidth())
+        line:SetWidth(line.label:GetWidth())
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
         line:SetHeight(line.label:GetHeight() + 1)
 
         line:Show()
@@ -1545,6 +1549,10 @@ function QuestieTracker:Update()
 
         local timer = TrackerUtils.GetChallengeModeTimer()
         line.label:SetText(timer)
+
+        line.label:SetWidth(trackerBaseFrame:GetWidth())
+        line:SetWidth(line.label:GetWidth())
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
         line:SetHeight(line.label:GetHeight() + 1)
 
         line:Show()
@@ -1584,17 +1592,17 @@ function QuestieTracker:Update()
             -- Set Objective text
             line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
 
-            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth())
-
-            line.label:SetWidth(trackerBaseFrame:GetWidth() + trackerMarginRight)
+            line.label:SetWidth(trackerBaseFrame:GetWidth())
             line:SetWidth(line.label:GetWidth())
-
-            -- Adds 1 pixel between multiple Objectives
+            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
             line:SetHeight(line.label:GetHeight() + 1)
 
             line:Show()
             line.label:Show()
         end
+
+        QuestieTracker:UpdateWidth(trackerLineWidth)
+        QuestieTracker:UpdateHeight()
     end
 
     local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
