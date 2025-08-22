@@ -1551,6 +1551,11 @@ function QuestieTracker:Update()
         line.Objective = nil
 
         for i = 1, numSteps do
+            line = TrackerLinePool.GetNextLine()
+            if (not line) then
+                break
+            end
+
             local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(i)
 
             -- We re-shape the criteriaInfo to match quest objectives used by the tracker.
@@ -1561,11 +1566,6 @@ function QuestieTracker:Update()
                 Needed = criteriaInfo.totalQuantity,
                 Completed = criteriaInfo.completed,
             }
-
-            line = TrackerLinePool.GetNextLine()
-            if (not line) then
-                break
-            end
 
             line:SetMode("objective")
             line:SetScenarioCriteria(objective)
