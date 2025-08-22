@@ -3723,6 +3723,7 @@ function MopQuestFixes.Load()
             --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
         },
         [30724] = { -- To the Wall!
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30715,30723},
             [questKeys.objectives] = {{{61512,nil,Questie.ICON_TYPE_TALK}}},
         },
