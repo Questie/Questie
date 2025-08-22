@@ -1522,8 +1522,8 @@ function QuestieTracker:Update()
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
-        local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
-        line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. " (" .. l10n("Challenge Mode") .. ")|r")
+        local dungeonName = GetInstanceInfo()
+        line.label:SetText("|cFFC0C0C0" .. l10n(dungeonName) .. " (" .. l10n("Challenge Mode") .. ")|r")
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
@@ -1562,6 +1562,7 @@ function QuestieTracker:Update()
         line.Quest = nil
         line.Objective = nil
 
+        local _, _, numSteps = C_Scenario.GetStepInfo()
         for i = 1, numSteps do
             line = TrackerLinePool.GetNextLine()
             if (not line) then
