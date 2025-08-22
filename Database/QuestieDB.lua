@@ -71,9 +71,9 @@ QuestieDB.questTagIds = {
 local questTagCorrections = {
     [208] = Expansions.Current < Expansions.Cata and {1, "Elite"} or nil,
     [373] = {81, "Dungeon"},
-    [644] = {1, "Elite"},
-    [645] = {1, "Elite"},
-    [646] = {1, "Elite"},
+    [644] = Expansions.Current == Expansions.Era and {1, "Elite"} or nil,
+    [645] = Expansions.Current == Expansions.Era and {1, "Elite"} or nil,
+    [646] = Expansions.Current == Expansions.Era and {1, "Elite"} or nil,
     [4146] = {81, "Dungeon"},
     [4601] = {81, "Dungeon"},
     [4602] = {81, "Dungeon"},
