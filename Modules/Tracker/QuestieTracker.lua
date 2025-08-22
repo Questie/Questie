@@ -1522,6 +1522,7 @@ function QuestieTracker:Update()
 
         local scenarioName, _, numSteps = C_Scenario.GetStepInfo()
         line.label:SetText("|cFFC0C0C0" .. l10n(scenarioName) .. "(" .. l10n("Challenge Mode") .. ")|r")
+        line:SetHeight(line.label:GetHeight() + 1)
 
         line:Show()
         line.label:Show()
@@ -1544,6 +1545,7 @@ function QuestieTracker:Update()
 
         local timer = TrackerUtils.GetChallengeModeTimer()
         line.label:SetText(timer)
+        line:SetHeight(line.label:GetHeight() + 1)
 
         line:Show()
         line.label:Show()
