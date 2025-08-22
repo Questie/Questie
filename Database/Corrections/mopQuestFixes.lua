@@ -5349,10 +5349,12 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31386,30768,31695},
         },
         [31390] = { -- The Klaxxi
+            [questKeys.preQuestGroup] = {30650,30651,30660}, -- not entirely sure, but seems plausible
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31391,31656,31847,31886,31895},
         },
         [31391] = { -- The Klaxxi
+            [questKeys.preQuestGroup] = {30655,30656,30661}, -- not entirely sure, but seems plausible
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },
