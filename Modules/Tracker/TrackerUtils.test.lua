@@ -681,9 +681,10 @@ describe("TrackerUtils", function()
 
             local timer = TrackerUtils.GetChallengeModeTimer()
 
-            assert.is_equal("01:40 / |cffF1E15603:20|r", timer)
+            assert.is_equal("01:40 / 03:20", timer)
             assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
             assert.spy(Questie.Colorize).was_called_with(Questie, "01:40 / ", "white")
+            assert.spy(Questie.Colorize).was_called_with(Questie, "03:20", "F1E156")
         end)
 
         it("should return correct timer when within silver range", function()
@@ -692,9 +693,10 @@ describe("TrackerUtils", function()
 
             local timer = TrackerUtils.GetChallengeModeTimer()
 
-            assert.is_equal("03:21 / |cffC7B8BD05:00|r", timer)
+            assert.is_equal("03:21 / 05:00", timer)
             assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
             assert.spy(Questie.Colorize).was_called_with(Questie, "03:21 / ", "white")
+            assert.spy(Questie.Colorize).was_called_with(Questie, "05:00", "C7B8BD")
         end)
 
         it("should return correct timer when within bronze range", function()
@@ -703,9 +705,10 @@ describe("TrackerUtils", function()
 
             local timer = TrackerUtils.GetChallengeModeTimer()
 
-            assert.is_equal("05:01 / |cffDB8B3406:40|r", timer)
+            assert.is_equal("05:01 / 06:40", timer)
             assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
             assert.spy(Questie.Colorize).was_called_with(Questie, "05:01 / ", "white")
+            assert.spy(Questie.Colorize).was_called_with(Questie, "06:40", "DB8B34")
         end)
 
         it("should return correct timer when below bronze range", function()
@@ -714,9 +717,10 @@ describe("TrackerUtils", function()
 
             local timer = TrackerUtils.GetChallengeModeTimer()
 
-            assert.is_equal("06:41 / |cff84532100:00|r", timer)
+            assert.is_equal("06:41 / 00:00", timer)
             assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.called_with(123)
             assert.spy(Questie.Colorize).was_called_with(Questie, "06:41 / ", "white")
+            assert.spy(Questie.Colorize).was_called_with(Questie, "00:00", "845321")
         end)
     end)
 end)
