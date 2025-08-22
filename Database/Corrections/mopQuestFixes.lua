@@ -3642,7 +3642,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30657},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
-            [questKeys.preQuestGroup] = {30457,30459,30460},
+            [questKeys.preQuestGroup] = {30457,30459,30460}, -- check if it also needs 30650+30651+30660
             [questKeys.breadcrumbs] = {31453,31455},
         },
         [30670] = { -- Turnabout
@@ -4267,7 +4267,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31459,31460},
         },
         [31000] = { -- Dread Space
-            [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.breadcrumbForQuestId] = 31001, -- check if it has any prequests
             [questKeys.exclusiveTo] = {31390,31391,31656,31847,31886,31895},
         },
         [31001] = { -- Falling Down
@@ -6604,7 +6604,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
         },
         [31886] = { -- Dread Space
-            [questKeys.breadcrumbForQuestId] = 31001,
+            [questKeys.breadcrumbForQuestId] = 31001, -- check if it has any prequests
             [questKeys.exclusiveTo] = {31000,31390,31391,31656,31847,31895},
         },
         [31889] = { -- Battle Pet Tamers: Kalimdor
