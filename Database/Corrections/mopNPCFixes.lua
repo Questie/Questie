@@ -1683,6 +1683,9 @@ function MopNpcFixes.Load()
         [60980] = { -- Clever Ashyo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.67,45.32}}}, -- only used at these coords
         },
+        [60981] = { -- Lin Tenderpaw
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.49,56.44}}},
+        },
         [60996] = { -- Brewmaster Chani
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.95,51.81}}}, -- only used at these coords
         },
