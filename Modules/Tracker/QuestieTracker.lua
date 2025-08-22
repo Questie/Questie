@@ -1511,7 +1511,7 @@ function QuestieTracker:Update()
             return
         end
 
-        line:SetMode("achieve") -- Re-using the "achieve" mode for font and height
+        line:SetMode("zone") -- Re-using the "achieve" mode for font and height
         line.expandZone:Hide()
         line.expandQuest:Hide()
         line.criteriaMark:Hide()
