@@ -1188,16 +1188,16 @@ function TrackerUtils.GetChallengeModeTimer()
 
         local thresholdColor, thresholdTime
         if elapsed <= goldTime then
-            thresholdColor = "ffF1E156"
+            thresholdColor = "F1E156"
             thresholdTime = goldTime
         elseif elapsed <= silverTime then
-            thresholdColor = "ffC7B8BD"
+            thresholdColor = "C7B8BD"
             thresholdTime = silverTime
         elseif elapsed <= bronzeTime then
-            thresholdColor = "ffDB8B34"
+            thresholdColor = "DB8B34"
             thresholdTime = bronzeTime
         else
-            thresholdColor = "ff845321"
+            thresholdColor = "845321"
             thresholdTime = 0
         end
         local currentMinutes = math.floor(elapsed / 60)
@@ -1206,9 +1206,9 @@ function TrackerUtils.GetChallengeModeTimer()
         local targetSeconds = math.floor(thresholdTime % 60)
 
         local currentTime = string.format("%02d:%02d / ", currentMinutes, currentSeconds)
-        local targetTime = string.format("|c%s%02d:%02d|r", thresholdColor, targetMinutes, targetSeconds)
+        local targetTime = string.format("%02d:%02d", targetMinutes, targetSeconds)
 
-        return Questie:Colorize(currentTime, "white") .. targetTime
+        return Questie:Colorize(currentTime, "white") .. Questie:Colorize(targetTime, thresholdColor)
     end
 
     return Questie:Colorize("00:00 / 00:00", "white")
