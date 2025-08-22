@@ -1551,6 +1551,7 @@ function QuestieTracker:Update()
 
         local timer = ChallengeModeTimer.GetTimerString()
         line.label:SetText(timer)
+        ChallengeModeTimer.SetTimerLabel(line.label)
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
@@ -1608,9 +1609,11 @@ function QuestieTracker:Update()
         QuestieTracker:UpdateHeight()
     end
 
-    local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
-    if (not challengeMapId) then
+    if Expansions.Current < Expansions.MoP or (not C_ChallengeMode.IsChallengeModeActive()) then
         -- Not in an active Challenge Mode run
+        if Expansions.Current >= Expansions.MoP then
+            ChallengeModeTimer.SetTimerLabel(nil)
+        end
 
         -- Populate Achievements first then Quests
         if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
