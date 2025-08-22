@@ -19,6 +19,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type ChallengeModeTimer
+local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -1547,7 +1549,7 @@ function QuestieTracker:Update()
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
-        local timer = TrackerUtils.GetChallengeModeTimer()
+        local timer = ChallengeModeTimer.GetTimerString()
         line.label:SetText(timer)
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
