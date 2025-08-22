@@ -477,7 +477,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {59833},
         },
         [80315] = { -- Stolen Supplies
-            [itemKeys.objectDrops] = {211266,211268,211269,211270},
+            [itemKeys.objectDrops] = {211266},
         },
         [80316] = { -- Lucky Virmen's Foot
             [itemKeys.npcDrops] = {59693,59967},

@@ -477,6 +477,12 @@ function MopNpcFixes.Load()
         [55586] = { -- Master Shang Xi
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{30,60.37}}},
         },
+        [55593] = { -- Needle Sprite
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {{72.8,72.01},{72.86,71.84},{72.89,72.1},{72.09,72.75},{72,72.91},{71.94,72.81},{72.53,74.68},{72.45,74.78},{72.4,74.59},{72.28,71.98},{72.24,71.82},{72.35,71.98},{74.11,72.51},{73.31,72.06},{73.45,72},{73.37,71.91},{71.76,71.92},{71.79,71.98},{71.7,72.08},{71.64,73.62},{71.81,73.47},{71.79,73.57},{73.07,74.2},{71.77,74.68},{71.86,74.49},{71.95,74.62},{72.3,73.53},{72.5,73.42},{72.42,73.24}},
+                [zoneIDs.PRANKSTERS_HOLLOW] = {{21.51,75.39},{24.49,73.45},{25.63,75.81},{17.78,46.73},{17.1,51.2},{19.29,55.23},{22.66,35.33},{20.26,39.5},{17.76,38.52},{37.62,59.95},{37.22,56.2},{39.38,54.27},{42.94,29.35},{45.86,28.9},{46.71,32.53},{66.35,41.52},{64.14,41.06},{64.39,45.43},{81.02,64.07},{79.34,65.84},{76.46,65.98},{60.99,74.76},{61.21,71.38},{59,70.91}},
+            },
+        },
         [55595] = { -- Aysa Cloudsinger
             [npcKeys.spawns] = {
                 [zoneIDs.THE_WANDERING_ISLE] = {
@@ -1297,20 +1303,41 @@ function MopNpcFixes.Load()
         [59411] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.78,67.09}}},
         },
+        [59408] = { -- Dead Packer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.21,70.35},{56.54,68.37},{52.34,71.4},{56.6,71.18},{56.13,71.29},{51.75,72.02}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{45.71,38.06}}},
+        },
+        [59414] = { -- Broketooth Charger
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.12,70.15},{51.72,70.23},{52.78,71.07},{53.2,69.64},{52.51,69.67},{53.11,70.32},{51.75,71.8},{53.26,70.82},{52.86,71.42},{54.37,69.92},{55.15,68.88},{54.73,69.42},{55.46,68.11},{54.84,67.3},{56.46,68.41},{56.16,68.98}},[zoneIDs.THE_DEEPER] = {{44.68,37.49},{56.95,40.81},{58.12,52.22},{50.48,64.69}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{86.41,71},{16.75,75.48},{34.37,71.15}}},
+        },
+        [59416] = { -- Broketooth Tosser
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44.45,69.65},{44.47,69.7},{51.71,68.63},{52.98,68.8},{52.22,70.69},{53.07,69.69},{53.06,69.75},{51.78,72.03},{53.11,71.22},{52.86,71.63},{53.49,68.8},{54.03,68.81},{54.62,68.05},{54.79,70.63},{54.84,71.45},{55.45,70.75},{55.81,68.82},{55.83,68.17},{54.3,67.13},{55.98,70.52}},[zoneIDs.THE_DEEPER] = {{36.75,53.43}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{60.28,68.18},{83.69,49.74},{73.23,56.08},{40,45.04}}},
+        },
+        [59896] = { -- Dead Packer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.24,70.33}},[zoneIDs.THE_DEEPER] = {{35.26,83.58}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{59.86,67.81},{83.12,51.43},{53.94,40.49},{15.99,71.55}}},
+        },
+        [59897] = { -- Dead Packer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.03,69.45},{52.41,70.71},{56.83,70.9},{56.78,71.18}},[zoneIDs.THE_DEEPER] = {{50.17,61.31}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{79.76,67.13},{30.34,77.23},{35.13,63.21}}},
+        },
+        [59898] = { -- Dead Packer
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{54.83,71.4},{53.08,71.2}},[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{67.6,75.75},{23.56,61.97}}},
+        },
         [59418] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{49.3,61.49}}},
         },
+        [59421] = { -- Old Poot Poot
+            [npcKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{38.57,24.6}}},
+        },
         [59424] = { -- Dak Dak
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.27,71.59}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{46.2,38.57}}},
         },
         [59441] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.77,82.67}}},
         },
         [59452] = { -- Brother Rabbitsfoot
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
-                -- This phasing is good enough for now, even though it's not 100% correct to tie Rabbitsfoots' phasing for Yakshoes'
-                {51.97,67.21,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
-                {45.91,64.07,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+                {51.97,67.21,phases.BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION},
+                {45.91,64.06,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+                {51.97,67.21,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION_2},
             }},
         },
         [59467] = { -- Candlestick Mage
@@ -1361,6 +1388,9 @@ function MopNpcFixes.Load()
         [59636] = { -- Uyen Chow
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.17,85.92}}},
         },
+        [59693] = { -- Mischievous Snow Sprite
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.41,52.72},{59.11,53.01}},[zoneIDs.HOWLINGWIND_CAVERN] = {{32.19,52.65},{23.69,58.28},{26.86,67.63},{32.18,66.94},{29.6,73.19},{31.15,75.54},{33.62,75.59},{34.27,72.32},{37.29,56.58},{34.65,44.73},{40.71,41.53},{22.93,49.4},{31.91,41.47},{32.33,32.55},{35.28,26.93},{35.9,23.19},{42.16,21.19},{48.27,26.3},{54.13,30.97},{70.75,51.66},{69.5,47.44},{65.26,43.83},{55.27,48.84},{52.12,44.97},{54.86,55.64},{49.8,61.14},{50.27,56.54},{46.2,57.35},{45.5,61.86},{54.99,70.99},{56.91,74.34},{58.91,73.73},{58.44,75.4},{68.71,69.49},{69.38,84.25},{66.64,85.17}}},
+        },
         [59789] = { -- Thalnos the Soulrender
             [npcKeys.spawns] = {
                 [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{26.2,45.6}},
@@ -1369,6 +1399,15 @@ function MopNpcFixes.Load()
         },
         [59797] = { -- Mogujia Soul-Caller
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.11,70.9}}},
+        },
+        [59805] = { -- Mo Mo
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.01,73.28}}},
+        },
+        [59806] = { -- Brother Rabbitsfoot
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.1,70.44}}},
+        },
+        [59818] = { -- Hiding Guide
+            [npcKeys.spawns] = {[zoneIDs.HOWLINGWIND_CAVERN] = {{29.86,51.63},{37.34,68.68},{41.34,44.03},{22.33,49.53},{44.82,28.31},{49.74,25.37},{54.87,27.56},{64.95,60.03},{67.39,49.82},{71.21,53.12},{65.23,40.53},{57.46,49.27},{48.91,48.8},{53.19,57.92},{45.94,55.62},{47.22,63.06},{70.93,68.45},{66.13,84.84}}},
         },
         [59833] = { -- Ripe EZ-Gro Green Cabbage
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.03,48.24},{52.01,48.44}}},
@@ -1388,7 +1427,8 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 {50.6,64.08,phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE},
                 {52.02,67.18,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION},
-                {45.94,64.13,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+                {45.94,64.05,phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME},
+                {52.02,67.18,phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION_2},
             }},
         },
         [59905] = { -- Zhi the Harmonious
@@ -1402,6 +1442,9 @@ function MopNpcFixes.Load()
         [59908] = { -- Jaluu the Generous
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.15,72.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [59967] = { -- Mischievous Snow Sprite
+            [npcKeys.spawns] = {[zoneIDs.HOWLINGWIND_CAVERN] = {{58.44,75.34},{59.48,75.73},{59.4,74.78},{58.95,73.72},{57.9,74.42},{57.28,75.49},{55.96,74.78},{56.82,74.29},{56.37,73.22},{54.94,70.97},{27.55,54.62},{26.75,59.95},{34.99,33.29},{34.02,33.86},{34.56,33.66},{34.83,34.49},{34.27,35.03},{34.35,35.83},{33.65,36.24},{33.86,37.15},{34.27,37.89},{35.49,44.58},{25.95,43},{32.21,36.32},{31.19,34.87},{32.38,31.44},{43.82,27.52},{44.63,26.37},{45.31,27.56},{45,27.11},{45.01,26.57},{45.42,26.06},{45.76,25.59},{44.87,24.62},{51.7,38.76},{65.82,57.26},{59.88,51.2},{60.35,52.35},{59.52,52.1},{58.77,52.36},{58.62,51.35},{59.22,50.51},{59.94,49.85},{59.01,49.64},{59.07,48.34},{59.65,48.79},{59.97,47.78},{59.28,47.04},{49.42,52.06},{53.43,53.09},{54.69,54.64},{46.75,55.67},{48.18,64.56},{64.45,69.8},{71.4,70.83},{70.04,78.07},{71.36,86.7},{70.05,87.98}}},
         },
         [59969] = { -- Musaan the Blazecaster
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.45,78.6}}},
@@ -1445,6 +1488,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{27.5,15.15}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59410] = { -- Knucklethump Smasher
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.78,63.44},{51.72,64.11},{51.54,63.05},{51.22,64.14},{50.92,63.78},{50.07,64.41},{50.07,64.39},{50.17,62.55},{50.17,62.55},{49.94,63.36},{49.76,64.56}},[zoneIDs.KNUCKLETHUMP_HOLE] = {{28.62,25.79},{53.09,67.45},{63.45,52.84}}},
+        },
+        [59412] = { -- Knucklethump Jibstabber
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,64.83},{51.3,62.67},{50.4,64.78},{50.63,63.48},{50.4,62.71},{50.93,62.01},{49.83,63.93}},[zoneIDs.KNUCKLETHUMP_HOLE] = {{36.24,55.68},{77.87,47.64},{79.92,71.05},{69.56,83.37}}},
+        },
+        [60012] = { -- Imprisoned Grummle
+            [npcKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{24.19,11.87},{49.84,19.75},{48.54,23.08},{55.06,50.82},{83.61,45.42}},[zoneIDs.KUN_LAI_SUMMIT] = {{49.8,64},{50.2,62.4},{50.4,63.2},{50.8,62.8},{51,61.4},{51,61.6},{51.6,63.2}}},
+        },
         [60030] = { -- Harala the Firespeaker
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{49.43,78.48}}},
         },
@@ -1459,6 +1511,12 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49,80.4}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [60090] = { -- Cho Cho the Wicked
+            [npcKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{36.11,14.74}}},
+        },
+        [60094] = { -- Ji-Lu's Cart
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.3,61.6}}},
         },
         [60096] = { -- Eastern Oil Rig
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,79.41}}},
@@ -1498,6 +1556,12 @@ function MopNpcFixes.Load()
         [60139] = { -- Wise Ana Wu
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{45.98,78.91}}},
         },
+        [60169] = { -- Cagemaster
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{45.55,63.73},{45.44,63.42},{45.48,62.81},{45.67,62.48},{45.86,62.37},{46.03,62.37},{46.4,62.59},{46.55,62.92},{46.32,63.89}}},
+        },
+        [60175] = { -- Lucky Bluestring
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.14,49.04}}},
+        },
         [60273] = { -- Zhao-Jin the Bloodletter
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{78.65,35.69}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -1516,6 +1580,9 @@ function MopNpcFixes.Load()
         [60491] = { -- Sha of Anger
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.82,63.83},{51.22,87.72},{49.98,69.05},{67.81,78.05},{53.77,64.55}}},
         },
+        [60503] = { -- Uncle Keenbean
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{42.42,69.65}}},
+        },
         [60543] = { -- Fat Long-Fat
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.81,82.58}}},
         },
@@ -1530,11 +1597,20 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.58,12.61}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
+        [60596] = { -- Cousin Gootfur
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{42.32,69.74}}},
+        },
         [60622] = { -- Orbiss
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
                 {67.8,67.6,phases.ORBISS_AT_SUMPRUSH},
                 {76.19,72.91,phases.ORBISS_AT_BORROW},
             }}
+        },
+        [60677] = { -- Uncle Tallmug
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{40.31,81.53}}},
+        },
+        [60678] = { -- Cousin Littlebrew
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{40.26,81.57}}},
         },
         [60684] = { -- Suna Silentstrike
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
@@ -1831,6 +1907,14 @@ function MopNpcFixes.Load()
                 [zoneIDs.MOGUSHAN_PALACE] = {{-1,-1}},
             },
         },
+        [61454] = { -- Suna Silentstrike
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {
+                    {29.3,62.28,phases.SUNA_SILENTSTRIKE_AT_THE_WALL},
+                    {31.27,61.61,phases.SUNA_SILENTSTRIKE_ON_THE_GROUND},
+                },
+            },
+        },
         [61528] = { -- Lava Guard Gordoth
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{33.76,81.74},{-1,-1}}},
         },
@@ -1848,6 +1932,9 @@ function MopNpcFixes.Load()
         },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
+        },
+        [61693] = { -- Muskpaw Jr.
+            [npcKeys.spawns] = {[zoneIDs.PRANKSTERS_HOLLOW] = {{64.53,59.87}}},
         },
         [61694] = { -- Sentinel Ku-Yao
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{17.44,57.01}}},
@@ -1882,6 +1969,26 @@ function MopNpcFixes.Load()
         [61796] = { -- King Varian Wrynn
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{82.59,28.08}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [61816] = { -- Lin Silentstrike
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{34.96,59.4}}},
+        },
+        [61819] = { -- Ban Bearheart
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {
+                    {35.12,59.66,phases.BAN_BEARHEART_AT_WINTERS_BLOSSOM},
+                    {31.29,61.5,phases.BAN_BEARHEART_ON_THE_GROUND},
+                    {35.32,49.55,phases.BAN_BEARHEART_AT_SHADO_PAN_MONASTERY},
+                },
+            },
+        },
+        [61820] = { -- Lao-Chin the Iron Belly
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {
+                    {29.24,62.3,phases.SUNA_SILENTSTRIKE_AT_THE_WALL},
+                    {31.82,60.1,phases.SUNA_SILENTSTRIKE_ON_THE_GROUND},
+                },
+            },
         },
         [61822] = { -- SI:7 Field Commander Dirken
             [npcKeys.spawns] = {
@@ -1923,6 +2030,12 @@ function MopNpcFixes.Load()
         [61842] = { -- Zandalari Warrior
             [npcKeys.spawns] = {[6201] = {{80.91,75.69},{67.31,70.34},{66.93,77.92},{62.82,87.17},{56.48,86.10},{55.81,76.68},{56.28,66.40},{60.15,58.71},{62.69,60.09}}},
         },
+        [61847] = { -- Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.34,61.69}}},
+        },
+        [61874] = { -- Tuffi
+            [npcKeys.spawns] = {[zoneIDs.PRANKSTERS_HOLLOW] = {{65.77,58.79}}},
+        },
         [61981] = { -- Dreadspinner Tender
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{65.8,28},{66,29.8},{66.4,28.8},{67.2,29.4},{67.2,29.6},{67.4,30.8},{67.6,30.4},{67.8,31.2},{68.4,29},{68.6,30},{70.2,25.8},{70.4,27.6},{70.6,27.6},{71.2,22.4},{71.2,22.6},{71.2,26.2},{71.4,24.2},{71.4,27.2},{71.6,24.4},{71.6,28.4},{72,26.4},{72,26.6},{72.2,29.2},{72.4,22.4},{72.4,23},{72.4,29.6},{72.6,22.2},{72.8,23.4},{72.8,23.6},{72.8,29.4},{72.8,29.8},{74,22.4},{74,22.6},{74,24.4},{74,24.6}}},
         },
@@ -1945,6 +2058,9 @@ function MopNpcFixes.Load()
         [62092] = { -- Garrosh Hellscream
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.62,31.42}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [62165] = { -- Gong Da
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.29,61.62}}},
         },
         [62166] = { -- Marksman Lann
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{72.55,28.67}}},
@@ -1988,6 +2104,12 @@ function MopNpcFixes.Load()
         [62209] = { -- Arena Credit
             [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.6,49},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BRAWLGAR_ARENA,
+        },
+        [62220] = { -- Shado-Pan Sentinel
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{36.69,47.72}}},
+        },
+        [62227] = { -- Ban Bearheart
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{36.69,47.72}}},
         },
         [62232] = { -- Korven the Prime
             [npcKeys.name] = "Korven the Prime",
@@ -2557,6 +2679,9 @@ function MopNpcFixes.Load()
         [63576] = { -- Osul Fire-Warrior
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.57,59.32},{26.15,59.18},{26.22,59.82},{26.60,59.96},{27.00,60.04},{27.30,60.74},{27.65,60.96},{28.11,60.83},{28.47,61.50}}},
         },
+        [63603] = { -- Ban's Balloon
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{34.06,58.64}}},
+        },
         [63614] = { -- Ling of the Six Pools
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
                 {49.01,71.33,phases.SHADO_PAN_GARRISON_NORMAL},
@@ -2873,6 +2998,9 @@ function MopNpcFixes.Load()
         [65899] = { -- Master Kistane
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [65908] = { -- Seer Yong
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.61,85.17}}},
+        },
         [65910] = { -- Sunke Khang
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.25,84.72}}},
         },
@@ -3072,6 +3200,9 @@ function MopNpcFixes.Load()
         },
         [66190] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.4,11.2}}},
+        },
+        [66251] = { -- Huntress Vael'yrie
+            [npcKeys.npcFlags] = 4194432, -- Stable Master
         },
         [66256] = { -- Master Cheng
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.53,41.5}}},

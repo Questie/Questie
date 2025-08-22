@@ -3211,12 +3211,12 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31456,31457},
         },
         [30491] = { -- At the Yak Wash
-            [questKeys.triggerEnd] = {"Escaped Yak Washed", {[zoneIDs.KUN_LAI_SUMMIT] = {{71.4,69.27}}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",59319},{"monster",59662},{"monster",61874}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT] = {{71.32,69.2}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59662,61874,59319},59319,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [30492] = { -- Back in Yak
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30489,30491,30587}, -- probably needs 30804 too
+            [questKeys.preQuestGroup] = {30489,30491,30587},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT] = {{65.38,61.45}}}},
         },
@@ -3395,6 +3395,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        [30592] = { -- The Burlap Trail: To Burlap Waystation
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59526,59527},59527,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [30593] = { -- Deanimate the Reanimated
             [questKeys.preQuestSingle] = {30514},
         },
@@ -3425,6 +3428,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30603] = { -- The Broketooth Ravage
+            [questKeys.startedBy] = {{59452,59806}},
             [questKeys.preQuestSingle] = {30592},
         },
         [30604] = { -- Breaking Brokentooth
@@ -3440,23 +3444,24 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30605},
         },
         [30607] = { -- Hozen Love Their Keys
-            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_INTERACT}},nil,{{80535}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the Ball and Chain"),0,{{"object",211365}}}},
+            [questKeys.objectives] = {{{59421,nil,Questie.ICON_TYPE_EVENT}},nil,{{80535}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Unlock the Ball and Chain"),0,{{"object",211365}}}},
         },
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211307}}}},
         },
         [30610] = { -- Grummle! Grummle! Grummle!
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30606,30607,30608},
-            [questKeys.objectives] = {nil,{{211686,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestGroup] = {30607,30608},
+            [questKeys.objectives] = {nil,{{211686}}},
         },
         [30611] = { -- Unleash The Yeti!
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30606,30607,30608},
+            [questKeys.preQuestGroup] = {30607,30608},
         },
-        [30612] = { -- Unleash The Yeti!
+        [30612] = { -- The Leader Hozen
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30610,30611},
         },
@@ -3465,7 +3470,7 @@ function MopQuestFixes.Load()
         },
         [30617] = { -- Roadside Assistance
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30616,30616,30808},
+            [questKeys.preQuestGroup] = {30614,30616,30808},
         },
         [30618] = { -- Resupplying One Keg
             [questKeys.preQuestSingle] = {30999},
@@ -3703,99 +3708,100 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30715] = { -- A Line Unbroken
+            [questKeys.preQuestSingle] = {30699},
             [questKeys.objectives] = {{{61808,nil,Questie.ICON_TYPE_INTERACT},{61806,nil,Questie.ICON_TYPE_INTERACT},{61810,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30716] = { -- Chasing Hope
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.objectives] = {{{60487,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30717] = { -- Gifts of the Great Crane
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
         },
         [30718] = { -- Students of Chi-Ji
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
         },
         [30724] = { -- To the Wall!
-            [questKeys.preQuestSingle] = {30715}, -- might also need 30723
+            [questKeys.preQuestGroup] = {30715,30723},
             [questKeys.objectives] = {{{61512,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30725] = { -- Ellia Ravenmane
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30726] = { -- Minh Do-Tan
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30727] = { -- Ellia Ravenmane: Rematch
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30728] = { -- Fat Long-Fat
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30729] = { -- Julia Bates
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30730] = { -- Dextrous Izissha
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30731] = { -- Kuo-Na Quillpaw
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30732,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30732] = { -- Ellia Ravenmane: Revenge
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30733,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30733] = { -- Tukka-Tuk
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30734,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30734] = { -- Huck Wheelbarrow
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30735,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30735] = { -- Mindel Sunspeaker
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30736,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30736] = { -- Yan Quillpaw
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30737,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30737] = { -- Fat Long-Fat: Rematch
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30738,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30738] = { -- Thelonius
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30739,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30739] = { -- Ellia Ravenmane: Redemption
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [30740] = { -- Champion of Chi-Ji
-            [questKeys.preQuestGroup] = {30716,30717,30718,31511},
+            [questKeys.preQuestGroup] = {30716,30717,30718}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30740},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -4253,6 +4259,8 @@ function MopQuestFixes.Load()
         },
         [30993] = { -- Where are My Reinforcements?
             [questKeys.preQuestSingle] = {30992},
+            [questKeys.objectives] = {{{61819,nil,Questie.ICON_TYPE_TALK},{63603,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ban"),2,{{"monster",61819}}}},
         },
         [30994] = { -- Lao-Chin's Gambit
             [questKeys.preQuestSingle] = {},
@@ -4371,6 +4379,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30752},
             [questKeys.exclusiveTo] = {31030},
             [questKeys.breadcrumbForQuestId] = 30757,
+            [questKeys.zoneOrSort] = zoneIDs.SHADO_PAN_MONASTERY,
         },
         [31032] = { -- Choking the Skies
             [questKeys.objectives] = {{{62128,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4421,7 +4430,7 @@ function MopQuestFixes.Load()
         },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31047] = { -- Born Free -- i saw this quest being offered early. last order 31042 31105 31043 31047. turn in 31047 first, see what happens
@@ -5317,29 +5326,35 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31782}, -- not entirely sure
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31782},
+            [questKeys.preQuestSingle] = {31511,31512,31782},
             [questKeys.exclusiveTo] = {31378,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31782},
+            [questKeys.preQuestSingle] = {31511,31512,31782},
             [questKeys.exclusiveTo] = {31379,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31376,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31379] = { -- Challenge At The Temple of the Red Crane
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31377,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31382] = { -- Defense At Niuzao Temple
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31376,31378,31380,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31383] = { -- Defense At Niuzao Temple
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31381,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31386] = { -- The Shado-Pan Offensive
@@ -5487,7 +5502,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31235,31268,31505}, -- exclusivity for honored The Klaxxi
         },
         [31488] = { -- Stranger in a Strange Land
-            [questKeys.startedBy] = {{62871,63218,64047,64144,64457,66225,66409,66415}},
+            [questKeys.startedBy] = {{62871,63218,64047,64144,64457,65908,66225,66409,66415}},
             [questKeys.breadcrumbForQuestId] = 31454,
         },
         [31489] = { -- Stranger in a Strange Land

@@ -162,7 +162,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [210931] = { -- Dak Dak's Altar
-            [objectKeys.spawns] = {[zoneIDs.THE_DEEPER] = {{49.56,39.54}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{49.66,39.68}}},
             [objectKeys.zoneID] = zoneIDs.THE_DEEPER,
         },
         [210933] = { -- Yaungol Banner
@@ -266,6 +266,9 @@ function MopObjectFixes.Load()
         [211226] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [211266] = { -- Stolen Supplies
+            [objectKeys.spawns] = {[zoneIDs.HOWLINGWIND_CAVERN] = {{30.94,50.39},{28.8,77.02},{30.8,76.19},{33.45,77.75},{34.94,72.1},{35.64,71.28},{36.54,68.73},{35.99,42.81},{41.63,43.68},{41.71,42.15},{41.27,41.48},{23.72,49.43},{30.95,34.37},{35.29,23.36},{44.28,19.98},{46.86,21.57},{47.13,22.92},{46.02,23.1},{46,23.45},{48.66,23.55},{48.29,21.85},{50.19,22.64},{53.66,26.6},{55.62,28.49},{56.42,31.29},{56.25,33.12},{55.63,33.91},{55.72,34.51},{66.03,50.95},{66,47.8},{70.95,52.33},{70.83,52.04},{71.3,51.24},{66.49,40.91},{65.58,40.32},{48.45,49.58},{48.6,49.3},{54.62,55.68},{53.8,56.71},{46.04,58},{46.52,63.34},{45.45,60.85},{45.23,61.9},{45.6,63.45},{52.64,73.67},{66.31,83.3},{66.21,85.9},{66.81,85.69}}},
+        },
         [211275] = { -- Ko Ko's Altar
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.27,71.44}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -282,14 +285,19 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{23.15,30.87},{23.49,33.25},{26.96,32.85},{27.65,29.00},{26.07,28.38},{26.33,25.12},{24.14,27.42},{21.59,28.46},{20.39,30.60},{22.37,30.78},{21.57,31.41},{23.16,30.73},{23.18,26.58},{22.11,27.19}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [211307] = { -- Grummle Cage
+            [objectKeys.name] = 'Grummle Cage',
+            [objectKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{24.19,11.87},{49.84,19.75},{48.54,23.08},{55.06,50.82},{83.61,45.42}},[zoneIDs.KUN_LAI_SUMMIT] = {{49.8,64},{50.2,62.4},{50.4,63.2},{50.8,62.8},{51,61.4},{51,61.6},{51.6,63.2}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [211312] = { -- Items for Barrels of Fun
             [objectKeys.name] = 'Explosives Barrel',
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{51.24,79.33},{49.61,78.99},{49.34,81.06},{47.55,80.08}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211365] = { -- Ball and Chain
-            [objectKeys.spawns] = {[6088] = {{38.68,23.02}}},
-            [objectKeys.zoneID] = 6088,
+            [objectKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{38.68,23.02}}},
+            [objectKeys.zoneID] = zoneIDs.KNUCKLETHUMP_HOLE,
         },
         [211376] = { -- Items for Build Your Own Raft
             [objectKeys.name] = 'Spare Plank',

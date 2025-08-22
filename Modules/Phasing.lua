@@ -419,6 +419,13 @@ local phases = {
     GORAI_RITUAL = 1347,
     GOLDEN_LOTUS_RUINS_PEACE = 1348,
     GOLDEN_LOTUS_RUINS_ATTACK = 1349,
+    BAN_BEARHEART_AT_WINTERS_BLOSSOM = 1350,
+    BAN_BEARHEART_ON_THE_GROUND = 1351,
+    BAN_BEARHEART_AT_SHADO_PAN_MONASTERY = 1352,
+    SUNA_SILENTSTRIKE_AT_THE_WALL = 1353,
+    SUNA_SILENTSTRIKE_ON_THE_GROUND = 1354,
+    BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION = 1355,
+    BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION_2 = 1356,
 }
 Phasing.phases = phases
 
@@ -1520,15 +1527,19 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BROTHER_YAKSHOE_AT_KNUCKLETHUMP_HOLE then
-        return (not complete[30612]) and (not questLog[30612]) and (not complete[30610]) and ((not questLog[30610]) or questLog[30610].isComplete == 0) and (not complete[30607]) and ((not questLog[30607]) or questLog[30607].isComplete == 0) or false
+        return not (complete[30607] or (questLog[30607] and questLog[30607].isComplete == 1)) or false
     end
 
     if phase == phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION then
-        return (complete[30612] or questLog[30612] and true) or ((not complete[30610]) and ((not questLog[30610]) or questLog[30610].isComplete == 0) and (complete[30607] or (questLog[30607] and questLog[30607].isComplete == 1))) or false
+        return ((complete[30607] or (questLog[30607] and questLog[30607].isComplete == 1)) and not (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1))) or false
     end
 
     if phase == phases.BROTHER_YAKSHOE_AT_THE_DOOKER_DOME then
-        return (not complete[30612]) and (not questLog[30612]) and (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) or false
+        return (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) and not (complete[30612] or (questLog[30612] and questLog[30612].isComplete == 1)) or false
+    end
+
+    if phase == phases.BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION_2 then
+        return complete[30612] or (questLog[30612] and questLog[30612].isComplete == 1) or false
     end
 
     if phase == phases.SULLY_BELOW_SKYFIRE then
@@ -1912,6 +1923,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GOLDEN_LOTUS_RUINS_ATTACK then
         return complete[31244] or complete[31295] or questLog[31244] or questLog[31295] or false
+    end
+
+    if phase == phases.BAN_BEARHEART_AT_WINTERS_BLOSSOM then
+        return not complete[30715] or false
+    end
+
+    if phase == phases.BAN_BEARHEART_ON_THE_GROUND then
+        return complete[30715] and (not questLog[30993] or questLog[30993].isComplete == 0) and not complete[30993] or false
+    end
+
+    if phase == phases.BAN_BEARHEART_AT_SHADO_PAN_MONASTERY then
+        return complete[30993] or (questLog[30993] and questLog[30993].isComplete == 1) or false
+    end
+
+    if phase == phases.SUNA_SILENTSTRIKE_AT_THE_WALL then
+        return not (complete[30994] or (questLog[30994] and questLog[30994].isComplete == 1)) or false
+    end
+
+    if phase == phases.SUNA_SILENTSTRIKE_ON_THE_GROUND then
+        return complete[30994] or (questLog[30994] and questLog[30994].isComplete == 1) or false
+    end
+
+    if phase == phases.BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION then
+        return (complete[30602] or (questLog[30602] and questLog[30602].isComplete == 1)) and not (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) or false
     end
 
     return false
