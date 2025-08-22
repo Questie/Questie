@@ -2602,7 +2602,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{59332}},
             [questKeys.finishedBy] = {{59332}},
             [questKeys.preQuestGroup] = {30298,30301,30305,30481}, -- was available after only 30298 30299
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{246031,63691},246031}}}, -- check Huo-Shuang ID + spawn.
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{246031,246032},246031}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30304] = { -- Hard as a Rock

@@ -3722,6 +3722,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{77.71,73.21}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [246032] = { -- Huo-Shuang
+            [npcKeys.name] = "Huo-Shuang",
+            [npcKeys.subName] = "Shao-Tien Imperion",
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{74.94,50.98}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [246176] = { -- Vicejaw
             [npcKeys.name] = "Vicejaw",
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{37.41,50.91}}},
