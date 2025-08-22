@@ -5517,6 +5517,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31517},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,{{214628}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Grab another torch"),0,{{"monster",60981}}}},
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
