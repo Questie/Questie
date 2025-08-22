@@ -1577,22 +1577,21 @@ function QuestieTracker:Update()
             line.playButton:Hide()
 
             line.label:ClearAllPoints()
-            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             -- Set Objective text
             line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
 
-            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth())
 
-            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft + trackerMarginRight)
-            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+            line.label:SetWidth(trackerBaseFrame:GetWidth() + trackerMarginRight)
+            line:SetWidth(line.label:GetWidth())
 
             -- Adds 1 pixel between multiple Objectives
             line:SetHeight(line.label:GetHeight() + 1)
 
-            -- Set Objective state
             line:Show()
             line.label:Show()
         end
