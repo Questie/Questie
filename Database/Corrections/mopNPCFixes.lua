@@ -1843,6 +1843,9 @@ function MopNpcFixes.Load()
                 {39.4,61.8,phases.KU_MO_AT_TEMPLE},
             }}
         },
+        [61625] = { -- Provisioner Bamfu
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.14,71.32}}},
+        },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
         },
@@ -3104,6 +3107,9 @@ function MopNpcFixes.Load()
         [66401] = { -- Ship 2 Kill Credit
             [npcKeys.spawns] = {[zoneIDs.PANDARIA] = {{65.31,74.96}}},
             [npcKeys.zoneID] = zoneIDs.PANDARIA,
+        },
+        [66409] = { -- Lorewalker Pao
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.13,71.51}}},
         },
         [66412] = { -- Elena Flutterfly
             [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{46.13,60.27}}},
