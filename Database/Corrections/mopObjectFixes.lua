@@ -260,6 +260,12 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211220] = { -- Mailbox
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
+        [211226] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [211275] = { -- Ko Ko's Altar
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{52.27,71.44}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -333,6 +339,9 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.95,33.33}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [211574] = { -- Mailbox
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
         [211596] = { -- Goblin Fishing Raft
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.43,44.77}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -392,6 +401,9 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{41.58,61.5},{42.34,62.04},{39.82,63.39},{38.99,64.1},{38.3,63.61},{37.61,64.03},{37.57,63.98},{40.13,56.89},{40.32,58.7},{42.66,58.73},{41.35,62.11},{39.28,61.58},{39.27,61.6},{37.74,62.45},{37.85,61.03},{39.65,57.7},{42.44,57.99},{41.79,61.62},{43.26,58.19},{41.4,63.08},{40.94,63.59},{40.32,64.19},{39.72,64.67},{39.81,60.92},{38.69,60.97},{38.62,61.45},{39.01,60.13}}},
             [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
+        [212159] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [212294] = { -- Ocean-Worn Rocks
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{43.3,63.49}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
@@ -435,6 +447,9 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{25.7,50.34}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
+        [213004] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [213254] = { -- Meeting Stone (Mogu Shan Palace)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.9,40.8}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -466,6 +481,21 @@ function MopObjectFixes.Load()
         },
         [213508] = { -- Full Crab Pot
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.28,67.93},{46.7,80.5},{46.8,74.4},{47.55,70.64},{47.8,72.17},{47.9,75.1},{49.1,76}}},
+        },
+        [213682] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [213698] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [213708] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [213727] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [213728] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
         },
         [213744] = { -- Serpent Rod
             [objectKeys.name] = 'Serpent Rod',
@@ -529,6 +559,9 @@ function MopObjectFixes.Load()
         [214169] = { -- Meeting Stone (Gate of the Setting Sun)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{15.5,76.7}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [214176] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
         },
         [214277] = { -- The Dark Grimoire
             [objectKeys.spawns] = {
@@ -600,6 +633,12 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{35.6,65.6}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [214987] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [214988] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [215390] = { -- Powder Keg
             [objectKeys.name] = 'Powder Keg',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.81,95.12},{46.03,96.11}}},
@@ -609,6 +648,15 @@ function MopObjectFixes.Load()
             [objectKeys.name] = 'Skyfire Parachute',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.31,92.81}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [216100] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [216106] = { -- Mailbox
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [220068] = { -- Mailbox
+            [objectKeys.factionID] = 1732, -- alliance only
         },
         [221268] = { -- Meeting Stone (Siege of Orgrimmar) TODO: Enable correct spawns, once SoO is available
             [objectKeys.zoneID] = 0,
