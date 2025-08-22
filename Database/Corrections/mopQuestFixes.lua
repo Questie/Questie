@@ -6483,7 +6483,7 @@ function MopQuestFixes.Load()
         [31844] = { -- Practice Makes Perfect: Master Cheng
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.preQuestSingle] = {31837},
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66256}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31845,31846},
             [questKeys.requiredMaxLevel] = 69,
@@ -6491,7 +6491,7 @@ function MopQuestFixes.Load()
         [31845] = { -- Practice Makes Perfect: Master Tsang
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.preQuestSingle] = {31838},
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66257}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31846},
             [questKeys.requiredMaxLevel] = 79,
