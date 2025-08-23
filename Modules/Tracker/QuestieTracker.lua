@@ -1529,7 +1529,7 @@ function QuestieTracker:Update()
         line.playButton:Hide()
 
         line.label:ClearAllPoints()
-        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 15, 0)
 
         local timer = ChallengeModeTimer.GetTimerString()
         line.label:SetText(timer)
@@ -1573,7 +1573,7 @@ function QuestieTracker:Update()
             line.playButton:Hide()
 
             line.label:ClearAllPoints()
-            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 15, 0)
 
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
