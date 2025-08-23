@@ -24,8 +24,8 @@ end
 ---@return string @Returns the Challenge Mode timer in the format "MM:SS / MM:SS" with the appropriate color based on the elapsed time
 function ChallengeModeTimer.GetTimerString()
     local _, elapsed = GetWorldElapsedTime(1)
-    local _, _, _, difficultyName, _, _, _, mapID = GetInstanceInfo()
-    if difficultyName == "Challenge Mode" then
+    local _, instanceType, _, difficultyName, _, _, _, mapID = GetInstanceInfo()
+    if instanceType ~= "none" and difficultyName == "Challenge Mode" then
         local mapTimes = C_ChallengeMode.GetChallengeModeMapTimes(mapID)
 
         local goldTime = mapTimes[3]
