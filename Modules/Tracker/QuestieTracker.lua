@@ -1618,7 +1618,10 @@ function QuestieTracker:Update()
         QuestieTracker:UpdateHeight()
     end
 
-    if Expansions.Current < Expansions.MoP or (not C_ChallengeMode.IsChallengeModeActive()) then
+    if Expansions.Current >= Expansions.MoP and IsInInstance() and C_ChallengeMode.IsChallengeModeActive() then
+        -- Challenge Mode is active, so we only show the Challenge Mode objectives
+        _UpdateChallengeModeObjectives()
+    else
         -- Not in an active Challenge Mode run
         if Expansions.Current >= Expansions.MoP then
             ChallengeModeTimer.SetTimerLabel(nil)
@@ -1632,9 +1635,6 @@ function QuestieTracker:Update()
             _UpdateQuests()
             _UpdateAchievements()
         end
-    else
-        -- Challenge Mode is active, so we only show the Challenge Mode objectives
-        _UpdateChallengeModeObjectives()
     end
 
     -- Safety check in case we hit the linePool limit
