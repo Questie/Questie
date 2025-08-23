@@ -53,6 +53,7 @@ local QUEST_FLAGS_WEEKLY_X2 = 2 * QUEST_FLAGS_WEEKLY
 ---@enum QuestTagIds
 QuestieDB.questTagIds = {
     ELITE = 1,
+    CLASS = 21,
     PVP = 41,
     RAID = 62,
     DUNGEON = 81,

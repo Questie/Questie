@@ -244,7 +244,7 @@ function QuestieLib:GetLevelString(questId, level)
 
     if questTagId == questTagIds.ELITE then
         char = "+"
-    elseif questTagId == questTagIds.PVP then
+    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
         char = ""
     elseif questTagId == questTagIds.LEGENDARY then
         char = "++"
