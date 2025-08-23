@@ -578,7 +578,10 @@ function QuestieTracker:Update()
     trackerLineWidth = 0
 
     -- Setup local QuestieTracker:Update vars
+    local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
+    local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
+
     local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
@@ -1513,7 +1516,9 @@ function QuestieTracker:Update()
             return
         end
 
-        line:SetMode("zone") -- Re-using the "achieve" mode for font and height
+        local dungeonNameFontSize = trackerFontSizeZone + 3
+        line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontZone), dungeonNameFontSize, Questie.db.profile.trackerFontOutline)
+        line.label:SetHeight(dungeonNameFontSize)
         line.expandZone:Hide()
         line.expandQuest:Hide()
         line.criteriaMark:Hide()
@@ -1528,7 +1533,7 @@ function QuestieTracker:Update()
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
-        line:SetHeight(line.label:GetHeight() + 1)
+        line:SetHeight(line.label:GetHeight() + 2)
 
         line:Show()
         line.label:Show()
@@ -1540,7 +1545,9 @@ function QuestieTracker:Update()
             return
         end
 
-        line:SetMode("achieve")
+        local timerFontSize = trackerFontSizeQuest + 5
+        line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), timerFontSize, Questie.db.profile.trackerFontOutline)
+        line.label:SetHeight(timerFontSize)
         line.expandZone:Hide()
         line.expandQuest:Hide()
         line.criteriaMark:Hide()
@@ -1581,7 +1588,9 @@ function QuestieTracker:Update()
                 Completed = criteriaInfo.completed,
             }
 
-            line:SetMode("objective")
+            local objectiveFontSize= trackerFontSizeObjective + 2
+            line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
+            line.label:SetHeight(objectiveFontSize)
             line:SetScenarioCriteria(objective)
             line.expandZone:Hide()
             line.expandQuest:Hide()
