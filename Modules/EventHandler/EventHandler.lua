@@ -258,6 +258,15 @@ function EventHandler:RegisterLateEvents()
         end)
     end
 
+    if Expansions.Current >= Expansions.MoP then
+        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+    end
+
     -- Questie Comms Events
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
