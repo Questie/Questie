@@ -45,8 +45,9 @@ local lineMarginLeft = 10
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
 ---@param OnQuestAdded function @Callback function for SetQuest
+---@param OnScenarioCriteriaAdded function @Callback function for SetScenarioCriteria
 ---@return LineFrame
-function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded)
+function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded, OnScenarioCriteriaAdded)
     local timeElapsed = 0
     local line = CreateFrame("Button", "linePool" .. index, parent)
     line:SetWidth(1)
@@ -96,6 +97,11 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     function line:SetObjective(objective)
         self.Objective = objective
+    end
+
+    function line:SetScenarioCriteria(objective)
+        self.Objective = objective
+        OnScenarioCriteriaAdded(objective.Id, self)
     end
 
     function line:OnUpdate(elapsed)

@@ -69,6 +69,8 @@ local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type ChallengeModeTimer
+local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
@@ -240,6 +242,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     QuestieTooltips:Initialize()
     TrackerQuestTimers:Initialize()
+    if Expansions.Current >= Expansions.MoP then
+        ChallengeModeTimer.Initialize()
+    end
     QuestieComms:Initialize()
 
     coYield()
