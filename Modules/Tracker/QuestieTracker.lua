@@ -619,31 +619,6 @@ function QuestieTracker:Update()
                 end
 
                 if firstQuestInZone then
-                    local challengeMapId = C_ChallengeMode.GetActiveChallengeMapID()
-                    if challengeMapId then
-                        -- We are in a challenge mode, so we add an extra "Quest" header after the challenge mode objectives
-                        line = TrackerLinePool.GetNextLine()
-                        if not line then break end
-
-                        line:SetMode("achieve") -- Re-using the "achieve" mode for font and height
-                        line.expandQuest:Hide()
-                        line.criteriaMark:Hide()
-                        line.playButton:Hide()
-
-                        line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
-
-                        line.label:SetText("|cFFC0C0C0" .. l10n("Quests") .. "|r")
-
-                        -- Adds 4 pixels between Zone and first Quest Title
-                        line:SetHeight(line.label:GetHeight() + 4)
-
-                        line:Show()
-                        line.label:Show()
-                        line.Quest = nil
-                        line.Objective = nil
-                    end
-
                     -- Get first line in linePool
                     line = TrackerLinePool.GetNextLine()
 
