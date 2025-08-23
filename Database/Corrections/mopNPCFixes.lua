@@ -877,7 +877,10 @@ function MopNpcFixes.Load()
             }},
         },
         [58468] = { -- Sun Tenderheart
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.5,43.39}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {56.74,42.64,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+                {56.5,43.39,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            }},
         },
         [58469] = { -- Ren Firetongue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.68,43.15}}},
@@ -1432,7 +1435,11 @@ function MopNpcFixes.Load()
             }},
         },
         [59905] = { -- Zhi the Harmonious
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{57.25,42.99,phases.ZIN_AT_PAGODA},{44.79,76.33,phases.ZIN_AT_AXE_OF_THUNDER_KING}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
+                {56.83,43.38,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+                {57.25,42.99,phases.ZIN_AT_PAGODA},
+                {44.79,76.33,phases.ZIN_AT_AXE_OF_THUNDER_KING}},
+            },
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59906] = { -- Sinan the Dreamer
@@ -1581,7 +1588,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.82,63.83},{51.22,87.72},{49.98,69.05},{67.81,78.05},{53.77,64.55}}},
         },
         [60503] = { -- Uncle Keenbean
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{42.42,69.65}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {
+                {42.42,69.65,phases.BURBERRY_IN_CAVE},
+                {42.53,69.43,phases.BURBERRY_AT_CAMP},
+            }},
         },
         [60543] = { -- Fat Long-Fat
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.81,82.58}}},
@@ -1598,13 +1608,16 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [60596] = { -- Cousin Gootfur
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{42.32,69.74}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {
+                {42.32,69.74,phases.BURBERRY_IN_CAVE},
+                {42.45,69.35,phases.BURBERRY_AT_CAMP},
+            }},
         },
         [60622] = { -- Orbiss
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
                 {67.8,67.6,phases.ORBISS_AT_SUMPRUSH},
                 {76.19,72.91,phases.ORBISS_AT_BORROW},
-            }}
+            }},
         },
         [60677] = { -- Uncle Tallmug
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{40.31,81.53}}},
@@ -1612,17 +1625,23 @@ function MopNpcFixes.Load()
         [60678] = { -- Cousin Littlebrew
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{40.26,81.57}}},
         },
+        [60679] = { -- Nephew Burrberry
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {
+                {36.93,76.22,phases.BURBERRY_IN_CAVE},
+                {42.51,69.34,phases.BURBERRY_AT_CAMP},
+            }},
+        },
         [60684] = { -- Suna Silentstrike
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
                 {71.2,56.4,phases.SUNA_AT_OUTPOST},
                 {67.2,52.2,phases.SUNA_AT_CAMP_OSUL},
-            }}
+            }},
         },
         [60687] = { -- Ban Bearheart
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
                 {71,56.6,phases.BAN_AT_OUTPOST},
                 {67.2,52.2,phases.BAN_AT_CAMP_OSUL},
-            }}
+            }},
         },
         [60727] = { -- Explosion Triggered Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{36.43,87.53}}},
@@ -1631,6 +1650,12 @@ function MopNpcFixes.Load()
         [60734] = { -- Golgoss
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{70.6,69.6}}},
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [60795] = { -- Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {
+                {43.79,51.04,phases.CHO_SEEKERS_POINT_1},
+                {43.76,51.11,phases.CHO_SEEKERS_POINT_2},
+            }},
         },
         [60883] = { -- Light Incense Kill Credit
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{66.96,33.32},}},
@@ -1892,6 +1917,9 @@ function MopNpcFixes.Load()
                 [6454] = {{49,63.6}},
             },
         },
+        [61371] = { -- Lorewalker Cho
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.32,29.06}}},
+        },
         [61384] = { -- Cockroach
             [npcKeys.spawns] = {
                 [11] = {{26.8,25.2},{34,54.4},{34,54.8},{34.6,48.8},{34.8,27.8},{53.2,41.2},{54.2,34.2},{55.4,30.4},{56,25.4},{56.8,30.2},{57.8,35.2},{58.6,24.6},{60,43.8},{60,46},{61.4,46.6},{62.6,37.4},{69.6,33.2}},
@@ -1917,6 +1945,12 @@ function MopNpcFixes.Load()
                     {31.27,61.61,phases.SUNA_SILENTSTRIKE_ON_THE_GROUND},
                 },
             },
+        },
+        [61496] = { -- Steelbender Doshu
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{63.33,30.75}}},
+        },
+        [61503] = { -- Shomi
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{63.73,30.71}}},
         },
         [61528] = { -- Lava Guard Gordoth
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{33.76,81.74},{-1,-1}}},
@@ -2031,7 +2065,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{71.4,48.6},{71.8,48.4},{72,48.6}}},
         },
         [61842] = { -- Zandalari Warrior
-            [npcKeys.spawns] = {[6201] = {{80.91,75.69},{67.31,70.34},{66.93,77.92},{62.82,87.17},{56.48,86.10},{55.81,76.68},{56.28,66.40},{60.15,58.71},{62.69,60.09}}},
+            [npcKeys.spawns] = {[zoneIDs.TOMB_OF_CONQUERORS] = {{70.97,74.41},{80.91,75.69},{67.31,70.34},{66.93,77.92},{62.82,87.17},{56.48,86.10},{55.81,76.68},{56.28,66.40},{60.15,58.71},{62.69,60.09}}},
         },
         [61847] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.34,61.69}}},
@@ -2195,6 +2229,9 @@ function MopNpcFixes.Load()
                 {50.45,12.05,phases.CHEN_62779_AT_BREWGARDEN},
                 {44.41,16.8,phases.CHEN_62779_INSIDE_KOR_VESS}
             }},
+        },
+        [62810] = { -- Moshu the Arcane
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{28.85,22.59}}},
         },
         [62923] = { -- Empty Package
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}},
@@ -2851,6 +2888,9 @@ function MopNpcFixes.Load()
         [64475] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.84,81.08}}},
         },
+        [64540] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.78,43.13}}},
+        },
         [64562] = { -- Talking Skull
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_43},{-1,-1}},
@@ -2937,6 +2977,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.15,76.32}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [64848] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.1,91.74}}},
         },
         [64854] = { -- Blade of the Anointed
             [npcKeys.spawns] = {

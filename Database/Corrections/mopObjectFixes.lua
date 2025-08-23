@@ -397,6 +397,14 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
         },
+        [211967] = { -- King's Coffer
+            [objectKeys.spawns] = {[zoneIDs.TOMB_OF_CONQUERORS] = {{58.42,72.66}}},
+            [objectKeys.zoneID] = zoneIDs.TOMB_OF_CONQUERORS,
+        },
+        [211968] = { -- Top Fragment of Lei Shen's Tablet
+            [objectKeys.spawns] = {[zoneIDs.TOMB_OF_CONQUERORS] = {{34.13,61.49}}},
+            [objectKeys.zoneID] = zoneIDs.TOMB_OF_CONQUERORS,
+        },
         [212003] = { -- Yaungol Oil Barrel
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{26.2, 59.9}, {26.3, 59.1}, {26.6, 59.4}, {27.2, 60.2}, {27.4, 60.8}, {27.7, 61}, {28.4, 61.5}, {28.5, 61.1}, {28.5, 61.5}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -621,6 +629,10 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Dreadspore Bulb",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}}, -- there are like 100 more spawns, used one so we can have tooltips
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [214572] = { -- Tablet of Thunder
+            [objectKeys.spawns] = {[zoneIDs.TOMB_OF_CONQUERORS] = {{34.13,61.49}}},
+            [objectKeys.zoneID] = zoneIDs.TOMB_OF_CONQUERORS,
         },
         [214674] = { -- Ancient Amber Chunk
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{44.76,41.66}}},

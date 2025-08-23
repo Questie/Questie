@@ -584,6 +584,7 @@ function MopItemFixes.Load()
         },
         [81177] = { -- Pandaren Healing Draught
             [itemKeys.objectDrops] = {211510},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [81250] = { -- Snarlvine
             [itemKeys.objectDrops] = {211517,211518},

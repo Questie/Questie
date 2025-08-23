@@ -426,6 +426,10 @@ local phases = {
     SUNA_SILENTSTRIKE_ON_THE_GROUND = 1354,
     BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION = 1355,
     BROTHER_YAKSHOE_AT_BURLAP_WAYSTATION_2 = 1356,
+    CHO_SEEKERS_POINT_1 = 1357,
+    CHO_SEEKERS_POINT_2 = 1358,
+    BURBERRY_IN_CAVE = 1359,
+    BURBERRY_AT_CAMP = 1360,
 }
 Phasing.phases = phases
 
@@ -1650,7 +1654,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.ZIN_AT_PAGODA then
-        return not complete[30642] or false
+        return complete[30638] and not complete[30642] or false
     end
 
     if phase == phases.PAGODA_UNDER_ATTACK then
@@ -1947,6 +1951,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION then
         return (complete[30602] or (questLog[30602] and questLog[30602].isComplete == 1)) and not (complete[30610] or (questLog[30610] and questLog[30610].isComplete == 1)) or false
+    end
+
+    if phase == phases.CHO_SEEKERS_POINT_1 then
+        return not (complete[30829] or (questLog[30829] and questLog[30829].isComplete == 1)) or false
+    end
+
+    if phase == phases.CHO_SEEKERS_POINT_2 then
+        return complete[30829] or (questLog[30829] and questLog[30829].isComplete == 1) or false
+    end
+
+    if phase == phases.BURBERRY_IN_CAVE then
+        return not complete[30746] or false
+    end
+
+    if phase == phases.BURBERRY_AT_CAMP then
+        return complete[30746] or false
     end
 
     return false

@@ -3818,6 +3818,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,{{81054}}},
             [questKeys.exclusiveTo] = {30825},
         },
+        [30746] = { -- A Fair Trade
+            [questKeys.preQuestSingle] = {30744,30825},
+        },
         [30745] = { -- Trouble Brewing
             [questKeys.exclusiveTo] = {30826},
         },
@@ -3961,7 +3964,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{211783}}},
         },
         [30800] = { -- Stealing Their Thunder King
-            [questKeys.objectives] = {nil,{{214572}},{{82764}}},
+            [questKeys.objectives] = {nil,{{211968}},{{82764}}},
         },
         [30801] = { -- Lessons from History
             [questKeys.objectives] = {nil,{{214572}}},
@@ -4023,7 +4026,7 @@ function MopQuestFixes.Load()
         },
         [30829] = { -- The Tongue of Ba-Shon
             [questKeys.preQuestSingle] = {30684},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",61315}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cho"),0,{{"monster",60795}}}},
         },
         [30834] = { -- Father and Child Reunion
             [questKeys.objectives] = {},
@@ -5576,10 +5579,12 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the crystal"),0,{{"object",214455}}}},
         },
         [31511] = { -- A Witness to History [Horde]
+            [questKeys.finishedBy] = {{59905,62996}},
             [questKeys.objectives] = {{{64853,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {31512},
         },
         [31512] = { -- A Witness to History [Alliance]]
+            [questKeys.finishedBy] = {{59905,64149}},
             [questKeys.objectives] = {{{64848,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {31511},
         },
