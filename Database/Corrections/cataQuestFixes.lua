@@ -11791,7 +11791,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28183,28172},
         },
         [28187] = { -- Missed Me By Zhat Much!
-            [questKeys.objectives] = {{{47940,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{47957,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Commander Schnottz"),0,{{"monster",47940}}}},
         },
         [28189] = { -- Do the Right Thing
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
