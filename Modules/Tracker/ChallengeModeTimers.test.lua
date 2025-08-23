@@ -17,12 +17,23 @@ describe("ChallengeModeTimer", function()
     end)
     
     describe("GetTimerString", function()
-        it("should return placeholder timer when not in Challenge Mode", function()
+        it("should return placeholder timer when Challenge Mode is not active", function()
             _G.GetWorldElapsedTime = function() return nil, 0 end
             _G.GetInstanceInfo = function() return nil, nil, nil, "10 Player", nil, nil, nil, 123 end
     
             local timer = ChallengeModeTimer.GetTimerString()
     
+            assert.is_equal("00:00 / 00:00", timer)
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was_not_called()
+            assert.spy(Questie.Colorize).was_called_with(Questie, "00:00 / 00:00", "white")
+        end)
+
+        it("should return placeholder timer when not inside a Challenge Mode dungeon", function()
+            _G.GetWorldElapsedTime = function() return nil, 0 end
+            _G.GetInstanceInfo = function() return nil, "none", nil, "Challenge Mode", nil, nil, nil, 123 end
+
+            local timer = ChallengeModeTimer.GetTimerString()
+
             assert.is_equal("00:00 / 00:00", timer)
             assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was_not_called()
             assert.spy(Questie.Colorize).was_called_with(Questie, "00:00 / 00:00", "white")
