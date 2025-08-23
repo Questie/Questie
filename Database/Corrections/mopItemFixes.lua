@@ -609,6 +609,10 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.vendors] = {64319}, -- This is the closest vendor to Jogu the Drunk
         },
+        [81415] = { -- Pandaren Plum Wine
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {64319}, -- This is the closest vendor to Jogu the Drunk
+        },
         [82298] = { -- Handful of Volatile Blooms
             [itemKeys.objectDrops] = {211684},
         },
