@@ -4946,7 +4946,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31808},
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
-            [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK},{64473}}},
+            [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK},{64474}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
