@@ -3084,6 +3084,8 @@ function CataNpcFixes.Load()
         },
         [21209] = { -- Dumphry
             [npcKeys.questStarts] = {10055,10078,10763,10764},
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{51.29,60.31}}},
+            [npcKeys.waypoints] = {},
         },
         [21212] = { -- Lady Vashj
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},

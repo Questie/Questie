@@ -430,6 +430,10 @@ local phases = {
     CHO_SEEKERS_POINT_2 = 1358,
     BURBERRY_IN_CAVE = 1359,
     BURBERRY_AT_CAMP = 1360,
+    TARAN_ZHU_WATCHPOST_1 = 1361,
+    TARAN_ZHU_WATCHPOST_2 = 1362,
+    TAI_HO_AT_GARRISON = 1363,
+    TAI_HO_IN_CATACOMBS = 1364,
 }
 Phasing.phases = phases
 
@@ -1967,6 +1971,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BURBERRY_AT_CAMP then
         return complete[30746] or false
+    end
+
+    if phase == phases.TARAN_ZHU_WATCHPOST_1 then
+        return not complete[30979] or false
+    end
+
+    if phase == phases.TARAN_ZHU_WATCHPOST_2 then
+        return complete[30979] or false
+    end
+
+    if phase == phases.TAI_HO_AT_GARRISON then
+        return not (complete[30924] or questLog[30924]) or false
+    end
+
+    if phase == phases.TAI_HO_IN_CATACOMBS then
+        return complete[30924] or questLog[30924] or false
     end
 
     return false

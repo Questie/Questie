@@ -1811,7 +1811,7 @@ function MopQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}},
                 {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mudmug"),1,{{"monster",58027}}},
                 {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Li Li"),2,{{"monster",58028}}},
-                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),3,{{"monster",58029}}}
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),3,{{"monster",58029}}},
             },
         },
         [30079] = { -- What's Eating Zhu's Watch?
@@ -3857,6 +3857,7 @@ function MopQuestFixes.Load()
         [30768] = { -- My Husband...
             [questKeys.preQuestSingle] = {30992},
             [questKeys.exclusiveTo] = {31386,31388,31695},
+            [questKeys.breadcrumbForQuestId] = 30814,
         },
         [30769] = { -- First Assault
             [questKeys.preQuestSingle] = {30814},
@@ -3980,6 +3981,7 @@ function MopQuestFixes.Load()
         },
         [30814] = { -- A Foot in the Door
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {30768,31386,31388},
         },
         [30815] = { -- The Death of Me
             [questKeys.preQuestSingle] = {},
@@ -4132,14 +4134,15 @@ function MopQuestFixes.Load()
         },
         [30929] = { -- Bad Yak
             [questKeys.objectives] = {{{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT},{61163,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {30921}, -- not 100% on this but it's definitely missing at least one prequest and showed up after I did a few including 30921
+            [questKeys.preQuestGroup] = {30921,30923},
         },
         [30930] = { -- Pick a Yak
             [questKeys.objectives] = {{{61635,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30929},
         },
-        [30931] = { -- Father's Footsteps
-            -- need to find during what questhub it's available
+        [30931] = { -- My Father's Crossbow
+            [questKeys.preQuestGroup] = {30921,30923},
+            -- need to find during what questhub it's available - omnia
         },
         [30932] = { -- Father's Footsteps
             [questKeys.preQuestSingle] = {30931}, -- need to find during what questhub it's available
@@ -4406,7 +4409,7 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [31038] = { -- The Challenger's Ring: Snow Blossom
-            [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK},{62781}}},
+            [questKeys.objectives] = {{{62380,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{62781,62834},62781}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
@@ -5364,9 +5367,11 @@ function MopQuestFixes.Load()
         },
         [31386] = { -- The Shado-Pan Offensive
             [questKeys.exclusiveTo] = {31388,30768,31695},
+            [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31388] = { -- The Shado-Pan Offensive
             [questKeys.exclusiveTo] = {31386,30768,31695},
+            [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31390] = { -- The Klaxxi
             [questKeys.preQuestGroup] = {30650,30651,30660}, -- not entirely sure, but seems plausible
@@ -6025,6 +6030,7 @@ function MopQuestFixes.Load()
         },
         [31695] = { -- Beyond the Wall
             [questKeys.exclusiveTo] = {31386,31388,30768},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31698] = { -- Thinning The Pack
             [questKeys.preQuestSingle] = {30142},
@@ -6465,7 +6471,7 @@ function MopQuestFixes.Load()
         },
         [31838] = { -- Continue Your Training: Master Tsang
             [questKeys.requiredClasses] = classIDs.MONK,
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66257}}}},
             [questKeys.breadcrumbs] = {31860},
         },
         [31839] = { -- Continue Your Training: Master Hsu
@@ -6645,6 +6651,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30786,
         },
         [31895] = { -- Better Off Dread
+            [questKeys.preQuestGroup] = {30926,30927,30928},
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31391,31656,31847,31886},
         },

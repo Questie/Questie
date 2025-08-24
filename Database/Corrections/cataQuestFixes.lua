@@ -1434,6 +1434,9 @@ function CataQuestFixes.Load()
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
         },
+        [10160] = { -- Know your Enemy
+            [questKeys.breadcrumbForQuestId] = 10482,
+        },
         [10182] = { -- Battle-Mage Dathric
             [questKeys.startedBy] = {nil,nil,{29233}},
         },
@@ -1621,6 +1624,10 @@ function CataQuestFixes.Load()
         },
         [10475] = { -- Defender's Covenant
             [questKeys.startedBy] = {{19935}},
+        },
+        [10482] = { -- Fel Orc Scavengers
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10160},
         },
         [10567] = { -- Creating the Pendant
             [questKeys.breadcrumbs] = {10615},
@@ -13305,6 +13312,8 @@ function CataQuestFixes.Load()
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.requiredMaxLevel] = 67,
+            [questKeys.nextQuestInChain] = 10288,
+            [questKeys.breadcrumbForQuestId] = 10288,
         },
         [28709] = { -- Hero's Call: Northrend!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},

@@ -15,6 +15,7 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [6137] = 1, -- Frostmane Hovel -> Dun Morogh
     [6170] = 12, -- Northshire -> Elwynn Forest
     [6176] = 1, -- Coldridge Valley -> Dun Morogh
+    [6213] = 5842, -- Niuzao Catacombs -> Townlong Steppes
     [6384] = 796, -- Scarlet Monastery - Dungeon - Forlorn Cloister
     [6386] = 796, -- Scarlet Monastery - Dungeon - Crusader's Chapel
     [6450] = 141, -- Shadowglen -> Teldrassil

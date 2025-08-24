@@ -832,6 +832,7 @@ function MopItemFixes.Load()
         },
         [86099] = { -- Wu Kao Scouting Report
             [itemKeys.objectDrops] = {213640},
+            [itemKeys.npcDrops] = {63947,63948,64201},
         },
         [86404] = { -- Old Map
             [itemKeys.npcDrops] = {59639},
