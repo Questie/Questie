@@ -54,7 +54,7 @@ function QuestieJourneyUtils:GetZoneName(id)
             return l10n.zoneLookup[category][id]
         end
     end
-    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[6]) do
+    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[8]) do
         if dungeonZoneId == id then
             return dungeonName
         end
