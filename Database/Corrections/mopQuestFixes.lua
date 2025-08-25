@@ -822,7 +822,7 @@ function MopQuestFixes.Load()
         [29559] = { -- Freeing Our Brothers
             [questKeys.preQuestSingle] = {29553},
             [questKeys.requiredSourceItems] = {74260},
-            [questKeys.objectives] = {{{55490,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{55490,55201},55490,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 209586}}}},
         },
         [29560] = { -- Ancient Power
@@ -3515,7 +3515,8 @@ function MopQuestFixes.Load()
         },
         [30632] = { -- The Ruins of Guo-Lai
             [questKeys.startedBy] = {{58408}},
-            [questKeys.preQuestSingle] = {30631,30649,31384,31385},
+            [questKeys.requiredSpell] = 115913,
+            [questKeys.breadcrumbs] = {31384,31385},
         },
         [30633] = { -- Out with the Scouts
             [questKeys.startedBy] = {{58465}},
@@ -4142,10 +4143,9 @@ function MopQuestFixes.Load()
         },
         [30931] = { -- My Father's Crossbow
             [questKeys.preQuestGroup] = {30921,30923},
-            -- need to find during what questhub it's available - omnia
         },
         [30932] = { -- Father's Footsteps
-            [questKeys.preQuestSingle] = {30931}, -- need to find during what questhub it's available
+            [questKeys.preQuestSingle] = {30931},
             [questKeys.objectives] = {{{61685,nil,Questie.ICON_TYPE_INTERACT},{61683,nil,Questie.ICON_TYPE_TALK}},{{211836},{211837}}},
         },
         [30933] = { -- Seeking Father
@@ -4949,14 +4949,14 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31808},
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
-            [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK},{64474}}},
+            [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{64470,64474},64474}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
             },
         },
         [31221] = { -- The Challenger's Ring: Tenwu of the Red Smoke
-            [questKeys.objectives] = {{{63616,nil,Questie.ICON_TYPE_TALK},{64473}}},
+            [questKeys.objectives] = {{{63616,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{64471,64473},64473}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
@@ -5364,6 +5364,14 @@ function MopQuestFixes.Load()
         [31383] = { -- Defense At Niuzao Temple
             [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31377,31379,31381,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
+        },
+        [31384] = { -- The Golden Lotus
+            [questKeys.finishedBy] = {{58408}},
+            [questKeys.breadcrumbForQuestId] = 30632,
+        },
+        [31385] = { -- The Golden Lotus
+            [questKeys.finishedBy] = {{58408}},
+            [questKeys.breadcrumbForQuestId] = 30632,
         },
         [31386] = { -- The Shado-Pan Offensive
             [questKeys.exclusiveTo] = {31388,30768,31695},
@@ -7563,6 +7571,9 @@ function MopQuestFixes:LoadFactionFixes()
         [31695] = { -- Beyond The Wall
             [questKeys.preQuestGroup] = {30655,30656,30661},
         },
+        [30632] = { -- The Ruins of Guo-Lai
+            [questKeys.preQuestGroup] = {31511,30649},
+        },
     }
 
 
@@ -7574,6 +7585,9 @@ function MopQuestFixes:LoadFactionFixes()
         },
         [31695] = { -- Beyond The Wall
             [questKeys.preQuestGroup] = {30650,30651,30660},
+        },
+        [30632] = { -- The Ruins of Guo-Lai
+            [questKeys.preQuestGroup] = {31512,30631},
         },
     }
 

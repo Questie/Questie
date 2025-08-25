@@ -890,7 +890,7 @@ function MopNpcFixes.Load()
         },
         [58471] = { -- Kun Autumnlight
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {34.06,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+                {33.66,38.4,phases.GOLDEN_LOTUS_DAILY_LOCKED},
                 {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
             }},
         },
@@ -1450,6 +1450,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{74.15,42.61}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [59921] = { -- Zhao-Jin the Bloodletter
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{55.12,52.73}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [59967] = { -- Mischievous Snow Sprite
             [npcKeys.spawns] = {[zoneIDs.HOWLINGWIND_CAVERN] = {{58.44,75.34},{59.48,75.73},{59.4,74.78},{58.95,73.72},{57.9,74.42},{57.28,75.49},{55.96,74.78},{56.82,74.29},{56.37,73.22},{54.94,70.97},{27.55,54.62},{26.75,59.95},{34.99,33.29},{34.02,33.86},{34.56,33.66},{34.83,34.49},{34.27,35.03},{34.35,35.83},{33.65,36.24},{33.86,37.15},{34.27,37.89},{35.49,44.58},{25.95,43},{32.21,36.32},{31.19,34.87},{32.38,31.44},{43.82,27.52},{44.63,26.37},{45.31,27.56},{45,27.11},{45.01,26.57},{45.42,26.06},{45.76,25.59},{44.87,24.62},{51.7,38.76},{65.82,57.26},{59.88,51.2},{60.35,52.35},{59.52,52.1},{58.77,52.36},{58.62,51.35},{59.22,50.51},{59.94,49.85},{59.01,49.64},{59.07,48.34},{59.65,48.79},{59.97,47.78},{59.28,47.04},{49.42,52.06},{53.43,53.09},{54.69,54.64},{46.75,55.67},{48.18,64.56},{64.45,69.8},{71.4,70.83},{70.04,78.07},{71.36,86.7},{70.05,87.98}}},
         },
@@ -1462,6 +1466,10 @@ function MopNpcFixes.Load()
         },
         [59973] = { -- Stone Guardian
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.55,26.63},{25.12,26.37},{23.77,27.37},{22.70,26.97},{22.28,27.26},{20.97,30.17},{21.71,30.58},{21.75,28.90},{22.69,29.77},{22.64,30.60},{23.55,29.50},{23.23,30.99},{24.01,31.82},{25.61,31.46},{25.60,30.70},{26.80,30.49}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [59977] = { -- Dagou
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{57.02,52.82}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [59985] = { -- Untilled Soil
@@ -2000,7 +2008,7 @@ function MopNpcFixes.Load()
         [61539] = { -- Ku-Mo
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {
                 {43.86,65.76,phases.KU_MO_AT_BRIDGE},
-                {39.4,61.8,phases.KU_MO_AT_TEMPLE},
+                {39.45,61.93,phases.KU_MO_AT_TEMPLE},
             }},
         },
         [61625] = { -- Provisioner Bamfu
@@ -2989,11 +2997,17 @@ function MopNpcFixes.Load()
         [64461] = { -- Shado-Pan Trainee
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{18,53.45}}},
         },
+        [64470] = { -- Hawkmaster Nurong
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.7,68.18}}},
+        },
+        [64471] = { -- Tenwu of the Red Smoke
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.62,68.5}}},
+        },
         [64473] = { -- Tenwu of the Red Smoke
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{50.62,68.5}}},
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.62,68.5}}},
         },
         [64474] = { -- Hawkmaster Nurong
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{50.7,68.18}}},
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.7,68.18}}},
         },
         [64475] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.84,81.08}}},
@@ -3113,6 +3127,9 @@ function MopNpcFixes.Load()
         },
         [64937] = { -- Great Cliff Hawk
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},
+        },
+        [65252] = { -- Lao Softfoot
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{33.79,22.63}}},
         },
         [65310] = { -- Turnip Punching Bag
             [npcKeys.zoneID] = 0,

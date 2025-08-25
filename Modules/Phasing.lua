@@ -434,6 +434,7 @@ local phases = {
     TARAN_ZHU_WATCHPOST_2 = 1362,
     TAI_HO_AT_GARRISON = 1363,
     TAI_HO_IN_CATACOMBS = 1364,
+    LUSSHAN_PEARLS = 1365,
 }
 Phasing.phases = phases
 
