@@ -1594,7 +1594,8 @@ function QuestieTracker:Update()
         QuestieTracker:UpdateHeight()
     end
 
-    if Expansions.Current >= Expansions.MoP and IsInInstance() and C_ChallengeMode.IsChallengeModeActive() then
+    local _, instanceType, _, difficultyName = GetInstanceInfo()
+    if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyName == "Challenge Mode" then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
         _UpdateChallengeModeObjectives()
     else
