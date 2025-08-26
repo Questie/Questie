@@ -1557,6 +1557,7 @@ function QuestieTracker:Update()
             -- We re-shape the criteriaInfo to match quest objectives used by the tracker.
             local objective = {
                 Id = criteriaInfo.criteriaID,
+                Index = i,
                 Description = criteriaInfo.description,
                 Collected = criteriaInfo.quantity,
                 Needed = criteriaInfo.totalQuantity,
