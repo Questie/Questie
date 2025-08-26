@@ -75,6 +75,7 @@ Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
+Database\Corrections\questTagInfoCorrections.lua
 Database\Corrections\HardcoreBlacklist.lua
 Database\Corrections\SeasonOfDiscovery.lua
 Database\Corrections\ContentPhases\ContentPhases.lua

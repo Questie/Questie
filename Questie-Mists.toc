@@ -74,6 +74,7 @@ Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
+Database\Corrections\questTagInfoCorrections.lua
 Database\Corrections\ContentPhases\ContentPhases.lua
 Database\Corrections\ContentPhases\MistsOfPandaria.lua
 Database\Corrections\Holidays\QuestieEvent.lua

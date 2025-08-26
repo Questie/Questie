@@ -21,8 +21,10 @@ describe("QuestieDB", function()
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieDB = require("Database.QuestieDB")
-        QuestieDB.private.questCache = {}
         QuestieDB.QueryNPCSingle = function() return nil end
+        QuestieDB.private.questCache = {}
+        dofile("Database/Corrections/questTagInfoCorrections.lua")
+        QuestieDB.private.InitializeQuestTagInfoCorrections()
 
         local questKeys = QuestieDB.questKeys
         testQuest = {
