@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -229,6 +231,18 @@ local questStateLocales = {
         ["ruRU"] = "Подземелье",
         ["zhCN"] = "地下城",
         ["zhTW"] = "地城",
+    },
+    ["Elite"] = {
+        ["enUS"] = (Expansions.Current == Expansions.Era and true) or "Group",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Gruppe",
+        ["esES"] = "Élite",
+        ["esMX"] = "Élite",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Élite") or "Groupe",
+        ["koKR"] = (Expansions.Current == Expansions.Era and "정예") or "파티",
+        ["ptBR"] = (Expansions.Current == Expansions.Era and true) or "Grupo",
+        ["ruRU"] = (Expansions.Current == Expansions.Era and "Элитный") or "Группа",
+        ["zhCN"] = "精英",
+        ["zhTW"] = (Expansions.Current == Expansions.Era and "精英") or "團體",
     },
 }
 
