@@ -403,6 +403,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KALIMDOR] = {{61.23,44.59}}},
             [npcKeys.zoneID] = zoneIDs.KALIMDOR,
         },
+        [55122] = { -- Admiral Taylor
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.07,80.65}}},
+        },
         [55205] = { -- Water Spirit Coaxed Credit
             [npcKeys.spawns] = {[zoneIDs.THE_WANDERING_ISLE] = {{79.03,37.8}}},
             [npcKeys.zoneID] = zoneIDs.THE_WANDERING_ISLE,
@@ -625,6 +628,9 @@ function MopNpcFixes.Load()
                 {27.23,50.78,phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END},
             }},
         },
+        [56434] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST]= {{65.91,79.27}}},
+        },
         [56439] = { -- Sha of Doubt
             [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{60.91,59.35},{-1,-1}}},
         },
@@ -696,6 +702,12 @@ function MopNpcFixes.Load()
         },
         [56732] = { -- Liu Flameheart
             [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT]= {{48.2,53.18},{-1,-1}}},
+        },
+        [56782] = { -- Elder Sage Rain-Zhu
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.13,58.66}}},
+        },
+        [56784] = { -- Fei
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.03,59.01}}},
         },
         [56786] = { -- Lorewalker Stonestep
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.26,60.43}}},
@@ -2232,6 +2244,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.TOWNLONG_STEPPES] = {{32.88,61.12},{32.61,61.88},{31.94,60.91}},
                 [zoneIDs.NIUZAO_CATACOMBS] = {{36.35,72.59},{29.91,75.87},{32.67,55.76},{48.62,50.68},{43.99,76.76},{40.01,74.51},{52.51,63.36},{54.52,68.53},{58.58,74.93},{71.49,66.78},{60.15,49.19},{69.87,42.53},{55.15,11.7},{52.97,30.4},{63.15,41.74},{59.78,47.62},{63.27,22.16},{67.15,27.7},{72.86,47.12},{74.17,53},{74.35,61.08},{67.83,72.1},{64.88,72.33},{62.66,67.54},{57.03,72.5},{45.8,47.09},{43.67,53.37}},
             },
+        },
+        [62301] = { -- Adjunct Kree'zot
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{73.48,27.49}}},
         },
         [62304] = { -- Ban Bearheart
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
