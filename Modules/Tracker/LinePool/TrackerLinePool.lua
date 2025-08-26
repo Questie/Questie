@@ -371,7 +371,7 @@ function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
     end
 
     if (not tContains(linesByScenarioIndex[criteriaIndex], line)) then
-        table.insert(linesByScenarioIndex[criteriaIndex], line)
+        linesByScenarioIndex[criteriaIndex] = line
     end
 end
 
@@ -381,16 +381,14 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         return
     end
 
-    local lines = linesByScenarioIndex[criteriaIndex]
-    for _, line in pairs(lines) do
-        if line.Objective then
-            ---@type QuestObjective
-            local objective = line.Objective
-            local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
+    local line = linesByScenarioIndex[criteriaIndex]
+    if line.Objective then
+        ---@type QuestObjective
+        local objective = line.Objective
+        local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
 
-            local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
-            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
-        end
+        local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
+        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
     end
 end
 
