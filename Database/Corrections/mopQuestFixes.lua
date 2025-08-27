@@ -1889,6 +1889,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [30134] = { -- Wild Things
+            [questKeys.breadcrumbs] = {31373,31375},
+        },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
         },
@@ -5332,12 +5335,14 @@ function MopQuestFixes.Load()
         },
         [31373] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
+            [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31374] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
+            [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511,31512,31782},
