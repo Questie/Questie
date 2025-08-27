@@ -2371,7 +2371,8 @@ function MopQuestFixes.Load()
         [30255] = { -- Learn and Grow III: Tending Crops
             [questKeys.objectives] = {{{59987,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [30258] = { --Mung-Mung's Vote I: A Hozen's Problem
+        [30258] = { -- Mung-Mung's Vote I: A Hozen's Problem
+            [questKeys.preQuestSingle] = {31945}, -- Gina chain required for Mung Mung
             [questKeys.requiredMinRep] = {1272,14600}, -- available at 5600/12000 honored with Tillers
         },
         [30260] = { -- Growing the Farm I: The Weeds
@@ -4308,20 +4309,21 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31005,31676},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
+            [questKeys.objectives] = {{{62538,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31007] = { -- The Dread Clutches
             [questKeys.preQuestSingle] = {31006},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62538}}}},
         },
         [31008] = { -- Amber Arms
             [questKeys.preQuestSingle] = {31006},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62538}}}},
         },
         [31009] = { -- Dead Zone
             [questKeys.finishedBy] = {{110008}},
             [questKeys.objectives] = {nil,{{212524}}},
             [questKeys.preQuestSingle] = {31006},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62202}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kil'ruk"),0,{{"monster",62538}}}},
         },
         [31010] = { -- In Her Clutch
             [questKeys.objectives] = {nil,{{214674}}},
@@ -4351,8 +4353,9 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {31016,31367,31368},
         },
         [31016] = { -- The Lorewalkers
+            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31367,31368,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
+            [questKeys.exclusiveTo] = {31367,31368},
         },
         [31018] = { -- Beneath the Heart of Fear
             [questKeys.objectives] = {{{62073},{62074},{62075},{62076}},{{212038}}},
@@ -4557,7 +4560,7 @@ function MopQuestFixes.Load()
         [31087] = { -- Extending Our Coverage
             [questKeys.objectives] = {{{65328,nil,Questie.ICON_TYPE_EVENT},{65478}},{{213250}}},
             [questKeys.preQuestSingle] = {31066},
-            [questKeys.exclusiveTo] = {31679},
+            [questKeys.exclusiveTo] = {31441,31679},
         },
         [31088] = { -- Crime and Punishment
             [questKeys.preQuestSingle] = {31087},
@@ -4650,14 +4653,14 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{212900}}},
         },
         [31127] = { -- The Challenger's Ring: Chao the Voice
-            [questKeys.objectives] = {{{62550,nil,Questie.ICON_TYPE_TALK},{63128}}},
+            [questKeys.objectives] = {{{62550,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63128,63125},63128}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,9000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
             },
         },
         [31128] = { -- The Challenger's Ring: Lao-Chin the Iron Belly
-            [questKeys.objectives] = {{{62978,nil,Questie.ICON_TYPE_TALK},{63136}}},
+            [questKeys.objectives] = {{{62978,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63136,63135},63136}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
             [questKeys.exclusiveTo] = {31039,31040,31041,31042,31043,31044,31045,31046,31047,31048,31049,31061,31062,31105,31106, -- Omnia dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
@@ -4832,6 +4835,7 @@ function MopQuestFixes.Load()
         [31175] = { -- Skeer the Bloodseeker
             [questKeys.objectives] = {nil,{{212980}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES] = {{25.72,54.31}}},Questie.ICON_TYPE_EVENT,l10n("Enter the underwater cave")}},
         },
         [31176] = { -- A Strange Appetite
@@ -5312,26 +5316,28 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
         },
         [31367] = { -- The Lorewalkers
+            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31016,31368,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
+            [questKeys.exclusiveTo] = {31016,31368},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31368] = { -- The Lorewalkers
+            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
             [questKeys.breadcrumbForQuestId] = 31015,
-            [questKeys.exclusiveTo] = {31016,31367,31786,31787,31788,31789,31790,31791,31792,31793,31794,31795,31796,31797,31798,31799,31800,31801,31802,31803,31804,31805,32686,32687,32688,32689,32690,32691,32692,32693}, -- these might be exclusive with the pristine artifact quests from archaeology
+            [questKeys.exclusiveTo] = {31016,31367},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31372] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31782}, -- not entirely sure
+            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
         },
         [31374] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31782}, -- not entirely sure
+            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511,31512,31782},
@@ -5495,7 +5501,7 @@ function MopQuestFixes.Load()
         },
         [31481] = { -- Fear Itself
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {31473},
+            [questKeys.preQuestGroup] = {31468,31473},
             [questKeys.exclusiveTo] = {91786},
         },
         [31482] = { -- Breath of the Black Prince
@@ -5922,6 +5928,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
         },
         [31598] = { -- Kypa'rak's Core
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
                                       31024,31267,31268,31269,31270,31271,31272, -- Lake
@@ -5930,6 +5937,7 @@ function MopQuestFixes.Load()
             },
         },
         [31599] = { -- The Matriarch's Maw
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
                                       31024,31267,31268,31269,31270,31271,31272, -- Lake
@@ -5938,13 +5946,15 @@ function MopQuestFixes.Load()
             },
         },
         [31605] = { -- The Zan'thik Dig
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
-            [questKeys.preQuestSingle] = {31026},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.preQuestSingle] = {31066},
+            [questKeys.breadcrumbForQuestId] = 31606,
         },
         [31606] = { -- The Dissector Wakens
             [questKeys.objectives] = {{{67091}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000},
+            [questKeys.preQuestSingle] = {31066},
+            [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000}, -- friendly 100%
+            [questKeys.breadcrumbs] = {31605},
         },
         [31612] = { -- Shadow of the Empire
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62538,66800},66800,nil,Questie.ICON_TYPE_TALK}}},
@@ -5998,6 +6008,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31004},
         },
         [31677] = { -- The Warlord's Ashes
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = { -- exclusivity for hidden daily The Klaxxi
                                       31024,31267,31268,31269,31270,31271,31272, -- Lake
@@ -6006,14 +6017,17 @@ function MopQuestFixes.Load()
             },
         },
         [31679] = { -- Extending Our Coverage
+            [questKeys.startedBy] = {{65541}},
+            [questKeys.preQuestGroup] = {31066,31441},
             [questKeys.exclusiveTo] = {31087},
         },
         [31680] = { -- Crime and Punishment
             [questKeys.exclusiveTo] = {31088},
+            [questKeys.preQuestSingle] = {31679},
         },
         [31681] = { -- Better With Age
             [questKeys.exclusiveTo] = {31090},
-            [questKeys.preQuestSingle] = {31087},
+            [questKeys.preQuestSingle] = {31679},
         },
         [31682] = { -- By the Sea, Nevermore
             [questKeys.objectives] = {nil,{{212294,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6852,7 +6866,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {80591},
         },
         [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
-            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{63154,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74841}}},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT},{63154,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74841}}},
             [questKeys.preQuestSingle] = {30259},
             [questKeys.requiredSourceItems] = {80590},
         },
@@ -7510,7 +7524,7 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Defeat the Sha of Doubt on Celestial Difficulty in the Temple of the Jade Serpent and acquire the Chimera of Doubt."},
             [questKeys.objectives] = {nil,nil,{{248204}}},
             [questKeys.zoneOrSort] = -344,
-            [questKeys.preQuestSingle] = {31473},
+            [questKeys.preQuestGroup] = {31468,31473},
             [questKeys.reputationReward] = {{1359,5}},
             [questKeys.exclusiveTo] = {31481},
         },
