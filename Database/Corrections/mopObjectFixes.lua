@@ -466,6 +466,9 @@ function MopObjectFixes.Load()
         [213004] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [213250] = { -- Silent Beacon
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{48.16,49.71}}},
+        },
         [213254] = { -- Meeting Stone (Mogu Shan Palace)
             [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{82.9,40.8}}},
             [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
@@ -622,7 +625,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214477] = { -- Deactivate Final Spirit Wall
-            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.29,22.55},{38.13,31.48},{41.67,18.15}}},
+            [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{41.92,27.8},{49.29,22.55},{38.13,31.48},{41.67,18.15}}},
             [objectKeys.zoneID] = zoneIDs.GUO_LAI_HALLS,
         },
         [214543] = { -- Dreadspore Bulb
