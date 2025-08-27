@@ -5675,7 +5675,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31536},
         },
         [31536] = { -- Preserving Freshness
-            [questKeys.preQuestGroup] = {31311,31470,31472,31475,31478,31479},
+            [questKeys.preQuestGroup] = {31467,31471,31474,31476,31477,31480},
         },
         [31537] = { -- Ella's Taste Test
             [questKeys.requiredMinRep] = {1275,25200}, -- Friend level with Ella
