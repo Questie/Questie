@@ -2288,7 +2288,8 @@ function MopNpcFixes.Load()
         },
         [62538] = { -- Kil'ruk the Wind-Reaver
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
-                {55.09,33.83,phases.KIL_RUK_AT_PILLAR},
+                {55.09,33.83,phases.KIL_RUK_AT_PILLAR_1},
+                {54.98,34.05,phases.KIL_RUK_AT_PILLAR_2},
                 {55.06,35.85,phases.KIL_RUK_NEXT_TO_ZIKK},
             }},
         },
@@ -2341,7 +2342,8 @@ function MopNpcFixes.Load()
         },
         [62774] = { -- Malik the Unscathed
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
-                {54.89,34.14,phases.MALIK_AT_PILLAR},
+                --{54.89,34.14,phases.MALIK_AT_PILLAR}, -- not confirmed
+                {54.94,34.13,phases.MALIK_AT_PILLAR},
                 {55.06,35.47,phases.MALIK_NEXT_TO_ZIKK},
             }},
         },
@@ -2409,8 +2411,14 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.6,43.77}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [63125] = { -- Chao the Voice
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.14,68.28}}},
+        },
         [63128] = { -- Chao the Voice
-            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{43.6,43.77}}},
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.14,68.28}}},
+        },
+        [63135] = { -- Lao-Chin the Iron Belly
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.56,67.86}}},
         },
         [63136] = { -- Lao-Chin the Iron Belly
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.56,67.86}}},
@@ -3161,7 +3169,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{66.88,65.4}}},
         },
         [65365] = { -- Kor'ik
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{48.12,49.62}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{48.11,49.63}}},
+        },
+        [65478] = { -- Adjunct Zet'uk
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{48.1,49.74}}},
         },
         [65648] = { -- Old MacDonald
             [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{60.85,18.5}}},
@@ -4079,11 +4090,17 @@ function MopNpcFixes:LoadFactionFixes()
         [59151] = { -- Zhu's Watch Courier
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
         },
+        [65716] = { -- Mishi
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
+        },
     }
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
+        },
+        [65716] = { -- Mishi
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
         },
     }
 
