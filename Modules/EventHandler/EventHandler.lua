@@ -65,6 +65,16 @@ local FACTION_STANDING_CHANGED_PATTERN
 
 function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
+
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+        if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+            -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
+            -- Don't use WorldMapFrame:Hide() that will cause taint issues
+            HideUIPanel(WorldMapFrame)
+            tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+        end
+        Questie:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    end)
 end
 
 function EventHandler:RegisterLateEvents()
@@ -239,10 +249,6 @@ function _EventHandler:PlayerLogin()
         Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         return
-    end
-
-    if GetCVar("questPOI") == "0" then
-        WorldMapFrame:Hide() -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard
     end
 
     do
