@@ -1167,6 +1167,21 @@ function MopNpcFixes.Load()
         [59130] = { -- Teeku
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{30.57,45.99}}},
         },
+        [59131] = { -- Lor-Lor
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.52,28.73}}},
+        },
+        [59132] = { -- Rit-Rit
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.52,28.73}}},
+        },
+        [59133] = { -- Buk-Buk
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.52,28.73}}},
+        },
+        [59134] = { -- Yammo
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.52,28.73}}},
+        },
+        [59135] = { -- Bimba
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.52,28.73}}},
+        },
         [59137] = { -- Incursion Sentinel
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.92,43.39}}},
         },
