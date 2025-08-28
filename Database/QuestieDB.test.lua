@@ -23,6 +23,7 @@ describe("QuestieDB", function()
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
+        dofile("Localization/l10n.lua")
         dofile("Database/Corrections/questTagInfoCorrections.lua")
         QuestieDB.private.InitializeQuestTagInfoCorrections()
 
