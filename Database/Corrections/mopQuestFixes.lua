@@ -6644,6 +6644,9 @@ function MopQuestFixes.Load()
         [31876] = { -- The Inkmasters of the Arboretum
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
         },
+        [31877] = { -- The Inkmasters of the Arboretum
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
+        },
         [31878] = { -- Audrey Burnhep
             [questKeys.exclusiveTo] = {31316},
         },
@@ -6655,9 +6658,6 @@ function MopQuestFixes.Load()
         },
         [31881] = { -- Audrey Burnhep
             [questKeys.exclusiveTo] = {31316},
-        },
-        [31877] = { -- The Inkmasters of the Arboretum
-            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,1},
         },
         [31886] = { -- Dread Space
             [questKeys.breadcrumbForQuestId] = 31001, -- check if it has any prequests
