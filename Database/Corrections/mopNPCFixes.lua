@@ -1631,6 +1631,9 @@ function MopNpcFixes.Load()
         [60543] = { -- Fat Long-Fat
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{34.81,82.58}}},
         },
+        [60545] = { -- Ellia Ravenmane
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{36.38,75.61}}},
+        },
         [60564] = { -- Kafa-Crazed Yeti
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{39.28,75.27},{39.53,75.5},{39.24,74.31},{38.81,74.18},{38.57,74.15},{38.16,74.26},{38.13,72.52},{37.8,73.92},{35.24,69.62},{35.09,70.77},{35.41,70.66},{36.07,69.26},{35.95,68.96},{36.54,68.56},{37.22,67.87}}},
         },
