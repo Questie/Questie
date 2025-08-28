@@ -345,6 +345,9 @@ function MopItemFixes.Load()
         [79864] = { -- Cindergut Pepper
             [itemKeys.npcDrops] = {59119,59120,59121,59122,59123,59124,59125,59126,59127,59128,59129,59130,59131,59132,59133,59134,59135},
         },
+        [79866] = { -- Kunzen Legend-Book
+            [itemKeys.npcDrops] = {59131,59132,59133,59134,59135},
+        },
         [79867] = { -- Fatty Goatsteak
             [itemKeys.npcDrops] = {59139},
         },
