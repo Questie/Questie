@@ -501,6 +501,12 @@ function MopObjectFixes.Load()
         [213508] = { -- Full Crab Pot
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.28,67.93},{46.7,80.5},{46.8,74.4},{47.55,70.64},{47.8,72.17},{47.9,75.1},{49.1,76}}},
         },
+        [213654] = { -- Mailbox
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
+        [213655] = { -- Mailbox
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
         [213682] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
