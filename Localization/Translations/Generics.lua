@@ -482,6 +482,18 @@ local genericsLocales = {
         ["zhCN"] = "可行",
         ["zhTW"] = "可行",
     },
+    ["Challenge Mode"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Herausforderungsmodus",
+        ["esES"] = "Modo desafío",
+        ["esMX"] = "Modo desafío",
+        ["frFR"] = "Mode Défi",
+        ["koKR"] = "도전 모드",
+        ["ptBR"] = "Modo Desafio",
+        ["ruRU"] = "Режим испытаний",
+        ["zhCN"] = "挑战模式",
+        ["zhTW"] = "挑戰模式",
+    },
 }
 
 for k, v in pairs(genericsLocales) do

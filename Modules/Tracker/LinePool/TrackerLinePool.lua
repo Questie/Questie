@@ -25,6 +25,9 @@ local buttonPool = {}
 ---@type table<QuestId, table<Frame>>
 local linesByQuest = {}
 
+---@type table<number, table<Frame>>
+local linesByScenarioIndex = {}
+
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
     local trackerQuestFrame = questFrame
@@ -32,7 +35,7 @@ function TrackerLinePool.Initialize(questFrame)
     -- create linePool for quests/achievements
     local previousLine
     for i = 1, linePoolSize do
-        local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine)
+        local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine, TrackerLinePool.AddScenarioLine)
         linePool[i] = line
         previousLine = line
     end
@@ -357,6 +360,35 @@ function TrackerLinePool.UpdateQuestLines(questId)
             local objDesc = objective.Description:gsub("%.", "")
             line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
         end
+    end
+end
+
+---@param criteriaIndex number
+---@param line LineFrame
+function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
+    if (not linesByScenarioIndex[criteriaIndex]) then
+        linesByScenarioIndex[criteriaIndex] = {}
+    end
+
+    if (not tContains(linesByScenarioIndex[criteriaIndex], line)) then
+        linesByScenarioIndex[criteriaIndex] = line
+    end
+end
+
+---@param criteriaIndex number
+function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
+    if not linesByScenarioIndex[criteriaIndex] then
+        return
+    end
+
+    local line = linesByScenarioIndex[criteriaIndex]
+    if line.Objective then
+        ---@type QuestObjective
+        local objective = line.Objective
+        local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
+
+        local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
+        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
     end
 end
 
