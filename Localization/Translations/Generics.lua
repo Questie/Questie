@@ -484,7 +484,7 @@ local genericsLocales = {
     },
     ["Challenge Mode"] = {
         ["enUS"] = true,
-        ["deDE"] = "Herausforderungsdungeon",
+        ["deDE"] = "Herausforderungsmodus",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
