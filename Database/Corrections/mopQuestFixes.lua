@@ -6496,7 +6496,7 @@ function MopQuestFixes.Load()
         },
         [31839] = { -- Continue Your Training: Master Hsu
             [questKeys.requiredClasses] = classIDs.MONK,
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66207}}}},
             [questKeys.breadcrumbs] = {31861},
         },
         [31840] = { -- Practice Makes Perfect: Master Cheng
@@ -6505,7 +6505,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31841,31842,31843,31844,31845,31846},
-            [questKeys.requiredMaxLevel] = 29,
         },
         [31841] = { -- Practice Makes Perfect: Master Woo
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6513,7 +6512,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66254}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31842,31843,31844,31845,31846},
-            [questKeys.requiredMaxLevel] = 39,
         },
         [31842] = { -- Practice Makes Perfect: Master Kistane
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6521,7 +6519,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66253}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31843,31844,31845,31846},
-            [questKeys.requiredMaxLevel] = 49,
         },
         [31843] = { -- Practice Makes Perfect: Master Yoon
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6529,7 +6526,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66255}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31844,31845,31846},
-            [questKeys.requiredMaxLevel] = 59,
         },
         [31844] = { -- Practice Makes Perfect: Master Cheng
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6537,7 +6533,6 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66256}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31845,31846},
-            [questKeys.requiredMaxLevel] = 69,
         },
         [31845] = { -- Practice Makes Perfect: Master Tsang
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -6545,15 +6540,13 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66257}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31846},
-            [questKeys.requiredMaxLevel] = 79,
         },
         [31846] = { -- Practice Makes Perfect: Master Hsu
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.preQuestSingle] = {31839},
-            --[questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66258}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66207}}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31845},
-            [questKeys.requiredMaxLevel] = 89,
         },
         [31847] = { -- Better Dead then Dread
             [questKeys.breadcrumbForQuestId] = 31001,
