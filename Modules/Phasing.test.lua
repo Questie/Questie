@@ -1380,8 +1380,6 @@ describe("Phasing", function()
         end)
 
         it("should return true for Kor'Vess location when 31078 is in the quest log", function()
-            Questie.db.char.complete[31076] = true -- get's flagged complete together with 31129
-            Questie.db.char.complete[31129] = true -- get's flagged complete together with 31076
             Questie.db.char.complete[31078] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[31078]={isComplete=0}}
 
@@ -1390,7 +1388,6 @@ describe("Phasing", function()
         end)
 
         it("should return false for both locations when 31078 is complete", function()
-            Questie.db.char.complete[31076] = true
             Questie.db.char.complete[31078] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
