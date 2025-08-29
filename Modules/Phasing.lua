@@ -1399,7 +1399,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.CHEN_62779_AT_BREWGARDEN then
-        return not complete[31078] or false
+        return not complete[31078] and not questLog[31078] or false
     end
 
     if phase == phases.CHEN_62779_INSIDE_KOR_VESS then
