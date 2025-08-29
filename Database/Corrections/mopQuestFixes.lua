@@ -2546,6 +2546,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58471}},
             [questKeys.preQuestGroup] = {30307,30308,30312,31754,31760},
             [questKeys.exclusiveTo] = {30292,31131,31242,31243},
+            [questKeys.objectives] = {{{63219,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30296] = { -- Gaohun the Soul-Severer
             [questKeys.startedBy] = {{58911}},
@@ -2702,7 +2703,7 @@ function MopQuestFixes.Load()
         },
         [30321] = { -- Weed War II
             [questKeys.requiredMinRep] = {1272,9000},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385},{"monster",59529}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385}}}},
             [questKeys.exclusiveTo] = {30317,30318,30319,30322},
         },
         [30322] = { -- Money Matters
@@ -3554,6 +3555,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30640] = { -- Battle Spear of the Thunder King
+            [questKeys.preQuestSingle] = {30639},
             [questKeys.startedBy] = {{59905}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
         },
@@ -4361,6 +4363,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31367,31368},
         },
         [31018] = { -- Beneath the Heart of Fear
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.objectives] = {{{62073},{62074},{62075},{62076}},{{212038}}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES] = {{28.22,42.45}}},Questie.ICON_TYPE_EVENT,l10n("Enter the burrow")}},
@@ -4500,7 +4503,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31068},
         },
         [31072] = { -- Rending Daggers
-            [questKeys.preQuestGroup] = {31067,31068},
+            [questKeys.preQuestSingle] = {31068},
         },
         [31073] = { -- Bound With Wood
             [questKeys.preQuestGroup] = {31069,31070},
@@ -4510,17 +4513,17 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31072},
         },
         [31075] = { -- Sunset Kings
-            [questKeys.preQuestGroup] = {31073,31074,31078},
+            [questKeys.preQuestGroup] = {31071,31073,31074,31078},
         },
         [31076] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestGroup] = {31067,31068},
+            [questKeys.preQuestSingle] = {31068},
             [questKeys.exclusiveTo] = {29907,31129},
         },
         [31077] = { -- Evie Stormstout
             [questKeys.finishedBy] = {{67138}},
             [questKeys.objectives] = {{{67138,nil,Questie.ICON_TYPE_EVENT}},{{440002,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.preQuestSingle] = {31129},
+            [questKeys.preQuestSingle] = {31076,31129},
         },
         [31078] = { -- Han Stormstout
             [questKeys.objectives] = {{{62776,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4536,10 +4539,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31075},
         },
         [31082] = { -- Great Vessel of Salvation
-            [questKeys.triggerEnd] = {"Bring Motherseeds back to the Motherseed Pit", {[zoneIDs.DREAD_WASTES] = {{36.86,17.44}}}},
-            [questKeys.objectives] = {},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DREAD_WASTES] = {{36.86,17.44}}},Questie.ICON_TYPE_EVENT,l10n("Bring the Motherseeds here")}},
+            [questKeys.objectives] = {{{62601,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31075},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Let the Chanter pick-up the Motherseeds"),0,{{"monster",62601}}}},
         },
         [31083] = { -- Promises of Gold
             [questKeys.startedBy] = {{62767}},
@@ -4591,7 +4593,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64485,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [31104] = { -- The Challenger's Ring: Yalia Sagewhisper
-            [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK},{62825}}},
+            [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{62850,62825},62825}}},
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,21000},
             [questKeys.exclusiveTo] = {31113,31114,31116,31117,31118,31119,31120, -- Blackguard dailies
                                        31196,31197,31198,31199,31200,31201,31203,31204, -- Wu Kao dailies
@@ -4671,7 +4673,7 @@ function MopQuestFixes.Load()
         },
         [31129] = { -- Fate of the Stormstouts
             [questKeys.objectives] = {{{62666,nil,Questie.ICON_TYPE_TALK},{62667,nil,Questie.ICON_TYPE_TALK},{62845,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestSingle] = {31068},
+            [questKeys.preQuestGroup] = {29907,31068},
             [questKeys.exclusiveTo] = {31076},
         },
         [31130] = { -- A Visit with Lorewalker Cho
@@ -4687,7 +4689,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{63217}},
         },
         [31133] = { -- Kor'thik Aggression
-            [questKeys.preQuestSingle] = {31070},
+            [questKeys.preQuestGroup] = {31069,31070},
         },
         [31134] = { -- If These Stones Could Speak
             [questKeys.objectives] = {nil,{{212926},{212925},{212924}}},
@@ -5116,6 +5118,7 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Drink the Potion of Mazu's Breath", {[zoneIDs.DREAD_WASTES] = {{54.79,72.15}}}},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31066},
+            [questKeys.breadcrumbs] = {31727},
         },
         [31266] = { -- Mogu Incursions
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,42000},
@@ -5410,6 +5413,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31091},
         },
         [31439] = { -- Dropping Our Signal
+            [questKeys.preQuestSingle] = {31066},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.objectives] = {{{64645,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -6168,6 +6172,8 @@ function MopQuestFixes.Load()
         },
         [31727] = { -- Gambling Problem
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
+            [questKeys.preQuestGroup] = {31026,31359,31092,31398},
+            [questKeys.breadcrumbForQuestId] = 31265,
         },
         [31728] = { -- Bill Buckler
             [questKeys.requiredSpell] = 119467,
@@ -6180,6 +6186,7 @@ function MopQuestFixes.Load()
         [31730] = { -- A Not So Friendly Request
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.breadcrumbForQuestId] = 31067,
+            [questKeys.preQuestGroup] = {31026,31359,31092,31398},
         },
         [31732] = { -- Unleash Hell
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",66297}}}},
@@ -6862,7 +6869,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {80590},
         },
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
-            [questKeys.objectives] = {{{59990,nil,Questie.ICON_TYPE_INTERACT},{58566,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74840}}},
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT},{58567,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74840}}},
             [questKeys.preQuestSingle] = {30518},
             [questKeys.requiredSourceItems] = {79102},
         },
@@ -6915,7 +6922,7 @@ function MopQuestFixes.Load()
                 31354, -- Ka'roz the Locust
                 31439, -- Hisek the Swarmkeeper
                 31606, -- Rik'kal the Dissector
-                31682, -- Kaz'tik the Manipulator
+                31091, -- Kaz'tik the Manipulator
             },
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,42000},
             [questKeys.objectives] = {{{66776,nil,Questie.ICON_TYPE_TALK}}},
@@ -7063,7 +7070,7 @@ function MopQuestFixes.Load()
         },
         [32030] = { -- Once in a Hundred Lifetimes
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31066,31086,31398,31354},
+            [questKeys.preQuestGroup] = {31066,31086,31092,31359,31398,31354},
         },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},

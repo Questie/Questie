@@ -425,7 +425,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [212389] = { -- Scroll of Auspice
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.08,12.35}}},
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{53.08,12.36}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [212524] = { -- Inactive Sonic Relay

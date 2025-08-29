@@ -436,6 +436,8 @@ local phases = {
     TAI_HO_IN_CATACOMBS = 1364,
     LUSSHAN_PEARLS = 1365,
     KIL_RUK_AT_PILLAR_2 = 1366,
+    KAZTIK_AT_THE_BRINY_MUCK = 1367,
+    KAZTIK_AT_KLAXXIVESS = 1368,
 }
 Phasing.phases = phases
 
@@ -1397,7 +1399,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.CHEN_62779_AT_BREWGARDEN then
-        return (not complete[31076]) and (not complete[31129]) and (not complete[31078]) or false
+        return not complete[31078] or false
     end
 
     if phase == phases.CHEN_62779_INSIDE_KOR_VESS then
@@ -1993,6 +1995,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TAI_HO_IN_CATACOMBS then
         return complete[30924] or questLog[30924] or false
+    end
+
+    if phase == phases.KAZTIK_AT_THE_BRINY_MUCK then
+        return not (questLog[31092] and questLog[31359]) and not complete[31092] and not complete[31359] or false
+    end
+
+    if phase == phases.KAZTIK_AT_KLAXXIVESS then
+        return (questLog[31092] and questLog[31359]) or complete[31092] or complete[31359] or false
     end
 
     return false

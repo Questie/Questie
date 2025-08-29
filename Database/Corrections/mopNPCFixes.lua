@@ -2171,6 +2171,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{70.62,31.42}}},
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
+        [62029] = { -- Greatback Mushan
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{59.12,22.11},{57.69,21.47},{60.31,23.08},{59.02,25.94},{54.5,26.19},{54.6,25.08},{52.52,27.72},{55.65,25.24},{52.84,25.96},{54.29,22.71}}},
+        },
         [62077] = { -- Dreadspinner Egg
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{68.72,30.33},{67.91,31.6},{67.49,30.45},{67.48,28.78},{65.99,30.08},{65.58,28.08},{66.03,27.34},{68.56,28.79},{69.31,30.24},{72.83,30.16},{72.47,29.83},{72.56,28.73},{72.04,27.58},{71.52,28.67},{71.36,27.47},{72.1,26.59},{71.13,26.08},{71.41,24.29},{70.89,22.17},{71.58,22.02},{72.47,22.12},{72.57,23.3},{73.78,22.49},{74.75,21.22},{74.23,23.9},{74.13,24.78}}},
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
@@ -2332,18 +2335,21 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {51.21,11.39,phases.SAP_MASTERS_AT_BREWGARDEN},
                 {38.18,17.18,phases.SAP_MASTERS_AT_RIKKITUN},
+                {50.22,12.1,phases.SAP_MASTERS_AT_BREWGARDEN_CENTER},
             }},
         },
         [62667] = { -- Lya of Ten Songs
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {50.73,11.71,phases.SAP_MASTERS_AT_BREWGARDEN},
                 {38.3,17.14,phases.SAP_MASTERS_AT_RIKKITUN},
+                {50.28,12.06,phases.SAP_MASTERS_AT_BREWGARDEN_CENTER},
             }},
         },
         [62668] = { -- Olon
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {51.17,11.21,phases.SAP_MASTERS_AT_BREWGARDEN},
                 {38.2,17.12,phases.SAP_MASTERS_AT_RIKKITUN},
+                {50.29,12.11,phases.SAP_MASTERS_AT_BREWGARDEN_CENTER},
             }},
         },
         [62736] = { -- Taran Zhu
@@ -2355,6 +2361,9 @@ function MopNpcFixes.Load()
         [62760] = { -- Frightened Mushan
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{46.8,20.4},{47.2,20.8},{47.8,20.6},{48.4,18.6},{48.4,20.4},{48.6,20.2},{48.8,21.4},{49,18.4},{49,18.6},{49.2,16.4},{49.6,16.4},{49.6,16.6},{49.8,17.6},{49.8,19.4},{51,17.6},{51.2,15},{51.2,16.8},{51.4,16.2},{51.6,14.8},{52,16.4},{52,16.6},{54,16},{56,19.4},{56,19.6}}},
         },
+        [62766] = { -- Mygoness
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.25,18.88}}},
+        },
         [62773] = { -- Iyyokuk the Lucid
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.67,33.88}}},
         },
@@ -2365,10 +2374,13 @@ function MopNpcFixes.Load()
                 {55.06,35.47,phases.MALIK_NEXT_TO_ZIKK},
             }},
         },
+        [62776] = { -- Han Stormstout
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{43.77,16.74}}},
+        },
         [62779] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {50.45,12.05,phases.CHEN_62779_AT_BREWGARDEN},
-                {44.41,16.8,phases.CHEN_62779_INSIDE_KOR_VESS},
+                {44.51,16.9,phases.CHEN_62779_INSIDE_KOR_VESS},
             }},
         },
         [62781] = { -- Snow Blossom
@@ -2383,8 +2395,20 @@ function MopNpcFixes.Load()
         [62810] = { -- Moshu the Arcane
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{28.85,22.59}}},
         },
+        [62825] = { -- Yalia Sagewhisper
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.35,67.73}}},
+        },
+        [62833] = { -- Ilikkax
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.82,21.04}}},
+        },
         [62834] = { -- Snow Blossom
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.17,67.9}}},
+        },
+        [62843] = { -- Azzix K'tai
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{52.7,10.14}}},
+        },
+        [62850] = { -- Yalia Sagewhisper
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.35,67.73}}},
         },
         [62923] = { -- Empty Package
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{22.9,30.6}}},
@@ -2424,6 +2448,15 @@ function MopNpcFixes.Load()
         [63090] = { -- Shao-Tien Ritual Statue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{42.99,43.37}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [63102] = { -- Adjunct Okzyk
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.22,34.34}}},
+        },
+        [63103] = { -- Adjunct G'kkal
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.21,33.46}}},
+        },
+        [63104] = { -- Adjunct Pivvika
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{32.7,34.94}}},
         },
         [63123] = { -- Mogu Ritual Destroyed Credit
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.6,43.77}}},
@@ -2913,7 +2946,7 @@ function MopNpcFixes.Load()
             }},
         },
         [63758] = { -- Kaz'tik the Manipulator
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.26,35.78,phases.KAZTIK_AT_KLAXXIVESS}}},
         },
         [63765] = { -- Kovok
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.79,41.37}}},
@@ -3014,7 +3047,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{41.66,83.66}}},
         },
         [64344] = { -- Kaz'tik the Manipulator
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03,phases.KAZTIK_AT_THE_BRINY_MUCK}}},
         },
         [64385] = { -- Sheepie
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{34.99,38.5,phases.SHEEPIE_FIRST_TIME}}},
@@ -3562,7 +3595,7 @@ function MopNpcFixes.Load()
         [67138] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {54.11,20.48,phases.CHEN_AT_FEAR_CLUTCH},
-                {44.41,16.8,phases.CHEN_AT_BREWGARDEN},
+                {50.18,10.2,phases.CHEN_AT_BREWGARDEN},
             }},
         },
         [68430] = { -- Arcanis Mechanica
@@ -3956,10 +3989,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246242] = { -- General Temuja
-            [npcKeys.name] = "General Temuja ",
+            [npcKeys.name] = "General Temuja",
             [npcKeys.subName] = "The Soul-Slaver",
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.4,51.2}}},
-            [npcKeys.waypoints] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{{26.4,51.2},{26.6,51.4},{26.6,52.2},{26.6,52.6},{27.4,53.6},{27.6,54},{28,55.2},{28.2,55.6},{28.4,56.6},{28.6,56.6},{29.4,57.6},{29.6,57.6},{30.2,57.6},{30.6,58.2}}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{65.15,64.26}}},
+            [npcKeys.waypoints] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{{65.15,64.26},{65.23,63.63},{65.25,63.28},{65.28,62.99},{65.40,62.16},{65.52,61.51},{65.63,60.98},{65.70,60.65},{65.70,60.62},{65.94,59.91},{66.21,59.48},{66.56,59.09},{66.84,58.84},{67.17,58.62},{67.46,58.48},{67.68,58.41},{68.01,58.30},{68.35,58.13},{68.70,57.85},{68.75,57.74},{68.87,57.52},{69.03,57.32},{69.29,56.97},{69.33,56.87},{69.35,56.42},{69.36,56.14},{69.36,55.72},{69.37,55.61},{69.29,55.72},{69.57,54.95},{69.90,54.38},{70.26,54.00},{70.76,53.74},{71.03,53.67},{71.37,53.60},{71.94,53.52},{72.43,53.30},{72.75,53.12},{73.11,52.97},{73.68,52.84},{74.14,52.83},{74.56,52.83},{74.92,52.85},{75.53,52.90},{75.90,53.03},{76.27,53.10},{76.65,53.08},{77.11,53.04},{77.52,53.01},{78.06,53.10},{78.39,53.33},{78.56,53.49},{78.85,53.82},{79.32,54.38},{79.83,54.89},{80.41,55.11},{81.03,55.13},{81.10,55.13}}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [246246] = { -- Shadowmaster Sydow
