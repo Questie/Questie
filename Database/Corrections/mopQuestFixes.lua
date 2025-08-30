@@ -3158,7 +3158,6 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30476,30477,30478,30479},
             [questKeys.requiredSourceItems] = {80232},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Ask him to cook the Bloody Plainshawk Leg"),0,{{"monster",58712}}}},
         },
         [30476] = { -- A Gift For Old Hillpaw
             [questKeys.preQuestSingle] = {30257},
