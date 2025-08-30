@@ -237,6 +237,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{44.38,21.96},{40.25,21.23},{42.49,22.36},{41.44,22.58},{40.13,19.76},{38.56,21.67},{47.14,20.31},{36.42,21.09}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [211006] = { -- Sunsong Ranch Mailbox
+            [objectKeys.name] = 'Sunsong Ranch Mailbox',
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{51.29,48.83}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [211020] = { -- Yoon's Apples
             [objectKeys.name] = 'Yoon\'s Apples',
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.63,47.8}}},
