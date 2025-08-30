@@ -108,6 +108,9 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{53.64,24.53}}},
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [188123] = {
+            [objectKeys.factionID] = 1732,
+        },
         [188287] = {
             [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS] = {{13.24,60.87}}},
             [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
@@ -197,13 +200,6 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.questStarts] = {13843},
             [objectKeys.questEnds] = {12889,13843},
         },
-        [192124] = {
-            [objectKeys.spawns] = {},
-        },
-        [192127] = {
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{73.4,62.9},{73.5,63.4},{75,63.5},{75.4,62.9},{75.6,63.6},{75.7,63},{75.9,64.5},{76.9,62.2},{76.9,63.1},{77,63.9},{77.6,62.4},{77.6,62.5},}},
-            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
-        },
         [191878] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{59.33,57.20}}}, -- Zim'Torga
             [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
@@ -245,6 +241,13 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.questEnds] = {12950},
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{26.71,59.85}}}, -- Nesingwary Base Camp
             [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
+        [192124] = {
+            [objectKeys.spawns] = {},
+        },
+        [192127] = {
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{73.4,62.9},{73.5,63.4},{75,63.5},{75.4,62.9},{75.6,63.6},{75.7,63},{75.9,64.5},{76.9,62.2},{76.9,63.1},{77,63.9},{77.6,62.4},{77.6,62.5},}},
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [192536] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{52.36,73.26},{43.61,67.3},{43.76,67.21},{45.46,66.73},{43.87,67.74},{45.52,67.16},{45.19,66.82},{52.66,75.17},{52.36,75.08},{52.36,75.43},{53.28,75.10},{53.57,74.88},{53.53,74.64}}},
@@ -539,8 +542,11 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [194123] = {
-            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194147] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_UNDERBELLY] = {{33.52,56.26}}},
         },
         [194200] = {
             [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{64.1,60.2}},[zoneIDs.ULDUAR]={{-1,-1}}},

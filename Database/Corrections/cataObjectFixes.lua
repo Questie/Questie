@@ -442,6 +442,9 @@ function CataObjectFixes.Load()
         [183441] = { -- Soul Mirror
             [objectKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{74.99,49.99}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
         }, 
+        [185471] = { -- Mailbox
+            [objectKeys.factionID] = 1604,
+        }, 
         [185519] = { -- Mana-Tombs Stasis Chamber
             [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{60.7,14.98},{-1,-1}}},
         }, 
@@ -634,6 +637,9 @@ function CataObjectFixes.Load()
         },
         [187975] = { -- Horde Bonfire
             [objectKeys.questStarts] = {11787},
+        },
+        [188123] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{62.36,33.35}}},
         },
         [189989] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{56.01,37.07}}},
@@ -851,6 +857,32 @@ function CataObjectFixes.Load()
         [195622] = { -- Kaja'mite Ore
             [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{31.76,73.52}}},
         },
+        [195624] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+        },
+        [195625] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY] = {{69.7,51.7}}},
+            [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [195626] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY] = {{62.16,51.64}}},
+            [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [195627] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY] = {{62.22,36.41}}},
+            [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [195628] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY] = {{69.76,36.49}}},
+            [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [195629] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
+        },
         [196393] = { -- Broken Relic
             [objectKeys.spawns] = {[zoneIDs.DESOLACE] = {{27.22,63.35}}},
         },
@@ -877,6 +909,9 @@ function CataObjectFixes.Load()
         },
         [202065] = { -- Dweller's Crate
             [objectKeys.name] = "Dweller's Crate",
+        },
+        [202176] = { -- Mailbox
+            [objectKeys.factionID] = 1735,
         },
         [202418] = { -- Quilboar Restraint -- needs locale translations
             [objectKeys.name] = "Quilboar Restraint",
@@ -921,6 +956,9 @@ function CataObjectFixes.Load()
         },
         [204091] = { -- Induction Samophlange
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{55.28,49.89}}},
+        },
+        [204233] = { -- Mailbox
+            [objectKeys.name] = "Mailbox",
         },
         [204279] = { -- Spool of Rope
             [objectKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.79,46.28}}},
@@ -990,6 +1028,11 @@ function CataObjectFixes.Load()
         [206585] = { -- Totem of Ruumbo
             [objectKeys.questStarts] = {27989,27994,27995},
             [objectKeys.questEnds] = {27989,27994,28100},
+        },
+        [206842] = { -- Mailbox
+            [objectKeys.name] = "Mailbox",
+            [objectKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{38.82,30.17}}},
+            [objectKeys.zoneID] = zoneIDs.NEW_TINKERTOWN_OLD,
         },
         [206971] = { -- War Reaver Parts
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{44.13,37.25},{45.62,32.83},{44.05,34.97},{42.84,37.48},{47.51,37.38},{46.39,40.27},{52.32,34.98},{52.28,35.06},{48.14,36.25},{43.81,38.37},{45.27,41.07},{50.99,42.54},{56.58,38.14},{56.4,37.16},{55.74,40.64},{57.21,40.87},{57.35,35.98},{60.52,35.83},{53.36,40.15},{54.42,39.82},{49.05,37.28},{44.68,41.44},{48.09,35.18},{49.84,35.59},{48.24,38.21},{53.14,34.37},{52.13,35.05},{45.97,39.73},{43.17,38.45},{55.38,36.23},{55.7,39.96},{57.6,40.83}}},

@@ -467,6 +467,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [6613] = 340, -- Black Temple - (Dungeon/Raid)
     [6615] = 498, -- Krasarang Wilds
     [6616] = 487, -- A Little Patience
+    [6618] = 500, -- Bizmo's Brawlpub
     [6619] = 386, -- Ruins of Korune
     [6622] = 508, -- Throne of Thunder - (Dungeon/Raid)
     [6636] = 168, -- The Violet Hold - (Dungeon/Raid)
