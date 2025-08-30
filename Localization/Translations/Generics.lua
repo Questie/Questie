@@ -370,7 +370,7 @@ local genericsLocales = {
         ["frFR"] = "Légendaire",
         ["koKR"] = "전설",
         ["ptBR"] = "Lendário",
-        ["ruRU"] = "Легенды",
+        ["ruRU"] = "Легендарные",
         ["zhCN"] = "传说",
         ["zhTW"] = "傳說",
     },
