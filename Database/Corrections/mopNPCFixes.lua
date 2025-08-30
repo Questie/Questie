@@ -3540,6 +3540,9 @@ function MopNpcFixes.Load()
         [66551] = { -- Ras'an
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{17.24,50.52}}},
         },
+        [66552] = { -- Narrok
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND]={{61,49.4}}},
+        },
         [66553] = { -- Morulu The Elder
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{58.76,70.05}}},
         },
