@@ -724,9 +724,6 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{35.6,65.6}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
-        [214987] = { -- Mailbox
-            [objectKeys.factionID] = 1735, -- horde only
-        },
         [214988] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
