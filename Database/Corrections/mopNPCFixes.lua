@@ -2944,28 +2944,28 @@ function MopNpcFixes.Load()
         },
         [63706] = { -- Amber Vault
             [npcKeys.name] = "Amber Vault",
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{20.97,45.91}}},
-            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{20.97,45.91}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [63708] = { -- Nutriment Cell
             [npcKeys.name] = "Nutriment Cell",
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{23.84,47.29}}},
-            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{23.84,47.29}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [63711] = { -- Egg Chamber
             [npcKeys.name] = "Egg Chamber",
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{23.62,44.73}}},
-            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{23.62,44.73}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [63713] = { -- Torture Cell
             [npcKeys.name] = "Torture Cell",
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{22.03,41.55}}},
-            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{22.03,41.55}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [63714] = { -- Slaughtering Pit
             [npcKeys.name] = "Slaughtering Pit",
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{21.21,43.19}}},
-            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{21.21,43.19}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [63754] = { -- Farmhand Bo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
