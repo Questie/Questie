@@ -442,6 +442,9 @@ function MopItemFixes.Load()
         [80230] = {  -- Cast Iron Pot
             [itemKeys.objectDrops] = {211023},
         },
+        [80233] = {  -- Grilled Plainshawk Leg
+            [itemKeys.vendors] = {58712},
+        },
         [80234] = {  -- Yoon's Apple
             [itemKeys.objectDrops] = {211020},
         },
