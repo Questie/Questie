@@ -4917,6 +4917,7 @@ function MopQuestFixes.Load()
         },
         [31200] = { -- Fumigation
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{63706,nil,Questie.ICON_TYPE_EVENT},{63708,nil,Questie.ICON_TYPE_EVENT},{63711,nil,Questie.ICON_TYPE_EVENT},{63713,nil,Questie.ICON_TYPE_EVENT},{63714,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31201] = { -- Friends, Not Food!
             [questKeys.objectives] = {{{64461,nil,Questie.ICON_TYPE_TALK},{64460,nil,Questie.ICON_TYPE_TALK},{64459,nil,Questie.ICON_TYPE_TALK}}},

@@ -2942,6 +2942,31 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [63706] = { -- Amber Vault
+            [npcKeys.name] = "Amber Vault",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{20.97,45.91}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [63708] = { -- Nutriment Cell
+            [npcKeys.name] = "Nutriment Cell",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{23.84,47.29}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [63711] = { -- Egg Chamber
+            [npcKeys.name] = "Egg Chamber",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{23.62,44.73}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [63713] = { -- Torture Cell
+            [npcKeys.name] = "Torture Cell",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{22.03,41.55}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [63714] = { -- Slaughtering Pit
+            [npcKeys.name] = "Slaughtering Pit",
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{21.21,43.19}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [63754] = { -- Farmhand Bo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 {58.87,80.47,phases.BO_TSULAN_YAUNGOL_ROAD},
