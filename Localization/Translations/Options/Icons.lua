@@ -46,7 +46,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Permet de sélectionner les icônes de suivi (comme la boîte aux lettres, les PNJ de réparation) à afficher sur la carte et la minicarte.",
         ["koKR"] = "지도에 표시할 추적 아이콘(예: 우체통, 수리NPC)을 선택할 수 있습니다.",
         ["ptBR"] = "Permite selecionar quais ícones de rastreamento (como caixa de correio, NPC de conserto) mostrar no mapa e minimapa.",
-        ["ruRU"] = "Позволяет выбрать, какие 'городские' значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
+        ["ruRU"] = "Позволяет выбрать, какие полезные значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
         ["zhCN"] = "允许在地图和小地图上选择显示追踪图标（例如“邮箱”，“修理”）。",
         ["zhTW"] = "可以選擇哪些追蹤圖示 (例如郵箱、修理商人) 要顯示在地圖和小地圖上。",
     },
