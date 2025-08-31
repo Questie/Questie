@@ -2186,6 +2186,14 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.62,31.42}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
+        [62151] = { -- Xaril the Poisoned Mind
+            [npcKeys.spawns] = {
+                [zoneIDs.DREAD_WASTES] = {
+                    {28.65,42.14,phases.XARIL_AT_HEART_OF_FEAR},
+                    {54.92,36.17,phases.XARIL_AT_KLAXXIVESS},
+                },
+            },
+        },
         [62165] = { -- Gong Da
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{31.29,61.62}}},
         },
@@ -2435,7 +2443,7 @@ function MopNpcFixes.Load()
             }},
         },
         [63072] = { -- Rik'kal the Dissector
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.37,35.94}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.37,35.94,phases.RIKKAL_AT_KLAXXIVESS}}},
         },
         [63087] = { -- Shao-Tien Ritual Statue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{43.81,44.73}}},
@@ -2867,7 +2875,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {55.66,72.49,phases.SOGGY_IN_HUT},
                 {54.77,72.11,phases.SOGGY_OUTSIDE},
+                {56.57,75.92,phases.SOGGY_AT_DOCK},
             }},
+        },
+        [63330] = { -- Jiao
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.5,79.5}}},
         },
         [63335] = { -- Mojo Stormstout
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{50.46,48.71}}},

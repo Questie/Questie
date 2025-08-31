@@ -4858,6 +4858,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{440001}}},
             [questKeys.preQuestSingle] = {31265},
             [questKeys.requiredSourceItems] = {85230},
+            [questKeys.breadcrumbs] = {31727},
         },
         [31182] = { -- You Otter Know
             [questKeys.objectives] = {{{63376,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4952,7 +4953,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62151,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63615,63635,63636,65455,63613},63613},{{63637,65513,63625},63625}}},
         },
         [31216] = { -- Dark Skies
-            [questKeys.preQuestGroup] = {31208,31209,31210}, -- being offered only when the NPC reaches the quest hub during quest 31211
+            [questKeys.preQuestSingle] = {31211}, -- being offered only when the NPC reaches the quest hub during quest 31211
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31808},
@@ -5118,7 +5119,6 @@ function MopQuestFixes.Load()
             [questKeys.triggerEnd] = {"Drink the Potion of Mazu's Breath", {[zoneIDs.DREAD_WASTES] = {{54.79,72.15}}}},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {31066},
-            [questKeys.breadcrumbs] = {31727},
         },
         [31266] = { -- Mogu Incursions
             [questKeys.requiredMinRep] = {factionIDs.SHADO_PAN,42000},
@@ -5319,6 +5319,12 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31016,31367},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [31369] = { -- The Anglers
+            [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
+        },
+        [31370] = { -- The Anglers
+            [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
+        },
         [31372] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
@@ -5334,11 +5340,11 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512,31782},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31378,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512,31782},
+            [questKeys.preQuestSingle] = {31511,31512},
             [questKeys.exclusiveTo] = {31379,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
@@ -5940,16 +5946,20 @@ function MopQuestFixes.Load()
                                       31111,31505,31506,31507,31508,31509,31510, -- Zan'vess
             },
         },
+        [31603] = { -- Seeds of Fear
+            [questKeys.preQuestSingle] = {31108},
+            [questKeys.objectivesText] = {},
+        },
         [31605] = { -- The Zan'thik Dig
+            [questKeys.finishedBy] = {{63072,65253,67091}},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.preQuestSingle] = {31066},
-            [questKeys.breadcrumbForQuestId] = 31606,
+            [questKeys.exclusiveTo] = {31606}, -- no longer available once you turn in 31606
         },
         [31606] = { -- The Dissector Wakens
             [questKeys.objectives] = {{{67091}}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,3000}, -- friendly 100%
-            [questKeys.breadcrumbs] = {31605},
         },
         [31612] = { -- Shadow of the Empire
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62538,66800},66800,nil,Questie.ICON_TYPE_TALK}}},
@@ -6173,7 +6183,7 @@ function MopQuestFixes.Load()
         [31727] = { -- Gambling Problem
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,9000},
             [questKeys.preQuestGroup] = {31026,31359,31092,31398},
-            [questKeys.breadcrumbForQuestId] = 31265,
+            [questKeys.breadcrumbForQuestId] = 31181,
         },
         [31728] = { -- Bill Buckler
             [questKeys.requiredSpell] = 119467,
@@ -6907,15 +6917,15 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110011}},
             [questKeys.preQuestGroup] = {
                 31004, -- Kil'ruk the Wind-Reaver
-                31085, -- Iyyokuk the Lucid
-                31010, -- Malik the Unscathed
-                31018, -- Xaril the Poisoned Mind
+                31086, -- Iyyokuk the Lucid
+                31066, -- Malik the Unscathed
+                31211, -- Xaril the Poisoned Mind
                 31026, -- Korven the Prime
                 31179, -- Skeer the Bloodseeker
                 31354, -- Ka'roz the Locust
-                31439, -- Hisek the Swarmkeeper
+                31441, -- Hisek the Swarmkeeper
                 31606, -- Rik'kal the Dissector
-                31091, -- Kaz'tik the Manipulator
+                31359,31092,31398, -- Kaz'tik the Manipulator
             },
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,42000},
             [questKeys.objectives] = {{{66776,nil,Questie.ICON_TYPE_TALK}}},
@@ -7062,6 +7072,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30495},
         },
         [32030] = { -- Once in a Hundred Lifetimes
+            [questKeys.startedBy] = {{62667,63349}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31066,31086,31092,31359,31398,31354},
         },
