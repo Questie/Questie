@@ -441,6 +441,7 @@ local phases = {
     RIKKAL_AT_KLAXXIVESS = 1369,
     XARIL_AT_HEART_OF_FEAR = 1370,
     XARIL_AT_KLAXXIVESS = 1371,
+    FARM_HAS_2_SLOTS = 1372,
 }
 Phasing.phases = phases
 
@@ -1611,6 +1612,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SHEEPIE_SECOND_TIME then
         return complete[31338] or false
+    end
+
+    if phase == phases.FARM_HAS_2_SLOTS then
+        return complete[30535] or (questLog[30535] and questLog[30535].isComplete == 1) or false
     end
 
     if phase == phases.FARM_HAS_4_SLOTS then
