@@ -464,6 +464,9 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {211143},
             [itemKeys.npcDrops] = {59758,59773},
         },
+        [80295] = { -- Packet of Green Cabbage Seeds
+            [itemKeys.vendors] = {58718},
+        },
         [80302] = { -- EZ-Gro Green Cabbage Seeds
             [itemKeys.class] = itemClasses.QUEST,
         },
