@@ -849,7 +849,7 @@ function MopQuestFixes.Load()
         },
         [29586] = { -- The Splintered Path
             [questKeys.objectives] = {{{55009,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.preQuestGroup] = {29578,29579,29580,29585},
+            [questKeys.preQuestGroup] = {29578,29579,29580}, -- 29585 is not needed
             [questKeys.preQuestSingle] = {},
         },
         [29587] = { -- Unbound
