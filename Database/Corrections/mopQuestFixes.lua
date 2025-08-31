@@ -3339,7 +3339,6 @@ function MopQuestFixes.Load()
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Merchant Greenfield"),0,{{"monster",58718}}}},
         },
         [30565] = { -- An Unexpected Advantage
             [questKeys.preQuestSingle] = {30000},
