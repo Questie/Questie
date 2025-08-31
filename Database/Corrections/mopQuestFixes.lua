@@ -5077,6 +5077,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31249,31250},
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [31249] = { -- Mistfall Village -- Lake Attack to Mistfall Peace
             [questKeys.startedBy] = {{58408}},
