@@ -1834,11 +1834,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.CHEN_AT_SHANGS_STEAD then
-        return complete[29918] and not (complete[29919] or questLog[29919]) or false
+        return complete[29918] and not (complete[29919] or (questLog[29919] and questLog[29919].isComplete == 1)) or false
     end
 
     if phase == phases.CHEN_AT_MUDMUGS_PLACE then
-        return (complete[29919] or questLog[29919]) and not (complete[29949] or questLog[29949]) or false
+        return (complete[29919] or (questLog[29919] and questLog[29919].isComplete == 1)) and not (complete[29949] or questLog[29949]) or false
     end
 
     if phase == phases.CHEN_AT_MUDMUGS_PLACE_LEGACY then
