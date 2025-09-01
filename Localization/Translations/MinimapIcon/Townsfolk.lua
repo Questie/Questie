@@ -298,7 +298,7 @@ local townsfolkLocales = {
         ["frFR"] = "Villageois",
         ["koKR"] = "마을 NPC",
         ["ptBR"] = "Aldeões",
-        ["ruRU"] = "Городские",
+        ["ruRU"] = "Полезные NPC",
         ["zhCN"] = "村民",
         ["zhTW"] = "村民",
     },
