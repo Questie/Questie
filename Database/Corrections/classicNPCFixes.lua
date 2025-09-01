@@ -807,7 +807,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {5643,5657,5658,5679},
         },
         [4607] = { -- Father Lankester
-            [npcKeys.questStarts] = {5643,5656,5679},
+            [npcKeys.questStarts] = {},
         },
         [4608] = { -- Father Lazarus
             [npcKeys.questStarts] = {},
