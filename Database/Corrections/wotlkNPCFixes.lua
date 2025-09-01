@@ -102,7 +102,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {1132,1135},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {5658},
+            [npcKeys.questStarts] = {},
         },
         [5111] = {
             [npcKeys.questStarts] = {3790,8353},
