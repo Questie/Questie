@@ -3196,7 +3196,6 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58470}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31136,31248,31249,31250},
-            [questKeys.requiredMaxRep] = {factionIDs.GOLDEN_LOTUS,9000},
         },
         [30484] = { -- Gauging Our Progress
             [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}}, -- why is there item with icon correction? - Cheeq
@@ -5080,7 +5079,7 @@ function MopQuestFixes.Load()
         },
         [31249] = { -- Mistfall Village -- Lake Attack to Mistfall Peace
             [questKeys.startedBy] = {{58408}},
-            [questKeys.finishedBy] = {{58503}},
+            [questKeys.finishedBy] = {{59338}},
             [questKeys.exclusiveTo] = {31248,31250,31245}, -- funny stuff might happen because 31245 is here
             [questKeys.preQuestGroup] = {-30281,-30282,-30283,30292},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
@@ -5306,6 +5305,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30565,30568},
             [questKeys.objectives] = {nil,{{213652}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mishi"),0,{{"monster",64475}}}},
+        },
+        [31363] = { -- Lighting the Way
+            [questKeys.objectives] = {nil,{{211129}}},
         },
         [31367] = { -- The Lorewalkers
             [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored

@@ -750,6 +750,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.99, 60.33}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [56877] = { -- Raigonn
+            [npcKeys.spawns] = {[zoneIDs.GATE_OF_THE_SETTING_SUN] = {{47.13,60.57},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.GATE_OF_THE_SETTING_SUN,
+        },
         [57108] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.03,47.21}}},
         },
@@ -3083,6 +3087,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.THE_JADE_FOREST] = {{45.72,43.8}},
             },
         },
+        [63783] = { -- Eye of the Empress
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{69.51,33.57},{71.35,37.05},{71.28,35.18},{71.98,21.9},{69.09,22.7},{67.3,23.14},{66.01,23.66},{65.05,35.41},{65.63,36.99},{67.04,37.72},{67.74,35.6},{64.01,31.23},{66.5,28.93},{68.01,29.86},{70.25,26.03},{72.01,27.88},{70.19,30.5}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [63796] = { -- Needlebeak
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.87,20.45}}},
         },
@@ -3200,6 +3208,13 @@ function MopNpcFixes.Load()
         },
         [64461] = { -- Shado-Pan Trainee
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{18,53.45}}},
+        },
+        [64467] = { -- Bowmistress Li
+            [npcKeys.spawns] = {[zoneIDs.GATE_OF_THE_SETTING_SUN] = {
+                {60.87,88.53,phases.RAIGONN_ALIVE},
+                {52.28,60.53,phases.RAIGONN_DEAD},
+                {-1,-1},
+            }},
         },
         [64470] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{50.7,68.18}}},

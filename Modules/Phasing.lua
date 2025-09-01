@@ -442,6 +442,8 @@ local phases = {
     XARIL_AT_HEART_OF_FEAR = 1370,
     XARIL_AT_KLAXXIVESS = 1371,
     FARM_HAS_2_SLOTS = 1372,
+    RAIGONN_ALIVE = 1373,
+    RAIGONN_DEAD = 1374,
 }
 Phasing.phases = phases
 
@@ -2023,6 +2025,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.XARIL_AT_KLAXXIVESS then
         return complete[31211] or (questLog[31211] and questLog[31211].isComplete == 1) or false
+    end
+
+    if phase == phases.RAIGONN_ALIVE then
+        return not (complete[31364] or (questLog[31364] and questLog[31364].isComplete == 1)) false
+    end
+
+    if phase == phases.RAIGONN_DEAD then
+        return complete[31364] or (questLog[31364] and questLog[31364].isComplete == 1) or false
     end
 
     return false

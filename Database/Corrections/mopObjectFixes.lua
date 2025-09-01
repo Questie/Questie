@@ -265,6 +265,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{69.5,38.67},{69.34,37.76},{70.61,38.74},{70.53,41.76},{69.08,39.99},{69.14,39.19},{68.67,39.33},{68.26,40.18},{68.88,36.48},{69.18,36.89},{69.7,36.38},{71.31,37.11},{71.39,37.83},{71.87,38.29},{71.76,40.36},{71.01,40.86},{70.28,41.78}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211129] = { -- Signal Flame
+            [objectKeys.name] = 'Signal Flame',
+            [objectKeys.spawns] = {[zoneIDs.GATE_OF_THE_SETTING_SUN] = {{48.03,12.24},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.GATE_OF_THE_SETTING_SUN,
+        },
         [211169] = { -- Crane Yolk Pool
             [objectKeys.name] = 'Crane Yolk Pool',
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{65.03,50.04}}},
