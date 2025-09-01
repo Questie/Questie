@@ -2028,7 +2028,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.RAIGONN_ALIVE then
-        return not (complete[31364] or (questLog[31364] and questLog[31364].isComplete == 1)) false
+        return not (complete[31364] or (questLog[31364] and questLog[31364].isComplete == 1)) or false
     end
 
     if phase == phases.RAIGONN_DEAD then
