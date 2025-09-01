@@ -439,7 +439,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1718,1823,8417},
         },
         [3044] = { -- Miles Welsh
-            [npcKeys.questStarts] = {5642,5644,5663},
+            [npcKeys.questStarts] = {5642,5663},
         },
         [3045] = { -- Malakai Cross
             [npcKeys.questStarts] = {},
@@ -1775,7 +1775,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {5627,5640,5647,5678},
         },
         [11407] = { -- Var'jun
-            [npcKeys.questStarts] = {5655,5661},
+            [npcKeys.questStarts] = {5654,5661},
         },
         [11460] = {
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
