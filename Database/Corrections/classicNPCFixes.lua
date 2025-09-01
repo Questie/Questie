@@ -283,6 +283,9 @@ function QuestieNPCFixes:Load()
         [2128] = { -- Cain Firesong
             [npcKeys.questStarts] = {1881,1959},
         },
+        [2129] = { -- Dark Cleric Beryl
+            [npcKeys.questStarts] = {5650},
+        },
         [2149] = {
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{63.12,65.93}}},
@@ -436,7 +439,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1718,1823,8417},
         },
         [3044] = { -- Miles Welsh
-            [npcKeys.questStarts] = {5663},
+            [npcKeys.questStarts] = {5642,5644,5663},
         },
         [3045] = { -- Malakai Cross
             [npcKeys.questStarts] = {},
@@ -801,7 +804,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1718,1818,1823},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {5658},
+            [npcKeys.questStarts] = {5643,5657,5658,5679},
+        },
+        [4607] = { -- Father Lankester
+            [npcKeys.questStarts] = {5643,5656,5679},
         },
         [4608] = { -- Father Lazarus
             [npcKeys.questStarts] = {},
@@ -1769,7 +1775,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {5627,5640,5647,5678},
         },
         [11407] = { -- Var'jun
-            [npcKeys.questStarts] = {5661},
+            [npcKeys.questStarts] = {5655,5661},
         },
         [11460] = {
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
