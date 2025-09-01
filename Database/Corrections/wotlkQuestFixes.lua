@@ -284,6 +284,15 @@ function QuestieWotlkQuestFixes:Load()
         [5531] = {
             [questKeys.nextQuestInChain] = 0,
         },
+        [5658] = { -- Touch of Weakness
+            [questKeys.startedBy] = {nil},
+        },
+        [5661] = { -- Touch of Weakness
+            [questKeys.startedBy] = {nil},
+        },
+        [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {nil},
+        },
         [5721] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
