@@ -101,6 +101,9 @@ function QuestieWotlkNpcFixes:Load()
         [4456] = { -- Fiora Longears
             [npcKeys.questEnds] = {1132,1135},
         },
+        [4606] = { -- Aelthalyste
+            [npcKeys.questStarts] = {5658},
+        },
         [5111] = {
             [npcKeys.questStarts] = {3790,8353},
         },
