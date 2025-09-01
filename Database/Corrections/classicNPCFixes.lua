@@ -435,6 +435,9 @@ function QuestieNPCFixes:Load()
         [3041] = { -- Torm Ragetotem
             [npcKeys.questStarts] = {1718,1823,8417},
         },
+        [3044] = { -- Miles Welsh
+            [npcKeys.questStarts] = {5663},
+        },
         [3045] = { -- Malakai Cross
             [npcKeys.questStarts] = {},
         },
@@ -798,7 +801,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1718,1818,1823},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {5658},
         },
         [4608] = { -- Father Lazarus
             [npcKeys.questStarts] = {},
@@ -1764,6 +1767,9 @@ function QuestieNPCFixes:Load()
         },
         [11401] = { -- Priestess Alathea
             [npcKeys.questStarts] = {5627,5640,5647,5678},
+        },
+        [11407] = { -- Var'jun
+            [npcKeys.questStarts] = {5661},
         },
         [11460] = {
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
