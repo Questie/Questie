@@ -31,6 +31,16 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [5658] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{4606}},
+            [questKeys.objectivesText] = {},
+        },
+        [5661] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{11407}},
+        },
+        [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{3044}},
+        },
         [7636] = { -- An Introduction
             [questKeys.nextQuestInChain] = 84546,
         },

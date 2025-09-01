@@ -370,7 +370,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {90072},
         },
         [2129] = { -- Dark Cleric Beryl
-            [npcKeys.questStarts] = {5650,5663,90158},
+            [npcKeys.questStarts] = {5650,90158},
         },
         [2152] = { -- Gnarlpine Ambusher
             [npcKeys.questStarts] = {90207},
@@ -514,6 +514,9 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [2995] = { -- Tal
             [npcKeys.questStarts] = {6364,90243},
+        },
+        [3044] = { -- Miles Welsh
+            [npcKeys.questStarts] = {5642,5663},
         },
         [3058] = { -- Arra'chea
             [npcKeys.questStarts] = {90093,90095},
@@ -679,8 +682,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [4160] = { -- Ainethil
             [npcKeys.questEnds] = {90567},
         },
+        [4606] = { -- Aelthalyste
+            [npcKeys.questStarts] = {5658},
+        },
         [4607] = { -- Father Lankester
-            [npcKeys.questStarts] = {5643,5656,5658,5679,79080},
+            [npcKeys.questStarts] = {5643,5656,5679,79080},
             [npcKeys.questEnds] = {79080},
         },
         [4713] = { -- Slitherblade Warrior
@@ -1115,6 +1121,9 @@ function SeasonOfDiscovery:LoadNPCs()
         [11397] = { -- Nara Meideros
             [npcKeys.questStarts] = {5632,5638,78194,78195},
             [npcKeys.questEnds] = {78194},
+        },
+        [11407] = { -- Var'jun
+            [npcKeys.questStarts] = {5654,5661},
         },
         [11438] = { -- Bibbly F'utzbuckle
             [npcKeys.questStarts] = {5501,79235},
