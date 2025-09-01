@@ -2040,7 +2040,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
         [5650] = { -- Garments of Darkness
-            [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{12428,"Heal and fortify Deathguard Kel",Questie.ICON_TYPE_INTERACT}}},
         },
         [5658] = { -- #7083 and #1603
             [questKeys.startedBy] = {{4606},nil,nil},
