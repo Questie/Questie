@@ -361,7 +361,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
             for spawnIndex = 1, #spawns do
                 coords = spawns[spawnIndex]
                 if (#spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns)) and (limit == 0  or limit-added>0) then
-                    ---@class IconData
+                    ---@type IconData
                     local data = {
                         Id = quest.Id,
                         Icon =  QuestieLib.GetQuestIcon(quest),
@@ -406,7 +406,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
-                    ---@class IconData
+                    ---@type IconData
                     local data = {
                         Id = quest.Id,
                         Icon =  QuestieLib.GetQuestIcon(quest),
