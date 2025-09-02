@@ -7,8 +7,6 @@ describe("QuestieFrame", function()
     local QuestieMap
     ---@type QuestieQuest
     local QuestieQuest
-    ---@type DailyQuests
-    local DailyQuests
     ---@type QuestieFrameHandlers
     local QuestieFrameHandler
 
@@ -47,7 +45,7 @@ describe("QuestieFrame", function()
         QuestieQuest = require("Modules/Quest/QuestieQuest")
         QuestieQuest.ShouldShowQuestNotes = function() return true end
 
-        DailyQuests = require("Modules/Quest/DailyQuests/DailyQuests")
+        require("Modules/Quest/DailyQuests/DailyQuests")
 
         QuestieFrameHandler = require("Modules/FramePool/QuestieFrame")
         QuestieFrame = {
