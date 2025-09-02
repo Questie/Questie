@@ -522,7 +522,7 @@ function _Qframe.ShouldBeHidden(self)
         or ((not profile.enableTurnins) and iconType == "complete")
         or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
         or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+        or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).

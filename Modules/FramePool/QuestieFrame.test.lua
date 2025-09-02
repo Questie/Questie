@@ -178,6 +178,17 @@ describe("QuestieFrame", function()
             assert.spy(QuestieQuest.ShouldShowQuestNotes).was.called_with(QuestieQuest, 123)
         end)
 
+        it("should return false for available icons when untracked icons should be hidden", function()
+            QuestieQuest.ShouldShowQuestNotes = spy.new(function() return false end)
+            Questie.db.profile.hideUntrackedQuestsMapIcons = true
+            QuestieFrame.data.Type = "available"
+
+            local result = QuestieFrameHandler.ShouldBeHidden(QuestieFrame)
+
+            assert.is_false(result)
+            assert.spy(QuestieQuest.ShouldShowQuestNotes).was.not_called()
+        end)
+
         it("should return true when ObjectiveData is set and icons should be hidden", function()
             QuestieFrame.data.ObjectiveData = {HideIcons = true}
 
