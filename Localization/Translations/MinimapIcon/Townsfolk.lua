@@ -338,6 +338,18 @@ local townsfolkLocales = {
         ["zhCN"] = "理发师",
         ["zhTW"] = "美容師",
     },
+    ["Battle Pet Trainer"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kampfhaustiertrainer",
+        ["esES"] = "Instructor de mascotas de duelo",
+        ["esMX"] = "Instructor de mascotas de duelo",
+        ["frFR"] = "Dresseur de mascottes de combat",
+        ["koKR"] = "전투 애완동물 전문가",
+        ["ptBR"] = "Adestramento de Batalha",
+        ["ruRU"] = "Наставник боевых питомцев",
+        ["zhCN"] = "战斗宠物训练师",
+        ["zhTW"] = "戰寵訓練師",
+    },
 }
 
 for k, v in pairs(townsfolkLocales) do
