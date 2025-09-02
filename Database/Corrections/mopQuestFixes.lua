@@ -1636,7 +1636,7 @@ function MopQuestFixes.Load()
         },
         [30032] = { -- The Quest for Better Barley
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30029,30031},
+            [questKeys.preQuestGroup] = {30029,30030,30031},
         },
         [30033] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
