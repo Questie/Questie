@@ -3689,6 +3689,10 @@ function QuestieTBCQuestFixes:Load()
         [11526] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11531] = {
+            [questKeys.specialFlags] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [11532] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Ayren Cloudbreaker"), 0, {{"monster", 25059}}}},
         },
