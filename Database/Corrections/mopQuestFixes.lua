@@ -5390,12 +5390,12 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31390] = { -- The Klaxxi
-            [questKeys.preQuestGroup] = {30650,30651,30660}, -- not entirely sure, but seems plausible
+            [questKeys.preQuestSingle] = {31512}, -- not entirely sure, but seems plausible
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31391,31656,31847,31886,31895},
         },
         [31391] = { -- The Klaxxi
-            [questKeys.preQuestGroup] = {30655,30656,30661}, -- not entirely sure, but seems plausible
+            [questKeys.preQuestSingle] = {31511}, -- not entirely sure, but seems plausible
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },
@@ -7543,7 +7543,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28675, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76097},{76098},{93351}}},
-            [questKeys.exclusiveTo] = {92237,92238},
+            [questKeys.exclusiveTo] = {92337,92338},
             [questKeys.zoneOrSort] = -181,
         },
         [92337] = { -- Elixir Master
@@ -7557,7 +7557,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28677, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a variety of flasks to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76088},{76087},{76085},{76084}}},
-            [questKeys.exclusiveTo] = {92236,92238},
+            [questKeys.exclusiveTo] = {92336,92338},
             [questKeys.zoneOrSort] = -181,
         },
         [92338] = { -- Transmutation Master
@@ -7571,7 +7571,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28672, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring the requested materials to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{72104}}},
-            [questKeys.exclusiveTo] = {92236,92237},
+            [questKeys.exclusiveTo] = {92336,92337},
             [questKeys.zoneOrSort] = -181,
         },
     }
