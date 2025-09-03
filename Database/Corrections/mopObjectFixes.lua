@@ -746,6 +746,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.31,92.81}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [215705] = { -- Tillers Shrine
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.02,49.05}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [215973] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.83,84.61}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
