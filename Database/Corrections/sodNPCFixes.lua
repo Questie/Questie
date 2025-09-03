@@ -2844,6 +2844,26 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {90510},
             [npcKeys.questEnds] = {90510},
         },
+        [243200] = { -- "Behind the Tavern" Kill Credit
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{95.238,77.715}}},
+        },
+        [243201] = { -- "Behind the Town Hall" Kill Credit
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{90.573,86.653}}},
+        },
+        [243202] = { -- "In front of the Prison" Kill Credit
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{92.441,95.080}}},
+        },
+        [243203] = { -- "Behind the Mage Tower" Kill Credit
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{62.82488,25.45694}}},
+        },
+        [243204] = { -- "Behind the Barracks" Kill Credit
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{62.68678,24.80937}}},
+        },
         [243269] = { -- Solistrasza
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
             [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
