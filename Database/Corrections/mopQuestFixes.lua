@@ -2555,7 +2555,6 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245153}}},
-            [questKeys.preQuestGroup] = {30288,30246}, -- needs daily module, only offered if mistfall is 3rd hub
             [questKeys.exclusiveTo] = {30297,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -2563,7 +2562,6 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{58911}},
             [questKeys.finishedBy] = {{58911}},
             [questKeys.objectives] = {{{245163}}},
-            [questKeys.preQuestGroup] = {30288,30246}, -- needs daily module, only offered if mistfall is 3rd hub
             [questKeys.exclusiveTo] = {30296,31297,31296},
             [questKeys.questFlags] = questFlags.DAILY,
         },
