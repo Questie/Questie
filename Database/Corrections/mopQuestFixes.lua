@@ -710,6 +710,9 @@ function MopQuestFixes.Load()
         [28731] = { -- Teldrassil: Passing Awareness
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.MAGE + classIDs.DRUID + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- night elf DKs don't get these quests
         },
+        [28732] = { -- This Can Only Mean One Thing...
+            [questKeys.objectives] = {{{49456,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{59153}}},
             [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE_MOP,
