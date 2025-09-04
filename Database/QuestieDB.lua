@@ -958,10 +958,17 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
-            if completedQuests[v] or currentQuestlog[v] then
-                local msg = "Player has completed a quest exclusive with quest " .. questId
+            if completedQuests[v] then
+                local msg = "Player has completed exclusive quest " .. v
                 if returnText and returnBrief then
                     return "Ineligible: Exclusive quest completed"
+                elseif returnText and not returnBrief then
+                    return msg
+                end
+            elseif currentQuestlog[v] then
+                local msg = "Player has exclusive quest " .. v .. " in their quest log"
+                if returnText and returnBrief then
+                    return "Ineligible: Exclusive quest in quest log"
                 elseif returnText and not returnBrief then
                     return msg
                 end
