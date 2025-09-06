@@ -601,12 +601,15 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {211510},
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [81178] = { -- Stone Key
+            [itemKeys.npcDrops] = {60692,66289},
+        },
         [81250] = { -- Snarlvine
             [itemKeys.objectDrops] = {211517,211518},
         },
         [81261] = { -- Stolen Pandaren Spices
             [itemKeys.objectDrops] = {211521},
-            [itemKeys.npcDrops] = {60560,60846},
+            [itemKeys.npcDrops] = {60434,60560,60846},
         },
         [81269] = { -- Waterfall-Polished Stone
             [itemKeys.objectDrops] = {211526},
@@ -956,8 +959,14 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {65621,65624,65628},
             [itemKeys.objectDrops] = {214845,214986},
         },
+        [88894] = { -- Rescued Serpent
+            [itemKeys.npcDrops] = {65641},
+        },
         [88895] = { -- Serpent's Scale
             [itemKeys.objectDrops] = {214843,214844},
+        },
+        [89052] = { -- Tiny Bag of Poop
+            [itemKeys.npcDrops] = {65711,67084},
         },
         [89053] = { -- Big Bag of Poop
             [itemKeys.npcDrops] = {65711,67084},

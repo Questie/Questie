@@ -3220,7 +3220,7 @@ function MopQuestFixes.Load()
         },
         [30492] = { -- Back in Yak
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30489,30491,30587},
+            [questKeys.preQuestGroup] = {30491,30587},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Bring Yak Herd to Lucky Eightcoins", {[zoneIDs.KUN_LAI_SUMMIT] = {{65.38,61.45}}}},
         },
@@ -3429,6 +3429,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60382,59818},59818,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30602] = { -- The Rabbitsfoot
+            [questKeys.startedBy] = {{59701,59703}},
             [questKeys.objectives] = {{{59806,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30603] = { -- The Broketooth Ravage
@@ -3468,6 +3469,7 @@ function MopQuestFixes.Load()
         [30612] = { -- The Leader Hozen
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30610,30611},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{59419,60217},59419,nil,Questie.ICON_TYPE_EVENT},{{60188,60598},60188}}},
         },
         [30613] = { -- Armored Carp
             [questKeys.questFlags] = questFlags.DAILY,
@@ -3509,7 +3511,7 @@ function MopQuestFixes.Load()
         },
         [30627] = { -- The Savior of Stoneplow
             [questKeys.preQuestSingle] = {30626},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Miss Fanny"),0,{{"monster",59857}}}},
         },
         [30631] = { -- The Shrine of Seven Stars
             [questKeys.startedBy] = {{58468}},
@@ -3523,6 +3525,7 @@ function MopQuestFixes.Load()
         },
         [30633] = { -- Out with the Scouts
             [questKeys.startedBy] = {{58465}},
+            [questKeys.objectives] = {{{59914}}},
         },
         [30634] = { -- Barring Entry
             [questKeys.startedBy] = {{58471}},
@@ -4543,7 +4546,6 @@ function MopQuestFixes.Load()
         },
         [31083] = { -- Promises of Gold
             [questKeys.startedBy] = {{62767}},
-            [questKeys.preQuestSingle] = {31075},
         },
         [31084] = { -- Bind the Glamour
             [questKeys.triggerEnd] = {"Allow Chief Rikkitun to enchant the forked blade", {[zoneIDs.DREAD_WASTES] = {{39.42,23.15}}}},
@@ -5323,9 +5325,11 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31369] = { -- The Anglers
+            [questKeys.preQuestGroup] = {30635,30636,30637},
             [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
         },
         [31370] = { -- The Anglers
+            [questKeys.preQuestGroup] = {30635,30636,30637},
             [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
         },
         [31372] = { -- The Tillers
@@ -6378,11 +6382,13 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{63765,nil,Questie.ICON_TYPE_MOUNT_UP}},nil,nil,nil,{{{67030,67033,67035,67036,67037,67039,67034},67034}}},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
+            [questKeys.startedBy] = {}, -- hiding 2 of the 3 due to blizzard returning true to all versions
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
             [questKeys.preQuestGroup] = {30139,30187},
             [questKeys.exclusiveTo] = {30188,31811},
         },
         [31811] = { -- Riding the Skies (Golden Cloud Serpent)
+            [questKeys.startedBy] = {}, -- hiding 2 of the 3 due to blizzard returning true to all versions
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,42000},
             [questKeys.preQuestGroup] = {30141,30187},
             [questKeys.exclusiveTo] = {30188,31810},

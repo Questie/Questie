@@ -444,6 +444,8 @@ local phases = {
     FARM_HAS_2_SLOTS = 1372,
     RAIGONN_ALIVE = 1373,
     RAIGONN_DEAD = 1374,
+    BOOF_IN_VEILED_STAIR = 1375,
+    BOOF_AT_BINAN_VILLAGE = 1376,
 }
 Phasing.phases = phases
 
@@ -2033,6 +2035,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.RAIGONN_DEAD then
         return complete[31364] or (questLog[31364] and questLog[31364].isComplete == 1) or false
+    end
+
+    if phase == phases.BOOF_IN_VEILED_STAIR then
+        return not (complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1)or (questLog[31255] and questLog[31255].isComplete == 1)) or false
+    end
+
+    if phase == phases.BOOF_AT_BINAN_VILLAGE then
+        return complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1)or (questLog[31255] and questLog[31255].isComplete == 1) or false
     end
 
     return false

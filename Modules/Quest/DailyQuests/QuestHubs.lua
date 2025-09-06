@@ -76,8 +76,8 @@ DailyQuests.hubs = {
         preQuestHubs = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = {
-        quests = {30150,30151,31704,31705}, -- 31716 seems to be @ race day
-        limit = 3, -- 2 (random of 3) + 1 (Needle Me Not)
+        quests = {30150,30151,31704},
+        limit = 2, -- 2 (random of 3)
         exclusiveHubs = {
             ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = true,
             ORDER_OF_THE_CLOUD_SERPENT_TIGERS = true,
@@ -86,6 +86,12 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
         preQuestHubs = {},
+    },
+    ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM_FINAL = {
+        quests = {31705},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true},
     },
     ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = { -- not good
         quests = {30155,30156,30157,30158,31194},
