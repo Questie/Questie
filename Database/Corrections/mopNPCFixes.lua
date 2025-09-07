@@ -3288,8 +3288,7 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
         },
         [64583] = { -- Klaxxi Traitor
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{56.19,57.52}}},
-            [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.19,57.52}}},
         },
         [64596] = { -- Teng Applebloom
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.22,84.68}}},

@@ -2319,7 +2319,7 @@ function MopQuestFixes.Load()
         [30244] = { -- Along the Serpent's Spine
             [questKeys.startedBy] = {{58920}},
             [questKeys.finishedBy] = {{58920}},
-            [questKeys.preQuestSingle] = {30243}, -- check if 31652 needed/related/involved
+            [questKeys.preQuestSingle] = {30243},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63974,63976},63974}}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.questFlags] = questFlags.DAILY,
