@@ -1221,6 +1221,14 @@ function QuestieQuestFixes:Load()
         [2854] = {
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,200},
         },
+        [2851] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {2848,2849,2850}, -- #7161
+        },
+        [2852] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {2848,2849,2850}, -- #7161
+        },
         [2858] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {2855,2856,2857}, -- #7161
