@@ -3551,7 +3551,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30635,30636,30637},
         },
         [30639] = { -- The Secrets of Guo-Lai
-            [questKeys.startedBy] = {{58408}},
+            [questKeys.startedBy] = {{58408,59332,59340}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {{{64647,nil,Questie.ICON_TYPE_TALK},{64663,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -3573,7 +3573,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{60376,nil,Questie.ICON_TYPE_EVENT}},nil,{{80807}}},
         },
         [30643] = { -- The Mogu's Message
-            [questKeys.startedBy] = {{58408}},
+            [questKeys.startedBy] = {{58408,59332,59340}},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,42000},
             [questKeys.preQuestSingle] = {30642},
         },

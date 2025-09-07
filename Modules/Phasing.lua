@@ -446,6 +446,8 @@ local phases = {
     RAIGONN_DEAD = 1374,
     BOOF_IN_VEILED_STAIR = 1375,
     BOOF_AT_BINAN_VILLAGE = 1376,
+    GOLDEN_LOTUS_GARRISON_ACTIVE = 1377,
+    GOLDEN_LOTUS_LEVEN_AT_PAGODA = 1378,
 }
 Phasing.phases = phases
 
@@ -2038,11 +2040,19 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BOOF_IN_VEILED_STAIR then
-        return not (complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1)or (questLog[31255] and questLog[31255].isComplete == 1)) or false
+        return not (complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1) or (questLog[31255] and questLog[31255].isComplete == 1)) or false
     end
 
     if phase == phases.BOOF_AT_BINAN_VILLAGE then
-        return complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1)or (questLog[31255] and questLog[31255].isComplete == 1) or false
+        return complete[31254] or complete[31255] or (questLog[31254] and questLog[31254].isComplete == 1) or (questLog[31255] and questLog[31255].isComplete == 1) or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_GARRISON_ACTIVE then
+        return complete[31247] or complete[31297] or complete[31250] or complete[30385] or questLog[31247] or questLog[31297] or questLog[31250] or questLog[30385] or false
+    end
+
+    if phase == phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA then
+        return not (complete[31244] or complete[31295] or questLog[31244] or questLog[31295] or complete[31247] or complete[31297] or complete[31250] or complete[30385] or questLog[31247] or questLog[31297] or questLog[31250] or questLog[30385]) or false
     end
 
     return false
