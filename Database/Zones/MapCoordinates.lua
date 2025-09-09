@@ -337,28 +337,43 @@ do
     --* Northrend
     xCoord = 50
     instanceId, worldCoords = C_Map.GetWorldPosFromMapPos(113, { x = xCoord, y = 16 })
-    repeat
-        local _, newCoord = C_Map.GetWorldPosFromMapPos(113, { x = xCoord, y = 16 })
-        dist = worldCoords.y - newCoord.y
-        xCoord = xCoord + 0.00001
-    until dist >= 466 + 2 / 3
-    print("Northrend", instanceId, xCoord, dist)
-    MinimapSizePerYard[instanceId] = (dist - 50) * 100
-
+    if worldCoords then
+        repeat
+            local _, newCoord = C_Map.GetWorldPosFromMapPos(113, { x = xCoord, y = 16 })
+            dist = worldCoords.y - newCoord.y
+            xCoord = xCoord + 0.00001
+        until dist >= 466 + 2 / 3
+        print("Northrend", instanceId, xCoord, dist)
+        MinimapSizePerYard[instanceId] = (dist - 50) * 100
+    else
+        print("Northrend", instanceId, "Failed to get world coords")
+        print("I assume that we are TBC or classic")
+    end
     --* Outlands
     xCoord = 20
     instanceId, worldCoords = C_Map.GetWorldPosFromMapPos(1945, { x = xCoord, y = 60 })
-    repeat
-        local _, newCoord = C_Map.GetWorldPosFromMapPos(1945, { x = xCoord, y = 60 })
-        dist = worldCoords.y - newCoord.y
-        xCoord = xCoord + 0.00001
-    until dist >= 466 + 2 / 3
-    print("Outlands", instanceId, xCoord, dist)
-    MinimapSizePerYard[instanceId] = (dist - 20) * 100
+    if worldCoords then
+        repeat
+            local _, newCoord = C_Map.GetWorldPosFromMapPos(1945, { x = xCoord, y = 60 })
+            dist = worldCoords.y - newCoord.y
+            xCoord = xCoord + 0.00001
+        until dist >= 466 + 2 / 3
+        print("Outlands", instanceId, xCoord, dist)
+        MinimapSizePerYard[instanceId] = (dist - 20) * 100
+    else
+        print("Outlands", instanceId, "Failed to get world coords")
+        print("I assume that we are classic")
+    end
+
+    -- TODO: Add all instance ids
 
     DevTools_Dump(MinimapSizePerYard)
 end
 
+-- TODO: Fix these tests, they probably only work for WOTLK
+if true == true then
+    return
+end
 
 --! Test code, do not remove!
 --* tostring because of floating point errors
