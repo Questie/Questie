@@ -1,7 +1,7 @@
 ---@class FramePoolWaypoint : FramePool
 ---@field private frameType string
 ---@field private parent Region
-local FramePoolWaypoint = Mixin(QuestieLoader:CreateModule("FramePoolWaypoint"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
+local FramePoolWaypoint = Mixin(QuestieLoader:CreateModule("FramePoolWaypoint"), CreateUnsecuredRegionPoolInstance("QuestieWaypointMapPinTemplate"))
 FramePoolWaypoint.disallowResetIfNew = true
 
 ---@type PinTemplates
@@ -34,12 +34,15 @@ FramePoolWaypoint.creationFunc = function(framePool)
     count = count + 1;
 
     ---@class WaypointMapIconFrame : WaypointPinMixin
-    local frame = CreateFrame(FramePoolWaypoint.frameType, Questie.db.global.debugEnabled and name .. count or nil, FramePoolWaypoint.parent)
+    local parent = WorldMapFrame:GetCanvas()
+    local t = "BUTTON"
+    local frame = CreateFrame(t, Questie.db.global.debugEnabled and name .. count or nil, parent)
     --? This differs a little bit, here we actually OVERWRITE BasePinMixin functions
     frame = Mixin(frame, BasePinMixin, WaypointPinMixin) --[[@as WaypointMapIconFrame]]
     frame:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
     return frame
 end
+FramePoolWaypoint.createFunc = FramePoolWaypoint.creationFunc
 FramePoolWaypoint.resetterFunc = function(pinPool, pin)
     if (pin.lineTexture) then
         -- pin.lineTexture:SetParent(frame)
@@ -51,6 +54,7 @@ FramePoolWaypoint.resetterFunc = function(pinPool, pin)
     pin:Hide();
     pin:ClearAllPoints();
 end
+FramePoolWaypoint.resetFunc = FramePoolWaypoint.resetterFunc
 -- MINIMAP
 
 -- local function updateMaskTexture()
@@ -137,8 +141,8 @@ local function lineReset(self, line)
     end
     line.maskTextures = {}
 
-	line:Hide();
-	line:ClearAllPoints();
+    line:Hide();
+    line:ClearAllPoints();
 end
 
 -- The following function is used with permission from Daniel Stephens
@@ -255,14 +259,30 @@ end
 ---@field Release fun(self: TexturePool, texture: Texture): boolean
 ---@field private inactiveObjects Texture[]
 ---@field private activeObjects table<Texture, boolean>
+---@field private numActiveObjects number
 ---@field private disallowResetIfNew boolean
 ---@field private parent Frame @The parent where all the textures are created
 FramePoolWaypoint.LinePool = CreateTexturePool(Minimap, "ARTWORK", 0, nil, lineReset)
 FramePoolWaypoint.LinePool.parent = Minimap
 FramePoolWaypoint.LinePool.creationFunc = lineCreate;
+FramePoolWaypoint.LinePool.createFunc = lineCreate;
 FramePoolWaypoint.LinePool.resetterFunc = lineReset;
+FramePoolWaypoint.LinePool.resetFunc = lineReset;
 
 FramePoolWaypoint.LinePool.Acquire = function(self)
+    -- ! 2025-09-09
+    -- TODO: FUTURE LOGON, DUE TO CHANGES IN THE POOLS
+    -- TODO: I ADDED THESE TO STOP ERRORS, YOU BASICALLY HAVE TO GO THROUGH THE POOLS AGAIN
+    if (not self.inactiveObjects) then
+        self.inactiveObjects = {};
+    end
+    if (not self.activeObjects) then
+        self.activeObjects = {};
+    end
+    if (not self.numActiveObjects) then
+        self.numActiveObjects = 0;
+    end
+
     -- print("Getting")
     local numInactiveObjects = #self.inactiveObjects;
     if numInactiveObjects > 0 then

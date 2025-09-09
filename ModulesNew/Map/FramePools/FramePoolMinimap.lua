@@ -75,7 +75,11 @@ do
         --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
         count = count + 1
         ---@class MinimapIconFrame : Button, BasePinMiniMixin
-        local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
+        -- local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
+        local parent = WorldMapFrame:GetCanvas()
+        local t = "BUTTON"
+        -- local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
+        local frame = CreateFrame(t, name .. count or nil, parent)
 
         frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
         frame = Mixin(frame, BasePinMiniMixin) --[[@as MinimapIconFrame]]
@@ -92,6 +96,7 @@ do
         --frame:SetIgnoreGlobalPinScale(true)
         return frame
     end
+    FramePoolMinimap.createFunc = FramePoolMinimap.creationFunc
 
     -- This function is run everytime a pin is acquired from the pool
     ---comment
@@ -111,7 +116,9 @@ do
                 pin.textures = wipe(pin.textures)
             end
 
-            FramePool_HideAndClearAnchors(pinPool, pin)
+            -- FramePool_HideAndClearAnchors(pinPool, pin)
+            pin:Hide()
+            pin:ClearAllPoints()
             pin:OnReleased()
 
 
@@ -143,6 +150,7 @@ do
 
         end
     end
+    FramePoolMinimap.resetFunc = FramePoolMinimap.resetterFunc
 
     basePin = FramePoolMinimap.creationFunc(FramePoolMinimap)
 end
@@ -155,33 +163,34 @@ do
     ---@param self TexturePool
     ---@return Texture
     ---@return boolean
-    TexturePool.Acquire = function(self)
-        --? This code is 99% from blizzard, only Questie Specific taged things are changed.
-        local numInactiveObjects = #self.inactiveObjects
-        if numInactiveObjects > 0 then
-            local obj = self.inactiveObjects[numInactiveObjects]
-            self.activeObjects[obj] = true
-            self.numActiveObjects = self.numActiveObjects + 1
-            self.inactiveObjects[numInactiveObjects] = nil
+    -- TODO: THIS WAS COMMENTED OUT 2025-09-09
+    -- TexturePool.Acquire = function(self)
+    --     --? This code is 99% from blizzard, only Questie Specific taged things are changed.
+    --     local numInactiveObjects = #self.inactiveObjects
+    --     if numInactiveObjects > 0 then
+    --         local obj = self.inactiveObjects[numInactiveObjects]
+    --         self.activeObjects[obj] = true
+    --         self.numActiveObjects = self.numActiveObjects + 1
+    --         self.inactiveObjects[numInactiveObjects] = nil
 
-            --* Questie Specific
-            obj.dirty = true
+    --         --* Questie Specific
+    --         obj.dirty = true
 
-            return obj, false
-        end
+    --         return obj, false
+    --     end
 
-        local newObj = self.creationFunc(self)
-        if self.resetterFunc and not self.disallowResetIfNew then
-            self.resetterFunc(self, newObj)
-        end
-        self.activeObjects[newObj] = true
-        self.numActiveObjects = self.numActiveObjects + 1
+    --     local newObj = self.creationFunc(self)
+    --     if self.resetterFunc and not self.disallowResetIfNew then
+    --         self.resetterFunc(self, newObj)
+    --     end
+    --     self.activeObjects[newObj] = true
+    --     self.numActiveObjects = self.numActiveObjects + 1
 
-        --* Questie Specific
-        newObj.dirty = true
+    --     --* Questie Specific
+    --     newObj.dirty = true
 
-        return newObj, true
-    end
+    --     return newObj, true
+    -- end
 
     --- The function is called internally in the TexturePool, use TexturePool:Acquire
     ---@param texturePool TexturePool
@@ -198,6 +207,7 @@ do
         tex.dirty = false
         return tex
     end
+    TexturePool.createFunc = TexturePool.creationFunc
 
     ---Resets the texture to the default state
     ---@param self TexturePool
@@ -214,4 +224,5 @@ do
             tex.dirty = false
         end
     end
+    TexturePool.resetFunc = TexturePool.resetterFunc
 end

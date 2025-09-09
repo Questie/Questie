@@ -1,7 +1,7 @@
 ---@class FramePoolMap : FramePool
 ---@field private frameType string
 ---@field private parent Region
-local FramePool = Mixin(QuestieLoader:CreateModule("FramePoolMap"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
+local FramePool = Mixin(QuestieLoader:CreateModule("FramePoolMap"), CreateUnsecuredRegionPoolInstance("QuestieMapPinTemplate"))
 FramePool.disallowResetIfNew = true
 
 ---@type PinTemplates
@@ -72,7 +72,11 @@ do
         --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
         count = count + 1
         ---@class MapIconFrame : Button, BasePinMixin
-        local frame = CreateFrame(framePool.frameType, Questie.db.global.debugEnabled and name .. count or nil, framePool.parent)
+        -- DevTools_Dump(framePool)
+        local parent = WorldMapFrame:GetCanvas()
+        local t = "BUTTON"
+        -- local frame = CreateFrame(t, Questie.db.global.debugEnabled and name .. count or nil, parent)
+        local frame = CreateFrame(t, Questie.db.global.debugEnabled and name .. count, parent)
 
         frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
         frame = Mixin(frame, BasePinMixin) --[[@as MapIconFrame]]
@@ -88,6 +92,7 @@ do
         --frame:SetIgnoreGlobalPinScale(true)
         return frame
     end
+    FramePool.createFunc = FramePool.creationFunc
 
     -- This function is run everytime a pin is acquired from the pool
     ---comment
@@ -107,7 +112,9 @@ do
                 pin.textures = wipe(pin.textures)
             end
 
-            FramePool_HideAndClearAnchors(pinPool, pin)
+            -- FramePool_HideAndClearAnchors(pinPool, pin)
+            pin:Hide()
+            pin:ClearAllPoints()
             pin:OnReleased()
 
 
@@ -135,10 +142,10 @@ do
 
             --? It is reset so the pin is not dirty
             pin.dirty = false
-
-
         end
     end
+    FramePool.resetFunc = FramePool.resetterFunc
+
 
     basePin = FramePool.creationFunc(FramePool)
 end
@@ -150,33 +157,61 @@ do
     ---@param self TexturePool
     ---@return Texture
     ---@return boolean
-    TexturePool.Acquire = function(self)
-        --? This code is 99% from blizzard, only Questie Specific taged things are changed.
-        local numInactiveObjects = #self.inactiveObjects
-        if numInactiveObjects > 0 then
-            local obj = self.inactiveObjects[numInactiveObjects]
-            self.activeObjects[obj] = true
-            self.numActiveObjects = self.numActiveObjects + 1
-            self.inactiveObjects[numInactiveObjects] = nil
+    -- TexturePool.Acquire = function(self)
+    --     -- --? This code is 99% from blizzard, only Questie Specific taged things are changed.
+    --     -- local numInactiveObjects = #self.inactiveObjects
+    --     -- if numInactiveObjects > 0 then
+    --     --     local obj = self.inactiveObjects[numInactiveObjects]
+    --     --     self.activeObjects[obj] = true
+    --     --     self.numActiveObjects = self.numActiveObjects + 1
+    --     --     self.inactiveObjects[numInactiveObjects] = nil
 
-            --* Questie Specific
-            obj.dirty = true
+    --     --     --* Questie Specific
+    --     --     obj.dirty = true
 
-            return obj, false
-        end
+    --     --     return obj, false
+    --     -- end
 
-        local newObj = self.creationFunc(self)
-        if self.resetterFunc and not self.disallowResetIfNew then
-            self.resetterFunc(self, newObj)
-        end
-        self.activeObjects[newObj] = true
-        self.numActiveObjects = self.numActiveObjects + 1
+    --     -- local newObj = self.creationFunc(self)
+    --     -- if self.resetterFunc and not self.disallowResetIfNew then
+    --     --     self.resetterFunc(self, newObj)
+    --     -- end
+    --     -- self.activeObjects[newObj] = true
+    --     -- self.numActiveObjects = self.numActiveObjects + 1
 
-        --* Questie Specific
-        newObj.dirty = true
+    --     -- --* Questie Specific
+    --     -- newObj.dirty = true
 
-        return newObj, true
-    end
+    --     -- return newObj, true
+    --     if self:GetNumActive() == self.capacity then
+    --         return nil, false;
+    --     end
+
+    --     local object = self:PopInactiveObject();
+    --     local new = object == nil;
+    --     if new then
+    --         object = self:CallCreate();
+
+    --         --[[
+	-- 	While pools don't necessarily need to only contain tables, support for other types
+	-- 	has not been tested, and therefore isn't allowed until we can justify a use for them.
+	-- 	]] --
+    --         assert(type(object) == "table");
+
+    --         --[[
+	-- 	The reset function will error if forbidden actions are attempted insecurely,
+	-- 	particularly in scenarios involving forbidden and protected frames. If an error
+	-- 	is thrown, it will do so before we make any further modifications to this pool.
+
+	-- 	Note this does create a potential for a dangling frame or region, but that is less of a
+	-- 	concern than mutating the pool.
+	-- 	]] --
+    --         self:CallReset(object, new);
+    --     end
+
+    --     self:AddObject(object);
+    --     return object, new;
+    -- end
 
     --- The function is called internally in the TexturePool, use TexturePool:Acquire
     ---@param texturePool TexturePool
@@ -193,6 +228,7 @@ do
         tex.dirty = false
         return tex
     end
+    TexturePool.createFunc = TexturePool.creationFunc
 
     ---Resets the texture to the default state
     ---@param self TexturePool
@@ -209,6 +245,7 @@ do
             tex.dirty = false
         end
     end
+    TexturePool.resetFunc = TexturePool.resetterFunc
 end
 
 -- If we run MixinPin these are the functions that will be mixed in and chained
