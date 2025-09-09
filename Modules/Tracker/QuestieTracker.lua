@@ -1612,7 +1612,7 @@ function QuestieTracker:Update()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
         local dungeonName = GetInstanceInfo()
-        line.label:SetText("|cFFC0C0C0" .. l10n(dungeonName) .. ")|r")
+        line.label:SetText("|cFFC0C0C0" .. l10n(dungeonName) .. "|r")
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
