@@ -1844,4 +1844,60 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.BAN_AT_CAMP_OSUL))
         end)
     end)
+
+    describe("Elder Shiao and Farmhand Ko", function()
+        it("should return true for Yaungol Advance location when 30513 is incomplete", function()
+            Questie.db.char.complete[30513] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+        end)
+
+        it("should return true for Yaungol Advance location when 30513 is incomplete in the quest log", function()
+            Questie.db.char.complete[30513] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30513]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+        end)
+
+        it("should return true for Yaungol Advance location when 30513 is complete in the quest log", function()
+            Questie.db.char.complete[30513] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30513]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+        end)
+
+        it("should return true for Yaungol Advance location when 30515 is incomplete in the quest log", function()
+            Questie.db.char.complete[30515] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30515]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+        end)
+
+        it("should return true for in front of camp location when 30515 is complete in the quest log", function()
+            Questie.db.char.complete[30515] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30515]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+        end)
+
+        it("should return true for camp location when 30515 is complete", function()
+            Questie.db.char.complete[30515] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
+        end)
+    end)
 end)

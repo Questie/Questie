@@ -3033,6 +3033,13 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{52.04,43.12}}},
         },
+        [63535] = { -- Elder Shiao
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {61.2,82.22,phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE},
+                {61.42,80.31,phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP},
+                {62.34,79.6,phases.SHIAO_AND_KO_IN_CAMP},
+            }},
+        },
         [63542] = { -- Elder Tsulan
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 {56.35,84.4,phases.BO_TSULAN_YAUNGOL_ROAD},
@@ -3099,6 +3106,13 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Slaughtering Pit",
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{21.21,43.19}}},
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [63751] = { -- Farmhand Ko
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {63.67,86.65,phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE},
+                {61.49,80.42,phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP},
+                {62.54,79.44,phases.SHIAO_AND_KO_IN_CAMP},
+            }},
         },
         [63754] = { -- Farmhand Bo
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {

@@ -448,6 +448,9 @@ local phases = {
     BOOF_AT_BINAN_VILLAGE = 1376,
     GOLDEN_LOTUS_GARRISON_ACTIVE = 1377,
     GOLDEN_LOTUS_LEVEN_AT_PAGODA = 1378,
+    SHIAO_AND_KO_ON_YAUNGOL_ADVANCE = 1379,
+    SHIAO_AND_KO_IN_FRONT_OF_CAMP = 1380,
+    SHIAO_AND_KO_IN_CAMP = 1381,
 }
 Phasing.phases = phases
 
@@ -2053,6 +2056,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA then
         return not (complete[31244] or complete[31295] or questLog[31244] or questLog[31295] or complete[31247] or complete[31297] or complete[31250] or complete[30385] or questLog[31247] or questLog[31297] or questLog[31250] or questLog[30385]) or false
+    end
+
+    if phase == phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE then
+        return (not complete[30515]) and ((not questLog[30515]) or questLog[30515].isComplete == 0) and (not complete[30513]) or false
+    end
+
+    if phase == phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP then
+        return (questLog[30515] and questLog[30515].isComplete == 1) or false
+    end
+
+    if phase == phases.SHIAO_AND_KO_IN_CAMP then
+        return complete[30515] or false
     end
 
     return false
