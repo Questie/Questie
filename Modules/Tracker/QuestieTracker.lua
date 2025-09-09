@@ -1677,7 +1677,7 @@ function QuestieTracker:Update()
     if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyName == "Challenge Mode" then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
         _UpdateChallengeModeObjectives()
-    elseif Expansions.Current >= Expansions.MoP and instanceType ~= "none" and (difficultyName == "Normal Scenario" or difficultyName == "Heroic Scenario") then
+    elseif Expansions.Current >= Expansions.MoP and instanceType == "scenario" then
         -- Scenario is active, so we only show the Scenario objectives
         _UpdateScenarioObjectives()
     else
