@@ -6051,7 +6051,8 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true,
-        "releases": true
+        "releases": true,
+        "WoW-API": true
     },
 
     // Removes trailing whitespaces
