@@ -21,6 +21,8 @@ function MinimapProvider:OnAdded(owningMinimap)
     print("MinimapProvider OnAdded")
     self.owningMinimap = owningMinimap;
 
+    local currentPlayerUIMapID = C_Map.GetBestMapForUnit("player");
+
     for x = 1, 100, 1 do
         for y = 1, 100, 1 do
             local pin = self.owningMinimap:AcquirePin(PinTemplates.MinimapPinTemplate)
@@ -32,7 +34,8 @@ function MinimapProvider:OnAdded(owningMinimap)
             objectTexture:SetScale(Minimap:GetScale())
             objectTexture:Show();
             pin.textures[#pin.textures + 1] = objectTexture
-            pin:SetPosition(MapCoordinates.Maps[1413]:ToWorldCoordinate(x, y))
+            -- pin:SetPosition(MapCoordinates.Maps[1413]:ToWorldCoordinate(x, y))
+            pin:SetPosition(MapCoordinates.Maps[currentPlayerUIMapID]:ToWorldCoordinate(x, y))
             -- pin:UseFrameLevelType()
             pin:SetSize(8,15)
             pin:SetPoint("CENTER")

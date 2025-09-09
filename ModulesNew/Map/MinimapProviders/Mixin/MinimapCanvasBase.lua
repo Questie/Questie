@@ -8,6 +8,8 @@ local MapCoordinates = QuestieLoader("MapCoordinates");
 local Minimap = Minimap
 
 local pi = math.pi
+local sin = math.sin
+local cos = math.cos
 
 -- Blizz functions
 local GetPlayerFacing = GetPlayerFacing
@@ -134,6 +136,12 @@ function MinimapCanvasMixin:UpdateMinimapZoom()
         end
         self.debugText:Print("MinDistance", self.distance)
         self.debugText:Print("Zoom", self.lastZoom, self.indoors)
+        if self.rotateMinimap then
+            -- Player facing angle (in radians) - only used for rotation calculations
+            -- Note: This 'facing' variable is converted to degrees for debugging but not used in rotation
+            -- The actual rotation uses self.lastFacing directly (in radians) in the pin loop below
+            self.debugText:Print("Facing", self.lastFacing * 180 / pi) -- Convert to degrees for debug display
+        end
         self:UpdateMinimap()
     end)
     -- self.updateZoom = false
@@ -284,82 +292,111 @@ local function map(x, in_min, in_max, out_min, out_max)
     return out_min + (x - in_min)*(out_max - out_min)/(in_max - in_min)
 end
 
+--[[
+    UpdateMinimap - Core function that positions all minimap pins relative to the player
+
+    This function handles:
+    1. Zoom calculations through minimapSizeX/Y (world units that fit in minimap radius)
+    2. Rotation calculations when rotateMinimap is enabled
+    3. Pin visibility and positioning on the minimap
+    4. Pin alpha/scaling based on distance from center
+
+    Key coordinate spaces:
+    - World coordinates: Raw game world positions (pin.x, pin.y, player x/y)
+    - Normalized coordinates: World distances divided by minimap size (diffX, diffY)
+    - Screen coordinates: Final pixel positions on the minimap widget
+
+    Critical for zoom + rotation: Rotation must be applied AFTER normalization
+    to prevent coordinate distortion when minimapSizeX != minimapSizeY
+]]
 function MinimapCanvasMixin:UpdateMinimap()
-    -- print("MOVED")
+    -- Get current player position in world coordinates
     local mapID = C_Map.GetBestMapForUnit("player");
     local x, y = MapCoordinates.GetPlayerWorldPosFast(mapID)
 
-    local minimapShape = "SQUARE" --GetMinimapShape and minimap_shapes[GetMinimapShape() or "ROUND"]
+    -- Determine minimap shape for edge detection (square vs round corners)
+    local minimapShape = GetMinimapShape and minimap_shapes[GetMinimapShape() or "ROUND"] or "ROUND"
 
-    -- local minimapWidth = Minimap:GetWidth() / 2
-    -- local minimapHeight = Minimap:GetHeight() / 2
-    -- local minimapSizeX, minimapSizeY = minimap_size[self.indoors][self.lastZoom][1] / 2, minimap_size[self.indoors][self.lastZoom][2] / 2
+    -- Cached minimap dimensions (pixels from center to edge)
+    local minimapWidth = self.minimapWidth   -- Half of minimap widget width
+    local minimapHeight = self.minimapHeight -- Half of minimap widget height
 
-    local minimapWidth = self.minimapWidth
-    local minimapHeight = self.minimapHeight
-    local minimapSizeX = self.minimapSizeX
-    local minimapSizeY = self.minimapSizeY
-    -- self.debugText:Print("minimapSize X,Y", minimapSizeX, minimapSizeY)
-    -- self.debugText:Print("minimapWidth/Height", minimapWidth, minimapHeight)
+    -- Zoom-adjusted world coordinate distances that map to minimap radius
+    -- These values shrink as zoom increases (more zoomed in = smaller world area visible)
+    -- Updated by UpdateMinimapZoom() when zoom level changes
+    local minimapSizeX = self.minimapSizeX -- World units from center to X edge
+    local minimapSizeY = self.minimapSizeY -- World units from center to Y edge
 
-    -- for rotating minimap support
-    local facing
-    if self.rotateMinimap then --rotateMinimap
-        facing = self.lastFacing * 180 / pi
-        -- self.debugText:Print("Facing", facing)
-    else
-        facing = 0
-    end
+    self.debugText:Print("minimapSize X,Y", minimapSizeX, minimapSizeY)
+    self.debugText:Print("minimapWidth/Height", minimapWidth, minimapHeight)
 
+    -- Distance threshold for minimap edge (0.9 = 90% of minimap radius)
     local pointNineSquared = 0.9 ^ 2
 
     local count = 0
+    -- Process each active pin to determine if it should be visible and where to position it
     for pinIndex = 1, #self.pins do
-        -- for pin in self:EnumerateAllPins() do
         local pin = self.pins[pinIndex]
 
-        -- When a pin has been released it will not have x and y
+        -- Skip pins that have been released (x/y set to nil when removed from pool)
         if pin ~= nil and pin.x ~= nil then
 
-
+            -- Calculate world coordinate distance from player to pin
             local xDist, yDist = x - pin.x, y - pin.y
-            -- self.debugText:Print("base x/yDist", xDist, yDist)
+
+            -- Only process pins within maximum distance (performance optimization)
             if (xDist * xDist + yDist * yDist) ^ 0.5 < (pin.maxDistance or 2) then
 
-                -- handle rotation
-                if self.rotateMinimap then --rotateMinimap
-                    local dx, dy = xDist, yDist
-                    local mapSin = sin(facing)
-                    local mapCos = cos(facing)
-                    xDist = (minimapSizeX*2) * (dx*mapCos - dy*mapSin)
-                    yDist = (minimapSizeY*2) * (dx*mapSin + dy*mapCos)
-
-                    -- self.debugText:Print("xDist", xDist, "\nyDist", yDist)
-
-                    -- print(xDist > 0 and 4"+" or "-", yDist > 0 and "+" or "-")
-                end
-
-                -- adapt delta position to the map radius
+                -- CRITICAL: Normalize coordinates BEFORE rotation
+                -- This converts world coordinate distances to minimap coordinate space where:
+                -- - diffX/diffY of 1.0 = edge of minimap
+                -- - diffX/diffY of 0.0 = center of minimap
+                -- minimapSizeX/Y contain zoom scaling, so this step applies zoom transformation.
+                -- Must happen BEFORE rotation to prevent coordinate distortion when minimapSizeX != minimapSizeY
                 local diffX = xDist / minimapSizeX
                 local diffY = yDist / minimapSizeY
 
-                -- different minimap shapes
+                -- Apply rotation to normalized coordinates
+                -- Uses standard 2D rotation matrix:
+                -- [cos θ  -sin θ] [x]
+                -- [sin θ   cos θ] [y]
+                -- self.lastFacing is in radians (0 = North, increases clockwise)
+                -- Rotation happens in normalized space to preserve aspect ratio regardless of zoom level
+                if self.rotateMinimap then
+                    local dx, dy = diffX, diffY
+                    local mapSin = sin(self.lastFacing)
+                    local mapCos = cos(self.lastFacing)
+                    diffX = dx*mapCos - dy*mapSin
+                    diffY = dx*mapSin + dy*mapCos
+                end
+
+                -- Handle different minimap shapes (square, rounded corners, etc.)
+
+                -- For non-round minimaps, we need different distance calculations
+                -- based on which quadrant the pin is in to handle corner cutoffs correctly
                 ---@type boolean|number
                 local isRound = true
                 if minimapShape and not (xDist == 0 or yDist == 0) then
+                    -- Determine quadrant: 1=top-left, 3=top-right, etc.
                     isRound = (xDist < 0) and 1 or 3
                     if yDist < 0 then
-                        isRound = minimapShape[isRound]
+                        isRound = minimapShape[isRound]        -- Top quadrants
                     else
-                        isRound = minimapShape[isRound + 1]
+                        isRound = minimapShape[isRound + 1]    -- Bottom quadrants
                     end
                 end
 
-                -- calculate distance from the center of the map
+                -- Calculate normalized distance from minimap center
+
+                -- dist = 1.0 means the pin is at the edge of the visible area (90% of minimap radius)
+                -- dist < 1.0 means the pin is inside the visible area
+                -- dist > 1.0 means the pin is outside and needs to be clamped to the edge
                 local dist
                 if isRound then
+                    -- Circular distance calculation (standard)
                     dist = ((diffX * diffX + diffY * diffY) / pointNineSquared) -- 0.9 ^ 2
                 else
+                    -- Square distance calculation (max of X or Y distance)
                     local useDiff = diffX * diffX
                     if diffY * diffY > useDiff then
                         useDiff = diffY * diffY
@@ -367,19 +404,33 @@ function MinimapCanvasMixin:UpdateMinimap()
                     dist = (useDiff / pointNineSquared) -- 0.9 ^ 2
                 end
 
-                -- if distance > 1, then adapt node position to slide on the border
-                if dist > 1 then -- float on edge
-                    dist = dist ^ 0.5
-                    diffX = diffX / dist
-                    diffY = diffY / dist
+                -- Clamp pins outside the minimap to the edge
+
+                -- If a pin is beyond the minimap boundary, project it onto the edge
+                -- while preserving its direction from the center
+                if dist > 1 then -- Pin is outside minimap bounds
+                    dist = dist ^ 0.5  -- Convert squared distance back to linear
+                    diffX = diffX / dist  -- Normalize to edge
+                    diffY = diffY / dist  -- Normalize to edge
                 end
 
-                -- If a pin is not visible there is not reason to draw it, so we hide if alpha is 0
+                -- Calculate pin visibility effects based on distance from center
+
+                -- alpha: Pin transparency (1.0 = fully visible, 0.0 = invisible)
+                -- scale: Pin size multiplier (1.0 = normal size, 0.0 = invisible)
+
+                -- These create smooth fade-out effects as pins move toward the minimap edge
                 local alpha = (pin.minAlphaDistance and pin.maxAlphaDistance) and map(dist, pin.minAlphaDistance, pin.maxAlphaDistance, 1, 0) or 1
                 local scale = (pin.minScaleDistance and pin.maxScaleDistance) and map(dist, pin.minScaleDistance, pin.maxScaleDistance, 1, 0) or 1
+
                 if alpha > 0 and scale > 0 then
-                    -- pin:Show()
-                    -- pin:ClearAllPoints()
+                    -- Position the pin on the minimap
+
+                    -- Convert normalized coordinates (diffX, diffY) to pixel offsets:
+                    -- - diffX/diffY range from -1.0 to +1.0 (minimap radius)
+                    -- - Multiply by minimapWidth/Height to get pixel positions
+                    -- - Negative X because WoW UI coordinates (left = negative)
+                    -- - Positive Y because WoW UI coordinates (up = positive)
                     pin:SetPoint("CENTER", Minimap, "CENTER", (-diffX * minimapWidth), (diffY * minimapHeight))
                     -- pin:SetAlpha(1 - (dist - 1))
                     if pin.minAlphaDistance and pin.maxAlphaDistance then
@@ -447,7 +498,7 @@ function MinimapCanvasMixin:OnEvent(event, ...)
     print(event, ...)
     if event == "CVAR_UPDATE" then
         local cvar, value = ...
-        if cvar == "ROTATE_MINIMAP" then
+        if cvar == "ROTATE_MINIMAP" or cvar == "rotateMinimap" then
             self.rotateMinimap = (value == "1")
             self.forceUpdate = true
         end
