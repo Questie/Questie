@@ -80,6 +80,8 @@ do
         return nil, nil
     end
 end
+MapCoordinates.GetPlayerWorldPosFast = GetPlayerWorldPosFast
+MapCoordinates.GetPlayerMapPosFast = GetPlayerMapPosFast
 
 -- Minimap world size scaling
 local MinimapSizePerYard = {

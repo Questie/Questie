@@ -9,6 +9,9 @@ local Minimap = Minimap
 
 local pi = math.pi
 
+-- Blizz functions
+local GetPlayerFacing = GetPlayerFacing
+
 --? Here we calculate the minimap size in coords
 -- TODO: Fix this to work with all minimap sizes and world maps (outlands)
 local function GetMinimapWidthFromYards(mapId, yards)
@@ -161,6 +164,7 @@ function MinimapCanvasMixin:OnLoad()
     self.eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     self.eventFrame:SetScript("OnEvent", function(_, ...) self:OnEvent(...) end)
 
+    ---@type DebugText
     self.debugText = QuestieLoader("DebugText"):Get("Minimap")
 
     -- self:EvaluateLockReasons();
@@ -193,9 +197,12 @@ function MinimapCanvasMixin:OnLoad()
     local timeElapsed = 0
     -- local lastFacing = 0 -- For rotating
     local ticksSinceLastZoomUpdate = 0
+    --? I think this is for how fast we want to update the minimap
     self.baseDistance = 0.5
+
+    --? This is current distance
     self.distance = 0.5
-    local slow = 0
+
     self.eventFrame:SetScript("OnUpdate", function(_, elapsed)
         timeElapsed = timeElapsed + elapsed
         if timeElapsed >= 0.03125 then -- 30 fps
@@ -204,7 +211,6 @@ function MinimapCanvasMixin:OnLoad()
             -- Do we want to force an update?
             if self.forceUpdate then
                 self:UpdateMinimapZoom()
-                -- self:UpdateMinimap()
                 self.forceUpdate = false
                 return
             end
@@ -212,7 +218,6 @@ function MinimapCanvasMixin:OnLoad()
             if self.updateZoom or ticksSinceLastZoomUpdate >= 60 then
                 if self.updateZoom or self.lastZoom ~= Minimap:GetZoom() then
                     self:UpdateMinimapZoom()
-                    -- self:UpdateMinimap()
                 end
                 ticksSinceLastZoomUpdate = 0
                 return
@@ -243,7 +248,7 @@ function MinimapCanvasMixin:OnLoad()
                     self:UpdateMinimap()
                 end
             end
-            self.debugText:Print("WorldPos", GetPlayerWorldPosFast(GetBestMapForUnit("player")))
+            self.debugText:Print("WorldPos", GetPlayerWorldPosFast(C_Map.GetBestMapForUnit("player")))
         end
     end)
 
@@ -306,6 +311,8 @@ function MinimapCanvasMixin:UpdateMinimap()
         facing = 0
     end
 
+    local pointNineSquared = 0.9 ^ 2
+
     local count = 0
     for pinIndex = 1, #self.pins do
         -- for pin in self:EnumerateAllPins() do
@@ -351,13 +358,13 @@ function MinimapCanvasMixin:UpdateMinimap()
                 -- calculate distance from the center of the map
                 local dist
                 if isRound then
-                    dist = ((diffX * diffX + diffY * diffY) / 0.9 ^ 2)
+                    dist = ((diffX * diffX + diffY * diffY) / pointNineSquared) -- 0.9 ^ 2
                 else
                     local useDiff = diffX * diffX
                     if diffY * diffY > useDiff then
                         useDiff = diffY * diffY
                     end
-                    dist = (useDiff / 0.9 ^ 2)
+                    dist = (useDiff / pointNineSquared) -- 0.9 ^ 2
                 end
 
                 -- if distance > 1, then adapt node position to slide on the border
@@ -376,6 +383,12 @@ function MinimapCanvasMixin:UpdateMinimap()
                     pin:SetPoint("CENTER", Minimap, "CENTER", (-diffX * minimapWidth), (diffY * minimapHeight))
                     -- pin:SetAlpha(1 - (dist - 1))
                     if pin.minAlphaDistance and pin.maxAlphaDistance then
+                        -- print("Alpha", alpha)
+                        --! THIS IS A BUG?! IT WORKED BEFORE BUT NOW ALPHA IS SOMETIMES OVER 1?
+                        if alpha > 1 then
+                            alpha = 1
+                        end
+
                         pin:SetAlpha(alpha)
                     end
                     if pin.minScaleDistance and pin.maxScaleDistance then
@@ -507,8 +520,7 @@ do
             -- self.pinPools[pinTemplate] = CreateFramePool(pinTemplateType, self:GetCanvas(), pinTemplate, OnPinReleased);
             error("Pin template not registered: " .. pinTemplate);
         end
-
-        local pin, newPin = self.pinPools[pinTemplate]:Acquire();
+        local pin, newPin = self.pinPools[pinTemplate]:creationFunc();
 
         if newPin then
             local isMouseClickEnabled = pin:IsMouseClickEnabled();

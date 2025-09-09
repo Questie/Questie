@@ -36,6 +36,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 --- Up values
 local yield = coroutine.yield
 local wipe = wipe
+local pairs = pairs
+local type = type
 
 local function InitializeModule()
     -- Wipe the table to make sure we don't have any old data
@@ -179,7 +181,10 @@ do
     -- A bit of a workaround to avoid putting the function in the global space
     local MergeShowData
 
-    -- Merges two ShowData tables together
+    -- Function: QuestieQuest.MergeShowData
+    -- Purpose: Merges two tables t1 and t2 into a single table, t1.
+    -- Input: Two tables, t1 and t2.
+    -- Output: A single table, t1, that contains all elements from both t1 and t2.
     function QuestieQuest.MergeShowData(t1, t2)
         for k, v in pairs(t2) do
             if type(v) == "table" then
@@ -212,49 +217,67 @@ do
     ---@param show Show
     ---@param questId QuestId
     local function AddQuestGivers(show, questId)
-        -- print("Add questgives", questId)
-        -- local show = QuestieQuest.Show
-
+        -- Get the "startedBy" data for the given questId from QuestieDB
         local starts = QuestieDB.QueryQuestSingle(questId, "startedBy")
+
+        -- If the "startedBy" data exists
         if starts then
+            -- If it has any NPC starters
             if (starts[1] ~= nil) then
+                -- Get the NPC array
                 local npcs = starts[1]
+                -- Loop through each NPC in the array
                 for i = 1, #npcs do
                     local npcId = npcs[i]
-                    -- print("Adding quest giver NPC :", npcId, "for quest", questId)
+                    -- If the NPC doesn't exist in the show data, create an empty table for it
                     if show.NPC[npcId] == nil then
                         show.NPC[npcId] = {}
                     end
+                    -- If the available data for the NPC doesn't exist, create an empty table for it
                     if show.NPC[npcId].available == nil then
                         show.NPC[npcId].available = {}
                     end
+                    -- Add the questId to the available data for the NPC with a relation type of "availablePickup"
                     show.NPC[npcId].available[questId] = relationTypes.availablePickup
                 end
             end
+
+            -- If it has any GameObject starters
             if (starts[2] ~= nil) then
+                -- Get the GameObject array
                 local gameobjects = starts[2]
+                -- Loop through each GameObject in the array
                 for i = 1, #gameobjects do
                     local gameObjectId = gameobjects[i]
+                    -- If the GameObject doesn't exist in the show data, create an empty table for it
                     if show.GameObject[gameObjectId] == nil then
                         show.GameObject[gameObjectId] = {}
                     end
+                    -- If the available data for the GameObject doesn't exist, create an empty table for it
                     if show.GameObject[gameObjectId].available == nil then
                         show.GameObject[gameObjectId].available = {}
                     end
+                    -- Add the questId to the available data for the GameObject with a relation type of "availablePickup"
                     show.GameObject[gameObjectId].available[questId] = relationTypes.availablePickup
                 end
             end
+
+            -- If it has any Item starters
             if (starts[3] ~= nil) then
+                -- Get the Item array
                 local items = starts[3]
+                -- Loop through each Item in the array
                 for i = 1, #items do
                     local itemId = items[i]
-                    -- print("Adding quest giver ITEM:", itemId, "for quest", questId)
+                    -- If the Item doesn't exist in the show data, create an empty table for it
                     if show.Item[itemId] == nil then
                         show.Item[itemId] = {}
                     end
+                    -- If the available data for the Item doesn't exist, create an empty table for it
                     if show.Item[itemId].available == nil then
                         show.Item[itemId].available = {}
                     end
+                    -- Add the questId to the available data for the Item with a relation type of "availableDrop"
                     show.Item[itemId].available[questId] = relationTypes.availableDrop
                 end
             end
@@ -495,7 +518,7 @@ do
         if showData[id][subTable][questId] == nil then
             showData[id][subTable][questId] = {}
         end
-        showData[id][subTable][questId][#showData[id][subTable][questId]+1] = objectiveData
+        showData[id][subTable][questId][#showData[id][subTable][questId] + 1] = objectiveData
     end
 
     function QuestieQuest.CalculateQuestObjectives()

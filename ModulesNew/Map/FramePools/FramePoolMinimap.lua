@@ -1,6 +1,7 @@
 ---@class FramePoolMinimap : FramePool
 ---@field private frameType string
 ---@field private parent Region
+--TODO: The CreateFramePool i think is not really supported anymore?
 local FramePoolMinimap = Mixin(QuestieLoader:CreateModule("FramePoolMinimap"), CreateFramePool("BUTTON", Minimap))
 FramePoolMinimap.disallowResetIfNew = true
 
@@ -76,7 +77,7 @@ do
         count = count + 1
         ---@class MinimapIconFrame : Button, BasePinMiniMixin
         -- local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
-        local parent = WorldMapFrame:GetCanvas()
+        local parent = Minimap
         local t = "BUTTON"
         -- local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
         local frame = CreateFrame(t, name .. count or nil, parent)

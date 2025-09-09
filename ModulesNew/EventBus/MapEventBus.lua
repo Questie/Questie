@@ -66,6 +66,14 @@ local formatEvents = {
     --* Below is an example on how to tag the function variant
     -- ---@type FormatEvent|fun(UiMapId: number, param2: any): string
     -- DRAW_WAYPOINTS_UIMAPID = createParameterizedEvent("DRAW_RELATION_UIMAPID", "DRAW_WAYPOINTS_UIMAPID_%d", {"UiMapId"}),
+
+    -- Remove all quests by id
+    ---@type FormatEvent|table<QuestId, string>
+    REMOVE_QUEST = MapEventBus.CreateFormaterEvent("REMOVE_QUEST", "REMOVE_QUEST_%d", { "QuestId" }),
+
+    -- Remove all objectives by id
+    ---@type FormatEvent|fun(questId: QuestId, objectiveIndex: ObjectiveIndex)
+    REMOVE_OBJECTIVE = MapEventBus.CreateFormaterEvent("REMOVE_OBJECTIVE", "REMOVE_OBJECTIVE_%d_%d", { "QuestId", "ObjectiveIndex" }),
 }
 
 --! Use this table to override the default fire functions (or if you use a FormatEvent)

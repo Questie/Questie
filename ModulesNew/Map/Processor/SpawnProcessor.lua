@@ -40,6 +40,12 @@ local ProcessedSpawns = {
 SpawnProcessor.ProcessedNpcSpawns = ProcessedSpawns.NPC
 SpawnProcessor.ProcessedObjectSpawns = ProcessedSpawns.Object
 
+SpawnProcessor.wipe = function()
+    wipe(ProcessedWaypoints)
+    wipe(ProcessedSpawns.NPC)
+    wipe(ProcessedSpawns.Object)
+end
+
 ---Get the dungeon locations in the correct format or false(because we can't save nil)
 ---@param AreaId AreaId
 ---@return false|Coordinates[]
@@ -251,3 +257,318 @@ function SpawnProcessor.GetWaypoints(id)
     --* No spawns exists
     return nil, nil
 end
+
+-- In this code, `combine_nearby_points` is a function that takes a list of points and a distance threshold as input. It returns a list of groups of points, where each group is a list of points that are within the desired distance of each other.
+-- The code first calculates the distances between all pairs of points and stores them in an array for efficient lookup later on. It then initializes a set to keep track of points that have been added to a group, a priority queue to efficiently select the next point to add to the current group, and a list of groups to return.
+-- Next, the code iterates over the points until all points have been added to a group. For each iteration, it selects a starting point that is known to be within the desired distance of at least one other point, and initializes a current group with that point. It then adds all points within the desired distance of the starting point to the priority queue.
+-- The code then iterates over the points in the priority queue until it finds a point that is not within the desired distance of the previous point in the group. For each point in the priority queue, it adds the point to the current group, adds all points within the desired distance of the current point to the priority queue, and marks the point as visited so it isn't added to the group again. Once a point is found that is not within the desired distance of the previous point, the current group is added to the list of groups and the process repeats until all points have been added to a group. Finally, the list of groups is returned.
+
+-- In this code, `combine_nearby_points` is a function that takes a list of points and a distance threshold as input. It returns a list of groups of points, where each group is a list of points that are within the desired distance of each other.
+-- The code first calculates the distances between all pairs of points and stores them in an array for efficient lookup later on. It then initializes a set to keep track of points that have been added to a group, a priority queue to efficiently select the next point to add to the current group, and a list of groups to return.
+-- Next, the code iterates over the points until all points have been added to a group. For each iteration, it selects a starting point that is known to be within the desired distance of at least one other point, and initializes a current group with that point. It then adds all points within the desired distance of the starting point to the priority queue.
+-- The code then iterates over the points in the priority queue until it finds a point that is not within the desired distance of the previous point in the group. For each point in the priority queue, it adds the point to the current group, adds all points within the desired distance of the current point to the priority queue, and marks the point as visited so it isn't added to the group again. Once a point is found that is not within the desired distance of the previous point, the current group is added to the list of groups and the process repeats until all points have been added to a group. Finally, the list of groups is returned.
+
+local function distance(point1X, point1Y, point2X, point2Y)
+    return ((point1X - point2X) ^ 2 + (point1Y - point2Y) ^ 2) ^ 0.5
+end
+
+local function select_starting_point(pointsX, visited)
+    for i = 1, #pointsX do
+        if not visited[i] then
+            return i
+        end
+    end
+    return nil
+end
+
+function SpawnProcessor.create_priority_queue(pointsX, pointsY)
+    local queue = {}
+    local queue_size = 0
+
+    function queue.push(pointIndex)
+        queue_size = queue_size + 1
+        queue[queue_size] = pointIndex
+    end
+
+    function queue.pop()
+        if queue_size == 0 then
+            return nil
+        end
+
+        -- local minX = pointsX[queue[1]]
+        -- local minY = pointsY[queue[1]]
+        -- local min_index = 1
+        -- for i = 2, queue_size do
+        --     local dist1 = ((pointsX[queue[i]] - pointsX[queue[1]]) ^ 2 + (pointsY[queue[i]] - pointsY[queue[1]]) ^ 2) ^ 0.5
+        --     local dist2 = ((minX - pointsX[queue[1]]) ^ 2 + (minY - pointsY[queue[1]]) ^ 2) ^ 0.5
+        --     -- if distance(pointsX[queue[i]], pointsY[queue[i]], pointsX[queue[1]], pointsY[queue[1]]) < distance(minX, minY, pointsX[queue[1]], pointsY[queue[1]]) then
+        --     if dist1 < dist2 then
+        --         minX = pointsX[queue[i]]
+        --         minY = pointsY[queue[i]]
+        --         min_index = i
+        --     end
+        -- end
+
+        -- local pointIndex = queue[min_index]
+        -- queue[min_index] = queue[queue_size]
+        -- queue_size = queue_size - 1
+        -- return pointIndex
+
+        queue_size = queue_size - 1
+        return queue[queue_size + 1]
+    end
+
+    return queue
+end
+
+local tInsert = table.insert
+
+--- /dump GetFunctionCPUUsage(combine_nearby_points, true)
+--- /dump GetFunctionCPUUsage(RelationMapProcessor.CombineGivers, true)
+--combine_nearby_points(testX, testY, 10)
+function SpawnProcessor.combine_nearby_points(pointsX, pointsY, threshold)
+    -- Calculate distances between points once and store them in an array.
+    local distances = {}
+    for i = 1, #pointsX do
+        distances[i] = {}
+        -- for j = 1, #pointsX do
+        --     if i ~= j then
+        --         -- distances[i][j] = distance(pointsX[i], pointsY[i], pointsX[j], pointsY[j])
+        --         -- print(((pointsX[i] - pointsX[j]) ^ 2 + (pointsY[i] - pointsY[j]) ^ 2) ^ 0.5)
+        --         distances[i][j] = ((pointsX[i] - pointsX[j]) ^ 2 + (pointsY[i] - pointsY[j]) ^ 2) ^ 0.5
+        --     else
+        --         distances[i][j] = 0
+        --     end
+        -- end
+    end
+
+    -- Initialize set to keep track of points that have already been added to a group.
+    local visited = {}
+
+    -- Initialize priority queue to efficiently select the next point to add to the current group.
+    -- local queue = create_priority_queue(pointsX, pointsY)
+    local queue = {}
+    local queue_size = 0
+
+    -- Initialize list of groups to return.
+    local groups = {}
+
+    local totalAdded = 0
+
+    -- Iterate over points until all points have been added to a group.
+    while true do
+        -- Select point that is known to be within the desired distance of at least one other point.
+        -- local pointIndex = select_starting_point(pointsX, visited)
+        local pointIndex = nil
+        for i = 1, #pointsX do
+            if not visited[i] then
+                pointIndex = i
+                break
+            end
+        end
+        if pointIndex == nil then
+            break
+        end
+
+        -- Initialize current group and add starting point to it.
+        local group = {}
+        -- tInsert(group, pointIndex)
+        group[#group+1] = pointIndex
+        totalAdded = totalAdded + 1
+        visited[pointIndex] = true
+
+        -- Add all points within the desired distance of the starting point to the priority queue.
+        for i = 1, #pointsX do
+            if not distances[pointIndex][i] then
+                distances[pointIndex][i] = ((pointsX[pointIndex] - pointsX[i]) ^ 2 + (pointsY[pointIndex] - pointsY[i]) ^ 2) ^ 0.5
+            end
+            -- Not visited stops the same point being added twice
+            if distances[pointIndex][i] <= threshold and pointIndex ~= i and not visited[i] then
+                -- queue.push(i)
+                queue[queue_size+1] = i
+                queue_size = queue_size + 1
+            end
+        end
+
+        -- Iterate over points in the priority queue until a point is found that is not within the desired distance of the previous point.
+        while true do
+            -- local next = queue.pop()
+            local next = queue[queue_size]
+            queue_size = queue_size - 1
+            if next ~= nil and not distances[group[#group]][next] then
+                distances[group[#group]][next] = ((pointsX[group[#group]] - pointsX[next]) ^ 2 + (pointsY[group[#group]] - pointsY[next]) ^ 2) ^ 0.5
+            end
+            if next == nil or distances[group[#group]][next] > threshold or visited[next] then
+                break
+            end
+
+            -- Add point to the current group.
+            -- tInsert(group, next)
+            group[#group+1] = next
+            totalAdded = totalAdded + 1
+            visited[next] = true
+
+            -- Add all points within the desired distance of the current point to the priority queue.
+            for i = 1, #pointsX do
+                --- not visited stops the same point being used in multiple groups (is this correct?)
+                if not distances[next][i] then
+                    distances[next][i] = ((pointsX[next] - pointsX[i]) ^ 2 + (pointsY[next] - pointsY[i]) ^ 2) ^ 0.5
+                end
+                if distances[next][i] <= threshold and not visited[i] and not visited[next] and next ~= i then
+                    -- queue.push(i)
+                    queue[queue_size+1] = i
+                    queue_size = queue_size + 1
+                end
+            end
+        end
+
+        -- Add current group to the list of groups.
+        -- tInsert(groups, group)
+        groups[#groups+1] = group
+    end
+    -- print("nrOfPoints", #pointsX, "totalPointsAdded:", totalAdded)
+    -- if #pointsX ~= totalAdded then
+        -- DevTools_Dump(groups)
+    -- end
+    return groups
+end
+
+
+-- local function distance(point1X, point1Y, point2X, point2Y)
+--     return ((point1X - point2X) ^ 2 + (point1Y - point2Y) ^ 2) ^ 0.5
+-- end
+
+-- local function select_starting_point(pointsX, visited)
+--     for i = 1, #pointsX do
+--         if not visited[i] then
+--             return i
+--         end
+--     end
+--     return nil
+-- end
+
+-- function create_priority_queue(pointsX, pointsY)
+--     local queue = {}
+--     local queue_size = 0
+
+--     function queue.push(pointIndex)
+--         queue_size = queue_size + 1
+--         queue[queue_size] = pointIndex
+--     end
+
+--     function queue.pop()
+--         if queue_size == 0 then
+--             return nil
+--         end
+
+--         -- local minX = pointsX[queue[1]]
+--         -- local minY = pointsY[queue[1]]
+--         -- local min_index = 1
+--         -- for i = 2, queue_size do
+--         --     local dist1 = ((pointsX[queue[i]] - pointsX[queue[1]]) ^ 2 + (pointsY[queue[i]] - pointsY[queue[1]]) ^ 2) ^ 0.5
+--         --     local dist2 = ((minX - pointsX[queue[1]]) ^ 2 + (minY - pointsY[queue[1]]) ^ 2) ^ 0.5
+--         --     -- if distance(pointsX[queue[i]], pointsY[queue[i]], pointsX[queue[1]], pointsY[queue[1]]) < distance(minX, minY, pointsX[queue[1]], pointsY[queue[1]]) then
+--         --     if dist1 < dist2 then
+--         --         minX = pointsX[queue[i]]
+--         --         minY = pointsY[queue[i]]
+--         --         min_index = i
+--         --     end
+--         -- end
+
+--         -- local pointIndex = queue[min_index]
+--         -- queue[min_index] = queue[queue_size]
+--         -- queue_size = queue_size - 1
+--         -- return pointIndex
+
+--         queue_size = queue_size - 1
+--         return queue[queue_size + 1]
+--     end
+
+--     return queue
+-- end
+
+-- local tInsert = table.insert
+
+-- --combine_nearby_points(testX, testY, 10)
+-- function combine_nearby_points(pointsX, pointsY, threshold)
+--     -- Calculate distances between points once and store them in an array.
+--     local distances = {}
+--     for i = 1, #pointsX do
+--         distances[i] = {}
+--         for j = 1, #pointsX do
+--             if i ~= j then
+--                 -- distances[i][j] = distance(pointsX[i], pointsY[i], pointsX[j], pointsY[j])
+--                 -- print(((pointsX[i] - pointsX[j]) ^ 2 + (pointsY[i] - pointsY[j]) ^ 2) ^ 0.5)
+--                 distances[i][j] = ((pointsX[i] - pointsX[j]) ^ 2 + (pointsY[i] - pointsY[j]) ^ 2) ^ 0.5
+--             else
+--                 distances[i][j] = 0
+--             end
+--         end
+--     end
+
+--     -- Initialize set to keep track of points that have already been added to a group.
+--     local visited = {}
+
+--     -- Initialize priority queue to efficiently select the next point to add to the current group.
+--     local queue = create_priority_queue(pointsX, pointsY)
+
+--     -- Initialize list of groups to return.
+--     local groups = {}
+
+--     local totalAdded = 0
+
+--     -- Iterate over points until all points have been added to a group.
+--     while true do
+--         -- Select point that is known to be within the desired distance of at least one other point.
+--         local pointIndex = select_starting_point(pointsX, visited)
+--         if pointIndex == nil then
+--             break
+--         end
+
+--         -- Initialize current group and add starting point to it.
+--         local group = {}
+--         -- tInsert(group, pointIndex)
+--         group[#group+1] = pointIndex
+--         totalAdded = totalAdded + 1
+--         visited[pointIndex] = true
+
+--         -- Add all points within the desired distance of the starting point to the priority queue.
+--         for i = 1, #pointsX do
+--             -- Not visited stops the same point being added twice
+--             if distances[pointIndex][i] <= threshold and pointIndex ~= i and not visited[i] then
+--                 queue.push(i)
+--             end
+--         end
+
+--         -- Iterate over points in the priority queue until a point is found that is not within the desired distance of the previous point.
+--         while true do
+--             local next = queue.pop()
+--             if next == nil or distances[group[#group]][next] > threshold or visited[next] then
+--                 break
+--             end
+
+--             -- Add point to the current group.
+--             -- tInsert(group, next)
+--             group[#group+1] = next
+--             totalAdded = totalAdded + 1
+--             visited[next] = true
+
+--             -- Add all points within the desired distance of the current point to the priority queue.
+--             for i = 1, #pointsX do
+--                 --- not visited stops the same point being used in multiple groups (is this correct?)
+--                 if distances[next][i] <= threshold and not visited[i] and not visited[next] and next ~= i then
+--                     queue.push(i)
+--                 end
+--             end
+--         end
+
+--         -- Add current group to the list of groups.
+--         -- tInsert(groups, group)
+--         groups[#groups+1] = group
+--     end
+--     print("nrOfPoints", #pointsX, "totalPointsAdded:", totalAdded)
+--     if #pointsX ~= totalAdded then
+--         DevTools_Dump(groups)
+--     end
+--     return groups
+-- end
