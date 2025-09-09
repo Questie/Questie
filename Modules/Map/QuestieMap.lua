@@ -302,7 +302,7 @@ function QuestieMap.ProcessQueue()
         local mapDrawCall = tremove(mapDrawQueue, 1);
         if mapDrawCall then
             local frame = mapDrawCall[2];
-            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+            -- HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
 
             --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
             local size = (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * scaleValue;
@@ -314,7 +314,7 @@ function QuestieMap.ProcessQueue()
         local minimapDrawCall = tremove(minimapDrawQueue, 1);
         if minimapDrawCall then
             local frame = minimapDrawCall[2];
-            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+            -- HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
 
             QuestieMap.utils:SetDrawOrder(frame);
         end

@@ -1,10 +1,8 @@
----@diagnostic disable: assign-type-mismatch
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 20
+local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 30
 assert(LibStub, MAJOR .. " requires LibStub")
 
----@class HereBeDragonsQuestie-2.0
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HereBeDragons then return end
 
@@ -17,10 +15,11 @@ HereBeDragons.worldMapData     = HereBeDragons.worldMapData or {}
 HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
-local WOW_INTERFACE_VER = select(4, GetBuildInfo())
 local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBC = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and WOW_INTERFACE_VER >= 20500 and WOW_INTERFACE_VER < 30000
-local WoWWrath = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and WOW_INTERFACE_VER >= 30400 and WOW_INTERFACE_VER < 40000
+local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
+local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
+local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
 -- Data Constants
 local COSMIC_MAP_ID = 946
@@ -63,7 +62,6 @@ local instanceIDOverrides = {
     -- Legion
     [1478] = 1220, -- Temple of Elune Scenario (Val'Sharah)
     [1495] = 1220, -- Protection Paladin Artifact Scenario (Stormheim)
-    [1498] = 1220, -- Havoc Demon Hunter Artifact Scenario (Suramar)
     [1502] = 1220, -- Dalaran Underbelly
     [1533] = 0,    -- Karazhan Artifact Scenario
     [1539] = 0,    -- Arm Warrior Artifact Tirisfal Scenario
@@ -77,6 +75,14 @@ local instanceIDOverrides = {
     [2275] = 870,  -- Vale of Eternal Blossoms N'zoth Minor Vision
 }
 
+-- override map translations where a zone shares a continent map, but not the continent instance
+-- these values are obtained from C_Map.GetMapRectOnMap(zone, continent)
+local zoneTranslateOverrides = {
+    [2248] = {
+        [2274] = { 0.5, 0.948, 0.01, 0.456 }, -- Isle of Dorn to Khaz Algar
+    }
+}
+
 local dynamicInstanceIDOverrides = {}
 instanceIDOverrides = setmetatable(instanceIDOverrides, { __index = dynamicInstanceIDOverrides })
 
@@ -86,7 +92,7 @@ local function overrideInstance(instance) return instanceIDOverrides[instance] o
 HereBeDragons.___DIIDO = dynamicInstanceIDOverrides
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
-if not oldversion or oldversion < 17 then
+if not oldversion or oldversion < 30 then
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -110,14 +116,29 @@ if not oldversion or oldversion < 17 then
             { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
             { 609, 0, -10000, 10000, -10000, 10000, 0, 0 },
         }
+    elseif WoWCata then
+        transformData = {
+            { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2662.8 },
+            { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
+        }
+    elseif WoWMists then
+        transformData = {
+            { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
+            { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2662.8 },
+            { 1014, 870, 3200, 5333.3, 1066.7, 2666.7, 0, 0 },
+            { 1064, 870, 5391, 8148, 3518, 7655, -2134.2, -2286.6 },
+        }
     else
         transformData = {
             { 530, 1, -6933.33, 533.33, -16000, -8000, 9916, 17600 },
             { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2400 },
             { 732, 0, -3200, 533.3, -533.3, 2666.7, -611.8, 3904.3 },
+            { 1014, 870, 3200, 5333.3, 1066.7, 2666.7, 0, 0 },
             { 1064, 870, 5391, 8148, 3518, 7655, -2134.2, -2286.6 },
             { 1208, 1116, -2666, -2133, -2133, -1600, 10210.7, 2411.4 },
             { 1460, 1220, -1066.7, 2133.3, 0, 3200, -2333.9, 966.7 },
+            { 1498, 1220, -533.3, 2133.3, 3733.3, 5866.7, 0, 0 },
+            { 1545, 1220, -2666.7, 0, 4800, 8000, 0, -0 },
             { 1599, 1, 4800, 5866.7, -4266.7, -3200, -490.6, -0.4 },
             { 1609, 571, 6400, 8533.3, -1600, 533.3, 512.8, 545.3 },
         }
@@ -152,7 +173,12 @@ if not oldversion or oldversion < 17 then
     local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
     -- gather the data of one map (by uiMapID)
     local function processMap(id, data, parent)
-        if not id or not data or mapData[id] then return end
+        if not id or mapData[id] then return end
+
+        if not data then
+            data = C_Map.GetMapInfo(id)
+            if not data then return end
+        end
 
         if data.parentMapID and data.parentMapID ~= 0 then
             parent = data.parentMapID
@@ -161,13 +187,26 @@ if not oldversion or oldversion < 17 then
         end
 
         -- get two positions from the map, we use 0/0 and 0.5/0.5 to avoid issues on some maps where 1/1 is translated inaccurately
-        local instance, topLeft = C_Map.GetWorldPosFromMapPos(id, vector00)
-        local _, bottomRight = C_Map.GetWorldPosFromMapPos(id, vector05)
-        if topLeft and bottomRight then
-            local top, left = topLeft:GetXY()
-            local bottom, right = bottomRight:GetXY()
-            bottom = top + (bottom - top) * 2
-            right = left + (right - left) * 2
+        local instance, center = C_Map.GetWorldPosFromMapPos(id, vector05)
+        local width, height
+        if C_Map.GetMapWorldSize then
+            width, height = C_Map.GetMapWorldSize(id)
+        else
+            -- compat for classic... why does that not have GetMapWorldSize?
+            local _, topleft = C_Map.GetWorldPosFromMapPos(id, vector00)
+            if center and topleft then
+                local top, left = topleft:GetXY()
+                local bottom, right = center:GetXY()
+                width = (left - right) * 2
+                height = (top - bottom) * 2
+            end
+        end
+        if center and width and height then
+           local top, left = center:GetXY()
+           top = top + (height / 2)
+           local bottom = top - height
+           left = left + (width / 2)
+           local right = left - width
 
             instance, left, right, top, bottom = applyMapTransforms(instance, left, right, top, bottom)
             mapData[id] = {left - right, top - bottom, left, top, instance = instance, name = data.name, mapType = data.mapType, parent = parent }
@@ -194,7 +233,7 @@ if not oldversion or oldversion < 17 then
                             for k = 1, #groupMembers do
                                 local memberId = groupMembers[k].mapID
                                 if memberId and not mapData[memberId] then
-                                    processMap(memberId, C_Map.GetMapInfo(memberId), parent)
+                                    processMap(memberId, nil, parent)
                                     processMapChildrenRecursive(memberId)
                                 end
                             end
@@ -225,14 +264,26 @@ if not oldversion or oldversion < 17 then
             worldMapData[0] = { 48033.24, 32020.8, 36867.97, 14848.84 }
             worldMapData[1] = { 47908.72, 31935.28, 8552.61, 18467.83 }
             worldMapData[571] = { 47662.7, 31772.19, 25198.53, 11072.07 }
+        elseif WoWCata then
+            worldMapData[0] = { 48033.24, 32020.8, 36867.97, 14848.84 }
+            worldMapData[1] = { 47908.72, 31935.28, 8552.61, 18467.83 }
+            worldMapData[571] = { 47662.7, 31772.19, 25198.53, 11072.07 }
+        elseif WoWMists then
+            worldMapData[0] = { 57114.85, 38082.53, 46284.08, 15795.1 }
+            worldMapData[1] = { 58984.3, 39319.22, 10153.84, 19536.12 }
+            worldMapData[571] = { 56338.03, 37567.89, 29892.96, 11496.56 }
+            worldMapData[870] = { 53103.22, 35408.03, 28648.8, 30726.23 }
         else
             worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
-            worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
+            worldMapData[1] = { 77621.12, 51854.98, 12444.4, 28030.61 }
             worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
             worldMapData[870] = { 67710.54, 45118.08, 33565.89, 38020.67 }
             worldMapData[1220] = { 82758.64, 55151.28, 52943.46, 24484.72 }
             worldMapData[1642] = { 77933.3, 51988.91, 44262.36, 32835.1 }
             worldMapData[1643] = { 76060.47, 50696.96, 55384.8, 25774.35 }
+            worldMapData[2444] = { 111420.37, 74283, 86088.21, 15682.4 }
+            worldMapData[2552] = { 82171.44, 54787.67, 21219.3, 47876.05 }
+            worldMapData[2601] = { 67929.29, 49267.42, 18325.63, 42233.06 }
         end
     end
 
@@ -327,6 +378,9 @@ end
 
 local function OnEvent(frame, event, ...)
     UpdateCurrentPosition(true)
+
+    -- try to work around missing zone changes where the event fires before the zone updates
+    StartUpdateTimer()
 end
 
 HereBeDragons.eventFrame:SetScript("OnEvent", OnEvent)
@@ -461,6 +515,12 @@ function HereBeDragons:TranslateZoneCoordinates(x, y, oZone, dZone, allowOutOfBo
         return TranslateAzerothWorldMapCoordinates(self, x, y, oZone, dZone, allowOutOfBounds)
     end
 
+    -- override translation for special cases that share a map but not an instance
+    -- these cases should typically just translate from a zone to their continent map
+    if zoneTranslateOverrides[oZone] and zoneTranslateOverrides[oZone][dZone] then
+        return Lerp(zoneTranslateOverrides[oZone][dZone][1], zoneTranslateOverrides[oZone][dZone][2], x), Lerp(zoneTranslateOverrides[oZone][dZone][3], zoneTranslateOverrides[oZone][dZone][4], y)
+    end
+
     local xCoord, yCoord, instance = self:GetWorldCoordinatesFromZone(x, y, oZone)
     if not xCoord then return nil, nil end
 
@@ -514,7 +574,7 @@ end
 -- @return angle, distance where angle is in radians and distance in yards
 function HereBeDragons:GetWorldVector(instanceID, oX, oY, dX, dY)
     local distance, deltaX, deltaY = self:GetWorldDistance(instanceID, oX, oY, dX, dY)
-    if not distance or not deltaX or not deltaY then return nil, nil end
+    if not distance then return nil, nil end
 
     -- calculate the angle from deltaY and deltaX
     local angle = atan2(-deltaX, deltaY)
