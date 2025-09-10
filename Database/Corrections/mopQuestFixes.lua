@@ -3598,7 +3598,7 @@ function MopQuestFixes.Load()
         },
         [30649] = { -- The Shrine of Two Moons
             [questKeys.startedBy] = {{58468}},
-            [questKeys.finishedBy] = {{58468}},
+            [questKeys.finishedBy] = {{58468,64007}},
             [questKeys.objectives] = {{{59908,nil,Questie.ICON_TYPE_TALK},{59959,nil,Questie.ICON_TYPE_TALK},{62996,nil,Questie.ICON_TYPE_TALK},{63996,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {31511},
         },
