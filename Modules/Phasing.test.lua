@@ -1900,4 +1900,38 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP))
         end)
     end)
+
+    describe("General Nazgrim Kun-lai", function()
+        it("should return true for tent location when 30665 is incomplete", function()
+            Questie.db.char.complete[30665] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+        end)
+
+        it("should return true for tent location when 30665 is incomplete in the quest log", function()
+            Questie.db.char.complete[30665] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30665]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+        end)
+
+        it("should return true for in outside tent location when 30665 is complete in the quest log", function()
+            Questie.db.char.complete[30665] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30665]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+        end)
+
+        it("should return true for in outside tent location when 30665 is complete", function()
+            Questie.db.char.complete[30665] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+        end)
+    end)
 end)

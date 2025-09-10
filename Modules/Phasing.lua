@@ -451,6 +451,8 @@ local phases = {
     SHIAO_AND_KO_ON_YAUNGOL_ADVANCE = 1379,
     SHIAO_AND_KO_IN_FRONT_OF_CAMP = 1380,
     SHIAO_AND_KO_IN_CAMP = 1381,
+    GENERAL_NAZGRIM_IN_TENT = 1382,
+    GENERAL_NAZGRIM_OUTSIDE_TENT = 1383,
 }
 Phasing.phases = phases
 
@@ -2068,6 +2070,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SHIAO_AND_KO_IN_CAMP then
         return complete[30515] or false
+    end
+
+    if phase == phases.GENERAL_NAZGRIM_IN_TENT then
+        return (not complete[30665]) and ((not questLog[30665]) or questLog[30665].isComplete == 0) or false
+    end
+
+    if phase == phases.GENERAL_NAZGRIM_OUTSIDE_TENT then
+        return complete[30665] or (questLog[30665] and questLog[30665].isComplete == 1) or false
     end
 
     return false

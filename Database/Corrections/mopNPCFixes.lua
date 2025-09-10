@@ -1380,6 +1380,12 @@ function MopNpcFixes.Load()
         [59441] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.77,82.67}}},
         },
+        [59442] = { -- General Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {63,80.2,phases.GENERAL_NAZGRIM_IN_TENT},
+                {62.2,80.38,phases.GENERAL_NAZGRIM_OUTSIDE_TENT},
+            }},
+        },
         [59452] = { -- Brother Rabbitsfoot
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 {51.97,67.21,phases.BROTHER_RABBITSFOOT_AT_BURLAP_WAYSTATION},
