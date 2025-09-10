@@ -5105,9 +5105,11 @@ function MopQuestFixes.Load()
         },
         [31254] = { -- The Road to Kun-Lai [Alliance]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31255] = { -- The Road to Kun-Lai [Horde]
             [questKeys.objectives] = {{{62738,nil,Questie.ICON_TYPE_TALK},{63367,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31256] = { -- Round 'Em Up
             [questKeys.preQuestSingle] = {30515},
