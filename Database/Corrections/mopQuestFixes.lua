@@ -1746,7 +1746,7 @@ function MopQuestFixes.Load()
         [30055] = { -- Stormstout's Hops
             [questKeys.startedBy] = {{56133}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30047,30050,30052,30053,30054,30057,30028,30172}, -- 30028,30053 not super certain, but high probability. turn those in last to check
+            [questKeys.preQuestGroup] = {30047,30050,30052,30053,30054,30057,30172},
         },
         [30056] = { -- The Farmer's Daughter
             [questKeys.preQuestSingle] = {30046},
@@ -5329,11 +5329,11 @@ function MopQuestFixes.Load()
         },
         [31369] = { -- The Anglers
             [questKeys.preQuestGroup] = {30635,30636,30637},
-            [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
+            [questKeys.requiredSkill] = {profKeys.FISHING,1},
         },
         [31370] = { -- The Anglers
             [questKeys.preQuestGroup] = {30635,30636,30637},
-            [questKeys.requiredSkill] = {profKeys.FISHING,1}, -- could also need actual prequest (31026 31092 31357 31398)
+            [questKeys.requiredSkill] = {profKeys.FISHING,1},
         },
         [31372] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
