@@ -3865,6 +3865,9 @@ function MopNpcFixes.Load()
                 {50.18,10.2,phases.CHEN_AT_BREWGARDEN},
             }},
         },
+        [67370] = { -- Jeremy Feasel
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.71,62.65},{-1,-1}}},
+        },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
         },
