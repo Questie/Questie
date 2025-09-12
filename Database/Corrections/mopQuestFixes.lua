@@ -6219,7 +6219,7 @@ function MopQuestFixes.Load()
         },
         [31735] = { -- The Right Tool For The Job
             [questKeys.preQuestGroup] = {30069,31734},
-            [questKeys.objectives] = {nil,{{215390},{215390}},nil,nil,{{{66396},66396,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,{{215390},{215390}},nil,nil,{{{66396,66406},66396,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31736] = { -- Envoy of the Alliance
             [questKeys.preQuestSingle] = {31735},
