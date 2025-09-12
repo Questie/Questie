@@ -3515,6 +3515,7 @@ function MopQuestFixes.Load()
         },
         [30631] = { -- The Shrine of Seven Stars
             [questKeys.startedBy] = {{58468}},
+            [questKeys.finishedBy] = {{58468,64031}},
             [questKeys.preQuestSingle] = {31512},
             [questKeys.objectives] = {{{59908,nil,Questie.ICON_TYPE_TALK},{59961,nil,Questie.ICON_TYPE_TALK},{64149,nil,Questie.ICON_TYPE_TALK},{64029,nil,Questie.ICON_TYPE_TALK}}},
         },
