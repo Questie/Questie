@@ -327,8 +327,8 @@ QuestieEvent.eventDates = {
     ["Midsummer"] = (isChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "13/9",
-        endDate = "19/9"
+        startDate = "2/10",
+        endDate = "8/10"
     },
     ["Pilgrim's Bounty"] = {startDate = "26/11", endDate = "2/12"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
