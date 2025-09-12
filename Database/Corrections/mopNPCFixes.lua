@@ -3194,6 +3194,9 @@ function MopNpcFixes.Load()
         [64033] = { -- Master Angler Marina
             [npcKeys.friendlyToFaction] = "A",
         },
+        [64041] = { -- Mifan
+            [npcKeys.friendlyToFaction] = "H",
+        },
         [64044] = { -- Thaumaturge Anjool
             [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{64.04,17.38}}},
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
