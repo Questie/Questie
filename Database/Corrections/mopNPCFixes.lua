@@ -1573,6 +1573,9 @@ function MopNpcFixes.Load()
         [59412] = { -- Knucklethump Jibstabber
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.95,64.83},{51.3,62.67},{50.4,64.78},{50.63,63.48},{50.4,62.71},{50.93,62.01},{49.83,63.93}},[zoneIDs.KNUCKLETHUMP_HOLE] = {{36.24,55.68},{77.87,47.64},{79.92,71.05},{69.56,83.37}}},
         },
+        [60008] = { -- Mok Mok
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{50.53,64.19}}},
+        },
         [60012] = { -- Imprisoned Grummle
             [npcKeys.spawns] = {[zoneIDs.KNUCKLETHUMP_HOLE] = {{24.19,11.87},{49.84,19.75},{48.54,23.08},{55.06,50.82},{83.61,45.42}},[zoneIDs.KUN_LAI_SUMMIT] = {{49.8,64},{50.2,62.4},{50.4,63.2},{50.8,62.8},{51,61.4},{51,61.6},{51.6,63.2}}},
         },
