@@ -149,6 +149,8 @@ QuestieDB.factionIDs = {
     FISH_FELLREED = 1282,
     FARMER_FUNG = 1283,
     THE_KLAXXI = 1337,
+    NOMI = 1357, -- hidden faction
+    THE_BLACK_PRINCE = 1359,
 }
 
 -- temporary, until we remove the old db funcitons

@@ -46,6 +46,26 @@ function QuestieReputation:Update(isInit)
         end
     end
 
+    if Expansions.Current >= Expansions.MoP then
+        playerReputations[1357] = {4, 0} -- Nomi, Neutral 0 rep
+        local repInfo = C_GossipInfo.GetFriendshipReputation(1357)
+        local standingId
+        if repInfo and repInfo.standing >= 0 then
+            if repInfo.standing < 3000 then
+                standingId = 4
+            elseif repInfo.standing < 9000 then
+                standingId = 5
+            elseif repInfo.standing < 21000 then
+                standingId = 6
+            elseif repInfo.standing < 42000 then
+                standingId = 7
+            else
+                standingId = 8
+            end
+            playerReputations[1357] = {standingId, repInfo.standing}
+        end
+    end
+
     return factionChanged, newFaction
 end
 
