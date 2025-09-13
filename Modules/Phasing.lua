@@ -1917,7 +1917,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VAELDRIN_AT_THE_INCURSION then
-        return complete[30465] and not complete[30363] or false -- 30465 is wrong, need to figure out what id it's supposed to be
+        return not complete[30363] or false
     end
 
     if phase == phases.VAELDRIN_SHATTERED_CONVOY then
