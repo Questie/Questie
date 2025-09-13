@@ -2295,6 +2295,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58967,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30241] = { -- Warn Stoneplow [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30174,30273},
             [questKeys.exclusiveTo] = {30376},
         },
         [30242] = { -- Survival Ring: Blades
@@ -2843,6 +2845,8 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Lyalia"),0,{{"monster",58976}}}},
         },
         [30360] = { -- Warn Stoneplow [Alliance]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30273,30445},
             [questKeys.exclusiveTo] = {30376},
         },
         [30361] = { -- The Mantid
@@ -7593,7 +7597,7 @@ function MopQuestFixes:LoadFactionFixes()
     local questFixesHorde = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30174,30273}, -- From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.preQuestGroup] = {30174,30273},
             [questKeys.exclusiveTo] = {30241},
         },
         [31695] = { -- Beyond The Wall
@@ -7608,7 +7612,7 @@ function MopQuestFixes:LoadFactionFixes()
     local questFixesAlliance = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {30359,30273}, -- From wowhead this has complicated requirements. It is not only 30273 as DB indicates (confirmed in game). At this point I had also completed all of the Four Winds quest hubs and most of Krasarang working east to west
+            [questKeys.preQuestGroup] = {30273,30445},
             [questKeys.exclusiveTo] = {30360},
         },
         [31695] = { -- Beyond The Wall
