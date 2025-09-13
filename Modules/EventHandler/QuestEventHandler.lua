@@ -209,7 +209,12 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
             for _, breadcrumbQuestId in pairs(breadcrumbs) do
                 -- We want to let users know when they picked up a quest without finishing its breadcrumb
                 if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
-                    QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
+                    local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
+                    local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
+
+                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) then
+                        QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
+                    end
                 end
             end
         end
