@@ -3661,7 +3661,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30657},
         },
         [30665] = { -- The Defense of Shado-Pan Fallback
-            [questKeys.preQuestGroup] = {30457,30459,30460}, -- check if it also needs 30650+30651+30660
+            [questKeys.preQuestGroup] = {30457,30459,30460},
             [questKeys.breadcrumbs] = {31453,31455},
         },
         [30670] = { -- Turnabout
