@@ -5406,6 +5406,35 @@ function MopQuestFixes.Load()
         [31329] = { -- A Beautiful Brooch
             [questKeys.requiredMinRep] = {1280,33600}, -- Tina at Good Friend level or above (33600+)
         },
+        [31332] = { -- Lesson 1: Sliced Peaches
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,0},
+            [questKeys.requiredMaxRep] = {factionIDs.NOMI,8400},
+        },
+        [31333] = { -- Lesson 2: Instant Noodles
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,8400},
+            [questKeys.requiredMaxRep] = {factionIDs.NOMI,16800},
+        },
+        [31334] = { -- Lesson 3: Toasted Fish Jerky
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,16800},
+            [questKeys.requiredMaxRep] = {factionIDs.NOMI,25200},
+        },
+        [31335] = { -- Lesson 4: Dried Needle Mushrooms
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,25200},
+            [questKeys.requiredMaxRep] = {factionIDs.NOMI,33600},
+        },
+        [31336] = { -- Lesson 5: Pounded Rice Cake
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,33600},
+            [questKeys.requiredMaxRep] = {factionIDs.NOMI,42000},
+        },
+        [31337] = { -- A Token of Appreciation
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,42000},
+        },
         [31338] = { -- Lost Sheepie
             [questKeys.requiredMinRep] = {1277,16800}, -- Buddy level with Chee Chee
         },
@@ -6549,6 +6578,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{66135,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [31820] = { -- A Present for Teacher
+            [questKeys.preQuestSingle] = {31521},
+            [questKeys.requiredMinRep] = {factionIDs.NOMI,42000},
         },
         [31821] = { -- Level Up!
             [questKeys.preQuestSingle] = {31309,31549,31553,31568,31583,31592},
