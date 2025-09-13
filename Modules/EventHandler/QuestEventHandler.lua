@@ -203,6 +203,18 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
 
+    if Questie.db.profile.questAnnounceIncompleteBreadcrumb then
+        local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
+        if breadcrumbs then
+            for _, breadcrumbQuestId in pairs(breadcrumbs) do
+                -- We want to let users know when they picked up a quest without finishing its breadcrumb
+                if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
+                    QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
+                end
+            end
+        end
+    end
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
