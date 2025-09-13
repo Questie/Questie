@@ -4104,7 +4104,7 @@ function MopQuestFixes.Load()
         [30898] = { -- Cutting the Swarm
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30895,30896,30897},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Man a Dragon Launcher"),0,{{"monster",61746},{"monster",62024}}}},
         },
         [30902] = { -- Round 4: Master Windfur
             [questKeys.questFlags] = questFlags.DAILY,
