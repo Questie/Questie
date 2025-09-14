@@ -6,6 +6,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerReputations = {}
 
@@ -205,7 +207,7 @@ local factionNameOverrides = {}
 ---@return string name @Name of the faction
 function QuestieReputation.GetFactionName(factionId)
     if factionNameOverrides[factionId] then
-        return factionNameOverrides[factionId]
+        return l10n(factionNameOverrides[factionId])
     end
 
     return select(1, GetFactionInfoByID(factionId))
