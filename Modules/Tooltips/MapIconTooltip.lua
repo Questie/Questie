@@ -194,7 +194,6 @@ function MapIconTooltip:Show()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
-        local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
         local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
 
         -- tooltips for quest icons on the map
@@ -332,11 +331,6 @@ function MapIconTooltip:Show()
                         factionName = QuestieReputation.GetFactionName(factionId)
                         if factionName then
                             rewardValue = rewardPair[2]
-
-                            if playerIsHuman and rewardValue > 0 then
-                                -- Humans get 10% more reputation
-                                rewardValue = math.floor(rewardValue * 1.1)
-                            end
 
                             if factionId == 932 then     -- Aldor
                                 scryersPenalty = 0 - math.floor(rewardValue * 1.1)
