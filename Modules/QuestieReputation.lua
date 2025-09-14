@@ -1,5 +1,7 @@
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieDB
@@ -187,6 +189,9 @@ function QuestieReputation.GetReputationReward(questId)
     local rewards = {}
     local knowsMrPopularityRank1 = IsSpellKnown(78634)
     local knowsMrPopularityRank2 = IsSpellKnown(78635)
+    local hasDarkmoonFaireReputationBuff = IsSpellKnown(46668)
+    local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
+	local diplomacyBonus, popularityBonus, dmfBonus = 0,0,0
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
@@ -199,11 +204,21 @@ function QuestieReputation.GetReputationReward(questId)
         end
 
         if reward then
-            if knowsMrPopularityRank2 then
-                reward = floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
-            elseif knowsMrPopularityRank1 then
-                reward = floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
+            if hasDarkmoonFaireReputationBuff then
+                dmfBonus = 0.1 -- 10% bonus reputation from Darkmoon Faire buff
             end
+
+            if playerIsHuman then
+                diplomacyBonus = 0.1 -- 10% bonus reputation from Human Racial
+            end
+
+            if knowsMrPopularityRank2 then
+                popularityBonus = 0.1 -- 10% bonus reputation from Mr. Popularity Rank 2
+            elseif knowsMrPopularityRank1 then
+                popularityBonus = 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
+            end
+
+            reward = reward * (1 + diplomacyBonus + popularityBonus + dmfBonus) -- need to figure out how to add commendation bonuses
             tinsert(rewards, {entry[1], reward})
         end
     end
