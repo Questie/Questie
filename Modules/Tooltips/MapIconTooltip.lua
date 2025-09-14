@@ -329,7 +329,7 @@ function MapIconTooltip:Show()
                             break
                         end
 
-                        factionName = select(1, GetFactionInfoByID(factionId))
+                        factionName = QuestieReputation.GetFactionName(factionId)
                         if factionName then
                             rewardValue = rewardPair[2]
 
@@ -349,10 +349,10 @@ function MapIconTooltip:Show()
                     end
 
                     if aldorPenalty then
-                        factionName = select(1, GetFactionInfoByID(932))
+                        factionName = QuestieReputation.GetFactionName(932)
                         rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
                     elseif scryersPenalty then
-                        factionName = select(1, GetFactionInfoByID(934))
+                        factionName = QuestieReputation.GetFactionName(934)
                         rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
                     end
 
