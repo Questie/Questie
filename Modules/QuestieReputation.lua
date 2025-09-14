@@ -201,7 +201,9 @@ function QuestieReputation.GetReputationReward(questId)
     return rewards
 end
 
-local factionNameOverrides = {}
+local factionNameOverrides = {
+    [QuestieDB.factionIDs.NOMI] = "Nomi",
+}
 
 ---@param factionId FactionId
 ---@return string name @Name of the faction
