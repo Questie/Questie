@@ -5494,6 +5494,7 @@ function MopQuestFixes.Load()
         [31468] = { -- Trial of the Black Prince
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {31454},
+            [questKeys.exclusiveTo] = {30118},
         },
         [31471] = { -- Agile as a Tiger
             [questKeys.objectives] = {nil,nil,{{74643}},nil,nil,{{104301}}},
