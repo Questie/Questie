@@ -2,6 +2,7 @@ dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/Expansions.lua")
 
 dofile("Database/itemDB.lua")
+dofile("Database/questDB.lua")
 dofile("Database/Zones/data/zoneIds.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
