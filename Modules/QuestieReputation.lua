@@ -49,8 +49,9 @@ function QuestieReputation:Update(isInit)
     end
 
     if Expansions.Current >= Expansions.MoP then
-        playerReputations[1357] = {4, 0} -- Nomi, Neutral 0 rep
-        local repInfo = C_GossipInfo.GetFriendshipReputation(1357)
+        local nomiFactionId = QuestieDB.factionIDs.NOMI
+        playerReputations[nomiFactionId] = {4, 0} -- Nomi, Neutral 0 rep
+        local repInfo = C_GossipInfo.GetFriendshipReputation(nomiFactionId)
         local standingId
         if repInfo and repInfo.standing >= 0 then
             if repInfo.standing < 3000 then
@@ -64,7 +65,7 @@ function QuestieReputation:Update(isInit)
             else
                 standingId = 8
             end
-            playerReputations[1357] = {standingId, repInfo.standing}
+            playerReputations[nomiFactionId] = {standingId, repInfo.standing}
         end
     end
 
@@ -79,7 +80,7 @@ end
 
 ---@return boolean
 _WinterSaberChanged = function(factionID, previousValues, barValue)
-    return factionID == 589 -- Wintersaber Trainer
+    return factionID == QuestieDB.factionIDs.WINTERSABER_TRAINERS
         and previousValues and ((previousValues[2] < 4500 and barValue >= 4500)
             or (previousValues[2] < 13000 and barValue >= 13000))
 end
@@ -122,7 +123,7 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         if playerReputations[maxFactionID] then
             hasMaxFaction = true
             belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
-        elseif maxFactionID == 909 then -- Darkmoon Faire
+        elseif maxFactionID == QuestieDB.factionIDs.DARKMOON_FAIRE then
             hasMaxFaction = true
             belowMaxRep = true
         end
