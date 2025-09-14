@@ -199,4 +199,16 @@ function QuestieReputation.GetReputationReward(questId)
     return rewards
 end
 
+local factionNameOverrides = {}
+
+---@param factionId FactionId
+---@return string name @Name of the faction
+function QuestieReputation.GetFactionName(factionId)
+    if factionNameOverrides[factionId] then
+        return factionNameOverrides[factionId]
+    end
+
+    return select(1, GetFactionInfoByID(factionId))
+end
+
 return QuestieReputation
