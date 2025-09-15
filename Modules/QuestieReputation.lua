@@ -13,7 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _HasDmfBuff
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _HasDmfBuff
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
@@ -178,11 +178,7 @@ function QuestieReputation.GetReputationReward(questId)
     end
 
     local rewards = {}
-    local knowsMrPopularityRank1 = IsSpellKnown(78634)
-    local knowsMrPopularityRank2 = IsSpellKnown(78635)
-    local hasDarkmoonFaireReputationBuff = _HasDmfBuff()
-    local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
-	local diplomacyBonus, popularityBonus, dmfBonus = 0, 0, 0
+    local reputationMultiplier = _GetRewardMultiplier()
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
@@ -195,26 +191,36 @@ function QuestieReputation.GetReputationReward(questId)
         end
 
         if reward then
-            if hasDarkmoonFaireReputationBuff then
-                dmfBonus = 0.1 -- 10% bonus reputation from Darkmoon Faire buff
-            end
-
-            if playerIsHuman then
-                diplomacyBonus = 0.1 -- 10% bonus reputation from Human Racial
-            end
-
-            if knowsMrPopularityRank2 then
-                popularityBonus = 0.1 -- 10% bonus reputation from Mr. Popularity Rank 2
-            elseif knowsMrPopularityRank1 then
-                popularityBonus = 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
-            end
-
-            reward = reward * (1 + diplomacyBonus + popularityBonus + dmfBonus) -- need to figure out how to add commendation bonuses
+            reward = reward * reputationMultiplier
             tinsert(rewards, {entry[1], reward})
         end
     end
 
     return rewards
+end
+
+_GetRewardMultiplier = function()
+    local knowsMrPopularityRank1 = IsSpellKnown(78634)
+    local knowsMrPopularityRank2 = IsSpellKnown(78635)
+    local hasDarkmoonFaireReputationBuff = _HasDmfBuff()
+    local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
+    local diplomacyBonus, popularityBonus, dmfBonus = 0, 0, 0
+
+    if hasDarkmoonFaireReputationBuff then
+        dmfBonus = 0.1 -- 10% bonus reputation from Darkmoon Faire buff
+    end
+
+    if playerIsHuman then
+        diplomacyBonus = 0.1 -- 10% bonus reputation from Human Racial
+    end
+
+    if knowsMrPopularityRank2 then
+        popularityBonus = 0.1 -- 10% bonus reputation from Mr. Popularity Rank 2
+    elseif knowsMrPopularityRank1 then
+        popularityBonus = 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
+    end
+
+    return 1 + diplomacyBonus + popularityBonus + dmfBonus -- need to figure out how to add commendation bonuses
 end
 
 ---@return boolean
