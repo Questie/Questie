@@ -362,4 +362,55 @@ describe("QuestieReputation", function()
             assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
         end)
     end)
+
+    describe("GetFactionName", function()
+        it("should return friend name when found", function()
+            _G.C_GossipInfo = {
+                GetFriendshipReputation = spy.new(function()
+                    return nil, nil, nil, "Jogu the Drunk", nil, nil, nil, nil, nil, nil
+                end)
+            }
+            _G.GetFactionInfoByID = spy.new(function() end)
+
+            local factionName = QuestieReputation.GetFactionName(1273)
+
+            assert.are.equal("Jogu the Drunk", factionName)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(1273)
+            assert.spy(_G.GetFactionInfoByID).was_not_called()
+        end)
+
+        it("should return faction name when not a friend", function()
+            _G.C_GossipInfo = {
+                GetFriendshipReputation = spy.new(function()
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                end)
+            }
+            _G.GetFactionInfoByID = spy.new(function()
+                return "Wintersaber Trainers", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+
+            local factionName = QuestieReputation.GetFactionName(589)
+
+            assert.are.equal("Wintersaber Trainers", factionName)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(589)
+            assert.spy(_G.GetFactionInfoByID).was_called_with(589)
+        end)
+
+        it("should return nil when factionId is unknown", function()
+            _G.C_GossipInfo = {
+                GetFriendshipReputation = spy.new(function()
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                end)
+            }
+            _G.GetFactionInfoByID = spy.new(function()
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+
+            local factionName = QuestieReputation.GetFactionName(1)
+
+            assert.is_nil(factionName)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(1)
+            assert.spy(_G.GetFactionInfoByID).was_called_with(1)
+        end)
+    end)
 end)
