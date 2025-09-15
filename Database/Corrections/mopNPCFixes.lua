@@ -3248,6 +3248,10 @@ function MopNpcFixes.Load()
         [64330] = { -- Julia Stevens
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{41.66,83.66}}},
         },
+        [64337] = { -- Nomi
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{53.24,51.22}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [64344] = { -- Kaz'tik the Manipulator
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{41.77,72.03,phases.KAZTIK_AT_THE_BRINY_MUCK}}},
         },
