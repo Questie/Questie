@@ -194,7 +194,7 @@ function MapIconTooltip:Show()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
-        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
+        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { QuestieDB.factionIDs.THE_SHA_TAR, 8999 }))
 
         -- tooltips for quest icons on the map
         for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
@@ -322,7 +322,7 @@ function MapIconTooltip:Show()
                     for _, rewardPair in pairs(reputationReward) do
                         factionId = rewardPair[1]
 
-                        if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                        if factionId == QuestieDB.factionIDs.THE_SHA_TAR and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
                             -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
                             -- with the Sha'tar
                             break
@@ -332,9 +332,9 @@ function MapIconTooltip:Show()
                         if factionName then
                             rewardValue = rewardPair[2]
 
-                            if factionId == 932 then     -- Aldor
+                            if factionId == QuestieDB.factionIDs.THE_ALDOR then     -- Aldor
                                 scryersPenalty = 0 - math.floor(rewardValue * 1.1)
-                            elseif factionId == 934 then -- Scryers
+                            elseif factionId == QuestieDB.factionIDs.THE_SCRYERS then -- Scryers
                                 aldorPenalty = 0 - math.floor(rewardValue * 1.1)
                             end
 
