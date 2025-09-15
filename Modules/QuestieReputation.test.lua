@@ -22,6 +22,9 @@ describe("QuestieReputation", function()
         _G.IsSpellKnown = spy.new(function()
             return false
         end)
+        _G.UnitAura = spy.new(function()
+            return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+        end)
 
         Expansions = require("Modules.Expansions")
         QuestiePlayer = require("Modules.QuestiePlayer")
@@ -342,6 +345,21 @@ describe("QuestieReputation", function()
 
             assert.are.same({{909, 82.5}}, reputationReward)
             assert.spy(_G.IsSpellKnown).was_called_with(78635)
+        end)
+
+
+        it("should respect DMF buff bonus", function()
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.UnitAura = spy.new(function(_, i, _)
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668, nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
         end)
     end)
 end)

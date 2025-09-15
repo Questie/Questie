@@ -13,7 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged
+local _ReachedNewStanding, _WinterSaberChanged, _HasDmfBuff
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
@@ -189,7 +189,7 @@ function QuestieReputation.GetReputationReward(questId)
     local rewards = {}
     local knowsMrPopularityRank1 = IsSpellKnown(78634)
     local knowsMrPopularityRank2 = IsSpellKnown(78635)
-    local hasDarkmoonFaireReputationBuff = IsSpellKnown(46668)
+    local hasDarkmoonFaireReputationBuff = _HasDmfBuff()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
 	local diplomacyBonus, popularityBonus, dmfBonus = 0, 0, 0
     for _, entry in pairs(reputationReward) do
@@ -224,6 +224,20 @@ function QuestieReputation.GetReputationReward(questId)
     end
 
     return rewards
+end
+
+---@return boolean
+_HasDmfBuff = function()
+    for i = 1, 40 do
+        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        if spellId == nil then
+            return false
+        end
+
+        if spellId == 46668 then
+            return true
+        end
+    end
 end
 
 local factionNameOverrides = {
