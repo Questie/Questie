@@ -3,6 +3,8 @@ dofile("setupTests.lua")
 describe("QuestieReputation", function()
     ---@type QuestieReputation
     local QuestieReputation
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieQuest
     local QuestieQuest
     ---@type QuestieDB
@@ -22,6 +24,8 @@ describe("QuestieReputation", function()
         end)
 
         Expansions = require("Modules.Expansions")
+        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer.HasRequiredRace = spy.new(function() return false end)
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
@@ -296,6 +300,18 @@ describe("QuestieReputation", function()
             assert.are.same({{909, -10}}, reputationReward)
         end)
 
+        it("should respect diplomacy bonus", function()
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            QuestiePlayer.HasRequiredRace = spy.new(function() return true end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+        end)
+
         it("should respect Mr. Popularity rank 1 guild perk", function()
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
@@ -308,7 +324,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 78}}, reputationReward)
+            assert.are.same({{909, 78.75}}, reputationReward)
             assert.spy(_G.IsSpellKnown).was_called_with(78634)
         end)
 
@@ -324,7 +340,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82}}, reputationReward)
+            assert.are.same({{909, 82.5}}, reputationReward)
             assert.spy(_G.IsSpellKnown).was_called_with(78635)
         end)
     end)

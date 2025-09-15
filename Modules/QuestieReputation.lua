@@ -182,7 +182,7 @@ function QuestieReputation.GetReputationReward(questId)
     local knowsMrPopularityRank2 = IsSpellKnown(78635)
     local hasDarkmoonFaireReputationBuff = IsSpellKnown(46668)
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
-	local diplomacyBonus, popularityBonus, dmfBonus = 0,0,0
+	local diplomacyBonus, popularityBonus, dmfBonus = 0, 0, 0
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
