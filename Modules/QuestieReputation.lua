@@ -204,23 +204,23 @@ _GetRewardMultiplier = function()
     local knowsMrPopularityRank2 = IsSpellKnown(78635)
     local hasDarkmoonFaireReputationBuff = _HasDmfBuff()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
-    local diplomacyBonus, popularityBonus, dmfBonus = 0, 0, 0
+    local multiplier = 1
 
     if hasDarkmoonFaireReputationBuff then
-        dmfBonus = 0.1 -- 10% bonus reputation from Darkmoon Faire buff
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Darkmoon Faire buff
     end
 
     if playerIsHuman then
-        diplomacyBonus = 0.1 -- 10% bonus reputation from Human Racial
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
     end
 
     if knowsMrPopularityRank2 then
-        popularityBonus = 0.1 -- 10% bonus reputation from Mr. Popularity Rank 2
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Mr. Popularity Rank 2
     elseif knowsMrPopularityRank1 then
-        popularityBonus = 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
+        multiplier = multiplier + 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
     end
 
-    return 1 + diplomacyBonus + popularityBonus + dmfBonus -- need to figure out how to add commendation bonuses
+    return multiplier -- need to figure out how to add commendation bonuses
 end
 
 ---@return boolean
