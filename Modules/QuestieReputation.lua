@@ -237,15 +237,12 @@ _HasDmfBuff = function()
     end
 end
 
-local factionNameOverrides = {
-    [QuestieDB.factionIDs.NOMI] = "Nomi",
-}
-
 ---@param factionId FactionId
 ---@return string name @Name of the faction
 function QuestieReputation.GetFactionName(factionId)
-    if factionNameOverrides[factionId] then
-        return l10n(factionNameOverrides[factionId])
+    local friendName = select(4, C_GossipInfo.GetFriendshipReputation(factionId))
+    if friendName then
+        return friendName
     end
 
     return select(1, GetFactionInfoByID(factionId))
