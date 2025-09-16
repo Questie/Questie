@@ -1022,7 +1022,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29725},
             [questKeys.objectives] = {{{55378,nil,Questie.ICON_TYPE_INTERACT},{55380,nil,Questie.ICON_TYPE_INTERACT},{55381,nil,Questie.ICON_TYPE_TALK}},{{209615}}},
         },
-        [29727] = { -- SI:7 Report: Hostile Natives
+        [29727] = { -- SI:7 Report: Take No Prisoners
             [questKeys.preQuestSingle] = {29726},
             [questKeys.objectives] = {{{55408,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use it"),0,{{"object",209621}}}},
@@ -1033,6 +1033,7 @@ function MopQuestFixes.Load()
         },
         [29731] = { -- Scouting Report: On the Right Track
             [questKeys.preQuestSingle] = {29730},
+            [questKeys.objectives] = {{{55770,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29733] = { -- SI:7 Report: Lost in the Woods
             [questKeys.preQuestSingle] = {29894},
@@ -1047,7 +1048,6 @@ function MopQuestFixes.Load()
         [29745] = { -- The Sprites' Plight
             [questKeys.finishedBy] = {{110004}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {29744},
             [questKeys.objectives] = {{{55288},{55471,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29747] = { -- Break the Cycle
@@ -1280,6 +1280,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take a ride"),0,{{"monster",57741}}}},
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
         },
+        -- [29804] = { -- Seein' Red -- check if it also needs 27943
         [29815] = { -- Forensic Science
             [questKeys.objectives] = {nil,nil,{{74621}}},
             [questKeys.preQuestSingle] = {31999},
@@ -1297,7 +1298,8 @@ function MopQuestFixes.Load()
         },
         [29824] = { -- Scouting Report: Like Jinyu in a Barrel
             [questKeys.preQuestSingle] = {29823},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in"),0,{{"object",209621}}}},
+            [questKeys.objectives] = {{{55667,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use it"),0,{{"object",209621}}}},
         },
         [29827] = { -- Acid Rain
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",55674}}}},
@@ -1309,22 +1311,22 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31230},
         },
         [29871] = { -- Clever Ashyo
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30086,30087},
             [questKeys.breadcrumbForQuestId] = 29577,
         },
         [29872] = { -- Lin Tenderpaw
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30086,30087},
             [questKeys.breadcrumbForQuestId] = 29981,
         },
         [29873] = { -- Ken-Ken
             [questKeys.breadcrumbForQuestId] = 30079,
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30086,30087},
         },
         [29874] = { -- Kang Bramblestaff [Alliance]
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30086,30087},
         },
         [29875] = { -- Kang Bramblestaff [Horde]
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {30086,30087},
         },
         [29877] = { -- A Poor Grasp of the Basics
             [questKeys.preQuestSingle] = {29907},
@@ -1454,7 +1456,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31167},
         },
         [29925] = { -- All We Can Spare
-            [questKeys.preQuestSingle] = {29723}, -- could also be 29716
+            [questKeys.preQuestSingle] = {29723},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Toya"),0,{{"monster",56348}}}},
         },
         [29926] = { -- Calamity Jade
@@ -1536,7 +1538,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Chen"),0,{{"monster",56133}}}},
         },
         [29966] = { -- Burning Down the House
-            [questKeys.objectives] = {{{56509,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,{{212404,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29967] = { -- Boom Goes the Doonamite!
             [questKeys.objectives] = {nil,nil,nil,nil,{{{56603,56624,56639,56644,56645},56603}}},
@@ -1546,7 +1548,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29824},
         },
         [29971] = { -- The Scouts Return
-            [questKeys.preQuestGroup] = {29939,29942},
+            [questKeys.preQuestGroup] = {29939,29942,31239}, -- could also need 29933
         },
         [29981] = { -- Stemming the Swarm
             [questKeys.preQuestSingle] = {},
@@ -1621,6 +1623,7 @@ function MopQuestFixes.Load()
         [30015] = { -- Dawn's Blossom
             [questKeys.preQuestSingle] = {29967},
             [questKeys.preQuestGroup] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to Dawn's Blossom"),0,{{"monster",60952}}}},
         },
         [30027] = { -- The Lesson of the Iron Bough
             [questKeys.requiredLevel] = 1,
@@ -1845,7 +1848,7 @@ function MopQuestFixes.Load()
         },
         [30086] = { -- The Search for the Hidden Master
             [questKeys.preQuestGroup] = {29908,29877},
-            [questKeys.exclusiveTo] = {30087}, -- estimated guess
+            [questKeys.exclusiveTo] = {30079,29981,29577,30087}, -- need to find followups for Kang Bramblestaff quests 29874A/29875H
         },
         [30088] = { -- Why So Serious?
             [questKeys.preQuestSingle] = {30081},
@@ -3218,7 +3221,6 @@ function MopQuestFixes.Load()
         [30466] = { -- Sufficient Motivation
             [questKeys.objectives] = {nil,nil,{{79884}},nil,{{{59740,59296},59296,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30000},
-            [questKeys.breadcrumbs] = {30499},
         },
         [30467] = { -- My Son...
             [questKeys.breadcrumbs] = {31451,31452},
@@ -3298,7 +3300,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31136,31248,31249,31250},
         },
         [30484] = { -- Gauging Our Progress
-            [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}}, -- why is there item with icon correction? - Cheeq
+            [questKeys.objectives] = {nil,nil,{{80013,nil,Questie.ICON_TYPE_TALK},{80014,nil,Questie.ICON_TYPE_TALK},{80015,nil,Questie.ICON_TYPE_TALK},{80061,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.breadcrumbs] = {30499},
+            [questKeys.preQuestSingle] = {30000},
         },
         [30485] = { -- Last Piece of the Puzzle
             [questKeys.preQuestGroup] = {30466,30484},
@@ -3336,7 +3340,7 @@ function MopQuestFixes.Load()
         },
         [30499] = { -- Get Back Here! (Horde)
             [questKeys.preQuestSingle] = {30000},
-            [questKeys.breadcrumbForQuestId] = 30466,
+            [questKeys.breadcrumbForQuestId] = 30484,
         },
         [30502] = { -- Jaded Heart
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59434,59454},59454}}},
@@ -6454,17 +6458,20 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 115913,
         },
         [31765] = { -- Paint it Red!
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66677}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",66674},{"monster",66676},{"monster",66677}}}},
         },
         [31766] = { -- Touching Ground
-            [questKeys.objectives] = {nil,{{440009}}},
+            [questKeys.objectives] = {nil,{{215689}}},
         },
         [31768] = { -- Fire Is Always the Answer
             [questKeys.objectives] = {{{66308,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31766},
         },
         [31769] = { -- The Final Blow!
-            [questKeys.objectives] = {{{66554,nil,Questie.ICON_TYPE_INTERACT},{66555,nil,Questie.ICON_TYPE_INTERACT},{66556,nil,Questie.ICON_TYPE_INTERACT},{66283,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {31767,31768},
+            [questKeys.objectives] = {{{66554,nil,Questie.ICON_TYPE_EVENT},{66555,nil,Questie.ICON_TYPE_EVENT},{66556,nil,Questie.ICON_TYPE_EVENT},{66283,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Blow up the explosives"),0,{{"object",215650}}}},
         },
         [31770] = { -- You're Either With Us Or...
             [questKeys.objectives] = {{{66220,nil,Questie.ICON_TYPE_TALK}}},
@@ -6484,13 +6491,14 @@ function MopQuestFixes.Load()
         [31774] = { -- Seeking Zin'jun
             [questKeys.finishedBy] = {{55403}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29694,31770,31771,31773},
+            [questKeys.preQuestGroup] = {29694,31770,31771,31773}, -- check if it also needs Priorities! 31772/31978
         },
         [31775] = { -- Assault on the Airstrip
             [questKeys.preQuestSingle] = {29804},
         },
         [31776] = { -- Strongarm Tactics
             [questKeys.preQuestSingle] = {29804},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{65882,65883},65882},{{65883},65883},{{65880},65880},{{65881},65881}}},
         },
         [31777] = { -- Choppertunity
             [questKeys.requiredSourceItems] = {89163},
@@ -6503,7 +6511,7 @@ function MopQuestFixes.Load()
         [31779] = { -- The Darkness Within
             [questKeys.finishedBy] = {nil,{215844}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31775,31776,31777,31778,},
+            [questKeys.preQuestGroup] = {31775,31776,31777,31778},
         },
         [31780] = { -- Old MacDonald
             [questKeys.requiredSpell] = 119467,

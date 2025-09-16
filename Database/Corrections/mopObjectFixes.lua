@@ -50,10 +50,6 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.64,59.98},{55.84,59.62},{56.31,60.1},{56.71,60.02},{56.76,60.24},{56.53,61.16},{56.29,60.81},{55.51,60.64},{55.79,60.12},{55.69,59.71},{56.3,59.8},{56.47,60.82},{56.84,60.46},{56.57,61.03},{55.72,60.78}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
-        [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
-            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
-        },
         [209629] = { -- Staff of Pei-Zhi
             [objectKeys.name] = 'Staff of Pei-Zhi',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.23,14.9}}},
@@ -747,9 +743,19 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.81,95.12},{46.03,96.11}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [215650] = { -- Thunder Hold Explosives
+            [objectKeys.name] = 'Thunder Hold Explosives',
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.93,10.81},{34.94,10.79},{34.96,10.78},{34.96,10.76},{34.93,10.71},{34.94,10.52},{34.91,10.44},{34.93,10.46},{34.95,10.47},{34.95,10.5},{34.76,9.95},{34.8,9.9},{34.77,9.88},{34.79,9.84},{34.77,9.84},{33.96,9.76},{33.99,9.75},{33.98,9.78},{33.96,9.83},{33.97,9.95},{34.05,9.95}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [215682] = { -- Skyfire Parachute
             [objectKeys.name] = 'Skyfire Parachute',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.31,92.81}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215689] = {
+            [objectKeys.name] = "Rappelling Rope",
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.51,11.1},{31.43,10.69},{31.35,10.42}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
         [215705] = { -- Tillers Shrine
@@ -838,10 +844,30 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
-        [440009] = {
-            [objectKeys.name] = "Rappelling Rope",
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.51,11.1},{31.43,10.69},{31.55,10.43}}},
+    }
+end
+
+function MopObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local objectFixesHorde = {
+        [209621] = { -- Sniper Rifle
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
+
+    local objectFixesAlliance = {
+        [209621] = { -- Sniper Rifle
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59,54.42}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
 end

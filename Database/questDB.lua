@@ -157,7 +157,7 @@ QuestieDB.factionIDs = {
     THE_BLACK_PRINCE = 1359,
 }
 
--- temporary, until we remove the old db funcitons
+-- temporary, until we remove the old db functions
 QuestieDB._questAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.questKeys) do
     QuestieDB._questAdapterQueryOrder[id] = key
