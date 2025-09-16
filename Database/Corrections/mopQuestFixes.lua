@@ -1735,7 +1735,7 @@ function MopQuestFixes.Load()
         },
         [30052] = { -- Weed War
             [questKeys.preQuestSingle] = {30046},
-            [questKeys.objectives] = {{{57306,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{57306,57307,57308},57306,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Gai Lan"),0,{{"monster",57385}}}},
         },
         [30053] = { -- Hop Hunting
@@ -2731,6 +2731,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385}}}},
             [questKeys.exclusiveTo] = {30317,30318,30319,30322},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.JOGU_THE_DRUNK,11}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{57306,57307,57308},57306,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30322] = { -- Money Matters
             [questKeys.preQuestSingle] = {30257},
