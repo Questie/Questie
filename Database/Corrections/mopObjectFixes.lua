@@ -773,6 +773,11 @@ function MopObjectFixes.Load()
         [216106] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [218229] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{49.54,83.26}}},
+            [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [220069] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,83.24}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
