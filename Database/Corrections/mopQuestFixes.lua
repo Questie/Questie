@@ -5075,6 +5075,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{62151,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63615,63635,63636,65455,63613},63613},{{63637,65513,63625},63625}}},
         },
         [31216] = { -- Dark Skies
+            [questKeys.objectives] = {{{62151,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{63615,63635,63636,65455,63613},63613},{{63637,65513,63625},63625}}},
             [questKeys.preQuestSingle] = {31211}, -- being offered only when the NPC reaches the quest hub during quest 31211
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.questFlags] = questFlags.DAILY,
