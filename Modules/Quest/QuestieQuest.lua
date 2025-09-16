@@ -417,6 +417,7 @@ end
 
 local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
 local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
+local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
@@ -451,6 +452,8 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
             elseif hordeTournamentMarkerQuests[questId] then
                 Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            elseif xiaoFollowUpQuests[questId] then
+                Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
             end
 
             TaskQueue:Queue(
