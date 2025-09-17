@@ -1053,8 +1053,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {
                 [zoneIDs.GRIZZLY_HILLS] = {
                     {57.6,41.2}, -- She is always at this place, but sometimes also at the ones below
-                    {64.8,43.4,phases.SASHA_DUSKHOWL_DEN},
-                    {87,25.6,phases.SASHA_BLOODMOON_ISLE},
+                    {64.8,43.4,phases.SASHA_AT_DUSKHOWL_DEN},
+                    {87,25.6,phases.SASHA_AT_BLOODMOON_ISLE},
                 },
             },
             [npcKeys.waypoints] = {},
