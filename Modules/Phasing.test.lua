@@ -1453,7 +1453,7 @@ describe("Phasing", function()
             Questie.db.char.complete[31179] = true
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
-            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
             assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
         end)
 
@@ -1461,7 +1461,7 @@ describe("Phasing", function()
             Questie.db.char.complete[31179] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[31179]={isComplete=1}}
 
-            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
             assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
         end)
 
@@ -1470,7 +1470,7 @@ describe("Phasing", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
             assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
-            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VEES))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
         end)
     end)
 
