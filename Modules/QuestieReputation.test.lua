@@ -367,7 +367,7 @@ describe("QuestieReputation", function()
         it("should return friend name when found", function()
             _G.C_GossipInfo = {
                 GetFriendshipReputation = spy.new(function()
-                    return nil, nil, nil, "Jogu the Drunk", nil, nil, nil, nil, nil, nil
+                    return {name = "Jogu the Drunk"}
                 end)
             }
             _G.GetFactionInfoByID = spy.new(function() end)
@@ -382,7 +382,7 @@ describe("QuestieReputation", function()
         it("should return faction name when not a friend", function()
             _G.C_GossipInfo = {
                 GetFriendshipReputation = spy.new(function()
-                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                    return {}
                 end)
             }
             _G.GetFactionInfoByID = spy.new(function()
@@ -399,7 +399,7 @@ describe("QuestieReputation", function()
         it("should return nil when factionId is unknown", function()
             _G.C_GossipInfo = {
                 GetFriendshipReputation = spy.new(function()
-                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                    return {}
                 end)
             }
             _G.GetFactionInfoByID = spy.new(function()
