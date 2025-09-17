@@ -434,6 +434,40 @@ describe("QuestieReputation", function()
             }, reputationReward)
             assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
+
+        it("should show Scryers reputation penalty on Aldor quests for WotLK and before", function()
+            Expansions.Current = Expansions.Wotlk
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{QuestieDB.factionIDs.THE_ALDOR, 1000}}
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_ALDOR, 1000},
+                {QuestieDB.factionIDs.THE_SCRYERS, -1100},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+        end)
+
+        it("should show Aldor reputation penalty on Scryers quests for WotLK and before", function()
+            Expansions.Current = Expansions.Wotlk
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{QuestieDB.factionIDs.THE_SCRYERS, 1000}}
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_SCRYERS, 1000},
+                {QuestieDB.factionIDs.THE_ALDOR, -1100},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+        end)
     end)
 
     describe("GetFactionName", function()

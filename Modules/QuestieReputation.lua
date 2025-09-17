@@ -209,6 +209,21 @@ function QuestieReputation.GetReputationReward(questId)
         end
     end
 
+    -- Add Aldor/Scryer penalty to quests from the opposite faction
+    for _, entry in pairs(reputationReward) do
+        local factionId = entry[1]
+        local value = entry[2]
+        if factionId == QuestieDB.factionIDs.THE_ALDOR then
+            value = 0 - floor(value * 1.1)
+            tinsert(reputationReward, {QuestieDB.factionIDs.THE_SCRYERS, value})
+            break
+        elseif factionId == QuestieDB.factionIDs.THE_SCRYERS then
+            value = 0 - floor(value * 1.1)
+            tinsert(reputationReward, {QuestieDB.factionIDs.THE_ALDOR, value})
+            break
+        end
+    end
+
     if Expansions.Current <= Expansions.Wotlk then
         return reputationReward
     end
