@@ -185,13 +185,15 @@ function QuestieReputation.GetReputationReward(questId)
         return {}
     end
 
-    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ QuestieDB.factionIDs.THE_SHA_TAR, 9000 }, nil)
+    local factionIDs = QuestieDB.factionIDs
+
+    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHA_TAR, 9000 }, nil)
     -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
     if playerIsHonoredWithShaTar then
         local hasAldorOrScryer = false
         for _, entry in pairs(reputationReward) do
             local factionId = entry[1]
-            if factionId == QuestieDB.factionIDs.THE_ALDOR or factionId == QuestieDB.factionIDs.THE_SCRYERS then
+            if factionId == factionIDs.THE_ALDOR or factionId == factionIDs.THE_SCRYERS then
                 hasAldorOrScryer = true
                 break
             end
@@ -201,7 +203,7 @@ function QuestieReputation.GetReputationReward(questId)
             local filteredReputationReward = {}
             for _, entry in pairs(reputationReward) do
                 local factionId = entry[1]
-                if factionId ~= QuestieDB.factionIDs.THE_SHA_TAR then
+                if factionId ~= factionIDs.THE_SHA_TAR then
                     tinsert(filteredReputationReward, entry)
                 end
             end
@@ -216,13 +218,13 @@ function QuestieReputation.GetReputationReward(questId)
         if Expansions.Current > Expansions.Wotlk then
             value = reputationRewards[value]
         end
-        if factionId == QuestieDB.factionIDs.THE_ALDOR then
+        if factionId == factionIDs.THE_ALDOR then
             value = 0 - floor(value * 1.1)
-            tinsert(reputationReward, {QuestieDB.factionIDs.THE_SCRYERS, value})
+            tinsert(reputationReward, {factionIDs.THE_SCRYERS, value})
             break
-        elseif factionId == QuestieDB.factionIDs.THE_SCRYERS then
+        elseif factionId == factionIDs.THE_SCRYERS then
             value = 0 - floor(value * 1.1)
-            tinsert(reputationReward, {QuestieDB.factionIDs.THE_ALDOR, value})
+            tinsert(reputationReward, {factionIDs.THE_ALDOR, value})
             break
         end
     end
