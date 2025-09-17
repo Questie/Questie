@@ -559,6 +559,12 @@ function MopNpcFixes.Load()
                 {18.06,31.01,phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW},
             }},
         },
+        [56112] = { -- Kang Bramblestaff
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
+                {60.09,25,phases.KOR_AT_THUNDER_CLEFT},
+                {28.84,50.57,phases.KOR_AT_DAWNCHASER_RETREAT},
+            }},
+        },
         [56113] = { -- Clever Ashyo
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {
                 {59.25,27.56,phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY},
@@ -877,10 +883,19 @@ function MopNpcFixes.Load()
         },
         [58113] = { -- Sunwalker Dezco
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
-                {60.41,25.57,phases.DEZCO_AT_THUNDER_CLEFT},
-                {15.98,39.78,phases.DEZCO_AT_SHATTERED_CONVOY},
-                {28.89,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
+                {59.88,24.7,phases.DEZCO_AT_THUNDER_CLEFT},
+                {60.42,25.58,phases.DEZCO_AT_THUNDER_CLEFT_TENT},
             }},
+        },
+        [58114] = { -- Kor Bloodtusk
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
+                {59.87,24.81,phases.KOR_AT_THUNDER_CLEFT},
+                {28.69,50.88,phases.KOR_AT_DAWNCHASER_RETREAT},
+            }},
+        },
+        [58206] = { -- Kang Bramblestaff
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{60.09,25}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [58224] = { -- Groundbreaker Brojai
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{23.59,48.69}}},
@@ -1036,7 +1051,10 @@ function MopNpcFixes.Load()
             }},
         },
         [58607] = { -- Sunwalker Dezco
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.97,39.78}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {
+                {15.97,39.78,phases.DEZCO_AT_SHATTERED_CONVOY},
+                {28.9,50.87,phases.DEZCO_AT_DAWNCHASER_RETREAT},
+            }},
         },
         [58608] = { -- Dawnchaser Captive
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{27.5,39.73},{26.51,39.39},{26.74,41.99},{26.77,37.96},{25.46,39.46},{24.68,37.91},{22.48,47.1},{22.47,46.27},{22.61,44.04},{22.6,45.1},{24.07,45.86},{23.53,44.79},{23.05,43.47},{23.82,41.44},{25.33,42.59},{26.23,45.28},{22.51,47.16},{22.51,46.24},{24.04,45.89},{26.13,45.27}}},
@@ -1067,6 +1085,9 @@ function MopNpcFixes.Load()
                     {53.04,51.72,phases.ELLA_MARKET},
                 },
             },
+        },
+        [58670] = { -- Kor Bloodtusk
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{23.64,48.83}}},
         },
         [58672] = { -- Fog Walker
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{36.6,57.8},{37.4,47.4},{37.4,47.6},{37.6,47.4},{37.6,47.8},{38,56.6},{38.2,45.4},{38.2,45.6},{38.2,58.2},{38.4,43.2},{38.4,43.6},{38.4,55.4},{38.4,55.8},{38.6,43.2},{38.6,43.6},{38.6,44.6},{38.6,46},{38.6,55.6},{39,52.6},{39.2,52.4},{39.2,54.8},{39.4,54.4},{39.6,44},{39.6,54.6},{39.8,42.4},{39.8,42.8},{40.4,53.4},{40.4,53.6},{40.4,55.6},{40.6,53.8},{40.6,55.4},{40.6,55.8},{40.8,42.6},{41.2,40},{41.2,41.2},{41.2,41.6},{41.2,52.8},{41.4,52.2},{41.6,41},{41.6,52.4},{41.6,53},{43,51.8},{43.4,46.2},{43.4,50.8},{43.6,46.2},{43.6,49.2},{43.6,51.4},{43.8,52},{43.8,52.6},{44,40.4},{44,50},{44.2,40.6},{44.4,47.2},{44.6,41.4},{44.6,41.6},{44.6,47.2},{44.6,47.6},{46.2,45.2}}},
@@ -1367,7 +1388,7 @@ function MopNpcFixes.Load()
         },
         [59341] = { -- Merchant Tantan
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {42.22,45.93,phases.TANTAN_AT_LAKE},
+                {42.22,45.93,phases.PAGODA_NOT_UNDER_ATTACK},
                 {73.49,41.36,phases.PAGODA_UNDER_ATTACK},
             }},
         },
@@ -2518,7 +2539,6 @@ function MopNpcFixes.Load()
         },
         [62774] = { -- Malik the Unscathed
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
-                --{54.89,34.14,phases.MALIK_AT_PILLAR}, -- not confirmed
                 {54.94,34.13,phases.MALIK_AT_PILLAR},
                 {55.06,35.47,phases.MALIK_NEXT_TO_ZIKK},
             }},
@@ -2596,7 +2616,7 @@ function MopNpcFixes.Load()
         [63071] = { -- Skeer the Bloodseeker
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
                 {25.71,50.58,phases.SKEER_IN_CAVE},
-                {44.41,16.8,phases.SKEER_IN_KLAXXI_VEES},
+                {44.41,16.8,phases.SKEER_AT_KLAXXI_VESS},
             }},
         },
         [63072] = { -- Rik'kal the Dissector

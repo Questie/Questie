@@ -244,7 +244,7 @@ function MopItemFixes.Load()
             [itemKeys.objectDrops] = {210209},
         },
         [78934] = { -- The Water of Youth
-            [itemKeys.objectDrops] = {223818},
+            [itemKeys.objectDrops] = {210229},
         },
         [78942] = { -- Jar of Pigment
             [itemKeys.objectDrops] = {210228},

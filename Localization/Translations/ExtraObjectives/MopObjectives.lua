@@ -182,18 +182,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Talk to Sunwalker Dezco"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Sprich mit Sonnenläufer Dezco",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Talk to Hemet"] = {
         ["enUS"] = true,
         ["deDE"] = "Sprich mit Hemet",

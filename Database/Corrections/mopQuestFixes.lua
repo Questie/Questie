@@ -1865,8 +1865,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30078},
         },
         [30121] = { -- Search Party
-            [questKeys.nextQuestInChain] = 30179,
-            [questKeys.breadcrumbForQuestId] = 30179,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {30179},
         },
         [30123] = { -- Skitterer Stew
             [questKeys.preQuestSingle] = {30179},
@@ -1875,21 +1875,23 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30179},
         },
         [30127] = { -- Threat from Dojan
-            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+            [questKeys.preQuestGroup] = {30123,30124},
+            [questKeys.nextQuestInChain] = 0,
         },
-        [30128] = { -- The Water of Youth
-            [questKeys.objectives] = {nil, nil,{{78934,nil,Questie.ICON_TYPE_INTERACT}}},
+        [30128] = { -- The Pools of Youth
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Na Lek"),0,{{"monster",55597}}}},
         },
         [30129] = { -- The Mogu Agenda
-            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30123,30124},
         },
         [30130] = { -- Herbal Remedies
-            [questKeys.preQuestSingle] = {30123}, --might be group with 30124
+            [questKeys.preQuestGroup] = {30123,30124},
         },
         [30131] = { -- Life
-            [questKeys.objectives] = {{{58585,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Sunwalker Dezco"),0,{{"monster",58113}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {30127,30128,30130},
+            [questKeys.objectives] = {{{58113,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
@@ -2019,7 +2021,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58608,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30164] = { -- The Stoneplow Convoy [Horde]
-            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+            [questKeys.preQuestGroup] = {30229,30230,30163},
             [questKeys.objectives] = {{{58955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30172] = { -- Barreling Along
@@ -2029,10 +2031,11 @@ function MopQuestFixes.Load()
         [30174] = { -- For Family
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {30164,30175},
+            [questKeys.objectives] = {{{58224}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kor Bloodtusk"),0,{{"monster",58670}}}},
         },
-        [30175] = { -- The Mantid
-            [questKeys.preQuestGroup] = {30229,30230,30163}, -- might not be all, my turn in order was 30229, 30163, 30230
+        [30175] = { -- The Mantid [Horde]
+            [questKeys.preQuestGroup] = {30229,30230,30163},
         },
         [30178] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
@@ -2041,7 +2044,6 @@ function MopQuestFixes.Load()
         },
         [30179] = { -- Poisoned! [Horde]
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {30121},
         },
         [30184] = { -- Mushan Mastery: Darkhide
             [questKeys.preQuestSingle] = {30181},
@@ -2843,7 +2845,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30344,30350,30384},
         },
         [30347] = { -- The Pools of Youth
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",55597}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Na Lek"),0,{{"monster",55597}}}},
         },
         [30348] = { -- Immortality?
             [questKeys.preQuestSingle] = {},
@@ -2884,7 +2886,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30273,30445},
             [questKeys.exclusiveTo] = {30376},
         },
-        [30361] = { -- The Mantid
+        [30361] = { -- The Mantid [Alliance]
             [questKeys.preQuestGroup] = {30354,30355,30356},
         },
         [30363] = { -- Going on the Offensive
@@ -3789,7 +3791,7 @@ function MopQuestFixes.Load()
         [30674] = { -- Balance Without Violence
             [questKeys.startedBy] = {{110014}},
             [questKeys.finishedBy] = {{110015}},
-            [questKeys.preQuestSingle] = {30671}, -- double check if it's this or one of the previous ones
+            [questKeys.preQuestSingle] = {30671},
             [questKeys.objectives] = {{{60367,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [30675] = { -- Buried Hozen Treasure
@@ -5540,11 +5542,11 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30632,
         },
         [31386] = { -- The Shado-Pan Offensive
-            [questKeys.exclusiveTo] = {31388,30768,31695},
+            [questKeys.exclusiveTo] = {31388,31695},
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31388] = { -- The Shado-Pan Offensive
-            [questKeys.exclusiveTo] = {31386,30768,31695},
+            [questKeys.exclusiveTo] = {31386,31695},
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31390] = { -- The Klaxxi
