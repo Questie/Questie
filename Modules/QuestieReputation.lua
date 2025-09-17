@@ -139,7 +139,7 @@ end
 
 --- Checkout https://github.com/Questie/Questie/wiki/Corrections#reputation-levels for more information
 ---@return boolean HasReputation Is the player within the required reputation ranges specified by the parameters
-function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
+function QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep)
     local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
 
     return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
@@ -183,6 +183,30 @@ function QuestieReputation.GetReputationReward(questId)
 
     if (not reputationReward) then
         return {}
+    end
+
+    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ QuestieDB.factionIDs.THE_SHA_TAR, 9000 }, nil)
+    -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
+    if playerIsHonoredWithShaTar then
+        local hasAldorOrScryer = false
+        for _, entry in pairs(reputationReward) do
+            local factionId = entry[1]
+            if factionId == QuestieDB.factionIDs.THE_ALDOR or factionId == QuestieDB.factionIDs.THE_SCRYERS then
+                hasAldorOrScryer = true
+                break
+            end
+        end
+
+        if hasAldorOrScryer then
+            local filteredReputationReward = {}
+            for _, entry in pairs(reputationReward) do
+                local factionId = entry[1]
+                if factionId ~= QuestieDB.factionIDs.THE_SHA_TAR then
+                    tinsert(filteredReputationReward, entry)
+                end
+            end
+            reputationReward = filteredReputationReward
+        end
     end
 
     if Expansions.Current <= Expansions.Wotlk then

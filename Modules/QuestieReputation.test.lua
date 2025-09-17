@@ -347,7 +347,6 @@ describe("QuestieReputation", function()
             assert.spy(_G.IsSpellKnown).was_called_with(78635)
         end)
 
-
         it("should respect DMF buff bonus", function()
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
@@ -360,6 +359,80 @@ describe("QuestieReputation", function()
 
             assert.are.same({{909, 82.5}}, reputationReward)
             assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+        end)
+
+        it("should show Sha'tar reputation on Aldor quests when player is below honored reputation with Sha'tar", function()
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {
+                    {QuestieDB.factionIDs.THE_ALDOR, 8},
+                    {QuestieDB.factionIDs.THE_SHA_TAR, 8},
+                }
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_ALDOR, 1000},
+                {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+        end)
+
+        it("should show Sha'tar reputation on Scryers quests when player is below honored reputation with Sha'tar", function()
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {
+                    {QuestieDB.factionIDs.THE_SCRYERS, 8},
+                    {QuestieDB.factionIDs.THE_SHA_TAR, 8},
+                }
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_SCRYERS, 1000},
+                {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+        end)
+
+        it("should not show Sha'tar reputation on Aldor quests when player is already honored with Sha'tar", function()
+            QuestieReputation.HasReputation = spy.new(function()
+                return true
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {
+                    {QuestieDB.factionIDs.THE_ALDOR, 8},
+                    {QuestieDB.factionIDs.THE_SHA_TAR, 8},
+                }
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_ALDOR, 1000},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+        end)
+
+        it("should not show Sha'tar reputation on Scryers quests when player is already honored with Sha'tar", function()
+            QuestieReputation.HasReputation = spy.new(function()
+                return true
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {
+                    {QuestieDB.factionIDs.THE_SCRYERS, 8},
+                    {QuestieDB.factionIDs.THE_SHA_TAR, 8},
+                }
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({
+                {QuestieDB.factionIDs.THE_SCRYERS, 1000},
+            }, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
     end)
 
