@@ -314,36 +314,8 @@ function MapIconTooltip:Show()
                 end
 
                 if shift and next(reputationReward) then
-                    local rewardTable = {}
-                    local factionId, factionName
-                    local rewardValue
-                    local aldorPenalty, scryersPenalty
-                    for _, rewardPair in pairs(reputationReward) do
-                        factionId = rewardPair[1]
-
-                        factionName = QuestieReputation.GetFactionName(factionId)
-                        if factionName then
-                            rewardValue = rewardPair[2]
-
-                            if factionId == QuestieDB.factionIDs.THE_ALDOR then     -- Aldor
-                                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
-                            elseif factionId == QuestieDB.factionIDs.THE_SCRYERS then -- Scryers
-                                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
-                            end
-
-                            rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
-                        end
-                    end
-
-                    if aldorPenalty then
-                        factionName = QuestieReputation.GetFactionName(QuestieDB.factionIDs.THE_ALDOR)
-                        rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
-                    elseif scryersPenalty then
-                        factionName = QuestieReputation.GetFactionName(QuestieDB.factionIDs.THE_SCRYERS)
-                        rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
-                    end
-
-                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                    local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
+                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
             end
         end

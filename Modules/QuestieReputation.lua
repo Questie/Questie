@@ -302,4 +302,21 @@ function QuestieReputation.GetFactionName(factionId)
     return select(1, GetFactionInfoByID(factionId))
 end
 
+---@param reputationReward ReputationPair[]
+---@return string @Formatted reputation reward string
+function QuestieReputation.GetReputationRewardString(reputationReward)
+    local rewardTable = {}
+
+    for _, rewardPair in pairs(reputationReward) do
+        local factionId = rewardPair[1]
+        local rewardValue = rewardPair[2]
+        local factionName = QuestieReputation.GetFactionName(factionId)
+        if factionName then
+            rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
+        end
+    end
+
+    return table.concat(rewardTable, " / ")
+end
+
 return QuestieReputation

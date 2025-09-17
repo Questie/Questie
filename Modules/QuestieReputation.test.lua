@@ -562,4 +562,60 @@ describe("QuestieReputation", function()
             assert.spy(_G.GetFactionInfoByID).was_called_with(1)
         end)
     end)
+
+    describe("GetReputationRewardString", function()
+        it("should return formatted reputation string", function()
+            _G.GetFactionInfoByID = spy.new(function()
+                return "Darkmoon Faire", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+            local reputationReward = {
+                {QuestieDB.factionIDs.DARKMOON_FAIRE, 250},
+            }
+
+            local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
+
+            assert.are.equal("+250 Darkmoon Faire", reputationString)
+        end)
+
+        it("should return formatted reputation string with negative values", function()
+            _G.GetFactionInfoByID = spy.new(function(factionId)
+                if factionId == QuestieDB.factionIDs.THE_ALDOR then
+                    return "The Aldor", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                elseif factionId == QuestieDB.factionIDs.THE_SCRYERS then
+                    return "The Scryers", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                elseif factionId == QuestieDB.factionIDs.THE_SHA_TAR then
+                    return "The Sha'tar", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                end
+                return nil
+            end)
+            local reputationReward = {
+                {QuestieDB.factionIDs.THE_ALDOR, 1000},
+                {QuestieDB.factionIDs.THE_SHA_TAR, 500},
+                {QuestieDB.factionIDs.THE_SCRYERS, -1100},
+            }
+
+            local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
+
+            assert.are.equal("+1000 The Aldor / +500 The Sha'tar / -1100 The Scryers", reputationString)
+        end)
+
+        it("should skip factions without a name", function()
+            _G.GetFactionInfoByID = spy.new(function(factionId)
+                if factionId == QuestieDB.factionIDs.DARKMOON_FAIRE then
+                    return "Darkmoon Faire", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+                end
+                return nil
+            end)
+            local reputationReward = {
+                {QuestieDB.factionIDs.DARKMOON_FAIRE, 250},
+                {12345, 250},
+            }
+
+            local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
+
+            assert.are.equal("+250 Darkmoon Faire", reputationString)
+            assert.spy(_G.GetFactionInfoByID).was_called_with(QuestieDB.factionIDs.DARKMOON_FAIRE)
+            assert.spy(_G.GetFactionInfoByID).was_called_with(12345)
+        end)
+    end)
 end)
