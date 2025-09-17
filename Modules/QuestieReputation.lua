@@ -213,6 +213,9 @@ function QuestieReputation.GetReputationReward(questId)
     for _, entry in pairs(reputationReward) do
         local factionId = entry[1]
         local value = entry[2]
+        if Expansions.Current > Expansions.Wotlk then
+            value = reputationRewards[value]
+        end
         if factionId == QuestieDB.factionIDs.THE_ALDOR then
             value = 0 - floor(value * 1.1)
             tinsert(reputationReward, {QuestieDB.factionIDs.THE_SCRYERS, value})
