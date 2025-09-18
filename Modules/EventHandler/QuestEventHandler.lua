@@ -212,7 +212,18 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
                     local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
                     local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredClasses")
 
-                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) then
+                    local exclusiveQuests = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "exclusiveTo")
+                    local exclusiveQuestCompleted = false
+                    if exclusiveQuests then
+                        for _, exclusiveQuestId in pairs(exclusiveQuests) do
+                            if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
+                                exclusiveQuestCompleted = true
+                                break
+                            end
+                        end
+                    end
+
+                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and (not exclusiveQuests) then
                         QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
                     end
                 end
