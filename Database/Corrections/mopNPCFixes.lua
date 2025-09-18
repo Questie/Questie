@@ -1462,7 +1462,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_DEEPER_LOWER_LEVEL] = {{46.2,38.57}}},
         },
         [59441] = { -- Admiral Taylor
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.77,82.67}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
+                {53.77,82.67,phases.ADMIRAL_TAYLOR_IN_TENT},
+                {54.05,83.33,phases.ADMIRAL_TAYLOR_OUTSIDE_TENT},
+            }},
         },
         [59442] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
@@ -3405,6 +3408,9 @@ function MopNpcFixes.Load()
         [64540] = { -- Anduin Wrynn
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.78,43.13}}},
         },
+        [64542] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.73,43.01}}},
+        },
         [64562] = { -- Talking Skull
             [npcKeys.spawns] = {
                 [zoneIDs.SCHOLOMANCE_MOP] = {{26.87,58.66,phases.TALKING_SKULL_BRIDGE_43},{-1,-1}},
@@ -3503,6 +3509,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCARLET_MONASTERY_MOP_CRUSADERS_CHAPEL] = {{49.14,24.63}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
+        },
+        [64853] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.18,91.57}}},
         },
         [64855] = { -- Blade of the Anointed
             [npcKeys.spawns] = {
@@ -4529,6 +4538,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{17.9,56.01}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
             [npcKeys.questEnds] = {30623,30624},
+        },
+        [110017] = { -- Yakity Yak
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.66,70.3}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+            [npcKeys.questStarts] = {30490,30587},
         },
     }
 end

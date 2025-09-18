@@ -3320,6 +3320,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31456,31457},
         },
+        [30490] = { -- Yakity Yak
+            [questKeys.startedBy] = {{110017}},
+            [questKeys.preQuestSingle] = {30488},
+        },
         [30491] = { -- At the Yak Wash
             [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT] = {{71.32,69.2}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{59662,61874,59319},59319,nil,Questie.ICON_TYPE_MOUNT_UP}}},
@@ -3502,6 +3506,10 @@ function MopQuestFixes.Load()
         },
         [30586] = { -- Jagged Abalone
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [30587] = { -- Yakity Yak
+            [questKeys.startedBy] = {{110017}},
+            [questKeys.preQuestSingle] = {30488},
         },
         [30588] = { -- Fishing for a Bruising
             [questKeys.questFlags] = questFlags.DAILY,
@@ -3987,7 +3995,7 @@ function MopQuestFixes.Load()
         },
         [30768] = { -- My Husband...
             [questKeys.preQuestSingle] = {30992},
-            [questKeys.exclusiveTo] = {31386,31388,31695},
+            [questKeys.exclusiveTo] = {31386,31388}, -- this might be exclusive to 31695, but not viceversa
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [30769] = { -- First Assault
@@ -4195,7 +4203,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30887},
         },
         [30889] = { -- Trap Setting
-            [questKeys.objectives] = {{{61426,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{61426,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.preQuestSingle] = {30887},
         },
         [30890] = { -- The Restless Watch
@@ -5613,11 +5621,11 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30665,
         },
         [31456] = { -- Muskpaw Ranch [Alliance]
-            [questKeys.preQuestGroup] = {30650,30651,30660}, -- might only need 30660/30062
+            [questKeys.preQuestSingle] = {30660,30062},
             [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31457] = { -- Muskpaw Ranch [Horde]
-            [questKeys.preQuestGroup] = {30655,30656,30661}, -- might only need 30661/30063
+            [questKeys.preQuestSingle] = {30661,30663},
             [questKeys.breadcrumbForQuestId] = 30488,
         },
         [31458] = { -- Damage Control
@@ -6226,7 +6234,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31695] = { -- Beyond the Wall
-            [questKeys.exclusiveTo] = {31386,31388,30768},
+            [questKeys.exclusiveTo] = {31386,31388}, -- might not be available at some point later in townlong progression. need to find out
             [questKeys.nextQuestInChain] = 0,
         },
         [31698] = { -- Thinning The Pack
@@ -6738,7 +6746,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31840,31841,31842,31843,31844,31845},
         },
-        [31847] = { -- Better Dead then Dread
+        [31847] = { -- Better Dead than Dread
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31391,31656,31886,31895},
         },

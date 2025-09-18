@@ -299,8 +299,8 @@ local phases = {
     SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS = 1227,
     CLEVER_ASHYO_AT_POOLS_OF_PURITY = 1228,
     CLEVER_ASHYO_AT_NEW_CIFERA = 1229,
-    -- KANG_AT_THUNDER_CLEFT = 1230, -- REUSE
-    -- KANG_AT_DAWNCHASER_RETREAT = 1231, -- REUSE
+    ADMIRAL_TAYLOR_IN_TENT = 1230,
+    ADMIRAL_TAYLOR_OUTSIDE_TENT = 1231,
     KOR_AT_THUNDER_CLEFT = 1232,
     KOR_AT_DAWNCHASER_RETREAT = 1233,
     DEZCO_AT_THUNDER_CLEFT = 1234,
@@ -1927,11 +1927,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BO_TSULAN_YAUNGOL_ROAD then
-        return complete[30508] and not (questLog[30514] and questLog[30514].isComplete == 1) and not complete[30514] or false
+        return (complete[30506] or complete[30507] or complete[30508]) and (not complete[30512]) or false
     end
 
     if phase == phases.BO_TSULAN_WESTWIND_REST_1 then
-        return questLog[30514] and questLog[30514].isComplete == 1 or false
+        return questLog[30512] and (not complete[30514]) or false
     end
 
     if phase == phases.BO_TSULAN_WESTWIND_REST_2 then
@@ -2055,11 +2055,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE then
-        return (not complete[30515]) and ((not questLog[30515]) or questLog[30515].isComplete == 0) and (not complete[30513]) or false
+        return (complete[30509] or complete[30510] or complete[30511]) and (not complete[30513]) or false
     end
 
     if phase == phases.SHIAO_AND_KO_IN_FRONT_OF_CAMP then
-        return (questLog[30515] and questLog[30515].isComplete == 1) or false
+        return complete[30513] and (not complete[30515]) or false
     end
 
     if phase == phases.SHIAO_AND_KO_IN_CAMP then
@@ -2067,11 +2067,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GENERAL_NAZGRIM_IN_TENT then
-        return (not complete[30665]) and ((not questLog[30665]) or questLog[30665].isComplete == 0) or false
+        return (not complete[30655]) and ((not questLog[30655]) or questLog[30655].isComplete == 0) or false
     end
 
     if phase == phases.GENERAL_NAZGRIM_OUTSIDE_TENT then
-        return complete[30665] or (questLog[30665] and questLog[30665].isComplete == 1) or false
+        return complete[30655] or (questLog[30655] and questLog[30655].isComplete == 1) or false
     end
 
     if phase == phases.GENERAL_NAZGRIM_NEAR_SPEARS then
@@ -2080,6 +2080,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GENERAL_NAZGRIM_NEAR_ANDUINN then
         return complete[29824] or false
+    end
+
+    if phase == phases.ADMIRAL_TAYLOR_IN_TENT then
+        return (not complete[30650]) and ((not questLog[30650]) or questLog[30650].isComplete == 0) or false
+    end
+
+    if phase == phases.ADMIRAL_TAYLOR_OUTSIDE_TENT then
+        return complete[30650] or (questLog[30650] and questLog[30650].isComplete == 1) or false
     end
 
     return false

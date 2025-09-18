@@ -370,6 +370,15 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.43,44.77}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [211597] = { -- Shrine of the Seeker's Body
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44.78,49.21}}},
+        },
+        [211601] = { -- Shrine of the Seeker's Breath
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{42.67,50.06}}},
+        },
+        [211602] = { -- Shrine of the Seeker's Heart
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{43.2,52.02}}},
+        },
         [211720] = { -- Meeting Stone (Terrace of Endless Spring)
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{51.7,69.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
