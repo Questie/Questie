@@ -201,6 +201,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [3692] = { -- Hillsbrad Human Skull
+            [itemKeys.npcDrops] = {232,2244,2260,2261,2264,2265,2266,2267,2268,2269,2270,2305,2335,2360,2387,2403,2404,2427,2428,2448,2449,2450,2451,2503},
+        },
         [3820] = {
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {2045},
