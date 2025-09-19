@@ -153,6 +153,7 @@ QuestieDB.factionIDs = {
     FISH_FELLREED = 1282,
     FARMER_FUNG = 1283,
     THE_KLAXXI = 1337,
+    THE_LOREWALKERS = 1345,
     NOMI = 1357, -- hidden faction
     THE_BLACK_PRINCE = 1359,
 }
