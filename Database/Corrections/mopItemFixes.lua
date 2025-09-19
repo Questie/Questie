@@ -783,6 +783,7 @@ function MopItemFixes.Load()
         },
         [85278] = { -- Guo-Lai Runestone
             [itemKeys.objectDrops] = {213180},
+            [itemKeys.npcDrops] = {63610,63611},
         },
         [85282] = { -- Tiger Flank
             [itemKeys.npcDrops] = {63537,63538,65612,67085},
