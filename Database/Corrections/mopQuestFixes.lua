@@ -2049,7 +2049,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30181},
         },
         [30185] = { -- Tortoise Mastery
-            [questKeys.preQuestGroup] = {30182,30184,32038},
+            [questKeys.preQuestGroup] = {30182,30184},
         },
         [30186] = { -- Parental Mastery
             [questKeys.extraObjectives] = {
