@@ -3285,7 +3285,7 @@ function MopQuestFixes.Load()
         [30480] = { -- The Ritual
             [questKeys.preQuestGroup] = {30468,30496,30967},
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK},{61654},{61530}}},
+            [questKeys.objectives] = {{{60973,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61655,61656},61655,nil,Questie.ICON_TYPE_EVENT},{{61530},61530}}},
         },
         [30481] = { -- Carved in Stone
             [questKeys.startedBy] = {{59333}},
@@ -3323,6 +3323,7 @@ function MopQuestFixes.Load()
         [30490] = { -- Yakity Yak
             [questKeys.startedBy] = {{110017}},
             [questKeys.preQuestSingle] = {30488},
+            [questKeys.exclusiveTo] = {30587},
         },
         [30491] = { -- At the Yak Wash
             [questKeys.extraObjectives] = {{{[zoneIDs.KUN_LAI_SUMMIT] = {{71.32,69.2}}},Questie.ICON_TYPE_EVENT,l10n("Bring the yaks here")}},
@@ -3510,6 +3511,7 @@ function MopQuestFixes.Load()
         [30587] = { -- Yakity Yak
             [questKeys.startedBy] = {{110017}},
             [questKeys.preQuestSingle] = {30488},
+            [questKeys.exclusiveTo] = {30490},
         },
         [30588] = { -- Fishing for a Bruising
             [questKeys.questFlags] = questFlags.DAILY,
@@ -5558,12 +5560,12 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31390] = { -- The Klaxxi
-            [questKeys.preQuestSingle] = {31512}, -- not entirely sure, but seems plausible
+            [questKeys.preQuestSingle] = {30935}, -- TO DO not entirely sure, but seems plausible. it's not 31512!
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31391,31656,31847,31886,31895},
         },
         [31391] = { -- The Klaxxi
-            [questKeys.preQuestSingle] = {31511}, -- not entirely sure, but seems plausible
+            [questKeys.preQuestSingle] = {30935}, -- TO DO not entirely sure, but seems plausible. it's not 31512!
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },

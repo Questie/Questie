@@ -11,8 +11,8 @@ tinsert(eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(eventQuests, {"Brewfest", 11122}) -- There and Back Again
 tinsert(eventQuests, {"Brewfest", 11412}) -- There and Back Again
-tinsert(eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
-tinsert(eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
+tinsert(eventQuests, {"Brewfest", 11117, nil, nil, Expansions.Current >= Expansions.Cata}) -- Catch the Wild Wolpertinger!
+tinsert(eventQuests, {"Brewfest", 11431, nil, nil, Expansions.Current >= Expansions.Cata}) -- Catch the Wild Wolpertinger!
 tinsert(eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B

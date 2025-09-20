@@ -492,6 +492,10 @@ function QuestieWotlkNpcFixes:Load()
         [23804] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD] = {{40.29,60.25}}},
         },
+        [23872] = { -- Coren Direbrew
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{46.91,59.93}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [23921] = {
             [npcKeys.name] = "Northeast Plague Tank",
         },

@@ -146,6 +146,9 @@ function QuestieTBCObjectFixes:Load()
         [185938] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{62.75,7.33}}},
         },
+        [186189] = {
+            [objectKeys.name] = "Alcohol-Free Brewfest Sampler",
+        },
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
         },

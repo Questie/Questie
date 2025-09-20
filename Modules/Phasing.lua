@@ -1931,7 +1931,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BO_TSULAN_WESTWIND_REST_1 then
-        return questLog[30512] and (not complete[30514]) or false
+        return complete[30512] and (not complete[30514]) or false
     end
 
     if phase == phases.BO_TSULAN_WESTWIND_REST_2 then

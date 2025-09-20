@@ -4541,9 +4541,9 @@ function MopNpcFixes.Load()
         },
         [110017] = { -- Yakity Yak
             [npcKeys.name] = "!",
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.66,70.3}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.39,70.38}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
-            [npcKeys.questStarts] = {30490,30587},
+            [npcKeys.questStarts] = {30587},
         },
     }
 end
