@@ -4490,6 +4490,7 @@ function MopQuestFixes.Load()
         [31015] = { -- Your Private Collection
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {31016,31367,31368},
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,28}},
         },
         [31016] = { -- The Lorewalkers
             [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
@@ -4596,6 +4597,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31039,31040,31041,31046}, -- order 31039 31046 31041 31040 autoaccepted after last. turn in 31040 first
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [31055] = { -- Between a Saurok and a Hard Place
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
         },
         [31061] = { -- Riding the Storm
             [questKeys.preQuestSingle] = {},
@@ -4724,6 +4728,30 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31091},
             [questKeys.requiredSourceItems] = {86489},
             [questKeys.objectives] = {{{64485,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [31093] = { -- Hozen in the Mist
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31094] = { -- Fish Tales
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31095] = { -- The Dark Heart of the Mogu
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31096] = { -- What is Worth Fighting For
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31097] = { -- Heart of the Mantid Swarm
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31100] = { -- The Song of the Yaungol
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31102] = { -- The Seven Burdens of Shaohao
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
+        },
+        [31103] = { -- The Ballad of Liu Lang
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
         },
         [31104] = { -- The Challenger's Ring: Yalia Sagewhisper
             [questKeys.objectives] = {{{62303,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{62850,62825},62825}}},
@@ -5482,12 +5510,14 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31016,31368},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,27}},
         },
         [31368] = { -- The Lorewalkers
             [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31016,31367},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,27}},
         },
         [31369] = { -- The Anglers
             [questKeys.preQuestGroup] = {30635,30636,30637},
