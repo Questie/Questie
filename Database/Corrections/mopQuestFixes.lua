@@ -3259,6 +3259,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30470,30471,30472,30473,30474,30476,30477,30478,30479},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.FARMER_FUNG,10}},
             [questKeys.requiredSourceItems] = {80232},
+            [questKeys.objectives] = {nil,nil,{{80233,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30476] = { -- A Gift For Old Hillpaw
             [questKeys.preQuestSingle] = {30257},
@@ -4522,6 +4523,7 @@ function MopQuestFixes.Load()
         [31024] = { -- Kunchong Treats
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.exclusiveTo] = {31238,31494,31506}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31030] = { -- Into the Monastery
             [questKeys.exclusiveTo] = {31031},
@@ -4778,12 +4780,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31111,31231,31267}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31111] = { -- Eradicating the Zan'thik
             [questKeys.startedBy] = {{62538,66800}},
             [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31109,31231,31267}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31113] = { -- Assault Fire Camp Gai-Cho
             [questKeys.questFlags] = questFlags.DAILY,
@@ -5119,7 +5123,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31211}, -- being offered only when the NPC reaches the quest hub during quest 31211
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {31808},
+            [questKeys.exclusiveTo] = {31808}, -- need to see if it has any of the dailies as prequest
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31220] = { -- The Challenger's Ring: Hawkmaster Nurong
             [questKeys.objectives] = {{{63618,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{64470,64474},64474}}},
@@ -5148,22 +5153,26 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31109,31111,31267}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31232] = { -- An Ancient Empire
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31270,31496,31507}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31233] = { -- Sap Tapping
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31269,31502,31508}, -- exclusivity for honored The Klaxxi
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the Amber Tap"),0,{{"monster",63740}}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31234] = { -- Putting An Eye Out
             [questKeys.preQuestSingle] = {31606},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31271,31503,31509}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31235] = { -- Nope Nope Nope
             [questKeys.startedBy] = {{62538,66800}},
@@ -5172,15 +5181,18 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31066},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31268,31487,31505}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31237] = { -- Debugging the Terrace
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31272,31504,31510}, -- exclusivity for revered The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31238] = { -- Brain Food
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.exclusiveTo] = {31024,31494,31506}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31239] = { -- What's in a Name Name?
             [questKeys.preQuestSingle] = {29941},
@@ -5294,30 +5306,36 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31109,31111,31231}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31268] = { -- A Little Brain Work
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31235,31487,31505}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31269] = { -- The Scale-Lord
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31233,31502,31508}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31270] = { -- The Fight Against Fear
             [questKeys.preQuestSingle] = {31026},
             [questKeys.exclusiveTo] = {31232,31496,31507}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31271] = { -- Bad Genes
             [questKeys.preQuestSingle] = {31606},
             [questKeys.exclusiveTo] = {31234,31503,31509}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31272] = { -- Infection
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31504,31510}, -- exclusivity for revered The Klaxxi
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,nil,nil,{{{63725,63726,63729,65118},63725}}}, -- 63833 63827
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31277] = { -- Surprise Attack!
             [questKeys.objectives] = {{{63908,nil,Questie.ICON_TYPE_TALK},{63920}}},
@@ -5728,6 +5746,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31235,31268,31505}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,63218,64047,64144,64457,65908,66225,66409,66415}},
@@ -5750,6 +5769,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] ={nil,{{214292}}},
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.exclusiveTo] = {31024,31238,31506}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31495] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}},
@@ -5757,49 +5777,59 @@ function MopQuestFixes.Load()
         [31496] = { -- Sampling the Empire's Finest
             [questKeys.preQuestSingle] = {31026},
             [questKeys.exclusiveTo] = {31232,31270,31507}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31502] = { -- Wing Clip
             [questKeys.preQuestSingle] = {31606},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31233,31269,31508}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31503] = { -- Shortcut to Ruin
             [questKeys.preQuestSingle] = {31606},
             [questKeys.exclusiveTo] = {31234,31271,31509}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31504] = { -- Ordnance Disposal
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31272,31510}, -- exclusivity for revered The Klaxxi
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31505] = { -- Vess-Guard Duty
             [questKeys.startedBy] = {{62538,66800}},
             [questKeys.finishedBy] = {{62538,66800}},
             [questKeys.preQuestSingle] = {31066},
             [questKeys.exclusiveTo] = {31235,31268,31487}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31506] = { -- Shackles of Manipulation
             [questKeys.preQuestGroup] = {31092,31359,31398},
             [questKeys.exclusiveTo] = {31024,31238,31494}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31507] = { -- Meltdown
             [questKeys.preQuestSingle] = {31026},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31232,31270,31496}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31508] = { -- Specimen Request
             [questKeys.preQuestSingle] = {31606},
             [questKeys.exclusiveTo] = {31233,31269,31502}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31509] = { -- Fear Takes Root
             [questKeys.preQuestSingle] = {31606},
             [questKeys.objectives] = {nil,{{214543}}},
             [questKeys.exclusiveTo] = {31234,31271,31503}, -- exclusivity for honored The Klaxxi
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31510] = { -- Quiet Now
             [questKeys.preQuestGroup] = {31458,31465},
             [questKeys.exclusiveTo] = {31237,31272,31504}, -- exclusivity for revered The Klaxxi
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Use the crystal"),0,{{"object",214455}}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31511] = { -- A Witness to History [Horde]
             [questKeys.finishedBy] = {{59905,62996}},
@@ -6139,6 +6169,7 @@ function MopQuestFixes.Load()
                                       31231,31232,31233,31234,31235,31237,31238, -- Terrace
                                       31109,31487,31494,31496,31502,31503,31504, -- Clutches
             },
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31599] = { -- The Matriarch's Maw
             [questKeys.preQuestSingle] = {31066},
@@ -6148,6 +6179,7 @@ function MopQuestFixes.Load()
                                       31231,31232,31233,31234,31235,31237,31238, -- Terrace
                                       31111,31505,31506,31507,31508,31509,31510, -- Zan'vess
             },
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31603] = { -- Seeds of Fear
             [questKeys.preQuestSingle] = {31108},
@@ -6230,6 +6262,7 @@ function MopQuestFixes.Load()
                                       31109,31487,31494,31496,31502,31503,31504, -- Clutches
                                       31111,31505,31506,31507,31508,31509,31510, -- Zan'vess
             },
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31679] = { -- Extending Our Coverage
             [questKeys.startedBy] = {{65541}},
@@ -6582,11 +6615,12 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
         },
         [31808] = { -- Rampage Against the Machine
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359,31398,31238}, -- 31024 31238 31494 31506 exclusives
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.exclusiveTo] = {31216},
             [questKeys.objectives] = {{{63765,nil,Questie.ICON_TYPE_MOUNT_UP}},nil,nil,nil,{{{67030,67033,67035,67036,67037,67039,67034},67034}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31810] = { -- Riding the Skies (Azure Cloud Serpent)
             [questKeys.startedBy] = {}, -- hiding 2 of the 3 due to blizzard returning true to all versions

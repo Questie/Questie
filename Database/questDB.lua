@@ -152,10 +152,18 @@ QuestieDB.factionIDs = {
     GINA_MUDCLAW = 1281,
     FISH_FELLREED = 1282,
     FARMER_FUNG = 1283,
+    THE_ANGLERS = 1302,
     THE_KLAXXI = 1337,
+    THE_AUGUST_CELESTIALS = 1341,
     THE_LOREWALKERS = 1345,
     NOMI = 1357, -- hidden faction
+    NAT_PAGLE = 1358,
     THE_BLACK_PRINCE = 1359,
+    DOMINANCE_OFFENSIVE = 1375,
+    OPERATION_SHIELDWALL = 1376,
+    KIRIN_TOR_OFFENSIVE = 1387,
+    SUNREAVER_ONSLAUGHT = 1388,
+    SHADO_PAN_ASSAULT = 1435,
 }
 
 -- temporary, until we remove the old db functions
