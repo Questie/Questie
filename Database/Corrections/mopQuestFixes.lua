@@ -3997,7 +3997,7 @@ function MopQuestFixes.Load()
         },
         [30768] = { -- My Husband...
             [questKeys.preQuestSingle] = {30992},
-            [questKeys.exclusiveTo] = {31386,31388}, -- this might be exclusive to 31695, but not viceversa
+            [questKeys.exclusiveTo] = {31386,31388,31695}, -- this might be exclusive to 31695, but not viceversa
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [30769] = { -- First Assault
@@ -6266,7 +6266,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64330,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31695] = { -- Beyond the Wall
-            [questKeys.exclusiveTo] = {31386,31388}, -- might not be available at some point later in townlong progression. need to find out
+            [questKeys.exclusiveTo] = {30768,31386,31388}, -- might not be available at some point later in townlong progression. need to find out
             [questKeys.nextQuestInChain] = 0,
         },
         [31698] = { -- Thinning The Pack
