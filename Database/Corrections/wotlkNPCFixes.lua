@@ -494,7 +494,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [23872] = { -- Coren Direbrew
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{46.91,59.93}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
-            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
         },
         [23921] = {
             [npcKeys.name] = "Northeast Plague Tank",
