@@ -513,6 +513,22 @@ describe("QuestieReputation", function()
             }, reputationReward)
             assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
+
+        it("should respect Grand Commendation bonus", function()
+            Expansions.Current = Expansions.MoP
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{QuestieDB.factionIDs.SHADO_PAN, 5}}
+            end)
+            _G.GetFactionInfoByID = spy.new(function()
+                return "Shado Pan", "They are a faction in Townlong Steppes", 5, nil, nil, 4500, nil, nil, false, nil, nil, nil, nil, 1270, true, nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({{QuestieDB.factionIDs.SHADO_PAN, 500}}, reputationReward)
+        end)
     end)
 
     describe("GetFactionName", function()
