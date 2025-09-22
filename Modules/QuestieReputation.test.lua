@@ -306,7 +306,21 @@ describe("QuestieReputation", function()
             assert.are.same({{909, -10}}, reputationReward)
         end)
 
+        it("should respect diplomacy bonus for WotLK and before", function()
+            Expansions.Current = Expansions.Wotlk
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 75}}
+            end)
+            QuestiePlayer.HasRequiredRace = spy.new(function() return true end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+        end)
+
         it("should respect diplomacy bonus", function()
+            Expansions.Current = Expansions.Cata
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)

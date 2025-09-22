@@ -233,12 +233,16 @@ function QuestieReputation.GetReputationReward(questId)
         end
     end
 
-    if Expansions.Current <= Expansions.Wotlk then
-        return reputationReward
-    end
-
     local rewards = {}
     local reputationMultiplier = _GetRewardMultiplier()
+
+    if Expansions.Current <= Expansions.Wotlk then
+        for _, entry in pairs(reputationReward) do
+            tinsert(rewards, {entry[1], entry[2] * reputationMultiplier})
+        end
+        return rewards
+    end
+
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
