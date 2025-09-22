@@ -3090,6 +3090,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),0,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
         },
         [8352] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."),0,{{"object", 180466},{"object", 180539},{"object", 180559},}}},
         },
         [8353] = {
