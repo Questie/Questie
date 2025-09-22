@@ -13,7 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _HasDmfBuff
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _HasDmfBuff, _FilterShaTarRewards
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
@@ -190,29 +190,8 @@ function QuestieReputation.GetReputationReward(questId)
     end
 
     local factionIDs = QuestieDB.factionIDs
-
-    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHA_TAR, 9000 }, nil)
-    -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
-    if playerIsHonoredWithShaTar then
-        local hasAldorOrScryer = false
-        for _, entry in pairs(reputationReward) do
-            local factionId = entry[1]
-            if factionId == factionIDs.THE_ALDOR or factionId == factionIDs.THE_SCRYERS then
-                hasAldorOrScryer = true
-                break
-            end
-        end
-
-        if hasAldorOrScryer then
-            local filteredReputationReward = {}
-            for _, entry in pairs(reputationReward) do
-                local factionId = entry[1]
-                if factionId ~= factionIDs.THE_SHA_TAR then
-                    tinsert(filteredReputationReward, entry)
-                end
-            end
-            reputationReward = filteredReputationReward
-        end
+    if Expansions.Current >= Expansions.Tbc then
+        reputationReward = _FilterShaTarRewards(reputationReward, factionIDs)
     end
 
     -- Add Aldor/Scryer penalty to quests from the opposite faction
@@ -302,6 +281,36 @@ _HasDmfBuff = function()
             return true
         end
     end
+end
+
+---@param reputationReward ReputationPair[]
+---@param factionIDs table
+_FilterShaTarRewards = function(reputationReward, factionIDs)
+    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHA_TAR, 9000 }, nil)
+    -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
+    if playerIsHonoredWithShaTar then
+        local hasAldorOrScryer = false
+        for _, entry in pairs(reputationReward) do
+            local factionId = entry[1]
+            if factionId == factionIDs.THE_ALDOR or factionId == factionIDs.THE_SCRYERS then
+                hasAldorOrScryer = true
+                break
+            end
+        end
+
+        if hasAldorOrScryer then
+            local filteredReputationReward = {}
+            for _, entry in pairs(reputationReward) do
+                local factionId = entry[1]
+                if factionId ~= factionIDs.THE_SHA_TAR then
+                    tinsert(filteredReputationReward, entry)
+                end
+            end
+            reputationReward = filteredReputationReward
+        end
+    end
+
+    return reputationReward
 end
 
 ---@param factionId FactionId

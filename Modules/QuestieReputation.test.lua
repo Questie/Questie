@@ -528,6 +528,22 @@ describe("QuestieReputation", function()
             assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
+        it("should not check Sha'tar reputation for pre TBC", function()
+            Expansions.Current = Expansions.Era
+            QuestieReputation.HasReputation = spy.new(function()
+                return false
+            end)
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {
+                    {QuestieDB.factionIDs.WINTERSABER_TRAINERS, 250},
+                }
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+            assert.are.same({{QuestieDB.factionIDs.WINTERSABER_TRAINERS, 250}}, reputationReward)
+            assert.spy(QuestieReputation.HasReputation).was_not_called()
+        end)
+
         it("should respect Grand Commendation bonus", function()
             Expansions.Current = Expansions.MoP
             QuestieReputation.HasReputation = spy.new(function()
