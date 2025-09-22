@@ -3084,15 +3084,21 @@ function QuestieQuestFixes:Load()
         },
         [8341] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {8343},
+            [questKeys.breadcrumbs] = {8343},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),2,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
+        },
+        [8343] = {
+            [questKeys.breadcrumbForQuestId] = 8341,
         },
         [8348] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),0,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
         },
+        [8351] = {
+            [questKeys.breadcrumbForQuestId] = 8352,
+        },
         [8352] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {8351},
+            [questKeys.breadcrumbs] = {8351},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."),0,{{"object", 180466},{"object", 180539},{"object", 180559},}}},
         },
         [8353] = {
