@@ -236,32 +236,30 @@ function QuestieReputation.GetReputationReward(questId)
     local rewards = {}
     local reputationMultiplier = _GetRewardMultiplier()
 
-    if Expansions.Current <= Expansions.Wotlk then
-        for _, entry in pairs(reputationReward) do
-            tinsert(rewards, {entry[1], entry[2] * reputationMultiplier})
-        end
-        return rewards
-    end
-
     for _, entry in pairs(reputationReward) do
-        -- corrections for quests before cataclysm are still applied to cataclysm quests.
-        -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
-        local reward
-        if entry[2] > 0 then
-            reward = reputationRewards[entry[2]] or entry[2]
-        elseif entry[2] < 0 then
-            local rewardEntry = reputationRewards[-entry[2]]
-            reward = rewardEntry and -rewardEntry or entry[2]
+        local factionId = entry[1]
+        local reward = entry[2]
+
+        if Expansions.Current > Expansions.Wotlk then
+            -- In the base DBs for Cata and beyond a reputation mapping is used instead of the raw values from the quest.
+            -- Also corrections for quests before cataclysm are still applied to cataclysm quests.
+            -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
+            if entry[2] > 0 then
+                reward = reputationRewards[entry[2]] or entry[2]
+            elseif entry[2] < 0 then
+                local rewardEntry = reputationRewards[-entry[2]]
+                reward = rewardEntry and -rewardEntry or entry[2]
+            end
         end
 
         if reward then
             reward = reward * reputationMultiplier
-             -- faction bonus commendation check
-            if select(15, GetFactionInfoByID(entry[1])) == true then
+            -- faction bonus commendation check
+            if select(15, GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
             end
 
-            tinsert(rewards, {entry[1], reward})
+            tinsert(rewards, {factionId, reward})
         end
     end
 
