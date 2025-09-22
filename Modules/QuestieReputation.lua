@@ -8,8 +8,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerReputations = {}
 
