@@ -787,6 +787,11 @@ function MopObjectFixes.Load()
         [216106] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [216427] = {
+            [objectKeys.name] = "Hammer of Fellowship",
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.4,34.3}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
         [218229] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{49.54,83.26}}},
             [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
