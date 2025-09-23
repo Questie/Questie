@@ -7361,7 +7361,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{215126}}},
         },
         [32380] = { -- The Best Around
-            [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{440009,nil,Questie.ICON_TYPE_EVENT}},
+            [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{{440009,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32411] = { -- The Remaining Sunreavers
             [questKeys.objectives] = {{{68711,nil,Questie.ICON_TYPE_INTERACT},{68714,nil,Questie.ICON_TYPE_INTERACT},{68715,nil,Questie.ICON_TYPE_INTERACT},{68716,nil,Questie.ICON_TYPE_INTERACT},{68717,nil,Questie.ICON_TYPE_INTERACT}}},
