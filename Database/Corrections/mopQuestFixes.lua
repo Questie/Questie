@@ -7357,6 +7357,9 @@ function MopQuestFixes.Load()
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
         },
+        [32329] = { -- Get My Results!
+            [questKeys.objectives] = {nil,{{215126}}},
+        },
         [32380] = { -- The Best Around
             [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{440009,nil,Questie.ICON_TYPE_EVENT}},
         },

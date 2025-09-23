@@ -752,6 +752,11 @@ function MopObjectFixes.Load()
         [214988] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [215126] = { -- Silvermoon (Portal)
+            [objectKeys.name] = 'Silvermoon',
+            [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{75.79,52.72}}},
+            [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
+        },
         [215390] = { -- Powder Keg
             [objectKeys.name] = 'Powder Keg',
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.81,95.12},{46.03,96.11}}},
