@@ -61,3 +61,7 @@ tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- Thanks, But No T
 tinsert(eventQuests, {"Winter Veil", 29383, "25/12", "2/1"}) -- Thanks, But No Thanks
 tinsert(eventQuests, {"Winter Veil", 29385, "25/12", "2/1"}) -- A Winter Veil Gift
 --tinsert(eventQuests, {"Winter Veil", 28878, "25/12", "2/1"}) -- A Winter Veil Gift
+
+-- MoP quests
+tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- A Winter Veil Gift
+tinsert(eventQuests, {"Winter Veil", 33252, "25/12", "2/1"}) -- A Winter Veil Gift

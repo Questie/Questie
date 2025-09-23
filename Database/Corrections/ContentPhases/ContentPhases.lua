@@ -7,7 +7,7 @@ ContentPhases.activePhases = {
     SoM = 5,
     SoD = 7,
     Anniversary = 5,
-    MoP = 1,
+    MoP = 2,
 }
 
 return ContentPhases

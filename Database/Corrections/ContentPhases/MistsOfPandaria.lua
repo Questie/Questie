@@ -205,6 +205,7 @@ local questsToBlacklistByPhase = {
         [32460] = true, -- Tracking the Thieves
         [32461] = true, -- The Order of the Cloud Serpent
         [32477] = true, -- Tracking Event: Player is Back in Time
+        [33252] = true, -- A Winter Veil Gift
     },
     [3] = { -- Phase 3 (Patch 5.2 The Thunder King (Isle of Thunder, Throne of Thunder))
         [32200] = true, -- Dangers of Za'Tual
@@ -622,7 +623,6 @@ local questsToBlacklistByPhase = {
         [33248] = true, -- Proving Grounds - Available on release?
         [33249] = true, -- Proving Grounds - Available on release?
         [33250] = true, -- A Time-Lost Treasure
-        [33252] = true, -- A Winter Veil Gift
         [33257] = true, -- Sprite Fright - Tracking Quest
         [33258] = true, -- Tracking Quest - First - Karkanos
         [33259] = true, -- Tracking Quest - First - Spirit of Jadefire
