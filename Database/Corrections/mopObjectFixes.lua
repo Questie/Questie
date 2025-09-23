@@ -868,6 +868,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [440009] = {
+            [objectKeys.name] = "Deeprun Tram Entrance",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.49, 31.2}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
     }
 end
 
