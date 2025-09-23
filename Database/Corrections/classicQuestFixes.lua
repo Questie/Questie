@@ -3076,10 +3076,11 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {20424},
         },
         [8331]  ={
-            [questKeys.exclusiveTo] = {8332},
+            [questKeys.breadcrumbForQuestId] = 8332,
         },
         [8332] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8331},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),2,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
         },
         [8341] = {
@@ -3091,7 +3092,12 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 8341,
         },
         [8348] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8349},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),0,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
+        },
+        [8349]  ={
+            [questKeys.breadcrumbForQuestId] = 8348,
         },
         [8351] = {
             [questKeys.breadcrumbForQuestId] = 8352,
