@@ -3958,8 +3958,14 @@ function MopNpcFixes.Load()
         [66665] = { -- Taran Zhu
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{29.13,13.84}}},
         },
+        [66732] = { -- Master Hight
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
+        },
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.5,40.6}}},
+        },
+        [66744] = { -- Master Hight
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.32,41.52}}},
         },
         [66776] = { -- Malik the Unscathed
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.4,34.56}}},
@@ -4002,6 +4008,73 @@ function MopNpcFixes.Load()
         },
         [67370] = { -- Jeremy Feasel
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.71,62.65},{-1,-1}}},
+        },
+        [67812] = { -- Scout Rokia
+            [npcKeys.name] = "Scout Rokia",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.73,64.36}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [67901] = { -- Alliance Footman
+            [npcKeys.name] = "Alliance Footman",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{9.6,60.8},{10.2,64},{15.4,57.8},{15.6,57.8}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [67902] = { -- Alliance Priest
+            [npcKeys.name] = "Alliance Priest",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{9,64},{9.8,60.4},{9.8,60.8},{10.2,63.4},{10.2,63.8},{11.4,62.2},{11.6,62.2},{12,54.6},{12.2,54.4},{13.6,57}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [67926] = { -- Grizzle Gearslip
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.73,57.76}}},
+        },
+        [67927] = { -- Blood Guard Gro'tash
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{10.71,53.15}}},
+        },
+        [68311] = { -- Scout Lynna
+            [npcKeys.name] = "Scout Lynna",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{85.24,29.13}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questEnds] = {32246},
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [68312] = { -- Hilda Hornswaggle
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{80.43,17.52}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68331] = { -- Marshal Troteman
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{79.64,25.05}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68333] = { -- Horde Priest
+            [npcKeys.name] = "Horde Priest",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{80.2,17.4},{80.2,17.6},{82,24.4},{82.2,21},{83.4,25.2},{83.6,25.2},{84.4,20.8},{84.8,21},{85.4,25},{85.6,25.4},{86,25.8}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [68334] = { -- Horde Hunter
+            [npcKeys.name] = "Horde Hunter",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{79.4,25},{79.6,25},{80,17.4},{80,17.6},{81.8,24.2},{82.2,21.2},{82.6,21.2},{83.2,25.2},{83.8,25.2},{84.2,21},{84.6,20.8},{85.4,25},{85.8,24.2},{86,26}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [68399] = { -- 7th Legion Champion
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{85.28,28.68}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},

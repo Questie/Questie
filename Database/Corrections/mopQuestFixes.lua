@@ -105,6 +105,8 @@ QuestieCorrections.spellObjectiveFirst[31476] = true
 QuestieCorrections.spellObjectiveFirst[31477] = true
 QuestieCorrections.spellObjectiveFirst[31480] = true
 QuestieCorrections.objectObjectiveFirst[32380] = true
+QuestieCorrections.killCreditObjectiveFirst[32247] = true
+QuestieCorrections.killCreditObjectiveFirst[32250] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -1897,6 +1899,7 @@ function MopQuestFixes.Load()
         [30133] = { -- Into the Wilds
             [questKeys.preQuestSingle] = {30090},
             [questKeys.objectives] = {{{59151,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredSourceItems] = {79825},
         },
         [30134] = { -- Wild Things
             [questKeys.breadcrumbs] = {31373,31375},
@@ -3468,6 +3471,7 @@ function MopQuestFixes.Load()
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,7}},
+            [questKeys.objectives] = {nil,nil,{{80295,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30565] = { -- An Unexpected Advantage
             [questKeys.preQuestSingle] = {30000},
@@ -7119,6 +7123,7 @@ function MopQuestFixes.Load()
         [31944] = { -- Complete Your Training: The Final Test
             [questKeys.requiredClasses] = classIDs.MONK,
             [questKeys.breadcrumbs] = {31989},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",66744}}}},
         },
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT},{63165,nil,Questie.ICON_TYPE_INTERACT}},nil,{{74843}}},
@@ -7350,6 +7355,12 @@ function MopQuestFixes.Load()
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32247] = { -- A King Among Men
+            [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
+        },
+        [32250] = { -- The Might of the Warchief
+            [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{67900,67901,67902},67900}}},
         },
         [32251] = { -- Dagger in the Dark
             [questKeys.objectives] = {{{67939,nil,Questie.ICON_TYPE_TALK}}},

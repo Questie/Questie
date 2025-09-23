@@ -1938,14 +1938,14 @@ function QuestieQuestFixes:Load()
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
         },
-        [5305]  ={
+        [5305] = {
             [questKeys.exclusiveTo] = {8869},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
-        [5306]  ={
+        [5306] = {
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
-        [5307]  ={
+        [5307] = {
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [5321] = {
@@ -3869,7 +3869,7 @@ function QuestieQuestFixes:Load()
         [8868] = {
             [questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[zoneIDs.MOONGLADE]={{63.89,62.5}}}},
         },
-        [8869]  ={
+        [8869] = {
             [questKeys.exclusiveTo] = {5305},
         },
         [8870] = {

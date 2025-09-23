@@ -262,13 +262,13 @@ function QuestieWotlkQuestFixes:Load()
         [5057] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5305]  ={
+        [5305] = {
             [questKeys.requiredSpecialization] = 0,
         },
-        [5306]  ={
+        [5306] = {
             [questKeys.requiredSpecialization] = 0,
         },
-        [5307]  ={
+        [5307] = {
             [questKeys.requiredSpecialization] = 0,
         },
         [5502] = {
