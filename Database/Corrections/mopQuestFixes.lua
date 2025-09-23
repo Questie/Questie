@@ -7353,6 +7353,9 @@ function MopQuestFixes.Load()
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
         },
+        [32411] = { -- The Remaining Sunreavers
+            [questKeys.objectives] = {{{68711,nil,Questie.ICON_TYPE_INTERACT},{68714,nil,Questie.ICON_TYPE_INTERACT},{68715,nil,Questie.ICON_TYPE_INTERACT},{68716,nil,Questie.ICON_TYPE_INTERACT},{68717,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
