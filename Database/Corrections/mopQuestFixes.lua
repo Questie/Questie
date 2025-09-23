@@ -7350,6 +7350,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32251] = { -- Dagger in the Dark
+            [questKeys.objectives] = {{{67939,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
         },
