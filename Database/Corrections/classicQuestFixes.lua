@@ -3075,7 +3075,7 @@ function QuestieQuestFixes:Load()
         [8317] = {
             [questKeys.requiredSourceItems] = {20424},
         },
-        [8331]  ={
+        [8331] = {
             [questKeys.breadcrumbForQuestId] = 8332,
         },
         [8332] = {
@@ -3096,7 +3096,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {8349},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),0,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
         },
-        [8349]  ={
+        [8349] = {
             [questKeys.breadcrumbForQuestId] = 8348,
         },
         [8351] = {

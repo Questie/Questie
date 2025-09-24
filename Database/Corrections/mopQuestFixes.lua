@@ -5554,14 +5554,14 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
+            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too. it has more than those 3!
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31374] = { -- The Tillers
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too
+            [questKeys.preQuestGroup] = {31007,31010,31660}, -- not entirely sure, could be 31006 instead, probably klaxxi friendly too. it has more than those 3!
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
@@ -5740,7 +5740,7 @@ function MopQuestFixes.Load()
         },
         [31483] = { -- Incoming...
             [questKeys.startedBy] = {{64616,64822}},
-            [questKeys.preQuestSingle] = {31482},
+            [questKeys.preQuestSingle] = {31482}, -- need to see when it stop being offered if you don't take it
             [questKeys.objectives] = {{{64681,nil,Questie.ICON_TYPE_EVENT},{64822,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [31486] = { -- Everything I Know About Cooking
@@ -7352,12 +7352,19 @@ function MopQuestFixes.Load()
         [32038] = { -- Stag Mastery
             [questKeys.preQuestSingle] = {30181},
         },
+        [32109] = { -- Lion's Landing
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
+        },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [32247] = { -- A King Among Men
+            [questKeys.preQuestSingle] = {32246},
             [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
+        },
+        [32248] = { -- A Little Patience
+            [questKeys.preQuestSingle] = {32247},
         },
         [32250] = { -- The Might of the Warchief
             [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{67900,67901,67902},67900}}},
@@ -7370,6 +7377,17 @@ function MopQuestFixes.Load()
         },
         [32329] = { -- Get My Results!
             [questKeys.objectives] = {nil,{{215126}}},
+        },
+        [32373] = { -- The Measure of a Leader
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [32374] = { -- The Prince's Pursuit
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32373},
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
         },
         [32380] = { -- The Best Around
             [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{{440009,nil,Questie.ICON_TYPE_EVENT}}},
@@ -7396,6 +7414,10 @@ function MopQuestFixes.Load()
         [32441] = { -- Thundering Pandaren Spirit
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68465,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32474] = { -- A Test of Valor
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32373},
         },
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,

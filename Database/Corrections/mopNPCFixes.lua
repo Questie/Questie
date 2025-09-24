@@ -3438,6 +3438,9 @@ function MopNpcFixes.Load()
         [64599] = { -- Ambersmith Zikk
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{55.02,35.55}}},
         },
+        [64610] = { -- Lyalia
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.29,66.09}}},
+        },
         [64616] = { -- Wrathion
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
         },
@@ -3925,7 +3928,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{17.24,50.52}}},
         },
         [66552] = { -- Narrok
-            [npcKeys.spawns] = {[zoneIDs.NAGRAND]={{61,49.4}}},
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND]={{60.97,49.43}}},
         },
         [66553] = { -- Morulu The Elder
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{58.76,70.05}}},
@@ -3937,6 +3940,9 @@ function MopNpcFixes.Load()
         [66556] = { -- Alliance Barricade
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.93,10.63}}},
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [66557] = { -- Bloodknight Antari
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{30.51,41.76}}},
         },
         [66574] = { -- Mishka
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.13,84.57}}},
@@ -4038,6 +4044,9 @@ function MopNpcFixes.Load()
         },
         [67927] = { -- Blood Guard Gro'tash
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{10.71,53.15}}},
+        },
+        [67940] = { -- Admiral Taylor
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.55,32.58}}},
         },
         [68311] = { -- Scout Lynna
             [npcKeys.name] = "Scout Lynna",
@@ -4170,6 +4179,11 @@ function MopNpcFixes.Load()
         [69360] = { -- Bozzle Blastinfuse
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{51.8,75.4},{51.8,75.6}}},
+        },
+        [69782] = { -- Wrathion
+            [npcKeys.name] = "Wrathion",
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
+            [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
         },
         [69925] = { -- Zandalari Dinomancer
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
