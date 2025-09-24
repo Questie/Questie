@@ -346,6 +346,64 @@ describe("Validators", function()
         end)
     end)
 
+    describe("checkQuestFinishers", function()
+        it("should find quests with non-existing NPC finisher", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {{2}},
+                },
+            }
+            local npcs = {}
+            local objects = {[2]={}}
+
+            local invalidQuests = Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+
+            assert.are.same({
+                [1] = "NPC finisher 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with non-existing object finisher", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {nil,{2}},
+                },
+            }
+            local npcs = {[2]={}}
+            local objects = {}
+
+            local invalidQuests = Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+
+            assert.are.same({
+                [1] = "Object finisher 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all quest finisher are valid", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {{1}},
+                },
+                [2] = {
+                    finishedBy = {nil,{2}},
+                },
+                [3] = {
+                    finishedBy = {nil,nil,{3}},
+                },
+            }
+            local npcs = {[1]={}}
+            local objects = {[2]={}}
+            local items = {[3]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
     describe("checkObjectives", function()
         it("should find quests which have NPC objectives that do not exist in the DB", function()
             local quests = {

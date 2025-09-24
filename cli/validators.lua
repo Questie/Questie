@@ -245,6 +245,47 @@ end
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
 ---@param objects table<ObjectId, Object>
+---@return table<QuestId, string>
+function Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+    print("\n\27[36mSearching for quest finishers...\27[0m")
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        local finishedBy = questData[questKeys.finishedBy]
+        if finishedBy then
+            for _, npcFinisher in pairs(finishedBy[1] or {}) do
+                if not npcs[npcFinisher] then
+                    invalidQuests[questId] = "NPC finisher " .. npcFinisher .. " is missing in the database"
+                end
+            end
+            for _, objectFinisher in pairs(finishedBy[2] or {}) do
+                if not objects[objectFinisher] then
+                    invalidQuests[questId] = "Object finisher " .. objectFinisher .. " is missing in the database"
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid quest finishers:\27[0m")
+        for questId, reason in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid quest finishers\27[0m")
+        return nil
+    end
+end
+
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param npcs table<NpcId, NPC>
+---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
 ---@return table<QuestId, string>
 function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
