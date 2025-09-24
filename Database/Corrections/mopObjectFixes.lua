@@ -792,21 +792,17 @@ function MopObjectFixes.Load()
         [216106] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
-        [216162] = {
+        [216162] = { -- Mound of Dirt
             [objectKeys.name] = "Mound of Dirt",
-            [objectKeys.zoneID] = 6134,
-            [objectKeys.spawns] = {
-                [6134] = {{13,37.8}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.87,41.34}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32162,32165},
         },
-        [216163] = {
+        [216163] = { -- Mound of Dirt
             [objectKeys.name] = "Mound of Dirt",
-            [objectKeys.zoneID] = 6134,
-            [objectKeys.spawns] = {
-                [6134] = {{56.3,42.1}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{56.3,42.05}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32163,32166},
         },
@@ -835,6 +831,17 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Memory Wine",
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.5,55.4}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [216885] = { -- Mailbox
+            [objectKeys.name] = "Mailbox",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.72,30.65}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
+        [216886] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{88.67,34.48}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [objectKeys.factionID] = 1732, -- alliance only
         },
         [218229] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{49.54,83.26}}},

@@ -7355,6 +7355,90 @@ function MopQuestFixes.Load()
         [32109] = { -- Lion's Landing
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
+        [32161] = { -- Beastmaster's Hunt: The Crane
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32162] = { -- Beastmaster's Hunt: The Tiger
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32163] = { -- Beastmaster's Hunt: The Crab
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32164] = { -- Beastmaster's Hunt: The Crane
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32165] = { -- Beastmaster's Hunt: The Tiger
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32166] = { -- Beastmaster's Hunt: The Crab
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32167] = { -- Ancient's Fall -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
+            [questKeys.exclusiveTo] = {32168,32169},
+        },
+        [32168] = { -- End of an Elder -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
+            [questKeys.exclusiveTo] = {32167,32169},
+        },
+        [32169] = { -- A Colossal Victory -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
+            [questKeys.exclusiveTo] = {32167,32168},
+        },
+        [32170] = { -- Ancient's Fall -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.exclusiveTo] = {32171,32172},
+        },
+        [32171] = { -- End of an Elder -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.exclusiveTo] = {32170,32172},
+        },
+        [32172] = { -- A Colossal Victory -- need to figure out a logical starter
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.exclusiveTo] = {32170,32171},
+        },
+        [32181] = { -- Beastmaster's Quarry: The Crane
+            [questKeys.preQuestSingle] = {32161},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32182] = { -- Beastmaster's Quarry: The Tiger
+            [questKeys.preQuestSingle] = {32162},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32183] = { -- Beastmaster's Quarry: The Crab
+            [questKeys.preQuestSingle] = {32163},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32184] = { -- Beastmaster's Quarry: The Crane
+            [questKeys.preQuestSingle] = {32164},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32185] = { -- Beastmaster's Quarry: The Tiger
+            [questKeys.preQuestSingle] = {32165},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32186] = { -- Beastmaster's Quarry: The Crab
+            [questKeys.preQuestSingle] = {32166},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32175] = { -- Darkmoon Pet Battle
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},

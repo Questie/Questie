@@ -4032,11 +4032,31 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32251},
         },
+        [67498] = { -- Krasari Elder
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67503] = { -- Ancient Bloodcrown Crane
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{39.26,61.84}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67508] = { -- Colossal Viseclaw
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{56.35,42.16}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67560] = {
             [npcKeys.name] = "King Varian Wrynn",
             [npcKeys.minLevel] = 0,
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
+        },
+        [67630] = { -- Mishka
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.67,32.79}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67631] = { -- Marshal Troteman
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.69,33.08}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67682] = {
             [npcKeys.name] = "Brann Bronzebeard",
@@ -4294,6 +4314,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.DALARAN,
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{64.98,23.02}}},
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [68908] = { -- Amber Kearnen
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.79,32.43}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [69026] = {
             [npcKeys.name] = "King Varian Wrynn",
