@@ -141,7 +141,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {6681},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {10379},
+            [npcKeys.questStarts] = {5658,10379},
         },
         [4947] = { -- Theramore Lieutenant
             [npcKeys.questStarts] = {},
