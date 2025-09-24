@@ -7392,6 +7392,12 @@ function MopQuestFixes.Load()
         [32380] = { -- The Best Around
             [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{{440009,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [32392] = { -- The Divine Bell
+            [questKeys.finishedBy] = {{68337}},
+        },
+        [32394] = { -- The Divine Bell
+            [questKeys.finishedBy] = {{67951}},
+        },
         [32411] = { -- The Remaining Sunreavers
             [questKeys.objectives] = {{{68711,nil,Questie.ICON_TYPE_INTERACT},{68714,nil,Questie.ICON_TYPE_INTERACT},{68715,nil,Questie.ICON_TYPE_INTERACT},{68716,nil,Questie.ICON_TYPE_INTERACT},{68717,nil,Questie.ICON_TYPE_INTERACT}}},
         },

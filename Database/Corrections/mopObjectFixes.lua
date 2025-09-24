@@ -792,10 +792,44 @@ function MopObjectFixes.Load()
         [216106] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [216162] = {
+            [objectKeys.name] = "Mound of Dirt",
+            [objectKeys.zoneID] = 6134,
+            [objectKeys.spawns] = {
+                [6134] = {{13,37.8}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = {32162,32165},
+        },
+        [216163] = {
+            [objectKeys.name] = "Mound of Dirt",
+            [objectKeys.zoneID] = 6134,
+            [objectKeys.spawns] = {
+                [6134] = {{56.3,42.1}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = {32163,32166},
+        },
+        [216274] = {
+            [objectKeys.name] = "Signal Fire",
+            [objectKeys.zoneID] = 6134,
+            [objectKeys.spawns] = {
+                [6134] = {{8.5,63.8}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = {32108},
+        },
         [216427] = {
             [objectKeys.name] = "Hammer of Fellowship",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.4,34.3}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [216452] = {
+            [objectKeys.name] = "Treasure Chest",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = {32340},
         },
         [216625] = {
             [objectKeys.name] = "Memory Wine",

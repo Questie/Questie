@@ -4015,6 +4015,40 @@ function MopNpcFixes.Load()
         [67370] = { -- Jeremy Feasel
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.71,62.65},{-1,-1}}},
         },
+        [67387] = {
+            [npcKeys.name] = "Tinkmaster Overspark",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+        },
+        [67414] = {
+            [npcKeys.name] = "Vol'jin",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6565,
+            [npcKeys.spawns] = {
+                [6565] = {{56,75.4}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questEnds] = {32251},
+        },
+        [67560] = {
+            [npcKeys.name] = "King Varian Wrynn",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+        },
+        [67682] = {
+            [npcKeys.name] = "Brann Bronzebeard",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 5841,
+            [npcKeys.spawns] = {
+                [5841] = {{59.8,76}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32193},
+        },
         [67812] = { -- Scout Rokia
             [npcKeys.name] = "Scout Rokia",
             [npcKeys.minLevel] = 90,
@@ -4047,6 +4081,66 @@ function MopNpcFixes.Load()
         },
         [67940] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.55,32.58}}},
+        },
+        [67951] = {
+            [npcKeys.name] = "Sarannha Skyglaive",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 5841,
+            [npcKeys.spawns] = {
+                [5841] = {{32.6,30.4}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32394},
+        },
+        [68084] = {
+            [npcKeys.name] = "Lor'themar Theron",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 3487,
+            [npcKeys.spawns] = {
+                [3487] = {{91.2,37.4}},
+            },
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questEnds] = {32330},
+        },
+        [68137] = {
+            [npcKeys.name] = "Akama",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6613,
+            [npcKeys.spawns] = {
+                [6613] = {{45.2,49.4}},
+            },
+        },
+        [68223] = {
+            [npcKeys.name] = "Garrosh Hellscream",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 5841,
+            [npcKeys.spawns] = {
+                [5841] = {{55.8,32}},
+            },
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questEnds] = {32399},
+        },
+        [68242] = {
+            [npcKeys.name] = "King Varian Wrynn",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 5840,
+            [npcKeys.spawns] = {
+                [5840] = {{65.8,40}},
+                [6142] = {{66.8,42}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32316},
+        },
+        [68289] = {
+            [npcKeys.name] = "Xi'ri",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
         },
         [68311] = { -- Scout Lynna
             [npcKeys.name] = "Scout Lynna",
@@ -4088,6 +4182,28 @@ function MopNpcFixes.Load()
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
         },
+        [68531] = {
+            [npcKeys.name] = "Professor Kilt",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.zoneID] = 2257,
+            [npcKeys.spawns] = {
+                [2257] = {{25.2,79.4}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32426},
+        },
+        [68544] = {
+            [npcKeys.name] = "The Monkey King",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 6134,
+            [npcKeys.spawns] = {
+                [6134] = {{43.4,86.4}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32336},
+        },
         [68558] = {
             [npcKeys.name] = "Gorespine",
             [npcKeys.minLevel] = 25,
@@ -4127,6 +4243,17 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
+        },
+        [68690] = {
+            [npcKeys.name] = "King Varian Wrynn",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 6134,
+            [npcKeys.spawns] = {
+                [6134] = {{87.8,33}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32423},
         },
         [68711] = {
             [npcKeys.name] = "Uda the Beast",
@@ -4168,6 +4295,28 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{64.98,23.02}}},
             [npcKeys.friendlyToFaction] = "H",
         },
+        [69026] = {
+            [npcKeys.name] = "King Varian Wrynn",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 6616,
+            [npcKeys.spawns] = {
+                [6616] = {{41.8,15.4}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questEnds] = {32248},
+        },
+        [69090] = {
+            [npcKeys.name] = "Admiral Taylor",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6134,
+            [npcKeys.spawns] = {
+                [6134] = {{87.6,33}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questEnds] = {32455},
+        },
         [69161] = { -- Oondasta
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{49.9,54},{50.6,54.4}}},
@@ -4180,10 +4329,22 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{51.8,75.4},{51.8,75.6}}},
         },
+        [69617] = {
+            [npcKeys.name] = "Lor'themar Theron",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 6507,
+            [npcKeys.spawns] = {
+                [6507] = {{56,39.2}},
+                [6677] = {{56,39.2}},
+            },
+            [npcKeys.friendlyToFaction] = "H",
+        },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
+            [npcKeys.friendlyToFaction] = "AH",
         },
         [69925] = { -- Zandalari Dinomancer
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
@@ -4311,6 +4472,47 @@ function MopNpcFixes.Load()
                 [zoneIDs.ISLE_OF_GIANTS] = {{67,75.2},{69.6,71.4},{69.8,71.6}}},
                 [zoneIDs.ISLE_OF_THUNDER] = {{50.4,42.8},{50.8,43.4},{51,43.6}},
         },
+        [70100] = {
+            [npcKeys.name] = "Wrathion",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 6677,
+            [npcKeys.spawns] = {
+                [6677] = {{57,33.6},{60,28.4}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70166] = {
+            [npcKeys.name] = "Jubeka Shadowbreaker",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6613,
+            [npcKeys.spawns] = {
+                [6613] = {{50.6,72.6}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questEnds] = {32325},
+        },
+        [70270] = {
+            [npcKeys.name] = "Jubeka Shadowbreaker",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 3520,
+            [npcKeys.spawns] = {
+                [3520] = {{42.6,43.8}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70315] = {
+            [npcKeys.name] = "Yalia Sagewhisper",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6507,
+            [npcKeys.spawns] = {
+                [6507] = {{51.4,46}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
         [70414] = { -- Skumblade Pillager
             [npcKeys.name] = "Skumblade Pillager",
             -- [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{}}}, Unknown location, not part of quest causing error
@@ -4320,6 +4522,45 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{28.8,67.4},{29,67.8}}},
         },
+        [70438] = {
+            [npcKeys.name] = "Wrathion",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 6507,
+            [npcKeys.spawns] = {
+                [6507] = {{56,30}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70476] = {
+            [npcKeys.name] = "Wrathion",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 6006,
+            [npcKeys.spawns] = {
+                [6006] = {{75.2,76.4}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70980] = {
+            [npcKeys.name] = "Seer Hao Pham Roo",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 5841,
+            [npcKeys.spawns] = {
+                [5841] = {{43.6,51}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {32816},
+            [npcKeys.questEnds] = {32816},
+        },
+        [71027] = {
+            [npcKeys.name] = "Amber Kearnen",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [71095] = { -- Reflection of Lei Shi
             [npcKeys.spawns] = {[zoneIDs.TERRACE_OF_ENDLESS_SPRING] = {{39.04,48.71},{58.88,48.71},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.TERRACE_OF_ENDLESS_SPRING,
@@ -4327,6 +4568,33 @@ function MopNpcFixes.Load()
         [71143] = { -- Windfeather Chick
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{26.4,52.4},{26.6,52.2},{28.4,50.4},{29.4,52.4},{29.4,52.6},{29.4,60.4},{29.4,67.2},{29.6,52.4},{29.6,52.6},{29.6,60.4},{29.6,67.2},{29.8,34.8},{29.8,60.6},{30,34.2},{30.4,39.2},{30.4,66.2},{30.6,38.8},{30.6,41.4},{30.6,41.6},{30.6,62.2},{31.2,50},{31.4,49},{31.4,64.8},{31.4,78.4},{31.4,78.8},{31.6,50.2},{31.6,51.2},{31.6,60},{31.6,64.8},{31.6,78.8},{31.6,79.8},{32,52},{32,61.4},{32.4,52.8},{32.4,70.6},{32.6,52.4},{32.6,52.8},{32.8,69.2},{33,65.8},{33.2,51.4},{33.2,80.2},{33.6,51.8},{33.6,66.4},{33.6,66.6},{33.6,79.6},{34,81.4},{34,81.6},{34.8,82.2},{35.4,38.2},{35.4,38.8},{35.8,38.2},{35.8,38.8},{35.8,82.6},{36,82.2},{36.4,81},{36.6,83.4},{37.4,38.8},{37.6,39},{39,38},{39,41.2},{39.2,44.8},{39.4,44},{39.6,41.6},{40,41},{40.4,81.4},{40.6,80},{40.8,81.2},{41.2,69.4},{41.2,69.6},{41.6,81.2},{41.8,80.2},{42.2,69.8},{42.4,44.8},{42.4,65.4},{42.4,68.6},{42.6,44.4},{42.6,44.8},{42.6,67.2},{43,68},{43,68.6},{43,69.6},{43.2,66.2},{43.6,67.4},{44.2,61.4},{44.2,61.6},{44.4,55.4},{44.4,55.6},{44.4,65.4},{44.6,54.8},{44.8,53.4},{44.8,53.6},{44.8,62.2},{44.8,62.6},{45,56.2},{45.2,52.4},{45.2,56.8}}},
+        },
+        [71148] = {
+            [npcKeys.name] = "Vol'jin",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [71333] = {
+            [npcKeys.name] = "Ki'ta Arrowtusk",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 14,
+            [npcKeys.spawns] = {
+                [14] = {{49.8,40},{55,73.2}},
+            },
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [71426] = {
+            [npcKeys.name] = "Wrathion",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 6006,
+            [npcKeys.spawns] = {
+                [6006] = {{73.2,79.4}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
         },
         [71920] = { -- Cursed Hozen Swabby
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
