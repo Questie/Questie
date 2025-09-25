@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-doc-field
 ---@meta
 ---@class AceTimerObj
 ---@field object table The object that the timer is registered on (self)

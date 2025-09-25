@@ -6165,6 +6165,7 @@
         "Libs",
         "setupTests.lua",
         "*test.lua",
+        "**/_data/**",
     ],
 
     "Lua.workspace.library": [
@@ -6188,7 +6189,9 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true,
-        "releases": true
+        "releases": true,
+        "**/.git": true,
+        "**/.cache": true,
     },
 
     // Removes trailing whitespaces

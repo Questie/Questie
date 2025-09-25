@@ -20,6 +20,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
+local JourneyInitializd = false
+
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
@@ -140,6 +142,8 @@ function QuestieJourney:IsShown()
 end
 
 function QuestieJourney:ToggleJourneyWindow()
+    -- Initialize the journey window if it hasn't been already
+    QuestieJourney:Initialize()
     -- There are ways to toggle this function before the frame has been created
     if QuestieJourneyFrame then
         if (not isWindowShown) then
