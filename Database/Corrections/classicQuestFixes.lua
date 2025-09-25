@@ -1218,9 +1218,6 @@ function QuestieQuestFixes:Load()
         [2847] = {
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,200},
         },
-        [2854] = {
-            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,200},
-        },
         [2851] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {2848,2849,2850}, -- #7161
@@ -1229,6 +1226,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {2848,2849,2850}, -- #7161
         },
+        [2853] = {
+             [questKeys.preQuestGroup] = {2851,2852}, -- #7161
+        },
+        [2854] = {
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,200},
+        },
         [2858] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {2855,2856,2857}, -- #7161
@@ -1236,6 +1239,9 @@ function QuestieQuestFixes:Load()
         [2859] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {2855,2856,2857}, -- #7161
+        },
+        [2860] = {
+             [questKeys.preQuestGroup] = {2858,2859}, -- #7161
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885},nil,nil}, -- #1152
