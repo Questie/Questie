@@ -797,12 +797,18 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{4966,"Subdue Private Hendel"}}},
             [questKeys.nextQuestInChain] = 1267, -- wotlkDB is wrong, classicGB is right
         },
+        [1338] = {
+            [questKeys.breadcrumbs] = {1339},
+        },
         [1339] = {
-            [questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
+            [questKeys.breadcrumbForQuestId] = 1338, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
         },
         [1361] = {
-            [questKeys.exclusiveTo] = {1362},
-            [questKeys.startedBy] = {{2229,4485}},
+            [questKeys.breadcrumbForQuestId] = 1362,
+            [questKeys.startedBy] = {{2229,3230,4485}},
+        },
+        [1362] = {
+            [questKeys.breadcrumbs] = {1361},
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
@@ -827,6 +833,7 @@ function QuestieQuestFixes:Load()
         },
         [1395] = {
             [questKeys.preQuestSingle] = {}, -- #1727
+            [questKeys.breadcrumbs] = {1477},
         },
         [1418] = {
             [questKeys.exclusiveTo] = {1419,1420}, -- #1594
@@ -887,7 +894,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [1477] = {
-            [questKeys.exclusiveTo] = {1395}, -- #1727
+            [questKeys.breadcrumbForQuestId] = 1395, -- #1727
         },
         [1478] = {
             [questKeys.exclusiveTo] = {1506}, -- #1427
