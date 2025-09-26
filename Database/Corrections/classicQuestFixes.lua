@@ -1280,6 +1280,9 @@ function QuestieQuestFixes:Load()
         [2845] = {
             [questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[zoneIDs.FERALAS]={{42.33,21.85}}}},
         },
+        [2846] = {
+            [questKeys.breadcrumbs] = {2861},
+        },
         [2847] = {
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,200},
         },
@@ -1310,7 +1313,7 @@ function QuestieQuestFixes:Load()
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885},nil,nil}, -- #1152
-            [questKeys.exclusiveTo] = {2846},
+            [questKeys.breadcrumbForQuestId] = 2846,
         },
         [2864] = {
             [questKeys.breadcrumbForQuestId] = 2865, -- #2072
