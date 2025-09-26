@@ -7375,6 +7375,11 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
+        [32120] = { -- Legacy of Ogudei
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
         [32121] = { -- The Spirit Trap
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
@@ -7567,6 +7572,28 @@ function MopQuestFixes.Load()
         [32341] = { -- Demonstrate Your Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68175,68176,68204,68205,68206},68206}}},
         },
+        [32342] = { -- The Spirit Trap
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32343] = { -- Ogudei's Lieutenants
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32344] = { -- It Is A Mystery
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32345},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32345] = { -- We're Not Monsters!
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32344},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
         [32346] = { -- Oi Ain't Afraid o' No Ghosts!
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
@@ -7574,6 +7601,11 @@ function MopQuestFixes.Load()
         [32347] = { -- Eviction Notice
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32348] = { -- Kick 'em While They're Down
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32373] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
