@@ -152,6 +152,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {253}, -- #2173
             [questKeys.preQuestSingle] = {252},
         },
+        [261] = {
+            [questKeys.breadcrumbs] = {6141}, -- #1744
+        },
         [272] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
@@ -1806,6 +1809,7 @@ function QuestieQuestFixes:Load()
         },
         [4734] = {
             [questKeys.objectives] = {nil,{{175124,"Test the Eggscilliscope Prototype"}}},
+            [questKeys.breadcrumbs] = {4907},
         },
         [4735] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 175124}}}},
@@ -1895,7 +1899,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Lakota Windsong from the Darkcloud Pinnacle.", {[zoneIDs.THOUSAND_NEEDLES]={{30.93,37.12}}}},
         },
         [4907] = {
-            [questKeys.exclusiveTo] = {4734},
+            [questKeys.breadcrumbForQuestId] = 4734,
         },
         [4941] = {
             [questKeys.triggerEnd] = {"Council with Eitrigg.", {[zoneIDs.ORGRIMMAR]={{34.14,39.26}}}},
@@ -2432,7 +2436,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {6133}, -- #1572
         },
         [6141] = {
-            [questKeys.exclusiveTo] = {261}, -- #1744
+            [questKeys.breadcrumbForQuestId] = 261, -- #1744
         },
         [6144] = {
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
