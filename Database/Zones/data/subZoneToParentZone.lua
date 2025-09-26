@@ -106,6 +106,9 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10081] = 5785, -- Greenstone Quarry Lower Quarry(fake ID cave in The Jade Forest)
     [10082] = 6141, -- Shrine of Two Moons - The Imperial Mercantile - Top Floor
     [10083] = 6142, -- Shrine of Seven Stars - The Imperial Exchange - Top Floor
+    [10084] = 5841, -- The Deeper - Lower Deep (fake ID cave in Kun-Lai Summit)
+    [10085] = 6134, -- Ruins of Ogudei (fake ID cave in Krasarang Wilds)
+    [10086] = 6134, -- Ruins of Ogudei - Reliquary Incursion (fake ID cave in Krasarang Wilds)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon

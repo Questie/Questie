@@ -320,4 +320,44 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubs = {GOLDEN_LOTUS_RUINS_PEACE = true, GOLDEN_LOTUS_RUINS_ATTACK = true},
     },
+    OPERATION_SHIELDWALL_LIONS_LANDING = {
+        quests = {32148,32149,32150,32151,32152,32153},
+        limit = 5,
+        exclusiveHubs = {
+            OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = true,
+            OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
+            OPERATION_SHIELDWALL_DOMINATION_POINT = true,
+        },
+        preQuestHubs = {},
+    },
+    OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = {
+        quests = {32116,32121,32115,32119,32346,32347,32122},
+        limit = 6,
+        exclusiveHubs = {
+            OPERATION_SHIELDWALL_LIONS_LANDING = true,
+            OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
+            OPERATION_SHIELDWALL_DOMINATION_POINT = true,
+        },
+        preQuestHubs = {},
+    },
+    OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = {
+        quests = {32452,32154,32155,32156,32157,32158,32159,32433,32446},
+        limit = 6,
+        exclusiveHubs = {
+            OPERATION_SHIELDWALL_LIONS_LANDING = true,
+            OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = true,
+            OPERATION_SHIELDWALL_DOMINATION_POINT = true,
+        },
+        preQuestHubs = {},
+    },
+    OPERATION_SHIELDWALL_DOMINATION_POINT = {
+        quests = {32451,32142,32143,32144,32145,32146},
+        limit = 6,
+        exclusiveHubs = {
+            OPERATION_SHIELDWALL_LIONS_LANDING = true,
+            OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = true,
+            OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
+        },
+        preQuestHubs = {},
+    },
 }

@@ -265,6 +265,8 @@ ZoneDB.zoneIDs = {
     ISLE_OF_THUNDER = 6507,
     THE_WIDOWS_WAIL = 6512, -- cave in The Jade Forest
     OONA_KAGU = 6513, -- cave in The Jade Forest
+    RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION = 6609, -- Ruins of Ogudei - cave in Krasarang Wilds
+    A_LITTLE_PATIENCE = 6616, -- Scenario
     BIZMOS_BRAWLPUB = 6618,
     ISLE_OF_GIANTS = 6661,
     TIMELESS_ISLE = 6757,
@@ -347,7 +349,9 @@ ZoneDB.zoneIDs = {
     GREENSTONE_QUARRY_LOWER = 10081, -- 373
     SHRINE_OF_TWO_MOONS_TOP_FLOOR = 10082, -- 392
     SHRINE_OF_SEVEN_STARS_TOP_FLOOR = 10083, -- 394
-    THE_DEEPER_LOWER_LEVEL = 10084, -- 384
+    THE_DEEPER_LOWER_LEVEL = 10084, -- cave in Kun_Lai Summit -- 384
+    RUINS_OF_OGUDEI = 10086, -- Ruins of Ogudei - cave in Krasarang Wilds -- 420
+    RUINS_OF_OGUDEI_RELIQUARY_INCURSION = 10087, -- Ruins of Ogudei - cave in Krasarang Wilds -- 421
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map

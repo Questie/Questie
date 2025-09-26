@@ -1049,15 +1049,15 @@ function MopItemFixes.Load()
         },
         [89812] = { -- "Jinyu Princess" Irrigation System
             [itemKeys.startQuest] = 31936,
-            [itemKeys.npcDrops] = {58706},
+            [itemKeys.npcDrops] = {58706}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [89813] = { -- "Thunder King" Pest Repellers
             [itemKeys.startQuest] = 31937,
-            [itemKeys.npcDrops] = {58706},
+            [itemKeys.npcDrops] = {58706}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
-            [itemKeys.npcDrops] = {58706},
+            [itemKeys.npcDrops] = {58706}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [89903] = { -- Thousand-Year Water
             [itemKeys.objectDrops] = {440008},
@@ -1076,12 +1076,15 @@ function MopItemFixes.Load()
         },
         [91854] = { -- Sturdy Crane Snare
             [itemKeys.startQuest] = 32164,
+            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91855] = { -- Sturdy Tiger Trap
             [itemKeys.startQuest] = 32165,
+            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91856] = { -- Sturdy Crab Crate
             [itemKeys.startQuest] = 32166,
+            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,

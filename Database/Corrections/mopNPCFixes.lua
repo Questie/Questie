@@ -4095,16 +4095,6 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32193},
         },
-        [67881] = {
-            [npcKeys.name] = "Proveditor Grantley",
-            [npcKeys.minLevel] = 20,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 6134,
-            [npcKeys.spawns] = {
-                [6134] = {{89.4,33.4}},
-            },
-            [npcKeys.friendlyToFaction] = "A",
-        },
         [67812] = { -- Scout Rokia
             [npcKeys.name] = "Scout Rokia",
             [npcKeys.minLevel] = 90,
@@ -4116,6 +4106,15 @@ function MopNpcFixes.Load()
         [67867] = { -- Garrosh Hellscream
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67881] = { -- Proveditor Grantley
+            [npcKeys.name] = "Proveditor Grantley",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.53,33.55}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = {32164,32165,32166},
         },
         [67901] = { -- Alliance Footman
             [npcKeys.name] = "Alliance Footman",
@@ -4276,6 +4275,10 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32316},
+        },
+        [68275] = { -- Hilda Hornswaggle
+            [npcKeys.spawns] = {[zoneIDs.RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION] = {{30.11,27.48}}},
+            [npcKeys.zoneID] = zoneIDs.RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION,
         },
         [68289] = { -- Xi'ri
             [npcKeys.name] = "Xi'ri",
@@ -4510,10 +4513,8 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "King Varian Wrynn",
             [npcKeys.minLevel] = 99,
             [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 6616,
-            [npcKeys.spawns] = {
-                [6616] = {{41.8,15.4}},
-            },
+            [npcKeys.zoneID] = zoneIDs.A_LITTLE_PATIENCE,
+            [npcKeys.spawns] = {[zoneIDs.A_LITTLE_PATIENCE] = {{41.8,15.4}}},
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32248},
         },

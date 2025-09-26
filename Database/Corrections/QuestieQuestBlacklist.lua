@@ -6428,7 +6428,6 @@ function QuestieQuestBlacklist:Load()
         [31893] = true, -- Battle Pet Trainers: Kalimdor
         [31940] = true, -- Battle Pet Trainers: Pandaria
         [31990] = true, -- Audrey Burnhep
-        [31489] = true, -- Stranger in a Strange Land (Rogue only version of 31488. For those who know Wrathion already from the Fangs quest chain)
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)

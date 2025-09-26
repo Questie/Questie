@@ -7360,14 +7360,96 @@ function MopQuestFixes.Load()
         [32109] = { -- Lion's Landing
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
+        [32115] = { -- Shackles of the Past
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.exclusiveTo] = {32119},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32116] = { -- Priorities, People!
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32115,32119,32121,32122,32346,32347},
+        },
+        [32119] = { -- It Is A Mystery
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.exclusiveTo] = {32115},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32121] = { -- The Spirit Trap
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32122] = { -- Ogudei's Lieutenants
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
+        },
         [32123] = { -- Death on Two Legs
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67425,67689,67905,67913,69029,67354},67354}}},
         },
+        [32142] = { -- We Will Rock You
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.breadcrumbs] = {32451},
+        },
         [32143] = { -- A Kind of Magic
+            [questKeys.preQuestSingle] = {32109},
             [questKeys.objectives] = {{{67544,nil,Questie.ICON_TYPE_INTERACT},{67546,nil,Questie.ICON_TYPE_INTERACT},{67547,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32144] = { -- Under Pressure
+            [questKeys.preQuestSingle] = {32109},
+        },
+        [32145] = { -- Don't Lose Your Head
+            [questKeys.preQuestSingle] = {32143},
+        },
+        [32146] = { -- Hammer to Fall
+            [questKeys.preQuestSingle] = {32109},
+        },
+        [32148] = { -- Attack! Move!
+            [questKeys.preQuestSingle] = {32109},
+        },
+        [32149] = { -- Resource Gathering
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32150] = { -- Supply Block
+            [questKeys.preQuestSingle] = {32109},
+        },
+        [32151] = { -- Tower Defense
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32152},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32152] = { -- Siege Damage
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32151},
+        },
+        [32153] = { -- Hero Killer
+            [questKeys.preQuestSingle] = {32109},
+        },
+        [32154] = { -- Burn Out!
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32155},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32155] = { -- Necessary Breaks
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32154},
+        },
+        [32156] = { -- It's Only Right
+            [questKeys.preQuestSingle] = {32109},
         },
         [32157] = { -- The Only Good Goblin...
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.breadcrumbs] = {32452},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67281,67283,67563,67564,67637,67638,67869,67870,67871,67873},67873}}},
+        },
+        [32158] = { -- Two Step Program
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32433},
+        },
+        [32159] = { -- Circle of Life
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32446},
         },
         [32161] = { -- Beastmaster's Hunt: The Crane
             [questKeys.preQuestSingle] = {32108},
@@ -7466,7 +7548,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
         },
         [32248] = { -- A Little Patience
-            [questKeys.preQuestSingle] = {32247},
+            [questKeys.preQuestSingle] = {32109},
         },
         [32250] = { -- The Might of the Warchief
             [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{67900,67901,67902},67900}}},
@@ -7484,6 +7566,14 @@ function MopQuestFixes.Load()
         },
         [32341] = { -- Demonstrate Your Power
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68175,68176,68204,68205,68206},68206}}},
+        },
+        [32346] = { -- Oi Ain't Afraid o' No Ghosts!
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32347] = { -- Eviction Notice
+            [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32373] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
@@ -7531,6 +7621,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
         },
+        [32433] = { -- Undermining the Under Miner
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32158},
+        },
         [32434] = { -- Burning Pandaren Spirit
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68463,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -7547,8 +7641,21 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68465,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32446] = { -- Dis-Assembly Required
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.exclusiveTo] = {32159},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32449] = { -- The Ruins of Ogudei
             [questKeys.preQuestSingle] = {32108},
+        },
+        [32451] = { -- Send A Message
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.breadcrumbForQuestId] = 32142,
+        },
+        [32452] = { -- And Then There Were Goblins
+            [questKeys.preQuestSingle] = {32109},
+            [questKeys.breadcrumbForQuestId] = 32157,
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},
