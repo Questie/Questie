@@ -3423,6 +3423,9 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP_THE_UPPER_STUDY] = {{49.02,21.01,phases.TALKING_SKULL_STUDY_90}},
             },
         },
+        [64566] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS]={{60.98,22.79}}}, -- Remove with Patch 5.4
+        },
         [64573] = { -- Warpweaver Ramahesh
             [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{56.41,85.44}}},
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
