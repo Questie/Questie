@@ -489,6 +489,28 @@ describe("Validators", function()
             assert.spy(exitMock).was_called_with(1)
         end)
 
+        it("should find quests which have killCredit objectives that do not exist in the DB", function()
+            local quests = {
+                [1] = {
+                    objectives = {{{3}}},
+                },
+                [2] = {
+                    objectives = {nil,nil,nil,nil,{{{4,5},4}}},
+                },
+            }
+            local npcs = {[3]={}}
+
+            local invalidQuests = Validators.checkObjectives(quests, questKeys, npcs, {}, {})
+
+            assert.are.same({
+                [2] = {
+                    "NPC 4 for killCredit objective is missing in the database",
+                    "NPC 5 for killCredit objective is missing in the database",
+                }
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
         it("should not report anything when all objectives are valid", function()
             local quests = {
                 [1] = {

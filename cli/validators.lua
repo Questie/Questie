@@ -324,6 +324,16 @@ function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
                     table.insert(invalidQuests[questId], "Item objective " .. itemId .. " is missing in the database")
                 end
             end
+            for _, killCreditObjective in pairs(objectives[5] or {}) do
+                for _, npcId in pairs(killCreditObjective[1]) do
+                    if not npcs[npcId] then
+                        if not invalidQuests[questId] then
+                            invalidQuests[questId] = {}
+                        end
+                        table.insert(invalidQuests[questId], "NPC " .. npcId .. " for killCredit objective is missing in the database")
+                    end
+                end
+            end
         end
     end
 
