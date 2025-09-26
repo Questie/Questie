@@ -243,7 +243,7 @@ function QuestieQuestFixes:Load()
         },
         [413] = {
             [questKeys.breadcrumbs] = {415}, -- #567
-        }
+        },
         [415] = {
             [questKeys.breadcrumbForQuestId] = 413, -- #567
         },
@@ -496,11 +496,14 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.exclusiveTo] = {654},
         },
+        [844] = {
+            [questKeys.breadcrumbs] = {860},
+        },
         [854] = {
             [questKeys.breadcrumbForQuestId] = 871, -- #2014
         },
         [860] = {
-            [questKeys.exclusiveTo] = {844},
+            [questKeys.breadcrumbForQuestId] = 844,
         },
         [861] = {
             [questKeys.nextQuestInChain] = 860,
@@ -902,7 +905,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
         },
         [1473] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1501},
+            [questKeys.breadcrumbs] = {1478},
         },
         [1474] = {
             [questKeys.exclusiveTo] = {1513},
@@ -913,6 +918,7 @@ function QuestieQuestFixes:Load()
         },
         [1478] = {
             [questKeys.exclusiveTo] = {1506}, -- #1427
+            [questKeys.breadcrumbForQuestId] = 1473,
         },
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
@@ -927,7 +933,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1470}, -- #999
         },
         [1501] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1473},
+            [questKeys.breadcrumbs] = {1506},
         },
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
@@ -935,6 +943,7 @@ function QuestieQuestFixes:Load()
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
+            [questKeys.breadcrumbForQuestId] = 1501,
         },
         [1507] = {
             [questKeys.exclusiveTo] = {},
@@ -961,8 +970,15 @@ function QuestieQuestFixes:Load()
         [1521] = {
             [questKeys.exclusiveTo] = {1518},
         },
+        [1522] = {
+            [questKeys.breadcrumbForQuestId] = 1524,
+        },
         [1523] = {
             [questKeys.startedBy] = {{5906}},
+            [questKeys.breadcrumbForQuestId] = 1524,
+        },
+        [1524] = {
+            [questKeys.breadcrumbs] = {1522,1523,2983,2984},
         },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
@@ -1044,8 +1060,15 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2151,3598,3657},nil,nil},
             [questKeys.exclusiveTo] = {1639,1666,1678,1686,1680},
         },
+        [1685] = {
+            [questKeys.breadcrumbForQuestId] = 1688, -- #7095
+            [questKeys.exclusiveTo] = {},
+        },
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
+        },
+        [1688] = {
+            [questKeys.breadcrumbs] = {1685,1715}, -- #7095
         },
         [1689] = {
             [questKeys.requiredSourceItems] = {},
@@ -1068,6 +1091,11 @@ function QuestieQuestFixes:Load()
         },
         [1710] = {
             [questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+        },
+        [1715] = {
+            [questKeys.nextQuestInChain] = 1688,
+            [questKeys.breadcrumbForQuestId] = 1688, -- #7095
+            [questKeys.exclusiveTo] = {},
         },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
@@ -1417,6 +1445,12 @@ function QuestieQuestFixes:Load()
         },
         [2981] = {
             [questKeys.breadcrumbForQuestId] = 2975,
+        },
+        [2983] = {
+            [questKeys.breadcrumbForQuestId] = 1524,
+        },
+        [2984] = {
+            [questKeys.breadcrumbForQuestId] = 1524,
         },
         [2992] = {
             [questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[zoneIDs.BLASTED_LANDS]={{66.99,19.41}}}},
