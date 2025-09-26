@@ -498,11 +498,14 @@ function QuestieQuestFixes:Load()
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
         },
+       [870] = {
+            [questKeys.breadcrumbs] = {886},
+        },
         [871] = {
             [questKeys.breadcrumbs] = {854}, -- #2014
         },
         [886] = {
-            [questKeys.exclusiveTo] = {870},
+            [questKeys.breadcrumbForQuestId] = 870,
         },
         [898] = {
             [questKeys.triggerEnd] = {"Escort Gilthares Firebough back to Ratchet", {[zoneIDs.THE_BARRENS]={{62.27,39.09}}}},
@@ -628,7 +631,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1015,1019},
         },
         [1056] = {
-            [questKeys.exclusiveTo] = {1057}, -- #1901
+            [questKeys.breadcrumbForQuestId] = 1057, -- #1901
+        },
+        [1057] = {
+            [questKeys.breadcrumbs] = {1056}, -- #1901
         },
         [1061] = {
             [questKeys.exclusiveTo] = {1062}, -- #1803
