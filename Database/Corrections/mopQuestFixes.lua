@@ -7525,6 +7525,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68465,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32449] = { -- The Ruins of Ogudei
+            [questKeys.preQuestSingle] = {32108},
+        },
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32373},
