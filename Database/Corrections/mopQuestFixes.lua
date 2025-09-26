@@ -104,7 +104,6 @@ QuestieCorrections.spellObjectiveFirst[31474] = true
 QuestieCorrections.spellObjectiveFirst[31476] = true
 QuestieCorrections.spellObjectiveFirst[31477] = true
 QuestieCorrections.spellObjectiveFirst[31480] = true
-QuestieCorrections.objectObjectiveFirst[32380] = true
 QuestieCorrections.killCreditObjectiveFirst[32247] = true
 QuestieCorrections.killCreditObjectiveFirst[32250] = true
 
@@ -7394,67 +7393,84 @@ function MopQuestFixes.Load()
         [32142] = { -- We Will Rock You
             [questKeys.preQuestSingle] = {32109},
             [questKeys.breadcrumbs] = {32451},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32143] = { -- A Kind of Magic
             [questKeys.preQuestSingle] = {32109},
             [questKeys.objectives] = {{{67544,nil,Questie.ICON_TYPE_INTERACT},{67546,nil,Questie.ICON_TYPE_INTERACT},{67547,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32144] = { -- Under Pressure
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32145] = { -- Don't Lose Your Head
             [questKeys.preQuestSingle] = {32143},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32146] = { -- Hammer to Fall
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32148] = { -- Attack! Move!
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32149] = { -- Resource Gathering
             [questKeys.preQuestSingle] = {32109},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32150] = { -- Supply Block
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32151] = { -- Tower Defense
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32152},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32152] = { -- Siege Damage
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32151},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32153] = { -- Hero Killer
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32154] = { -- Burn Out!
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32155},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32155] = { -- Necessary Breaks
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32154},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32156] = { -- It's Only Right
             [questKeys.preQuestSingle] = {32109},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32157] = { -- The Only Good Goblin...
             [questKeys.preQuestSingle] = {32109},
             [questKeys.breadcrumbs] = {32452},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67281,67283,67563,67564,67637,67638,67869,67870,67871,67873},67873}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32158] = { -- Two Step Program
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32433},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32159] = { -- Circle of Life
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32446},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32161] = { -- Beastmaster's Hunt: The Crane
             [questKeys.preQuestSingle] = {32108},
@@ -7619,7 +7635,18 @@ function MopQuestFixes.Load()
             [questKeys.questLevel] = 90,
         },
         [32380] = { -- The Best Around
-            [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{{440009,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {32248},
+            [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,3950},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32381] = { -- To Catch A Spy
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Grab the drinks"),0,{{"monster",68526}}}},
+            [questKeys.objectives] = {{{68537,nil,Questie.ICON_TYPE_TALK},{68540,nil,Questie.ICON_TYPE_TALK},{68539,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,3950},
+            [questKeys.requiredSourceItems] = {92975,92976,92977},
+            [questKeys.nextQuestInChain] = 32426,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32388] = { -- A Change of Command
             [questKeys.startedBy] = {{64616}},
@@ -7649,6 +7676,14 @@ function MopQuestFixes.Load()
         [32419] = { -- Nowhere to Hide
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68051,68760,68761,68050},68050}}},
         },
+        [32426] = { -- Stirred, Not Shaken
+            [questKeys.preQuestSingle] = {32381},
+            [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,3950},
+            [questKeys.nextQuestInChain] = 32382,
+            [questKeys.requiredSourceItems] = {92978},
+            [questKeys.objectives] = {{{68531,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
+        },
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
@@ -7656,6 +7691,7 @@ function MopQuestFixes.Load()
         [32433] = { -- Undermining the Under Miner
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32158},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32434] = { -- Burning Pandaren Spirit
             [questKeys.requiredSpell] = 119467,
@@ -7677,6 +7713,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32159},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32449] = { -- The Ruins of Ogudei
             [questKeys.preQuestSingle] = {32108},
