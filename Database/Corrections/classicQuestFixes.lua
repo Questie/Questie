@@ -2656,10 +2656,16 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [7121] = {
-            [questKeys.exclusiveTo] = {7122},
+            [questKeys.breadcrumbForQuestId] = 7122,
+        },
+        [7122] = {
+            [questKeys.breadcrumbs] = {7121},
         },
         [7123] = {
-            [questKeys.exclusiveTo] = {7124},
+            [questKeys.breadcrumbForQuestId] = 7124,
+        },
+        [7124] = {
+            [questKeys.breadcrumbs] = {7123},
         },
         [7141] = {
             [questKeys.triggerEnd] = {"Defeat Drek'thar.",{[zoneIDs.ALTERAC_VALLEY]={{47.22,86.95}}}},
@@ -2669,10 +2675,15 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[zoneIDs.ALTERAC_VALLEY]={{42.29,12.85}}}},
         },
         [7161] = {
-            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.breadcrumbs] = {7241},
+        }
+        [7162] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.breadcrumbs] = {7261},
         },
         [7165] = {
-            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [7166] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2693,10 +2704,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {3906},
         },
         [7241] = {
-            [questKeys.exclusiveTo] = {7161},
+            [questKeys.breadcrumbForQuestId] = 7161,
         },
         [7261] = {
-            [questKeys.exclusiveTo] = {7162},
+            [questKeys.breadcrumbForQuestId] = 7162,
         },
         [7281] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3401,12 +3412,13 @@ function QuestieQuestFixes:Load()
         },
         [8417] = {
             [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
+            [questKeys.breadcrumbForQuestId] = 8423,
         },
         [8419] = {
             [questKeys.startedBy] = {{461,3326,4563,5172}},
         },
         [8423] = {
-            [questKeys.exclusiveTo] = {8417}, -- breadcrumb
+            [questKeys.breadcrumbs] = {8417},
         },
         [8426] = { -- Battle of Warsong Gulch
             [questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
