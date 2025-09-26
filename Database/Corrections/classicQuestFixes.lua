@@ -94,7 +94,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {1103}, -- #1658
         },
         [109] = {
-            [questKeys.startedBy] = {{233,237,240,261,294,963},nil,nil}, --#2158
+            [questKeys.startedBy] = {{233,237,240,261,294,963},nil,nil}, -- #2158
         },
         [117] = {
             [questKeys.name] = "Thunderbrew",
@@ -122,7 +122,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 95, -- deliveries to sven is a breadcrumb
         },
         [165] = {
-            [questKeys.breadcrumbForQuestId] = 148, --#1173
+            [questKeys.breadcrumbForQuestId] = 148, -- #1173
         },
         [178] = {
             [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
@@ -149,7 +149,7 @@ function QuestieQuestFixes:Load()
         [254] = {
             [questKeys.parentQuest] = 253,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.exclusiveTo] = {253}, --#2173
+            [questKeys.exclusiveTo] = {253}, -- #2173
             [questKeys.preQuestSingle] = {252},
         },
         [272] = {
@@ -392,7 +392,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {677},
         },
         [677] = {
-            [questKeys.preQuestSingle] = {}, --#1162
+            [questKeys.preQuestSingle] = {}, -- #1162
         },
         [680] = {
             [questKeys.preQuestSingle] = {678}, -- #1062
@@ -406,7 +406,7 @@ function QuestieQuestFixes:Load()
         },
         [707] = {
             [questKeys.nextQuestInChain] = 738,
-            [questKeys.breadcrumbForQuestId] = 738, --#1289
+            [questKeys.breadcrumbForQuestId] = 738, -- #1289
         },
         [715] = {
             [questKeys.requiredSkill] = {},
@@ -414,8 +414,11 @@ function QuestieQuestFixes:Load()
         [717] = {
             [questKeys.requiredSourceItems] = {4843,4844,4845},
         },
+        [729] = {
+            [questKeys.breadcrumbs] = {730},
+        },
         [730] = {
-            [questKeys.exclusiveTo] = {729}, -- #1587
+            [questKeys.breadcrumbForQuestId] = 729,
             [questKeys.zoneOrSort] = 1657,
         },
         [731] = {
@@ -480,7 +483,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {654},
         },
         [854] = {
-            [questKeys.exclusiveTo] = {871}, -- #2014
+            [questKeys.breadcrumbForQuestId] = 871, -- #2014
         },
         [860] = {
             [questKeys.exclusiveTo] = {844},
@@ -494,6 +497,9 @@ function QuestieQuestFixes:Load()
         },
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
+        },
+        [871] = {
+            [questKeys.breadcrumbs] = {854}, -- #2014
         },
         [886] = {
             [questKeys.exclusiveTo] = {870},
@@ -527,7 +533,7 @@ function QuestieQuestFixes:Load()
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
-            [questKeys.preQuestSingle] = {809}, --#606
+            [questKeys.preQuestSingle] = {809}, -- #606
             [questKeys.exclusiveTo] = {924}, -- #2195
         },
         [930] = {
@@ -1116,7 +1122,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {2038},
         },
         [2041] = {
-            [questKeys.exclusiveTo] = {2040}, --#2068
+            [questKeys.exclusiveTo] = {2040}, -- #2068
         },
         [2118] = {
             [questKeys.objectives] = {{{2164,"Rabid Thistle Bear Captured"}}},
@@ -2724,7 +2730,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
             [questKeys.preQuestSingle] = {7667},
         },
-        [7669] = { --#1449
+        [7669] = { -- #1449
             [questKeys.name] = "Again Into the Great Ossuary",
             [questKeys.startedBy] = {{13417},nil,nil},
             [questKeys.finishedBy] = {{13417},nil},
