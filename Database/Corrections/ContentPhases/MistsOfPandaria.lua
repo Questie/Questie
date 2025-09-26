@@ -206,6 +206,7 @@ local questsToBlacklistByPhase = {
         [32461] = true, -- The Order of the Cloud Serpent
         [32477] = true, -- Tracking Event: Player is Back in Time
         [33252] = true, -- A Winter Veil Gift
+        [33354] = true, -- Den Mother's Demise
     },
     [3] = { -- Phase 3 (Patch 5.2 The Thunder King (Isle of Thunder, Throne of Thunder))
         [32200] = true, -- Dangers of Za'Tual
@@ -702,7 +703,6 @@ local questsToBlacklistByPhase = {
         [33343] = true, -- The Archiereus Of Flame
         [33345] = true, -- Dark Shaman Weekly Attempt
         [33348] = true, -- \"Tom\" Bone Apart - Intro Tracking Quest
-        [33354] = true, -- Den Mother's Demise
         [33358] = true, -- Noodle Time: Bonus
         [33360] = true, -- 5.4 Raid - RRP - Boss 1 Legendary Quest
         [33361] = true, -- 5.4 Raid - RRP - Boss 2 Legendary Quest

@@ -1116,6 +1116,10 @@ function MopItemFixes.Load()
         [95390] = { -- Pristine Kypari Sap Container
             [itemKeys.startQuest] = 32693,
         },
+        [105891] = { -- Moonfang's Pelt
+            [itemKeys.startQuest] = 33354,
+            [itemKeys.npcDrops] = {71992},
+        },
         [244172] = { -- Eternal Blossom
             [itemKeys.name] = "Eternal Blossom",
             [itemKeys.class] = itemClasses.QUEST,

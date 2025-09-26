@@ -86,6 +86,12 @@ tinsert(eventQuests, {"Darkmoon Faire", 10939}) -- Darkmoon Storms Deck
 tinsert(eventQuests, {"Darkmoon Faire", 10940}) -- Darkmoon Furies Deck
 tinsert(eventQuests, {"Darkmoon Faire", 10941}) -- Darkmoon Lunacy Deck
 
+-- WotLK quests
+tinsert(eventQuests, {"Darkmoon Faire", 13324}) -- Darkmoon Prisms Deck
+tinsert(eventQuests, {"Darkmoon Faire", 13325}) -- Darkmoon Chaos Deck
+tinsert(eventQuests, {"Darkmoon Faire", 13326}) -- Darkmoon Nobles Deck
+tinsert(eventQuests, {"Darkmoon Faire", 13327}) -- Darkmoon Undeath Deck
+
 -- Cata quests
 tinsert(eventQuests, {"Darkmoon Faire", 27664}) -- Darkmoon Volcanic Deck
 tinsert(eventQuests, {"Darkmoon Faire", 27665}) -- Darkmoon Hurricane Deck
@@ -123,3 +129,11 @@ tinsert(eventQuests, {"Darkmoon Faire", 29520}) -- Banners, Banners Everywhere!
 tinsert(eventQuests, {"Darkmoon Faire", 29601}) -- The Darkmoon Field Guide
 tinsert(eventQuests, {"Darkmoon Faire", 29760}) -- Pit Fighter
 tinsert(eventQuests, {"Darkmoon Faire", 29761}) -- Master Pit Fighter
+
+-- MoP quests
+tinsert(eventQuests, {"Darkmoon Faire", 30449}) -- Darkmoon Crane Deck
+tinsert(eventQuests, {"Darkmoon Faire", 30450}) -- Darkmoon Ox Deck
+tinsert(eventQuests, {"Darkmoon Faire", 30451}) -- Darkmoon Serpent Deck
+tinsert(eventQuests, {"Darkmoon Faire", 30452}) -- Darkmoon Tiger Deck
+tinsert(eventQuests, {"Darkmoon Faire", 32175}) -- Darkmoon Pet Battle!
+tinsert(eventQuests, {"Darkmoon Faire", 33354}) -- Den Mother's Demise

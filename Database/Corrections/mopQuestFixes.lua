@@ -3215,6 +3215,18 @@ function MopQuestFixes.Load()
         [30445] = { -- The Waters of Youth
             [questKeys.objectives] = {{{58970,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [30449] = { -- Darkmoon Crane Deck
+            [questKeys.startedBy] = {nil,nil,{79325}},
+        },
+        [30450] = { -- Darkmoon Ox Deck
+            [questKeys.startedBy] = {nil,nil,{79324}},
+        },
+        [30451] = { -- Darkmoon Serpent Deck
+            [questKeys.startedBy] = {nil,nil,{79326}},
+        },
+        [30452] = { -- Darkmoon Tiger Deck
+            [questKeys.startedBy] = {nil,nil,{79323}},
+        },
         [30457] = { -- Call Out Their Leader
             [questKeys.preQuestSingle] = {},
         },
@@ -7557,7 +7569,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32166},
             [questKeys.questFlags] = questFlags.DAILY,
         },
-        [32175] = { -- Darkmoon Pet Battle
+        [32175] = { -- Darkmoon Pet Battle!
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
@@ -7848,6 +7860,10 @@ function MopQuestFixes.Load()
         },
         [33338] = { -- Empowering the Hourglass
             [questKeys.preQuestSingle] = {33336},
+        },
+        [33354] = { -- Den Mother's Demise
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
         },
         [33375] = { -- Refining The Vision
             [questKeys.preQuestSingle] = {33337},
