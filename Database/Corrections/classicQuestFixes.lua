@@ -2677,7 +2677,7 @@ function QuestieQuestFixes:Load()
         [7161] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.breadcrumbs] = {7241},
-        }
+        },
         [7162] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.breadcrumbs] = {7261},
