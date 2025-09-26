@@ -102,7 +102,8 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 145,
         },
         [148] = {
-            [questKeys.preQuestSingle] = {}, -- #1173
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {165} -- #1173
         },
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
@@ -117,7 +118,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {95}, -- deliveries to sven is a breadcrumb
         },
         [165] = {
-            [questKeys.exclusiveTo] = {148}, --#1173
+            [questKeys.breadcrumbForQuestId] = 148, --#1173
         },
         [178] = {
             [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
