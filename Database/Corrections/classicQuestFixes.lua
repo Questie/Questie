@@ -1170,7 +1170,7 @@ function QuestieQuestFixes:Load()
         },
         [2259] = {
             [questKeys.breadcrumbForQuestId] = 2260, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1825, #2476
+            [questKeys.exclusiveTo] = {2281}, -- #1825
             [questKeys.preQuestSingle] = {},
         },
         [2260] = {
@@ -1182,10 +1182,12 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
         },
         [2298] = {
+            [questKeys.breadcrumbs] = {2298}, -- #2476
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {2281}, -- #1825
         },
         [2299] = {
+            [questKeys.breadcrumbForQuestId] = 2298, -- #2476
             [questKeys.exclusiveTo] = {2281}, -- #1817
             [questKeys.preQuestSingle] = {},
         },
