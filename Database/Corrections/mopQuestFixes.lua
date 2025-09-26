@@ -7776,6 +7776,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 32591,
         },
         [32591] = { -- Secrets of the First Empire
+            [questKeys.preQuestSingle] = {32390,32432},
             [questKeys.breadcrumbs] = {32457,32590},
         },
         [32603] = { -- Beasts of Fable
