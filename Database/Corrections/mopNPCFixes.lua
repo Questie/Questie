@@ -4095,6 +4095,16 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32193},
         },
+        [67881] = {
+            [npcKeys.name] = "Proveditor Grantley",
+            [npcKeys.minLevel] = 20,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 6134,
+            [npcKeys.spawns] = {
+                [6134] = {{89.4,33.4}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [67812] = { -- Scout Rokia
             [npcKeys.name] = "Scout Rokia",
             [npcKeys.minLevel] = 90,
