@@ -161,6 +161,9 @@ function QuestieQuestFixes:Load()
         [275] = {
             [questKeys.objectivesText] = {"Kill 12 Fen Creepers, then return to Rethiel the Greenwarden in the Wetlands."},
         },
+        [276] = {
+            [questKeys.breadcrumbs] = {463},
+        },
         [282] = {
             [questKeys.exclusiveTo] = {287},
         },
@@ -273,7 +276,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {468},
         },
         [463] = {
-            [questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
+            [questKeys.nextQuestInChain] = 276,
+            [questKeys.breadcrumbForQuestId] = 276, --greenwarden cant be completed if you have trampling paws
         },
         [464] = {
             [questKeys.preQuestSingle] = {}, -- #809
@@ -300,7 +304,8 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2081,2083,2151,2155},nil,nil},
         },
         [495] = {
-            [questKeys.exclusiveTo] = {518},
+            [questKeys.nextQuestInChain] = 518,
+            [questKeys.breadcrumbForQuestId] = 518,
         },
         [504] = {
             [questKeys.objectivesText] = {"Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
@@ -313,6 +318,7 @@ function QuestieQuestFixes:Load()
         },
         [518] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {495},
         },
         [526] = {
             [questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
@@ -358,10 +364,12 @@ function QuestieQuestFixes:Load()
             [questKeys.inGroupWith] = {}, -- #886
         },
         [638] = {
-            [questKeys.exclusiveTo] = {639}, -- #1205
+            [questKeys.nextQuestInChain] = 639,
+            [questKeys.breadcrumbForQuestId] = 639, -- #1205
         },
         [639] = {
             [questKeys.preQuestSingle] = {}, -- #1205
+            [questKeys.breadcrumbs] = {638},
         },
         [640] = {
             [questKeys.objectivesText] = {"Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall.",},
