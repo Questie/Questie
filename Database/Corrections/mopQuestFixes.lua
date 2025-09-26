@@ -7461,6 +7461,7 @@ function MopQuestFixes.Load()
         },
         [32250] = { -- The Might of the Warchief
             [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{67900,67901,67902},67900}}},
+            [questKeys.preQuestSingle] = {32249},
         },
         [32251] = { -- Dagger in the Dark
             [questKeys.objectives] = {{{67939,nil,Questie.ICON_TYPE_TALK}}},
