@@ -1086,6 +1086,9 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 32166,
             [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
+        [92704] = { -- Ancient Mogu Essence
+            [itemKeys.npcDrops] = {68070,68073},
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },
