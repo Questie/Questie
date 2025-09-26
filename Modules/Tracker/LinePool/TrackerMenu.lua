@@ -371,23 +371,27 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         self:GetParent():Hide()
     end,
     OnShow = function(self)
-        local questID = self.text.text_arg1
+        -- The MoP client now needs self.Text, while older clients need self.text
+        local textFrame = self.Text or self.text
+        local editBox = self.EditBox or self.editBox
+
+        local questID = textFrame.text_arg1
         local quest_wow = QuestieDB.GetQuest(questID)
         local name = quest_wow.name
 
-        self.text:SetFont("GameFontNormal", 12)
-        self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
+        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
 
-        self.editBox:SetText(wowheadLink)
-        self.editBox:SetFocus()
-        self.editBox:HighlightText()
+        editBox:SetText(wowheadLink)
+        editBox:SetFocus()
+        editBox:HighlightText()
 
-        self.editBox:SetScript("OnKeyDown", function(_, key)
+        editBox:SetScript("OnKeyDown", function(_, key)
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
-                    self.editBox:GetParent():Hide()
+                    editBox:GetParent():Hide()
                     ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
@@ -531,22 +535,26 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         self:GetParent():Hide()
     end,
     OnShow = function(self)
-        local achieveID = self.text.text_arg1
+        -- The MoP client now needs self.Text, while older clients need self.text
+        local textFrame = self.Text or self.text
+        local editBox = self.EditBox or self.editBox
+
+        local achieveID = textFrame.text_arg1
         local name = select(2, GetAchievementInfo(achieveID))
 
-        self.text:SetFont("GameFontNormal", 12)
-        self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
+        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "achievement=" .. achieveID
 
-        self.editBox:SetText(wowheadLink)
-        self.editBox:SetFocus()
-        self.editBox:HighlightText()
+        editBox:SetText(wowheadLink)
+        editBox:SetFocus()
+        editBox:HighlightText()
 
-        self.editBox:SetScript("OnKeyDown", function(_, key)
+        editBox:SetScript("OnKeyDown", function(_, key)
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
-                    self.editBox:GetParent():Hide()
+                    editBox:GetParent():Hide()
                     ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
