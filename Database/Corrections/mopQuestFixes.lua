@@ -7651,9 +7651,9 @@ function MopQuestFixes.Load()
         },
         [32374] = { -- The Prince's Pursuit
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32373},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
+            [questKeys.preQuestSingle] = {32373},
         },
         [32380] = { -- The Best Around
             [questKeys.preQuestSingle] = {32248},
@@ -7713,6 +7713,12 @@ function MopQuestFixes.Load()
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
+        },
+        [32429] = { -- The Prince's Pursuit
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
+            [questKeys.preQuestSingle] = {32427},
         },
         [32433] = { -- Undermining the Under Miner
             [questKeys.preQuestSingle] = {32109},
