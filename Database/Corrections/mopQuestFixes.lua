@@ -7696,6 +7696,11 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68531,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
+        [32427] = { -- The Measure of a Leader
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.preQuestSingle] = {31951},
             [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
