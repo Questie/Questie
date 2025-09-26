@@ -7355,6 +7355,9 @@ function MopQuestFixes.Load()
         [32109] = { -- Lion's Landing
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
+        [32123] = { -- Death on Two Legs
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67425,67689,67905,67913,69029,67354},67354}}},
+        },
         [32157] = { -- The Only Good Goblin...
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67281,67283,67563,67564,67637,67638,67869,67870,67871,67873},67873}}},
         },
@@ -7446,6 +7449,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32221] = { -- Storming the Beach
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67354,67425,67689,67905,69029,67971},67971}}},
+        },
         [32247] = { -- A King Among Men
             [questKeys.preQuestSingle] = {32246},
             [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
@@ -7464,6 +7470,9 @@ function MopQuestFixes.Load()
         },
         [32329] = { -- Get My Results!
             [questKeys.objectives] = {nil,{{215126}}},
+        },
+        [32341] = { -- Demonstrate Your Power
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{68175,68176,68204,68205,68206},68206}}},
         },
         [32373] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
@@ -7487,6 +7496,12 @@ function MopQuestFixes.Load()
         },
         [32411] = { -- The Remaining Sunreavers
             [questKeys.objectives] = {{{68711,nil,Questie.ICON_TYPE_INTERACT},{68714,nil,Questie.ICON_TYPE_INTERACT},{68715,nil,Questie.ICON_TYPE_INTERACT},{68716,nil,Questie.ICON_TYPE_INTERACT},{68717,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32417] = { -- Sewer Cleaning
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{68756,68757,68758,68647},68647}}},
+        },
+        [32419] = { -- Nowhere to Hide
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{68051,68760,68761,68050},68050}}},
         },
         [32428] = { -- Pandaren Spirit Tamer
             [questKeys.preQuestSingle] = {31951},
