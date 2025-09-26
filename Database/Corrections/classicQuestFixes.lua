@@ -404,7 +404,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [707] = {
-            [questKeys.exclusiveTo] = {738}, --#2069
+            [questKeys.nextQuestInChain] = 738,
+            [questKeys.breadcrumbForQuestId] = 738, --#1289
         },
         [715] = {
             [questKeys.requiredSkill] = {},
@@ -428,7 +429,8 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Dagun the Ravenous using an Enchanted Sea Kelp"), 2, {{"object", 2871}}}},
         },
         [738] = {
-            [questKeys.preQuestSingle] = {}, -- #1289
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {707}, -- #1289
         },
         [742] = {
             [questKeys.exclusiveTo] = {235,6382,6383},
