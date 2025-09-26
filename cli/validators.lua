@@ -197,10 +197,11 @@ end
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
+---@param npcKeys DatabaseNpcKeys
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
 ---@return table<QuestId, string>
-function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+function Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
     print("\n\27[36mSearching for quest starters...\27[0m")
     local invalidQuests = {}
     for questId, questData in pairs(quests) do
@@ -209,6 +210,8 @@ function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
             for _, npcStarter in pairs(startedBy[1] or {}) do
                 if not npcs[npcStarter] then
                     invalidQuests[questId] = "NPC starter " .. npcStarter .. " is missing in the database"
+                elseif (not npcs[npcStarter][npcKeys.name]) then
+                    invalidQuests[questId] = "NPC starter " .. npcStarter .. " has no name"
                 end
             end
             for _, objectStarter in pairs(startedBy[2] or {}) do
