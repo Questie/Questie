@@ -4279,7 +4279,6 @@ function MopNpcFixes.Load()
         [68274] = { -- Kaelis Sunsoar
             [npcKeys.zoneID] = zoneIDs.RUINS_OF_OGUDEI_RELIQUARY_INCURSION,
             [npcKeys.spawns] = {
-                [zoneIDs.KRASARANG_WILDS] = {{81.4,18.2}},
                 [zoneIDs.RUINS_OF_OGUDEI_RELIQUARY_INCURSION] = {{35.4,42.16}},
             },
         },
