@@ -1183,7 +1183,7 @@ function QuestieQuestFixes:Load()
         },
         [2281] = {
             [questKeys.preQuestSingle] = {}, -- #1825
-            [questKeys.breadcrumbs] = {2260,2298,2300}
+            [questKeys.breadcrumbs] = {2260,2298,2300},
         },
         [2298] = {
             [questKeys.preQuestSingle] = {},
@@ -1243,7 +1243,10 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to the dock along the Forgotten Coast", {[zoneIDs.FERALAS]={{45.63,43.39}}}},
         },
         [2769] = {
-            [questKeys.exclusiveTo] = {2770}, -- #2071
+            [questKeys.breadcrumbForQuestId] = 2770, -- #2071
+        },
+        [2770] = {
+            [questKeys.breadcrumbs] = {2769}, -- #2071
         },
         [2771] = {
             [questKeys.preQuestSingle] = {2764},
