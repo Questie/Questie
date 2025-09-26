@@ -1323,10 +1323,11 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {2864}, -- #2072
         },
         [2872] = {
-            [questKeys.exclusiveTo] = {2873}, -- #1566
+            [questKeys.breadcrumbForQuestId] = 2873, -- #1566
         },
         [2873] = {
-            [questKeys.preQuestSingle] = {}, -- #1566
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2872}, -- #1566
         },
         [2875] = {
             [questKeys.startedBy] = {nil,{142122,150075},nil},
