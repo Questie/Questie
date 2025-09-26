@@ -775,7 +775,8 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
         [1275] = {
-            [questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
+            [questKeys.preQuestSingle] = {}, -- #973
+            [questKeys.breadcrumbs] = {3765}, -- #745
         },
         [1276] = {
             [questKeys.preQuestSingle] = {1273}, -- #1574
@@ -1529,7 +1530,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {936,3784,3761},
         },
         [3765] = {
-            [questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
+            [questKeys.breadcrumbForQuestId] = 1275, -- #745
             [questKeys.requiredLevel] = 18,
         },
         [3787] = {
