@@ -1313,10 +1313,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {2846},
         },
         [2864] = {
-            [questKeys.exclusiveTo] = {2865}, -- #2072
+            [questKeys.breadcrumbForQuestId] = 2865, -- #2072
         },
         [2865] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2864}, -- #2072
         },
         [2872] = {
             [questKeys.exclusiveTo] = {2873}, -- #1566
