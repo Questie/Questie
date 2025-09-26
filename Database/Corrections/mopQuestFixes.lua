@@ -7767,6 +7767,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32373},
         },
+        [32476] = { -- A Test of Valor
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32427},
+        },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
             [questKeys.breadcrumbForQuestId] = 32591,
