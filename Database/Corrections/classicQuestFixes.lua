@@ -1660,10 +1660,11 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [4133] = {
-            [questKeys.exclusiveTo] = {4134}, -- #1859
+            [questKeys.breadcrumbForQuestId] = 4134, -- #1859
         },
         [4134] = {
-            [questKeys.preQuestSingle] = {}, -- #1859
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4133}, -- #1859
         },
         [4136] = {
             [questKeys.preQuestSingle] = {}, -- #4459
@@ -1741,6 +1742,9 @@ function QuestieQuestFixes:Load()
         },
         [4496] = {
             [questKeys.preQuestSingle] = {4493,4494},
+        },
+        [4505] = {
+            [questKeys.breadcrumbs] = {6605}, -- #1859
         },
         [4506] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
@@ -1833,10 +1837,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {4764} -- #1916
         },
         [4768] = {
-            [questKeys.preQuestSingle] = {}, -- #1859
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4769}, -- #1859
         },
         [4769] = {
-            [questKeys.exclusiveTo] = {4768},
+            [questKeys.breadcrumbForQuestId] = 4768, -- #1859
         },
         [4770] = {
             [questKeys.triggerEnd] = {"Escort Pao'ka from Highperch", {[zoneIDs.THOUSAND_NEEDLES]={{15.15,32.65}}}},
@@ -2469,7 +2474,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {4861},
         },
         [6605] = {
-            [questKeys.exclusiveTo] = {4505}, -- #1859 -- #1856
+            [questKeys.breadcrumbForQuestId] = 4505, -- #1859 -- #1856
         },
         [6608] = {
             [questKeys.exclusiveTo] = {6607}, -- #1186
