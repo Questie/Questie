@@ -932,7 +932,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1519},
         },
         [1517] = {
-            [questKeys.exclusiveTo] = {1520},
+            [questKeys.exclusiveTo] = {1520}, -- This needs to be re-examined per issue 6723, I am not convinced this is true
         },
         [1518] = {
             [questKeys.exclusiveTo] = {1521},
@@ -1112,10 +1112,11 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5144,5497},nil,nil},
         },
         [1943] = {
-            [questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
+            [questKeys.breadcrumbForQuestId] = 1944, -- #2253
         },
         [1944] = {
             [questKeys.preQuestSingle] = {}, -- #2253
+            [questKeys.breadcrumbs] = {1943},
         },
         [1948] = {
             [questKeys.preQuestSingle] = {1947},
