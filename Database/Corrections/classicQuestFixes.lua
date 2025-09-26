@@ -52,10 +52,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {163} -- #1198
         },
-        [11] = {
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {239},
-        },
         [17] = {
             [questKeys.requiredLevel] = 38, -- #2437
         },
