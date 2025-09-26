@@ -52,6 +52,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {163} -- #1198
         },
+        [11] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {239},
+        },
         [17] = {
             [questKeys.requiredLevel] = 38, -- #2437
         },
@@ -142,6 +146,9 @@ function QuestieQuestFixes:Load()
         },
         [235] = {
             [questKeys.exclusiveTo] = {742,6382,6383},
+        },
+        [239] = {
+            [questKeys.breadcrumbForQuestId] = 11,
         },
         [249] = {
             [questKeys.startedBy] = {{313},{31},nil},
@@ -234,8 +241,11 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {366}, -- #638
             [questKeys.exclusiveTo] = {411}, -- #752
         },
+        [413] = {
+            [questKeys.breadcrumbs] = {415}, -- #567
+        }
         [415] = {
-            [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
+            [questKeys.breadcrumbForQuestId] = 413, -- #567
         },
         [420] = {
             [questKeys.nextQuestInChain] = 287,
