@@ -1880,6 +1880,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {1479,1558,1687},
             [questKeys.childQuests] = {},
         },
+        [4861] = {
+            [questKeys.breadcrumbs] = {6604},
+        },
         [4866] = {
             [questKeys.objectives] = {{{9563,"Milked"}}},
         },
@@ -2480,16 +2483,21 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 5082, -- #1824
         },
         [6604] = {
-            [questKeys.exclusiveTo] = {4861},
+            [questKeys.breadcrumbForQuestId] = 4861,
         },
         [6605] = {
             [questKeys.breadcrumbForQuestId] = 4505, -- #1859 -- #1856
         },
+        [6607] = {
+            [questKeys.breadcrumbs] = {6608,6609}, -- #1154 -- #1186
+        },
         [6608] = {
-            [questKeys.exclusiveTo] = {6607}, -- #1186
+            [questKeys.breadcrumbForQuestId] = 6607, -- #1186
+            [questKeys.nextQuestInChain] = 6607,
         },
         [6609] = {
-            [questKeys.exclusiveTo] = {6607}, -- #1154
+            [questKeys.breadcrumbForQuestId] = 6607, -- #1154
+            [questKeys.nextQuestInChain] = 6607,
         },
         [6610] = {
             [questKeys.breadcrumbs] = {6611,6612}, -- #2070
@@ -2504,9 +2512,10 @@ function QuestieQuestFixes:Load()
         },
         [6622] = {
             [questKeys.triggerEnd] = {"15 Patients Saved!", {[zoneIDs.DUSTWALLOW_MARSH]={{67.79,49.06}}}},
+            [questKeys.breadcrumbs] = {6623},
         },
         [6623] = {
-            [questKeys.exclusiveTo] = {6622},
+            [questKeys.breadcrumbForQuestId] = 6622,
         },
         [6624] = {
             [questKeys.triggerEnd] = {"15 Patients Saved!", {[zoneIDs.DUSTWALLOW_MARSH]={{67.79,49.06}}}},
