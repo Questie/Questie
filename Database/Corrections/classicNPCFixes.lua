@@ -487,6 +487,9 @@ function QuestieNPCFixes:Load()
         [3237] = {
             [npcKeys.waypoints] = {},
         },
+        [3230] = {
+            [npcKeys.questStarts] = {1361},
+        },
         [3253] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{42,70}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_BARRENS]={{{42,70},{44,69},{44,70},{44,73},{46,71},{47,69},{47,71}}}},
