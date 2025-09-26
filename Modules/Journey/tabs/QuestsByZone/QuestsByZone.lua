@@ -177,7 +177,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- Unobtainable reputation quests
-                elseif not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
+                elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
