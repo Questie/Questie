@@ -1339,10 +1339,11 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.GNOMEREGAN]={{-1,-1}}}},
         },
         [2922] = {
-            [questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2923}, -- #2067
         },
         [2923] = {
-            [questKeys.exclusiveTo] = {2922}, -- #2067
+            [questKeys.breadcrumbForQuestId] = 2922, -- #2067
         },
         [2925] = {
             [questKeys.exclusiveTo] = {2924},
