@@ -7464,7 +7464,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32249},
         },
         [32251] = { -- Dagger in the Dark
-            [questKeys.objectives] = {{{67939,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {32108},
         },
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
