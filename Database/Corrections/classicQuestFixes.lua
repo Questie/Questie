@@ -729,7 +729,8 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE, -- horde CAN get this quest
         },
         [1204] = {
-            [questKeys.preQuestSingle] = {}, -- #938
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1260} -- #938
         },
         [1206] = {
             [questKeys.objectivesText] = {"Bring 40 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
@@ -750,7 +751,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
         },
         [1260] = {
-            [questKeys.exclusiveTo] = {1204},
+            [questKeys.breadcrumbForQuestId] = 1204, -- #938
         },
         [1264] = {
             [questKeys.preQuestSingle] = {1250}, -- wotlkDB is wrong
