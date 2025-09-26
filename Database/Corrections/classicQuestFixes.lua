@@ -168,6 +168,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {420},
         },
+        [297] = {
+             [questKeys.breadcrumbs] = {436}, -- #2492
+        },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -253,7 +256,8 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Erland must reach Rane Yorick", {[zoneIDs.SILVERPINE_FOREST]={{54.37,13.38}}}},
         },
         [436] = {
-            [questKeys.exclusiveTo] = {297} -- #2492
+            [questKeys.nextQuestInChain] = 297
+            [questKeys.breadcrumbForQuestId] = 297 -- #2492
         },
         [437] = {
             [questKeys.triggerEnd] = {"Enter the Dead Fields",{[zoneIDs.SILVERPINE_FOREST]={{45.91, 21.27}}}},
