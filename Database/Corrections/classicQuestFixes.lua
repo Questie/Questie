@@ -1345,8 +1345,11 @@ function QuestieQuestFixes:Load()
         [2923] = {
             [questKeys.breadcrumbForQuestId] = 2922, -- #2067
         },
+        [2924] = {
+            [questKeys.breadcrumbs] = {2925},
+        },
         [2925] = {
-            [questKeys.exclusiveTo] = {2924},
+            [questKeys.breadcrumbForQuestId] = 2924,
         },
         [2926] = { -- Gnogaine
             [questKeys.preQuestSingle] = {}, -- #2389
@@ -1363,9 +1366,10 @@ function QuestieQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Step 4: obtain the Prismatic Punch Card. You need the Red Punch Card."), 0, {{"object", 142696}}},
             },
             [questKeys.requiredSourceItems] = {9279,9280,9281,9282},
+            [questKeys.breadcrumbs] = {2931},
         },
         [2931] = {
-            [questKeys.exclusiveTo] = {2930},
+            [questKeys.breadcrumbForQuestId] = 2930,
         },
         [2932] = {
             [questKeys.triggerEnd] = {"Place the grim message.", {[zoneIDs.THE_HINTERLANDS]={{23.41,58.06}}}},
@@ -1393,8 +1397,11 @@ function QuestieQuestFixes:Load()
         [2969] = {
             [questKeys.triggerEnd] = {"Save at least 6 Sprite Darters from capture", {[zoneIDs.FERALAS]={{67.27,46.67}}}},
         },
+        [2975] = {
+            [questKeys.breadcrumbs] = {2981},
+        },
         [2981] = {
-            [questKeys.exclusiveTo] = {2975},
+            [questKeys.breadcrumbForQuestId] = 2975,
         },
         [2992] = {
             [questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[zoneIDs.BLASTED_LANDS]={{66.99,19.41}}}},
