@@ -1089,6 +1089,9 @@ function MopItemFixes.Load()
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },
+        [92708] = { -- Spirit Trap
+            [itemKeys.npcDrops] = {68061},
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },
