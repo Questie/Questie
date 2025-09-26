@@ -608,6 +608,7 @@ function QuestieQuestFixes:Load()
         },
         [1011] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4581},
         },
         [1015] = {
             [questKeys.exclusiveTo] = {1047,1019},
@@ -1760,10 +1761,11 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11953},
         },
         [4542] = {
-            [questKeys.exclusiveTo] = {4841},
+            [questKeys.breadcrumbForQuestId] = 4841,
         },
         [4581] = {
-            [questKeys.exclusiveTo] = {1011},
+            [questKeys.nextQuestInChain] = 1011,
+            [questKeys.breadcrumbForQuestId] = 1011,
         },
         [4601] = {
             [questKeys.exclusiveTo] = {2951,4602},
@@ -1831,10 +1833,11 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Xabraxxis once you have the required items from the Blackwood Stores."), 0, {{"object", 175338}}}},
         },
         [4764] = {
-            [questKeys.preQuestSingle] = {}, -- #1916
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4766}, -- #1916
         },
         [4766] = {
-            [questKeys.exclusiveTo] = {4764} -- #1916
+            [questKeys.breadcrumbForQuestId] = 4764 -- #1916
         },
         [4768] = {
             [questKeys.preQuestSingle] = {},
@@ -1865,6 +1868,7 @@ function QuestieQuestFixes:Load()
         },
         [4841] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4542},
         },
         [4822] = {
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- human orphan
