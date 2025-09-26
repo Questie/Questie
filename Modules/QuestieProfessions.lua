@@ -2,6 +2,8 @@
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -60,8 +62,10 @@ function QuestieProfessions:Update()
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
 
+    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
+    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
     for i=1, GetNumSkillLines() do
-        if i > 14 then break; end -- We don't have to go through all the weapon skills
+        if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
         if (not isHeader) and professionTable[skillName] then
