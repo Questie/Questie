@@ -49,7 +49,8 @@ function QuestieQuestFixes:Load()
 
     return {
         [5] = {
-            [questKeys.preQuestSingle] = {}, -- #1198
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {163} -- #1198
         },
         [17] = {
             [questKeys.requiredLevel] = 38, -- #2437
@@ -86,6 +87,9 @@ function QuestieQuestFixes:Load()
         [90] = {
             [questKeys.requiredSkill] = {185, 50},
         },
+        [95] = {
+            [questKeys.breadcrumbs] = {164}
+        },
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
         },
@@ -112,10 +116,10 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 4493,
         },
         [163] = {
-            [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
+            [questKeys.breadcrumbForQuestId] = 5, -- #1198
         },
         [164] = {
-            [questKeys.exclusiveTo] = {95}, -- deliveries to sven is a breadcrumb
+            [questKeys.breadcrumbForQuestId] = 95, -- deliveries to sven is a breadcrumb
         },
         [165] = {
             [questKeys.breadcrumbForQuestId] = 148, --#1173
