@@ -273,7 +273,6 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Erland must reach Rane Yorick", {[zoneIDs.SILVERPINE_FOREST]={{54.37,13.38}}}},
         },
         [436] = {
-            [questKeys.nextQuestInChain] = 297,
             [questKeys.breadcrumbForQuestId] = 297, -- #2492
         },
         [437] = {
@@ -1145,14 +1144,31 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1861},
             [questKeys.breadcrumbs] = {1879},
         },
+        [1881] = {
+            [questKeys.breadcrumbForQuestId] = 1882,
+            [questKeys.exclusiveTo] = {},
+        },
         [1882] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {1884},
+            [questKeys.breadcrumbs] = {1881},
+        },
+        [1883] = {
+            [questKeys.breadcrumbForQuestId] = 1884,
+            [questKeys.exclusiveTo] = {},
+        },
+        [1884] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {1882},
+            [questKeys.breadcrumbs] = {1883},
         },
         [1919] = { -- Report to Jennea
             [questKeys.startedBy] = {{328,1228,7312}},
+            [questKeys.breadcrumbForQuestId] = 1920, -- #1328
         },
         [1920] = {
-            [questKeys.preQuestSingle] = {}, -- #1328
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1919}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [1939] = {
@@ -1205,15 +1221,29 @@ function QuestieQuestFixes:Load()
         },
         [2205] = {
             [questKeys.exclusiveTo] = {}, -- #1466
+            [questKeys.breadcrumbForQuestId] = 2206,
+            [questKeys.nextQuestInChain] = 2206,
+        },
+        [2206] = {
+            [questKeys.breadcrumbs] = {2205},
         },
         [2218] = {
             [questKeys.exclusiveTo] = {}, -- #1466
+            [questKeys.breadcrumbForQuestId] = 2238,
+        },
+        [2238] = {
+            [questKeys.breadcrumbs] = {2218},
         },
         [2240]  = {
             [questKeys.triggerEnd] = { "Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
         [2241] = {
             [questKeys.exclusiveTo] = {}, -- #1466
+            [questKeys.breadcrumbForQuestId] = 2242,
+            [questKeys.nextQuestInChain] = 2242,
+        },
+        [2242] = {
+            [questKeys.breadcrumbs] = {2241},
         },
         [2259] = {
             [questKeys.preQuestSingle] = {},
