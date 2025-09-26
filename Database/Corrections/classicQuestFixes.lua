@@ -1169,12 +1169,14 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2259] = {
+            [questKeys.breadcrumbForQuestId] = 2260, -- #2476
             [questKeys.exclusiveTo] = {2281}, -- #1825, #2476
             [questKeys.preQuestSingle] = {},
         },
         [2260] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {2281}, -- #1825
+            [questKeys.breadcrumbs] = {2259}, -- #2476
         },
         [2278] = {
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
