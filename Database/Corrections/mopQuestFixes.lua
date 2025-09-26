@@ -7760,7 +7760,7 @@ function MopQuestFixes.Load()
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32390},
+            [questKeys.preQuestSingle] = {32390,32432},
             [questKeys.breadcrumbForQuestId] = 32591,
         },
         [32474] = { -- A Test of Valor
@@ -7773,6 +7773,7 @@ function MopQuestFixes.Load()
         },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32390,32432},
             [questKeys.breadcrumbForQuestId] = 32591,
         },
         [32591] = { -- Secrets of the First Empire
