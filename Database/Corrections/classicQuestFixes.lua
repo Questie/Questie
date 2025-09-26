@@ -1949,7 +1949,8 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
         [5082] = {
-            [questKeys.preQuestSingle] = {}, -- #1824
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {6603}, -- #1824
         },
         [5088] = {
             [questKeys.objectives] = {nil,{{175944}},{{12925}}},
@@ -2476,7 +2477,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Thrall's Tale", {[zoneIDs.ORGRIMMAR]={{31.78,37.81}}}},
         },
         [6603] = {
-            [questKeys.exclusiveTo] = {5082},
+            [questKeys.breadcrumbForQuestId] = 5082, -- #1824
         },
         [6604] = {
             [questKeys.exclusiveTo] = {4861},
