@@ -7355,6 +7355,9 @@ function MopQuestFixes.Load()
         [32109] = { -- Lion's Landing
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
+        [32157] = { -- The Only Good Goblin...
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67281,67283,67563,67564,67637,67638,67869,67870,67871,67873},67873}}},
+        },
         [32161] = { -- Beastmaster's Hunt: The Crane
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
