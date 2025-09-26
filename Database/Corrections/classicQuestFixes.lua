@@ -2519,9 +2519,10 @@ function QuestieQuestFixes:Load()
         },
         [6624] = {
             [questKeys.triggerEnd] = {"15 Patients Saved!", {[zoneIDs.DUSTWALLOW_MARSH]={{67.79,49.06}}}},
+            [questKeys.breadcrumbs] = {6625}, -- #1723
         },
         [6625] = {
-            [questKeys.exclusiveTo] = {6624}, -- #1723
+            [questKeys.breadcrumbForQuestId] = 6624, -- #1723
         },
         [6627] = {
             [questKeys.triggerEnd] = {"Answer Braug Dimspirit's question correctly", {[zoneIDs.STONETALON_MOUNTAINS]={{78.75,45.63}}}},
