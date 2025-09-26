@@ -1169,31 +1169,35 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2259] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2260, -- #2476
             [questKeys.exclusiveTo] = {2281}, -- #1825
-            [questKeys.preQuestSingle] = {},
         },
         [2260] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {2281}, -- #1825
             [questKeys.breadcrumbs] = {2259}, -- #2476
+            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
         },
         [2278] = {
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
         },
+        [2281] = {
+            [questKeys.preQuestSingle] = {}, -- #1825
+            [questKeys.breadcrumbs] = {2260,2298,2300}
+        },
         [2298] = {
-            [questKeys.breadcrumbs] = {2299}, -- #2476
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {2281}, -- #1825
+            [questKeys.breadcrumbs] = {2299}, -- #2476
+            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
         },
         [2299] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2298, -- #2476
             [questKeys.exclusiveTo] = {2281}, -- #1817
-            [questKeys.preQuestSingle] = {},
         },
         [2300] = {
             [questKeys.preQuestSingle] = {}, -- #1825
-            [questKeys.exclusiveTo] = {2281}, -- #1817
+            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
         },
         [2318] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
