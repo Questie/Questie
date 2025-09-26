@@ -772,7 +772,7 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{42.31,92.81}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
-        [215689] = {
+        [215689] = { -- Rappelling Rope
             [objectKeys.name] = "Rappelling Rope",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{31.51,11.1},{31.43,10.69},{31.35,10.42}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
@@ -806,31 +806,33 @@ function MopObjectFixes.Load()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32163,32166},
         },
-        [216274] = {
+        [216274] = { -- Signal Fire
             [objectKeys.name] = "Signal Fire",
-            [objectKeys.zoneID] = 6134,
-            [objectKeys.spawns] = {
-                [6134] = {{8.5,63.8}},
-            },
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.44,63.98}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32108},
         },
-        [216427] = {
+        [216427] = { -- Hammer of Fellowship
             [objectKeys.name] = "Hammer of Fellowship",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.4,34.3}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
-        [216452] = {
+        [216452] = { -- Treasure Chest
             [objectKeys.name] = "Treasure Chest",
             [objectKeys.zoneID] = 0,
             [objectKeys.spawns] = nil,
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32340},
         },
-        [216625] = {
+        [216625] = { -- Memory Wine
             [objectKeys.name] = "Memory Wine",
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.5,55.4}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [216837] = { -- Wrathion's Jewel Chest
+            [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.99,72.65}}},
+            [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
         },
         [216885] = { -- Mailbox
             [objectKeys.name] = "Mailbox",

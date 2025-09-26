@@ -5756,9 +5756,12 @@ function MopQuestFixes.Load()
         [31488] = { -- Stranger in a Strange Land
             [questKeys.startedBy] = {{62871,63218,64047,64144,64457,65908,66225,66409,66415}},
             [questKeys.breadcrumbForQuestId] = 31454,
+            [questKeys.exclusiveTo] = {30118,31489},
         },
         [31489] = { -- Stranger in a Strange Land
+            [questKeys.preQuestSingle] = {30118},
             [questKeys.breadcrumbForQuestId] = 31454,
+            [questKeys.exclusiveTo] = {31488},
         },
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}},
@@ -7027,6 +7030,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31897,31915},
             [questKeys.objectives] = {{{66550,nil,Questie.ICON_TYPE_PET_BATTLE},{66551,nil,Questie.ICON_TYPE_PET_BATTLE},{66552,nil,Questie.ICON_TYPE_PET_BATTLE},{66553,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31920] = { -- Grand Master Antari
             [questKeys.requiredSpell] = 119467,
@@ -7036,6 +7040,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31897,31915},
             [questKeys.objectives] = {{{66550,nil,Questie.ICON_TYPE_PET_BATTLE},{66551,nil,Questie.ICON_TYPE_PET_BATTLE},{66552,nil,Questie.ICON_TYPE_PET_BATTLE},{66553,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31922] = { -- Nicki Tinytech
             [questKeys.requiredSpell] = 119467,
@@ -7358,6 +7363,9 @@ function MopQuestFixes.Load()
         [32123] = { -- Death on Two Legs
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67425,67689,67905,67913,69029,67354},67354}}},
         },
+        [32143] = { -- A Kind of Magic
+            [questKeys.objectives] = {{{67544,nil,Questie.ICON_TYPE_INTERACT},{67546,nil,Questie.ICON_TYPE_INTERACT},{67547,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [32157] = { -- The Only Good Goblin...
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67281,67283,67563,67564,67637,67638,67869,67870,67871,67873},67873}}},
         },
@@ -7440,6 +7448,7 @@ function MopQuestFixes.Load()
         [32185] = { -- Beastmaster's Quarry: The Tiger
             [questKeys.preQuestSingle] = {32165},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.startedBy] = {{67438}},
         },
         [32186] = { -- Beastmaster's Quarry: The Crab
             [questKeys.preQuestSingle] = {32166},
@@ -7490,6 +7499,19 @@ function MopQuestFixes.Load()
         [32380] = { -- The Best Around
             [questKeys.objectives] = {{{68952,nil,Questie.ICON_TYPE_EVENT},{68526,nil,Questie.ICON_TYPE_TALK}},{{440009,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [32388] = { -- A Change of Command
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestGroup] = {32374,32474},
+        },
+        [32389] = { -- The Lion Roars
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestGroup] = {32374,32474},
+        },
+        [32390] = { -- Call of the Packmaster
+            [questKeys.preQuestGroup] = {32388,32389},
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32392] = { -- The Divine Bell
             [questKeys.finishedBy] = {{68337}},
         },
@@ -7528,9 +7550,21 @@ function MopQuestFixes.Load()
         [32449] = { -- The Ruins of Ogudei
             [questKeys.preQuestSingle] = {32108},
         },
+        [32457] = { -- The Thunder King
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestSingle] = {32390},
+            [questKeys.breadcrumbForQuestId] = 32591,
+        },
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32373},
+        },
+        [32590] = { -- Meet Me Upstairs
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.breadcrumbForQuestId] = 32591,
+        },
+        [32591] = { -- Secrets of the First Empire
+            [questKeys.breadcrumbs] = {32457,32590},
         },
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,
