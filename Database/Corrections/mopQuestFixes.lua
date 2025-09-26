@@ -7526,19 +7526,22 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
             [questKeys.exclusiveTo] = {32167,32168},
         },
-        [32170] = { -- Ancient's Fall -- need to figure out a logical starter
+        [32170] = { -- Ancient's Fall
+            [questKeys.startedBy] = {{67555}},
             [questKeys.preQuestSingle] = {32109},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
             [questKeys.exclusiveTo] = {32171,32172},
         },
-        [32171] = { -- End of an Elder -- need to figure out a logical starter
+        [32171] = { -- End of an Elder
+            [questKeys.startedBy] = {{67556}},
             [questKeys.preQuestSingle] = {32109},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
             [questKeys.exclusiveTo] = {32170,32172},
         },
-        [32172] = { -- A Colossal Victory -- need to figure out a logical starter
+        [32172] = { -- A Colossal Victory
+            [questKeys.startedBy] = {{67557}},
             [questKeys.preQuestSingle] = {32109},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
@@ -7573,8 +7576,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32214] = { -- Bilgewater Infiltrators
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32221] = { -- Storming the Beach
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67354,67425,67689,67905,69029,67971},67971}}},
+        },
+        [32236] = { -- Bug Off!
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32247] = { -- A King Among Men
             [questKeys.preQuestSingle] = {32246},
