@@ -1137,11 +1137,17 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
+        [2038] = {
+            [questKeys.breadcrumbs] = {2039},
+        },
         [2039] = {
-            [questKeys.exclusiveTo] = {2038},
+            [questKeys.breadcrumbForQuestId] = 2038,
+        },
+        [2040] = {
+            [questKeys.breadcrumbs] = {2041}, -- #2068
         },
         [2041] = {
-            [questKeys.exclusiveTo] = {2040}, -- #2068
+            [questKeys.breadcrumbForQuestId] = 2040, -- #2068
         },
         [2118] = {
             [questKeys.objectives] = {{{2164,"Rabid Thistle Bear Captured"}}},
