@@ -78,6 +78,7 @@ function QuestieQuestFixes:Load()
         },
         [33] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {5261}, -- #1726
         },
         [46] = {
             [questKeys.preQuestSingle] = {39},
@@ -1942,7 +1943,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5236},
         },
         [5261] = {
-            [questKeys.exclusiveTo] = {33}, -- #1726
+            [questKeys.breadcrumbForQuestId] = 33, -- #1726
         },
         [5305] = {
             [questKeys.exclusiveTo] = {8869},
