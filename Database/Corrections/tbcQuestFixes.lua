@@ -196,6 +196,9 @@ function QuestieTBCQuestFixes:Load()
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
+        [1361] = {
+            [questKeys.startedBy] = {{2229,4485,10540}},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },

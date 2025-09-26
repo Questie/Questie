@@ -235,6 +235,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
         },
+        [10540] = { -- Vol'jin
+            [npcKeys.questStarts] = {1361},
+        },
         [10839] = { -- Argent Officer Garush
             [npcKeys.questStarts] = {5402,5403,5406,5503},
         },
