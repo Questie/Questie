@@ -564,7 +564,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {918},
         },
         [936] = {
-            [questKeys.exclusiveTo] = {3762,3784,3761},
+            [questKeys.breadcrumbForQuestId] = 3761,
         },
         [938] = {
             [questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak", {[zoneIDs.TELDRASSIL]={{38.33,34.39}}}},
@@ -1140,6 +1140,10 @@ function QuestieQuestFixes:Load()
         [1739] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [1758] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1798},
+        },
         [1789] = {
             [questKeys.exclusiveTo] = {1785},
         },
@@ -1155,11 +1159,20 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1649},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [1796] = {
+            [questKeys.breadcrumbs] = {4736,4737,4738,4739},
+        },
+        [1798] = {
+            [questKeys.breadcrumbForQuestId] = 1758,
+        },
         [1799] = {
-            [questKeys.preQuestSingle] = {4965,4967,4968,4969},
+            [questKeys.breadcrumbs] = {4965,4967,4968,4969},
         },
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
+        },
+        [1801] = {
+            [questKeys.breadcrumbs] = {2996,3001},
         },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
@@ -1543,6 +1556,10 @@ function QuestieQuestFixes:Load()
         [2994] = {
             [questKeys.questLevel] = 51, -- #1129
         },
+        [2996] = {
+            [questKeys.nextQuestInChain] = 1801,
+            [questKeys.breadcrumbForQuestId] = 1801,
+        },
         [2997] = {
             [questKeys.exclusiveTo] = {1642,1646,2998,2999,3000,3681},
         },
@@ -1554,6 +1571,10 @@ function QuestieQuestFixes:Load()
         },
         [3000] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
+        },
+        [3001] = {
+            [questKeys.nextQuestInChain] = 1801,
+            [questKeys.breadcrumbForQuestId] = 1801,
         },
         [3090] = {
             [questKeys.requiredRaces] = raceIDs.ORC, -- #2399
@@ -1656,30 +1677,41 @@ function QuestieQuestFixes:Load()
         [3702] = {
             [questKeys.objectives] = {{{8879,"Story of Thaurissan"}}},
         },
-        [3763] = {
-            [questKeys.exclusiveTo] = {3789,3790,3764},
+        [3761] = {
+            [questKeys.breadcrumbs] = {936,3762,3784},
         },
         [3762] = {
-            [questKeys.exclusiveTo] = {936,3784,3761},
+            [questKeys.breadcrumbForQuestId] = 3761,
+        },
+        [3763] = {
+            [questKeys.breadcrumbForQuestId] = 3764,
+        },
+        [3764] = {
+            [questKeys.breadcrumbs] = {3763,3789,3790},
         },
         [3765] = {
             [questKeys.breadcrumbForQuestId] = 1275, -- #745
             [questKeys.requiredLevel] = 18,
         },
+        [3784] = {
+            [questKeys.breadcrumbForQuestId] = 3761,
+        },
         [3787] = {
             [questKeys.preQuestSingle] = {3781},
+            [questKeys.breadcrumbForQuestId] = 3791,
         },
         [3788] = {
             [questKeys.preQuestSingle] = {3781},
+            [questKeys.breadcrumbForQuestId] = 3791,
         },
         [3789] = {
-            [questKeys.exclusiveTo] = {3763,3790,3764},
+            [questKeys.breadcrumbForQuestId] = 3764,
         },
         [3790] = {
-            [questKeys.exclusiveTo] = {3763,3789,3764},
+            [questKeys.breadcrumbForQuestId] = 3764,
         },
-        [3784] = {
-            [questKeys.exclusiveTo] = {936,3762,3761},
+        [3791] = {
+            [questKeys.breadcrumbs] = {3787,3788},
         },
         [3785] = {
             [questKeys.requiredSourceItems] = {11022,11018},
@@ -1953,9 +1985,19 @@ function QuestieQuestFixes:Load()
         },
         [4736] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 1796,
         },
         [4737] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbForQuestId] = 1796,
+        },
+        [4738] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 1796,
+        },
+        [4739] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbForQuestId] = 1796,
         },
         [4742] = {
             [questKeys.startedBy] = {{10299}},
@@ -2050,11 +2092,21 @@ function QuestieQuestFixes:Load()
         [4966] = {
             [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98}}}},
         },
+        [4965] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 1799,
+        },
         [4967] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbForQuestId] = 1799,
         },
         [4968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 1799,
+        },
+        [4969] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.breadcrumbForQuestId] = 1799,
         },
         [4975] = {
             [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
@@ -2085,6 +2137,9 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
+        [5066] = {
+            [questKeys.breadcrumbForQuestId] = 5092,
+        },
         [5068] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
@@ -2095,12 +2150,29 @@ function QuestieQuestFixes:Load()
         [5088] = {
             [questKeys.objectives] = {nil,{{175944}},{{12925}}},
         },
+        [5090] = {
+            [questKeys.breadcrumbForQuestId] = 5092,
+        },
+        [5091] = {
+            [questKeys.breadcrumbForQuestId] = 5092,
+        },
         [5092] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {5066,5090,5091},
+        },
+        [5093] = {
+            [questKeys.breadcrumbForQuestId] = 5096,
+        },
+        [5094] = {
+            [questKeys.breadcrumbForQuestId] = 5096,
+        },
+        [5096] = {
+            [questKeys.breadcrumbForQuestId] = 5096,
         },
         [5096] = {
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04}}}},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {5093,5094,5095},
         },
         [5103] = {
             [questKeys.requiredLevel] = 55,
