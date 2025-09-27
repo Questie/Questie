@@ -1103,22 +1103,22 @@ function QuestieQuestFixes:Load()
         },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
-            [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
+            [questKeys.breadcrumbForQuestId] = 1705, -- #1857
         },
         [1703] = {
-            [questKeys.exclusiveTo] = {1700,1704,1710}, -- #1857
+            [questKeys.breadcrumbForQuestId] = 1710, -- #1857
         },
         [1704] = {
-            [questKeys.exclusiveTo] = {1700,1703,1708}, -- #1857
+            [questKeys.breadcrumbForQuestId] = 1708, -- #1857
         },
         [1705] = {
-            [questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+            [questKeys.breadcrumbs] = {1700}, -- #1857
         },
         [1708] = {
-            [questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+            [questKeys.breadcrumbs] = {1704}, -- #1857
         },
         [1710] = {
-            [questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+            [questKeys.breadcrumbs] = {1703}, -- #1857
         },
         [1715] = {
             [questKeys.nextQuestInChain] = 1688,
