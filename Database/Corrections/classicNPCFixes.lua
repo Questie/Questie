@@ -884,6 +884,9 @@ function QuestieNPCFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{10.8,60.4}}},
         },
+        [5113] = { -- Kelv Sternhammer
+            [npcKeys.questStarts] = {1698,1718,8417},
+        },
         [5116] = { -- Olmin Burningbeard
             [npcKeys.questStarts] = {6721,8151},
         },
@@ -1166,7 +1169,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1919,8250},
         },
         [7315] = { -- Darnath Bladesinger
-            [npcKeys.questStarts] = {8417},
+            [npcKeys.questStarts] = {1698,8417},
         },
         [7319] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{39.4,25.4},{39.4,25.6},{39.6,25.4},{39.6,25.6},{41,25.6},{41.4,25.2},{42,25.4},{42,25.6},{46.2,24.4},{47.8,26.6},{48,25.2},{48,25.6},{48.6,24.6}}},

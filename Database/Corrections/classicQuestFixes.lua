@@ -298,8 +298,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {473}, -- #2173
         },
         [466] = {
-            [questKeys.preQuestSingle] = {}, -- #2066
-            [questKeys.breadcrumbs] = {467},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {467}, -- #2066
         },
         [467] = {
             [questKeys.startedBy] = {{1340,2092},nil,nil}, -- #1379
@@ -985,6 +985,15 @@ function QuestieQuestFixes:Load()
         [1524] = {
             [questKeys.breadcrumbs] = {1522,1523,2983,2984},
         },
+        [1528] = {
+            [questKeys.breadcrumbForQuestId] = 1530,
+        },
+        [1529] = {
+            [questKeys.breadcrumbForQuestId] = 1530,
+        },
+        [1530] = {
+            [questKeys.breadcrumbs] = {1528,1529,2985,2986},
+        },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
         },
@@ -1078,14 +1087,23 @@ function QuestieQuestFixes:Load()
         [1689] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [1698] = {
+            [questKeys.startedBy] = {5113,5479,7315},
+            [questKeys.breadcrumbForQuestId] = 1699,
+        },
+        [1699] = {
+            [questKeys.breadcrumbs] = {1698},
+        },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
-            [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
+            [questKeys.exclusiveTo] = {1703,1704,1708}, -- #1857
         },
         [1703] = {
-            [questKeys.exclusiveTo] = {1700,1704,1710}, -- #1857
+            [questKeys.requiredRaces] = raceIDS.NIGHT_ELF,
+            [questKeys.exclusiveTo] = {1700,1704,1708}, -- #1857
         },
         [1704] = {
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.GNOME,
             [questKeys.exclusiveTo] = {1700,1703,1708}, -- #1857
         },
         [1705] = {
@@ -1493,6 +1511,12 @@ function QuestieQuestFixes:Load()
         },
         [2984] = {
             [questKeys.breadcrumbForQuestId] = 1524,
+        },
+        [2985] = {
+            [questKeys.breadcrumbForQuestId] = 1530,
+        },
+        [2986] = {
+            [questKeys.breadcrumbForQuestId] = 1530,
         },
         [2992] = {
             [questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[zoneIDs.BLASTED_LANDS]={{66.99,19.41}}}},

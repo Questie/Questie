@@ -155,6 +155,9 @@ function QuestieTBCNpcFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8}}}, -- New position in TBC
         },
+        [5113] = { -- Kelv Sternhammer
+            [npcKeys.questStarts] = {1718,8417},
+        },
         [5149] = { -- Brandur Ironhammer
             [npcKeys.questStarts] = {2999,3681,7670,8415},
         },
@@ -220,6 +223,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [6467] = { -- Mennet Carkad
             [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
+        },
+        [7315] = { -- Darnath Bladesinger
+            [npcKeys.questStarts] = {1718,8417},
         },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
