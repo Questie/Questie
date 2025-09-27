@@ -802,15 +802,19 @@ function QuestieQuestFixes:Load()
         [1276] = {
             [questKeys.preQuestSingle] = {1273}, -- #1574
         },
+        [1282] = {
+            [questKeys.exclusiveTo] = {1301}, -- #917 #2448
+        },
         [1284] = {
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
             [questKeys.startedBy] = {nil,{21015,21016},nil},
         },
         [1301] = {
-            [questKeys.exclusiveTo] = {1302,1282}, -- #917 #2448
+            [questKeys.breadcrumbForQuestId] = 1302, -- #889
         },
         [1302] = {
-            [questKeys.preQuestSingle] = {}, -- #889
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1301}, -- #889
         },
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 6 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
@@ -3306,8 +3310,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 8280, -- #1873
         },
         [8280] = {
-            [questKeys.exclusiveTo] = {}, -- #1873
-            [questKeys.breadcrumbs] = {8275,8276},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbs] = {8275,8276}, -- #1873
         },
         [8286] = {
             [questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[zoneIDs.TANARIS]={{63.43, 50.61}}}},
