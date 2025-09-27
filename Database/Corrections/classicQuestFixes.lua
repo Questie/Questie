@@ -397,6 +397,7 @@ function QuestieQuestFixes:Load()
         },
         [665] = {
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.87,80.6}}}},
+            [questKeys.preQuestSingle] = {663},
         },
         [667] = {
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{31.93,81.82}}}},
