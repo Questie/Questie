@@ -1074,6 +1074,10 @@ function MopItemFixes.Load()
         [91817] = { -- Funky Rotten Fish
             [itemKeys.npcDrops] = {60358},
         },
+        [91823] = { -- Animatable Stone
+            [itemKeys.npcDrops] = {67441},
+            [itemKeys.objectDrops] = {216160},
+        },
         [91854] = { -- Sturdy Crane Snare
             [itemKeys.startQuest] = 32164,
             [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
@@ -1086,11 +1090,18 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 32166,
             [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
+        [91907] = { -- Lion's Landing Lumber
+            [itemKeys.objectDrops] = {216229},
+        },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },
         [92708] = { -- Spirit Trap
             [itemKeys.npcDrops] = {68061},
+        },
+        [93022] = { -- Animatable Stone
+            [itemKeys.npcDrops] = {67929},
+            [itemKeys.objectDrops] = {216160},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,

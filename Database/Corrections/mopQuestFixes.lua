@@ -7402,6 +7402,9 @@ function MopQuestFixes.Load()
         [32123] = { -- Death on Two Legs
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67425,67689,67905,67913,69029,67354},67354}}},
         },
+        [32131] = { -- We Require More Minerals!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill them near stone blocks"),0,{{"monster",67449}}}},
+        },
         [32142] = { -- We Will Rock You
             [questKeys.preQuestSingle] = {32109},
             [questKeys.breadcrumbs] = {32451},
@@ -7443,6 +7446,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32152},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill them near stone blocks"),0,{{"monster",67449}}}},
         },
         [32152] = { -- Siege Damage
             [questKeys.preQuestSingle] = {32109},

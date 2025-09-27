@@ -792,6 +792,10 @@ function MopObjectFixes.Load()
         [216106] = { -- Mailbox
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [216160] = { -- Chunk of Stone
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{77.1,20.4},{77.3,18.3},{77.4,17.2},{77.4,19.1},{77.4,20.5},{77.5,20.5},{77.9,19.1},{78,18},{78.2,16.9},{78.4,19.9},{78.5,17.9},{78.5,18.6},{78.5,19.9},{79.1,17}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [216162] = { -- Mound of Dirt
             [objectKeys.name] = "Mound of Dirt",
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.87,41.34}}},
