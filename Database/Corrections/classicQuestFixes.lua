@@ -865,9 +865,6 @@ function QuestieQuestFixes:Load()
         [1418] = {
             [questKeys.breadcrumbForQuestId] = 1420, -- #1594
         },
-        [1419] = {
-            [questKeys.exclusiveTo] = {1418}, -- #1594
-        },
         [1420] = {
             [questKeys.breadcrumbs] = {1418}, -- #1594
         },
