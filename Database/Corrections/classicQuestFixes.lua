@@ -2878,7 +2878,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {7481,7482},
         },
         [7488] = {
-            [questKeys.preQuestSingle] = {}, -- #1740
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {7494} -- #1740
         },
         [7489] = {
             [questKeys.preQuestSingle] = {},
@@ -2890,6 +2891,7 @@ function QuestieQuestFixes:Load()
         },
         [7494] = {
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
+            [questKeys.breadcrumbForQuestId] = 7488, -- #1740
         },
         [7495] = { -- Victory for the Alliance
             [questKeys.requiredLevel] = 60,
@@ -4256,7 +4258,7 @@ function QuestieQuestFixes:Load()
         },
         [9052] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = 9063,
+            [questKeys.breadcrumbs] = {9063},
         },
         [9054] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
