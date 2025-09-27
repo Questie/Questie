@@ -4051,6 +4051,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32167},
         },
+        [67438] = { -- Krasari Elder
+            [npcKeys.name] = "Krasari Elder",
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+        },
         [67439] = { -- Colossal Viseclaw
             [npcKeys.name] = "Colossal Viseclaw",
             [npcKeys.minLevel] = 92,
@@ -5288,9 +5293,6 @@ function MopNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.name] = "Krasari Elder",
-            [npcKeys.minLevel] = 92,
-            [npcKeys.maxLevel] = 92,
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
@@ -5305,9 +5307,6 @@ function MopNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.name] = "Krasari Elder",
-            [npcKeys.minLevel] = 92,
-            [npcKeys.maxLevel] = 92,
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
