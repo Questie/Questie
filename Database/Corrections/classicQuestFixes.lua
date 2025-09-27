@@ -1088,7 +1088,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [1698] = {
-            [questKeys.startedBy] = {5113,5479,7315},
+            [questKeys.startedBy] = {{5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 1699,
         },
         [1699] = {
