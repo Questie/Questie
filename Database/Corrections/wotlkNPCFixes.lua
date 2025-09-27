@@ -110,6 +110,9 @@ function QuestieWotlkNpcFixes:Load()
         [5111] = {
             [npcKeys.questStarts] = {3790,8353},
         },
+        [5113] = { -- Kelv Sternhammer
+            [npcKeys.questStarts] = {1718,8417},
+        },
         [5149] = { -- Brandur Ironhammer
             [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
         },
@@ -151,6 +154,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [7009] = { -- Arantir
             [npcKeys.questStarts] = {2358},
+        },
+        [7315] = { -- Darnath Bladesinger
+            [npcKeys.questStarts] = {1718,8417},
         },
         [7750] = { -- Corporal Thund Splithoof
             [npcKeys.questEnds] = {2702},
