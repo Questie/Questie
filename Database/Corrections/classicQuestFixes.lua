@@ -3297,8 +3297,17 @@ function QuestieQuestFixes:Load()
         [8272] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [8275] = {
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbForQuestId] = 8280, -- #1873
+        },
+        [8276] = {
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbForQuestId] = 8280, -- #1873
+        },
         [8280] = {
             [questKeys.exclusiveTo] = {}, -- #1873
+            [questKeys.breadcrumbs] = {8275,8276},
         },
         [8286] = {
             [questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[zoneIDs.TANARIS]={{63.43, 50.61}}}},
