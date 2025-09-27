@@ -1074,6 +1074,18 @@ function MopItemFixes.Load()
         [91817] = { -- Funky Rotten Fish
             [itemKeys.npcDrops] = {60358},
         },
+        [91819] = { -- Sturdy Crane Snare
+            [itemKeys.startQuest] = 32161,
+            [itemKeys.npcDrops] = {67751}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+        },
+        [91821] = { -- Sturdy Tiger Trap
+            [itemKeys.startQuest] = 32162,
+            [itemKeys.npcDrops] = {67751}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+        },
+        [91822] = { -- Sturdy Crab Crate
+            [itemKeys.startQuest] = 32163,
+            [itemKeys.npcDrops] = {67751}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+        },
         [91823] = { -- Animatable Stone
             [itemKeys.npcDrops] = {67441},
             [itemKeys.objectDrops] = {216160},
@@ -1092,6 +1104,9 @@ function MopItemFixes.Load()
         },
         [91907] = { -- Lion's Landing Lumber
             [itemKeys.objectDrops] = {216229},
+        },
+        [92474] = { -- Extra-Waxy Alliance Ears
+            [itemKeys.npcDrops] = {67296,67297,67304,67317,67441},
         },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},

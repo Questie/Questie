@@ -7380,6 +7380,11 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32115,32119,32121,32122,32346,32347},
         },
+        [32118] = { -- Taking Advantage
+            [questKeys.breadcrumbs] = {32449},
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32120,32342,32343,32344,32345,32348},
+        },
         [32119] = { -- It Is A Mystery
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
             [questKeys.exclusiveTo] = {32115},
@@ -7400,10 +7405,89 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32123] = { -- Death on Two Legs
+            [questKeys.preQuestSingle] = {32108},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67425,67689,67905,67913,69029,67354},67354}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32126] = { -- Tear It Up
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32127] = { -- All Dead, All Dead
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
+        },
+        [32128] = { -- Another One Bites the Dust
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32130] = { -- Good Luck, Have Fun
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32131] = { -- We Require More Minerals!
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill them near stone blocks"),0,{{"monster",67449}}}},
+            [questKeys.exclusiveTo] = {32134},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32132] = { -- Worker Harassment
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32133] = { -- Sentry Wards
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.objectives] = {{{67744,nil,Questie.ICON_TYPE_INTERACT},{67742,nil,Questie.ICON_TYPE_INTERACT},{67743,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32134] = { -- Hard Counter
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32131},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+        },
+        [32135] = { -- Hero Killer
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbs] = {32450},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
+        },
+        [32136] = { -- Work Order: Fuel
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbForQuestId] = 32137,
+            [questKeys.nextQuestInChain] = 32137,
+            [questKeys.exclusiveTo] = {32138,32140},
+        },
+        [32137] = { -- Runnin' On Empty
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbs] = {32136},
+            [questKeys.exclusiveTo] = {32141,32236,32139,32238},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32138] = { -- Work Order: Lumber
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbForQuestId] = 32139,
+            [questKeys.exclusiveTo] = {32136,32140},
+        },
+        [32139] = { -- Stacked!
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbs] = {32138},
+            [questKeys.exclusiveTo] = {32137,32237,32141,32236},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32140] = { -- Work Order: Fuel
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbForQuestId] = 32141,
+            [questKeys.exclusiveTo] = {32136,32138},
+        },
+        [32141] = { -- Power Metal
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbs] = {32140},
+            [questKeys.exclusiveTo] = {32137,32237,32139,32238},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32142] = { -- We Will Rock You
             [questKeys.preQuestSingle] = {32109},
@@ -7512,19 +7596,22 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32109},
             [questKeys.questFlags] = questFlags.DAILY,
         },
-        [32167] = { -- Ancient's Fall -- need to figure out a logical starter
+        [32167] = { -- Ancient's Fall
+            [questKeys.startedBy] = {{67436}},
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
             [questKeys.exclusiveTo] = {32168,32169},
         },
-        [32168] = { -- End of an Elder -- need to figure out a logical starter
+        [32168] = { -- End of an Elder
+            [questKeys.startedBy] = {{67438}},
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
             [questKeys.exclusiveTo] = {32167,32169},
         },
-        [32169] = { -- A Colossal Victory -- need to figure out a logical starter
+        [32169] = { -- A Colossal Victory
+            [questKeys.startedBy] = {{67439}},
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
@@ -7558,6 +7645,7 @@ function MopQuestFixes.Load()
         [32182] = { -- Beastmaster's Quarry: The Tiger
             [questKeys.preQuestSingle] = {32162},
             [questKeys.questFlags] = questFlags.DAILY,
+            -- [questKeys.startedBy] = {{67498}}, -- need to see if also by 67438 north of the horde base
         },
         [32183] = { -- Beastmaster's Quarry: The Crab
             [questKeys.preQuestSingle] = {32163},
@@ -7570,7 +7658,7 @@ function MopQuestFixes.Load()
         [32185] = { -- Beastmaster's Quarry: The Tiger
             [questKeys.preQuestSingle] = {32165},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.startedBy] = {{67438}},
+            [questKeys.startedBy] = {{67438,67498}},
         },
         [32186] = { -- Beastmaster's Quarry: The Crab
             [questKeys.preQuestSingle] = {32166},
@@ -7580,14 +7668,59 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{67370,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32197] = { -- Mystery Meatloaf
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32199},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32199] = { -- Krasarang Steampot
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32197},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
         [32214] = { -- Bilgewater Infiltrators
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32221},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32221] = { -- Storming the Beach
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32214},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67354,67425,67689,67905,69029,67971},67971}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32222] = { -- Wanted: Chief Engineer Cogwrench
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32223},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
+        },
+        [32223] = { -- Wanted: Lieutenant Ethan Jacobson
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.exclusiveTo] = {32222},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
+        },
+        [32235] = { -- Flash! Aaaaaahhhh!
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32236] = { -- Bug Off!
+            [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {32137,32237,32139,32238},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32237] = { -- Precious Resource
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {32141,32236,32139,32238},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32238] = { -- Universal Remote-Explode
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.exclusiveTo] = {32137,32237,32141,32236},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32247] = { -- A King Among Men
             [questKeys.preQuestSingle] = {32246},
@@ -7621,7 +7754,7 @@ function MopQuestFixes.Load()
         [32343] = { -- Ogudei's Lieutenants
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
         },
         [32344] = { -- It Is A Mystery
             [questKeys.preQuestSingle] = {32108},
@@ -7753,6 +7886,11 @@ function MopQuestFixes.Load()
         },
         [32449] = { -- The Ruins of Ogudei
             [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbForQuestId] = 32118,
+        },
+        [32450] = { -- The Time Is Now!
+            [questKeys.preQuestSingle] = {32108},
+            [questKeys.breadcrumbForQuestId] = 32135,
         },
         [32451] = { -- Send A Message
             [questKeys.preQuestSingle] = {32109},

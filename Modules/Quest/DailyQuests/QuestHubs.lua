@@ -360,4 +360,44 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
+    DOMINANCE_OFFENSIVE_DOMINATION_POINT = {
+        quests = {32123,32126,32127,32128,32235},
+        limit = 5,
+        exclusiveHubs = {
+            DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
+            DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
+            DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
+        },
+        preQuestHubs = {},
+    },
+    DOMINANCE_OFFENSIVE_LIONS_LANDING = {
+        quests = {32450,32130,32131,32132,32133,32134,32135},
+        limit = 6,
+        exclusiveHubs = {
+            DOMINANCE_OFFENSIVE_DOMINATION_POINT = true,
+            DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
+            DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
+        },
+        preQuestHubs = {},
+    },
+    DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = {
+        quests = {32118,32120,32342,32343,32344,32345,32348,32449},
+        limit = 7,
+        exclusiveHubs = {
+            DOMINANCE_OFFENSIVE_DOMINATION_POINT = true,
+            DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
+            DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
+        },
+        preQuestHubs = {},
+    },
+    DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = {
+        quests = {32136,32137,32138,32139,32140,32141,32197,32199,32214,32221,32222,32223,32236,32237,32238},
+        limit = 6,
+        exclusiveHubs = {
+            DOMINANCE_OFFENSIVE_DOMINATION_POINT = true,
+            DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
+            DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
+        },
+        preQuestHubs = {},
+    },
 }

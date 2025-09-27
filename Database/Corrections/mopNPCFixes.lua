@@ -4028,6 +4028,10 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
+        [67402] = { -- Zazzix "Toasty" Sparkrocket
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{75.86,34.16}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67414] = { -- Vol'jin
             [npcKeys.name] = "Vol'jin",
             [npcKeys.minLevel] = 35,
@@ -4039,18 +4043,29 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32251},
         },
-        [67438] = { -- Krasari Elder
-            [npcKeys.name] = "Krasari Elder",
+        [67436] = { -- Ancient Bloodcrown Crane
+            [npcKeys.name] = "Ancient Bloodcrown Crane",
             [npcKeys.minLevel] = 92,
             [npcKeys.maxLevel] = 92,
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.31,63.26}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {32167},
+        },
+        [67439] = { -- Colossal Viseclaw
+            [npcKeys.name] = "Colossal Viseclaw",
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.62,63.12}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {32169},
         },
         [67444] = { -- Mishka
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.66,78.53}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67498] = { -- Krasari Elder
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
@@ -4062,8 +4077,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{56.35,42.16}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67533] = { -- Bixy Buzzsaw
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{20.6,58.0}}}, -- TO DO get ingame coords
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67537] = { -- Daxil "The Gem" Oregrind
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{22.57,62.36}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67553] = { -- Bixy Buzzsaw
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{25.2,60.4}}}, -- TO DO get ingame coords
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67554] = { -- Bixy Buzzsaw
@@ -4100,6 +4123,10 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
+        [67628] = { -- Shademaster Kiryn
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{75.83,34.47}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67630] = { -- Mishka
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.67,32.79}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -4119,6 +4146,18 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32193},
         },
+        [67742] = { -- Docks Sentry Ward Location
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.1,33.13}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67743] = { -- Docks Sentry Ward Location
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{87.76,32.74}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67744] = { -- Town Hall Sentry Ward Location
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.28,25.57}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67812] = { -- Scout Rokia
             [npcKeys.name] = "Scout Rokia",
             [npcKeys.minLevel] = 90,
@@ -4126,6 +4165,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.73,64.36}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [67847] = { -- Belloc Brightblade
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.32,34.07}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67867] = { -- Garrosh Hellscream
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
@@ -5244,6 +5287,14 @@ function MopNpcFixes:LoadFactionFixes()
         [65716] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
         },
+        [67438] = { -- Krasari Elder
+            [npcKeys.name] = "Krasari Elder",
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {32168},
+        },
     }
 
     local npcFixesAlliance = {
@@ -5252,6 +5303,14 @@ function MopNpcFixes:LoadFactionFixes()
         },
         [65716] = { -- Mishi
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
+        },
+        [67438] = { -- Krasari Elder
+            [npcKeys.name] = "Krasari Elder",
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.questStarts] = {32185},
         },
     }
 
