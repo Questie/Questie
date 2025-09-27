@@ -128,25 +128,39 @@ function QuestEventHandler:Initialize()
             end
 
             if foundQuestItem and quest and questName then
-                local frame, text
+                if StaticPopup_ForEachShownDialog then
+                    -- MoP+
+                    StaticPopup_ForEachShownDialog(function(dialog)
+                        if dialog.Text.text_arg1 == text_arg1 then
+                            local text = dialog.Text
+                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                            text:SetFormattedText(updateText, text_arg1, questName)
+                            text.text_arg1 = updateText
 
-                for i = 1, STATICPOPUP_NUMDIALOGS do
-                    frame = _G["StaticPopup" .. i]
-                    if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
-                        text = _G[frame:GetName() .. "Text"]
-                        break
+                            StaticPopup_ResizeShownDialogs()
+                            deletedQuestItem = true
+
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                        end
+                    end)
+                else
+                    -- Pre-MoP
+                    for i = 1, STATICPOPUP_NUMDIALOGS do
+                        local frame = _G["StaticPopup" .. i]
+                        if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                            local text = _G[frame:GetName() .. "Text"]
+
+                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                            text:SetFormattedText(updateText, text_arg1, questName)
+                            text.text_arg1 = updateText
+
+                            StaticPopup_Resize(frame, which)
+                            deletedQuestItem = true
+
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                            break
+                        end
                     end
-                end
-
-                if frame ~= nil and text ~= nil then
-                    local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                    text:SetFormattedText(updateText, text_arg1, questName)
-                    text.text_arg1 = updateText
-
-                    StaticPopup_Resize(frame, which)
-                    deletedQuestItem = true
-
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
                 end
             end
         end
