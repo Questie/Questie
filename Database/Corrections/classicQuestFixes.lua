@@ -2711,8 +2711,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[zoneIDs.ASHENVALE]={{64.65,75.35}}}},
         },
         [6562] = {
-            [questKeys.breadcrumbForQuestId] = 6563,
-            [questKeys.nextQuestInChain] = 6563, -- #1826
+            [questKeys.breadcrumbForQuestId] = 6563, -- #1826
         },
         [6563] = {
             [questKeys.preQuestSingle] = {}, -- #1826
