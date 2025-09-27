@@ -92,7 +92,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {185, 50},
         },
         [95] = {
-            [questKeys.breadcrumbs] = {164}
+            [questKeys.breadcrumbs] = {164},
         },
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
@@ -145,7 +145,8 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[zoneIDs.REDRIDGE_MOUNTAINS]={{33.36,48.7}}}},
         },
         [235] = {
-            [questKeys.exclusiveTo] = {742,6382,6383},
+            [questKeys.breadcrumbForQuestId] = 6383,
+            [questKeys.nextQuestInChain] = 6383,
         },
         [239] = {
             [questKeys.breadcrumbForQuestId] = 11,
@@ -290,7 +291,7 @@ function QuestieQuestFixes:Load()
         },
         [463] = {
             [questKeys.nextQuestInChain] = 276,
-            [questKeys.breadcrumbForQuestId] = 276, --greenwarden cant be completed if you have trampling paws
+            [questKeys.breadcrumbForQuestId] = 276,
         },
         [464] = {
             [questKeys.preQuestSingle] = {}, -- #809
@@ -298,10 +299,11 @@ function QuestieQuestFixes:Load()
         },
         [466] = {
             [questKeys.preQuestSingle] = {}, -- #2066
+            [questKeys.breadcrumbs] = {467},
         },
         [467] = {
             [questKeys.startedBy] = {{1340,2092},nil,nil}, -- #1379
-            [questKeys.exclusiveTo] = {466}, -- #2066
+            [questKeys.breadcrumbForQuestId] = 466, -- #2066
         },
         [468] = {
             [questKeys.nextQuestInChain] = 455, -- #1858
@@ -450,7 +452,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {707}, -- #1289
         },
         [742] = {
-            [questKeys.exclusiveTo] = {235,6382,6383},
+            [questKeys.breadcrumbForQuestId] = 6383,
+            [questKeys.nextQuestInChain] = 6383,
         },
         [752] = {
             [questKeys.breadcrumbForQuestId] = 753,
@@ -659,6 +662,9 @@ function QuestieQuestFixes:Load()
         [1062] = {
             [questKeys.breadcrumbs] = {1061}, -- #1803
         },
+        [1070] = {
+            [questKeys.breadcrumbForQuestId] = 1085,
+        },
         [1079] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1077,1074},
@@ -669,7 +675,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {1077,1074},
         },
         [1085] = {
-            [questKeys.preQuestSingle] = {1070},
+            [questKeys.breadcrumbs] = {1070},
         },
         [1086] = {
             [questKeys.triggerEnd] = {"Place the Toxic Fogger", {[zoneIDs.STONETALON_MOUNTAINS]={{66.44,45.46}}}},
@@ -1195,9 +1201,11 @@ function QuestieQuestFixes:Load()
         },
         [1959] = {
             [questKeys.startedBy] = {{2128,3049,5880,7311},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 1960,
         },
         [1960] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [2038] = {
@@ -2529,10 +2537,12 @@ function QuestieQuestFixes:Load()
         },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
-            [questKeys.exclusiveTo] = {235,742,6383},
+            [questKeys.breadcrumbForQuestId] = 6383,
+            [questKeys.nextQuestInChain] = 6383,
         },
         [6383] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {235,742,6382},
         },
         [6403] = {
             [questKeys.triggerEnd] = {"Reginald's March", {[zoneIDs.STORMWIND_CITY]={{77.57,18.59}}}},
