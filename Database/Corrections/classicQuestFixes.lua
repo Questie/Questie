@@ -212,7 +212,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {354,362},
         },
         [363] = {
-            [questKeys.nextQuestInChain] = 364,
             [questKeys.breadcrumbForQuestId] = 364, -- #882
         },
         [364] = {
