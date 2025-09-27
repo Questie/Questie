@@ -610,7 +610,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
                     id = ' (' .. k .. ')'
                 end
                 table.insert(results, {
-                    ["text"] = complete .. name .. id,
+                    ["text"] = name .. id .. " " .. complete,
                     ["value"] = tonumber(k)
                 })
             end
