@@ -320,27 +320,6 @@ function MapIconTooltip:Show()
                 end
             end
 
-            local function _GetLevelString(creatureLevels, name)
-                local levelString = name
-                if creatureLevels[name] then
-                    local minLevel = creatureLevels[name][1]
-                    local maxLevel = creatureLevels[name][2]
-                    local rank = creatureLevels[name][3]
-                    if minLevel == maxLevel then
-                        levelString = name .. " (" .. minLevel
-                    else
-                        levelString = name .. " (" .. minLevel .. "-" .. maxLevel
-                    end
-
-                    if rank and rank == 1 then
-                        levelString = levelString .. "+"
-                    end
-
-                    levelString = levelString .. ")"
-                end
-                return levelString
-            end
-
             -- Used to get the white color for the quests which don't have anything to collect
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
@@ -353,13 +332,13 @@ function MapIconTooltip:Show()
                             for name in pairs(nameData) do
                                 if (not addedCreatureNames[name]) then
                                     addedCreatureNames[name] = true
-                                    name = _GetLevelString(creatureLevels, name)
+                                    name = _MapIconTooltip.GetLevelString(creatureLevels, name)
                                     self:AddLine("   |cFFDDDDDD" .. name);
                                 end
                             end
                         elseif dataType == "string" and (not addedCreatureNames[nameData]) then
                             addedCreatureNames[nameData] = true
-                            nameData = _GetLevelString(creatureLevels, nameData)
+                            nameData = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
                         self:AddLine("      " .. defaultQuestColor .. textLine);
@@ -607,6 +586,30 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
             end
         end
     end
+end
+
+---@param creatureLevels table<string, table<number, number, number>>
+---@param name string
+---@return string
+function _MapIconTooltip.GetLevelString(creatureLevels, name)
+    local levelString = name
+    if creatureLevels[name] then
+        local minLevel = creatureLevels[name][1]
+        local maxLevel = creatureLevels[name][2]
+        local rank = creatureLevels[name][3]
+        if minLevel == maxLevel then
+            levelString = name .. " (" .. minLevel
+        else
+            levelString = name .. " (" .. minLevel .. "-" .. maxLevel
+        end
+
+        if rank and rank == 1 then
+            levelString = levelString .. "+"
+        end
+
+        levelString = levelString .. ")"
+    end
+    return levelString
 end
 
 ---@param questId QuestId
