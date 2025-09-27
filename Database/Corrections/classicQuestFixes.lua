@@ -1096,14 +1096,12 @@ function QuestieQuestFixes:Load()
         },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
-            [questKeys.exclusiveTo] = {1703,1704,1708}, -- #1857
+            [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
         },
         [1703] = {
-            [questKeys.requiredRaces] = raceIDS.NIGHT_ELF,
             [questKeys.exclusiveTo] = {1700,1704,1708}, -- #1857
         },
         [1704] = {
-            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.GNOME,
             [questKeys.exclusiveTo] = {1700,1703,1708}, -- #1857
         },
         [1705] = {
