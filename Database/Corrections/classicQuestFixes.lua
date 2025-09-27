@@ -1099,7 +1099,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
         },
         [1703] = {
-            [questKeys.exclusiveTo] = {1700,1704,1708}, -- #1857
+            [questKeys.exclusiveTo] = {1700,1704,1710}, -- #1857
         },
         [1704] = {
             [questKeys.exclusiveTo] = {1700,1703,1708}, -- #1857
