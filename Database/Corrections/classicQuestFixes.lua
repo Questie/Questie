@@ -1696,6 +1696,12 @@ function QuestieQuestFixes:Load()
         [3784] = {
             [questKeys.breadcrumbForQuestId] = 3761,
         },
+        [3785] = {
+            [questKeys.requiredSourceItems] = {11022,11018},
+        },
+        [3786] = {
+            [questKeys.requiredSourceItems] = {11022,11018},
+        },
         [3787] = {
             [questKeys.preQuestSingle] = {3781},
             [questKeys.breadcrumbForQuestId] = 3791,
@@ -1710,18 +1716,9 @@ function QuestieQuestFixes:Load()
         [3790] = {
             [questKeys.breadcrumbForQuestId] = 3764,
         },
-        [3791] = {
-            [questKeys.breadcrumbs] = {3787,3788},
-        },
-        [3785] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
-        },
-        [3786] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
-        },
         [3791] = { -- The Mystery of Morrowgrain
             [questKeys.requiredSourceItems] = {11022,11018},
-            [questKeys.preQuestSingle] = {3787,3788}, -- #885
+            [questKeys.breadcrumbs] = {3787,3788}, -- #885
         },
         [3903] = {
             [questKeys.preQuestSingle] = {18},
@@ -2089,12 +2086,12 @@ function QuestieQuestFixes:Load()
         [4964] = {
             [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
         },
-        [4966] = {
-            [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98}}}},
-        },
         [4965] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1799,
+        },
+        [4966] = {
+            [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98}}}},
         },
         [4967] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2166,7 +2163,7 @@ function QuestieQuestFixes:Load()
         [5094] = {
             [questKeys.breadcrumbForQuestId] = 5096,
         },
-        [5096] = {
+        [5095] = {
             [questKeys.breadcrumbForQuestId] = 5096,
         },
         [5096] = {
