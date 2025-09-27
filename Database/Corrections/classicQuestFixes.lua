@@ -1112,12 +1112,15 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1708, -- #1857
         },
         [1705] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1700}, -- #1857
         },
         [1708] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1704}, -- #1857
         },
         [1710] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1703}, -- #1857
         },
         [1715] = {
@@ -1173,6 +1176,32 @@ function QuestieQuestFixes:Load()
         },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 1824,
+        },
+        [1824] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1823},
+        },
+        [1839] = {
+            [questKeys.breadcrumbForQuestId] = 1842,
+        },
+        [1840] = {
+            [questKeys.breadcrumbForQuestId] = 1844,
+        },
+        [1841] = {
+            [questKeys.breadcrumbForQuestId] = 1846,
+        },
+        [1842] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1839},
+        },
+        [1844] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1840},
+        },
+        [1846] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1841},
         },
         [1860] = { -- #1192
             [questKeys.breadcrumbForQuestId] = 1861,
