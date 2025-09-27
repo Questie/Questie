@@ -84,31 +84,27 @@ function QuestEventHandler:Initialize()
                     quest = QuestieDB.GetQuest(questId)
 
                     if quest then
-                        local info = StaticPopupDialogs[which]
-                        local sourceItemId, soureItemName, sourceItemType, soureClassID
-                        local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
+                        local sourceItemId = quest.sourceItemId
+                        local sourceItemName
+                        local reqSourceItemId, reqSoureItemName
 
-                        if quest.sourceItemId then
-                            sourceItemId = quest.sourceItemId
-
-                            if sourceItemId then
-                                soureItemName, _, _, _, _, sourceItemType, _, _, _, _, _, soureClassID = GetItemInfo(sourceItemId)
-                            end
+                        if sourceItemId then
+                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
                         end
 
                         if quest.requiredSourceItems then
                             reqSourceItemId = quest.requiredSourceItems[1]
 
                             if reqSourceItemId then
-                                reqSoureItemName, _, _, _, _, reqSourceItemType, _, _, _, _, _, reqSoureClassID = GetItemInfo(reqSourceItemId)
+                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
                             end
                         end
 
-                        if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                        if sourceItemId and sourceItemName and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == sourceItemName then
                             questName = quest.name
                             foundQuestItem = true
                             break
-                        elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                        elseif reqSourceItemId and reqSoureItemName and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
                             questName = quest.name
                             foundQuestItem = true
                             break
