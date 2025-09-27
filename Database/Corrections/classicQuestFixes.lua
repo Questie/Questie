@@ -1769,6 +1769,10 @@ function QuestieQuestFixes:Load()
         },
         [4126] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4128},
+        },
+        [4128] = {
+            [questKeys.breadcrumbForQuestId] = 4126,
         },
         [4133] = {
             [questKeys.breadcrumbForQuestId] = 4134, -- #1859
@@ -2147,6 +2151,15 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {5236},
+        },
+        [5244] = {
+            [questKeys.breadcrumbs] = {5249,5250},
+        },
+        [5249] = {
+            [questKeys.breadcrumbForQuestId] = 5244,
+        },
+        [5250] = {
+            [questKeys.breadcrumbForQuestId] = 5244,
         },
         [5261] = {
             [questKeys.breadcrumbForQuestId] = 33, -- #1726
@@ -2868,10 +2881,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1740
         },
         [7489] = {
-            [questKeys.preQuestSingle] = {}, -- #1514
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {7492}, -- #1514
         },
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881},nil,nil}, -- #1350
+            [questKeys.breadcrumbForQuestId] = 7489, -- #1514
         },
         [7494] = {
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
@@ -3520,8 +3535,13 @@ function QuestieQuestFixes:Load()
         [8412] = {
             [questKeys.preQuestSingle] = {8410,8411}, -- 8411 was missing
         },
+        [8414] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8414},
+        },
         [8415] = {
             [questKeys.startedBy] = {{928,5149}},
+            [questKeys.breadcrumbForQuestId] = 8414,
         },
         [8417] = {
             [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
@@ -4236,6 +4256,7 @@ function QuestieQuestFixes:Load()
         },
         [9052] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = 9063,
         },
         [9054] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -4263,6 +4284,7 @@ function QuestieQuestFixes:Load()
         },
         [9063] = {
             [questKeys.startedBy] = {{3033,4217,5505,12042}},
+            [questKeys.breadcrumbForQuestId] = 9052,
         },
         [9069] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
