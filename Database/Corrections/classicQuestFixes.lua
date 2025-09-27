@@ -863,7 +863,13 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1477},
         },
         [1418] = {
-            [questKeys.exclusiveTo] = {1419,1420}, -- #1594
+            [questKeys.breadcrumbForQuestId] = 1420, -- #1594
+        },
+        [1419] = {
+            [questKeys.exclusiveTo] = {1418}, -- #1594
+        },
+        [1420] = {
+            [questKeys.breadcrumbs] = {1418}, -- #1594
         },
         [1427] = {
             [questKeys.nextQuestInChain] = 1428,
@@ -1122,6 +1128,12 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1688, -- #7095
             [questKeys.exclusiveTo] = {},
         },
+        [1716] = {
+            [questKeys.breadcrumbs] = {1717},
+        },
+        [1717] = {
+            [questKeys.breadcrumbForQuestId] = 1716,
+        },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
         },
@@ -1197,8 +1209,13 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1919}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
+        [1938] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1939},
+        },
         [1939] = {
             [questKeys.startedBy] = {{5144,5497},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 1938,
         },
         [1943] = {
             [questKeys.breadcrumbForQuestId] = 1944, -- #2253
