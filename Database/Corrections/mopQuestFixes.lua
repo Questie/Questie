@@ -7650,7 +7650,7 @@ function MopQuestFixes.Load()
         },
         [32373] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32109},
+            [questKeys.preQuestSingle] = {31483},
             [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32374] = { -- The Prince's Pursuit
@@ -7711,7 +7711,7 @@ function MopQuestFixes.Load()
         },
         [32427] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32108},
+            [questKeys.preQuestSingle] = {31483},
             [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32428] = { -- Pandaren Spirit Tamer
