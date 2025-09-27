@@ -321,8 +321,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2081,2083,2151,2155},nil,nil},
         },
         [495] = {
-            [questKeys.nextQuestInChain] = 518,
-            [questKeys.breadcrumbForQuestId] = 518,
+             [questKeys.breadcrumbForQuestId] = 518,
         },
         [504] = {
             [questKeys.objectivesText] = {"Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
@@ -1779,7 +1778,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {4133}, -- #1859
         },
         [4136] = {
-            [questKeys.preQuestSingle] = {}, -- #4459
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {4324}, -- #4459
         },
         [4144] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1590
@@ -1822,6 +1822,9 @@ function QuestieQuestFixes:Load()
         },
         [4322] = {
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
+        },
+        [4324] = {
+            [questKeys.breadcrumbForQuestId] = 4136, -- #4459
         },
         [4342] = {
             [questKeys.objectives] = {{{9021,"Kharan's Tale"}}},
