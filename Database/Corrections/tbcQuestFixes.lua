@@ -226,6 +226,9 @@ function QuestieTBCQuestFixes:Load()
         [1687] = {
             [questKeys.questLevel] = -1,
         },
+        [1698] = {
+            [questKeys.startedBy] = {{5479,7315}},
+        },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
         },

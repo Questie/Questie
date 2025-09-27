@@ -156,7 +156,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {2358},
         },
         [7315] = { -- Darnath Bladesinger
-            [npcKeys.questStarts] = {1718,8417},
+            [npcKeys.questStarts] = {1698,8417},
         },
         [7750] = { -- Corporal Thund Splithoof
             [npcKeys.questEnds] = {2702},
