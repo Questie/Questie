@@ -1108,6 +1108,9 @@ function MopItemFixes.Load()
         [92474] = { -- Extra-Waxy Alliance Ears
             [itemKeys.npcDrops] = {67296,67297,67304,67317,67441},
         },
+        [92493] = { -- Bilgewater Blasting Cap
+            [itemKeys.npcDrops] = {67929},
+        },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },

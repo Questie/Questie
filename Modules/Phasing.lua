@@ -1532,11 +1532,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BAN_AT_OUTPOST then
-        return ((complete[30776] or questLog[30776]) or ((not questLog[30770]) and (not questLog[30771]))) and true or false
+        return complete[30776] or (questLog[30776] and questLog[30776].isComplete == 1) or false
     end
 
     if phase == phases.BAN_AT_CAMP_OSUL then
-        return ((not complete[30776]) and (not questLog[30776]) and (complete[30770] or questLog[30770]) and (complete[30771] or questLog[30771])) and true or false
+        return not (complete[30776] or (questLog[30776] and questLog[30776].isComplete == 1)) or false
     end
 
     if phase == phases.BEFORE_MANTID_INVASION then

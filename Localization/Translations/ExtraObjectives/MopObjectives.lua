@@ -758,18 +758,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Get in the cannon"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Steig in die Kanone",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Kill the Mist-Shamans after they placed their torch"] = {
         ["enUS"] = true,
         ["deDE"] = "Töte die Nebel-Schamanen, nachdem sie ihre Fackel platziert haben",
