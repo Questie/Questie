@@ -911,9 +911,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 9,
                         width = 1.5,
                         values = {
-                            ["None"] = "",
-                            ["Outline"] = "OUTLINE",
-                            ["Monochrome"] = "MONOCHROME"
+                            [NONE] = "",
+                            [SELF_HIGHLIGHT_MODE_OUTLINE] = "OUTLINE",
                         },
                         style = "dropdown",
                         name = function() return l10n("Outline for Zones, Titles, and Objectives") end,
