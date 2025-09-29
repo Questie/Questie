@@ -1117,6 +1117,15 @@ function MopItemFixes.Load()
         [92708] = { -- Spirit Trap
             [itemKeys.npcDrops] = {68061},
         },
+        [92804] = { -- Weathered Journal
+            [itemKeys.objectDrops] = {216664},
+        },
+        [93009] = { -- Shieldwall Soldier Dog Tag
+            [itemKeys.npcDrops] = {68700},
+        },
+        [93179] = { -- Scrap Metal
+            [itemKeys.npcDrops] = {67285},
+        },
         [93022] = { -- Animatable Stone
             [itemKeys.npcDrops] = {67929},
             [itemKeys.objectDrops] = {216160},

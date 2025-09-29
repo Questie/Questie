@@ -4412,6 +4412,17 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{85.28,28.68}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [68413] = { -- Shaggy Longhorn
+            [npcKeys.name] = "Shaggy Longhorn",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.56,83.97},{58.58,83.91},{58.62,83.81}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68417] = { -- Cousin Goottooth
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.2,84.26}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
         },
@@ -4564,6 +4575,14 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{64.98,23.02}}},
             [npcKeys.friendlyToFaction] = "H",
         },
+        [68741] = { -- Fennie Hornswaggle
+            [npcKeys.name] = "Fennie Hornswaggle",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{88.34,34.19}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [68756] = {
             [npcKeys.name] = "Sunreaver Assassin",
             [npcKeys.minLevel] = 35,
@@ -4612,6 +4631,13 @@ function MopNpcFixes.Load()
         [68908] = { -- Amber Kearnen
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.79,32.43}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68913] = { -- Mogu Statue
+            [npcKeys.name] = "Mogu Statue",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.08,84.56},{58.22,84.94},{58.35,84.05}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68952] = { -- Bizmo's Brawlpub Entrance
             [npcKeys.spawns] = {[zoneIDs.DEEPRUN_TRAM] = {{52.15,47.69},{-1,-1}}},

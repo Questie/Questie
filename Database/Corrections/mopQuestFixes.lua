@@ -4538,7 +4538,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {31020,31021},
         },
         [31024] = { -- Kunchong Treats
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.exclusiveTo] = {31238,31494,31506}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
@@ -5207,7 +5207,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31238] = { -- Brain Food
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.exclusiveTo] = {31024,31494,31506}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
@@ -5326,7 +5326,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31268] = { -- A Little Brain Work
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31235,31487,31505}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
@@ -5563,6 +5563,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.FISHING,1},
         },
         [31372] = { -- The Tillers
+            [questKeys.preQuestSingle] = {30637}, -- wowhead comment, double check
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
@@ -5570,6 +5571,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31374] = { -- The Tillers
+            [questKeys.preQuestSingle] = {30637}, -- wowhead comment, double check
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
@@ -5760,7 +5762,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31279},
         },
         [31487] = { -- Sonic Disruption
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.exclusiveTo] = {31235,31268,31505}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
@@ -5787,7 +5789,7 @@ function MopQuestFixes.Load()
         },
         [31494] = { -- Free From Her Clutches
             [questKeys.objectives] ={nil,{{214292}}},
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.exclusiveTo] = {31024,31238,31506}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
@@ -5824,7 +5826,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
         [31506] = { -- Shackles of Manipulation
-            [questKeys.preQuestGroup] = {31092,31359,31398},
+            [questKeys.preQuestGroup] = {31092,31359},
             [questKeys.exclusiveTo] = {31024,31238,31494}, -- exclusivity for honored The Klaxxi
             [questKeys.reputationReward] = {{factionIDs.THE_KLAXXI,30}},
         },
@@ -6635,7 +6637,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
         },
         [31808] = { -- Rampage Against the Machine
-            [questKeys.preQuestGroup] = {31092,31359,31398,31238}, -- 31024 31238 31494 31506 exclusives
+            [questKeys.preQuestGroup] = {31092,31359,31238}, -- 31024 31238 31494 31506 exclusives
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMinRep] = {factionIDs.THE_KLAXXI,21000},
             [questKeys.exclusiveTo] = {31216},
@@ -7546,6 +7548,7 @@ function MopQuestFixes.Load()
         [32154] = { -- Burn Out!
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32155},
+            [questKeys.objectives] = {nil,{{216743},{216744},{216745}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
@@ -7891,12 +7894,17 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32382] = { -- He's In Deep
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Fire Camp Bataar"),0,{{"monster",68741}}}},
             [questKeys.preQuestSingle] = {32381},
+            [questKeys.objectives] = {{{68417,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,7900},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32383] = { -- Bugging Out
             [questKeys.preQuestSingle] = {32382},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,7900},
+            [questKeys.objectives] = {{{68913,nil,Questie.ICON_TYPE_OBJECT},{68913,nil,Questie.ICON_TYPE_OBJECT},{68913,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32388] = { -- A Change of Command
             [questKeys.startedBy] = {{64616}},
@@ -7926,6 +7934,7 @@ function MopQuestFixes.Load()
         [32397] = { -- He Won't Even Miss It
             [questKeys.preQuestSingle] = {32382},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,7900},
+            [questKeys.objectives] = {{{68413,nil,Questie.ICON_TYPE_INTERACT}},nil,{{92804}}},
         },
         [32400] = { -- The Bell Speaks
             [questKeys.preQuestGroup] = {32336,32337,32338},

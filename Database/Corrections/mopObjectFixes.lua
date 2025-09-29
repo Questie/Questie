@@ -834,6 +834,30 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.5,55.4}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [216643] = { -- Mogu Statue
+            [objectKeys.name] = "Mogu Statue",
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.08,84.56},{58.22,84.94},{58.35,84.05}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [216664] = { -- Weathered Journal
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.26,84.21}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [216743] = { -- Goblin Explosives Crate
+            [objectKeys.name] = "Goblin Explosives Crate",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{25.47,59.41}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [216744] = { -- Goblin Explosives Crate
+            [objectKeys.name] = "Goblin Explosives Crate",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{23.91,54.62}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [216745] = { -- Goblin Explosives Crate
+            [objectKeys.name] = "Goblin Explosives Crate",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.27,58.98}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [216837] = { -- Wrathion's Jewel Chest
             [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.99,72.65}}},
             [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
