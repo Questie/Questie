@@ -967,6 +967,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1519}, -- #6723
         },
         [1517] = {
+            [questKeys.preQuestSingle] = {1516,1519}, -- #6723
             [questKeys.childQuests] = {}, -- #6723
         },
         [1518] = {
@@ -977,6 +978,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1516}, -- #6723
         },
         [1520] = {
+            [questKeys.preQuestSingle] = {1516,1519}, -- #6723
             [questKeys.childQuests] = {}, -- #6723
         },
         [1521] = {
