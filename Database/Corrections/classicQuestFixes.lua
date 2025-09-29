@@ -394,7 +394,7 @@ function QuestieQuestFixes:Load()
         },
         [665] = {
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.87,80.6}}}},
-            [questKeys.preQuestSingle] = {663},
+            [questKeys.preQuestSingle] = {663}, -- #6972
         },
         [667] = {
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{31.93,81.82}}}},
@@ -895,9 +895,11 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{70.2,45.2},{66.6,48.1},{73.6,48.1},{64.9,53.3},{75.4,53.3},{66.6,58.4},{73.6,58.4},{70.2,60.5}}}},
         },
         [1462] = {
+            [questKeys.parentQuest] = 1521, -- #6723
             [questKeys.objectivesText] = {},
         },
         [1463] = {
+            [questKeys.parentQuest] = 1518, -- #6723
             [questKeys.objectivesText] = {},
         },
         [1464] = {
@@ -962,22 +964,23 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [1516] = {
-            [questKeys.exclusiveTo] = {1519},
+            [questKeys.exclusiveTo] = {1519}, -- #6723
         },
         [1517] = {
-            [questKeys.exclusiveTo] = {1520}, -- This needs to be re-examined per issue 6723, I am not convinced this is true
+            [questKeys.childQuests] = {}, -- #6723
         },
         [1518] = {
-            [questKeys.exclusiveTo] = {1521},
+            [questKeys.childQuests] = {1463}, -- #6723
         },
         [1519] = {
-            [questKeys.exclusiveTo] = {1516},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #6723
+            [questKeys.exclusiveTo] = {1516}, -- #6723
         },
         [1520] = {
-            [questKeys.exclusiveTo] = {1517},
+            [questKeys.childQuests] = {}, -- #6723
         },
         [1521] = {
-            [questKeys.exclusiveTo] = {1518},
+            [questKeys.childQuests] = {1462}, -- #6723
         },
         [1522] = {
             [questKeys.breadcrumbForQuestId] = 1524,
