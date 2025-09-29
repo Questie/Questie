@@ -7791,6 +7791,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
         },
         [32335] = { -- The Greatest Prank
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32332,32333,32334},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
         },
@@ -7968,6 +7969,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
         },
         [32423] = { -- What Had To Be Done
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32417,32418,32419,32420,32421},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
         },
