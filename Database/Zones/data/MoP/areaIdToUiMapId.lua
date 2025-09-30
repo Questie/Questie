@@ -367,7 +367,6 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [5449] = 275, -- The Battle for Gilneas
     [5495] = 226, -- Gnomeregan - (Dungeon/Raid)
     [5511] = 19, -- Scarlet Monastery Entrance
-    [5583] = 325, -- The Vortex Pinnacle - (Dungeon/Raid)
     [5600] = 282, -- Baradin Hold - (Dungeon/Raid)
     [5638] = 328, -- Throne of the Four Winds - (Dungeon/Raid)
     [5684] = 328, -- Throne of the Four Winds - (Dungeon/Raid)

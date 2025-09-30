@@ -190,6 +190,7 @@ ZoneDB.zoneIDs = {
     BLACKROCK_CAVERNS = 4926,
     THE_RUBY_SANCTUM = 4987,
     ULDUM = 5034,
+    THE_VORTEX_PINNACLE = 5035,
     DEEPHOLM = 5042,
     TOL_BARAD = 5095, -- the southern isle
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone

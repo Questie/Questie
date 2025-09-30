@@ -1104,6 +1104,9 @@ function CataObjectFixes.Load()
         [207384] = { -- Deep Garnet Crystal Chunk
             [objectKeys.spawns] = {},
         },
+        [207408] = { -- Magical Brazier
+            [objectKeys.spawns] = {[zoneIDs.THE_VORTEX_PINNACLE] = {{61.92,31.29},{-1,-1}}},
+        },
         [207982] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {28910},
         },

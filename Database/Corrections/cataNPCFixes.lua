@@ -5365,6 +5365,12 @@ function CataNpcFixes.Load()
         [43870] = { -- Seer Beryl
             [npcKeys.questStarts] = {27331,27332,27334,27335,28164,28304,28307,28308,28309,28323},
         },
+        [43875] = { -- Asaad
+            [npcKeys.spawns] = {[zoneIDs.THE_VORTEX_PINNACLE] = {{29.9,37.89},{-1,-1}}},
+        },
+        [43878] = { -- Grand Vizier Ertan
+            [npcKeys.spawns] = {[zoneIDs.THE_VORTEX_PINNACLE] = {{54.63,45.19},{-1,-1}}},
+        },
         [43884] = { -- Osborn Obnoticus
             [npcKeys.spawns] = {
                 [zoneIDs.STRANGLETHORN_VALE] = {
@@ -6933,6 +6939,9 @@ function CataNpcFixes.Load()
         },
         [49893] = { -- Lisa McKeever
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.62,72.38}}},
+        },
+        [49943] = { -- Itesh
+            [npcKeys.spawns] = {[zoneIDs.THE_VORTEX_PINNACLE] = {{54.46,15.84},{-1,-1}}},
         },
         [49956] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{63.07,20.88}}},
