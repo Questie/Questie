@@ -516,7 +516,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {6364,90243},
         },
         [3044] = { -- Miles Welsh
-            [npcKeys.questStarts] = {5642,5663},
+            [npcKeys.questStarts] = {5642,5644,5656,5663},
         },
         [3058] = { -- Arra'chea
             [npcKeys.questStarts] = {90093,90095},
@@ -663,7 +663,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {967,970,973,976,981,1140,78088,78093},
         },
         [3707] = { -- Ken'jai
-            [npcKeys.questStarts] = {5649,5657,77642},
+            [npcKeys.questStarts] = {5649,77642},
             [npcKeys.questEnds] = {3085,77642},
         },
         [4047] = { -- Zor Lonetree
@@ -683,10 +683,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {90567},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {5658},
+            [npcKeys.questStarts] = {5643,5657,5658,5679},
         },
         [4607] = { -- Father Lankester
-            [npcKeys.questStarts] = {5643,5656,5679,79080},
+            [npcKeys.questStarts] = {79080},
             [npcKeys.questEnds] = {79080},
         },
         [4713] = { -- Slitherblade Warrior
@@ -800,7 +800,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {90343},
         },
         [6018] = { -- Ur'kyo
-            [npcKeys.questStarts] = {5652,5662,8254,79079},
+            [npcKeys.questStarts] = {5646,5652,5662,5680,8254,79079},
             [npcKeys.questEnds] = {5642,5643,5652,5654,5655,5656,5657,5680,79079},
         },
         [6113] = { -- Vejrek
@@ -1123,7 +1123,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {78194},
         },
         [11407] = { -- Var'jun
-            [npcKeys.questStarts] = {5654,5661},
+            [npcKeys.questStarts] = {5655,5661},
         },
         [11438] = { -- Bibbly F'utzbuckle
             [npcKeys.questStarts] = {5501,79235},

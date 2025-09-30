@@ -35,6 +35,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{4606}},
             [questKeys.objectivesText] = {},
         },
+        [5657] = { -- Hex of Weakness (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
         [5661] = { -- Touch of Weakness
             [questKeys.startedBy] = {{11407}},
         },
