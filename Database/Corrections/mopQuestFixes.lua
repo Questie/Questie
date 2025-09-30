@@ -4511,7 +4511,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,28}},
         },
         [31016] = { -- The Lorewalkers
-            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored
+            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored. it has more than this
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31367,31368},
         },
@@ -4871,7 +4871,7 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{63217}},
         },
         [31133] = { -- Kor'thik Aggression
-            [questKeys.preQuestGroup] = {31069,31070},
+            [questKeys.preQuestSingle] = {31070},
         },
         [31134] = { -- If These Stones Could Speak
             [questKeys.objectives] = {nil,{{212926},{212925},{212924}}},
@@ -5117,7 +5117,7 @@ function MopQuestFixes.Load()
         },
         [31207] = { -- The Arena of Annihilation
             [questKeys.preQuestSingle] = {31511,31512},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{64280,64281},64280}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{64280,64281,63316},64280}}},
         },
         [31208] = { -- Venomous Intent
             [questKeys.preQuestSingle] = {31018},
@@ -5567,7 +5567,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one
+            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one. it has more than this
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31374] = { -- The Tillers
@@ -5575,7 +5575,7 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one
+            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one. it has more than this
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
@@ -7459,36 +7459,33 @@ function MopQuestFixes.Load()
         },
         [32136] = { -- Work Order: Fuel
             [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbForQuestId] = 32137,
             [questKeys.nextQuestInChain] = 32137,
             [questKeys.exclusiveTo] = {32138,32140},
         },
         [32137] = { -- Runnin' On Empty
-            [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbs] = {32136},
+            [questKeys.preQuestGroup] = {32108,32136},
             [questKeys.exclusiveTo] = {32141,32236,32139,32238},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32138] = { -- Work Order: Lumber
             [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbForQuestId] = 32139,
+            [questKeys.nextQuestInChain] = 32139,
             [questKeys.exclusiveTo] = {32136,32140},
         },
         [32139] = { -- Stacked!
-            [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbs] = {32138},
+            [questKeys.preQuestGroup] = {32108,32138},
+            [questKeys.objectives] = {nil,{{216177}}},
             [questKeys.exclusiveTo] = {32137,32237,32141,32236},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32140] = { -- Work Order: Fuel
             [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbForQuestId] = 32141,
+            [questKeys.nextQuestInChain] = 32141,
             [questKeys.exclusiveTo] = {32136,32138},
         },
         [32141] = { -- Power Metal
-            [questKeys.preQuestSingle] = {32108},
-            [questKeys.breadcrumbs] = {32140},
+            [questKeys.preQuestGroup] = {32108,32140},
             [questKeys.exclusiveTo] = {32137,32237,32139,32238},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
@@ -7735,6 +7732,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32137,32237,32141,32236},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32242] = { -- Buried Secrets
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
         [32243] = { -- The Source of Korune Power
             [questKeys.preQuestSingle] = {32193},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,15800},
@@ -7758,6 +7758,16 @@ function MopQuestFixes.Load()
         [32251] = { -- Dagger in the Dark
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {32108},
+        },
+        [32256] = { -- Rise Of An Empire
+            [questKeys.preQuestSingle] = {32251},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{67840,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32257] = { -- Voice of the Gods
+            [questKeys.objectives] = {{{67833,nil,Questie.ICON_TYPE_INTERACT}},nil,{{92425}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
@@ -7935,6 +7945,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32382},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,7900},
             [questKeys.objectives] = {{{68413,nil,Questie.ICON_TYPE_INTERACT}},nil,{{92804}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32400] = { -- The Bell Speaks
             [questKeys.preQuestGroup] = {32336,32337,32338},
