@@ -7473,6 +7473,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32136,32140},
         },
         [32139] = { -- Stacked!
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32108,32138},
             [questKeys.objectives] = {nil,{{216177}}},
             [questKeys.exclusiveTo] = {32137,32237,32141,32236},
@@ -7485,6 +7486,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32136,32138},
         },
         [32141] = { -- Power Metal
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32108,32140},
             [questKeys.exclusiveTo] = {32137,32237,32139,32238},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
