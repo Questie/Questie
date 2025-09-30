@@ -1105,6 +1105,9 @@ function MopItemFixes.Load()
         [91907] = { -- Lion's Landing Lumber
             [itemKeys.objectDrops] = {216229},
         },
+        [92425] = { -- Ancient Korune Tablet
+            [itemKeys.npcDrops] = {67833},
+        },
         [92474] = { -- Extra-Waxy Alliance Ears
             [itemKeys.npcDrops] = {67296,67297,67304,67317,67441},
         },
