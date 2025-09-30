@@ -143,6 +143,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
+        [6018] = { -- Ur'kyo
+            [npcKeys.questStarts] = {8254},
+        },
         [6179] = { -- Tiza Battleforge
             [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
         },
