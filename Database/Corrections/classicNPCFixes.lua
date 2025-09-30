@@ -613,6 +613,9 @@ function QuestieNPCFixes:Load()
         [3706] = { -- Tai'jin
             [npcKeys.questStarts] = {5648,5654,5660},
         },
+        [3707] = { -- Ken'jai
+            [npcKeys.questStarts] = {5649},
+        },
         [3864] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP] = {{-1,-1}}},
         },
