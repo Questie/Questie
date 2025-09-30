@@ -2394,6 +2394,15 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [5643] = { -- Shadowguard (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
+        [5644] = { -- Devouring Plague (Thunder Bluff)
+            [questKeys.startedBy] = {{3044},nil,nil},
+        },
+        [5646] = { -- Devouring Plague (Orgrimmar)
+            [questKeys.startedBy] = {{6018},nil,nil},
+        },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
@@ -2403,14 +2412,29 @@ function QuestieQuestFixes:Load()
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12428,"Heal and fortify Deathguard Kel",Questie.ICON_TYPE_INTERACT}}},
         },
-        [5658] = { -- #7083 and #1603
+        [5652] = { -- Hex of Weakness (Orgrimmar)
+            [questKeys.objectivesText] = {},
+        },
+        [5654] = { -- Hex of Weakness (Durotar)
+            [questKeys.startedBy] = {{3706},nil,nil},
+        },
+        [5655] = { -- Hex of Weakness (Mulgore)
+            [questKeys.startedBy] = {{11407},nil,nil},
+        },
+        [5656] = { -- Hex of Weakness (Thunder Bluff)
+            [questKeys.startedBy] = {{3044},nil,nil},
+        },
+        [5657] = { -- Hex of Weakness (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
+        [5658] = { -- #7083 and #1603 Touch of Weakness (Undercity)
             [questKeys.startedBy] = {{4606},nil,nil},
             [questKeys.objectivesText] = {},
         },
-        [5661] = { -- #7083 and #1603
+        [5661] = { -- #7083 and #1603 Touch of Weakness (Mulgore)
             [questKeys.startedBy] = {{11407},nil,nil},
         },
-        [5663] = { -- #7083 and #1603
+        [5663] = { -- #7083 and #1603 Touch of Weakness (Thunder Bluff)
             [questKeys.startedBy] = {{3044},nil,nil},
         },
         [5676] = {
@@ -2432,7 +2456,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5676,5677},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [5679] = {
+        [5679] = { -- Devouring Plague (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+            [questKeys.objectivesText] = {},
+        },
+        [5680] = { -- Shadowguard (Orgrimmar)
+            [questKeys.startedBy] = {{6018},nil,nil},
             [questKeys.objectivesText] = {},
         },
         [5713] = {

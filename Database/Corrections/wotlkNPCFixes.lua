@@ -92,6 +92,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
+        [3706] = { -- Tai'jin
+            [npcKeys.questStarts] = {5648},
+        },
         [3996] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
         },

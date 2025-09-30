@@ -287,6 +287,33 @@ function QuestieWotlkQuestFixes:Load()
         [5531] = {
             [questKeys.nextQuestInChain] = 0,
         },
+        [5642] = { -- Shadowguard
+            [questKeys.startedBy] = {},
+        },
+        [5643] = { -- Shadowguard
+            [questKeys.startedBy] = {},
+        },
+        [5644] = { -- Devouring Plague
+            [questKeys.startedBy] = {},
+        },
+        [5646] = { -- Devouring Plague
+            [questKeys.startedBy] = {},
+        },
+        [5652] = { -- Hex of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5654] = { -- Hex of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5655] = { -- Hex of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5656] = { -- Hex of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5657] = { -- Hex of Weakness
+            [questKeys.startedBy] = {},
+        },
         [5658] = { -- Touch of Weakness
             [questKeys.startedBy] = {},
         },
@@ -294,6 +321,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {},
         },
         [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5679] = { -- Devouring Plague
+            [questKeys.startedBy] = {},
+        },
+        [5680] = { -- Shadowguard
             [questKeys.startedBy] = {},
         },
         [5721] = {
