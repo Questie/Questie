@@ -121,12 +121,15 @@ function QuestieQuestFixes:Load()
         },
         [163] = {
             [questKeys.breadcrumbForQuestId] = 5, -- #1198
+            [questKeys.nextQuestInChain] = 5,
         },
         [164] = {
             [questKeys.breadcrumbForQuestId] = 95, -- deliveries to sven is a breadcrumb
+            [questKeys.nextQuestInChain] = 95,
         },
         [165] = {
             [questKeys.breadcrumbForQuestId] = 148, -- #1173
+            [questKeys.nextQuestInChain] = 148,
         },
         [178] = {
             [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
@@ -409,11 +412,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {678}, -- #1062
         },
         [690] = {
-            [questKeys.breadcrumbForQuestId] = 691, -- #1587
-        },
-        [691] = {
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {690}, -- #1587
+            [questKeys.exclusiveTo] = 691, -- #1587
         },
         [707] = {
             [questKeys.nextQuestInChain] = 738,
@@ -499,13 +498,14 @@ function QuestieQuestFixes:Load()
         },
         [854] = {
             [questKeys.breadcrumbForQuestId] = 871, -- #2014
+            [questKeys.nextQuestInChain] = 871,
         },
         [860] = {
             [questKeys.breadcrumbForQuestId] = 844,
         },
         [861] = {
             [questKeys.nextQuestInChain] = 860,
-            [questKeys.exclusiveTo] = {860,844}, -- #1109
+            [questKeys.exclusiveTo] = {844}, -- #1109
         },
         [862] = {
             [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest -- this needs proper fix
@@ -513,7 +513,7 @@ function QuestieQuestFixes:Load()
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
         },
-       [870] = {
+        [870] = {
             [questKeys.breadcrumbs] = {886},
         },
         [871] = {
@@ -654,6 +654,7 @@ function QuestieQuestFixes:Load()
         },
         [1061] = {
             [questKeys.breadcrumbForQuestId] = 1062, -- #1803
+            [questKeys.nextQuestInChain] = 1062,
         },
         [1062] = {
             [questKeys.breadcrumbs] = {1061}, -- #1803
@@ -992,6 +993,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1524,
         },
         [1524] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1522,1523,2983,2984},
         },
         [1528] = {
@@ -1001,6 +1003,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1530,
         },
         [1530] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1528,1529,2985,2986},
         },
         [1558] = {
@@ -1101,6 +1104,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1699,
         },
         [1699] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1698},
         },
         [1700] = {
@@ -1311,6 +1315,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 2206,
         },
         [2206] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2205},
         },
         [2218] = {
@@ -1318,6 +1323,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 2238,
         },
         [2238] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2218},
         },
         [2240]  = {
@@ -1329,6 +1335,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 2242,
         },
         [2242] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2241},
         },
         [2259] = {
@@ -1340,6 +1347,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2259}, -- #2476
             [questKeys.breadcrumbForQuestId] = 2281, -- #2476
+            [questKeys.nextQuestInChain] = 2281,
         },
         [2278] = {
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
@@ -1352,6 +1360,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2299}, -- #2476
             [questKeys.breadcrumbForQuestId] = 2281, -- #2476
+            [questKeys.nextQuestInChain] = 2281,
         },
         [2299] = {
             [questKeys.preQuestSingle] = {},
@@ -1744,7 +1753,7 @@ function QuestieQuestFixes:Load()
         [3790] = {
             [questKeys.breadcrumbForQuestId] = 3764,
         },
-        [3791] = { -- The Mystery of Morrowgrain
+        [3791] = {
             [questKeys.requiredSourceItems] = {11022,11018},
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
         },
@@ -2967,16 +2976,10 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [7121] = {
-            [questKeys.breadcrumbForQuestId] = 7122,
-        },
-        [7122] = {
-            [questKeys.breadcrumbs] = {7121},
+            [questKeys.exclusiveTo] = {5892,6892},
         },
         [7123] = {
-            [questKeys.breadcrumbForQuestId] = 7124,
-        },
-        [7124] = {
-            [questKeys.breadcrumbs] = {7123},
+            [questKeys.exclusiveTo] = {5893,6985},
         },
         [7141] = {
             [questKeys.triggerEnd] = {"Defeat Drek'thar.",{[zoneIDs.ALTERAC_VALLEY]={{47.22,86.95}}}},
@@ -3016,9 +3019,11 @@ function QuestieQuestFixes:Load()
         },
         [7241] = {
             [questKeys.breadcrumbForQuestId] = 7161,
+            [questKeys.nextQuestInChain] = 7161,
         },
         [7261] = {
             [questKeys.breadcrumbForQuestId] = 7162,
+            [questKeys.nextQuestInChain] = 7162,
         },
         [7281] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
