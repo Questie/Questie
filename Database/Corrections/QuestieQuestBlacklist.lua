@@ -3919,7 +3919,7 @@ function QuestieQuestBlacklist:Load()
         [5671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5672] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5673] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5674] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5674] = true -- I have not found evidence that this quest actually exists in the game
         [5675] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5676] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5677] = Expansions.Current >= Expansions.Cata, -- Removed with cata

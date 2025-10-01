@@ -571,7 +571,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.23,10.33}}},
         },
         [3600] = { -- Laurna Morninglight
-            [npcKeys.questStarts] = {5621,5629,5636,5674},
+            [npcKeys.questStarts] = {5621,5629,5636},
         },
         [3602] = { -- Kal
             [npcKeys.questStarts] = {5925},

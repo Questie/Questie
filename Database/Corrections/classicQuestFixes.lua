@@ -2353,6 +2353,7 @@ function QuestieQuestFixes:Load()
         },
         [5621] = { -- Garments of the Moon
             [questKeys.objectives] = {{{12429,"Heal and fortify Sentinel Shaya",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5622},
         },
         [5622] = {
@@ -2364,10 +2365,12 @@ function QuestieQuestFixes:Load()
         },
         [5624] = { -- Garments of the Light
             [questKeys.objectives] = {{{12423,"Heal and fortify Guard Roberts",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5623},
         },
         [5625] = { -- Garments of the Light
             [questKeys.objectives] = {{{12427,"Heal and fortify Mountaineer Dolf",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5626},
         },
         [5626] = {
@@ -2428,6 +2431,7 @@ function QuestieQuestFixes:Load()
         },
         [5648] = { -- Garments of Spirituality
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5649},
         },
         [5649] = {
@@ -2435,6 +2439,7 @@ function QuestieQuestFixes:Load()
         },
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12428,"Heal and fortify Deathguard Kel",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5651},
         },
         [5651] = {
@@ -2468,9 +2473,6 @@ function QuestieQuestFixes:Load()
         [5672] = { -- Elune's Grace (Darnassus)
             [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.objectivesText] = {},
-        },
-        [5674] = { -- Elune's Grace (Teldrassil)
-            [questKeys.startedBy] = {{3600},nil,nil},
         },
         [5676] = { -- Feedback (Stormwind)
             [questKeys.startedBy] = {{376},nil,nil},
