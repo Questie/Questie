@@ -2469,6 +2469,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.objectivesText] = {},
         },
+        [5674] = { -- Elune's Grace (Teldrassil)
+            [questKeys.startedBy] = {{3600},nil,nil},
+        },
         [5676] = { -- Feedback (Stormwind)
             [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.exclusiveTo] = {5677,5678},
