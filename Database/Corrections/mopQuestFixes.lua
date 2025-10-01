@@ -7791,7 +7791,9 @@ function MopQuestFixes.Load()
         },
         [32331] = { -- The Kirin Tor
             [questKeys.preQuestGroup] = {32383,32397},
+            [questKeys.objectives] = {nil,{{216420}}},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,11850},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
         },
         [32332] = { -- The First Riddle: Mercy
             [questKeys.preQuestSingle] = {32321},
@@ -7867,6 +7869,7 @@ function MopQuestFixes.Load()
         [32362] = { -- The Fate of Dalaran
             [questKeys.preQuestSingle] = {32331},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,11850},
+            [questKeys.objectives] = {{{68108,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32370] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32316},

@@ -817,6 +817,11 @@ function MopObjectFixes.Load()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32108},
         },
+        [216420] = { -- Portal to The Purple Parlor
+            [objectKeys.name] = "Portal to The Purple Parlor",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.19,33.56}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [216427] = { -- Hammer of Fellowship
             [objectKeys.name] = "Hammer of Fellowship",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.4,34.3}}},

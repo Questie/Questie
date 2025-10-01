@@ -267,6 +267,7 @@ ZoneDB.zoneIDs = {
     THE_WIDOWS_WAIL = 6512, -- cave in The Jade Forest
     OONA_KAGU = 6513, -- cave in The Jade Forest
     RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION = 6609, -- Ruins of Ogudei - cave in Krasarang Wilds
+    DALARAN_LANDFALL = 6611,
     A_LITTLE_PATIENCE = 6616, -- Scenario
     BIZMOS_BRAWLPUB = 6618,
     ISLE_OF_GIANTS = 6661,

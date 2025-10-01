@@ -4282,6 +4282,18 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.questEnds] = {32330},
         },
+        [68106] = { -- Anduin Wrynn
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{26.78,39.01}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68108] = { -- Lady Jaina Proudmoore
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{26.78,39.01}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
         [68137] = { -- Akama
             [npcKeys.name] = "Akama",
             [npcKeys.minLevel] = 35,
