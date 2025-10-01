@@ -2474,9 +2474,6 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.objectivesText] = {},
         },
-        [5674] = { -- Elune's Grace (Cannot find any Quest giver. I blacklisted the quest until I can see some evidence that this quest is in the game. Checked Laurna Morninglight and Astarii Starseeker and did not give quest.)
-            [questKeys.startedBy] = {{nil,nil,nil},
-        },
         [5676] = { -- Feedback (Stormwind)
             [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.exclusiveTo] = {5677,5678},
