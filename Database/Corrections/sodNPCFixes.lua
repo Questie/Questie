@@ -63,7 +63,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {3103,77619},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,5641,5673,84320,84321,84324,84326,84327,84329,84413},
+            [npcKeys.questStarts] = {5634,5645,5673,5676,84320,84321,84324,84326,84327,84329,84413},
             [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5676,5677,5678,78193,84320,84323,84324,84325,84326,84412,84413},
         },
         [391] = { -- Old Murk-Eye
