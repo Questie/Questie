@@ -1938,6 +1938,9 @@ function QuestieQuestFixes:Load()
         [4494] = {
             [questKeys.preQuestSingle] = {7732},
         },
+        [4495] = {
+            [questKeys.nextQuestInChain] = 3519,
+        },
         [4496] = {
             [questKeys.preQuestSingle] = {4493,4494},
         },
@@ -2350,15 +2353,25 @@ function QuestieQuestFixes:Load()
         },
         [5621] = { -- Garments of the Moon
             [questKeys.objectives] = {{{12429,"Heal and fortify Sentinel Shaya",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {5622},
         },
         [5622] = {
             [questKeys.questLevel] = 5, -- #2306
+            [questKeys.breadcrumbForQuestId] = 5621,
+        },
+        [5623] = {
+            [questKeys.breadcrumbForQuestId] = 5624,
         },
         [5624] = { -- Garments of the Light
             [questKeys.objectives] = {{{12423,"Heal and fortify Guard Roberts",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {5623},
         },
         [5625] = { -- Garments of the Light
             [questKeys.objectives] = {{{12427,"Heal and fortify Mountaineer Dolf",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {5626},
+        },
+        [5626] = {
+            [questKeys.breadcrumbForQuestId] = 5625,
         },
         [5634] = {
             [questKeys.startedBy] = {{376},nil,nil},
@@ -2415,9 +2428,17 @@ function QuestieQuestFixes:Load()
         },
         [5648] = { -- Garments of Spirituality
             [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {5649},
+        },
+        [5649] = {
+            [questKeys.breadcrumbForQuestId] = 5648,
         },
         [5650] = { -- Garments of Darkness
             [questKeys.objectives] = {{{12428,"Heal and fortify Deathguard Kel",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.breadcrumbs] = {5651},
+        },
+        [5651] = {
+            [questKeys.breadcrumbForQuestId] = 5650,
         },
         [5652] = { -- Hex of Weakness (Orgrimmar)
             [questKeys.objectivesText] = {},
