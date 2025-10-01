@@ -2379,7 +2379,7 @@ function QuestieQuestFixes:Load()
         [5638] = {
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5639,5640},
         },
-        [5639] = {
+        [5639] = { -- Desperate Prayer (Ironforge)
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
         },
         [5640] = {
@@ -2394,11 +2394,18 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [5641] = { -- Fear Ward (Ironforge)
+            [questKeys.startedBy] = {{11406},nil,nil},
+            [questKeys.objectivesText] = {},
+        },
         [5643] = { -- Shadowguard (Undercity)
             [questKeys.startedBy] = {{4606},nil,nil},
         },
         [5644] = { -- Devouring Plague (Thunder Bluff)
             [questKeys.startedBy] = {{3044},nil,nil},
+        },
+        [5645] = { -- Fear Ward (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
         },
         [5646] = { -- Devouring Plague (Orgrimmar)
             [questKeys.startedBy] = {{6018},nil,nil},
@@ -2437,14 +2444,19 @@ function QuestieQuestFixes:Load()
         [5663] = { -- #7083 and #1603 Touch of Weakness (Thunder Bluff)
             [questKeys.startedBy] = {{3044},nil,nil},
         },
-        [5676] = {
+        [5672] = { -- Elune's Grace (Darnassus)
+            [questKeys.startedBy] = {{11401},nil,nil},
+            [questKeys.objectivesText] = {},
+        },
+        [5676] = { -- Feedback (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
             [questKeys.exclusiveTo] = {5677,5678},
             [questKeys.objectivesText] = {},
         },
-        [5677] = {
+        [5677] = { -- Feedback (Ironforge)
             [questKeys.exclusiveTo] = {5676,5678},
         },
-        [5678] = {
+        [5678] = { -- Feedback (Darnassus)
             [questKeys.name] = "Arcane Feedback",
             [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.finishedBy] = {{376},nil},

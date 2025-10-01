@@ -1122,6 +1122,9 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questStarts] = {5632,5638,78194,78195},
             [npcKeys.questEnds] = {78194},
         },
+        [11406] = { -- High Priest Rohan
+            [npcKeys.questStarts] = {5639,5641,5675,5677,7639,8254},
+        },
         [11407] = { -- Var'jun
             [npcKeys.questStarts] = {5655,5661},
         },
