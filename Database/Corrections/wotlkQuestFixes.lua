@@ -287,6 +287,9 @@ function QuestieWotlkQuestFixes:Load()
         [5531] = {
             [questKeys.nextQuestInChain] = 0,
         },
+        [5641] = { -- Fear Ward
+            [questKeys.startedBy] = {},
+        },
         [5642] = { -- Shadowguard
             [questKeys.startedBy] = {},
         },
@@ -294,6 +297,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {},
         },
         [5644] = { -- Devouring Plague
+            [questKeys.startedBy] = {},
+        },
+        [5645] = { -- Fear Ward
             [questKeys.startedBy] = {},
         },
         [5646] = { -- Devouring Plague
@@ -321,6 +327,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {},
         },
         [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {},
+        },
+        [5676] = { -- Feedback
             [questKeys.startedBy] = {},
         },
         [5679] = { -- Devouring Plague

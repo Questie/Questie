@@ -40,7 +40,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8250},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,5641,5673},
+            [npcKeys.questStarts] = {5634,5641,5645,5673,5676},
             [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5676,5677,5678},
         },
         [377] = { -- Priestess Josetta
@@ -1788,6 +1788,9 @@ function QuestieNPCFixes:Load()
         },
         [11401] = { -- Priestess Alathea
             [npcKeys.questStarts] = {5627,5640,5647,5678},
+        },
+        [11406] = { -- High Priest Rohan
+            [npcKeys.questStarts] = {5639,5641,5675,5677,7639,8254},
         },
         [11407] = { -- Var'jun
             [npcKeys.questStarts] = {5655,5661},
