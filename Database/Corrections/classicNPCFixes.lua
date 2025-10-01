@@ -40,7 +40,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8250},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,5641,5645,5673,5676},
+            [npcKeys.questStarts] = {5634,5645,5673,5676},
             [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5676,5677,5678},
         },
         [377] = { -- Priestess Josetta
@@ -570,6 +570,9 @@ function QuestieNPCFixes:Load()
         [3560] = {
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.23,10.33}}},
         },
+        [3600] = { -- Laurna Morninglight
+            [npcKeys.questStarts] = {5621,5629,5636},
+        },
         [3602] = { -- Kal
             [npcKeys.questStarts] = {5925},
         },
@@ -905,6 +908,9 @@ function QuestieNPCFixes:Load()
         [5142] = { -- Braenna Flintcrag
             [npcKeys.questStarts] = {5633},
         },
+        [5143] = { -- Toldren Deepiron
+            [npcKeys.questStarts] = {},
+        },
         [5144] = { -- Bink
             [npcKeys.questStarts] = {1880,1939,1953,2861},
         },
@@ -939,6 +945,9 @@ function QuestieNPCFixes:Load()
         [5477] = {
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{54.9,34.1}}},
             [npcKeys.waypoints] = {[zoneIDs.SWAMP_OF_SORROWS]={{{54.9,34.1},{55.7,36.1},{55.7,37.7},{54.5,38.7},{52.9,38.7},{51.3,38.5},{49.7,38.5},{48.3,38.5},{47,38.5},{45.3,37.7},{43.9,36},{43.1,34},{42.9,32.1},{41.5,31.9},{40,33},{39.1,35.0},{38.3,36.9},{37.7,38.7},{37.7,40.8},{37.6,42.8},{37.2,44.5},{36.1,45.5},{34.7,45.1},{33.7,43.1},{33.2,40.6},{32.9,38.7},{32.3,36.1}}}},
+        },
+        [5489] = { -- Brother Joshua
+            [npcKeys.questStarts] = {5631,8254},
         },
         [5491] = { -- Arthur the Faithful
             [npcKeys.questStarts] = {},
@@ -1787,7 +1796,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{69.01,72.8}}},
         },
         [11401] = { -- Priestess Alathea
-            [npcKeys.questStarts] = {5627,5640,5647,5678},
+            [npcKeys.questStarts] = {5627,5640,5647,5672,5678},
         },
         [11406] = { -- High Priest Rohan
             [npcKeys.questStarts] = {5639,5641,5675,5677,7639,8254},
