@@ -414,6 +414,9 @@ function QuestieQuestFixes:Load()
         [690] = {
             [questKeys.exclusiveTo] = {691}, -- #1587
         },
+        [691] = {
+            [questKeys.preQuestSingle] = {}, -- #1587
+        },
         [707] = {
             [questKeys.nextQuestInChain] = 738,
             [questKeys.breadcrumbForQuestId] = 738, -- #1289
