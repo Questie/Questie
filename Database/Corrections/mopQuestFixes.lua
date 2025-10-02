@@ -5558,10 +5558,12 @@ function MopQuestFixes.Load()
         [31369] = { -- The Anglers
             [questKeys.preQuestGroup] = {30635,30636,30637,31001}, -- 100% 31001, recheck the others!
             [questKeys.requiredSkill] = {profKeys.FISHING,1},
+            [questKeys.exclusiveTo] = {31371},
         },
         [31370] = { -- The Anglers
             [questKeys.preQuestGroup] = {30635,30636,30637,31001}, -- 100% 31001, recheck the others!
             [questKeys.requiredSkill] = {profKeys.FISHING,1},
+            [questKeys.exclusiveTo] = {31371},
         },
         [31372] = { -- The Tillers
             [questKeys.preQuestSingle] = {30637}, -- wowhead comment, double check
