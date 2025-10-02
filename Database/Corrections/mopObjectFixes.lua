@@ -810,6 +810,15 @@ function MopObjectFixes.Load()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32163,32166},
         },
+        [216231] = { -- Powder Magazine
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.33,75.58}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [216232] = { -- Powder Magazine
+            [objectKeys.name] = "Powder Magazine",
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{15.1,76.65},{15.09,76.65},{15.09,76.63},{15.09,76.64},{15.1,76.63},{15.1,76.61},{15.11,76.62},{15.12,76.62},{15.11,76.6},{15.11,76.57},{15.1,76.59},{15.09,76.61},{15.07,76.62},{15.07,76.64},{15.06,76.67}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [216274] = { -- Signal Fire
             [objectKeys.name] = "Signal Fire",
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.44,63.98}}},
