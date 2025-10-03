@@ -8222,6 +8222,19 @@ function MopQuestFixes.Load()
             [questKeys.questLevel] = 90,
             [questKeys.preQuestSingle] = {32427},
         },
+        [32430] = { -- A Change of Command
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestGroup] = {32429,32476},
+        },
+        [32431] = { -- Glory to the Horde
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.preQuestGroup] = {32429,32476},
+        },
+        [32432] = { -- The Soul of the Horde
+            [questKeys.preQuestGroup] = {32430,32431},
+            [questKeys.startedBy] = {{64616}},
+            [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32433] = { -- Undermining the Under Miner
             [questKeys.preQuestSingle] = {32109},
             [questKeys.exclusiveTo] = {32158},
@@ -8287,10 +8300,12 @@ function MopQuestFixes.Load()
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32373},
+            [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
         [32476] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32427},
+            [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},

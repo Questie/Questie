@@ -4191,6 +4191,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.28,25.57}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67801] = { -- High Marshal Twinbraid
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.53,24.86}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67804] = { -- Dominance Mage
             [npcKeys.name] = "Dominance Mage",
             [npcKeys.minLevel] = 90,
