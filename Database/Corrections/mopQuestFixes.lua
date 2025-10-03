@@ -4512,7 +4512,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,28}},
         },
         [31016] = { -- The Lorewalkers
-            [questKeys.preQuestSingle] = {31003}, -- not entirely sure. could be 31001+31002 instead OR 30259 OR Tillers halfway honored. it has more than this
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31367,31368},
         },
@@ -5542,43 +5542,43 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{211129}}},
         },
         [31367] = { -- The Lorewalkers
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31016,31368},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,27}},
         },
         [31368] = { -- The Lorewalkers
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 31015,
             [questKeys.exclusiveTo] = {31016,31367},
             [questKeys.objectives] = {{{65716,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,27}},
         },
         [31369] = { -- The Anglers
-            [questKeys.preQuestGroup] = {30635,30636,30637,31001}, -- 100% 31001, recheck the others!
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.requiredSkill] = {profKeys.FISHING,1},
             [questKeys.exclusiveTo] = {31371},
         },
         [31370] = { -- The Anglers
-            [questKeys.preQuestGroup] = {30635,30636,30637,31001}, -- 100% 31001, recheck the others!
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.requiredSkill] = {profKeys.FISHING,1},
             [questKeys.exclusiveTo] = {31371},
         },
         [31372] = { -- The Tillers
-            [questKeys.preQuestSingle] = {30637}, -- wowhead comment, double check
+            [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one. it has more than this
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31374] = { -- The Tillers
-            [questKeys.preQuestSingle] = {30637}, -- wowhead comment, double check
+            [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
             [questKeys.breadcrumbForQuestId] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
-            [questKeys.preQuestSingle] = {31001}, -- 100% 31001, if another quest is needed, add to this one. it has more than this
+            [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
