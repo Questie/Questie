@@ -4739,7 +4739,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [9320] = { -- Major Mana Potion
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 60,
         },
         [9321] = { -- Major Healing Potion
             [questKeys.zoneOrSort] = sortKeys.INVASION,
@@ -4750,17 +4750,23 @@ function QuestieQuestFixes:Load()
         [9323] = {
             [questKeys.requiredLevel] = 1,
         },
+        [9334] = { -- Blessed Wizard Oil
+            [questKeys.questLevel] = 60,
+        },
+        [9335] = { -- Consecrated Sharpening Stones
+            [questKeys.questLevel] = 60,
+        },
         [9336] = { -- Major Healing Potion
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 60,
         },
         [9337] = { -- Major Mana Potion
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 60,
         },
         [9341] = { -- Tabard of the Argent Dawn
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 60,
         },
         [9343] = { -- Tabard of the Argent Dawn
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 60,
         },
         [9386] = {
             [questKeys.preQuestSingle] = {9319},
