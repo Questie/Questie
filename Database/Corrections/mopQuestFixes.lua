@@ -7081,6 +7081,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66557,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31927] = { -- Battle Pet Tamers: Northrend
+            [questKeys.preQuestSingle] = {31920},
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{66635,nil,Questie.ICON_TYPE_PET_BATTLE},{66636,nil,Questie.ICON_TYPE_PET_BATTLE},{66638,nil,Questie.ICON_TYPE_PET_BATTLE},{66639,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
@@ -7089,6 +7090,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66675,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31929] = { -- Battle Pet Tamers: Northrend
+            [questKeys.preQuestSingle] = {31920},
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{66635,nil,Questie.ICON_TYPE_PET_BATTLE},{66636,nil,Questie.ICON_TYPE_PET_BATTLE},{66638,nil,Questie.ICON_TYPE_PET_BATTLE},{66639,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
@@ -7280,21 +7282,29 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0, -- not exclusive to 31977!
         },
         [31981] = { -- Exceeding Expectations
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31920},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31982] = { -- Exceeding Expectations
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31920},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31983] = { -- A Brief Reprieve
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31928},
         },
         [31984] = { -- A Brief Reprieve
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31928},
         },
         [31985] = { -- The Triumphant Return
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31970},
         },
         [31986] = { -- The Triumphant Return
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31970},
         },
         [31989] = { -- The Peak of Serenity - Complete Your Training
@@ -8394,6 +8404,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32863] = { -- What We've Been Training For
+            [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{110001}}},
         },
         [32868] = { -- Beasts of Fable Book II
