@@ -4536,7 +4536,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9085] = {
-            [questKeys.requiredMaxLevel] = 50,
+            [questKeys.requiredLevel] = 50,
         },
         [9086] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
