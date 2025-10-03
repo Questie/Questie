@@ -876,16 +876,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
-        [9260] = (not Questie.IsSoD),
-        [9261] = (not Questie.IsSoD),
-        [9262] = (not Questie.IsSoD),
-        [9263] = (not Questie.IsSoD),
-        [9264] = (not Questie.IsSoD),
-        [9265] = (not Questie.IsSoD),
+        [9260] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9261] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9262] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9263] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9264] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9265] = not(Questie.IsSoD or Questie.IsAnniversary),
         --
-        [9085] = true,
-        [9153] = true,
-        [9154] = (not Questie.IsSoD),
+        [9085] = (not Questie.IsAnniversary),
+        [9153] = (not Questie.IsAnniversary),
+        [9154] = not(Questie.IsSoD or Questie.IsAnniversary),
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----

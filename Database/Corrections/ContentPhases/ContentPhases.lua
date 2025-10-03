@@ -6,7 +6,7 @@ local ContentPhases = QuestieLoader:CreateModule("ContentPhases")
 ContentPhases.activePhases = {
     SoM = 5,
     SoD = 7,
-    Anniversary = 5,
+    Anniversary = 6,
     MoP = 2,
 }
 
