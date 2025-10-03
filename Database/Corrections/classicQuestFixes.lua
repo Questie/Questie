@@ -4726,9 +4726,11 @@ function QuestieQuestFixes:Load()
         },
         [9263] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.DUROTAR] = {{44.9,16.7},{44.6,18.1}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [9264] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.MULGORE] = {{38.9,37.1}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [9265] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
