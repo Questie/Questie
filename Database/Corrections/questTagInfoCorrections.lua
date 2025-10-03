@@ -346,6 +346,8 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [9665] = {41, l10n("PvP")},
 
         -- MoP quests
+        [30567] = {98, l10n("Scenario")},
+        [31058] = {98, l10n("Scenario")},
         [31519] = {85, l10n("Heroic")},
         [31520] = {85, l10n("Heroic")},
         [31522] = {85, l10n("Heroic")},
@@ -355,6 +357,8 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [31526] = {85, l10n("Heroic")},
         [31527] = {85, l10n("Heroic")},
         [31528] = {85, l10n("Heroic")},
+        [31611] = {98, l10n("Scenario")},
+        [31613] = {98, l10n("Scenario")},
         [31998] = {85, l10n("Heroic")},
         [32000] = {85, l10n("Heroic")},
         [32001] = {85, l10n("Heroic")},
