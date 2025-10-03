@@ -4735,6 +4735,9 @@ function QuestieQuestFixes:Load()
         [9265] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
         },
+        [9318] = { -- Blessed Wizard Oil
+            [questKeys.questLevel] = 60,
+        },
         [9319] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -4743,6 +4746,7 @@ function QuestieQuestFixes:Load()
         },
         [9321] = { -- Major Healing Potion
             [questKeys.zoneOrSort] = sortKeys.INVASION,
+            [questKeys.questLevel] = 60,
         },
         [9322] = {
             [questKeys.requiredLevel] = 1,
