@@ -5779,6 +5779,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30118},
             [questKeys.breadcrumbForQuestId] = 31454,
             [questKeys.exclusiveTo] = {31488},
+            [questKeys.requiredClasses] = classIDs.ROGUE,
         },
         [31490] = { -- Rank and File
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58632,58676,58683,58684,58685,58756,58898,58998,59150,59175,59191,59240,59241,59293,59303,59372,59373},58632}}},
