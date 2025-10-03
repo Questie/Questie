@@ -4160,14 +4160,24 @@ function MopNpcFixes.Load()
         },
         [67682] = { -- Brann Bronzebeard
             [npcKeys.name] = "Brann Bronzebeard",
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 5841,
-            [npcKeys.spawns] = {
-                [5841] = {{59.8,76}},
-            },
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.83,75.95}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32193},
+        },
+        [67716] = { -- Hilda Hornswaggle
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.82,76.04}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [67734] = { -- Sarannha Skyglaive
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.97,75.32}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [67742] = { -- Docks Sentry Ward Location
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.1,33.13}}},
@@ -4180,6 +4190,27 @@ function MopNpcFixes.Load()
         [67744] = { -- Town Hall Sentry Ward Location
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.28,25.57}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67804] = { -- Dominance Mage
+            [npcKeys.name] = "Dominance Mage",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.2,75.8},{57.4,74.4},{57.4,74.6},{58,76.8},{58.4,73.4},{58.4,73.8},{58.4,75.4},{58.4,75.6},{58.6,75.6},{58.8,74.4},{58.8,74.6},{59.8,72},{60,73.8}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [67805] = { -- Dominance Knight
+            [npcKeys.name] = "Dominance Knight",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.6,76.8},{57,75.8},{57.2,76.6},{57.2,78.6},{57.4,74.4},{57.4,74.8},{57.4,78.4},{57.6,78.6},{58,70.8},{58,77.6},{58.2,76.8},{58.4,72},{58.4,73.4},{58.4,73.6},{58.4,75.4},{58.4,75.6},{58.6,72},{58.8,75.8},{58.8,76.6},{59,73.8},{59,74.6},{59.4,73.4},{59.6,72.2},{59.6,72.6},{59.8,74.4},{59.8,74.6}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [67806] = { -- Silvermoon Runeseeker
+            [npcKeys.name] = "Silvermoon Runeseeker",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57,75.6},{57.2,76.8},{57.6,75.8},{58.2,73.8},{58.2,75.2},{58.4,76.6},{58.6,74.8},{58.8,73.8},{58.8,75.8},{59.4,73.4},{59.6,74}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [67812] = { -- Scout Rokia
             [npcKeys.name] = "Scout Rokia",
@@ -4238,7 +4269,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
         },
-        [67905] = {
+        [67905] = { -- 7th Legion Paratrooper
             [npcKeys.name] = "7th Legion Paratrooper",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4248,7 +4279,7 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "A",
         },
-        [67913] = {
+        [67913] = { -- Dwarven Mortar Team Engineer
             [npcKeys.name] = "Dwarven Mortar Team Engineer",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4322,7 +4353,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.76,78.6}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
-        [68175] = {
+        [68175] = { -- Unbound Bonemender
             [npcKeys.name] = "Unbound Bonemender",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4331,7 +4362,7 @@ function MopNpcFixes.Load()
                 [6613] = {{22.4,63.4},{22.4,63.6},{22.6,63.8},{23,62.8},{23.8,60.8},{25.4,66.2},{25.6,66},{25.8,58.8},{26.4,60.8},{27.2,58.8},{27.4,60.6},{27.6,60},{28,41.8},{28.2,43.4},{28.4,43.6},{28.6,44},{32.4,40}},
             },
         },
-        [68176] = {
+        [68176] = { -- Unbound Centurion
             [npcKeys.name] = "Unbound Centurion",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4344,7 +4375,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.71,78.54}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
-        [68204] = {
+        [68204] = { -- Unbound Rogue
             [npcKeys.name] = "Unbound Rogue",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4353,7 +4384,7 @@ function MopNpcFixes.Load()
                 [6613] = {{25,15.4},{25,15.6},{26.4,16.8},{28.4,17.2},{33.2,17.6},{34.2,17.2},{34.4,17.6},{34.6,17.2},{36,17.4},{36.2,12.4},{36.2,19.4},{36.2,22.2},{36.4,12.8},{36.6,13.2},{36.8,11.8},{36.8,18.8},{37,15},{37.4,21.6},{41.6,10.2},{42.2,11.6},{42.6,11.8},{42.8,11.4},{44,12},{44.6,21.4},{46.2,21.8},{46.8,21.4},{47.2,21.6}},
             },
         },
-        [68205] = {
+        [68205] = { -- Unbound Succubus
             [npcKeys.name] = "Unbound Succubus",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4362,7 +4393,7 @@ function MopNpcFixes.Load()
                 [6613] = {{23,66.4},{23.4,62.8},{24.2,58.2},{24.4,58.6},{25,58.2},{25,61.8},{25.2,64.8},{25.4,36.6},{26,56.8},{27,57.4},{28,66.6},{29.4,65.4},{37.4,39.8},{38.2,38.4},{39,40.4},{39.6,39.8},{47.2,39.6},{53,38.4},{55.2,32.6},{55.4,42.6},{56.2,33.6},{62.6,32},{63.8,41.8},{64.8,31.8},{71,33.6},{72,42.2}},
             },
         },
-        [68206] = {
+        [68206] = { -- Unbound Shivarra
             [npcKeys.name] = "Unbound Shivarra",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4408,7 +4439,7 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
-        [68310] = {
+        [68310] = { -- Lion's Landing Guard Captain
             [npcKeys.name] = "Lion's Landing Guard Captain",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4569,7 +4600,7 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32423},
         },
-        [68708] = {
+        [68708] = { -- Stormwind Cleric
             [npcKeys.name] = "Stormwind Cleric",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4627,7 +4658,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
         },
-        [68756] = {
+        [68756] = { -- Sunreaver Assassin
             [npcKeys.name] = "Sunreaver Assassin",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4636,7 +4667,7 @@ function MopNpcFixes.Load()
                 [6611] = {{32.2,50.8},{37.4,54.2},{37.6,53.8},{38.8,39.2},{38.8,46.2},{39.2,50.4},{39.8,39},{40.6,33.6},{40.6,38.8},{41.4,35.8},{42,38.4},{45.2,26.8},{46.6,29.8},{46.8,48},{47.8,47.8},{50.8,31.6},{52,33.2},{52.6,33.2},{55.8,25.6},{57.4,39.2},{58.8,19.8},{59.4,18.6},{59.8,17.8},{60.2,17.2},{63.4,15.6}},
             },
         },
-        [68757] = {
+        [68757] = { -- Sunreaver Pyromancer
             [npcKeys.name] = "Sunreaver Pyromancer",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4645,7 +4676,7 @@ function MopNpcFixes.Load()
                 [6611] = {{34,54.2},{35.6,56.8},{36.4,32.6},{37.4,53.6},{37.4,61},{38,52.4},{38.4,46.4},{39.4,46.8},{39.6,46.8},{39.6,48},{40,43.8},{40.8,32.2},{42.2,58.2},{42.8,52.2},{45.2,26.8},{45.4,28.4},{45.6,28.4},{46,29.4},{47,28.6},{47,44.2},{50,41.8},{50.2,61.6},{51.4,27.4},{51.4,27.6},{51.8,29},{52,28.4},{52.6,30.8},{53,30.4},{54,36.2},{55.6,38},{57.2,37},{57.4,57.6},{57.8,21.8},{58,21.2},{59,19.2},{59.4,18.4},{59.6,18},{60,17.4},{60.4,16.4},{60.8,15.8},{61.4,14.8},{63,11.8}},
             },
         },
-        [68758] = {
+        [68758] = { -- Sunreaver Frosthand
             [npcKeys.name] = "Sunreaver Frosthand",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4654,7 +4685,7 @@ function MopNpcFixes.Load()
                 [6611] = {{37.2,53.4},{37.2,60.8},{37.4,53.8},{37.6,53.8},{39,47.8},{40,46.8},{40.6,33.8},{45.2,26.8},{46.2,29.4},{51.4,27.6},{51.8,28.2},{52.4,29.2},{52.8,34},{53.2,30.6},{56.8,37},{57.2,36.4},{57.4,56.8},{59.4,18.6},{59.6,18.2},{60.2,17},{61,12.6},{61.2,15.6}},
             },
         },
-        [68760] = {
+        [68760] = { -- Sunreaver Summoner
             [npcKeys.name] = "Sunreaver Summoner",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4663,7 +4694,7 @@ function MopNpcFixes.Load()
                 [6611] = {{54.4,37.4},{54.4,37.8},{54.8,37.6},{55,37.2},{55,38.6},{55.4,36.2},{55.6,37.6},{55.8,36.4},{55.8,37.4},{56.4,35.2},{56.8,34.4},{56.8,34.6},{58.4,27.4},{58.4,27.6},{58.4,28.6},{58.6,27.4},{58.6,27.8},{58.6,28.8},{59.2,23},{60,14.8},{60,21.4},{60.4,22.2},{60.6,32.4},{60.6,32.6},{61,29},{61.2,29.8},{61.6,28.6},{61.8,28.4},{62.2,18.4},{62.4,31.8},{62.4,32.6},{62.4,34.6},{62.6,33.2},{62.8,31.4},{62.8,31.6},{66.8,33.6},{67,32.8},{67.4,36.2},{67.6,30.6},{67.8,35.6},{68,30},{68,33.6},{68.2,34.8},{68.6,34.2},{69,34.6},{70.2,39},{70.8,33.2},{71.2,34},{71.2,34.8}},
             },
         },
-        [68761] = {
+        [68761] = { -- Sunreaver Captain
             [npcKeys.name] = "Sunreaver Captain",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
@@ -4671,6 +4702,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [6611] = {{58.2,22.6},{58.2,24},{58.2,25},{59,20.6},{59.6,21},{60.2,21.6},{60.4,15.2},{60.4,17.6},{60.8,17.2},{60.8,22.2},{61.4,33},{62.2,32.4},{62.4,27.4},{62.4,33.2},{62.4,34.4},{62.8,26.6},{63,32.4},{63,32.8},{63.2,26.2},{63.6,26},{63.8,25.4},{63.8,32.8},{64.4,32.4}},
             },
+        },
+        [68815] = { -- Korune Spellweaver
+            [npcKeys.name] = "Korune Spellweaver",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.12,70.91}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68908] = { -- Amber Kearnen
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.79,32.43}}},
@@ -4696,7 +4734,7 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32248},
         },
-        [69029] = {
+        [69029] = { -- 7th Legion Paratrooper
             [npcKeys.name] = "7th Legion Paratrooper",
             [npcKeys.minLevel] = 0,
             [npcKeys.maxLevel] = 0,

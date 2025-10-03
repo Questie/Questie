@@ -7698,11 +7698,15 @@ function MopQuestFixes.Load()
         },
         [32193] = { -- To Mogujia
             [questKeys.preQuestSingle] = {32362},
+            [questKeys.objectives] = {{{67682,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,15800},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Mogujia"),0,{{"monster",68741}}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32194] = { -- Bad Blood
             [questKeys.preQuestSingle] = {32193},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,15800},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32197] = { -- Mystery Meatloaf
             [questKeys.preQuestSingle] = {32108},
@@ -7765,6 +7769,7 @@ function MopQuestFixes.Load()
         [32243] = { -- The Source of Korune Power
             [questKeys.preQuestSingle] = {32193},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,15800},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32244] = { -- The Korune
             [questKeys.preQuestSingle] = {32190},

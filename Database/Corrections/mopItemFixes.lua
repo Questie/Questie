@@ -1142,6 +1142,12 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {67929},
             [itemKeys.objectDrops] = {216160},
         },
+        [93189] = { -- Korune Artifact
+            [itemKeys.npcDrops] = {67804,67805,67806},
+        },
+        [93190] = { -- Sha-Touched Claw
+            [itemKeys.npcDrops] = {68815},
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },
