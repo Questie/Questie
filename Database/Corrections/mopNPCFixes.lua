@@ -3961,6 +3961,19 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{75.3,76.27}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
         },
+        [66635] = { -- Beegle Blastfuse
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD] = {{28.61,33.88}}},
+        },
+        [66636] = { -- Nearly Headless Jacob
+            [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST] = {{34.78,10.63}}},
+            [npcKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,
+        },
+        [66638] = { -- Okrut Dragonwaste
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{59.02,77.06}}},
+        },
+        [66639] = { -- Gutretch
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK] = {{13.23,66.79}}},
+        },
         [66646] = { -- General Nazgrim
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{34.78,10.63}}},
         },
