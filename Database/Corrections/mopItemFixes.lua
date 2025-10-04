@@ -1175,6 +1175,9 @@ function MopItemFixes.Load()
         [95390] = { -- Pristine Kypari Sap Container
             [itemKeys.startQuest] = 32693,
         },
+        [97985] = { -- Dusty Old Robot
+            [itemKeys.startQuest] = 32850,
+        },
         [105891] = { -- Moonfang's Pelt
             [itemKeys.startQuest] = 33354,
             [itemKeys.npcDrops] = {71992},
