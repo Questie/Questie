@@ -348,6 +348,11 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         -- MoP quests
         [30567] = {98, l10n("Scenario")},
         [31058] = {98, l10n("Scenario")},
+        [31454] = {83, l10n("Legendary")},
+        [31468] = {83, l10n("Legendary")},
+        [31473] = {83, l10n("Legendary")},
+        [31488] = {83, l10n("Legendary")},
+        [31489] = {83, l10n("Legendary")},
         [31519] = {85, l10n("Heroic")},
         [31520] = {85, l10n("Heroic")},
         [31522] = {85, l10n("Heroic")},
