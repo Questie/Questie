@@ -3147,9 +3147,7 @@ function QuestieQuestBlacklist:Load()
         [2950] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2954] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [2963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [2965] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2966] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2967] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2968] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5035,6 +5033,7 @@ function QuestieQuestBlacklist:Load()
         [9757] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9764] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9766] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9881] = Expansions.Current >= Expansions.Cata, -- Removed with cata

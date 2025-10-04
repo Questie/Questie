@@ -319,6 +319,12 @@ function CataQuestFixes.Load()
         [2950] = { -- Nogg's Ring Redo
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [2963] = { -- Portents of Uldum
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [2965] = { -- Portents of Uldum
+            [questKeys.nextQuestInChain] = 0,
+        },
         [3087] = { -- Etched Parchment
             [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.startedBy] = {{3143}},
