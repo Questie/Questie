@@ -947,6 +947,10 @@ function QuestieQuestFixes:Load()
         [1485] = {
             [questKeys.exclusiveTo] = {1470}, -- #999
         },
+       [1498] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1505},
+        },
         [1501] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1473},
@@ -955,6 +959,9 @@ function QuestieQuestFixes:Load()
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
             [questKeys.requiredSourceItems] = {},
+        },
+        [1505] = {
+            [questKeys.breadcrumbForQuestId] = 1498,
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
@@ -1183,6 +1190,13 @@ function QuestieQuestFixes:Load()
         [1801] = {
             [questKeys.breadcrumbs] = {2996,3001},
         },
+        [1818] = {
+            [questKeys.breadcrumbForQuestId] = 1819,
+        },
+        [1819] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1818},
+        },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
             [questKeys.breadcrumbForQuestId] = 1824,
@@ -1211,6 +1225,9 @@ function QuestieQuestFixes:Load()
         [1846] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1841},
+        },
+        [1859] = {
+            [questKeys.breadcrumbForQuestId] = 1963,
         },
         [1860] = { -- #1192
             [questKeys.breadcrumbForQuestId] = 1861,
@@ -1247,6 +1264,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1882},
             [questKeys.breadcrumbs] = {1883},
+        },
+        [1885] = {
+            [questKeys.breadcrumbForQuestId] = 1886,
+        },
+        [1886] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1885},
         },
         [1919] = { -- Report to Jennea
             [questKeys.startedBy] = {{328,1228,7312}},
@@ -1292,6 +1316,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
+        },
+        [1963] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1859},
         },
         [2038] = {
             [questKeys.breadcrumbs] = {2039},
