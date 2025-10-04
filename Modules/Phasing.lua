@@ -455,6 +455,9 @@ local phases = {
     GENERAL_NAZGRIM_OUTSIDE_TENT = 1383,
     GENERAL_NAZGRIM_NEAR_SPEARS = 1384,
     GENERAL_NAZGRIM_NEAR_ANDUINN = 1385,
+    THRALL_VALLEY_OF_TRIALS = 1386,
+    THRALL_ECHO_ISLES_1 = 1387,
+    THRALL_ECHO_ISLES_2 = 1388,
 }
 Phasing.phases = phases
 
@@ -2088,6 +2091,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ADMIRAL_TAYLOR_OUTSIDE_TENT then
         return complete[30650] or (questLog[30650] and questLog[30650].isComplete == 1) or false
+    end
+
+    if phase == phases.THRALL_VALLEY_OF_TRIALS then
+        return not (complete[32320] or (questLog[32320] and questLog[32320].isComplete == 1)) or false
+    end
+
+    if phase == phases.THRALL_ECHO_ISLES_1 then
+        return (complete[32320] or (questLog[32320] and questLog[32320].isComplete == 1)) and not (complete[32372] or (questLog[32372] and questLog[32372].isComplete == 1)) or false
+    end
+
+    if phase == phases.THRALL_ECHO_ISLES_2 then
+        return complete[32372] or (questLog[32372] and questLog[32372].isComplete == 1) or false
     end
 
     return false

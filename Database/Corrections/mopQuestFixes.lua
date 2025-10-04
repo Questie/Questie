@@ -7462,7 +7462,7 @@ function MopQuestFixes.Load()
         },
         [32133] = { -- Sentry Wards
             [questKeys.preQuestSingle] = {32108},
-            [questKeys.objectives] = {{{67744,nil,Questie.ICON_TYPE_INTERACT},{67742,nil,Questie.ICON_TYPE_INTERACT},{67743,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{67744,nil,Questie.ICON_TYPE_OBJECT},{67742,nil,Questie.ICON_TYPE_OBJECT},{67743,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
@@ -7827,7 +7827,8 @@ function MopQuestFixes.Load()
         [32284] = { -- Someone You Should See
             [questKeys.preQuestSingle] = {32257},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}}, -- got up to this quest
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Binan Village"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{67866,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
@@ -7843,17 +7844,17 @@ function MopQuestFixes.Load()
         [32318] = { -- Regeneration Takes Time
             [questKeys.preQuestSingle] = {32284},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32319] = { -- Find Thrall!
             [questKeys.preQuestSingle] = {32318},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DARKSPEAR_TROLLS,5},{factionIDs.DOMINANCE_OFFENSIVE,31}},
+            [questKeys.objectives] = {{{68023,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32320] = { -- The Horde Is Family
             [questKeys.preQuestSingle] = {32319},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DARKSPEAR_TROLLS,5},{factionIDs.DOMINANCE_OFFENSIVE,6}},
         },
         [32321] = { -- The Monkey King
             [questKeys.preQuestSingle] = {32355},
@@ -7998,7 +7999,7 @@ function MopQuestFixes.Load()
         [32372] = { -- De-Subjugation
             [questKeys.preQuestSingle] = {32320},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DARKSPEAR_TROLLS,7},{factionIDs.DOMINANCE_OFFENSIVE,32}},
         },
         [32373] = { -- The Measure of a Leader
             [questKeys.startedBy] = {{64616}},
@@ -8765,7 +8766,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28675, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76097},{76098},{93351}}},
-            [questKeys.exclusiveTo] = {92337,92338},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92337,92338},
             [questKeys.zoneOrSort] = -181,
         },
         [92337] = { -- Elixir Master
@@ -8779,7 +8780,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28677, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring a variety of flasks to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76088},{76087},{76085},{76084}}},
-            [questKeys.exclusiveTo] = {92336,92338},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92336,92338},
             [questKeys.zoneOrSort] = -181,
         },
         [92338] = { -- Transmutation Master
@@ -8793,7 +8794,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -28672, -- ok this is a clusterfuck, we need logic change for this field
             [questKeys.objectivesText] = {"Bring the requested materials to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{72104}}},
-            [questKeys.exclusiveTo] = {92336,92337},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92336,92337},
             [questKeys.zoneOrSort] = -181,
         },
     }

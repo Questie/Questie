@@ -4244,6 +4244,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.32,34.07}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67866] = { -- Chen Stormstout
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.66,93.22}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [67867] = { -- Garrosh Hellscream
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -4316,6 +4320,40 @@ function MopNpcFixes.Load()
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68023] = { -- Vol'jin
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.63,93.2}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68025] = { -- Thrall
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {
+                [zoneIDs.VALLEY_OF_TRIALS] = {{44.62,66.74,phases.THRALL_VALLEY_OF_TRIALS}},
+                [zoneIDs.ECHO_ISLES] = {{38.4,46.47,phases.THRALL_ECHO_ISLES_1}},
+                [zoneIDs.ECHO_ISLES] = {{58.59,62.03,phases.THRALL_ECHO_ISLES_2}},
+            },
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
+        },
+        [68026] = { -- Summit Sprite
+            [npcKeys.name] = "Summit Sprite",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{76,90.2},{76.8,90.2},{76.8,90.6},{77.2,92.2},{77.2,93},{77.2,94.4},{77.4,89.4},{77.4,94.8},{77.6,91.4},{77.6,91.6},{77.6,94.8}},[zoneIDs.THE_JADE_FOREST] = {{21.4,38.6},{21.6,38.6},{21.6,41.8},{21.8,41},{22.4,44},{22.6,42.8}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68027] = { -- Sinister Needle
+            [npcKeys.name] = "Sinister Needle",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{76,90.2},{76.8,90.2},{77.2,92.2},{77.2,93},{77.2,94.4},{77.4,89.4},{77.4,94.8},{77.6,91.4},{77.6,91.6},{77.6,94.8}},[zoneIDs.THE_JADE_FOREST] = {{21.4,38.6},{21.6,38.6},{21.8,41},{22,41.6},{22.4,44},{22.6,42.8}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68048] = { -- Gul'tar the Subjugator
+            [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{61.87,66.24}}},
+            [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
         },
         [68072] = { -- Kor'kron Bodyguard
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
@@ -4486,6 +4524,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{79.4,25},{79.6,25},{80,17.4},{80,17.6},{81.8,24.2},{82.2,21.2},{82.6,21.2},{83.2,25.2},{83.8,25.2},{84.2,21},{84.6,20.8},{85.4,25},{85.8,24.2},{86,26}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [68342] = { -- Kor'kron Soulbreaker
+            [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{38.51,46.46}}},
+            [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
         },
         [68399] = { -- 7th Legion Champion
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{85.28,28.68}}},

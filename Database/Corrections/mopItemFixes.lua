@@ -1117,6 +1117,9 @@ function MopItemFixes.Load()
         [92493] = { -- Bilgewater Blasting Cap
             [itemKeys.npcDrops] = {67929},
         },
+        [92499] = { -- Sturdy Needle
+            [itemKeys.npcDrops] = {68026,68027},
+        },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },
