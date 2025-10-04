@@ -8513,6 +8513,9 @@ function CataNpcFixes:LoadFactionFixes()
         [38342] = { -- [DND] Holiday - Barber - Bank Bunny
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{40.61,60.74}}},
         },
+        [39237] = { -- x3 JC Quest Stardust Applied
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{72.5,36.2}}},
+        },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {
@@ -8683,6 +8686,9 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [38342] = { -- [DND] Holiday - Barber - Bank Bunny
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{61.32,65.57}}},
+        },
+        [39237] = { -- x3 JC Quest Stardust Applied
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.8,60.8}}},
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
