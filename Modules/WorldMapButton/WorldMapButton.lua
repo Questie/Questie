@@ -38,7 +38,10 @@ QuestieWorldMapButtonMixin = {
     OnLoad = function() end,
     OnHide = function() end,
     OnMouseDown = function(_, button)
-        if button == "LeftButton" then
+        if button == "LeftButton" and IsShiftKeyDown() then
+            Questie.db.profile.hideNonQuestIcons = (not Questie.db.profile.hideNonQuestIcons)
+            QuestieQuest:ToggleNonQuestIcons()
+        elseif button == "LeftButton" then
             Questie.db.profile.enabled = (not Questie.db.profile.enabled)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
         elseif button == "RightButton" then
@@ -56,6 +59,7 @@ QuestieWorldMapButtonMixin = {
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
         GameTooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
         GameTooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
+        GameTooltip:AddLine(Questie:Colorize(l10n('Shift + Left Click'), 'gray') .. ": ".. l10n('Toggle Non-Quests'))
         GameTooltip:Show()
     end,
     OnLeave = function() end,

@@ -26,6 +26,18 @@ local minimapIconLocales = {
         ["zhCN"] = "启动Questie",
         ["zhTW"] = "顯示/隱藏任務位置提示",
     },
+    ["Toggle Non-Quests"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Toggle My Journey"] = {
         ["enUS"] = true,
         ["deDE"] = "Meine Reise zeigen/verstecken",
