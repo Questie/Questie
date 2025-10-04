@@ -2681,64 +2681,79 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{2956, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6065,6066,6067},
         },
         [6062] = {
             [questKeys.objectives] = {{{3099, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6068,6069,6070},
         },
         [6063] = {
             [questKeys.objectives] = {{{1998, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6071,6072,6073,6721,6722},
         },
         [6064] = {
             [questKeys.objectives] = {{{1126, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6074,6075,6076},
         },
         [6065] = {
-            [questKeys.exclusiveTo] = {6066,6067,6061},
+            [questKeys.exclusiveTo] = {6066,6067},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6066] = {
-            [questKeys.exclusiveTo] = {6065,6067,6061},
+            [questKeys.exclusiveTo] = {6065,6067},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6067] = {
-            [questKeys.exclusiveTo] = {6065,6066,6061},
+            [questKeys.exclusiveTo] = {6065,6066},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6068] = {
             [questKeys.startedBy] = {{3407},nil,nil}, -- #2167
-            [questKeys.exclusiveTo] = {6069,6070,6062}, -- #1795
+            [questKeys.exclusiveTo] = {6069,6070}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
         [6069] = {
             [questKeys.startedBy] = {{11814},nil,nil}, -- #1523
-            [questKeys.exclusiveTo] = {6068,6070,6062}, -- #1795
+            [questKeys.exclusiveTo] = {6068,6070}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
-        -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
         [6070] = {
-            [questKeys.startedBy] = {{3038},nil,nil},
-            [questKeys.exclusiveTo] = {6068,6069,6062}, -- #1795
+            [questKeys.startedBy] = {{3038},nil,nil}, -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
+            [questKeys.exclusiveTo] = {6068,6069}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
         [6071] = {
-            [questKeys.exclusiveTo] = {6072,6073,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6072,6073,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6072] = {
-            [questKeys.exclusiveTo] = {6071,6073,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6073,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6073] = {
             [questKeys.startedBy] = {{5515},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6074] = {
             [questKeys.startedBy] = {{5516},nil,nil},
-            [questKeys.exclusiveTo] = {6075,6076,6064},
+            [questKeys.exclusiveTo] = {6075,6076},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6075] = {
             [questKeys.startedBy] = {{11807},nil,nil},
-            [questKeys.exclusiveTo] = {6074,6076,6064},
+            [questKeys.exclusiveTo] = {6074,6076},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6076] = {
-            [questKeys.exclusiveTo] = {6074,6075,6064},
+            [questKeys.exclusiveTo] = {6074,6075},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6082] = {
             [questKeys.objectives] = {{{3126, nil}}},
@@ -2904,11 +2919,13 @@ function QuestieQuestFixes:Load()
         },
         [6721] = {
             [questKeys.startedBy] = {{5116},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6073,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6073,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6722] = {
             [questKeys.startedBy] = {{1231},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6073,6721,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6073,6721},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6762] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,6761},
