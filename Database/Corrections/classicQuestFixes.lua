@@ -2802,6 +2802,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{63.71,91.9}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Crate of Ghost Magnets"),}},
         },
         [6135] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {6022,6042,6133}, -- #1572
         },
         [6136] = {
