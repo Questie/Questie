@@ -2905,6 +2905,58 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.DARNASSUS]={{32.60,12.00}},
             },
         },
+        [15974] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15975] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15976] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15978] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15979] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15980] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [15981] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16017] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16018] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16020] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16021] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16022] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16025] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
         [16031] = {
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
@@ -2922,6 +2974,10 @@ function QuestieNPCFixes:Load()
         [16059] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
+        [16067] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [16073] = {
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
@@ -2953,9 +3009,69 @@ function QuestieNPCFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [16145] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16154] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16156] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16157] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16158] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16163] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16164] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16165] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16167] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16168] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16193] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16194] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16215] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16216] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,57.8}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [16244] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [16254] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47.2,42.6}}},
@@ -2973,6 +3089,10 @@ function QuestieNPCFixes:Load()
         },
         [16361] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.40}}},
+        },
+        [16368] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [16422] = {
             [npcKeys.spawns] = {
@@ -3001,6 +3121,34 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.DUN_MOROGH]={{47.4,40.4},{48.4,38.4},{48.4,38.6},{48.4,39.6},{48.6,38.4},{48.8,40.8},{49.2,38.8},{49.2,40},{49.8,40.8},{50,38.4},{50,38.6},{50,40.2},{50.2,37.4}},
                 [zoneIDs.TELDRASSIL]={{36.2,54.4},{36.4,54.8},{36.4,56},{36.6,54.6},{36.6,56.2},{36.8,54.4},{37.6,55.2},{37.8,56.2},{38,56.6},{38.2,54},{38.4,58},{38.6,56},{38.6,56.8}},
             },
+        },
+        [16446] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16447] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16448] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16449] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16451] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16452] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [16453] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [16478] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.8,75.6}}},
