@@ -2623,23 +2623,35 @@ function QuestieQuestFixes:Load()
         [5893] = {
             [questKeys.questLevel] = 55,
         },
+        [5921] = {
+            [questKeys.breadcrumbs] = {5923,5924,5925},
+        },
+        [5922] = {
+            [questKeys.breadcrumbs] = {5926,5927,5928},
+        },
         [5923] = {
             [questKeys.startedBy] = {{4218},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5924] = {
             [questKeys.startedBy] = {{5505},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5925] = {
             [questKeys.startedBy] = {{3602},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5926] = {
             [questKeys.startedBy] = {{6746},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5927] = {
             [questKeys.startedBy] = {{6929},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5928] = {
             [questKeys.startedBy] = {{3064},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5929] = {
             [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
