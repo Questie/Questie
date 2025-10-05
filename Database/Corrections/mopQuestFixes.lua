@@ -7833,10 +7833,15 @@ function MopQuestFixes.Load()
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68741}}}},
+            [questKeys.objectives] = {{{67948,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
         },
         [32316] = { -- Heart Of The Alliance
             [questKeys.preQuestSingle] = {32315},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
+            [questKeys.objectives] = {{{68006,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},

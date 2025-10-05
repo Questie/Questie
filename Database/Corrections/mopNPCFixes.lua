@@ -4319,6 +4319,10 @@ function MopNpcFixes.Load()
         [67940] = { -- Admiral Taylor
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.55,32.58}}},
         },
+        [67948] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{66.17,33.28}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR,
+        },
         [67951] = { -- Sarannha Skyglaive
             [npcKeys.name] = "Sarannha Skyglaive",
             [npcKeys.minLevel] = 35,
@@ -4333,6 +4337,14 @@ function MopNpcFixes.Load()
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68006] = { -- Sha-Touched Footman
+            [npcKeys.spawns] = {
+                [zoneIDs.SHRINE_OF_SEVEN_STARS] = {{38.71,88.73},{42.6,79.26},{30.87,56.6},{44.13,64.53},{40.24,56.38},{36.98,42.47},{41,37.89},{43.29,25.61},{52.13,44.42},{54.05,33.18},{60.79,36.27},{75.4,43.15},{72.78,35.54},{54.33,58.2},{60.3,58.99}},
+                [zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{52.68,31.27},{61.96,17.1},{55.87,23.36},{58.09,32.58},{43.04,44.17},{38.85,52.2},{34.27,49.99},{42.19,60},{38.95,70.11},{44.74,70.32},{42.99,83.52},{47.12,86.91},{53.1,81.91},{55.64,73.18},{68.28,66.01},{77.21,52.59}},
+                [zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{85.94,61.22},{87.94,60.84},{89.03,61.96},{88.17,63.05},{84.03,65.93},{84.89,64.69},{85.53,65.96}},
+            },
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
         },
         [68023] = { -- Vol'jin
             [npcKeys.minLevel] = 93,
@@ -4470,13 +4482,10 @@ function MopNpcFixes.Load()
         },
         [68242] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",
-            [npcKeys.minLevel] = 99,
-            [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 5840,
-            [npcKeys.spawns] = {
-                [5840] = {{65.8,40}},
-                [6142] = {{66.8,42}},
-            },
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{67.4,43.33}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32316},
         },
