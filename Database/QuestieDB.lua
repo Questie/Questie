@@ -1629,6 +1629,10 @@ local questsRequiringFriendsOnTheFarmAchievement = {
     [31312] = true, -- The Old Map
 }
 
+local questsRequiringAllGrownsUpAchievement = {
+    [32863] = true, -- What We've Been Training For
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1683,6 +1687,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringFriendsOnTheFarmAchievement[questId] then
         return select(13, GetAchievementInfo(6552)) -- Friends On The Farm
+    end
+
+    if questsRequiringAllGrownsUpAchievement[questId] then
+        return select(13, GetAchievementInfo(6570)) -- All Growns Up!
     end
 end
 

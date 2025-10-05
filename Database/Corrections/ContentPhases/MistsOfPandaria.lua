@@ -504,7 +504,6 @@ local questsToBlacklistByPhase = {
         [32815] = true, -- The Old Seer
         [32816] = true, -- Path of the Last Emperor
         [32819] = true, -- Battlefield: Barrens
-        [32863] = true, -- What We've Been Training For
         [32871] = true, -- Vol'jin of the Darkspear
         [32900] = true, -- Heroic Deeds
         [32901] = true, -- Heroic Deeds
