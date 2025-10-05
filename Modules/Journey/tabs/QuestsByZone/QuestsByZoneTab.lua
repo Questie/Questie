@@ -266,9 +266,12 @@ _HandleAllZonesSelection = function()
 
     _QuestieJourney.lastZoneSelection[1] = "ALL_ZONES"
     _QuestieJourney.lastZoneSelection[2] = RESET
+    _QuestieJourney.lastZoneSelection[3] = nil
 end
 
 _HandleContinentSelection = function(key, _)
+    local text
+    
     if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
         local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
@@ -311,17 +314,21 @@ _HandleContinentSelection = function(key, _)
 
     _QuestieJourney.lastZoneSelection[2] = RESET
     _QuestieJourney.lastZoneSelection[1] = key.value
+    _QuestieJourney.lastZoneSelection[3] = nil
 end
 
 _HandleZoneSelection = function(key, _)
     local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
     _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     _QuestieJourney.lastZoneSelection[2] = key.value
+    _QuestieJourney.lastZoneSelection[3] = nil
 end
 
 _HandleByContinentSelection = function()
     contDropdown.frame:Show()
     zoneDropdown.frame:Show()
+
+    _QuestieJourney.lastZoneSelection[3] = nil
 
     if selectedContinentId then
         contDropdown:SetValue(selectedContinentId)
