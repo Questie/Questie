@@ -359,14 +359,14 @@ function TrackerUtils:GetCompletionText(quest)
 end
 
 ---@param zoneId number Zone ID number
----@return string @Zone Name (Localized) or "Unknown Zone"
+---@return string @Zone Name (Localized) or l10n("Unknown Zone")
 local function GetZoneNameByIDFallback(zoneId)
     if zoneCache[zoneId] then
         return zoneCache[zoneId]
     end
 
     if zoneId <= 0 or type(zoneId) ~= "number" then
-        return "Unknown Zone"
+        return l10n("Unknown Zone")
     end
 
     for _, zone in pairs(l10n.zoneLookup) do
@@ -378,7 +378,7 @@ local function GetZoneNameByIDFallback(zoneId)
 
     Questie:Debug(Questie.DEBUG_CRITICAL, "[GetZoneNameByIDFallback]: Unable to find a zone name for zoneId", zoneId)
 
-    return "Unknown Zone"
+    return l10n("Unknown Zone")
 end
 
 ---@param zoneId number Zone ID number
