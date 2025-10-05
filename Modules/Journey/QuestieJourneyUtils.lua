@@ -14,6 +14,10 @@ local GetItemIcon = C_Item.GetItemIconByID or GetItemIcon
 local AceGUI = LibStub("AceGUI-3.0")
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
+    if type(zones) ~= "table" then
+        return {}
+    end
+    
     local function compare(a, b)
         return zones[a] < zones[b]
     end
