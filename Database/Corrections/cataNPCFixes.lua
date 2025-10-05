@@ -7862,6 +7862,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [55677] = { -- Kurzel
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP] = {{35.48,83.14},{-1,-1}}},
+        },
         [55779] = { -- Thrall
             [npcKeys.questEnds] = {30102,30103},
         },
@@ -7900,6 +7903,9 @@ function CataNpcFixes.Load()
         [58038] = { -- Wrathion
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{70.53,46.79}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
+        [58149] = { -- Image of Drakuru
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP] = {{37.08,80.56},{-1,-1}}},
         },
         [80001] = { -- Maintain a Trot for 8 seconds
             [npcKeys.name] = "Maintain a Trot for 8 seconds",

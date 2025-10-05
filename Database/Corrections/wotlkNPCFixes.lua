@@ -1147,6 +1147,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
+        [27483] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{64.88,84.47},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DRAKTHARON_KEEP]={{{57.97,85.65},{59.06,88.41},{60.44,90.08},{61.79,89.68},{62.72,87.8},{64.88,84.47}}}},
+        },
         [27495] = { -- Barblefink
             [npcKeys.questStarts] = {12443,12446},
             [npcKeys.questEnds] = {12443,12446},
