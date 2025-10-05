@@ -170,6 +170,7 @@ local questsByZoneLocales = {
         ["zhCN"] = "前置任务",
         ["zhTW"] = "前置任務",
     },
+<<<<<<< HEAD
     ["Breadcrumb Quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Brotkrumen-Quests",
@@ -181,6 +182,43 @@ local questsByZoneLocales = {
         ["ruRU"] = "Предзадания",
         ["zhCN"] = "线索任务",
         ["zhTW"] = "任務線索",
+=======
+    ["All Zones"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["By Continent"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Zone Scope"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+>>>>>>> 0b9c41c07 ([feature] Add new dropdown to see all quests in all zones)
     },
 }
 
