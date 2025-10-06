@@ -4338,6 +4338,13 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32394},
         },
+        [67969] = { -- Alliance Supply Drop
+            [npcKeys.name] = "Alliance Supply Drop",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
