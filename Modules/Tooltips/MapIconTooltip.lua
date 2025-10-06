@@ -21,6 +21,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -241,7 +243,16 @@ function MapIconTooltip:Show()
                             self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         end
                     end
-                end
+                    -- Add dungeon information if this is a dungeon quest
+                    if shift and quest then
+                        local zoneOrSort = quest.zoneOrSort
+                        if zoneOrSort and zoneOrSort > 0 then
+                            local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
+                            if dungeonName then
+                                self:AddLine("  " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                            end
+                        end
+                    end
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
@@ -322,6 +333,18 @@ function MapIconTooltip:Show()
 
             -- Used to get the white color for the quests which don't have anything to collect
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
+
+            -- Add what dungeon this is in if this is a dungeon quest
+            if shift and quest then
+                local zoneOrSort = quest.zoneOrSort
+                if zoneOrSort and zoneOrSort > 0 then
+                    local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
+                    if dungeonName then
+                        self:AddLine("   " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                    end
+                end
+            end
+
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
                 local addedCreatureNames = {}
