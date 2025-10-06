@@ -2945,9 +2945,13 @@ function CataNpcFixes.Load()
         [19178] = { -- Forsaken Commoner
             [npcKeys.questStarts] = {11446,11971,12752,12782,12783,12784,12811,13483,14036},
         },
+        [19218] = { -- Gatewatcher Gyro-Kill
+            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{46.44,58.62},{-1,-1}}},
+            [npcKeys.questStarts] = {29659},
+        },
         [19219] = { -- Mechano-Lord Capacitus
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{51.22,31.39},{-1,-1}}},
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {29658},
         },
         [19220] = { -- Pathaleon the Calculator
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR_CALCULATION_CHAMBER] = {{27.39,60.62}},[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
@@ -3007,6 +3011,11 @@ function CataNpcFixes.Load()
         },
         [19698] = { -- Greatfather Aldrimus
             [npcKeys.questStarts] = {10164,29595},
+        },
+        [19710] = { -- Gatewatcher Iron-Hand
+            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{60.27,50.79},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.THE_MECHANAR] = {{{60.27,50.79},{60.89,37.26}}}},
+            [npcKeys.questStarts] = {29659},
         },
         [19865] = { -- Mutate Horror
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{35.19,82.6},{36.92,81.62},{31.04,79.11},{33.38,80.3},{30.43,83.45},{32.77,83.59},{-1,-1}}},
@@ -7940,15 +7949,14 @@ function CataNpcFixes.Load()
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100000] = { -- With Great Power, Comes Great Responsibility
             [npcKeys.name] = "!",
-            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{49.39,81.87}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{49.39,81.87},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_MECHANAR,
             [npcKeys.questStarts] = {29657},
         },
-        [100001] = { -- The Calculator
+        [100001] = { -- A'dal -- REUSE
             [npcKeys.name] = "!",
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{53.99,44.75}}},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
-            [npcKeys.questStarts] = {29658,29667,29669,29675,29681},
         },
         [100002] = { -- A Personal Summons - Stormwind
             [npcKeys.name] = "!",
@@ -8377,6 +8385,30 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{41.2,80.47},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
             [npcKeys.questStarts] = {29674},
+        },
+        [100073] = { -- Culling the Herd
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{42.96,15.95},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+            [npcKeys.questStarts] = {29667},
+        },
+        [100074] = { -- A Most Somber Task
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{34.03,68.78},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+            [npcKeys.questStarts] = {29669},
+        },
+        [100075] = { -- Hey There Dalliah
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{65.07,35.59},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
+            [npcKeys.questStarts] = {29675},
+        },
+        [100076] = { -- Maximum Security Breakout
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS] = {{35.15,57.13}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
+            [npcKeys.questStarts] = {29681},
         },
     }
 end

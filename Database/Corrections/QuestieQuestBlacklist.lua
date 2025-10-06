@@ -5844,7 +5844,6 @@ function QuestieQuestBlacklist:Load()
         [29597] = true, -- Not in the game
         [29601] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29648] = true, -- Not in the game
-        [29659] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29671] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29672] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29673] = Expansions.Current >= Expansions.Cata, -- Not in the game

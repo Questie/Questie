@@ -15180,29 +15180,32 @@ function CataQuestFixes.Load()
         },
         [29658] = { -- The Calculator
             [questKeys.preQuestSingle] = {29657},
-            [questKeys.startedBy] = {{100001}},
+            [questKeys.startedBy] = {{19219}},
+        },
+        [29659] = { -- Lost Treasure
+            [questKeys.startedBy] = {{19218,19710}},
         },
         [29660] = { -- Saving the Botanica
             [questKeys.startedBy] = {{100071}},
         },
         [29667] = { -- Culling the Herd
             [questKeys.preQuestSingle] = {29660},
-            [questKeys.startedBy] = {{100001}},
+            [questKeys.startedBy] = {{100073}},
         },
         [29669] = { -- A Most Somber Task
             [questKeys.preQuestSingle] = {29667},
-            [questKeys.startedBy] = {{100001}},
+            [questKeys.startedBy] = {{100074}},
         },
         [29674] = { -- Unbound Darkness
             [questKeys.startedBy] = {{100072}},
         },
         [29675] = { -- Hey There Dalliah
             [questKeys.preQuestSingle] = {29674},
-            [questKeys.startedBy] = {{100001}},
+            [questKeys.startedBy] = {{100075}},
         },
         [29681] = { -- Maximum Security Breakout
             [questKeys.preQuestSingle] = {29675},
-            [questKeys.startedBy] = {{100001}},
+            [questKeys.startedBy] = {{100076}},
         },
         [29682] = { -- Magisters' Terrace
             [questKeys.preQuestSingle] = {},
