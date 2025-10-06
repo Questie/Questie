@@ -1287,6 +1287,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.SCHOLOMANCE_MOP] = {{-1,-1}},
             },
         },
+        [59168] = { -- Shadelight Spore-Cluster
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{31.73,32.34}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [59175] = { -- Master Archer
             [npcKeys.spawns] = {[zoneIDs.SCARLET_HALLS] = {{-1,-1}}},
         },
