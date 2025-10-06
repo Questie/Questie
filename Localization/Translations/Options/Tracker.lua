@@ -353,6 +353,7 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入地城後會自動將任務清單最小化。",
     },
     ---------------------------------------------------------
+    -- Mists of Pandaria onwards --
     ["Minimize In Pet Battles"] = {
         ["enUS"] = true,
         ["deDE"] = false,
