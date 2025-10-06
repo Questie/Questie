@@ -17,6 +17,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -31,7 +33,11 @@ local AceGUI = LibStub("AceGUI-3.0")
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
 _QuestieJourney.lastZoneSelection = {}
+<<<<<<< HEAD
 _QuestieJourney.lastFactionSelection = {}
+=======
+_QuestieJourney.questsByZone = {}
+>>>>>>> 8c80eaa69 (Improve sort algo & small refactor)
 
 local notesPopupWin
 local notesPopupWinIsOpen = false
@@ -54,20 +60,6 @@ local questCategoryKeys = {
     SCENARIOS = 14,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
-
--- Detect character re-creation and ask user about journey reset
-local function checkForCharacterRecreation()
-    local guid = UnitGUID("player") -- this is unique per character
-    if (not Questie.db.char.guid) then
-        -- First login for this character
-        Questie.db.char.guid = guid
-    elseif (Questie.db.char.guid ~= guid) then
-        -- Character re-created, ask user about journey reset
-        Questie:Print(l10n("Character re-creation detected, resetting \"My Journey\" data."))
-        Questie.db.char.journey = {}
-        Questie.db.char.guid = guid
-    end
-end
 
 function QuestieJourney:Initialize()
     local continents = {}
