@@ -4390,8 +4390,10 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 93,
             [npcKeys.spawns] = {
                 [zoneIDs.VALLEY_OF_TRIALS] = {{44.62,66.74,phases.THRALL_VALLEY_OF_TRIALS}},
-                [zoneIDs.ECHO_ISLES] = {{38.4,46.47,phases.THRALL_ECHO_ISLES_1}},
-                [zoneIDs.ECHO_ISLES] = {{58.59,62.03,phases.THRALL_ECHO_ISLES_2}},
+                [zoneIDs.ECHO_ISLES] = {
+                    {38.4,46.47,phases.THRALL_ECHO_ISLES_1},
+                    {58.59,62.03,phases.THRALL_ECHO_ISLES_2},
+                },
             },
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_TRIALS,
         },

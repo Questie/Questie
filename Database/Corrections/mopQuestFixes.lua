@@ -7453,35 +7453,35 @@ function MopQuestFixes.Load()
         [32130] = { -- Good Luck, Have Fun
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32131] = { -- We Require More Minerals!
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill them near stone blocks"),0,{{"monster",67449}}}},
             [questKeys.exclusiveTo] = {32134},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32132] = { -- Worker Harassment
             [questKeys.preQuestSingle] = {32108},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32133] = { -- Sentry Wards
             [questKeys.preQuestSingle] = {32108},
             [questKeys.objectives] = {{{67744,nil,Questie.ICON_TYPE_OBJECT},{67742,nil,Questie.ICON_TYPE_OBJECT},{67743,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32134] = { -- Hard Counter
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32131},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32135] = { -- Hero Killer
             [questKeys.preQuestSingle] = {32108},
             [questKeys.breadcrumbs] = {32450},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
         },
         [32136] = { -- Work Order: Fuel
             [questKeys.preQuestSingle] = {32108},
