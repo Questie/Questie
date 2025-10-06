@@ -12,6 +12,16 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -21,7 +31,7 @@ local RESET = -1000
 local _, playerClass, _ = UnitClass("player")
 
 local _CreateAllZoneDropdown, _CreateContinentDropdown, _CreateZoneDropdown
-local _HandleAllZonesSelection, _HandleContinentSelection, _HandleZoneSelection, _HandleByContinentSelection
+local _HandleAllZonesSelection, _HandleByContinentSelection, _HandleContinentSelection, _HandleZoneSelection
 
 local selectedContinentId
 local allZonesDropdown, contDropdown, zoneDropdown, treegroup
@@ -154,110 +164,41 @@ _CreateZoneDropdown = function()
 end
 
 _HandleAllZonesSelection = function()
-    local allZoneTree = {
-        [1] = {
-            value = "a",
-            text = l10n('Available Quests'),
-            children = {}
-        },
-        [2] = {
-            value = "p",
-            text = l10n('Missing Pre Quest'),
-            children = {}
-        },
-        [3] = {
-            value = "c",
-            text = l10n('Completed Quests'),
-            children = {}
-        },
-        [4] = {
-            value = "r",
-            text = l10n('Repeatable Quests'),
-            children = {}
-        },
-        [5] = {
-            value = "u",
-            text = l10n('Unobtainable Quests'),
-            children = {}
-        }
-    }
+    local allQuestIds = {}
 
-    local availableCounter = 0
-    local prequestMissingCounter = 0
-    local completedCounter = 0
-    local repeatableCounter = 0
-    local unobtainableCounter = 0
-
-    for zoneId, _ in pairs(QuestieJourney.zoneMap or {}) do
-        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
-        if zoneTree then
-            -- merge each category
-            for i = 1, 5 do
-                if zoneTree[i] and zoneTree[i].children then
-                    for _, quest in pairs(zoneTree[i].children) do
-                        table.insert(allZoneTree[i].children, quest)
-                    end
-                end
-            end
+    -- add all quest IDs from regular zones
+    for zoneId, quests in pairs(QuestieJourney.zoneMap or {}) do
+        for questId in pairs(quests) do
+            allQuestIds[questId] = true
         end
     end
-
-    -- also add class/professions/pet battles
+    -- add all quest IDs from class quests
     local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
-    local classTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
-    if classTree then
-        for i = 1, 5 do
-            if classTree[i] and classTree[i].children then
-                for _, quest in pairs(classTree[i].children) do
-                    table.insert(allZoneTree[i].children, quest)
-                end
-            end
+    local classQuests = QuestieJourney.zoneMap[classKey]
+    if classQuests then
+        for questId in pairs(classQuests) do
+            allQuestIds[questId] = true
         end
     end
+    -- add all quest IDs from profession quests
     for profId, _ in pairs(QuestieJourney.zones[QuestieJourney.questCategoryKeys.PROFESSIONS] or {}) do
-        local profTree = _QuestieJourney.questsByZone:CollectZoneQuests(profId)
-        if profTree then
-            for i = 1, 5 do
-                if profTree[i] and profTree[i].children then
-                    for _, quest in pairs(profTree[i].children) do
-                        table.insert(allZoneTree[i].children, quest)
-                    end
-                end
+        local profQuests = QuestieJourney.zoneMap[profId]
+        if profQuests then
+            for questId in pairs(profQuests) do
+                allQuestIds[questId] = true
             end
         end
     end
-    local petTree = _QuestieJourney.questsByZone:CollectZoneQuests(QuestieDB.sortKeys.PET_BATTLE)
-    if petTree then
-        for i = 1, 5 do
-            if petTree[i] and petTree[i].children then
-                for _, quest in pairs(petTree[i].children) do
-                    table.insert(allZoneTree[i].children, quest)
-                end
-            end
+    -- add all quest IDs from pet battle quests
+    local petQuests = QuestieJourney.zoneMap[QuestieDB.sortKeys.PET_BATTLE]
+    if petQuests then
+        for questId in pairs(petQuests) do
+            allQuestIds[questId] = true
         end
     end
 
-    for i = 1, 5 do
-        local count = #allZoneTree[i].children
-        if i == 1 then
-            availableCounter = count
-        elseif i == 2 then
-            prequestMissingCounter = count
-        elseif i == 3 then
-            completedCounter = count
-        elseif i == 4 then
-            repeatableCounter = count
-        elseif i == 5 then
-            unobtainableCounter = count
-        end
-    end
-
-    local totalCounter = availableCounter + completedCounter + prequestMissingCounter
-    allZoneTree[1].text = allZoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    allZoneTree[2].text = allZoneTree[2].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
-    allZoneTree[3].text = allZoneTree[3].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    allZoneTree[4].text = allZoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
-    allZoneTree[5].text = allZoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
+    -- Use the shared categorization function
+    local allZoneTree = _QuestieJourney.questsByZone:CategorizeQuests(allQuestIds)
 
     _QuestieJourney.questsByZone:ManageTree(treegroup, allZoneTree)
 
@@ -269,9 +210,19 @@ _HandleAllZonesSelection = function()
     _QuestieJourney.lastZoneSelection[3] = nil
 end
 
+_HandleByContinentSelection = function()
+    contDropdown.frame:Show()
+    zoneDropdown.frame:Show()
+
+    _QuestieJourney.lastZoneSelection[3] = nil
+
+    if selectedContinentId then
+        contDropdown:SetValue(selectedContinentId)
+        _HandleContinentSelection({value = selectedContinentId})
+    end
+end
+
 _HandleContinentSelection = function(key, _)
-    local text
-    
     if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
         local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
@@ -322,16 +273,4 @@ _HandleZoneSelection = function(key, _)
     _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     _QuestieJourney.lastZoneSelection[2] = key.value
     _QuestieJourney.lastZoneSelection[3] = nil
-end
-
-_HandleByContinentSelection = function()
-    contDropdown.frame:Show()
-    zoneDropdown.frame:Show()
-
-    _QuestieJourney.lastZoneSelection[3] = nil
-
-    if selectedContinentId then
-        contDropdown:SetValue(selectedContinentId)
-        _HandleContinentSelection({value = selectedContinentId})
-    end
 end
