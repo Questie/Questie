@@ -190,7 +190,7 @@ function EventHandler:RegisterLateEvents()
     end)
 
     -- Pet Battle Events (MoP and later)
-    if Expansions.Current >= Expansions.MoP and C_PetBattles then
+    if Expansions.Current >= Expansions.MoP then
         Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
             if Questie.db.profile.trackerEnabled then
