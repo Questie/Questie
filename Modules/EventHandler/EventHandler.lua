@@ -207,12 +207,12 @@ function EventHandler:RegisterLateEvents()
 
         Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
-            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and trackerMinimizedByPetBattle then
+            if Questie.db.profile.trackerEnabled then
                 trackerMinimizedByPetBattle = false
 
                 QuestieCombatQueue:Queue(function()
                     local baseFrame = TrackerBaseFrame.baseFrame
-                    if baseFrame then
+                    if baseFrame and not baseFrame:IsShown() then
                         baseFrame:Show()
                         QuestieTracker:Update()
                     end
