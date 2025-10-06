@@ -17,7 +17,7 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     if type(zones) ~= "table" then
         return {}
     end
-    
+
     local function compare(a, b)
         return zones[a] < zones[b]
     end
