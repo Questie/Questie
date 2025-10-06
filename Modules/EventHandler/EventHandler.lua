@@ -189,11 +189,11 @@ function EventHandler:RegisterLateEvents()
         end
     end)
 
-    -- Pet Battle Events (MoP and later)
+    -- Pet Battle Events (MoP onwards)
     if Expansions.Current >= Expansions.MoP then
         Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
-            if Questie.db.profile.trackerEnabled then
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 local baseFrame = TrackerBaseFrame.baseFrame
                 if baseFrame and baseFrame:IsShown() then
                     trackerMinimizedByPetBattle = true
@@ -207,7 +207,7 @@ function EventHandler:RegisterLateEvents()
 
         Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
-            if Questie.db.profile.trackerEnabled and trackerMinimizedByPetBattle then
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and trackerMinimizedByPetBattle then
                 trackerMinimizedByPetBattle = false
 
                 QuestieCombatQueue:Queue(function()

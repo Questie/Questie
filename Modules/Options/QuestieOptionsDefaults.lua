@@ -79,6 +79,7 @@ function QuestieOptionsDefaults:Load()
             stickyDurabilityFrame = false,
             hideTrackerInCombat = false,
             hideTrackerInDungeons = true,
+            hideTrackerInPetBattles = true,
             trackerFadeMinMaxButtons = false,
             trackerFadeQuestItemButtons = false,
             trackerBackdropEnabled = false,

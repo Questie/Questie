@@ -353,6 +353,31 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入地城後會自動將任務清單最小化。",
     },
     ---------------------------------------------------------
+    ["Minimize In Pet Battles"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ---------------------------------------------------------
     ["Fade Min/Max Buttons"] = {
         ["enUS"] = true,
         ["deDE"] = "Min/Max ausblenden",
