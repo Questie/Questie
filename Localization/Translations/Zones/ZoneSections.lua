@@ -158,6 +158,18 @@ local zoneSectionLocales = {
         ["zhCN"] = "未知区域",
         ["zhTW"] = "未知區域",
     },
+    ["Battle Pets"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kampfhaustiere",
+        ["esES"] = "Mascotas de duelo",
+        ["esMX"] = "Mascotas de duelo",
+        ["frFR"] = "Mascottes de combat",
+        ["koKR"] = "전투 애완동물",
+        ["ptBR"] = "Mascotes de Batalha",
+        ["ruRU"] = "Боевые питомцы",
+        ["zhCN"] = "战斗宠物",
+        ["zhTW"] = "戰寵",
+    },
 }
 
 for k, v in pairs(zoneSectionLocales) do
