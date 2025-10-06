@@ -532,6 +532,7 @@ globals = {
     "C_PaperDollInfo.OffhandHasWeapon",
     "C_PartyInfo.GetActiveCategories",
     "C_PartyInfo.GetInviteConfirmationInvalidQueues",
+    "C_PetBattles",
     "C_PlayerInfo.GetClass",
     "C_PlayerInfo.GetName",
     "C_PlayerInfo.GetRace",

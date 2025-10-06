@@ -59,6 +59,7 @@ local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 local trackerMinimizedByDungeon = false
 
+
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
@@ -187,6 +188,34 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
+
+    -- Pet Battle Events (MoP onwards)
+    if Expansions.Current >= Expansions.MoP then
+        Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
+            if Questie.db.profile.trackerEnabled then
+                QuestieCombatQueue:Queue(function()
+                    local baseFrame = TrackerBaseFrame.baseFrame
+                    if baseFrame and not baseFrame:IsShown() then
+                        baseFrame:Show()
+                        QuestieTracker:Update()
+                    end
+                end)
+            end
+        end)
+    end
 
     -- UI Achievement Events
     if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
