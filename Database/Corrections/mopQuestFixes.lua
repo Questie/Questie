@@ -7701,17 +7701,19 @@ function MopQuestFixes.Load()
         [32190] = { -- To Mogujia
             [questKeys.preQuestSingle] = {32372},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,11850},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {{{67581,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Mogujia"),0,{{"monster",68681}}}},
         },
         [32191] = { -- Ancient Guardians
             [questKeys.preQuestSingle] = {32190},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,11850},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32192] = { -- Bloodlines
             [questKeys.preQuestSingle] = {32190},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,11850},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {{{67587}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the ones near Blood Elves in fire pillars"),0,{{"monster",67587}}}},
         },
         [32193] = { -- To Mogujia
             [questKeys.preQuestSingle] = {32362},
@@ -7791,7 +7793,6 @@ function MopQuestFixes.Load()
         [32244] = { -- The Korune
             [questKeys.preQuestSingle] = {32190},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,11850},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32246] = { -- Meet the Scout
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3},{factionIDs.OPERATION_SHIELDWALL,4}},

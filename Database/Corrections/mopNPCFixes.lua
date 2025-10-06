@@ -1506,6 +1506,9 @@ function MopNpcFixes.Load()
         [59550] = { -- Sully "The Pickle" McLeary
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.55,82.3}}},
         },
+        [59567] = { -- Chief Yip-Yip
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{32.32,20.56}}},
+        },
         [59572] = { -- Pearlfin Recruit
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.66,84.53},{59.44,85.22},{58.95,85.14},{59.35,84.73},{59.13,84.57},{60.11,83.93},{59.97,83.53},{59.68,83.93},{59.5,83.86},{59.34,84.17},{59.26,83.69},{59.01,83.69},{58.24,84.33},{58.23,83.89}}},
         },
@@ -4151,6 +4154,18 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
+        [67581] = { -- Lor'themar Theron
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.06,79.01}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [67603] = { -- Fanlyr Silverthorn
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.13,78.59}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [67626] = { -- Captain Brent the Black
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.79,75.79}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -4207,6 +4222,13 @@ function MopNpcFixes.Load()
         [67744] = { -- Town Hall Sentry Ward Location
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.28,25.57}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67752] = { -- Korune Spellweaver
+            [npcKeys.name] = "Korune Spellweaver",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.12,70.91}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [67801] = { -- High Marshal Twinbraid
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{86.53,24.86}}},

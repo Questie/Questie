@@ -1108,6 +1108,9 @@ function MopItemFixes.Load()
         [91907] = { -- Lion's Landing Lumber
             [itemKeys.objectDrops] = {216229},
         },
+        [92072] = { -- Korune Codex
+            [itemKeys.npcDrops] = {67752},
+        },
         [92425] = { -- Ancient Korune Tablet
             [itemKeys.npcDrops] = {67833},
         },
