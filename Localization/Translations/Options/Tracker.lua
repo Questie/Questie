@@ -354,7 +354,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     -- Mists of Pandaria onwards --
-    ["Minimize In Pet Battles"] = {
+    ["Hide In Pet Battles"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,

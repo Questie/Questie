@@ -406,7 +406,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         type = "toggle",
                         order = 3,
                         width = 1.5,
-                        name = function() return l10n("Minimize In Pet Battles") end,
+                        name = function() return l10n("Hide In Pet Battles") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         hidden = function() return Expansions.Current < Expansions.MoP end,
