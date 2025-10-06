@@ -243,14 +243,14 @@ function MapIconTooltip:Show()
                             self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         end
                     end
-                end
-                -- Add dungeon information if this is a dungeon quest
-                if shift and quest then
-                    local zoneOrSort = quest.zoneOrSort
-                    if zoneOrSort and zoneOrSort > 0 then
-                        local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
-                        if dungeonName then
-                            self:AddLine("  " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                    -- Add dungeon information if this is a dungeon quest
+                    if shift and quest then
+                        local zoneOrSort = quest.zoneOrSort
+                        if zoneOrSort and zoneOrSort > 0 then
+                            local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
+                            if dungeonName then
+                                self:AddLine("  " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                            end
                         end
                     end
                 end
