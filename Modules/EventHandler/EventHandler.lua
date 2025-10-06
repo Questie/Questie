@@ -58,7 +58,7 @@ local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 local trackerMinimizedByDungeon = false
-local trackerMinimizedByPetBattle = false
+
 
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
@@ -196,8 +196,6 @@ function EventHandler:RegisterLateEvents()
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 local baseFrame = TrackerBaseFrame.baseFrame
                 if baseFrame and baseFrame:IsShown() then
-                    trackerMinimizedByPetBattle = true
-
                     QuestieCombatQueue:Queue(function()
                         baseFrame:Hide()
                     end)
@@ -208,8 +206,6 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
             if Questie.db.profile.trackerEnabled then
-                trackerMinimizedByPetBattle = false
-
                 QuestieCombatQueue:Queue(function()
                     local baseFrame = TrackerBaseFrame.baseFrame
                     if baseFrame and not baseFrame:IsShown() then
