@@ -1,7 +1,6 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-_QuestieJourney.questsByZone = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -25,6 +24,59 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame
 
+---Restore the previously selected quest in the zone tree
+---@param treeFrame table @The AceGUI TreeGroup frame
+---@param zoneTree table @The zone tree table
+function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zoneTree)
+    local savedSelection = _QuestieJourney.lastZoneSelection[3]
+    if not savedSelection then return end
+
+    local sel, questId = strsplit("\001", savedSelection)
+    if not questId then return end
+
+    questId = tonumber(questId)
+    local questExists = false
+
+    for _, category in pairs(zoneTree) do
+        if category.children then
+            for _, quest in pairs(category.children) do
+                if quest.value and quest.value == questId then
+                    questExists = true
+                    break
+                end
+            end
+        end
+        if questExists then break end
+    end
+
+    if questExists then
+        treeFrame:SelectByValue(savedSelection)
+
+        C_Timer.After(0.1, function()
+            if not treeFrame.frame or not treeFrame.frame.obj then return end
+
+            local quest = QuestieDB.GetQuest(questId)
+            if quest then
+                local master = treeFrame.frame.obj
+                master:ReleaseChildren()
+                master:SetLayout("fill")
+                master:SetFullWidth(true)
+                master:SetFullHeight(true)
+
+                ---@class ScrollFrame
+                local scrollFrame = AceGUI:Create("ScrollFrame")
+                scrollFrame:SetLayout("flow")
+                scrollFrame:SetFullHeight(true)
+                master:AddChild(scrollFrame)
+
+                _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+            end
+        end)
+    else
+        _QuestieJourney.lastZoneSelection[3] = nil
+    end
+end
+
 ---Manage the zone tree itself and the contents of the per-quest window
 ---@param container AceSimpleGroup @The container for the zone tree
 ---@param zoneTree table @The zone tree table
@@ -42,6 +94,9 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:SetTree(zoneTree)
 
     zoneTreeFrame.treeframe:SetWidth(415)
+
+    _QuestieJourney.questsByZone:RestoreSavedQuestSelection(zoneTreeFrame, zoneTree)
+
     zoneTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
 
@@ -54,6 +109,9 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b") and (not questId) then
             return
         end
+
+        -- save the selected quest for persistence
+        _QuestieJourney.lastZoneSelection[3] = treePath[2]
 
         -- get master frame and create scroll frame inside
         local master = group.frame.obj
@@ -97,6 +155,16 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         return nil
     end
 
+    return _QuestieJourney.questsByZone:CategorizeQuests(quests)
+end
+
+---Categorize quests into available/completed/repeatable/unavailable categories
+---@param quests table @A table of quest IDs (keys are quest IDs, values are truthy)
+---@return table @The zoneTree table which represents the list of all the different quests
+function _QuestieJourney.questsByZone:CategorizeQuests(quests)
+    if not quests then
+        return nil
+    end
 
     local zoneTree = {
         [1] = {
