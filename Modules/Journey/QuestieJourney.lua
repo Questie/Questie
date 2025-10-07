@@ -165,7 +165,7 @@ function QuestieJourney:ToggleJourneyWindow()
 end
 
 -- Global function for keybinding
-function QUESTIE_ToggleJourney()
+function QUESTIE_ToggleJourney() -- luacheck: globals QUESTIE_ToggleJourney
     QuestieJourney:ToggleJourneyWindow()
 end
 
