@@ -28,6 +28,8 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
@@ -391,6 +393,12 @@ function QuestEventHandler.QuestLogUpdate()
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests(true)
     else
+        -- Don't update tracker if we're in a pet battle
+        if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped tracker update - in pet battle")
+            return
+        end
+        
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -493,6 +501,11 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()
+                -- Don't update tracker if we're in a pet battle
+                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped UnitQuestLogChanged tracker update - in pet battle")
+                    return
+                end
                 QuestieTracker:Update()
             end)
         end)
@@ -516,6 +529,13 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests(false)
+        
+        -- Don't update tracker if we're in a pet battle
+        if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped QuestRelatedFrameClosed tracker update - in pet battle")
+            return
+        end
+        
         QuestieTracker:Update()
     end
 end
