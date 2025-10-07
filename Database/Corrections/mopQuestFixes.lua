@@ -8031,6 +8031,9 @@ function MopQuestFixes.Load()
         [32376] = { -- To the Valley!
             [questKeys.preQuestGroup] = {32191,32192,32244},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,15800},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Valley of Emperors"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{68370,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32377] = { -- A Kor'kron In Our Midst
             [questKeys.preQuestSingle] = {32370},
@@ -8041,12 +8044,12 @@ function MopQuestFixes.Load()
         [32378] = { -- Clearing a Path
             [questKeys.preQuestSingle] = {32376},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,15800},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
         },
         [32379] = { -- Legacy of the Korune
             [questKeys.preQuestSingle] = {32376},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,15800},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
         },
         [32380] = { -- The Best Around
             [questKeys.preQuestSingle] = {32248},
@@ -8078,7 +8081,7 @@ function MopQuestFixes.Load()
         [32384] = { -- Trapping the Leader
             [questKeys.preQuestGroup] = {32378,32379},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,15800},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
         },
         [32388] = { -- A Change of Command
             [questKeys.startedBy] = {{64616}},

@@ -4610,6 +4610,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.friendlyToFaction] = "H",
         },
+        [68370] = { -- Lor'themar Theron
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{53.83,49.24}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [68375] = { -- Agent Connelly
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -4633,6 +4639,13 @@ function MopNpcFixes.Load()
         },
         [68430] = { -- Arcanis Mechanica
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
+        },
+        [68473] = { -- Legacy of Korune
+            [npcKeys.name] = "Legacy of Korune",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.93,47.75}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68526] = { -- Barkeep Townsley
             [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{69.98,47.1},{-1,-1}}},

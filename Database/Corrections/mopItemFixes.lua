@@ -1145,6 +1145,15 @@ function MopItemFixes.Load()
         [92765] = { -- Kor'kron Boots
             [itemKeys.npcDrops] = {68368},
         },
+        [92801] = { -- Korune Orders
+            [itemKeys.npcDrops] = {68401},
+        },
+        [92802] = { -- Legacy of the Korune
+            [itemKeys.npcDrops] = {68473},
+        },
+        [92803] = { -- Sealed Korune Artifact
+            [itemKeys.npcDrops] = {68410},
+        },
         [92804] = { -- Weathered Journal
             [itemKeys.objectDrops] = {216664},
         },
