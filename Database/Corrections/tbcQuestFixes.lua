@@ -1913,6 +1913,7 @@ function QuestieTBCQuestFixes:Load()
         [10106] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredMaxRep] = {},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10107] = {
             [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster",Questie.ICON_TYPE_TALK}}},
@@ -1923,6 +1924,7 @@ function QuestieTBCQuestFixes:Load()
         [10110] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredMaxRep] = {},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10111] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Jump!"), 0, {{"object", 183146}}}},

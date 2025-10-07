@@ -4594,15 +4594,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13408] = {
             [questKeys.preQuestSingle] = {10143,10483},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13409] = {
             [questKeys.preQuestSingle] = {10124},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13410] = {
             [questKeys.preQuestSingle] = {10143,10483},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13413] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 1, {{"monster", 32548}}}},
