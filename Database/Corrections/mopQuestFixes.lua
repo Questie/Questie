@@ -2733,7 +2733,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30638},
             [questKeys.exclusiveTo] = {30312,31755},
             [questKeys.objectives] = {{{59231,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Phase into the spirit void"),0,{{"monster",59219}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Phase into the Spirit Void"),0,{{"monster",59219}}}},
             [questKeys.requiredSpell] = 115913,
         },
         [30321] = { -- Weed War II
