@@ -1,0 +1,5 @@
+<Bindings>
+    <Binding name="QUESTIE_TOGGLE_JOURNEY" category="ADDONS">
+        QUESTIE_ToggleJourney();
+    </Binding>
+</Bindings>

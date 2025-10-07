@@ -44,6 +44,7 @@
     <Script file="DebugMessages.lua"/>
     <Script file="Events.lua"/>
     <Script file="Generics.lua"/>
+    <Script file="Keybindings.lua"/>
     <Script file="KeyboardShortcuts.lua"/>
     <Script file="Map.lua"/>
     <Script file="Professions.lua"/>
