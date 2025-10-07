@@ -1907,38 +1907,47 @@ function MopQuestFixes.Load()
         },
         [30134] = { -- Wild Things
             [questKeys.breadcrumbs] = {31373,31375},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30135] = { -- Beating the Odds
             [questKeys.nextQuestInChain] = 30136,
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,8}},
         },
         [30136] = { -- Empty Nests
             [questKeys.preQuestSingle] = {30134},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{58243,58244,58220},58244,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_JADE_FOREST] = {{63.33,31.46},{63.87,30.06},{64.28,29.03},{64.87,26.46},{65.32,26.38},{64.9,28.9},{65.15,30.07},{65.62,30.2},{65.68,30.67},{65.78,31.25}}}, Questie.ICON_TYPE_EVENT, l10n("Return the hatchlings to the nests")}},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,8}},
         },
         [30137] = { -- Egg Collection
             [questKeys.preQuestSingle] = {30134},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,8}},
         },
         [30138] = { -- Choosing the One
             [questKeys.preQuestGroup] = {30135,30136,30137},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30139] = { -- The Rider's Journey
             [questKeys.preQuestSingle] = {30138},
             [questKeys.exclusiveTo] = {30140,30141},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30140] = { -- The Rider's Journey
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {30138},
             [questKeys.exclusiveTo] = {30139,30141},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30141] = { -- The Rider's Journey
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {30138},
             [questKeys.exclusiveTo] = {30139,30140},
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30142] = { -- It's A...
             [questKeys.preQuestSingle] = {30139,30140,30141},
             [questKeys.nextQuestInChain] = 30143,
+            [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,14}},
         },
         [30143] = { -- They Grow Like Weeds
             [questKeys.preQuestSingle] = {30142},
