@@ -1135,6 +1135,16 @@ function MopItemFixes.Load()
         [92736] = { -- Gen-Li's Essence
             [itemKeys.npcDrops] = {68169},
         },
+        [92763] = { -- Kor'kron Helmet
+            [itemKeys.npcDrops] = {68367},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [92764] = { -- Kor'kron Armor
+            [itemKeys.npcDrops] = {68369},
+        },
+        [92765] = { -- Kor'kron Boots
+            [itemKeys.npcDrops] = {68368},
+        },
         [92804] = { -- Weathered Journal
             [itemKeys.objectDrops] = {216664},
         },

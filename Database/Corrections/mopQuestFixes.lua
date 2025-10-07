@@ -8003,10 +8003,14 @@ function MopQuestFixes.Load()
         [32370] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32316},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,23700},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Grummle Bazaar"),0,{{"monster",68741}}}},
+            [questKeys.objectives] = {{{68375,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32371] = { -- Memory Wine
             [questKeys.preQuestSingle] = {32377},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,23700},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32372] = { -- De-Subjugation
             [questKeys.preQuestSingle] = {32320},
@@ -8031,6 +8035,8 @@ function MopQuestFixes.Load()
         [32377] = { -- A Kor'kron In Our Midst
             [questKeys.preQuestSingle] = {32370},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,23700},
+            [questKeys.requiredSourceItems] = {92763,92764,92765},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,15}},
         },
         [32378] = { -- Clearing a Path
             [questKeys.preQuestSingle] = {32376},
