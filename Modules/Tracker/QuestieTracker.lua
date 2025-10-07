@@ -269,6 +269,16 @@ function QuestieTracker.Initialize()
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)
+
+    -- Check if we're already in a pet battle during initialization
+    if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+        C_Timer.After(0.1, function()
+            if trackerBaseFrame and trackerBaseFrame:IsShown() then
+                trackerBaseFrame:Hide()
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:Initialize] Hidden tracker - already in pet battle")
+            end
+        end)
+    end
 end
 
 function QuestieTracker:ResetLocation()
@@ -543,6 +553,16 @@ function QuestieTracker:Update()
     end
 
     lastTrackerUpdate = now
+
+    -- Check if we're in a pet battle and should hide the tracker
+    if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+        if trackerBaseFrame and trackerBaseFrame:IsShown() then
+            QuestieCombatQueue:Queue(function()
+                trackerBaseFrame:Hide()
+            end)
+        end
+        return
+    end
 
     -- Tracker has started but not enabled, hide the frames
     if (not Questie.db.profile.trackerEnabled or QuestieTracker.disableHooks == true) then
