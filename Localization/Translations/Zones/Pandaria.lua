@@ -243,6 +243,18 @@ local pandariaLocales = {
         ["zhCN"] = "百木园",
         ["zhTW"] = "落英園",
     },
+    ["The Wandering Isle"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Die Wandernde Insel",
+        ["esES"] = "La Isla Errante",
+        ["esMX"] = "La Isla Errante",
+        ["frFR"] = "L’île Vagabonde",
+        ["koKR"] = "유랑도",
+        ["ptBR"] = "Ilha Errante",
+        ["ruRU"] = "Скитающийся остров",
+        ["zhCN"] = "迷踪岛",
+        ["zhTW"] = "漂流島",
+    },
 }
 
 for k, v in pairs(pandariaLocales) do
