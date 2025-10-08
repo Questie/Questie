@@ -1,4 +1,4 @@
----@type QuestieFramePool
+---@class QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -17,11 +17,25 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 QuestieFramePool.Qframe = {}
 
+---@class QuestieFrameHandlers
 local _Qframe = {}
+
+---@class IconData
+---@field Id QuestId
+---@field Type string
+---@field Icon number
+---@field GetIconScale fun(): number
+---@field IconScale number
+---@field QuestData Quest
+---@field Name string
+---@field IsObjectiveNote boolean
+---@field StarterType string|nil
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
+    ---@field isManualIcon boolean
+    ---@field data IconData
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
@@ -55,6 +69,13 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newTexture:SetAllPoints(newFrame)
     newTexture:SetTexelSnappingBias(0)
     newTexture:SetSnapToPixelGrid(false)
+
+    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+    newFrame.overlayTexture:SetWidth(16)
+    newFrame.overlayTexture:SetHeight(16)
+    newFrame.overlayTexture:SetAllPoints(newFrame)
+    newFrame.overlayTexture:SetTexelSnappingBias(0)
+    newFrame.overlayTexture:SetSnapToPixelGrid(false)
 
     local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
@@ -123,7 +144,8 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     return newFrame
 end
 
-function _Qframe:OnLeave()
+---@param self IconFrame
+function _Qframe.OnLeave(self)
     if WorldMapTooltip then
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
@@ -152,7 +174,8 @@ function _Qframe:OnLeave()
     GameTooltip.ShownAsMapIcon = false
 end
 
-function _Qframe:OnClick(button)
+---@param self IconFrame
+function _Qframe.OnClick(self, button)
     local uiMapId = self.UiMapID
 
     if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
@@ -215,7 +238,8 @@ function _Qframe:OnClick(button)
     end
 end
 
-function _Qframe:GlowUpdate()
+---@param self IconFrame
+function _Qframe.GlowUpdate(self)
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
@@ -233,7 +257,8 @@ function _Qframe:GlowUpdate()
     end
 end
 
-function _Qframe:BaseOnShow()
+---@param self IconFrame
+function _Qframe.BaseOnShow(self)
     local data = self.data
 
     if data and data.Type and data.Type == "complete" then
@@ -257,11 +282,18 @@ function _Qframe:BaseOnShow()
     end
 end
 
-function _Qframe:BaseOnHide()
+---@param self IconFrame
+function _Qframe.BaseOnHide(self)
+    local data = self.data
+
+    if data and data.Type and data.Type == "complete" then
+        self:SetFrameLevel(self:GetFrameLevel() - 1)
+    end
     self.glow:Hide()
 end
 
-function _Qframe:UpdateTexture(texture)
+---@param self IconFrame
+function _Qframe.UpdateTexture(self, texture)
     --Different settings depending on noteType
     local globalScale
     local objectiveColor
@@ -281,6 +313,16 @@ function _Qframe:UpdateTexture(texture)
     --self.data.Icon = texture;
     local colors = { 1, 1, 1 }
 
+    if self.data.StarterType then
+        if self.data.StarterType == "itemFromMonster" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
+        elseif self.data.StarterType == "itemFromObject" then
+            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
+        end
+    else
+        self.overlayTexture:SetTexture("")
+    end
+
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
     end
@@ -296,7 +338,8 @@ function _Qframe:UpdateTexture(texture)
     end
 end
 
-function _Qframe:Unload()
+---@param self IconFrame
+function _Qframe.Unload(self)
     if not self._loaded then
         self._needsUnload = true
         return -- icon is still in the draw queue
@@ -309,6 +352,7 @@ function _Qframe:Unload()
     self:SetScript("OnHide", nil)
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
+    self.isManualIcon = false
 
     -- Reset questIdFrames so they won't be toggled again
     local frameName = self:GetName()
@@ -363,7 +407,8 @@ function _Qframe:Unload()
     QuestieFramePool:RecycleFrame(self)
 end
 
-function _Qframe:FadeOut()
+---@param self IconFrame
+function _Qframe.FadeOut(self)
     if not self.faded then
         self.faded = true
         if self.texture then
@@ -385,7 +430,8 @@ function _Qframe:FadeOut()
     end
 end
 
-function _Qframe:FadeIn()
+---@param self IconFrame
+function _Qframe.FadeIn(self)
     if self.faded then
         self.faded = nil
         if self.texture then
@@ -408,7 +454,8 @@ function _Qframe:FadeIn()
 end
 
 --- This is needed because HBD will show the icons again after switching zones and stuff like that
-function _Qframe:FakeHide()
+---@param self IconFrame
+function _Qframe.FakeHide(self)
     if not self.hidden then
         self.shouldBeShowing = self:IsShown();
         self._show = self.Show;
@@ -430,7 +477,8 @@ function _Qframe:FakeHide()
 end
 
 --- This is needed because HBD will show the icons again after switching zones and stuff like that
-function _Qframe:FakeShow()
+---@param self IconFrame
+function _Qframe.FakeShow(self)
     if self.hidden then
         self.hidden = false
         self.Show = self._show;
@@ -449,8 +497,9 @@ function _Qframe:FakeShow()
 end
 
 ---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
+---@param self IconFrame
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
-function _Qframe:ShouldBeHidden()
+function _Qframe.ShouldBeHidden(self)
     local profile = Questie.db.profile
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
@@ -465,6 +514,7 @@ function _Qframe:ShouldBeHidden()
     local raid = QuestieDB.IsRaidQuest(questId)
     local pvp = QuestieDB.IsPvPQuest(questId)
     local normal = not (repeatable or event or dungeon or raid or pvp)
+    local itemStart = (data.StarterType ~= nil)
 
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
@@ -472,19 +522,21 @@ function _Qframe:ShouldBeHidden()
         or ((not profile.enableTurnins) and iconType == "complete")
         or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
         or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+        or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
-            and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+            and (
+                    (not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
                 or ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)
                 or ((not profile.showRaidQuests) and raid)
                 or ((not profile.showPvPQuests) and pvp)
+                or ((not profile.enableAvailableItems) and itemStart)
                 or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
@@ -496,3 +548,5 @@ function _Qframe:ShouldBeHidden()
 
     return false
 end
+
+return _Qframe

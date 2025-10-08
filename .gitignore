@@ -31,3 +31,5 @@ releases/
 #Log files
 *.log
 *.bak
+
+cli/output

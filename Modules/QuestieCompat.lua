@@ -3,6 +3,9 @@
 QuestieCompat = {}
 
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
+local INDIZES_AVAILABLE = 7
+
+local tinsert = table.insert
 
 ------------------------------------------
 -- Older client compatibility (pre 1.14.1)
@@ -60,34 +63,36 @@ function QuestieCompat.SetResizeBounds(frame, minWidth, minHeight, maxWidth, max
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.GetAvailableQuests)
 ---Returns the available quests at a quest giver.
----@return GossipQuestUIInfo[] info
+---@return GossipQuestUIInfo[]
 function QuestieCompat.GetAvailableQuests()
     if C_GossipInfo and C_GossipInfo.GetAvailableQuests then
-        local info = C_GossipInfo.GetAvailableQuests()
-        local availableQuests = {}
-        local index = 1
-        for _, availableQuest in pairs(info) do
-            availableQuests[index] = availableQuest.title
-            availableQuests[index + 1] = availableQuest.questLevel
-            availableQuests[index + 2] = availableQuest.isTrivial
-            availableQuests[index + 3] = availableQuest.frequency
-            availableQuests[index + 4] = availableQuest.repeatable
-            availableQuests[index + 5] = availableQuest.isLegendary
-            availableQuests[index + 6] = availableQuest.isIgnored
-            index = index + 7
-        end
-        return unpack(availableQuests)
+        return C_GossipInfo.GetAvailableQuests()
     elseif GetGossipAvailableQuests then
-        return GetGossipAvailableQuests() -- https://wowpedia.fandom.com/wiki/API_GetGossipAvailableQuests
+        local info = {GetGossipAvailableQuests()}
+        local availableQuests = {}
+        for i=1, #info, INDIZES_AVAILABLE do
+            local quest = {
+                title = info[i],
+                questLevel = info[i + 1],
+                isTrivial = info[i + 2],
+                frequency = info[i + 3],
+                repeatable = info[i + 4],
+                isLegendary = info[i + 5],
+                isIgnored = info[i + 6],
+                isImportant = false, -- Not available from GetGossipAvailableQuests
+                isMeta = false, -- Not available from GetGossipAvailableQuests
+                questID = 0, -- Not available from GetGossipAvailableQuests
+            }
+            tinsert(availableQuests, quest)
+        end
+        return availableQuests
     end
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.GetActiveQuests)
 ---Returns the quests which can be turned in at a quest giver.
----@return GossipQuestUIInfo[] info
+---@return GossipQuestUIInfo[]
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
         -- QuestieDB needs to be loaded locally, otherwise it will be an empty module

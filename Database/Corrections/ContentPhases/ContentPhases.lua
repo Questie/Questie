@@ -5,8 +5,9 @@ local ContentPhases = QuestieLoader:CreateModule("ContentPhases")
 -- Central place to define the active phases of the different game modes
 ContentPhases.activePhases = {
     SoM = 5,
-    SoD = 6,
-    Anniversary = 1,
+    SoD = 7,
+    Anniversary = 6,
+    MoP = 2,
 }
 
 return ContentPhases

@@ -54,20 +54,20 @@ end
 local function updateGossipFrame()
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
-    local availQuests = {QuestieCompat.GetAvailableQuests()}
+    local availQuests = QuestieCompat.GetAvailableQuests()
     local activeQuests = {QuestieCompat.GetActiveQuests()}
     local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes
-    local questgiver = UnitGUID("npc")
+    local questGiver = UnitGUID("npc")
     if numAvailable > 0 then
         for i=1, numAvailable do
             index = index + 1
-            -- GetGossipAvailableQuests() returns 7 individual values per quest entry...
-            -- so we have to filter out to every 7th value, starting with 1, 8, 15, etc
-            local questIndex = (1 + ((i - 1) * 7))
-            local questname = availQuests[questIndex]
-            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
+            local questId = availQuests[i].questID
+            if questId == 0 then
+                local questTitle = availQuests[i].title
+                questId = QuestieDB.GetQuestIDFromName(questTitle, questGiver, true)
+            end
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
-            gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, false))
+            gossipIcon:SetTexture(determineAppropriateQuestIcon(questId, false))
         end
         -- each new section in a gossip frame has an offset of 1, so for instance, with 2 quests shown,
         -- 1 active 1 available, the available will be GossipTitleButton1 and the active will be GossipTitleButton3
@@ -79,10 +79,10 @@ local function updateGossipFrame()
             -- GetGossipActiveQuests() returns 6 individual values per quest entry...
             -- so we have to filter out to every 6th value, starting with 1, 7, 13, etc
             local questIndex = (1 + ((i - 1) * 6))
-            local questname = activeQuests[questIndex]
-            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, false)
+            local questTitle = activeQuests[questIndex]
+            local questId = QuestieDB.GetQuestIDFromName(questTitle, questGiver, false)
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
-            gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, true))
+            gossipIcon:SetTexture(determineAppropriateQuestIcon(questId, true))
         end
     end
 end

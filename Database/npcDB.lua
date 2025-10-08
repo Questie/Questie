@@ -1,6 +1,7 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
-
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions");
 
 ---@class DatabaseNpcKeys
 QuestieDB.npcKeys = {
@@ -55,40 +56,26 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
 }
 
 ---@enum NpcFlags
-QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata) and {
+QuestieDB.npcFlags = {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,
+    VENDOR = Questie.IsClassic and 4 or 128,
+    FLIGHT_MASTER = Questie.IsClassic and 8 or 8192,
     TRAINER = 16,
-    VENDOR = 128,
-    REPAIR = 4096,
-    FLIGHT_MASTER = 8192,
-    SPIRIT_HEALER = 16384,
-    SPIRIT_GUIDE = 32768,
-    INNKEEPER = 65536,
-    BANKER = 131072,
-    PETITIONER = 262144,
-    TABARD_DESIGNER = 524288,
-    BATTLEMASTER = 1048576,
-    AUCTIONEER = 2097152,
-    STABLEMASTER = 4194304,
-} or {
-    NONE = 0,
-    GOSSIP = 1,
-    QUEST_GIVER = 2,
-    VENDOR = 4,
-    FLIGHT_MASTER = 8,
-    TRAINER = 16,
-    SPIRIT_HEALER = 32,
-    SPIRIT_GUIDE = 64,
-    INNKEEPER = 128,
-    BANKER = 256,
-    PETITIONER = 512,
-    TABARD_DESIGNER = 1024,
-    BATTLEMASTER = 2048,
-    AUCTIONEER = 4096,
-    STABLEMASTER = 8192,
-    REPAIR = 16384
+    SPIRIT_HEALER = Questie.IsClassic and 32 or 16384,
+    SPIRIT_GUIDE = Questie.IsClassic and 64 or 32768,
+    INNKEEPER = Questie.IsClassic and 128 or 65536,
+    BANKER = Questie.IsClassic and 256 or 131072,
+    PETITIONER = Questie.IsClassic and 512 or 262144,
+    TABARD_DESIGNER = Questie.IsClassic and 1024 or 524288,
+    BATTLEMASTER = Questie.IsClassic and 2048 or 1048576,
+    AUCTIONEER = Questie.IsClassic and 4096 or 2097152,
+    STABLEMASTER = Questie.IsClassic and 8192 or 4194304,
+    REPAIR = Questie.IsClassic and 16384 or 4096,
+    BARBER = (Expansions.Current >= Expansions.Wotlk) and 33554432 or nil,
+    ARCANE_REFORGER = Expansions.Current >= Expansions.Cata and 134217728 or nil,
+    TRANSMOGRIFIER = Expansions.Current >= Expansions.Cata and 268435456 or nil
 }
 
 -- temporary, until we remove the old db funcitons

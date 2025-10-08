@@ -67,7 +67,10 @@ killcredit = function(npcId, objective, objectiveData)
     local ret = {}
     for npcIdIndex = 1, #objectiveData.IdList do
         local killCreditNpcId = objectiveData.IdList[npcIdIndex]
-        ret[killCreditNpcId] = monster(killCreditNpcId, objective)[killCreditNpcId]
+        local npc = monster(killCreditNpcId, objective)
+        if npc then
+            ret[killCreditNpcId] = npc[killCreditNpcId]
+        end
     end
     return ret
 end
@@ -152,6 +155,7 @@ object = function(objectId, objective)
         Id = objectId,
         Name = name,
         Spawns = spawns,
+        Waypoints = QuestieDB.QueryObjectSingle(objectId, "waypoints") or {},
         Icon = objective.Icon or Questie.ICON_TYPE_OBJECT,
         GetIconScale = _GetIconScaleForObject,
         IconScale = _GetIconScaleForObject(),

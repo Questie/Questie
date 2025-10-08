@@ -9,8 +9,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
 local questFrame, trackerBaseFrame, trackerHeaderFrame
 
@@ -34,50 +34,11 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame:SetScript("OnEnter", TrackerFadeTicker.Unfade)
     questFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
-    local scrollFrameTemplete
-    if Questie.IsWotlk or Questie.IsCata then
-        scrollFrameTemplete = "ScrollFrameTemplate"
-    else
-        scrollFrameTemplete = "UIPanelScrollFrameTemplate"
-    end
-
-    -- ScrollFrame
-    questFrame.ScrollFrame = CreateFrame("ScrollFrame", "TrackedQuestsScrollFrame", questFrame, scrollFrameTemplete)
+    questFrame.ScrollFrame = CreateFrame("ScrollFrame", "TrackedQuestsScrollFrame", questFrame, "ScrollFrameTemplate")
     questFrame.ScrollFrame:SetAllPoints(questFrame)
+    questFrame.ScrollFrame.ScrollBar:Hide()
 
-    if (not Questie.IsWotlk) and (not Questie.IsCata) then
-        local frameName = questFrame.ScrollFrame:GetName()
-        questFrame.ScrollBar = _G[frameName .. "ScrollBar"]
-        questFrame.ScrollBar:ClearAllPoints()
-        questFrame.ScrollBar:SetPoint("TOPRIGHT", questFrame.ScrollUpButton, "BOTTOMRIGHT", -1, 4)
-        questFrame.ScrollBar:SetPoint("BOTTOMRIGHT", questFrame.scrolldownbutton, "TOPRIGHT", -1, -2)
-        questFrame.ScrollBar:SetValueStep(25)
-        questFrame.ScrollBar.scrollStep = 25
-        questFrame.ScrollBar:SetValue(0)
-        questFrame.scrollBarHideable = true
-        questFrame.ScrollBar:Hide()
-
-        questFrame.ScrollUpButton = _G[frameName .. "ScrollBarScrollUpButton"]
-        questFrame.ScrollUpButton:ClearAllPoints()
-        questFrame.ScrollUpButton:SetPoint("TOPRIGHT", questFrame.ScrollFrame, "TOPRIGHT", -4, -1)
-        questFrame.ScrollUpButton:Hide()
-
-        questFrame.ScrollDownButton = _G[frameName .. "ScrollBarScrollDownButton"]
-        questFrame.ScrollDownButton:ClearAllPoints()
-        questFrame.ScrollDownButton:SetPoint("BOTTOMRIGHT", questFrame.ScrollFrame, "BOTTOMRIGHT", -4, -7)
-        questFrame.ScrollDownButton:Hide()
-
-        questFrame.ScrollBg = questFrame.ScrollBar:CreateTexture(nil, "BACKGROUND")
-        questFrame.ScrollBg:SetAllPoints(questFrame.ScrollBar)
-        questFrame.ScrollBg:SetColorTexture(0, 0, 0, 0.75)
-        questFrame.ScrollBg:Hide()
-
-        questFrame.ScrollChildFrame = CreateFrame("Frame", _G[frameName .. "ScrollChildFrame"])
-    else
-        questFrame.ScrollFrame.ScrollBar:Hide()
-        questFrame.ScrollChildFrame = CreateFrame("Frame", "TrackedQuestsScrollChildFrame")
-    end
-
+    questFrame.ScrollChildFrame = CreateFrame("Frame", "TrackedQuestsScrollChildFrame")
     questFrame.ScrollChildFrame:SetSize(questFrame.ScrollFrame:GetWidth(), (questFrame.ScrollFrame:GetHeight()))
 
     questFrame.ScrollFrame:SetScrollChild(questFrame.ScrollChildFrame)
@@ -117,7 +78,7 @@ end
 
 function TrackerQuestFrame.PositionTrackedQuestsFrame()
     local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
-    if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not QuestieTracker:HasQuest()) then
+    if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
         if Questie.db.profile.moveHeaderToBottom then
             -- Move the tracker header to the bottom
             questFrame:SetPoint("BOTTOMLEFT", trackerHeaderFrame, "TOPLEFT", 0, 4)

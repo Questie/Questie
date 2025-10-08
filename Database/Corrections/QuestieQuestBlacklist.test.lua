@@ -1,6 +1,5 @@
 dofile("setupTests.lua")
 
-dofile("Database/Corrections/QuestieCorrections.lua")
 dofile("Database/Corrections/ContentPhases/Anniversary.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
@@ -9,6 +8,10 @@ local QuestieQuestBlacklist = require("Database.Corrections.QuestieQuestBlacklis
 local ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
 
 describe("QuestieQuestBlacklist", function()
+    before_each(function()
+        _G.GetLocale = function() return "enUS" end
+    end)
+
     it("should blacklist SoD quests which are never available", function()
         Questie.IsSoD = true
 
@@ -29,9 +32,25 @@ describe("QuestieQuestBlacklist", function()
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
-        assert.is_nil( questToBlacklist[7877]) -- Phase 2
+        assert.is_false(questToBlacklist[7877]) -- Phase 2
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
-        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
+        assert.is_true(questToBlacklist[8277]) -- Phase 5
+        assert.is_true(questToBlacklist[9085]) -- Phase 6
+    end)
+
+    it("should blacklist Classic Anniversary quests", function()
+        Questie.IsSoM = false
+        Questie.IsSoD = false
+        Questie.IsAnniversary = false
+        Questie.IsAnniversaryHardcore = true
+        ContentPhases.activePhases.Anniversary = 3
+
+        local questToBlacklist = QuestieQuestBlacklist:Load()
+
+        assert.is_false(questToBlacklist[7877]) -- Phase 2
+        assert.is_nil(questToBlacklist[7761]) -- Phase 3
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)
@@ -45,7 +64,7 @@ describe("QuestieQuestBlacklist", function()
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
-        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)

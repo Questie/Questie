@@ -19,7 +19,7 @@ function DebugFunctions.ShowQuestObjectives(questId)
     local quest = QuestieDB.GetQuest(questId)
 
     local objectives = C_QuestLog.GetQuestObjectives(questId)
-    ---@type QuestLogCacheObjectiveData[]
+    ---@type table<string, any>
     local questCacheObjectives = {}
 
     for i, objective in pairs(objectives) do
@@ -48,7 +48,7 @@ function DebugFunctions.ShowQuestObjectives(questId)
         }
     end
 
-    QuestLogCache.questLog_DO_NOT_MODIFY[8961] = {
+    QuestLogCache.questLog_DO_NOT_MODIFY[questId] = {
         title = quest.name,
         isComplete = 0,
         objectives = questCacheObjectives

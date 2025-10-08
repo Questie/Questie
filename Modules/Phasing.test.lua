@@ -712,12 +712,8 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
             assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
 
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[28715]={}}
-            assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
-            assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
-
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
-            Questie.db.char.complete[28715] = true
+            Questie.db.char.complete[28713] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
             assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
         end)
@@ -798,7 +794,7 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ALTAR))
             assert.is_false(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ZIM_TORGA))
 
-            Questie.db.char.complete[12684] = true
+            Questie.db.char.complete[12685] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ALTAR))
             assert.is_true(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ZIM_TORGA))
         end)
@@ -975,6 +971,747 @@ describe("Phasing", function()
             Questie.db.char.complete[27516] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.THORDUN_AT_TREE))
             assert.is_true(Phasing.IsSpawnVisible(phases.THORDUN_IN_KEEP))
+        end)
+    end)
+
+    describe("Sasha in Grizzly Hills", function()
+        it("should return true for Duskhowl Den when 12411 is complete and 12164 is not in the quest log and not complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return true for Duskhowl Den when 12411 is complete and 12164 is in the quest log and not complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return false for Duskhowl Den when 12164 is in the quest log and complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return false for Duskhowl Den when 12164 is complete", function()
+            Questie.db.char.complete[12411] = true
+            Questie.db.char.complete[12164] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_DUSKHOWL_DEN))
+        end)
+
+        it("should return true for Bloodmoon Isle when 12164 is complete", function()
+            Questie.db.char.complete[12164] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return true for Bloodmoon Isle when 12164 is in the quest log and complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return false for Bloodmoon Isle when 12164 is not in the quest log and not complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+
+        it("should return false for Bloodmoon Isle when 12164 is in the quest log and not complete", function()
+            Questie.db.char.complete[12164] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[12164]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SASHA_AT_BLOODMOON_ISLE))
+        end)
+    end)
+
+    describe("Rivett Clutchpop (55521)", function()
+        it("should return true for Nook of Konk when 31779 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Nook of Konk when 31779 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31779]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Stromgarm Airstrip when 31779 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31779] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31779]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+
+        it("should return true for Stromgarm Airstrip when 31779 is complete", function()
+            Questie.db.char.complete[31779] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NOOK_OF_KONK))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_STROGARM_AIRSTRIP))
+        end)
+    end)
+
+    describe("Rivett Clutchpop (56406)", function()
+        it("should return true for Next to Naszgrim when 29937 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29937] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
+        end)
+
+        it("should return true for Next to Naszgrim when 29937 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[29937] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29937]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
+        end)
+
+        it("should return true for Grookin Hill South End when 29937 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[29937] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29937]={isComplete=1}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
+        end)
+
+        it("should return true for Grookin Hill South End when 29937 is complete", function()
+            Questie.db.char.complete[29937] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_NEXT_TO_NAZGRIM))
+            assert.is_true(Phasing.IsSpawnVisible(phases.RIVETT_CLUTCHPOP_GROOKIN_HILL_SOUTH_END))
+        end)
+    end)
+
+    describe("High Elder Cloudfall", function()
+        it("should return true for tower location when 29620 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+
+        it("should return true for banquet location when 29620 is in the quest log and incomplete", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29620]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for banquet location when 29620 is in the quest log and complete", function()
+            Questie.db.char.complete[29620] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29620]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for banquet location when 29624, 29628, 29629, 29630 and 29637 are complete", function()
+            Questie.db.char.complete[29624] = true
+            Questie.db.char.complete[29628] = true
+            Questie.db.char.complete[29629] = true
+            Questie.db.char.complete[29630] = true
+            Questie.db.char.complete[29637] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+        end)
+
+        it("should return true for tower location when 29639, 29646 or 29647 is complete", function()
+            Questie.db.char.complete[29624] = true
+            Questie.db.char.complete[29628] = true
+            Questie.db.char.complete[29629] = true
+            Questie.db.char.complete[29630] = true
+            Questie.db.char.complete[29637] = true
+
+            Questie.db.char.complete[29639] = true
+            Questie.db.char.complete[29646] = false
+            Questie.db.char.complete[29647] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+
+            Questie.db.char.complete[29639] = false
+            Questie.db.char.complete[29646] = true
+            Questie.db.char.complete[29647] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+
+            Questie.db.char.complete[29639] = false
+            Questie.db.char.complete[29646] = false
+            Questie.db.char.complete[29647] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+
+        it("should return true for tower location when 29620 is complete", function()
+            Questie.db.char.complete[29620] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_TOWER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HIGH_ELDER_CLOUDFALL_AT_BANQUET))
+        end)
+    end)
+
+    describe("Malik the Unscathed", function()
+        it("should return true pillar location when 31010 is not complete", function()
+            Questie.db.char.complete[31010] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.MALIK_AT_PILLAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.MALIK_NEXT_TO_ZIKK))
+        end)
+
+        it("should return true pillar location when 31010 is not complete and in the quest log", function()
+            Questie.db.char.complete[31010] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31010]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.MALIK_AT_PILLAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.MALIK_NEXT_TO_ZIKK))
+        end)
+
+        it("should return true for next to Zikk location when 31010 is complete", function()
+            Questie.db.char.complete[31010] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.MALIK_NEXT_TO_ZIKK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.MALIK_AT_PILLAR))
+        end)
+    end)
+
+    describe("Captain Soggy Su-Dao", function()
+        it("should return true for outside location when 31189 is complete", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+        end)
+
+        it("should return true for outside location when 31189 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+        end)
+
+        it("should return true for inside hut location when 31189 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+        end)
+
+        it("should return true for inside hut location when 31189 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+        end)
+
+        it("should return true for dock location when 31190 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+
+        it("should return true for dock location when 31190 is complete", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31190] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SOGGY_AT_DOCK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_OUTSIDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SOGGY_IN_HUT))
+        end)
+    end)
+
+    describe("Deck Boss Arie", function()
+        it("should return true for dock location when 31190 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return true for dock location when 31190 is complete", function()
+            Questie.db.char.complete[31190] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return false for dock location when 31190 is not complete", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+
+        it("should return false for dock location when 31190 is not complete and incomplete in the quest log", function()
+            Questie.db.char.complete[31190] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31190]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.ARIE_AT_DOCK))
+        end)
+    end)
+
+    describe("Master Angler Ju Lien", function()
+        it("should return true for town location when 31189 is not complete and complete in the quest log", function()
+            Questie.db.char.complete[31189] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31189]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+        end)
+
+        it("should return true for town location when 31189 is complete", function()
+            Questie.db.char.complete[31189] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+        end)
+
+        it("should return true for coast location when 31354 is complete", function()
+            Questie.db.char.complete[31189] = true
+            Questie.db.char.complete[31354] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.JU_LIEN_AT_COAST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JU_LIEN_IN_TOWN))
+        end)
+    end)
+
+    describe("Chen Stormstout Dread Wastes (67138)", function()
+        it("should return true for Fear Clutch location when 31077 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31077] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+        end)
+
+        it("should return true for Brewgarden location when 31077 is in the quest log", function()
+            Questie.db.char.complete[31077] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31077]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+        end)
+
+        it("should return true for Brewgarden location when 31077 is complete", function()
+            Questie.db.char.complete[31077] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_AT_FEAR_CLUTCH))
+        end)
+    end)
+
+    describe("Chen Stormstout Dread Wastes (62779)", function()
+        it("should return true for Brewgarden location when 31076 and 31129 are not complete", function()
+            Questie.db.char.complete[31076] = false -- get's flagged complete together with 31129
+            Questie.db.char.complete[31129] = false -- get's flagged complete together with 31076
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Brewgarden location when 31076 is in the quest log", function()
+            Questie.db.char.complete[31076] = false
+            Questie.db.char.complete[31129] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31076]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Brewgarden location when 31129 is in the quest log", function()
+            Questie.db.char.complete[31076] = false
+            Questie.db.char.complete[31129] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31129]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+        end)
+
+        it("should return true for Kor'Vess location when 31078 is in the quest log", function()
+            Questie.db.char.complete[31078] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31078]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+        end)
+
+        it("should return false for both locations when 31078 is complete", function()
+            Questie.db.char.complete[31078] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_INSIDE_KOR_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CHEN_62779_AT_BREWGARDEN))
+        end)
+    end)
+
+    describe("Sapmaster Vu, Olon and Lya of Ten Songs", function()
+        it("should return true for Rikkitun location when 31075 is in the quest log", function()
+            Questie.db.char.complete[31075] = false
+            Questie.db.char.complete[31085] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31075]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+        end)
+
+        it("should return true for Rikkitun location when 31075 is complete", function()
+            Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+        end)
+
+        it("should return true for Brewgarden location when 31075 is not complete and not in the quest log", function()
+            Questie.db.char.complete[31075] = false
+            Questie.db.char.complete[31085] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+        end)
+
+        it("should return true for Brewgarden center location when 31085 is complete in the quest log", function()
+            Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31085]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+        end)
+
+        it("should return true for Brewgarden center location when 31085 is complete", function()
+            Questie.db.char.complete[31075] = true
+            Questie.db.char.complete[31085] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN_CENTER))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_RIKKITUN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SAP_MASTERS_AT_BREWGARDEN))
+        end)
+    end)
+
+    describe("Skeer the Bloodseeker", function()
+        it("should return true for Klaxxi'Vees location when 31179 is complete", function()
+            Questie.db.char.complete[31179] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+        end)
+
+        it("should return true for Klaxxi'Vees location when 31179 is in the quest log and complete", function()
+            Questie.db.char.complete[31179] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[31179]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+        end)
+
+        it("should return true for cave location when 31179 is incomplete", function()
+            Questie.db.char.complete[31179] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SKEER_IN_CAVE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SKEER_AT_KLAXXI_VESS))
+        end)
+    end)
+
+    describe("Shang Thunderfoot", function()
+        it("should return true for fields location when 29918 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is in the quest log", function()
+            Questie.db.char.complete[29918] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29918]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+
+        it("should return true for southern location when 29918 is complete", function()
+            Questie.db.char.complete[29918] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_SOUTH_OF_THUNDERFOOT_FIELDS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SHANG_THUNDERFOOT_AT_THUNDERFOOT_FIELDS))
+        end)
+    end)
+
+    describe("Clever Ashyo", function()
+        it("should return true for Pools of Purity location when 29577 is in the quest log", function()
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[29577]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_NEW_CIFERA))
+        end)
+
+        it("should return true for Pools of Purity location when 29577 is complete", function()
+            Questie.db.char.complete[29577] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_NEW_CIFERA))
+        end)
+
+        it("should return true for New Cifera location when 29577 is not complete and not in the quest log", function()
+            Questie.db.char.complete[29577] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_NEW_CIFERA))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CLEVER_ASHYO_AT_POOLS_OF_PURITY))
+        end)
+    end)
+
+    describe("Lin Tenderpaw", function()
+        it("should return true for Paoquan Hollow location when 29984 is complete", function()
+            Questie.db.char.complete[29984] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+        end)
+
+        it("should return true for east of Stoneplow location when 29984 is incomplete", function()
+            Questie.db.char.complete[29984] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_EAST_OF_STONEPLOW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LIN_TENDERPAW_AT_PAOQUAN_HOLLOW))
+        end)
+    end)
+
+    describe("Hemet Nesingwary and Jr. (58421, 58422)", function()
+        it("should return true for camp location when 30185 is incomplete", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30185 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = false
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30185]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for outside of camp location when 30186 is incomplete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is incomplete and complete in the quest log", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30186]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+
+        it("should return true for camp location when 30186 is complete", function()
+            Questie.db.char.complete[30185] = true
+            Questie.db.char.complete[30186] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HEMETS_AT_CAMP))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HEMETS_OUTSIDE_CAMP))
+        end)
+    end)
+
+    describe("Orbiss", function()
+        it("should return true for Sumprush location when 30793 is incomplete", function()
+            Questie.db.char.complete[30793] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+        end)
+
+        it("should return true for borrow location when 30793 is in the quest log", function()
+            Questie.db.char.complete[30793] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30793]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+        end)
+
+        it("should return true for borrow location when 30793 is complete", function()
+            Questie.db.char.complete[30793] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ORBISS_AT_BORROW))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ORBISS_AT_SUMPRUSH))
+        end)
+    end)
+
+    describe("Ku-Mo", function()
+        it("should return true for bridge location when 30931 and 30932 are incomplete", function()
+            Questie.db.char.complete[30931] = false
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+        end)
+
+        it("should return true for bridge location when 30931 is complete", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+        end)
+
+        it("should return true for temple location when 30932 is in the quest log", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30932]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+        end)
+
+        it("should return true for temple location when 30932 is complete", function()
+            Questie.db.char.complete[30931] = true
+            Questie.db.char.complete[30932] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KU_MO_AT_TEMPLE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KU_MO_AT_BRIDGE))
+        end)
+    end)
+
+    describe("Suna Silentstrike (60684)", function()
+        it("should return true for outpost location when 30769 is incomplete", function()
+            Questie.db.char.complete[30769] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+        end)
+
+        it("should return true for camp osul location when 30769 is in the quest log", function()
+            Questie.db.char.complete[30769] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30769]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+        end)
+
+        it("should return true for temple location when 30769 is complete", function()
+            Questie.db.char.complete[30769] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.SUNA_AT_CAMP_OSUL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SUNA_AT_OUTPOST))
+        end)
+    end)
+
+    describe("General Nazgrim Kun-lai", function()
+        it("should return true for tent location when 30655 is incomplete", function()
+            Questie.db.char.complete[30655] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+        end)
+
+        it("should return true for tent location when 30655 is incomplete in the quest log", function()
+            Questie.db.char.complete[30655] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30655]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+        end)
+
+        it("should return true for outside tent location when 30655 is complete in the quest log", function()
+            Questie.db.char.complete[30655] = false
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[30655]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
+        end)
+
+        it("should return true for outside tent location when 30655 is complete", function()
+            Questie.db.char.complete[30655] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_OUTSIDE_TENT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GENERAL_NAZGRIM_IN_TENT))
         end)
     end)
 end)

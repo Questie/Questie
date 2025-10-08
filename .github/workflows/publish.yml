@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Clone project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 
@@ -60,7 +60,7 @@ jobs:
         run: sh upload-wago.sh ${{github.ref_name}}
 
       - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1
+        uses: nebularg/actions-discord-webhook@v1.0.0
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}

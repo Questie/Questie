@@ -5,6 +5,8 @@ local _EventHandler = {}
 -------------------------
 --Import modules.
 -------------------------
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type AchievementEventHandler
@@ -31,8 +33,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieAuto
-local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@type AutoQuesting
+local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
@@ -57,12 +59,23 @@ local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 local trackerMinimizedByDungeon = false
 
+
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
 
 function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
+
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+        if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+            -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
+            -- Don't use WorldMapFrame:Hide() that will cause taint issues
+            HideUIPanel(WorldMapFrame)
+            tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+        end
+        Questie:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    end)
 end
 
 function EventHandler:RegisterLateEvents()
@@ -83,7 +96,7 @@ function EventHandler:RegisterLateEvents()
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
-        QuestEventHandler:ReputationChange()
+        QuestEventHandler.ReputationChange()
         _EventHandler:ChatMsgCompatFactionChange()
     end)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
@@ -98,8 +111,8 @@ function EventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
-        QuestieAuto.QUEST_FINISHED()
-        if Questie.IsCata then
+        AutoQuesting.OnQuestFinished()
+        if Expansions.Current >= Expansions.Cata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
             -- This is easier, than actually figuring out which events are fired in which order for this logic.
             C_Timer.After(0.5, function()
@@ -107,41 +120,40 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
-    Questie:RegisterEvent("QUEST_ACCEPTED", function(_, ...)
-        QuestEventHandler:QuestAccepted(...)
-        QuestieAuto:QUEST_ACCEPTED(...)
+    Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
+        QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
-    Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
-        QuestieAuto.QUEST_DETAIL(...)
-        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-            QuestieDebugOffer.QuestDialog(...)
-        end
-    end)
-    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", function(...)
-        QuestieAuto.GOSSIP_SHOW(...)
-        QuestgiverFrame.GossipMark(...)
-    end)
-    Questie:RegisterEvent("QUEST_GREETING", function(...)
-        QuestieAuto.QUEST_GREETING(...)
-        QuestgiverFrame.GreetingMark(...)
-    end)
-    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
-        QuestieAuto.QUEST_COMPLETE(...)
+    Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
+        AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
         end
     end)
-    Questie:RegisterEvent("QUEST_REMOVED", QuestEventHandler.QuestRemoved)
-    Questie:RegisterEvent("QUEST_TURNED_IN", QuestEventHandler.QuestTurnedIn)
+    Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
+    Questie:RegisterEvent("GOSSIP_SHOW", function()
+        AutoQuesting.OnGossipShow()
+        QuestgiverFrame.GossipMark()
+    end)
+    Questie:RegisterEvent("QUEST_GREETING", function()
+        AutoQuesting.OnQuestGreeting()
+        QuestgiverFrame.GreetingMark()
+    end)
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
+    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)              -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("QUEST_COMPLETE", function()                               -- When complete window shows
+        AutoQuesting.OnQuestComplete()
+        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
+            QuestieDebugOffer.QuestDialog()
+        end
+    end)
+    Questie:RegisterEvent("QUEST_REMOVED", function(_, questId) QuestEventHandler.QuestRemoved(questId) end)
+    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId) QuestEventHandler.QuestTurnedIn(questId) end)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestEventHandler.QuestLogUpdate)
-    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestEventHandler.QuestWatchUpdate)
-    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", QuestEventHandler.QuestAutoComplete)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", QuestEventHandler.UnitQuestLogChanged)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
+    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
+    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
-    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", QuestEventHandler.PlayerInteractionManagerFrameHide)
+    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
@@ -177,8 +189,63 @@ function EventHandler:RegisterLateEvents()
         end
     end)
 
+    -- Pet Battle Events (MoP onwards)
+    if Expansions.Current >= Expansions.MoP then
+        Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
+                QuestieCombatQueue:Queue(function()
+                    local baseFrame = TrackerBaseFrame.baseFrame
+                    if baseFrame and not baseFrame:IsShown() then
+                        baseFrame:Show()
+                        QuestieTracker:Update()
+                    end
+                end)
+            end
+        end)
+
+        -- Additional pet battle events to handle edge cases
+        Questie:RegisterEvent("PET_BATTLE_PET_CHANGED", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
+            -- Ensure tracker stays hidden during pet changes/deaths
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
+            -- Ensure tracker stays hidden during battle round transitions
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+    end
+
     -- UI Achievement Events
-    if Questie.IsWotlk or Questie.IsCata and Questie.db.profile.trackerEnabled then
+    if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(_, achieveId)
             AchievementEventHandler.AchievementEarned(achieveId)
         end)
@@ -197,15 +264,62 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", AchievementEventHandler.PlayerEquipmentChanged)
     end
 
+    if Expansions.Current >= Expansions.MoP then
+        -- Challenge Mode and Scenario Events
+        Questie:RegisterEvent("CHALLENGE_MODE_START", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_START")
+            QuestieTracker:Update() -- Update the Tracker right away, because players are not infight on start
+        end)
+
+        Questie:RegisterEvent("CHALLENGE_MODE_RESET", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_RESET")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+
+        Questie:RegisterEvent("SCENARIO_CRITERIA_UPDATE", function(_, criteriaIndex)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_CRITERIA_UPDATE")
+            QuestieTracker.UpdateScenarioLines(criteriaIndex)
+            QuestieTracker.UpdateScenarioLines(0) -- Always update 0 index, because that is the trash count
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+
+        Questie:RegisterEvent("SCENARIO_UPDATE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_UPDATE")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+
+        Questie:RegisterEvent("SCENARIO_POI_UPDATE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_POI_UPDATE")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+    end
+
     -- Questie Debug Offer
     if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
     end
 
-    if Questie.IsCata and Questie.db.profile.trackerEnabled then
+    if Expansions.Current >= Expansions.Cata and Questie.db.profile.trackerEnabled then
        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
+        end)
+    end
+
+    if Expansions.Current >= Expansions.MoP then
+        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
     end
 
@@ -329,7 +443,7 @@ function _EventHandler:MapExplorationUpdated()
     end
 
     -- Exploratory based Achievement updates
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -342,16 +456,10 @@ function _EventHandler:PlayerLevelUp(level)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
-
-    -- deferred update (possible desync fix?)
-    C_Timer.After(3, function()
-        QuestiePlayer:SetPlayerLevel(level)
-
-        AvailableQuests.ResetLevelRequirementCache()
-        AvailableQuests.CalculateAndDrawAll()
-    end)
-
     QuestieJourney:PlayerLevelUp(level)
+
+    AvailableQuests.ResetLevelRequirementCache()
+    AvailableQuests.CalculateAndDrawAll()
 end
 
 --- Fires when a modifier key changed
@@ -440,7 +548,7 @@ function _EventHandler:ChatMsgSkill()
     end
 
     -- Skill based Achievement updates
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)

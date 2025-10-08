@@ -5,6 +5,8 @@ local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -19,7 +21,7 @@ function TrackerQuestTimers:Initialize()
         return
     end
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         QuestTimerFrame:HookScript("OnShow", function()
             if Questie.db.profile.showBlizzardQuestTimer then
                 TrackerQuestTimers:ShowBlizzardTimer()
@@ -30,7 +32,7 @@ function TrackerQuestTimers:Initialize()
     end
 
     -- Pre-Classic WotLK
-    if (not Questie.IsWotlk) and (not Questie.IsCata) then
+    if Expansions.Current <= Expansions.Tbc then
         C_Timer.NewTicker(1, function()
             TrackerQuestTimers:UpdateTimerFrame()
         end)
@@ -99,29 +101,20 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil
     end
 
-    if type(questTimers) == "number" then
-        local currentQuestLogSelection = GetQuestLogSelection()
-        SelectQuestLogEntry(questLogIndex)
-        -- We can't use GetQuestTimers because we don't know for which quest the timer is.
-        -- GetQuestLogTimeLeft returns the correct value though.
-        local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
-        SelectQuestLogEntry(currentQuestLogSelection)
+    local currentQuestLogSelection = GetQuestLogSelection()
+    SelectQuestLogEntry(questLogIndex)
+    -- We can't use GetQuestTimers because we don't know for which quest the timer is.
+    -- GetQuestLogTimeLeft returns the correct value though.
+    local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
+    SelectQuestLogEntry(currentQuestLogSelection)
 
-        if timeRemaining ~= nil then
-            local timeRemainingString = SecondsToTime(timeRemaining, false, true)
+    if timeRemaining ~= nil then
+        local timeRemainingString = SecondsToTime(timeRemaining, false, true)
 
-            if not strfind(timeRemainingString, "Seconds?") then
-                timeRemainingString = timeRemainingString .. " 0 Seconds"
-            end
-            return timeRemainingString, timeRemaining
-        else
-            return nil
-        end
+        return timeRemainingString, timeRemaining
     else
-        Questie:Error("The return value of GetQuestTimers is not number, something is off. Please report this!")
+        return nil
     end
-
-    return nil
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
@@ -132,7 +125,7 @@ function TrackerQuestTimers:UpdateTimerFrame()
 
             QuestieCombatQueue:Queue(function()
                 timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
-                timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
+                timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
                 timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)
             end)
         else
@@ -141,3 +134,5 @@ function TrackerQuestTimers:UpdateTimerFrame()
         end
     end
 end
+
+return TrackerQuestTimers

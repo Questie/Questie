@@ -2,6 +2,8 @@
 local Migration = QuestieLoader:CreateModule("Migration")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
@@ -17,7 +19,7 @@ local migrationFunctions = {
     [2] = function()
         -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
         local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
-        if (not Questie.IsWotlk) and (not Questie.IsCata) and
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
             objectiveSound == "Explosion" or
             objectiveSound == "Shing!" or
             objectiveSound == "Wham!" or
@@ -30,7 +32,7 @@ local migrationFunctions = {
         end
 
         local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
-        if (not Questie.IsWotlk) and (not Questie.IsCata) and
+        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
             progressSound == "Explosion" or
             progressSound == "Shing!" or
             progressSound == "Wham!" or
@@ -72,6 +74,37 @@ local migrationFunctions = {
     end,
     [7] = function()
         Questie.db.profile.tutorialShowRunesDone = false
+    end,
+    [8] = function()
+        if Questie.IsSoD then
+            Questie.db.profile.showAQWarEffortQuests = true
+        end
+    end,
+    [9] = function()
+        Questie.db.profile.autoAccept = {
+            enabled = Questie.db.profile.autoaccept,
+            trivial = Questie.db.profile.acceptTrivial,
+            repeatable = true,
+        }
+        Questie.db.profile.autoaccept = nil
+        Questie.db.profile.acceptTrivial = nil
+    end,
+    [10] = function()
+        -- The previous release had the default value set to "true", which was incorrect.
+        Questie.db.profile.autoAccept.enabled = false
+    end,
+    [11] = function()
+        Questie.db.profile.autoAccept.pvp = true
+    end,
+    [12] = function()
+        Questie.db.profile.autoAccept.rejectSharedInBattleground = false
+        Questie.db.profile.tutorialRejectInBattlegroundsDone = false
+    end,
+    [13] = function()
+        Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
+    end,
+    [14] = function()
+        Questie.db.profile.hideTrackerInPetBattles = true
     end,
 }
 

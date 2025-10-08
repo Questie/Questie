@@ -38,7 +38,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     end,
     SetQuest = function(self, id)
         self.questID = id
-        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false, true))
+        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false))
 
         -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = l10n("Yes")
@@ -80,6 +80,7 @@ function QuestieFramePool:GetFrame()
         returnFrame._show = nil
         returnFrame._hide = nil
     end
+    returnFrame.isManualIcon = false
     returnFrame.FadeLogic = nil
     returnFrame.faded = nil
     returnFrame.miniMapIcon = nil

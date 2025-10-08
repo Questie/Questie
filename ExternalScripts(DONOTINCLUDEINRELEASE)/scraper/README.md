@@ -18,3 +18,13 @@ Currently, it is only used to scrape SoD related data.
      
 4. For additional commands and utilities run:
    - `python runner.py -h` 
+
+## Generate new translations
+
+To update the lookup files with the latest translations, the runner has multiple `*-translations` arguments. These will scrape translations for all locales available on wowhead, format them and merge them with the existing lookup files.
+
+One **exception** are items. The names of them are already available in the client files and get be grabbed from the `ItemSparse.dbc` file (e.g. https://wago.tools/db2/ItemSparse?build=5.5.0.61916&locale=deDE).
+
+1. Grab all locale files and place them in `item/translations/data/`
+2. Adjust `PATCH_VERSION` in the `item_csv_to_lookups.py` script to read the correct patch version of the CSV files.
+3. Run the script with `python item_csv_to_lookups.py` to generate the lookups.

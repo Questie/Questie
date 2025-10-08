@@ -1,5 +1,5 @@
 ---@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.myJourney = {}
 _QuestieJourney.notePopup = nil
@@ -21,7 +21,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
 
-        journeyTreeFrame.treeframe:SetWidth(220);
+        journeyTreeFrame.treeframe:SetWidth(415);
 
         local journeyTree = _QuestieJourney:GetHistory();
         journeyTreeFrame:SetTree(journeyTree);
@@ -57,7 +57,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 local entry = Questie.db.char.journey[tonumber(e)];
                 local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date('%w', entry.Timestamp)) + 1 ];
                 local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date('%m', entry.Timestamp)) ];
-                local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'blue');
+                local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
                     header:SetText(l10n('Note: %s', entry.Title));
@@ -102,7 +102,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                         local obj = AceGUI:Create("Label");
                         obj:SetFullWidth(true);
-                        obj:SetText(_QuestieJourney:CreateObjectiveText(quest.Description));
+                        obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description));
                         f:AddChild(obj);
                     end
 

@@ -12,13 +12,13 @@
 ---------------------------------------------------------------------------
 
 local DT = {};
-DEVTOOLS_MAX_ENTRY_CUTOFF = 30;    -- Maximum table entries shown
-DEVTOOLS_LONG_STRING_CUTOFF = 200; -- Maximum string size shown
-DEVTOOLS_DEPTH_CUTOFF = 10;        -- Maximum table depth
-DEVTOOLS_USE_TABLE_CACHE = true;   -- Look up table names
-DEVTOOLS_USE_FUNCTION_CACHE = true;-- Look up function names
-DEVTOOLS_USE_USERDATA_CACHE = true;-- Look up userdata names
-DEVTOOLS_INDENT='  ';              -- Indentation string
+local DEVTOOLS_MAX_ENTRY_CUTOFF = 30;    -- Maximum table entries shown
+local DEVTOOLS_LONG_STRING_CUTOFF = 200; -- Maximum string size shown
+local DEVTOOLS_DEPTH_CUTOFF = 10;        -- Maximum table depth
+local DEVTOOLS_USE_TABLE_CACHE = true;   -- Look up table names
+local DEVTOOLS_USE_FUNCTION_CACHE = true;-- Look up function names
+local DEVTOOLS_USE_USERDATA_CACHE = true;-- Look up userdata names
+local DEVTOOLS_INDENT='  ';              -- Indentation string
 local DEVTOOLS_TYPE_COLOR="";
 local DEVTOOLS_TABLEREF_COLOR="";
 local DEVTOOLS_CUTOFF_COLOR="";
@@ -87,7 +87,6 @@ local function prepSimple(val, context)
 		else
 			return string_format(FORMATS.opaqueTypeKey, valType);
 		end
-		return string_format(FORMATS.opaqueTypeKey, valType);
 	elseif (valType == "userdata") then
 		local uName = context:GetUserdataName(val);
 		if (uName) then
@@ -292,7 +291,7 @@ local function Pick_Cache_Function(func, setting)
 		return DevTools_Cache_Nil;
 	end
 end
-function DevTools_RunDump(value, context)
+local function DevTools_RunDump(value, context)
 	local prefix = "";
 	local firstPrefix = prefix;
 	local valType = type(value);
@@ -327,7 +326,7 @@ function DevTools_Dump(value, startKey)
 	context.Write = DevTools_Write;
 	DevTools_RunDump(value, context);
 end
-function DevTools_DumpCommand(msg, editBox)
+local function DevTools_DumpCommand(msg, editBox)
 
 	if (string_match(msg,"^[A-Za-z_][A-Za-z0-9_]*$")) then
 		WriteMessage("Dump: " .. msg);

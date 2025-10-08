@@ -194,7 +194,6 @@ local questsToBlacklistByPhase = {
         [8801] = true, -- C'Thun's Legacy
     },
     [7] = { -- SoD Phase 7 == Era Phase 6: Naxxramas
-        [9085] = true,
         [9142] = true,
         [9165] = true,
         [9141] = true,
@@ -271,7 +270,6 @@ local questsToBlacklistByPhase = {
         [9116] = true,
         [9117] = true,
         [9118] = true,
-        [9120] = true,
         [9121] = true,
         [9122] = true,
         [9123] = true,
@@ -285,20 +283,17 @@ local questsToBlacklistByPhase = {
         [9132] = true,
         [9136] = true,
         [9137] = true,
-        [9153] = true,
+        [9154] = true,
+        [9260] = true,
+        [9261] = true,
+        [9262] = true,
+        [9263] = true,
+        [9264] = true,
+        [9265] = true,
         [9211] = true,
         [9213] = true,
-        [9221] = true,
-        [9222] = true,
-        [9223] = true,
-        [9224] = true,
-        [9225] = true,
-        [9226] = true,
-        [9227] = true,
-        [9228] = true,
         [9229] = true,
         [9230] = true,
-        [9232] = true,
         [9233] = true,
         [9234] = true,
         [9235] = true,
@@ -317,6 +312,22 @@ local questsToBlacklistByPhase = {
         [9251] = true,
         -- Silithus/EPL PvP
         [9248] = true,
+        [87360] = true, -- The Fall of Kel'Thuzad
+        [87361] = true, -- Laid to Rest
+        [87362] = true, -- Hope Begins in the Dark
+        [87364] = true, -- Seal the Deal
+        [88721] = true, -- Superior Armaments of Battle - Friend of the Dawn
+        [88722] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+        [88723] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+        [88724] = true, -- Superior Armaments of Battle - Exalted Amongst the Dawn
+        [88725] = true, -- Epic Armaments of Battle - Friend of the Dawn
+        [88726] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+        [88727] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+        [88728] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
+        [88730] = true, -- The Only Song I Know...
+        [88744] = true, -- Under the Shadow
+        [88745] = true, -- Shadows of Doom
+        [88748] = true, -- Cracked Necrotic Crystal
     },
     [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
@@ -325,6 +336,9 @@ local questsToBlacklistByPhase = {
         [2849] = true, -- Wild Leather Vest - Replaced by 82657
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
         [2881] = true, -- Troll Necklace Bounty - Replaced by 82210
+        [2950] = true, -- Nogg's Ring Redo - Replaced by 80141
+        [3446] = true, -- Into the Depths - Replaced by 82096
+        [4146] = true, -- Zapper Fuel - Replcaed by 82101
         [4148] = true, -- Bloodpetal Zapper
         [5283] = true, -- The Art of the Armorsmith -- Replaced by 85713
         [5301] = true, -- The Art of the Armorsmith -- Replaced by 85712
@@ -352,12 +366,18 @@ local questsToBlacklistByPhase = {
         [7785] = true, -- Examine the Vessel - Replaced by 85442
         [7786] = true, -- Thunderaan the Windseeker - Replaced by 85441
         [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
-        [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
+        [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons) - Replaced by 86679
+        [8447] = true, -- Waking Legends (Emerald Dream Dragons) - Replaced by 86680
         [8620] = true, -- The Only Prescription - Replaced by 86444
         [9023] = true, -- The Perfect Poison - Replaced by 86674
         [8729] = true, -- The Wrath of Neptulon - Replaced by 86445
         [8730] = true, -- Nefarius's Corruption - Replaced by 86442
         [8736] = true, -- The Nightmare Manifests - Replaced by 86443
+        [8745] = true, -- Treasure of the Timeless One - Replaced by 86449
+        [8791] = true, -- The Fall of Ossirian - Replaced by 86673
+        [8802] = true, -- The Savior of Kalimdor - Replaced by 86670
+        [85643] = true, -- The Lord of Blackrock - Replaced by 88969
+        [85644] = true, -- The Lord of Blackrock - Replaced by 88968
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -399,6 +419,7 @@ local questsToBlacklistByPhase = {
         [4604] = true,
         [4605] = true,
         [4606] = true,
+        [81975] = true, -- Never was made available as it seems
 
         -- Original Sunken Temple quests (instance reworked to raid, new quest IDs)
         [1445] = true,
@@ -446,16 +467,6 @@ local questsToBlacklistByPhase = {
         [8190] = true, -- Hoodoo Hex - Replaced by 85599
         [8191] = true, -- Prophetic Aura - Replaced by 85598
         [8192] = true, -- Animist's Caress - Replaced by 85602
-
-        -- Events - These might not be re-added at level 60
-        [6963] = true, -- Old "Stolen Winter Veil Treats" quest
-        [6983] = true, -- Old "You're a Mean One..." quest
-        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [7042] = true, -- Old "Stolen Winter Veil Treats" quest
-        [7043] = true, -- Old "You're a Mean One..." quest
-        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [8746] = true, -- Old "Metzen the Reindeer" quest
-        [8762] = true, -- Old "Metzen the Reindeer" quest
 
         -- Old T0.5 exchange quests
         [8905] = true, -- An Earnest Proposition
@@ -590,6 +601,12 @@ local questsToBlacklistByPhase = {
         [8572] = true, -- Veteran's Battlegear - Replaced by 86676
         [8573] = true, -- Champion's Battlegear - Replaced by 86677
         [8574] = true, -- Stalwart's Battlegear - Replaced by 86678
+        [8792] = true, -- The Horde Needs Your Help!
+        [8793] = true, -- The Horde Needs Your Help!
+        [8794] = true, -- The Horde Needs Your Help!
+        [8795] = true, -- The Alliance Needs Your Help!
+        [8796] = true, -- The Alliance Needs Your Help!
+        [8797] = true, -- The Alliance Needs Your Help!
 
         -- AQ Raid quests
         [8789] = true, -- Imperial Qiraji Armaments - Replaced by 86672
@@ -603,6 +620,170 @@ local questsToBlacklistByPhase = {
         [81727] = true, -- Recover Incursion Field Report: Ashenvale
         [81728] = true, -- Recover Incursion Field Report: Hinterlands
         [81729] = true, -- Recover Incursion Field Report: Feralas
+
+        -- AQ Brood of Nozdormu Rings (replaced with vendor)
+        [8747] = true, -- The Path of the Protector
+        [8748] = true, -- The Path of the Protector
+        [8749] = true, -- The Path of the Protector
+        [8750] = true, -- The Path of the Protector
+        [8751] = true, -- The Protector of Kalimdor
+        [8752] = true, -- The Path of the Conqueror
+        [8753] = true, -- The Path of the Conqueror
+        [8754] = true, -- The Path of the Conqueror
+        [8755] = true, -- The Path of the Conqueror
+        [8756] = true, -- The Qiraji Conqueror
+        [8757] = true, -- The Path of the Invoker
+        [8758] = true, -- The Path of the Invoker
+        [8759] = true, -- The Path of the Invoker
+        [8760] = true, -- The Path of the Invoker
+        [8761] = true, -- The Grand Invoker
+        [8764] = true, -- The Changing of Paths - Protector No More
+        [8765] = true, -- The Changing of Paths - Invoker No More
+        [8766] = true, -- The Changing of Paths - Conqueror No More
+
+        -- AQ Tier 2.5 Gear (replaced with vendor)
+        [8556] = true, -- Signet of Unyielding Strength
+        [8557] = true, -- Drape of Unyielding Strength
+        [8558] = true, -- Sickle of Unyielding Strength
+        [8689] = true, -- Shroud of Infinite Wisdom
+        [8690] = true, -- Cloak of the Gathering Storm
+        [8691] = true, -- Drape of Vaulted Secrets
+        [8692] = true, -- Cloak of Unending Life
+        [8693] = true, -- Cloak of Veiled Shadows
+        [8694] = true, -- Shroud of Unspoken Names
+        [8695] = true, -- Cape of Eternal Justice
+        [8696] = true, -- Cloak of the Unseen Path
+        [8697] = true, -- Ring of Infinite Wisdom
+        [8698] = true, -- Ring of the Gathering Storm
+        [8699] = true, -- Band of Vaulted Secrets
+        [8700] = true, -- Band of Unending Life
+        [8701] = true, -- Band of Veiled Shadows
+        [8702] = true, -- Ring of Unspoken Names
+        [8703] = true, -- Ring of Eternal Justice
+        [8704] = true, -- Signet of the Unseen Path
+        [8705] = true, -- Gavel of Infinite Wisdom
+        [8706] = true, -- Hammer of the Gathering Storm
+        [8707] = true, -- Blade of Vaulted Secrets
+        [8708] = true, -- Mace of Unending Life
+        [8709] = true, -- Dagger of Veiled Shadows
+        [8710] = true, -- Kris of Unspoken Names
+        [8711] = true, -- Blade of Eternal Justice
+        [8712] = true, -- Scythe of the Unseen Path
+
+        -- Original Naxxramas quests
+        [9120] = true, -- The Fall of Kel'Thuzad - Replaced by 87360
+        [9230] = true, -- Ramaladni's Icy Grasp - Replaced by 88729
+        [9232] = true, -- The Only Song I Know... - Replaced by 88730
+
+        -- Invasion quests
+        [9094] = true, -- Argent Dawn Gloves
+        [9085] = true, -- Shadows of Doom
+        [9153] = true, -- Under the Shadow
+        [9292] = true, -- Cracked Necrotic Crystal
+        [9310] = true, -- Faint Necrotic Crystal
+        [9318] = true, -- Blessed Wizard Oil
+        [9317] = true, -- Consecrated Sharpening Stones
+        [9333] = true, -- Argent Dawn Gloves
+        [9334] = true, -- Blessed Wizard Oil
+        [9335] = true, -- Consecrated Sharpening Stones
+
+        [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
+        [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn
+        [9223] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+        [9224] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+        [9225] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+        [9226] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+        [9227] = true, -- Superior Armaments of Battle - Exalted Amongst the Dawn
+        [9228] = true, -- Epic Armaments of Battle - Exalted Amongst the Dawn
+
+        [78506] = true, -- Elemental Distress - Replaced by 85772
+
+        [88713] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88714] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88715] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88716] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88717] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+        [88718] = true, -- Never at Rest - Same as 87377 but in a different catch-up version
+
+        -- Tier 3 quests
+        [9034] = true, -- Warrior
+        [9036] = true, -- Warrior
+        [9037] = true, -- Warrior
+        [9038] = true, -- Warrior
+        [9039] = true, -- Warrior
+        [9040] = true, -- Warrior
+        [9041] = true, -- Warrior
+        [9042] = true, -- Warrior
+        [9043] = true, -- Paladin
+        [9044] = true, -- Paladin
+        [9045] = true, -- Paladin
+        [9046] = true, -- Paladin
+        [9047] = true, -- Paladin
+        [9048] = true, -- Paladin
+        [9049] = true, -- Paladin
+        [9050] = true, -- Paladin
+        [9054] = true, -- Hunter
+        [9055] = true, -- Hunter
+        [9056] = true, -- Hunter
+        [9057] = true, -- Hunter
+        [9058] = true, -- Hunter
+        [9059] = true, -- Hunter
+        [9060] = true, -- Hunter
+        [9061] = true, -- Hunter
+        [9068] = true, -- Shaman
+        [9069] = true, -- Shaman
+        [9070] = true, -- Shaman
+        [9071] = true, -- Shaman
+        [9072] = true, -- Shaman
+        [9073] = true, -- Shaman
+        [9074] = true, -- Shaman
+        [9075] = true, -- Shaman
+        [9077] = true, -- Rogue
+        [9078] = true, -- Rogue
+        [9079] = true, -- Rogue
+        [9080] = true, -- Rogue
+        [9081] = true, -- Rogue
+        [9082] = true, -- Rogue
+        [9083] = true, -- Rogue
+        [9084] = true, -- Rogue
+        [9086] = true, -- Druid
+        [9087] = true, -- Druid
+        [9088] = true, -- Druid
+        [9089] = true, -- Druid
+        [9090] = true, -- Druid
+        [9091] = true, -- Druid
+        [9092] = true, -- Druid
+        [9093] = true, -- Druid
+        [9095] = true, -- Mage
+        [9096] = true, -- Mage
+        [9097] = true, -- Mage
+        [9098] = true, -- Mage
+        [9099] = true, -- Mage
+        [9100] = true, -- Mage
+        [9101] = true, -- Mage
+        [9102] = true, -- Mage
+        [9103] = true, -- Warlock
+        [9104] = true, -- Warlock
+        [9105] = true, -- Warlock
+        [9106] = true, -- Warlock
+        [9107] = true, -- Warlock
+        [9108] = true, -- Warlock
+        [9109] = true, -- Warlock
+        [9110] = true, -- Warlock
+        [9111] = true, -- Priest
+        [9112] = true, -- Priest
+        [9113] = true, -- Priest
+        [9114] = true, -- Priest
+        [9115] = true, -- Priest
+        [9116] = true, -- Priest
+        [9117] = true, -- Priest
+        [9118] = true, -- Priest
+
+        -- Atiesh
+        [9257] = true,
+        [9269] = true,
+        [9270] = true,
+        [9271] = true,
     },
 }
 

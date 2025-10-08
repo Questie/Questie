@@ -2,6 +2,8 @@
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -60,8 +62,10 @@ function QuestieProfessions:Update()
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
 
+    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
+    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
     for i=1, GetNumSkillLines() do
-        if i > 14 then break; end -- We don't have to go through all the weapon skills
+        if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
         if (not isHeader) and professionTable[skillName] then
@@ -72,17 +76,19 @@ function QuestieProfessions:Update()
     for professionId, _ in pairs(temporaryPlayerProfessions) do
         if not playerProfessions[professionId] then
             Questie:Debug(Questie.DEBUG_DEVELOP, "New profession: " .. temporaryPlayerProfessions[professionId][1])
-            -- This is kept here for legacy support, even though it's not really true...
             hasProfessionUpdate = true
-            -- A new profession was learned
             hasNewProfession = true
 
             --? Reset all autoBlacklisted quests if a new skill is learned
             QuestieQuest.ResetAutoblacklistCategory("skill")
-        elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] and(temporaryPlayerProfessions[professionId][2] % 5 == 0) then
-            -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
-            Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
-            hasProfessionUpdate = true -- A profession leveled up, not something like "Defense"
+        else
+            local oldRank = playerProfessions[professionId][2]
+            local newRank = temporaryPlayerProfessions[professionId][2]
+            if newRank > oldRank and (math.floor(oldRank / 5) ~= math.floor(newRank / 5)) then
+                -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
+                Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. oldRank .. " -> " .. newRank)
+                hasProfessionUpdate = true
+            end
         end
     end
     playerProfessions = temporaryPlayerProfessions
@@ -315,3 +321,5 @@ alternativeProfessionNames = {
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
 }
+
+return QuestieProfessions

@@ -3,8 +3,8 @@ local TrackerFadeTicker = QuestieLoader:CreateModule("TrackerFadeTicker")
 -------------------------
 --Import QuestieTracker modules.
 -------------------------
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 
@@ -110,14 +110,14 @@ function TrackerFadeTicker.Start()
 end
 
 function TrackerFadeTicker.Unfade()
-    if QuestieTracker:HasQuest() then
+    if TrackerUtils.HasQuest() then
         fadeTickerDirection = true
         TrackerFadeTicker.Start()
     end
 end
 
 function TrackerFadeTicker.Fade()
-    if QuestieTracker:HasQuest() then
+    if TrackerUtils.HasQuest() then
         fadeTickerDirection = false
         TrackerFadeTicker.Start()
     end

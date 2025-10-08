@@ -18,8 +18,8 @@ describe("ContentPhases", function()
 
             assert.is_true(questToBlacklist[7761]) -- Phase 3
             assert.is_true(questToBlacklist[8411]) -- Phase 4
-            assert.is_true(questToBlacklist[8905]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[8286]) -- Phase 5
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 2", function()
@@ -27,17 +27,17 @@ describe("ContentPhases", function()
 
             assert.is_true(questToBlacklist[7761]) -- Phase 3
             assert.is_true(questToBlacklist[8411]) -- Phase 4
-            assert.is_true(questToBlacklist[8905]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[8286]) -- Phase 5
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 3", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 3)
 
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
-            assert.is_true(questToBlacklist[8411]) -- Phase 4
-            assert.is_true(questToBlacklist[8905]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_nil(questToBlacklist[8411]) -- Phase 3
+            assert.is_true(questToBlacklist[8286]) -- Phase 5
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 4", function()
@@ -45,8 +45,8 @@ describe("ContentPhases", function()
 
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_nil(questToBlacklist[8411]) -- Phase 4
-            assert.is_true(questToBlacklist[8905]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[8286]) -- Phase 5
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 5", function()
@@ -54,8 +54,8 @@ describe("ContentPhases", function()
 
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_nil(questToBlacklist[8411]) -- Phase 4
-            assert.is_nil(questToBlacklist[8905]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_nil(questToBlacklist[8286]) -- Phase 5
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 6", function()
@@ -72,7 +72,7 @@ describe("ContentPhases", function()
             assert.is_true(questToBlacklist[7761]) -- Phase 3
             assert.is_true(questToBlacklist[8411]) -- Phase 4
             assert.is_true(questToBlacklist[8277]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 2", function()
@@ -81,7 +81,7 @@ describe("ContentPhases", function()
             assert.is_true(questToBlacklist[7761]) -- Phase 3
             assert.is_true(questToBlacklist[8411]) -- Phase 4
             assert.is_true(questToBlacklist[8277]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 3", function()
@@ -90,7 +90,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_true(questToBlacklist[8411]) -- Phase 4
             assert.is_true(questToBlacklist[8277]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 4", function()
@@ -99,7 +99,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_nil(questToBlacklist[8411]) -- Phase 4
             assert.is_true(questToBlacklist[8277]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 5", function()
@@ -108,7 +108,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_nil(questToBlacklist[8411]) -- Phase 4
             assert.is_nil(questToBlacklist[8277]) -- Phase 5
-            assert.is_true(questToBlacklist[9085]) -- Phase 6
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 6", function()
@@ -126,7 +126,7 @@ describe("ContentPhases", function()
             assert.is_true(questToBlacklist[2847]) -- Phase 3
             assert.is_true(questToBlacklist[4788]) -- Phase 5
             assert.is_true(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -137,7 +137,7 @@ describe("ContentPhases", function()
             assert.is_true(questToBlacklist[2847]) -- Phase 3
             assert.is_true(questToBlacklist[4788]) -- Phase 5
             assert.is_true(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -148,7 +148,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[2847]) -- Phase 3
             assert.is_true(questToBlacklist[4788]) -- Phase 5
             assert.is_true(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -159,7 +159,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[2847]) -- Phase 3
             assert.is_true(questToBlacklist[4788]) -- Phase 5
             assert.is_true(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -170,7 +170,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[2847]) -- Phase 3
             assert.is_nil(questToBlacklist[4788]) -- Phase 5
             assert.is_true(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -181,7 +181,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[2847]) -- Phase 3
             assert.is_nil(questToBlacklist[4788]) -- Phase 5
             assert.is_nil(questToBlacklist[8286]) -- Phase 6
-            assert.is_true(questToBlacklist[9085]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
 
@@ -192,7 +192,7 @@ describe("ContentPhases", function()
             assert.is_nil(questToBlacklist[2847]) -- Phase 3
             assert.is_nil(questToBlacklist[4788]) -- Phase 5
             assert.is_nil(questToBlacklist[8286]) -- Phase 6
-            assert.is_nil(questToBlacklist[9085]) -- Phase 7
+            assert.is_nil(questToBlacklist[9250]) -- Phase 7
             assert.is_true(questToBlacklist[1203]) -- Never available
         end)
     end)

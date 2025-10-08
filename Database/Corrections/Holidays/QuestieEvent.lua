@@ -62,6 +62,8 @@ _QuestieEvent.eventNamesForQuests = {}
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type l10n
@@ -107,7 +109,7 @@ function QuestieEvent:Load()
         endMonth = tonumber(endMonth)
 
         if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
-            print(Questie:Colorize("[Questie]", "yellow"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
             activeEvents[eventName] = true
         end
     end
@@ -130,8 +132,8 @@ function QuestieEvent:Load()
         _QuestieEvent.eventNamesForQuests[questId] = eventName
 
         if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-
-            if ((not questData[5]) or (Questie.IsClassic and questData[5] == QuestieCorrections.CLASSIC_HIDE)) then
+            local hideQuest = questData[5]
+            if (not hideQuest) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -139,7 +141,7 @@ function QuestieEvent:Load()
     end
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if Questie.IsClassic then
+    if Questie.IsClassic and (((not Questie.IsAnniversary) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then
         _LoadDarkmoonFaire()
     end
 
@@ -147,7 +149,6 @@ function QuestieEvent:Load()
     QuestieEvent.eventQuests = nil
 end
 
----@param dayOfMonth number
 ---@return boolean
 _GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
@@ -261,7 +262,8 @@ _LoadDarkmoonFaire = function()
     QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
-        if questData[1] == "Darkmoon Faire" and ((not questData[5]) or (not Questie.IsSoD) or questData[5] ~= QuestieCorrections.SOD_HIDE) then
+        local hideQuest = questData[5]
+        if questData[1] == "Darkmoon Faire" and (not hideQuest) then
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
@@ -273,7 +275,7 @@ _LoadDarkmoonFaire = function()
         end
     end
 
-    print(Questie:Colorize("[Questie]", "yellow"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
 end
 
 --- Checks wheather the current date is within the given date range
@@ -286,8 +288,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
-    local day = date.day or date.monthDay
+    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
+    local day = date.monthDay or date.day
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
         and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
@@ -313,21 +315,20 @@ local isChinaRegion = GetCurrentRegion() == 5
 
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
-    ["Lunar Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "3/2",
-        endDate = "24/2"
+    ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+        startDate = "03/2",
+        endDate = "16/2"
     },
-    ["Love is in the Air"] = {startDate = "05/2", endDate = "19/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "31/3",
-        endDate = "6/4"
+        startDate = "20/4",
+        endDate = "26/4"
     },
-    ["Children's Week"] = {startDate = "1/5", endDate = "15/5"}, -- TODO: Usually it is only a week long
+    ["Children's Week"] = {startDate = "28/4", endDate = "12/5"}, -- TODO: Usually it is only a week long
     ["Midsummer"] = (isChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "13/9",
-        endDate = "19/9"
+        startDate = "2/10",
+        endDate = "8/10"
     },
     ["Pilgrim's Bounty"] = {startDate = "26/11", endDate = "2/12"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
@@ -356,8 +357,10 @@ QuestieEvent.lunarFestival = {
     -- Below are estimates
     ["23"] = {startDate = "20/1", endDate = "10/2"},
     ["24"] = {startDate = "3/2", endDate = "23/2"},
-    ["25"] = {startDate = "29/1", endDate = "12/2"},
+    ["25"] = {startDate = "28/1", endDate = "17/2"},
     ["26"] = {startDate = "17/2", endDate = "3/3"},
     ["27"] = {startDate = "7/2", endDate = "21/2"},
     ["28"] = {startDate = "27/1", endDate = "10/2"}
 }
+
+return QuestieEvent

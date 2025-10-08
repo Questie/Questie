@@ -4,6 +4,7 @@
     <Script file="ExtraObjectives\SeasonObjectives.lua"/>
     <Script file="ExtraObjectives\TbcObjectives.lua"/>
     <Script file="ExtraObjectives\WotlkObjectives.lua"/>
+    <Script file="ExtraObjectives\MopObjectives.lua"/>
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
@@ -31,10 +32,13 @@
     <Script file="Zones\Kalimdor.lua"/>
     <Script file="Zones\Outland.lua"/>
     <Script file="Zones\Northrend.lua"/>
+    <Script file="Zones\Cataclysm.lua"/>
     <Script file="Zones\TheMaelstrom.lua"/>
+    <Script file="Zones\Pandaria.lua"/>
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
 
+    <Script file="AutoQuesting.lua"/>
     <Script file="Classes.lua"/>
     <Script file="Comms.lua"/>
     <Script file="DebugMessages.lua"/>

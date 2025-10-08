@@ -17,6 +17,8 @@ local GetMinimapZoneText = GetMinimapZoneText;
 local IsInInstance = IsInInstance;
 local format = format;
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 
 local function GetMapTitleText()
     local regions = {WorldMapFrame.BorderFrame:GetRegions()}

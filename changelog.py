@@ -65,6 +65,7 @@ def get_sorted_categories(git_log):
 
     for line in git_log:
         for key in categories.keys():
+            line = line.strip()
             if line.startswith(f'[{key}]'):
                 line = line.replace(f'[{key}]', '').strip()
                 line = transform_lines_into_past_tense(line)

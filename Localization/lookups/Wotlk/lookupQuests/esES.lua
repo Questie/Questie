@@ -9305,4 +9305,6 @@ l10n.questLookup["esES"] = loadstring([[return {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
+[78752] = {"Prueba de defunción: protocolo Gamma de runa titánica", nil, {"El archimago Lan'dalock de Dalaran quiere que regreses con el medallón del profanador que se consigue del último jefe de cualquier mazmorra. \n\nEsta misión solo se puede completar en la dificultad de mazmorra protocolo Gamma de runa titánica."}},
+[78753] = {"Prueba de defunción: amenazas a Azeroth", nil, {"El archimago Lan'dalock de Dalaran quiere que regreses con el artefacto misterioso que se consigue del último jefe de cualquier mazmorra. \n\nEsta misión solo se puede completar en la dificultad de mazmorra heroica."}},
 }]])

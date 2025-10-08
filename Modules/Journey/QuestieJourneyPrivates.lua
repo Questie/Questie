@@ -1,13 +1,11 @@
 ---@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -15,46 +13,6 @@ _QuestieJourney.containerCache = nil
 _QuestieJourney.treeCache = nil
 
 
-function _QuestieJourney:ShowJourneyTooltip()
-    if GameTooltip:IsShown() then
-        return
-    end
-    local button = self -- ACE is doing something stupid here. Don't add "self" as parameter, when you use it as "_QuestieJourney.ShowJourneyTooltip" as callback
-
-    local qid = button:GetUserData('id')
-    local quest = QuestieDB.GetQuest(tonumber(qid))
-    if quest then
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
-        GameTooltip:AddLine("[".. quest.level .."] ".. quest.name)
-        GameTooltip:AddLine("|cFFFFFFFF" .. _QuestieJourney:CreateObjectiveText(quest.Description))
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
-    end
-end
-
-function _QuestieJourney:HideJourneyTooltip()
-    if GameTooltip:IsShown() then
-        GameTooltip:Hide()
-    end
-end
-
-function _QuestieJourney:CreateObjectiveText(desc)
-    local objText = ""
-
-    if desc then
-        if type(desc) == "table" then
-            for _, v in ipairs(desc) do
-                objText = objText .. v .. "\n"
-            end
-        else
-            objText = objText .. tostring(desc) .. "\n"
-        end
-    else
-        objText = Questie:Colorize(l10n('This quest is an automatic completion quest and does not contain an objective.'), 'yellow')
-    end
-
-    return objText
-end
 
 function _QuestieJourney:HandleTabChange(container, group)
     if not _QuestieJourney.containerCache then

@@ -1,7 +1,7 @@
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
----@type QuestieQuestPrivate
 QuestieQuest.private = QuestieQuest.private or {}
+---@class QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.
@@ -46,6 +46,8 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -394,19 +396,28 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
     return trackedAuto or trackedManual
 end
 
-function QuestieQuest:HideQuest(id)
-    Questie.db.char.hidden[id] = true
-    QuestieMap:UnloadQuestFrames(id)
-    QuestieTooltips:RemoveQuest(id)
+---@param questId QuestId
+function QuestieQuest:HideQuest(questId)
+    Questie.db.char.hidden[questId] = true
+    QuestieMap:UnloadQuestFrames(questId)
+    QuestieTooltips:RemoveQuest(questId)
 end
 
-function QuestieQuest:UnhideQuest(id)
-    Questie.db.char.hidden[id] = nil
-    AvailableQuests.CalculateAndDrawAll()
+---@param questId QuestId
+function QuestieQuest:UnhideQuest(questId)
+    Questie.db.char.hidden[questId] = nil
+
+    if QuestiePlayer.currentQuestlog[questId] then
+        local quest = QuestieDB.GetQuest(questId)
+        QuestieQuest:PopulateObjectiveNotes(quest)
+    else
+        AvailableQuests.CalculateAndDrawAll()
+    end
 end
 
 local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
 local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
+local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
@@ -414,7 +425,7 @@ function QuestieQuest:AcceptQuest(questId)
 
     if quest then
         local complete = quest:IsComplete()
-        -- If any of these flags exsist then this quest has already once been accepted and is probobly in a failed state
+        -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
         if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This quest was once accepted and needs to be reset.")
 
@@ -441,6 +452,8 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
             elseif hordeTournamentMarkerQuests[questId] then
                 Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            elseif xiaoFollowUpQuests[questId] then
+                Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
             end
 
             TaskQueue:Queue(
@@ -494,13 +507,18 @@ function QuestieQuest:CompleteQuest(questId)
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId);
 
-    if Questie.IsWotlk or Questie.IsCata then
+    if Expansions.Current >= Expansions.Wotlk then
         if allianceChampionMarkerQuests[questId] then
             Questie.db.char.complete[13700] = true -- Alliance Champion Marker
             Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
         elseif hordeChampionMarkerQuests[questId] then
             Questie.db.char.complete[13701] = true -- Horde Champion Marker
             Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+        end
+    end
+    if Expansions.Current >= Expansions.MoP then
+        if questId == 31450 then -- A New Fate (Pandaren faction quest)
+            QuestiePlayer:Initialize() -- Reinitialize to update player race flags
         end
     end
     QuestieMap:UnloadQuestFrames(questId)
@@ -955,11 +973,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     end
 
     if objective.spawnList and next(objective.spawnList) then
-        local maxPerType = 300
-
-        if Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit < maxPerType then
-            maxPerType = Questie.db.profile.iconLimit
-        end
+        local maxPerType = Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit or 1500
 
         local zoneCount = 0
         local zones = {}
@@ -1102,8 +1116,10 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                             touched = nil, -- TODO change. This is meant to let lua reserve memory for all keys needed for sure.
                         }
                         local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x / 100, drawIcon.y / 100, uiMapId)
-                        x = x or 0
-                        y = y or 0
+                        if (not x) or (not y) then
+                            x, y = 0, 0 -- Fallback to 0,0 if no coordinates are found
+                        end
+
                         -- Cache world coordinates for clustering calculations
                         drawIcon.worldX = x
                         drawIcon.worldY = y

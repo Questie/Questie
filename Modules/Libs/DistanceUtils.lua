@@ -11,6 +11,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 local _GetDistance
+local alreadyErroredZoneIds = {}
 
 ---@param spawns table<AreaId, CoordPair[]>>
 ---@return CoordPair, AreaId, number
@@ -27,7 +28,11 @@ function DistanceUtils.GetNearestSpawn(spawns)
         for _, spawn in pairs(spawnEntries) do
             if spawn[1] == -1 or spawn[2] == -1 then
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zoneId)
-                for _, location in pairs(dungeonLocation) do
+                if (not dungeonLocation) and (not alreadyErroredZoneIds[zoneId]) then
+                    alreadyErroredZoneIds[zoneId] = true
+                    Questie:Error("No dungeon location found for zoneId:", zoneId, "Please report this on Github or Discord!")
+                end
+                for _, location in pairs(dungeonLocation or {}) do
                     local dist = _GetDistance(location[1], location[2], location[3], playerX, playerY, playerI)
                     if dist < bestDistance then
                         bestDistance = dist
@@ -55,7 +60,7 @@ function DistanceUtils.GetNearestObjective(objectiveSpawnList)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnName
 
-    for _, spawnData in pairs(objectiveSpawnList) do
+    for _, spawnData in pairs(objectiveSpawnList or {}) do
         local spawn, zone, distance = DistanceUtils.GetNearestSpawn(spawnData.Spawns)
         if distance < bestDistance then
             bestDistance = distance
@@ -150,6 +155,10 @@ end
 _GetDistance = function(zoneId, spawnX, spawnY, playerX, playerY, playerZone)
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawnX / 100.0, spawnY / 100.0, uiMapId)
+    if (not dX) or (not dY) then
+        dX, dY = 0, 0 -- Fallback to 0,0 if no coordinates are found
+    end
+
     local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
     if dInstance ~= playerZone then
         dist = 500000 + dist * 100 -- hack

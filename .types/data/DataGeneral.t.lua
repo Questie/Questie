@@ -8,6 +8,7 @@
 ---@alias CategoryId number
 
 ---@alias FactionId number
+---@alias EnemyGroup number
 ---@alias SkillId number
 
 ---@alias SkillPair {[1]: SkillId, [2]: number}

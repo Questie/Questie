@@ -1,6 +1,5 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
-
 
 ---@class DatabaseItemKeys
 QuestieDB.itemKeys = {

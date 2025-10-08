@@ -1,5 +1,3 @@
-cataNpcDB.lua
-cataNpcDB-trinity.lua
-merged-file.lua
-npc_ids_complete.py
-wotlkNpcDB.lua
+data/*
+!data/.gitkeep
+output/

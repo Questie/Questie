@@ -3,6 +3,7 @@
 
 
 ---@class RawNPC
+---@field id NpcId  -- int, Unique identifier for the NPC
 ---@field name string @string
 ---@field minLevelHealth number  -- int
 ---@field maxLevelHealth number  -- int
@@ -19,3 +20,7 @@
 ---@field subName string  -- string, The title or function of the NPC, e.g. "Weapon Vendor"
 ---@field npcFlags number  -- int, Bitmask containing various flags about the NPCs function (Vendor, Trainer, Flight Master, etc.).
                     -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
+
+---@class NPC : RawNPC
+---@field type "monster"
+---@field friendly boolean  -- boolean, true if the NPC is friendly or neutral towards the player, false if hostile

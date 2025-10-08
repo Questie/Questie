@@ -18,6 +18,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local AceGUI = LibStub("AceGUI-3.0")
 
 local RESET = -1000
+local _, playerClass, _ = UnitClass("player")
 
 local _CreateContinentDropdown, _CreateZoneDropdown
 local _HandleContinentSelection, _HandleZoneSelection
@@ -57,6 +58,14 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     treegroup:SetFullWidth(true)
     treegroup:SetLayout("fill")
     container:AddChild(treegroup)
+
+    -- This needs to happen after all children are added, otherwise it will be shown again
+    if selectedContinentId == QuestieJourney.questCategoryKeys.CLASS then
+        local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
+    end
 end
 
 _CreateContinentDropdown = function()
@@ -69,7 +78,7 @@ _CreateContinentDropdown = function()
 
     local questCategoryKeys = QuestieJourney.questCategoryKeys
     -- This mapping translates the actual continent ID to the keys of l10n.continentLookup
-    if currentContinentId == 0 then -- Eastern Kingdom
+    if currentContinentId == 0 then -- Eastern Kingdoms
         selectedContinentId = questCategoryKeys.EASTERN_KINGDOMS
     elseif currentContinentId == 1 then -- Kalimdor
         selectedContinentId = questCategoryKeys.KALIMDOR
@@ -77,6 +86,8 @@ _CreateContinentDropdown = function()
         selectedContinentId = questCategoryKeys.OUTLAND
     elseif currentContinentId == 571 then -- Northrend
         selectedContinentId = questCategoryKeys.NORTHREND
+    elseif currentContinentId == 870 then -- Pandaria
+        selectedContinentId = questCategoryKeys.PANDARIA
     elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
         selectedContinentId = questCategoryKeys.DUNGEONS
     end
@@ -98,17 +109,17 @@ _CreateZoneDropdown = function()
     end
 
     local zones = QuestieJourney.zones[selectedContinentId]
-    if currentZoneId and currentZoneId > 0 and zones then
+    if currentZoneId == RESET and zones then
+        dropdown:SetText(l10n('Select Your Zone'))
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
+        dropdown:SetList(zones, sortedZones)
+    elseif currentZoneId and zones then
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)
         dropdown:SetValue(currentZoneId)
 
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
-    elseif currentZoneId == RESET and zones then
-        dropdown:SetText(l10n('Select Your Zone'))
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
-        dropdown:SetList(zones, sortedZones)
     else
         dropdown:SetDisabled(true)
     end
@@ -119,8 +130,7 @@ end
 
 _HandleContinentSelection = function(key, _)
     if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
-        local _, class, _ = UnitClass("player")
-        local classKey = QuestieDB:GetZoneOrSortForClass(class)
+        local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
@@ -147,6 +157,10 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetList(relevantProfessions)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
+    elseif (key.value == QuestieJourney.questCategoryKeys.PET_BATTLES) then
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(QuestieDB.sortKeys.PET_BATTLE)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)

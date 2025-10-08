@@ -1,11 +1,12 @@
 require("cli.dump")
-require("cli.validators")
+local Validators = require("cli.validators")
 
 WOW_PROJECT_ID = 14
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_WRATH_CLASSIC = 11
 WOW_PROJECT_CATACLYSM_CLASSIC = 14
+WOW_PROJECT_MISTS_CLASSIC = 19
 WOW_PROJECT_MAINLINE = 1
 
 QUEST_MONSTERS_KILLED = "QUEST_MONSTERS_KILLED"
@@ -132,9 +133,7 @@ local function loadTOC(file)
             if chunck then
                 pcallResult, errorMessage = pcall(chunck, addonName, addonTable)
             end
-            if pcallResult then
-                --print("Loaded " .. line)
-            else
+            if (not pcallResult) then
                 if errorMessage then
                     print("Error loading " .. line .. ": " .. errorMessage)
                 else
@@ -172,8 +171,11 @@ local function _CheckCataDatabase()
     }
     QuestieConfig = {}
 
+    ---@type QuestieDB
     local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+    ---@type QuestieCorrections
     local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+    ---@type l10n
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
@@ -213,6 +215,12 @@ local function _CheckCataDatabase()
 
     print("\n\27[32mCata database compiled successfully\27[0m")
 
+    -- We accept blacklisted quests as questStarts and questEnds for now
+    Validators.checkNpcQuestStarts(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkNpcQuestEnds(QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkObjectQuestStarts(QuestieDB.objectData, QuestieDB.objectKeys, QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkObjectQuestEnds(QuestieDB.objectData, QuestieDB.objectKeys, QuestieDB.questData, QuestieDB.questKeys)
+
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
@@ -221,6 +229,9 @@ local function _CheckCataDatabase()
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.objectData, QuestieDB.itemData)
+    Validators.checkQuestFinishers(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData)
+    Validators.checkObjectives(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
 end
 
 _CheckCataDatabase()

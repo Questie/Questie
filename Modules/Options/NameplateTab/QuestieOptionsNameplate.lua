@@ -18,7 +18,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 function QuestieOptions.tabs.nameplate:Initialize()
     return {
-        name = function() return l10n('Nameplates'); end,
+        name = function() return l10n("Nameplates"); end,
         type = "group",
         order = 5,
         args = {
@@ -31,7 +31,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplate_options = {
                         type = "header",
                         order = 1.05,
-                        name = function() return l10n('Nameplate Icon Options'); end,
+                        name = function() return l10n("Nameplate Icon Options"); end,
                     },
                     nameplateDescSpacer = {
                         type = "description",
@@ -46,8 +46,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateEnabled = {
                         type = "toggle",
                         order = 1.1,
-                        name = function() return l10n('Enable Nameplate Quest Objectives'); end,
-                        desc = function() return l10n('Enable or disable the quest objective icons over creature nameplates.'); end,
+                        name = function() return l10n("Enable Nameplate Quest Objectives"); end,
+                        desc = function() return l10n("Enable or disable the quest objective icons over creature nameplates."); end,
                         descStyle = "inline",
                         width = 2.6,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
@@ -74,8 +74,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateX = {
                         type = "range",
                         order = 1.3,
-                        name = function() return l10n('Icon Position X'); end,
-                        desc = function() return l10n('Where on the X axis the nameplate icon should be. ( Default: %s )', optionsDefaults.profile.nameplateX ); end,
+                        name = function() return l10n("Icon Position X"); end,
+                        desc = function() return l10n("Where on the X axis the nameplate icon should be. ( Default: %s )", optionsDefaults.profile.nameplateX ); end,
                         width = 1.2,
                         min = -200,
                         max = 200,
@@ -100,8 +100,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateY = {
                         type = "range",
                         order = 1.4,
-                        name = function() return l10n('Icon Position Y'); end,
-                        desc = function() return l10n('Where on the Y axis the nameplate icon should be. ( Default: %s )', optionsDefaults.profile.nameplateY); end,
+                        name = function() return l10n("Icon Position Y"); end,
+                        desc = function() return l10n("Where on the Y axis the nameplate icon should be. ( Default: %s )", optionsDefaults.profile.nameplateY); end,
                         width = 1.2,
                         min = -200,
                         max = 200,
@@ -127,8 +127,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateScale = {
                         type = "range",
                         order = 1.5,
-                        name = function() return l10n('Nameplate Icon Scale'); end,
-                        desc = function() return l10n('Scale the size of the quest icons on creature nameplates. ( Default: %s )', optionsDefaults.profile.nameplateScale); end,
+                        name = function() return l10n("Nameplate Icon Scale"); end,
+                        desc = function() return l10n("Scale the size of the quest icons on creature nameplates. ( Default: %s )", optionsDefaults.profile.nameplateScale); end,
                         width = 2.7,
                         min = 0.01,
                         max = 4,
@@ -152,7 +152,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     targetframe_header = {
                         type = "header",
                         order = 2,
-                        name = function() return l10n('Target Frame Icon Options'); end,
+                        name = function() return l10n("Target Frame Icon Options"); end,
                     },
                     targetplateDescSpacer = {
                         type = "description",
@@ -167,8 +167,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateTargetFrameEnabled = {
                         type = "toggle",
                         order = 2.1,
-                        name = function() return l10n('Enable Target Frame Quest Objectives'); end,
-                        desc = function() return l10n('Enable or disable the quest objective icons over creature target frame.'); end,
+                        name = function() return l10n("Enable Target Frame Quest Objectives"); end,
+                        desc = function() return l10n("Enable or disable the quest objective icons over creature target frame."); end,
                         descStyle = "inline",
                         width = 2.6,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
@@ -197,8 +197,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateTargetFrameX  = {
                         type = "range",
                         order = 2.3,
-                        name = function() return l10n('Icon Position X'); end,
-                        desc = function() return l10n('Where on the X axis the nameplate icon should be. ( Default: %s )', optionsDefaults.profile.nameplateTargetFrameX); end,
+                        name = function() return l10n("Icon Position X"); end,
+                        desc = function() return l10n("Where on the X axis the nameplate icon should be. ( Default: %s )", optionsDefaults.profile.nameplateTargetFrameX); end,
                         width = 1.2,
                         min = -300,
                         max = 300,
@@ -223,8 +223,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateTargetFrameY  = {
                         type = "range",
                         order = 2.4,
-                        name = function() return l10n('Icon Position Y'); end,
-                        desc = function() return l10n('Where on the Y axis the nameplate icon should be. ( Default: %s )', optionsDefaults.profile.nameplateTargetFrameY); end,
+                        name = function() return l10n("Icon Position Y"); end,
+                        desc = function() return l10n("Where on the Y axis the nameplate icon should be. ( Default: %s )", optionsDefaults.profile.nameplateTargetFrameY); end,
                         width = 1.2,
                         min = -200,
                         max = 200,
@@ -250,8 +250,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     nameplateTargetFrameScale  = {
                         type = "range",
                         order = 2.5,
-                        name = function() return l10n('Nameplate Icon Scale'); end,
-                        desc = function() return l10n('Scale the size of the quest icons on creature nameplates. ( Default: %s )', optionsDefaults.profile.nameplateTargetFrameScale); end,
+                        name = function() return l10n("Nameplate Icon Scale"); end,
+                        desc = function() return l10n("Scale the size of the quest icons on creature nameplates. ( Default: %s )", optionsDefaults.profile.nameplateTargetFrameScale); end,
                         width = 2.7,
                         min = 0.01,
                         max = 4,
@@ -280,8 +280,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
             nameplateReset = {
                 type = "execute",
                 order = 4,
-                name = function() return l10n('Reset Nameplates'); end,
-                desc = function() return l10n('Reset to default nameplate position and scale.'); end,
+                name = function() return l10n("Reset Nameplates"); end,
+                desc = function() return l10n("Reset to default nameplate position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                 func = function (info, value)
@@ -304,8 +304,8 @@ function QuestieOptions.tabs.nameplate:Initialize()
             targetFrameReset = {
                 type = "execute",
                 order = 6,
-                name = function() return l10n('Reset Target Frame'); end,
-                desc = function() return l10n('Reset to default target frame position and scale.'); end,
+                name = function() return l10n("Reset Target Frame"); end,
+                desc = function() return l10n("Reset to default target frame position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                 func = function (info, value)

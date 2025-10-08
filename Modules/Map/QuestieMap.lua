@@ -129,6 +129,7 @@ end
 
 function QuestieMap:ResetManualFrames(typ)
     typ = typ or "any"
+    if not QuestieMap.manualFrames[typ] then return end
     for id, _ in pairs(QuestieMap.manualFrames[typ]) do
         QuestieMap:UnloadManualFrames(id, typ)
     end
@@ -322,6 +323,11 @@ function QuestieMap.ProcessQueue()
             frame:SetSize(size, size)
 
             QuestieMap.utils:SetDrawOrder(frame);
+
+            mapDrawCall[2]._loaded = true
+            if mapDrawCall[2]._needsUnload then
+                mapDrawCall[2]:Unload()
+            end
         end
 
         local minimapDrawCall = tremove(minimapDrawQueue, 1);
@@ -330,16 +336,11 @@ function QuestieMap.ProcessQueue()
             HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
 
             QuestieMap.utils:SetDrawOrder(frame);
-        end
 
-        mapDrawCall[2]._loaded = true
-        if mapDrawCall[2]._needsUnload then
-            mapDrawCall[2]:Unload()
-        end
-
-        minimapDrawCall[2]._loaded = true
-        if minimapDrawCall[2]._needsUnload then
-            minimapDrawCall[2]:Unload()
+            minimapDrawCall[2]._loaded = true
+            if minimapDrawCall[2]._needsUnload then
+                minimapDrawCall[2]:Unload()
+            end
         end
     end
 end
@@ -396,6 +397,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
                     for _, value in ipairs(dungeonLocation) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3], typ)
                     end
+                    manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
                 -- world spawn
                 else
                     manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
@@ -406,7 +408,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     -- draw waypoints
     if npc.waypoints then
         for zone, waypoints in pairs(npc.waypoints) do
-            if not ZoneDB:GetDungeonLocation(zone) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+            if waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not manualIcons[zone] then
                     manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                 end
@@ -449,6 +451,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     }
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
+    local manualIcons = {}
     -- draw the notes
     for zone, spawns in pairs(object.spawns) do
         if (zone ~= nil and spawns ~= nil) then
@@ -459,6 +462,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
                     for _, value in ipairs(dungeonLocation) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3], typ)
                     end
+                    QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
                     -- world spawn
                 else
                     QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
@@ -466,14 +470,30 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
             end
         end
     end
+    -- draw waypoints
+    if object.waypoints then
+        for zone, waypoints in pairs(object.waypoints) do
+            if not ZoneDB:GetDungeonLocation(zone) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                if not manualIcons[zone] then
+                    manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                end
+                QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
+            end
+        end
+    end
 end
 
 function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
     if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error("Questie" .. ": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers " .. areaID .. " " .. x .. " " .. y)
+        error("Questie:DrawLineIcon: 'areaID', 'x' and 'y' must be numbers. Got: " .. tostring(areaID) .. ", " .. tostring(x) .. ", " .. tostring(y))
     end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
+
+    if type(uiMapId) ~= "number" then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "DrawLineIcon: Invalid uiMapId for areaID:", areaID)
+        return
+    end
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
 end
@@ -517,6 +537,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- create the map icon
     local icon = QuestieFramePool:GetFrame()
+    icon.isManualIcon = true
     icon.data = data
     icon.x = x
     icon.y = y
@@ -535,6 +556,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
+    iconMinimap.isManualIcon = true
     local colorsMinimap = { 1, 1, 1 }
     if data.IconColor ~= nil and Questie.db.profile.questMinimapObjectiveColors then
         colorsMinimap = data.IconColor
@@ -583,6 +605,7 @@ end
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
+---@param data IconData
 ---@return IconFrame, IconFrame
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if type(data) ~= "table" then
@@ -605,7 +628,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         end
 
         if (not parentMapId) then
-            error("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
+            Questie:Error("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
             return nil, nil
         else
             areaID = parentMapId
@@ -691,9 +714,26 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
     if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
+        local shouldBeHidden = icon:ShouldBeHidden()
         local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
         for _, lineFrame in ipairs(lineFrames) do
             QuestieMap:DrawLineIcon(lineFrame, zone, waypoints[1][1][1], waypoints[1][1][2])
+            if shouldBeHidden then
+                lineFrame:FakeHide()
+            end
+        end
+    end
+end
+
+---@param questId QuestId
+function QuestieMap.UpdateDrawnIcons(questId)
+    for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        if frame and frame.data and frame.data.QuestData then
+            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
+
+            if newIcon ~= frame.data.Icon then
+                frame:UpdateTexture(Questie.usedIcons[newIcon])
+            end
         end
     end
 end

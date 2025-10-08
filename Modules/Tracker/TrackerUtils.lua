@@ -14,6 +14,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
 --Import Questie modules.
 -------------------------
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
@@ -30,6 +32,11 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local GetItemCount = C_Item.GetItemCount or GetItemCount
+local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
+local IsEquippableItem = C_Item.IsEquippableItem or IsEquippableItem
 
 local tinsert = table.insert
 
@@ -352,14 +359,14 @@ function TrackerUtils:GetCompletionText(quest)
 end
 
 ---@param zoneId number Zone ID number
----@return string @Zone Name (Localized) or "Unknown Zone"
+---@return string @Zone Name (Localized) or l10n("Unknown Zone")
 local function GetZoneNameByIDFallback(zoneId)
     if zoneCache[zoneId] then
         return zoneCache[zoneId]
     end
 
     if zoneId <= 0 or type(zoneId) ~= "number" then
-        return "Unknown Zone"
+        return l10n("Unknown Zone")
     end
 
     for _, zone in pairs(l10n.zoneLookup) do
@@ -371,7 +378,7 @@ local function GetZoneNameByIDFallback(zoneId)
 
     Questie:Debug(Questie.DEBUG_CRITICAL, "[GetZoneNameByIDFallback]: Unable to find a zone name for zoneId", zoneId)
 
-    return "Unknown Zone"
+    return l10n("Unknown Zone")
 end
 
 ---@param zoneId number Zone ID number
@@ -789,6 +796,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped zone proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)
@@ -899,6 +911,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)
@@ -1126,6 +1143,46 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     end
 
     return true
+end
+
+---@return boolean @true if the Tracker tracks a quest, false if not
+function TrackerUtils.HasQuest()
+    local hasQuest
+
+    if (GetNumQuestWatches(true) == 0) then
+        if Expansions.Current >= Expansions.Wotlk then
+            if (GetNumTrackedAchievements(true) == 0) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = false
+        end
+    else
+        if not Questie.db.profile.trackerShowCompleteQuests then
+            local isTrackingIncompleteQuest = false
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if not quest then break end
+                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                    isTrackingIncompleteQuest = true
+                    break
+                end
+            end
+
+            -- This hides the Tracker when all tracked Quests are complete
+            if (not isTrackingIncompleteQuest) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = true
+        end
+    end
+
+    Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)
+    return hasQuest
 end
 
 return TrackerUtils

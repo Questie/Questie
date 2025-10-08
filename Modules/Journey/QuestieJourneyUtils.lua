@@ -1,9 +1,17 @@
 ---@class QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
+
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemIcon = C_Item.GetItemIconByID or GetItemIcon
+
+local AceGUI = LibStub("AceGUI-3.0")
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     local function compare(a, b)
@@ -41,12 +49,135 @@ function QuestieJourneyUtils:AddLine(frame, text)
 end
 
 function QuestieJourneyUtils:GetZoneName(id)
-    local name = l10n("Unknown Zone")
     for category, data in pairs(l10n.zoneLookup) do
         if data[id] then
-            name = l10n.zoneLookup[category][id]
-            break
+            return l10n.zoneLookup[category][id]
         end
     end
-    return name
+    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[8]) do
+        if dungeonZoneId == id then
+            return dungeonName
+        end
+    end
+    return l10n("Unknown Zone")
+end
+
+---@param desc table | string
+---@return string
+function QuestieJourneyUtils.CreateObjectiveText(desc)
+    local objText = ""
+
+    if desc then
+        if type(desc) == "table" then
+            for _, v in ipairs(desc) do
+                objText = objText .. v .. "\n"
+            end
+        else
+            objText = objText .. tostring(desc) .. "\n"
+        end
+    else
+        objText = Questie:Colorize(l10n('This quest is an automatic completion quest and does not contain an objective.'), 'yellow')
+    end
+
+    return objText
+end
+
+function QuestieJourneyUtils.ShowJourneyTooltip(self)
+    if GameTooltip:IsShown() then
+        return
+    end
+
+    local id = tonumber(self:GetUserData('id'))
+    local type = self:GetUserData('type')
+    GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
+    if type == "quest" then
+        local quest = QuestieDB.GetQuest(id)
+        GameTooltip:AddLine("["..quest.level.."] "..quest.name.." ("..id..")")
+        if quest.Description and quest.Description ~= {} then
+            for _, line in pairs(quest.Description) do
+                for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
+                    GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
+                end
+            end
+        end
+    elseif type == "npc" then
+        local npc = QuestieDB:GetNPC(id)
+        GameTooltip:AddLine("[".. npc.minLevel .."] ".. npc.name .." (".. id ..")")
+        if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    "..npc.subName.."|r") end
+    elseif type == "object" then
+        local object = QuestieDB.QueryObjectSingle(id, "name")
+        GameTooltip:AddLine(object.." ("..id..")")
+    elseif type == "item" then
+        local item = QuestieDB.QueryItemSingle(id, "name")
+        GameTooltip:AddLine(item.." ("..id..")")
+    end
+    GameTooltip:AddLine("\n"..l10n("Click to show"))
+    GameTooltip:SetFrameStrata("TOOLTIP")
+    GameTooltip:Show()
+end
+
+function QuestieJourneyUtils.HideJourneyTooltip()
+    if GameTooltip:IsShown() then
+        GameTooltip:Hide()
+    end
+end
+
+---@param quest Quest
+---@return AceInteractiveLabel
+function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
+    ---@class AceInteractiveLabel
+    local label = AceGUI:Create("InteractiveLabel")
+    local questId = quest.Id
+
+    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false))
+    label:SetUserData('id', questId)
+    label:SetUserData('type', 'quest')
+    label:SetUserData('name', quest.name)
+    label:SetCallback("OnClick", function()
+        ItemRefTooltip:SetHyperlink("%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]")
+    end)
+    label:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+    label:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+
+    return label
+end
+
+---@param itemId ItemId
+---@return AceIcon
+function QuestieJourneyUtils.GetItemIcon(itemId)
+    local itemLink = select(2, GetItemInfo(itemId))
+
+    ---@class AceIcon
+    local itemIcon = AceGUI:Create("Icon")
+    itemIcon:SetWidth(25)
+    itemIcon:SetHeight(25)
+    itemIcon:SetImage(GetItemIcon(itemId))
+    itemIcon:SetImageSize(25, 25)
+    itemIcon:SetCallback("OnEnter", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Show()
+    end)
+    itemIcon:SetCallback("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    itemIcon:SetCallback("OnClick", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        if IsShiftKeyDown() then
+            if (not ChatFrame1EditBox:IsVisible()) then
+                ChatFrame_OpenChat(itemLink)
+            else
+                ChatEdit_InsertLink(itemLink)
+            end
+        elseif IsControlKeyDown() then
+            DressUpItemLink(itemLink)
+        end
+    end)
+
+    return itemIcon
 end

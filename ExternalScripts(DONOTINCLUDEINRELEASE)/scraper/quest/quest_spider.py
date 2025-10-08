@@ -6,25 +6,36 @@ from scrapy import signals
 from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
 from quest.factions_ignore import FACTIONS_IGNORE_LIST
+from quest.retail_quest_ids import RETAIL_QUEST_IDS
 
 
 class QuestSpider(scrapy.Spider):
     name = "quest"
     base_url_classic = "https://www.wowhead.com/classic/quest={}"
+    base_url_retail = "https://www.wowhead.com/quest={}"
 
+    run_for_retail = False
     start_urls = []
 
-    def __init__(self) -> None:
+    def __init__(self, run_for_retail: bool) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
+        self.run_for_retail = run_for_retail
+        if run_for_retail:
+            self.start_urls = [self.base_url_retail.format(quest_id) for quest_id in RETAIL_QUEST_IDS]
+        else:
+            self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
         # debug the response
         # with open('response.html', 'wb') as f:
         #     f.write(response.body)
 
-        if response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
+        if (not self.run_for_retail) and response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
             questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
+            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
+            return None
+        elif self.run_for_retail and response.url.startswith('https://www.wowhead.com/quests?notFound='):
+            questID = re.search(r'https://www.wowhead.com/quests\?notFound=(\d+)', response.url).group(1)
             logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
             return None
 
@@ -32,7 +43,11 @@ class QuestSpider(scrapy.Spider):
         for script in response.xpath('//script/text()').extract():
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.find('$.extend(g_quests') >= 0 and script.endswith('//]]>'):
                 result["questId"] = re.search(r'g_quests\[(\d+)]', script).group(1)
-                result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
+                name_match = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script)
+                if name_match is None:
+                    print("Quest with ID {questId} has no name. Skipping.".format(questId=result["questId"]))
+                    return None
+                result["name"] = name_match.group(1)
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
@@ -77,7 +92,11 @@ class QuestSpider(scrapy.Spider):
 
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
-            result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
+            spell_objective_match = re.search(r'spell=(\d+)', spell_objective)
+            if spell_objective_match is None:
+                print("Quest with ID {questId} has invalid spell objective. Skipping.".format(questId=result["questId"]))
+                return None
+            result["spellObjective"] = spell_objective_match.group(1)
 
         # example quest: https://www.wowhead.com/classic/quest=85611/paragons-of-power-the-haruspexs-tunic
         reputation_data = response.xpath('//tr[@data-icon-list-quantity]/td[a[contains(@href, "/faction=")]]')

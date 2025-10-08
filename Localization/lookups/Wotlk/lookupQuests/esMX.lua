@@ -9306,4 +9306,6 @@ l10n.questLookup["esMX"] = loadstring([[return {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
+[78752] = {"Prueba de defunción: Protocolo gamma de runa titánica", nil, {"El archimago Lan'dalock de Dalaran quiere que vuelvas con el medallón de profanador de cualquier jefe final de calabozo. \n\nEsta misión solo se puede completar en cualquier calabozo de dificultad Protocolo gamma de runa titánica."}},
+[78753] = {"Prueba de defunción: Amenazas contra Azeroth", nil, {"El archimago Lan'dalock de Dalaran quiere que vuelvas con el artefacto misterioso de cualquier jefe final de calabozo. \n\nEsta misión solo se puede completar en cualquier calabozo de dificultad heroica."}},
 }]])

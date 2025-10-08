@@ -1,5 +1,7 @@
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
@@ -8,6 +10,10 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+
+QuestieCorrections.eventObjectiveFirst[85304] = true
+QuestieCorrections.eventObjectiveFirst[85386] = true
+QuestieCorrections.eventObjectiveFirst[89567] = true
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys
@@ -25,11 +31,27 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
-        [5166] = { -- Breastplate of the Chromatic Flight
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        [5641] = { -- Fear Ward (Ironforge)
+            [questKeys.startedBy] = {{11406},nil,nil},
         },
-        [5167] = { -- Legplates of the Chromatic Flight
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        [5645] = { -- Fear Ward (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
+        },
+        [5658] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{4606}},
+            [questKeys.objectivesText] = {},
+        },
+        [5657] = { -- Hex of Weakness (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
+        [5661] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{11407}},
+        },
+        [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{3044}},
+        },
+        [5676] = { -- Feedback (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
         },
         [7636] = { -- An Introduction
             [questKeys.nextQuestInChain] = 84546,
@@ -48,6 +70,9 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [8742] = { -- The Might of Kalimdor
             [questKeys.preQuestGroup] = {8741,86442,86445},
+        },
+        [8801] = { -- C'Thun's Legacy
+            [questKeys.nextQuestInChain] = 86670,
         },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
@@ -457,7 +482,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78537] = { -- Elixir of Insight
-            [questKeys.preQuestSingle] = {78506},
+            [questKeys.preQuestSingle] = {85772},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78561] = { -- Elixir of Insight
@@ -741,11 +766,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [79348] = { -- The Lost Ancient
-            [questKeys.startedBy] = {{216310},nil,{212693}},
+            [questKeys.startedBy] = {nil,nil,{212693}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [79358] = { -- Tattered Note
-            [questKeys.startedBy] = {{4421},nil,{212748}},
+            [questKeys.startedBy] = {nil,nil,{212748}},
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
@@ -816,10 +841,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79486] = { -- A Smokywood Pastures' Thank You! (Alliance)
+            [questKeys.preQuestSingle] = {79484},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79487] = { -- A Smokywood Pastures' Thank You! (Horde)
+            [questKeys.preQuestSingle] = {79485},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -831,6 +858,15 @@ function SeasonOfDiscovery:LoadQuests()
         [79495] = { -- Metzen the Reindeer (Horde)
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79501] = { -- The Hero of the Day
+            [questKeys.preQuestSingle] = {79492},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79502] = { -- The Hero of the Day
+            [questKeys.startedBy] = {{216924}},
+            [questKeys.preQuestSingle] = {79495},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79535] = { -- Basilisks: Should Petrification be Feared?
@@ -1105,6 +1141,7 @@ function SeasonOfDiscovery:LoadQuests()
         [80139] = { -- Gnogaine
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Empty Leaden Collection Phial."), 0, {{"monster", 216668},{"monster", 216669}}}},
         },
         [80140] = { -- Return of the Ring Horde
             [questKeys.preQuestSingle] = {79984},
@@ -1492,7 +1529,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [81766] = { -- The Bloody Missive
-            [questKeys.startedBy] = {{6272},nil,{219930}},
+            [questKeys.startedBy] = {nil,nil,{219930}},
             [questKeys.preQuestSingle] = {81765},
             [questKeys.nextQuestInChain] = 81790,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
@@ -2619,81 +2656,97 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84179] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{226713},{226709},{226710}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84180] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {nil,nil,{{226722},{226719},{226716}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84181] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectives] = {nil,nil,{{226730},{226727},{226726}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84182] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{226738},{226736},{226735}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84183] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectives] = {nil,nil,{{226743},{226747},{226741}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84184] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectives] = {nil,nil,{{226703},{226705},{226706}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84185] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectives] = {nil,nil,{{226763},{226760},{226756}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84186] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectives] = {nil,nil,{{226764},{226767},{226768}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84187] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{226713},{226709},{226710}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84188] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {nil,nil,{{226722},{226719},{226716}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84189] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectives] = {nil,nil,{{226730},{226727},{226726}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84190] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectives] = {nil,nil,{{226743},{226747},{226741}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84191] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectives] = {nil,nil,{{226703},{226705},{226706}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84192] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{226752},{226750},{226753}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84193] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectives] = {nil,nil,{{226763},{226760},{226756}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84194] = { -- Anthion's Parting Words
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectives] = {nil,nil,{{226764},{226767},{226768}}},
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
@@ -2861,6 +2914,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{227690}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84331] = { -- The Miracle
+            [questKeys.objectives] = {nil,{{462201}}},
+            [questKeys.preQuestSingle] = {84329},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84332] = { -- A Thane's Gratitude
             [questKeys.preQuestSingle] = {84414},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
@@ -2927,7 +2985,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84377] = { -- End of the Dark Horde
-            [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.startedBy] = {nil,nil,{227911}},
             [questKeys.finishedBy] = {{332}},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
@@ -3017,6 +3075,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84418] = { -- The Missing Knight
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [84495] = { -- Fiery Plate Gauntlets
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,275},
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
@@ -3103,7 +3164,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [84870] = { -- The Dark Hoard
-            [questKeys.startedBy] = {{12435},nil,{229352}},
+            [questKeys.startedBy] = {nil,nil,{229352}},
             [questKeys.objectives] = {nil,nil,{{229362}}},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
@@ -3126,70 +3187,74 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
         },
         [85034] = { -- The Ruins of Andorhal
-            [questKeys.startedBy] = {{216289}},
-            [questKeys.finishedBy] = {{216289}},
             [questKeys.preQuestSingle] = {85455},
             [questKeys.objectives] = {nil,{{478062}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85457,
         },
         [85061] = { -- Bug Hunt
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85063] = { -- Culmination
+            [questKeys.objectives] = {{{232929,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {85458},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85064,
         },
         [85064] = { -- Worst Case Scenario
             [questKeys.finishedBy] = {{231500}},
             [questKeys.preQuestSingle] = {85063},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85065,
         },
         [85065] = { -- A Most Curious Gnome
             [questKeys.preQuestSingle] = {85064},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85066,
         },
         [85066] = { -- Making Ready
             [questKeys.preQuestSingle] = {85065},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85067,
         },
         [85067] = { -- A Paladin of the Silver Hand
-            [questKeys.startedBy] = {{231500}},
-            [questKeys.finishedBy] = {{231500}},
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {85066},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85068,
         },
         [85068] = { -- Who Says You Can Never Go Back?
             [questKeys.preQuestSingle] = {85067},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85074,
         },
         [85074] = { -- The Burning of Andorhal
-            [questKeys.startedBy] = {{232960}},
             [questKeys.preQuestSingle] = {85068},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85087,
         },
         [85087] = { -- A Desperate Escape
             [questKeys.preQuestSingle] = {85074},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85090,
         },
         [85090] = { -- Back to the Future
-            [questKeys.startedBy] = {{233138}},
             [questKeys.preQuestSingle] = {85087},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85091,
         },
         [85091] = { -- The Cost of Victory
-            [questKeys.startedBy] = {{232932}},
             [questKeys.preQuestSingle] = {85090},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85092,
         },
         [85092] = { -- Truthbearer
-            [questKeys.startedBy] = {{233776}},
             [questKeys.preQuestSingle] = {85091},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85112] = { -- The Depleted Scythe
-            [questKeys.startedBy] = {{12435},nil,{231722}},
+            [questKeys.startedBy] = {nil,nil,{231722}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85150] = { -- The Only Good Bug is a Dead Bug
@@ -3210,7 +3275,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85304] = { -- Essence of Fire
-            [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.startedBy] = {nil,nil,{230904}},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES]={{14.8,56.7}}}},
+            [questKeys.objectives] = {{{232429},{232429},{232398}},nil,{{230908}}},
             [questKeys.nextQuestInChain] = 85385,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
@@ -3221,16 +3288,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85386] = { -- Essence of Frost
-            [questKeys.requiredSourceItems] = {230946},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.WINTERSPRING]={{63.3,68.4}}}},
+            [questKeys.objectives] = {{{232466},{232466},{232399}},nil,{{230948}}},
             [questKeys.preQuestSingle] = {85385},
             [questKeys.nextQuestInChain] = 85388,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85388] = { -- A Foul Interference
             [questKeys.startedBy] = {{232381}},
+            [questKeys.objectives] = {{{232534},{232532},{10929}}},
             [questKeys.preQuestSingle] = {85386},
-            [questKeys.requiredSourceItems] = {231304},
+            [questKeys.requiredSourceItems] = {231304,231298},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Scroll of Lesser Spatial Mending"), 0, {{"monster", 232538}}}},
         },
         [85401] = { -- The Frigid Barrow
             [questKeys.zoneOrSort] = sortKeys.DRUID,
@@ -3244,12 +3314,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [85443] = { -- Rise, Thunderfury!
-            [questKeys.startedBy] = {{231494},nil,{232018}},
+            [questKeys.startedBy] = {nil,nil,{232018}},
             [questKeys.preQuestSingle] = {85441},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [85445] = { -- The Golden Disk
-            [questKeys.startedBy] = {{13020},nil,{231378}},
+            [questKeys.startedBy] = {nil,nil,{231378}},
             [questKeys.objectives] = {{{2888,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.nextQuestInChain] = 85447,
@@ -3279,17 +3349,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [85455] = { -- The Blood of the Lightbringer
-            [questKeys.startedBy] = {{12017},nil,{231452}},
-            [questKeys.finishedBy] = {{216289}},
+            [questKeys.startedBy] = {nil,nil,{231452}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85034,
         },
         [85457] = { -- Just What Was Needed
             [questKeys.preQuestSingle] = {85034},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85458,
         },
         [85458] = { -- Darkwhisper Gorge
             [questKeys.preQuestSingle] = {85457},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85063,
         },
         [85468] = { -- Soul of Mischief
             [questKeys.objectives] = {{{232731,nil,Questie.ICON_TYPE_TALK}}},
@@ -3313,7 +3385,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85501] = { -- The Heart of Chromaggus
-            [questKeys.startedBy] = {{14020},nil,{231814}},
+            [questKeys.startedBy] = {nil,nil,{231814}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [85505] = { -- Soul of Devouring
@@ -3360,7 +3432,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85555] = { -- Heavy Metal
-            [questKeys.startedBy] = {{12017},nil,{231995}},
+            [questKeys.startedBy] = {nil,nil,{231995}},
             [questKeys.nextQuestInChain] = 85556,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -3671,7 +3743,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [85660] = { -- The Heart of Hakkar
-            [questKeys.startedBy] = {{14834},nil,{19802}},
+            [questKeys.startedBy] = {nil,nil,{19802}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85699] = { -- Snakestone of the Shadow Huntress
@@ -3722,6 +3794,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
+        [85772] = { -- Elemental Distress
+            [questKeys.startedBy] = {{12736}},
+            [questKeys.objectives] = {nil,nil,{{210668},{210667},{210665}}},
+            [questKeys.preQuestSingle] = {78920},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [85798] = { -- Arms for the Field
             [questKeys.startedBy] = {nil,nil,{21260}},
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
@@ -3740,30 +3818,42 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85963] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,5}},
         },
         [85964] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
+        },
+        [85965] = { -- One Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
         [85966] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
         },
         [85967] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
         },
         [85968] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
         },
         [85969] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
         },
         [85970] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
         },
         [85971] = { -- One Commendation Signet
@@ -3771,18 +3861,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{13278}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,5}},
         },
         [85972] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,5}},
         },
         [85973] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
         },
         [85974] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
         },
         [85975] = { -- One Commendation Signet
@@ -3790,6 +3884,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,5}},
         },
         [85976] = { -- Ten Commendation Signets
@@ -3797,6 +3892,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,75}},
         },
         [85977] = { -- One Commendation Signet
@@ -3804,10 +3900,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,5}},
         },
         [85978] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,75}},
         },
         [85979] = { -- One Commendation Signet
@@ -3815,6 +3913,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,5}},
         },
         [85980] = { -- One Commendation Signet
@@ -3822,10 +3921,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,5}},
         },
         [85981] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [85982] = { -- Ten Commendation Signets
@@ -3833,6 +3934,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{2496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [85983] = { -- One Commendation Signet
@@ -3840,22 +3942,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14910}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
         },
         [85984] = { -- One Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
         },
         [85985] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
         },
         [85986] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
         },
         [85987] = { -- One Commendation Signet
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,5}},
         },
         [85988] = { -- Ten Commendation Signets
@@ -3863,14 +3970,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{15395}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,5}},
         },
         [86160] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
         },
         [86161] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
         },
         [86326] = { -- Desert Power
@@ -3910,6 +4020,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Arcanite Buoy"),0,{{"object", 180669}}}},
         },
+        [86449] = { -- Treasure of the Timeless One
+            [questKeys.preQuestSingle] = {8742},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
+        },
+        [86670] = { -- The Savior of Kalimdor
+            [questKeys.startedBy] = {{15379}},
+            [questKeys.finishedBy] = {{15192}},
+            [questKeys.preQuestSingle] = {8801},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200},{factionIDs.BROOD_OF_NOZDORMU,1000}},
+        },
         [86671] = { -- Imperial Qiraji Regalia
             [questKeys.startedBy] = {{15378}},
             [questKeys.finishedBy] = {{15378}},
@@ -3919,6 +4042,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{15378}},
             [questKeys.finishedBy] = {{15378}},
             [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
+        [86673] = { -- The Fall of Ossirian
+            [questKeys.startedBy] = {nil,nil,{21220}},
+            [questKeys.finishedBy] = {{15181}},
+            [questKeys.zoneOrSort] = zoneIDs.RUINS_OF_AHN_QIRAJ,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200},{factionIDs.BROOD_OF_NOZDORMU,200}},
         },
         [86675] = { -- Volunteer's Battlegear
             [questKeys.startedBy] = {{15176}},
@@ -3953,13 +4082,29 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,50}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [86679] = { -- Shrouded in Nightmare
+            [questKeys.startedBy] = {{14887,14888,14889,14890},nil,{20644}},
+            [questKeys.finishedBy] = {{11832}},
+            [questKeys.zoneOrSort] = sortKeys.EPIC,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
+        },
+        [86680] = { -- Waking Legends
+            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
+            [questKeys.preQuestSingle] = {86679},
+            [questKeys.zoneOrSort] = sortKeys.EPIC,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
+        },
         [86724] = { -- Dust to Dust
+            [questKeys.objectives] = {{{18199,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         [86725] = { -- Dust to Dust
+            [questKeys.objectives] = {{{17090,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         [86760] = { -- Darkmoon Beast Deck
             [questKeys.startedBy] = {nil,nil,{235278}},
@@ -3988,6 +4133,906 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{235275}}},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [86964] = { -- For Gold and Glory!
+            [questKeys.startedBy] = {nil,{600001}},
+            [questKeys.finishedBy] = {{237820}},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86965] = { -- No Ordinary Shadows
+            [questKeys.startedBy] = {{237820}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.preQuestSingle] = {86964},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86966] = { -- Seeking Survivors
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{237819}},
+            [questKeys.triggerEnd] = {"Search for any survivor of the unfortunate adventuring party", {[zoneIDs.DEADWIND_PASS]={{65.43,78.64}}}},
+            [questKeys.preQuestSingle] = {86965},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86967] = { -- To the Rescue
+            [questKeys.startedBy] = {{237819}},
+            [questKeys.finishedBy] = {{237818}},
+            [questKeys.objectives] = {nil,{{424003}}},
+            [questKeys.preQuestSingle] = {86966},
+            [questKeys.requiredSourceItems] = {235785},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86968] = { -- Are You Afraid of the Dark?
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.objectives] = {{{237818,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {86967},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86969] = { -- The Hypothesis
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.objectives] = {nil,nil,{{235789},{235787},{235788}}},
+            [questKeys.sourceItemId] = 236002,
+            [questKeys.preQuestSingle] = {86968},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86970] = { -- Testing Our Hypothesis
+            [questKeys.startedBy] = {{218920}},
+            [questKeys.finishedBy] = {{218920}},
+            [questKeys.triggerEnd] = {"Test the magical torch", {[zoneIDs.DEADWIND_PASS]={{39.99,74.16}}}},
+            [questKeys.objectives] = {},
+            [questKeys.sourceItemId] = 235790,
+            [questKeys.preQuestSingle] = {86969},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [86971] = { -- Curious Karazhan Curios!
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.finishedBy] = {{237818}},
+            [questKeys.preQuestSingle] = {86970},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
+        },
+        [86972] = { -- Curious Karazhan Curios!
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.preQuestSingle] = {86971},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [87283] = { -- The Violet Satchel
+            [questKeys.startedBy] = {nil,nil,{235852}},
+            [questKeys.finishedBy] = {{16381}},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [87360] = { -- The Fall of Kel'Thuzad
+            [questKeys.startedBy] = {nil,nil,{236350}},
+            [questKeys.finishedBy] = {{16113}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
+        [87361] = { -- Laid to Rest
+            [questKeys.startedBy] = {nil,nil,{236750}},
+            [questKeys.finishedBy] = {{238376}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
+        [87362] = { -- Hope Begins in the Dark
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87364] = { -- Seal the Deal
+            [questKeys.startedBy] = {{238382}},
+            [questKeys.finishedBy] = {{238382}},
+            [questKeys.preQuestSingle] = {87362},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87365] = { -- Valor Grows by Daring
+            [questKeys.preQuestSingle] = {87364},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87366] = { -- Knight Time
+            [questKeys.preQuestSingle] = {87365},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87367] = { -- A New Light
+            [questKeys.preQuestSingle] = {87366},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87368] = { -- A Product of Faith
+            [questKeys.preQuestSingle] = {87367},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87369] = { -- Cultivating Faith
+            [questKeys.preQuestSingle] = {87368},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [87377] = { -- Never at Rest
+            [questKeys.startedBy] = {{238376}},
+            [questKeys.finishedBy] = {{238376}},
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {88713,88714,88715,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87433] = { -- Argent Dawn Plate Gloves
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87434] = { -- Argent Dawn Plate Gloves
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87435] = { -- Argent Dawn Mail Gloves
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87436] = { -- Argent Dawn Mail Gloves
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87437] = { -- Argent Dawn Leather Gloves
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID + classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87438] = { -- Argent Dawn Leather Gloves
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID + classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87439] = { -- Argent Dawn Cloth Gloves
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87440] = { -- Argent Dawn Cloth Gloves
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87441] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87442] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87443] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87444] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9251},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [87459] = { -- Scarlet Activities
+            [questKeys.preQuestSingle] = {9121,9122,9123},
+            [questKeys.nextQuestInChain] = 87493,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [87493] = { -- Unrest at Tyr's Hand
+            [questKeys.preQuestSingle] = {87459},
+            [questKeys.nextQuestInChain] = 87497,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87497] = { -- The Schism
+            [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {87493},
+            [questKeys.nextQuestInChain] = 87498,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87498] = { -- The Scarlet Reclamation
+            [questKeys.preQuestSingle] = {87497},
+            [questKeys.nextQuestInChain] = 87502,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87502] = { -- Gathering Intelligence
+            [questKeys.objectives] = {{{239154,nil,Questie.ICON_TYPE_EVENT},{239152,nil,Questie.ICON_TYPE_EVENT},{239153,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.nextQuestInChain] = 87506,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Inquisitor Jociphine to get a disguise"),0,{{"monster", 243023}}}},
+        },
+        [87506] = { -- Weakening The Defenses
+            [questKeys.preQuestSingle] = {87502},
+            [questKeys.nextQuestInChain] = 87508,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87508] = { -- Report to Lord Tyrosus
+            [questKeys.objectives] = {{{11034,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {87506},
+            [questKeys.nextQuestInChain] = 87509,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87509] = { -- The Wrath of the Dawn
+            [questKeys.objectives] = {{{239032,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {87508},
+            [questKeys.nextQuestInChain] = 87516,
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87516] = { -- Decapitation Strike
+            [questKeys.objectives] = {{{240811}}},
+            [questKeys.preQuestSingle] = {87509},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87517] = { -- Red = Dead
+            [questKeys.preQuestSingle] = {87516},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [87518] = { -- Fall of the Grand Crusader
+            [questKeys.finishedBy] = {{239337}},
+            [questKeys.preQuestSingle] = {87517},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [88654] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [88713] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88714,88715,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88714] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88715,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88715] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88716,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88716] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88717,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88717] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88716,88718},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88718] = { -- Never at Rest
+            [questKeys.preQuestSingle] = {87361},
+            [questKeys.exclusiveTo] = {87377,88713,88714,88715,88716,88717},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,8999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88722] = { -- Superior Armaments of Battle - Honored Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,9000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,20999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88723] = { -- Superior Armaments of Battle - Revered Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,21000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,41999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88724] = { -- Superior Armaments of Battle - Exalted Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,42000},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88725] = { -- Epic Armaments of Battle - Friend of the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,8999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88726] = { -- Epic Armaments of Battle - Honored Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,9000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,20999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88727] = { -- Epic Armaments of Battle - Revered Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,21000},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,41999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88728] = { -- Epic Armaments of Battle - Exalted Amongst the Dawn
+            [questKeys.startedBy] = {{11536}},
+            [questKeys.finishedBy] = {{11536}},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,42000},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,100}},
+        },
+        [88729] = { -- Ramaladni's Icy Grasp
+            [questKeys.objectives] = {nil,nil,{{22682},{12361},{12360}}},
+            [questKeys.preQuestSingle] = {9229},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+        },
+        [88730] = { -- The Only Song I Know...
+            [questKeys.startedBy] = {{16376}},
+            [questKeys.finishedBy] = {{16376}},
+            [questKeys.objectives] = {nil,nil,{{236656},{7080},{12361}}},
+            [questKeys.preQuestSingle] = {9033},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
+        [88744] = { -- Under the Shadow
+            [questKeys.startedBy] = {{16361}},
+            [questKeys.finishedBy] = {{16361}},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
+        },
+        [88745] = { -- Shadows of Doom
+            [questKeys.startedBy] = {{16361}},
+            [questKeys.finishedBy] = {{16361}},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
+        },
+        [88746] = { -- Consecrated Sharpening Stones
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88747] = { -- Consecrated Sharpening Stones
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88748] = { -- Cracked Necrotic Crystal
+            [questKeys.startedBy] = {{16531}},
+            [questKeys.finishedBy] = {{16478}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88749] = { -- Faint Necrotic Crystal
+            [questKeys.startedBy] = {{16531}},
+            [questKeys.finishedBy] = {{16494}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88882] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88883] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88968] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
+            [questKeys.finishedBy] = {{14720}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {7783},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [88969] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+            [questKeys.finishedBy] = {{14721}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {7781},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [89224] = { -- Food Shortage
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+        },
+        [89229] = { -- The Right Path
+            [questKeys.preQuestSingle] = {89328},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89232] = { -- The First Step
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89300},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89303,
+        },
+        [89234] = { -- A Personal Matter
+            [questKeys.preQuestSingle] = {89574},
+            [questKeys.nextQuestInChain] = 89235,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89235] = { -- The Culling
+            [questKeys.preQuestSingle] = {89234},
+            [questKeys.nextQuestInChain] = 89310,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89236] = { -- Wrangling Apples
+            [questKeys.preQuestSingle] = {89224},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.objectives] = {nil,nil,{{238811}}},
+            [questKeys.requiredSourceItems] = {238830,238831},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
+        },
+        [89237] = { -- This Could Get Expensive...
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89449},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89304,
+        },
+        [89245] = { -- Fish in a Barrel
+            [questKeys.preQuestSingle] = {89224},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Free the fish from their barrels."), 0, {{"monster", 241032}}},
+            },
+        },
+        [89253] = { -- Main Course
+            [questKeys.preQuestSingle] = {89224},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89255] = { -- Prove Your Worth: Headgear
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89256,89257,89258,89259,89260,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89256] = { -- Prove Your Worth: Shoulderpads
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89257,89258,89259,89260,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89257] = { -- Prove Your Worth: Chestpiece
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89258,89259,89260,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89258] = { -- Prove Your Worth: Wristguards
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89257,89259,89260,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89259] = { -- Prove Your Worth: Gloves
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89257,89258,89260,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89260] = { -- Prove Your Worth: Belt
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89257,89258,89259,89261,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89261] = { -- Prove Your Worth: Legguards
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89257,89258,89259,89260,89262,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89262] = { -- Prove Your Worth: Boots
+            [questKeys.startedBy] = {{240248}},
+            [questKeys.finishedBy] = {{240248}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSourceItems] = {238960},
+            [questKeys.exclusiveTo] = {89255,89256,89257,89258,89259,89260,89261,89421},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89300] = { -- The Ashbringer
+            [questKeys.startedBy] = {nil,nil,{239696}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89304},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89232,
+        },
+        [89301] = { -- A Difficult Path
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89443},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89451,
+        },
+        [89303] = { -- On Fate's Path
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89232},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89442,
+        },
+        [89304] = { -- The Perfect Metal
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89237},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89300,
+        },
+        [89310] = { -- Terrordale
+            [questKeys.preQuestSingle] = {89235},
+            [questKeys.nextQuestInChain] = 89329,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89328] = { -- Loss
+            [questKeys.preQuestSingle] = {89329},
+            [questKeys.nextQuestInChain] = 89229,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89329] = { -- Stomping Out The Infestation
+            [questKeys.preQuestSingle] = {89310},
+            [questKeys.nextQuestInChain] = 89328,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89340] = { -- Preposterously Prosed Postage
+            [questKeys.startedBy] = {nil,nil,{239092}},
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.objectivesText] = {"Finish the delivery. NOTE: You need to deploy a Pop-Up Shrub to spawn the Scarlet Courier."},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89341] = { -- The Great Feast
+            [questKeys.preQuestGroup] = {89236,89245,89253,89340},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89342] = { -- VIP Haute Club Membership
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectives] = {{{241462},{241461}},nil,{{238639},{238637}}},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89381] = { -- Pin Cushion
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89421] = { -- Bullet Heaven
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,250},
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89442] = { -- Emblem of Darkness
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89303},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89443,
+        },
+        [89443] = { -- Falling Into Place
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89442},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89301,
+        },
+        [89445] = { -- Blades of Light
+            [questKeys.startedBy] = {nil,nil,{239196}},
+            [questKeys.finishedBy] = {{16376}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89446,
+        },
+        [89446] = { -- The Lost Craftsman
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89445},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89447,
+        },
+        [89447] = { -- Extravagant Tastes
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89446},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89448,
+        },
+        [89448] = { -- Gathering Light
+            [questKeys.startedBy] = {{16365}},
+            [questKeys.finishedBy] = {{16365}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89447},
+            [questKeys.triggerEnd] = {"Explore the Scarlet Enclave Smithy",{[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}}},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89449,
+        },
+        [89449] = { -- The Radiant Forge
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89448},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89237,
+        },
+        [89451] = { -- Journey To Moonglade
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89301},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89462,
+        },
+        [89462] = { -- The Druid of the Talon
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89451},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90507,
+        },
+        [89463] = { -- Nondisclosure Argument
+            [questKeys.name] = "Nondisclosure Argument",
+            [questKeys.preQuestSingle] = {87498},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89471] = { -- Goblin Tinkering
+            [questKeys.sourceItemId] = 239246,
+            [questKeys.preQuestSingle] = {89463},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89473] = { -- The Well of Eternity
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {90508},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90559,
+        },
+        [89474] = { -- Forgiveness
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {90559},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89475,
+        },
+        [89475] = { -- The Lonely Path of the Damned
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89474},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89488,
+        },
+        [89485] = { -- Whimsical Horrors
+            [questKeys.preQuestSingle] = {89471},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89486] = { -- A Pinch of Gunpowder
+            [questKeys.preQuestSingle] = {89471},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89487] = { -- Much Ado About Magnets
+            [questKeys.preQuestSingle] = {89471},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89488] = { -- A Kind of Peace
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89475},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [89489] = { -- Increased Drop Rate
+            [questKeys.preQuestGroup] = {89485,89486,89487},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89491] = { -- A Complicated Escape Plan
+            [questKeys.preQuestSingle] = {89489},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,250},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [89562] = { -- My Old Enemy
+            [questKeys.objectives] = {{{11036,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {87497},
+            [questKeys.nextQuestInChain] = 89563,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89563] = { -- Leonid's Burden
+            [questKeys.preQuestSingle] = {89562},
+            [questKeys.nextQuestInChain] = 89567,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89567] = { -- The Wrecked Caravan
+            [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
+            [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS]={{33.5,27.6}}}},
+            [questKeys.preQuestSingle] = {89563},
+            [questKeys.nextQuestInChain] = 89568,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89568] = { -- Something New
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8523,8524,8525,8530,8543},243629}}},
+            [questKeys.preQuestSingle] = {89567},
+            [questKeys.sourceItemId] = 242319,
+            [questKeys.nextQuestInChain] = 89574,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [89574] = { -- Servants of Death
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8551,8553,8555},243630}}},
+            [questKeys.preQuestSingle] = {89568},
+            [questKeys.sourceItemId] = 242320,
+            [questKeys.nextQuestInChain] = 89234,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [90107] = { -- The Blade Reformed
+            [questKeys.preQuestSingle] = {89237},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [90116] = { -- Holy Threads
+            [questKeys.preQuestSingle] = {87502},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.TAILORING,250},
+            [questKeys.nextQuestInChain] = 90120,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Craft cloth bolts near the Crusader's Loom"),0,{{"object", 600003}}}},
+        },
+        [90120] = { -- Red is Not Dead
+            [questKeys.preQuestSingle] = {90116},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.TAILORING,250},
+        },
+        [90506] = { -- Take Their Breath Away
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89462},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90508,
+        },
+        [90507] = { -- Logistics Challenges
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89462},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 90508,
+        },
+        [90508] = { -- As The Crow Flies
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestGroup] = {90506,90507},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89473,
+        },
+        [90510] = { -- New Avalon
+            [questKeys.preQuestSingle] = {87502},
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [90518] = { -- An Apple a Day Keeps the Undead at Bay
+            [questKeys.objectives] = {nil,nil,{{238811}}},
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90519,90520},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {238830,238831},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
+        },
+        [90519] = { -- Fish On Demand
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90518,90520},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Free the fish from their barrels."), 0, {{"monster", 241032}}},
+            },
+        },
+        [90520] = { -- Food Safety
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.preQuestSingle] = {89341},
+            [questKeys.exclusiveTo] = {90518,90519},
+            [questKeys.requiredSkill] = {profKeys.COOKING,250},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+        },
+        [90559] = { -- The Tempering
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {89473},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.nextQuestInChain] = 89474,
+        },
+        [90560] = { -- Familiar Foulness
+            [questKeys.startedBy] = {nil,{531291},{241655}},
+            [questKeys.sourceItemId] = 241655,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
+        },
+        [90566] = { -- Oh, My Bleeding Hearts!
+            [questKeys.startedBy] = {{2055}},
+            [questKeys.preQuestSingle] = {90560},
+            [questKeys.sourceItemId] = 242224,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
+        },
+        [90567] = { -- Unfamiliar Foulness
+            [questKeys.startedBy] = {nil,{531291},{241656}},
+            [questKeys.sourceItemId] = 241656,
+            [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY, 250}
+        },
+        [90625] = { -- On Dreaded Wings
+            [questKeys.startedBy] = {nil,nil,{242365}},
+            [questKeys.finishedBy] = {{238415}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [90626] = { -- Sinew of Light
+            [questKeys.startedBy] = {{238415}},
+            [questKeys.finishedBy] = {{238415}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {nil,nil,{{242364}}},
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.preQuestSingle] = {90625},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+        },
+        [90627] = { -- Crafty the Crafter
+            [questKeys.startedBy] = {{238415}},
+            [questKeys.finishedBy] = {{14353}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {},
+            [questKeys.sourceItemId] = 242365,
+            [questKeys.preQuestSingle] = {90626},
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
         },
 
         --- Fake rune quests
@@ -5237,18 +6282,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90107] = {
-            [questKeys.name] = "Frenzied Assault",
-            [questKeys.startedBy] = {{203475}},
-            [questKeys.finishedBy] = {{203475}},
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 10,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Talk to Liv Bradford and then defeat Stuart outside the Inn. Return to Liv afterwards"},
-            [questKeys.requiredSpell] = -425447,
-            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
-        },
         [90108] = {
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{6736}},
@@ -5345,18 +6378,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90116] = {
-            [questKeys.name] = "Endless Rage",
-            [questKeys.startedBy] = {{210802,211146}},
-            [questKeys.finishedBy] = {{211146}},
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 16,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Attack the Webbed Victim to free the Lost Adventurer and defeat him."},
-            [questKeys.requiredSpell] = -403489,
-            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
-        },
         [90117] = {
             [questKeys.name] = "Seal of Martyrdom",
             [questKeys.startedBy] = {{205278,205153},{402215}},
@@ -5391,18 +6412,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Defeat the Undying Laborer in the mine and finish him with holy damage to receive the Libram of Blessings. Then equip it and follow its guidance."},
             [questKeys.requiredSpell] = -425618,
-            [questKeys.zoneOrSort] = sortKeys.PALADIN,
-        },
-        [90120] = {
-            [questKeys.name] = "Aegis",
-            [questKeys.startedBy] = {{204989,208802}},
-            [questKeys.finishedBy] = {{204989,208802}},
-            [questKeys.requiredLevel] = 8,
-            [questKeys.questLevel] = 8,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Cast Purify on the Wounded Adventurer and talk to him afterwards."},
-            [questKeys.requiredSpell] = -425619,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [90121] = {
@@ -5504,7 +6513,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90129] = {
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {nil,{407117,407120}},
-            [questKeys.finishedBy] = {{407120}},
+            [questKeys.finishedBy] = {nil,{407120}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -7554,6 +8563,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90301] = {
             [questKeys.name] = "Purifying Power",
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
             [questKeys.requiredSpell] = -429255,
@@ -8165,6 +9175,62 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90353] = {
+            [questKeys.name] = "Endless Rage",
+            [questKeys.startedBy] = {{210802,211146}},
+            [questKeys.finishedBy] = {{211146}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 16,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Attack the Webbed Victim to free the Lost Adventurer and defeat him."},
+            [questKeys.requiredSpell] = -403489,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [90354] = {
+            [questKeys.name] = "Aegis",
+            [questKeys.startedBy] = {{204989,208802}},
+            [questKeys.finishedBy] = {{204989,208802}},
+            [questKeys.requiredLevel] = 8,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Cast Purify on the Wounded Adventurer and talk to him afterwards."},
+            [questKeys.requiredSpell] = -425619,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90355] = {
+            [questKeys.name] = "Frenzied Assault",
+            [questKeys.startedBy] = {{203475}},
+            [questKeys.finishedBy] = {{203475}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Talk to Liv Bradford and then defeat Stuart outside the Inn. Return to Liv afterwards"},
+            [questKeys.requiredSpell] = -425447,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [91000] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233335}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [91001] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233428}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
     }
 end
 
@@ -8409,6 +9475,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Oran Snakewrithe in Undercity."},
         },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
     }
 
     local questFixesAlliance = {
@@ -8647,6 +9717,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [84402] = { -- Necromancy 101
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Jennea Cannon in Stormwind."},
+        },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
         },
     }
 

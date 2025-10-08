@@ -19,34 +19,46 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
-local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
-local dungeons = ZoneDB.private.dungeons or {}
-local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+local areaIdToUiMapId
+local uiMapIdToAreaId
+local dungeons
+local subZoneToParentZone
 
 -- Generated from alternativeAreaId in dungeons
 -- [alternativeDungeonAreaId] = dungeonZone
 ---@type table<AreaId, AreaId>
 local alternativeDungeonAreaIdToDungeonAreaId = {}
 
----Zone ids enum
-ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
-
-
--- Overrides for UiMapId to AreaId
-local UiMapIdOverrides = {
-    [246] = 3713,
-    -- We map "Eastern Kingdom" and "Kalimdor" zone to 0, because they are not used for any NPC/object, but can be returned from
-    -- C_Map.GetBestMapForUnit("player") when the player is in a cave for example.
-    [113] = 0, -- Northrend
-    [1414] = 0, -- Kalimdor
-    [1415] = 0, -- Eastern Kingdom
-    [1945] = 0, -- Outland
-}
 local zoneMap = {} -- Generated
 
 
 function ZoneDB.Initialize()
+    areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local areaIdToUiMapIdOverride = loadstring(ZoneDB.private.areaIdToUiMapIdOverride)()
+    for areaId, uiMapId in pairs(areaIdToUiMapIdOverride) do
+        areaIdToUiMapId[areaId] = uiMapId
+    end
+
+    uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
+
+    -- Override areaIdToUiMapId with manual overrides
+    local uiMapIdToAreaIdOverride = loadstring(ZoneDB.private.uiMapIdToAreaIdOverride)()
+    for areaId, uiMapId in pairs(uiMapIdToAreaIdOverride) do
+        uiMapIdToAreaId[areaId] = uiMapId
+    end
+
+    dungeons = ZoneDB.private.dungeons
+
+    subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
+
+    -- Override subZoneToParentZone with manual overrides
+    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
+    for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
+        subZoneToParentZone[areaId] = parentZoneId
+    end
+
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
@@ -74,11 +86,6 @@ end
 ---@param uiMapId UiMapId
 ---@return AreaId
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    --? Some areas have multiple areaIds, so we return the correct AreaId
-    if UiMapIdOverrides[uiMapId] then
-        return UiMapIdOverrides[uiMapId]
-    end
-
     local foundId
     -- First we look for a direct match
     for AreaUiMapId, lAreaId in pairs(uiMapIdToAreaId) do
@@ -349,7 +356,7 @@ end
 function _ZoneDB:RunTests()
     -- Fetch all UiMapIds (WOTLK/TBC, ERA)
     local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB")
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
     local buggedMaps = {
         [306] = true, -- ScholomanceOLD
         [307] = true, -- ScholomanceOLD
@@ -366,7 +373,7 @@ function _ZoneDB:RunTests()
 
         end
     end
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB done")
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
 end
 
 return ZoneDB

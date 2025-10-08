@@ -1,11 +1,15 @@
 dofile("Modules/Libs/QuestieLoader.lua")
+dofile("Modules/Expansions.lua")
 
 dofile("Database/itemDB.lua")
+dofile("Database/questDB.lua")
+dofile("Database/Zones/data/zoneIds.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
 
-_G.bit = {band = function() return 0 end}
+local bit = require("bit32")
+_G.bit = bit
 _G.table.getn = function(table)
     local count = 0
     for _ in pairs(table) do count = count + 1 end
@@ -19,16 +23,34 @@ _G.tContains = function(tab, val)
     end
     return false
 end
+_G.strsplit = function(delimiter, str)
+    local results = {}
+    for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
+        table.insert(results, match)
+    end
+    return unpack(results)
+end
+_G.date = os.date
+_G.string.trim = function(str)
+    return str:gsub("^%s*(.-)%s*$", "%1")
+end
+_G.strlen = string.len
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
+_G.GetCurrentRegion = function() return 3 end
 
-_G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
+_G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
 
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
+_G.C_AddOns = {
+    IsAddOnLoaded = function()
+        return false, true
+    end
+}
 _G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
 setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
     mockedReturnValue = false,
@@ -40,17 +62,28 @@ _G.DurabilityFrame = {
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
-_G.GetItemCount = function() return 0 end
+_G.C_Item = {
+    GetItemCount = function() return 0 end,
+    GetItemSpell = function() return nil end,
+}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
+_G.InCombatLockdown = function() return false end
+_G.IsControlKeyDown = function() return false end
 _G.IsEquippableItem = function() return false end
 _G.IsInGroup = function() return false end
+_G.IsShiftKeyDown = function() return false end
+_G.UnitClass = function() return "Druid", "DRUID", 11 end
+_G.UnitFactionGroup = function() return "Horde", "Horde" end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
 _G.UnitName = function() return "Testi" end
+_G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
+_G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
+_G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
 
 local mockedFrames = {}
 _G.CreateFrame = {
@@ -110,7 +143,7 @@ setmetatable(_G.CreateFrame, {
                 point = {l, nil, nil, x, y}
             end,
             GetPoint = function()
-                return table.unpack(point)
+                return unpack(point)
             end,
             SetParent = EMTPY_FUNC,
             CreateFontString = function()
@@ -207,25 +240,20 @@ _G["Questie"] = {
         profile = {},
         global = {},
     },
+    Print = EMTPY_FUNC,
     Debug = EMTPY_FUNC,
+    Warning = function(_, text)
+        print("|cffffff00[WARNING]|r", text)
+    end,
     icons = {},
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
     end,
+    UnregisterEvent = function(_, eventName)
+        registeredEvents[eventName] = nil
+    end,
     SendMessage = EMTPY_FUNC,
-}
-
----@type ZoneDB
-local ZoneDB = require("Database.Zones.zoneDB")
-ZoneDB.zoneIDs = {
-    ICECROWN = 210,
-    DEEPHOLM = 5042,
-    STORMWIND_CITY = 1519,
-    IRONFORGE = 1537,
-    TELDRASSIL = 141,
-    ORGRIMMAR = 1637,
-    THUNDER_BLUFF = 1638,
-    UNDERCITY = 1497,
+    IsMoP = true,
 }
 
 ---@class TestUtils
@@ -233,11 +261,17 @@ local TestUtils = {
     resetEvents = function()
         registeredEvents = {}
     end,
+    ---@param eventName string
     triggerMockEvent = function(eventName, ...)
         if registeredEvents[eventName] then
             registeredEvents[eventName](eventName, ...)
         end
-    end
+    end,
+    ---@param eventName string
+    ---@return boolean
+    isEventRegistered = function(eventName)
+        return registeredEvents[eventName] ~= nil
+    end,
 }
 
 return TestUtils

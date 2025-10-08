@@ -9,8 +9,9 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
+local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
+local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 local _GetAnnounceMarker
@@ -179,6 +180,16 @@ function QuestieAnnounce:CompletedQuest(questId)
         local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
         _QuestieAnnounce:AnnounceToChannel(message)
     end
+end
+
+---@param questId QuestId
+---@param breadcrumbQuestId QuestId
+function QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
+    local questLink = QuestieLink:GetQuestHyperLink(questId)
+    local breadcrumbQuestLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
+
+    local message = l10n("You have accepted %s without completing its breadcrumb quest %s.", questLink, breadcrumbQuestLink)
+    Questie:Print(message)
 end
 
 return QuestieAnnounce

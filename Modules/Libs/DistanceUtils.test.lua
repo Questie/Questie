@@ -57,7 +57,7 @@ describe("DistanceUtils", function()
             assert.equals(1, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(HBDMock.GetPlayerWorldPosition).was_called()
+            assert.spy(HBDMock.GetPlayerWorldPosition).was.called()
             assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
             assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
             assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)
@@ -125,6 +125,22 @@ describe("DistanceUtils", function()
 
             assert.spy(QuestieLib.Euclid).was_called_with(0, 0, 123, 456)
         end)
+
+        it("should error once when dungeon location is not found", function()
+            _G.Questie.Error = spy.new(function() end)
+            ZoneDB.GetDungeonLocation = spy.new(function()
+                return nil
+            end)
+            local spawns = {
+                [2] = {{-1,-1}},
+            }
+
+            DistanceUtils.GetNearestSpawn(spawns)
+            DistanceUtils.GetNearestSpawn(spawns)
+
+            assert.spy(_G.Questie.Error).was_called(1)
+            assert.spy(_G.Questie.Error).was_called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
+        end)
     end)
 
     describe("GetNearestObjective", function()
@@ -162,6 +178,15 @@ describe("DistanceUtils", function()
             assert.equals(2, bestSpawnZone)
             assert.equals("Objective 2", bestSpawnName)
             assert.equals(0, bestDistance)
+        end)
+
+        it("should handle nil objectiveSpawnList", function()
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestObjective(nil)
+
+            assert.is_nil(bestSpawn)
+            assert.is_nil(bestSpawnZone)
+            assert.is_nil(bestSpawnName)
+            assert.equals(999999999, bestDistance)
         end)
     end)
 

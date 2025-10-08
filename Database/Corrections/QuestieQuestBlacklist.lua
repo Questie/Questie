@@ -1,16 +1,15 @@
 ---@class QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@return table<QuestId, boolean>
 function QuestieQuestBlacklist:Load()
+    local locale = GetLocale()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
-        [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
-        [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
         [2358] = true, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
@@ -22,7 +21,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.CATA_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -37,7 +36,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [936] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Cata,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -601,13 +600,15 @@ function QuestieQuestBlacklist:Load()
         [12402] = true,
         [12403] = true,
         [12404] = true,
+        [12405] = true, -- not in the game
         [12406] = true,
         [12407] = true,
         [12408] = true,
         [12409] = true,
+        [12410] = true, -- not in the game
         [12420] = true,
         [12421] = true,
-        [13158] = QuestieCorrections.CATA_HIDE, -- replaced in Cata with 29829
+        [13158] = Expansions.Current >= Expansions.Cata, -- replaced in Cata with 29829
         ----------------
         --- Wotlk event quests
         --- Noblegarden
@@ -806,16 +807,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6862] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6864] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [6901] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6861] = Expansions.Current == Expansions.Era,
+        [6862] = Expansions.Current == Expansions.Era,
+        [6864] = Expansions.Current == Expansions.Era,
+        [6901] = Expansions.Current == Expansions.Era,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7282] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7301] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [7302] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7281] = Expansions.Current == Expansions.Era,
+        [7282] = Expansions.Current == Expansions.Era,
+        [7301] = Expansions.Current == Expansions.Era,
+        [7302] = Expansions.Current == Expansions.Era,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -868,23 +869,23 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         --Darkmoon Faire
-        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
-        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7905] = Expansions.Current < Expansions.Cata,
+        [7926] = Expansions.Current < Expansions.Cata,
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
-        [9260] = true,
-        [9261] = true,
-        [9262] = true,
-        [9263] = true,
-        [9264] = true,
-        [9265] = true,
+        [9260] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9261] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9262] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9263] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9264] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9265] = not(Questie.IsSoD or Questie.IsAnniversary),
         --
-        [9085] = true,
-        [9153] = true,
-        [9154] = true,
+        [9085] = (not Questie.IsAnniversary),
+        [9153] = (not Questie.IsAnniversary),
+        [9154] = not(Questie.IsSoD or Questie.IsAnniversary),
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
@@ -1053,8 +1054,8 @@ function QuestieQuestBlacklist:Load()
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
-        [2881] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Wildhammer faction removed in TBC. Repeatable to gain rep
-        [8329] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
+        [2881] = Expansions.Current >= Expansions.Tbc, -- Wildhammer faction removed in TBC. Repeatable to gain rep
+        [8329] = Expansions.Current < Expansions.Cata, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
@@ -1091,7 +1092,7 @@ function QuestieQuestBlacklist:Load()
         [64144] = true, -- Horde pala mount quest chain
         [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
-        [64845] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Alliance War Effort
+        [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
@@ -1146,13 +1147,13 @@ function QuestieQuestBlacklist:Load()
         [708] = true,
         [909] = true,
         [1288] = true,
-        [1661] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [1661] = Expansions.Current >= Expansions.Tbc,
         [3366] = true,
         [3381] = true,
         [5627] = true,
-        [5641] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [5645] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [5647] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [5641] = Expansions.Current >= Expansions.Tbc,
+        [5645] = Expansions.Current >= Expansions.Tbc,
+        [5647] = Expansions.Current >= Expansions.Tbc,
         [6131] = true,
         [6221] = true,
         [6241] = true,
@@ -1164,60 +1165,64 @@ function QuestieQuestBlacklist:Load()
         [7425] = true,
         [7426] = true,
         [7521] = true,
-        [8368] = true,
-        [8383] = true,
-        [8384] = true,
-        [8386] = true,
-        [8387] = true,
-        [8390] = true,
-        [8391] = true,
-        [8392] = true,
-        [8397] = true,
-        [8398] = true,
-        [8404] = true,
-        [8405] = true,
-        [8406] = true,
-        [8407] = true,
-        [8408] = true,
-        [8411] = true,
-        [8426] = true,
-        [8427] = true,
-        [8428] = true,
-        [8429] = true,
-        [8430] = true,
-        [8440] = true,
-        [8441] = true,
-        [8442] = true,
-        [8443] = true,
+        [8411] = Expansions.Current >= Expansions.Cata, -- not sure when this quest was removed, Wowhead says Cata, it is present in Classic SoD
         [9712] = true,
         [10377] = true,
         [11052] = true,
 
-        -- Classic only PvP quests
-        [8369] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8370] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8372] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8374] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8375] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8389] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8393] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8394] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8395] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8396] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8399] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8400] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8401] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8402] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8403] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8431] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8432] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8433] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8434] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8435] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8436] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8437] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8438] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        -- Marks of Honor PvP quests - All of them should only be available in Era
+        [8367] = Expansions.Current >= Expansions.Tbc,
+        [8368] = Expansions.Current >= Expansions.Tbc,
+        [8369] = Expansions.Current >= Expansions.Tbc,
+        [8370] = Expansions.Current >= Expansions.Tbc,
+        [8371] = Expansions.Current >= Expansions.Tbc,
+        [8372] = Expansions.Current >= Expansions.Tbc,
+        [8374] = Expansions.Current >= Expansions.Tbc,
+        [8375] = Expansions.Current >= Expansions.Tbc,
+        [8383] = Expansions.Current >= Expansions.Tbc,
+        [8384] = Expansions.Current >= Expansions.Tbc,
+        [8385] = Expansions.Current >= Expansions.Tbc,
+        [8386] = Expansions.Current >= Expansions.Tbc,
+        [8387] = Expansions.Current >= Expansions.Tbc,
+        [8388] = Expansions.Current >= Expansions.Tbc,
+        [8389] = Expansions.Current >= Expansions.Tbc,
+        [8390] = Expansions.Current >= Expansions.Tbc,
+        [8391] = Expansions.Current >= Expansions.Tbc,
+        [8392] = Expansions.Current >= Expansions.Tbc,
+        [8393] = Expansions.Current >= Expansions.Tbc,
+        [8394] = Expansions.Current >= Expansions.Tbc,
+        [8395] = Expansions.Current >= Expansions.Tbc,
+        [8396] = Expansions.Current >= Expansions.Tbc,
+        [8397] = Expansions.Current >= Expansions.Tbc,
+        [8398] = Expansions.Current >= Expansions.Tbc,
+        [8399] = Expansions.Current >= Expansions.Tbc,
+        [8400] = Expansions.Current >= Expansions.Tbc,
+        [8401] = Expansions.Current >= Expansions.Tbc,
+        [8402] = Expansions.Current >= Expansions.Tbc,
+        [8403] = Expansions.Current >= Expansions.Tbc,
+        [8404] = Expansions.Current >= Expansions.Tbc,
+        [8405] = Expansions.Current >= Expansions.Tbc,
+        [8406] = Expansions.Current >= Expansions.Tbc,
+        [8407] = Expansions.Current >= Expansions.Tbc,
+        [8408] = Expansions.Current >= Expansions.Tbc,
+        [8426] = Expansions.Current >= Expansions.Tbc,
+        [8427] = Expansions.Current >= Expansions.Tbc,
+        [8428] = Expansions.Current >= Expansions.Tbc,
+        [8429] = Expansions.Current >= Expansions.Tbc,
+        [8430] = Expansions.Current >= Expansions.Tbc,
+        [8431] = Expansions.Current >= Expansions.Tbc,
+        [8432] = Expansions.Current >= Expansions.Tbc,
+        [8433] = Expansions.Current >= Expansions.Tbc,
+        [8434] = Expansions.Current >= Expansions.Tbc,
+        [8435] = Expansions.Current >= Expansions.Tbc,
+        [8436] = Expansions.Current >= Expansions.Tbc,
+        [8437] = Expansions.Current >= Expansions.Tbc,
+        [8438] = Expansions.Current >= Expansions.Tbc,
+        [8439] = Expansions.Current >= Expansions.Tbc,
+        [8440] = Expansions.Current >= Expansions.Tbc,
+        [8441] = Expansions.Current >= Expansions.Tbc,
+        [8442] = Expansions.Current >= Expansions.Tbc,
+        [8443] = Expansions.Current >= Expansions.Tbc,
 
         -- Phase 4 Zul'Aman
         --[11196] = true, -- Not in the game
@@ -1225,23 +1230,23 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [10985] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13429
-        [10888] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13430
-        [10901] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13431
-        [10445] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13432
-        [6144] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 14349
-        [6821] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
-        [6822] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
-        [6823] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
-        [6824] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
-        [7486] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5634] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5635] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5636] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5637] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5638] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5639] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
-        [5640] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [10985] = Expansions.Current >= Expansions.Wotlk, -- Got replaced by 13429
+        [10888] = Expansions.Current >= Expansions.Wotlk, -- Got replaced by 13430
+        [10901] = Expansions.Current >= Expansions.Wotlk, -- Got replaced by 13431
+        [10445] = Expansions.Current >= Expansions.Wotlk, -- Got replaced by 13432
+        [6144] = Expansions.Current >= Expansions.Wotlk, -- Got replaced by 14349
+        [6821] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
+        [6822] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
+        [6823] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
+        [6824] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
+        [7486] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
+        [5634] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5635] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5636] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5637] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5638] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5639] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
+        [5640] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
         [12881] = true, -- Not in the game
         [14351] = true, -- Not in the game
         [14353] = true, -- Not in the game
@@ -1299,83 +1304,79 @@ function QuestieQuestBlacklist:Load()
         --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
         [25306] = true, -- Not in the game
 
-        [8367] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [8371] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [8385] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [8388] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [13475] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [13476] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [13477] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
-        [13478] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13475] = Expansions.Current >= Expansions.Wotlk, -- pvp marks removed in wotlk
+        [13476] = Expansions.Current >= Expansions.Wotlk, -- pvp marks removed in wotlk
+        [13477] = Expansions.Current >= Expansions.Wotlk, -- pvp marks removed in wotlk
+        [13478] = Expansions.Current >= Expansions.Wotlk, -- pvp marks removed in wotlk
 
-        [6804] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [7737] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- replaced by 13662 in wotlk
-        [9094] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9317] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9318] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9320] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9321] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9333] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9334] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9335] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9336] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9337] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9341] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [9343] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6804] = Expansions.Current >= Expansions.Wotlk,
+        [7737] = Expansions.Current == Expansions.Wotlk, -- replaced by 13662 in wotlk
+        [9094] = Expansions.Current >= Expansions.Wotlk,
+        [9317] = Expansions.Current >= Expansions.Wotlk,
+        [9318] = Expansions.Current >= Expansions.Wotlk,
+        [9320] = Expansions.Current >= Expansions.Wotlk,
+        [9321] = Expansions.Current >= Expansions.Wotlk,
+        [9333] = Expansions.Current >= Expansions.Wotlk,
+        [9334] = Expansions.Current >= Expansions.Wotlk,
+        [9335] = Expansions.Current >= Expansions.Wotlk,
+        [9336] = Expansions.Current >= Expansions.Wotlk,
+        [9337] = Expansions.Current >= Expansions.Wotlk,
+        [9341] = Expansions.Current >= Expansions.Wotlk,
+        [9343] = Expansions.Current >= Expansions.Wotlk,
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
-        [9120] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fall of Kel'Thuzad
-        [9229] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fate of Ramaladni
-        [9230] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Ramaladni's Icy Grasp
-        [9232] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Only Song I Know...
-        [9233] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Omarion's Handbook
-        [9234] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Gauntlets
-        [9235] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Bracers
-        [9236] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Breastplate
-        [9237] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Cloak
-        [9238] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Wrists
-        [9239] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Gloves
-        [9240] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Vest
-        [9241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Bracers
-        [9242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Gloves
-        [9243] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Tunic
-        [9244] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Bracers
-        [9245] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Gauntlets
-        [9246] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Breastplate
+        [9120] = Expansions.Current >= Expansions.Wotlk, -- The Fall of Kel'Thuzad
+        [9229] = Expansions.Current >= Expansions.Wotlk, -- The Fate of Ramaladni
+        [9230] = Expansions.Current >= Expansions.Wotlk, -- Ramaladni's Icy Grasp
+        [9232] = Expansions.Current >= Expansions.Wotlk, -- The Only Song I Know...
+        [9233] = Expansions.Current >= Expansions.Wotlk, -- Omarion's Handbook
+        [9234] = Expansions.Current >= Expansions.Wotlk, -- Icebane Gauntlets
+        [9235] = Expansions.Current >= Expansions.Wotlk, -- Icebane Bracers
+        [9236] = Expansions.Current >= Expansions.Wotlk, -- Icebane Breastplate
+        [9237] = Expansions.Current >= Expansions.Wotlk, -- Glacial Cloak
+        [9238] = Expansions.Current >= Expansions.Wotlk, -- Glacial Wrists
+        [9239] = Expansions.Current >= Expansions.Wotlk, -- Glacial Gloves
+        [9240] = Expansions.Current >= Expansions.Wotlk, -- Glacial Vest
+        [9241] = Expansions.Current >= Expansions.Wotlk, -- Polar Bracers
+        [9242] = Expansions.Current >= Expansions.Wotlk, -- Polar Gloves
+        [9243] = Expansions.Current >= Expansions.Wotlk, -- Polar Tunic
+        [9244] = Expansions.Current >= Expansions.Wotlk, -- Icy Scale Bracers
+        [9245] = Expansions.Current >= Expansions.Wotlk, -- Icy Scale Gauntlets
+        [9246] = Expansions.Current >= Expansions.Wotlk, -- Icy Scale Breastplate
 
         -- Vanilla Onyxia Alliance attunement
-        [4182] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4183] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4184] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4185] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4186] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4223] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4224] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4264] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4282] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4322] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6402] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6403] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6501] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6502] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4182] = Expansions.Current >= Expansions.Wotlk,
+        [4183] = Expansions.Current >= Expansions.Wotlk,
+        [4184] = Expansions.Current >= Expansions.Wotlk,
+        [4185] = Expansions.Current >= Expansions.Wotlk,
+        [4186] = Expansions.Current >= Expansions.Wotlk,
+        [4223] = Expansions.Current >= Expansions.Wotlk,
+        [4224] = Expansions.Current >= Expansions.Wotlk,
+        [4241] = Expansions.Current >= Expansions.Wotlk,
+        [4242] = Expansions.Current >= Expansions.Wotlk,
+        [4264] = Expansions.Current >= Expansions.Wotlk,
+        [4282] = Expansions.Current >= Expansions.Wotlk,
+        [4322] = Expansions.Current >= Expansions.Wotlk,
+        [6402] = Expansions.Current >= Expansions.Wotlk,
+        [6403] = Expansions.Current >= Expansions.Wotlk,
+        [6501] = Expansions.Current >= Expansions.Wotlk,
+        [6502] = Expansions.Current >= Expansions.Wotlk,
 
         -- Vanilla Onyxia Horde pre attunement
-        [4903] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4941] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [4974] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6566] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6567] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6568] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6569] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6570] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6582] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6583] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6584] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6585] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6601] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [6602] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4903] = Expansions.Current >= Expansions.Wotlk,
+        [4941] = Expansions.Current >= Expansions.Wotlk,
+        [4974] = Expansions.Current >= Expansions.Wotlk,
+        [6566] = Expansions.Current >= Expansions.Wotlk,
+        [6567] = Expansions.Current >= Expansions.Wotlk,
+        [6568] = Expansions.Current >= Expansions.Wotlk,
+        [6569] = Expansions.Current >= Expansions.Wotlk,
+        [6570] = Expansions.Current >= Expansions.Wotlk,
+        [6582] = Expansions.Current >= Expansions.Wotlk,
+        [6583] = Expansions.Current >= Expansions.Wotlk,
+        [6584] = Expansions.Current >= Expansions.Wotlk,
+        [6585] = Expansions.Current >= Expansions.Wotlk,
+        [6601] = Expansions.Current >= Expansions.Wotlk,
+        [6602] = Expansions.Current >= Expansions.Wotlk,
 
         -- "learn to ride" series (unimplemented)
         [14079] = true, -- elwynn (human)
@@ -1512,8 +1513,12 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         --- Chinese servers wotlk only
-        [78752] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
-        [78753] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
+        [78752] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Titan Rune Protocol Gamma
+        [78753] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Threats to Azeroth
+        [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
+        [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
+        [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
+        [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -1548,561 +1553,1077 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
-        [7] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [15] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [21] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [26] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [27] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [28] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [29] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [30] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [31] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [32] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [33] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [63] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [67] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [69] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [15] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [17] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [18] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [19] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [20] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [21] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [22] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [26] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [27] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [28] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [29] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [30] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [31] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [32] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [33] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [34] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [36] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [38] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [39] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [48] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [49] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [50] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [51] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [53] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [55] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [56] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [57] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [58] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [61] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [63] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [64] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [65] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [66] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [67] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [68] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [69] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [70] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [72] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [73] = true, -- Not in the game
-        [82] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [96] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [97] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [100] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [74] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [75] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [77] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [78] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [79] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [80] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [81] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [82] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [89] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [90] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [91] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [92] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [93] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [94] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [95] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [96] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [97] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [98] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [99] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [100] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [104] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [105] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [108] = true, -- Not in the game
-        [109] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [110] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [113] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [136] = QuestieCorrections.CATA_HIDE, -- Replaced by 26353
-        [138] = QuestieCorrections.CATA_HIDE, -- Replaced by 26355
-        [139] = QuestieCorrections.CATA_HIDE, -- Replaced by 26356
-        [140] = QuestieCorrections.CATA_HIDE, -- Replaced by 26354
-        [161] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [170] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [174] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [175] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [177] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [179] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [181] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [183] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [199] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [217] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [220] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [224] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [233] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [234] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [235] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [237] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [241] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [242] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [243] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [247] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [250] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [251] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [254] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [255] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [256] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [257] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [258] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [263] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [266] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [267] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [272] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [273] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [274] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [275] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [276] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [277] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [278] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [279] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [280] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [281] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [282] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [283] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [284] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [287] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [288] = QuestieCorrections.CATA_HIDE, -- Replaced by 25815
-        [289] = QuestieCorrections.CATA_HIDE, -- Replaced by 25817
-        [290] = QuestieCorrections.CATA_HIDE, -- Replaced by 25818
-        [291] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [292] = QuestieCorrections.CATA_HIDE, -- Replaced by 25819
-        [293] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [294] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [295] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [296] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [298] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [299] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [301] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [302] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [304] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [305] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [306] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [307] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [308] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [310] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [311] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [312] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [109] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [110] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [113] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [117] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [118] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [119] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [120] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [129] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [131] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [132] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [133] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [134] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [135] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [136] = Expansions.Current >= Expansions.Cata, -- Replaced by 26353
+        [137] = true, -- Not in the game
+        [138] = Expansions.Current >= Expansions.Cata, -- Replaced by 26355
+        [139] = Expansions.Current >= Expansions.Cata, -- Replaced by 26356
+        [140] = Expansions.Current >= Expansions.Cata, -- Replaced by 26354
+        [141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [149] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [150] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [152] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [153] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [154] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [155] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [156] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [157] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [158] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [159] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [160] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [162] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [163] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [166] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [167] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [168] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [169] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [170] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [173] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [174] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [175] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [177] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [180] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [189] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [198] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [199] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [200] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [207] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [209] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [210] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [211] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [212] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [213] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [214] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [215] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [217] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [219] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [220] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [222] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [223] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [224] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [225] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [226] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [227] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [228] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [229] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [230] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [231] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [232] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [233] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [234] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [235] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [237] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [240] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [242] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [243] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [244] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [245] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [246] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [247] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [249] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [250] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [251] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [252] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [253] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [254] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [255] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [256] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [257] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [258] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [259] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [260] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [262] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [263] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [265] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [266] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [267] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [268] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [269] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [270] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [271] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [272] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [273] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [274] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [275] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [276] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [277] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [278] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [279] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [280] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [281] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [282] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [285] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [286] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [287] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [288] = Expansions.Current >= Expansions.Cata, -- Replaced by 25815
+        [289] = Expansions.Current >= Expansions.Cata, -- Replaced by 25817
+        [290] = Expansions.Current >= Expansions.Cata, -- Replaced by 25818
+        [291] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [292] = Expansions.Current >= Expansions.Cata, -- Replaced by 25819
+        [293] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [294] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [295] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [296] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [297] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [298] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [299] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        --[302] = Expansions.Current >= Expansions.Cata, -- this quest is available if you did quest id 301 precata
+        [303] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [304] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [305] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [306] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [307] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [308] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [310] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [311] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [312] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [316] = true, -- Not in the game
-        [317] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [318] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [319] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [320] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [326] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [327] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [335] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [336] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [337] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [352] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [354] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [355] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [356] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [357] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [358] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [359] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [360] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [361] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [362] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [363] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [364] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [365] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [366] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [367] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [368] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [369] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [370] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [371] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [372] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [374] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [375] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [376] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [379] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [380] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [385] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [390] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [398] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [400] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [404] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [403] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [406] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [408] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [409] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [410] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [411] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [413] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [414] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [415] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [416] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [417] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [418] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [419] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [420] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [422] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [423] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [424] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [425] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [426] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [428] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [429] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [435] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [437] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [438] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [439] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [440] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [441] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [442] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [443] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [444] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [446] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [447] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [448] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [449] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [450] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [451] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [452] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [454] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [455] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [462] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [463] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [464] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [465] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [466] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [467] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [468] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [469] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [470] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [471] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [472] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [473] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [474] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [477] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [478] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [479] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [484] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [490] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [491] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [493] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [496] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [497] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [498] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [499] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [500] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [501] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [502] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [503] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [504] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [505] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [506] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [508] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [509] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [510] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [511] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [512] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [513] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [514] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [515] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [517] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [518] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [519] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [521] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [522] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [524] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [525] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [526] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [527] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [528] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [529] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [530] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [531] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [533] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [535] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [536] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [537] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [539] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [540] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [542] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [544] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [545] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [546] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [548] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [549] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [550] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [551] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [552] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [553] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [554] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [555] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [556] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [557] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [559] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [560] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [563] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [565] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [566] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [567] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [578] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [579] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [590] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [594] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [595] = QuestieCorrections.CATA_HIDE, -- Replaced by 26609
-        [612] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [624] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [631] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [632] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [633] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [634] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [635] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [637] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [642] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [647] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [651] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [653] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [654] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [663] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [667] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [668] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [669] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [670] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [677] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [678] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [679] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [680] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [682] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [684] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [685] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [687] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [691] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [693] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [694] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [695] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [696] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [697] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [698] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [699] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [740] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [745] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [746] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [747] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [748] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [750] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [752] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [753] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [754] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [755] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [756] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [757] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [758] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [759] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [760] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [762] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [763] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [764] = QuestieCorrections.CATA_HIDE, -- Replaced by 26179
-        [765] = QuestieCorrections.CATA_HIDE, -- Replaced by 26180
-        [766] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [767] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [771] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [772] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [774] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [775] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [776] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [780] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [783] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [784] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [786] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [788] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [789] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [790] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [791] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [792] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [794] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [796] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [797] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [798] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [799] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [800] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [801] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [802] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [803] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [804] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [805] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [806] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [807] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [808] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [809] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [810] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [811] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [812] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [813] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [814] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [815] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [816] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [817] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [818] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [819] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [820] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [821] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [822] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [823] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [825] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [826] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [827] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [828] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [829] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [830] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [831] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [832] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [837] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [839] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [841] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [843] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [846] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [847] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [849] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [853] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [854] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [856] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [857] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [859] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [868] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [873] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [874] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [878] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [879] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [885] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [889] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [890] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [892] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [893] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [894] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [896] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [897] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [898] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [900] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [901] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [902] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [904] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [908] = QuestieCorrections.CATA_HIDE, -- Removed with cata (replaced with 26891)
-        [906] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [907] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [912] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [913] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [914] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [959] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [972] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [975] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [977] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [987] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [988] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [989] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [990] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1007] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1008] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1009] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1011] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1017] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1021] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1022] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1025] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1028] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1031] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1032] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1034] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1035] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1037] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1038] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1039] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1040] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1041] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1042] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1043] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1044] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1052] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1054] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1055] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1056] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1057] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1058] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1059] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1060] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1062] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1064] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1065] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1066] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1067] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1068] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1070] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1071] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1072] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1073] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1074] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1075] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1076] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1078] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1081] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1082] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1083] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1085] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1086] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1087] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1088] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1089] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1095] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1100] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1103] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1134] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1136] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1145] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1153] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1157] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1158] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1166] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1169] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1170] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1171] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1172] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1173] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1193] = QuestieCorrections.CATA_HIDE, -- Removed with cata (replaced with 27118)
-        [1219] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1220] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1238] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1239] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1240] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1251] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1252] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1262] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1268] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1269] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1273] = QuestieCorrections.CATA_HIDE, -- Replaced by 27261
-        [1275] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1276] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [317] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [318] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [319] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [320] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [322] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [323] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [324] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [325] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [326] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [327] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [328] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [329] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [330] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [331] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [335] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [336] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [337] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [339] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [340] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [343] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [344] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [345] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [346] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [347] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [348] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [349] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [350] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [352] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [354] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [355] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [356] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [357] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [358] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [359] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [360] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [365] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [366] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [367] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [368] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [369] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [370] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [375] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [376] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [377] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [378] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [379] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [385] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [386] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [387] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [388] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [389] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [390] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [391] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [392] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [393] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [394] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [395] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [396] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [397] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [398] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [399] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [400] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [404] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [403] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [406] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [407] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [408] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [409] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [410] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [411] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [413] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [414] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [415] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [416] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [417] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [418] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [419] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [420] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [422] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [423] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [424] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [426] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [427] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [428] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [429] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [430] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [431] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [434] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [435] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [436] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [437] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [438] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [439] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [440] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [442] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [443] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [444] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [445] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [446] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [447] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [448] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [449] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [450] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [451] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [452] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [453] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [454] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [455] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [456] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [457] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [458] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [459] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [460] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [464] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [465] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [466] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [467] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [468] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [469] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [470] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [471] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [472] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [473] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [474] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [477] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [478] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [479] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [480] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [490] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [491] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [493] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [494] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [496] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [500] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [510] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [511] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [512] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [513] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [514] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [515] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [516] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [517] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [518] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [523] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [524] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [525] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [526] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [527] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [528] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [531] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [532] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [533] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [534] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [535] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [536] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [537] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [538] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [539] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [540] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [542] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [544] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [545] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [546] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [547] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [549] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [550] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [551] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [552] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [553] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [554] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [555] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [556] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [557] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [559] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [560] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [561] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [562] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [563] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [564] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [565] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [566] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [567] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [568] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [569] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [570] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [571] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [572] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [573] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [574] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [575] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [576] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [577] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [578] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [579] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [580] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [582] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [584] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [585] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [586] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [587] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [588] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [589] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [590] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [591] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [592] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [593] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [594] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [595] = Expansions.Current >= Expansions.Cata, -- Replaced by 26609
+        [596] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [597] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [598] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [599] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [600] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [602] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [603] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [604] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [605] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [606] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [607] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [608] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [609] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [610] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [611] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [612] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [613] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [616] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [617] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [619] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [624] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [625] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [627] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [630] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [631] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [632] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [634] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [635] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [637] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [638] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [639] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [640] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [645] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [647] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [649] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [651] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [652] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [653] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [654] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [655] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [656] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [657] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [658] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [659] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [660] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [662] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [663] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [664] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [665] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [668] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [672] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [673] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [674] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [675] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [676] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [680] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [682] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [687] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [688] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [689] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [691] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [692] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [693] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [694] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [695] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [696] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [697] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [698] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [699] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [700] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [704] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [705] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [706] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [709] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [710] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [711] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [712] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [713] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [714] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [715] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [716] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [717] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [718] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [719] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [720] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [722] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [723] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [724] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [725] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [726] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [727] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [728] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [729] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [730] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [731] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [732] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [733] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [734] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [737] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [738] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [739] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [740] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [742] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [745] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [746] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [747] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [748] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [750] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [752] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [753] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [754] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [755] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [756] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [757] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [758] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [759] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [760] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [764] = Expansions.Current >= Expansions.Cata, -- Replaced by 26179
+        [765] = Expansions.Current >= Expansions.Cata, -- Replaced by 26180
+        [766] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [767] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [771] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [772] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [774] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [775] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [776] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [777] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [778] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [779] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [780] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [784] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [786] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [788] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [789] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [790] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [791] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [792] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [793] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [794] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [795] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [796] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [797] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [798] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [799] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [800] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [806] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [807] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [808] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [809] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [810] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [811] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [812] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [813] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [814] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [815] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [816] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [817] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [818] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [819] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [820] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [826] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [827] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [828] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [829] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [830] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [831] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [832] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [837] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [838] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [839] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [846] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [847] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [849] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [853] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [854] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [856] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [857] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [859] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [860] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [862] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [864] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [868] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [873] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [874] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [878] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [886] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [888] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [889] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [890] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [892] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [893] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [894] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [896] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [897] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [898] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [900] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [901] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [908] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 26891)
+        [912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [916] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [917] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [920] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [924] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [926] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [928] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [939] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [940] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [943] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [944] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [945] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [946] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [947] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [948] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [949] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [950] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [951] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [953] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [954] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [955] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [956] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [957] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [958] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [959] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [960] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [965] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [966] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [967] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [968] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [969] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [970] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [971] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [972] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [973] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [974] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [975] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [976] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [977] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [978] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [979] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [980] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [982] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [983] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [984] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [985] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [987] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [988] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [989] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [990] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [991] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [993] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [994] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [995] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1000] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1003] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1007] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1008] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1009] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1010] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1011] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1012] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1013] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1014] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1015] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1016] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1017] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1018] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1019] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1020] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1024] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1025] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1026] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1027] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1028] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1029] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1030] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1031] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1032] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1033] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1034] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1035] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1037] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1038] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1039] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1040] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1043] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1044] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1045] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1046] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1047] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1049] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1050] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1051] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1052] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1053] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1054] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1055] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1056] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1057] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1058] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1059] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1060] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1070] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1071] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1072] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1073] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1074] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1075] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1076] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1077] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1078] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1079] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1080] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1081] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1085] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1086] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1087] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1089] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1090] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1091] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1092] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1093] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1094] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1095] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1096] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1100] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1104] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1105] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1106] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1107] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1108] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1109] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1110] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1112] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1113] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1114] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1117] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1118] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1119] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1120] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1128] = true, -- Not in the game
+        [1129] = true, -- Not in the game
+        [1130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1131] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1132] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1134] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1135] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1136] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1137] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1138] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1139] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1140] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1149] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1150] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1152] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1153] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1154] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1155] = true, -- Not in the game
+        [1156] = true, -- Not in the game
+        [1157] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1158] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1159] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1160] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1161] = true, -- Not in the game
+        [1162] = true, -- Not in the game
+        [1163] = true, -- Not in the game
+        [1164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1165] = true, -- Not in the game
+        [1166] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1167] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1169] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1170] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1171] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1172] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1173] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1174] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1175] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1176] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1177] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1180] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1184] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1185] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1186] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1187] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1188] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1189] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1190] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1191] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1192] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1193] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 27118)
+        [1194] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1195] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1196] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1197] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1198] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1199] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1200] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1218] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1219] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1220] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1239] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1240] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1242] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1243] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1244] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1245] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1246] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1247] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1249] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1250] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1251] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1252] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1253] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1259] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1260] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1262] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1264] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1265] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1266] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1267] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1268] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1269] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1273] = Expansions.Current >= Expansions.Cata, -- Replaced by 27261
+        [1274] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1275] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1276] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1277] = true, -- Not in the game
         [1278] = true, -- Not in the game
         [1279] = true, -- Not in the game
         [1280] = true, -- Not in the game
-        [1282] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1283] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1284] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1285] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1286] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1287] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1282] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1285] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1286] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1287] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1290] = true, -- Not in the game
         [1291] = true, -- Not in the game
         [1292] = true, -- Not in the game
@@ -2114,970 +2635,1873 @@ function QuestieQuestBlacklist:Load()
         [1298] = true, -- Not in the game
         [1299] = true, -- Not in the game
         [1300] = true, -- Not in the game
-        [1301] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1302] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1319] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1320] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1321] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1322] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1323] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1338] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1339] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1361] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1362] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1365] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1366] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1367] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1368] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1369] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1370] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1371] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1372] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1373] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1374] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1375] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1380] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1385] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1387] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1388] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1389] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1391] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1392] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1396] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1302] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1319] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1320] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1322] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1323] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1324] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1339] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1358] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1359] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1360] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1365] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1366] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1367] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1368] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1369] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1370] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1375] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1385] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1386] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1387] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1388] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1389] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1391] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1392] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1394] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1395] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1396] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1397] = true, -- Not in the game
-        [1398] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1422] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1423] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1424] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1425] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1426] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1428] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1429] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1430] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1437] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1438] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1439] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1440] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1441] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1442] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1443] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1457] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1458] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1459] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1462] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1463] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1464] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1465] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1466] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1471] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1472] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1473] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1474] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1476] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1478] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1483] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1484] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1486] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1488] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1489] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1490] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1498] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1499] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1501] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1502] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1503] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1504] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1505] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1506] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1508] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1509] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1510] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1511] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1512] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1513] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1515] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1517] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1518] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1519] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1521] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1522] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1524] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1525] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1526] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1527] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1528] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1529] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1530] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1531] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1533] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1535] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1536] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1537] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1538] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1638] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1639] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1640] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1641] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1642] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1643] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1644] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1645] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1646] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1647] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1648] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1649] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1650] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1651] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1653] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1654] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1655] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1660] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1663] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1667] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1678] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1679] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1680] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1682] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1683] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1684] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1685] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1686] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1688] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1689] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1692] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1693] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1698] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1699] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1700] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1701] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1702] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1703] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1704] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1705] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1706] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1707] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1708] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1709] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1710] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1711] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1712] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1713] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1714] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1715] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1716] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1717] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1718] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1719] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1738] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1739] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1740] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1758] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1778] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1779] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1780] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1781] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1782] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1783] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1784] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1785] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1786] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1787] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1788] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1789] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1790] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1791] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1792] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1793] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1794] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1795] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1796] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1798] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1799] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1801] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1802] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1803] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1804] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1805] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1806] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1818] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1819] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1820] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1821] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1822] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1823] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1824] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1825] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1838] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1839] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1840] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1841] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1843] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1844] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1845] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1846] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1847] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1848] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1858] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1859] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1860] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1861] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1879] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1880] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1881] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1885] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1886] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1898] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1899] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1919] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1920] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1938] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1940] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1941] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1942] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1943] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1944] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1945] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1947] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1948] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1949] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1950] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1951] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1952] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1953] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1954] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1955] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1956] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1957] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1958] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1959] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1960] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1963] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1998] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1999] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2020] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2038] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2058] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2059] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2160] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2161] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2198] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2206] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2218] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2238] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2239] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2241] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2242] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2281] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2282] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2298] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2299] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2300] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2359] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2360] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2378] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2379] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2380] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2458] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2478] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2479] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2500] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2607] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2608] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2609] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2766] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2767] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2770] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2768] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2781] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2821] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2822] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2844] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2846] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2861] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2862] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2864] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2865] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2866] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2875] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2936] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2954] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2971] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2973] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2978] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2982] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2983] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2984] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2985] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2986] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2987] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2991] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2996] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2997] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2998] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [2999] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3000] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3001] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3023] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3042] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3062] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3064] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3065] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3082] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3083] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3085] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3086] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3111] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [3112] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3113] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3114] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3121] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3181] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3182] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1398] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1418] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1419] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1420] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1422] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1423] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1424] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1426] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1427] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1428] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1429] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1430] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1431] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1435] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1437] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1438] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1439] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1440] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1442] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1443] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1444] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1445] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1446] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1447] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1448] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1449] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1450] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1451] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1452] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1457] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1458] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1459] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1460] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1464] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1465] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1466] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1467] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1469] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1471] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1472] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1473] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1474] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1475] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1476] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1477] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1478] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1480] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1483] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1485] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1486] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1487] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1488] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1489] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1490] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1491] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1510] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1511] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1512] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1513] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1515] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1516] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1517] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1518] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1523] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1524] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1525] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1526] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1527] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1528] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1531] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1532] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1533] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1534] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1535] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1536] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1537] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1538] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1559] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1560] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1579] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1580] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1638] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1639] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1640] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1645] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1647] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1648] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1649] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1651] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1652] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1653] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1654] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1655] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1656] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1659] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1660] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1662] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1663] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1664] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1665] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1680] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1682] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1688] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1689] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1691] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1692] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1693] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1698] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1699] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1700] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1704] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1705] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1706] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1708] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1709] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1710] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1711] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1712] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1713] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1714] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1715] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1716] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1717] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1718] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1719] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1738] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1739] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1740] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1758] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1778] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1779] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1780] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1784] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1785] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1786] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1787] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1788] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1789] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1790] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1791] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1792] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1793] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1794] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1795] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1796] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1798] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1799] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1806] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1818] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1819] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1820] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1838] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1839] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1840] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1844] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1846] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1847] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1848] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1858] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1859] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1860] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1861] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1878] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1881] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1886] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1898] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1899] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1919] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1920] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1938] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1939] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1940] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1941] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1943] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1944] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1945] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1946] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1947] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1948] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1949] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1950] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1951] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1953] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1954] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1955] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1956] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1957] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1958] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1959] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1960] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1998] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1999] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2020] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2038] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2040] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2058] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2059] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2078] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2118] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2138] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2139] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2160] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2198] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2199] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2200] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2218] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2239] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2240] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2242] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2258] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2259] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2260] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2279] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2281] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2282] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2298] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2299] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2300] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2318] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2339] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2340] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2359] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2360] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2378] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2379] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2398] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2418] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2439] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2440] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2458] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2460] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2478] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2479] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2480] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2500] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2582] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2583] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2584] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2585] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2586] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2602] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2603] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2604] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2605] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2606] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2607] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2608] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2609] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2662] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2742] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2743] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2744] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2745] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2746] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2747] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2748] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2749] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2750] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2756] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2757] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2758] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2759] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2760] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2761] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2764] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2765] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2766] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2767] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2768] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2769] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2770] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2771] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2772] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2773] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2784] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2844] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2846] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2847] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2848] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2849] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2850] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2851] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2852] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2853] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2854] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2855] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2856] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2857] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2858] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2859] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2860] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2861] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2862] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2863] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2864] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2865] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2866] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2867] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2868] = true, -- Not in the game
+        [2869] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2870] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2871] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2872] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2873] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2874] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2875] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2903] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2922] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2923] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2924] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2925] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2926] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2927] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2928] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2929] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2930] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2931] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2932] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2933] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2934] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2935] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2936] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2937] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2938] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2939] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2940] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2941] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2943] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2944] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2946] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2950] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2954] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2966] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2967] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2968] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2969] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2970] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2971] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2972] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2973] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2974] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2975] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2976] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2977] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2978] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2979] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2980] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2982] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2983] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2984] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2985] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2987] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2988] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2989] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2990] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2991] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2993] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2994] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2995] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2996] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2997] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2998] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2999] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3000] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3085] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3086] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3111] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [3112] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3113] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3114] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3129] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3241] = true, -- Not in the game
-        [3261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3281] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3301] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3341] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3364] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3365] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3369] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3376] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3384] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3401] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3403] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3404] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3422] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3423] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3424] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3425] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3444] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3505] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3513] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3514] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3515] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3517] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3527] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3529] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3530] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3531] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3563] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3565] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3581] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3622] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3623] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3624] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3631] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3636] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3763] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3783] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3789] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3790] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3885] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3901] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3902] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3910] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3922] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [3962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4005] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4101] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4102] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4120] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4124] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4141] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4142] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4143] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4144] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4145] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4147] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4148] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4384] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4385] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4386] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4402] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4441] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4442] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4451] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4485] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4486] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4487] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4488] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4489] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4490] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4496] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4505] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4506] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4508] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4509] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4521] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [3261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3281] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3365] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3367] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3368] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3369] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3370] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3375] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3376] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3377] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3378] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3379] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3385] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3402] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3403] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3404] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3422] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3423] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3424] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3442] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3443] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3444] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3445] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3446] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3447] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3448] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3449] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3450] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3451] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3452] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3453] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3454] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3483] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3510] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3511] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3512] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3513] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3514] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3515] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3516] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3517] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3518] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3523] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3524] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3525] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3526] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3527] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3528] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3531] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3542] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3561] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3562] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3563] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3564] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3565] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3566] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3567] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3568] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3569] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3570] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3602] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3624] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3625] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3627] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3630] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3631] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3632] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3634] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3635] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3636] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3637] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3638] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3639] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3640] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3645] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3647] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3761] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3764] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3765] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3767] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3784] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3785] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3786] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3787] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3788] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3789] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3790] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3791] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3792] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3844] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3881] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3901] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3903] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3905] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3909] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3910] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3911] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3922] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3923] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3924] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3941] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3982] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4003] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4005] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4024] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4081] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4104] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4105] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4106] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4107] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4108] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4109] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4110] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4112] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4120] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4129] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4131] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4132] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4133] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4134] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4135] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4136] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4243] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4244] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4245] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4262] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4263] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4265] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4266] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4267] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4281] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4285] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4286] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4287] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4288] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4289] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4290] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4291] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4292] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4293] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4294] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4296] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4297] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4298] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4299] = true, -- Not in the game
+        [4300] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4323] = true, -- Not in the game
+        [4324] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4385] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4386] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4402] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4442] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4449] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4450] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4451] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4483] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4485] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4486] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4487] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4488] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4489] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4490] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4491] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4493] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4494] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4495] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4496] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4510] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4511] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [4541] = true, -- Not in the game
-        [4581] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4641] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4721] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4736] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4737] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4738] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4739] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4741] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4742] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4781] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4782] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4783] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4784] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4785] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4786] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4801] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4802] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4803] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4804] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4805] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4806] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4807] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4861] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4863] = QuestieCorrections.CATA_HIDE, -- Removed with cata#
-        [4864] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4881] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4901] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4902] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4905] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4906] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4963] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4964] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4965] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4967] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4968] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4970] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4975] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [4976] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5042] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5043] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5044] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5045] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5046] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [5052] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5053] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5067] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5068] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5082] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5083] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5085] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5086] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5087] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5121] = QuestieCorrections.CATA_HIDE, -- Replaced by 28470
-        [5123] = QuestieCorrections.CATA_HIDE, -- Replaced by 28471
-        [5128] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5150] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5155] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5156] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5157] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5158] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5159] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5165] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5203] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5207] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5208] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5209] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5242] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5244] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5249] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5304] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5385] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5386] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5441] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5503] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [4542] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4561] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4722] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4723] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4724] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4725] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4726] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4727] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4728] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4729] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4730] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4731] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4732] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4733] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4734] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4737] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4738] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4739] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4740] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4742] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4743] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4761] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4764] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4765] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4766] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4767] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4768] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4769] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4770] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4771] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4784] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4785] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4786] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4787] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4788] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4806] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4807] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4808] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4809] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4810] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4811] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4812] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4813] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4861] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4862] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4863] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4864] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4865] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4866] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4867] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4881] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4901] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4905] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4965] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4966] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4967] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4968] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4969] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4970] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4971] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4972] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4973] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4975] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4976] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4982] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4984] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4985] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [4987] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5042] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [5043] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [5044] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [5045] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [5046] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [5047] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5048] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5049] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5050] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5051] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5052] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5053] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5054] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5055] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5056] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5057] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5058] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5059] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5060] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5081] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5085] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5086] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5087] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5089] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5090] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5091] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5092] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5093] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5094] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5095] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5096] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5121] = Expansions.Current >= Expansions.Cata, -- Replaced by 28470
+        [5122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5123] = Expansions.Current >= Expansions.Cata, -- Replaced by 28471
+        [5124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5149] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5150] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5152] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5153] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5154] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5155] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5156] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5157] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5158] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5159] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5160] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5162] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5163] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5166] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5167] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5168] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5207] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5208] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5209] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5210] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5211] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5212] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5213] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5214] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5215] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5216] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5217] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5218] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5219] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5220] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5222] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5223] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5224] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5225] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5226] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5227] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5228] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5229] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5230] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5231] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5232] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5233] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5234] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5235] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5236] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5237] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5242] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5243] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5244] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5245] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5246] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5247] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5249] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5250] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5251] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5252] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5253] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5262] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5263] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5264] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5265] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5281] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5282] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5302] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5303] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5304] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5305] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5306] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5307] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5343] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5344] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5385] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5386] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5402] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5403] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5404] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5406] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5407] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5408] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5464] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5465] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5466] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5506] = true, -- Not in the game
-        [5512] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5519] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5528] = QuestieCorrections.CATA_HIDE, -- Removed with cata (replaced with 27114)
-        [5541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5582] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5621] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5622] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5623] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5624] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5625] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5626] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5628] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5629] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5630] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5631] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5632] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5633] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5642] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5643] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5644] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5646] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5648] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5649] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5650] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5651] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5653] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5654] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5655] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5657] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5660] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5661] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5667] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5668] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5669] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5670] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5671] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5672] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5673] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5674] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5675] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5676] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5677] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5678] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5679] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5680] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5682] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5683] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5684] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5685] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5686] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5687] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5688] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5689] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5690] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5691] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5692] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5693] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5694] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5695] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5696] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5697] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5698] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5699] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5700] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5701] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5702] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5703] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5704] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5705] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5706] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5707] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5708] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5709] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5710] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5711] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5712] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5763] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5801] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5802] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5881] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5902] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5922] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5925] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5927] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5928] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5929] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5930] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5931] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5932] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [5981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6001] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6002] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6029] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6062] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6064] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6065] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6067] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6068] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6070] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6071] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6073] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6074] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6075] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6076] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6081] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6082] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6083] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6085] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6086] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6087] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6088] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6089] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6101] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6102] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6103] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6121] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6122] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6123] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6124] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6125] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6126] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6127] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6128] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6129] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6130] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6141] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6142] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6143] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6162] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6282] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6283] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6284] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6301] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6393] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6394] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6395] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6401] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6504] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6522] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6542] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6543] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6545] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6546] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6548] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6563] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6565] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6571] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6581] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6605] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6609] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6623] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6629] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6701] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6702] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6703] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6704] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6705] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6706] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6707] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6708] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6709] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6710] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6711] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6841] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6922] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [6981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7181] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7321] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7341] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7463] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7483] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7484] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7485] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7488] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7489] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7563] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7581] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7582] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7583] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7601] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7602] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7603] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7621] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7622] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7623] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7624] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7625] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7626] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7627] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7628] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7629] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7630] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7631] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7632] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7633] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7634] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7635] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7636] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7637] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7638] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7639] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7640] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7641] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7642] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7643] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7644] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7645] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7646] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7647] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7648] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7667] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7669] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7670] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7703] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7725] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7726] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7730] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7735] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7738] = QuestieCorrections.CATA_HIDE, -- Removed with cata (replaced with 25454)
-        [7791] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7792] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7793] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7794] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7795] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7796] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7798] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7799] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7800] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7801] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7802] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7803] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7804] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7805] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7806] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7807] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7808] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7809] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7811] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7812] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7813] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7814] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7817] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7818] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7819] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7820] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7821] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7822] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7823] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7824] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7825] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7826] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7827] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7831] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7832] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7833] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7834] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7835] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7836] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7837] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5510] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5511] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5512] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5513] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5514] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5515] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5516] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5517] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5518] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5523] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5524] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5525] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5526] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5527] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5528] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 27114)
+        [5529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5531] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5532] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5533] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5534] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5535] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5536] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5537] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5538] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5542] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5543] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5544] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5582] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5624] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5625] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5630] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5631] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5632] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5648] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5649] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5651] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5652] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5653] = true, -- Not in the game
+        [5654] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5655] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5656] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5657] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5658] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5659] = true, -- Not in the game
+        [5660] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5661] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5662] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5663] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5664] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5665] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5668] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5672] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5673] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5674] = true, -- I have not found evidence that this quest actually exists in the game. I checked Laurna Morninglight and Astarii Starseeker and they did not give the quest.
+        [5675] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5676] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5680] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5682] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5687] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5688] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5689] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5691] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5692] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5693] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5694] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5695] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5696] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5697] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5698] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5699] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5700] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5704] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5705] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5706] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5708] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5709] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5710] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5711] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5712] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5722] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5723] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5724] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5725] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5726] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5727] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5728] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5729] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5730] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5742] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5761] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5821] = Expansions.Current >= Expansions.MoP, -- Removed with mop
+        [5845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5846] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5848] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5861] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5862] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5863] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5881] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5886] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5887] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5888] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5889] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5890] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5891] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5901] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5903] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5922] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5923] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5924] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5925] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5926] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5927] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5928] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5929] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5930] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5931] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5932] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5941] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5943] = Expansions.Current >= Expansions.MoP, -- Removed with mop
+        [5944] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6003] = true, -- Not in the game
+        [6004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6024] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6025] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6026] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6027] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6028] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6029] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6030] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6070] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6071] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6073] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6074] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6075] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6076] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6081] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6085] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6086] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6087] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6089] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6129] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6133] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6135] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6136] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6162] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6163] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6184] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6185] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6186] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6187] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6282] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6389] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6390] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6393] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6394] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6395] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6523] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6542] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6543] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6545] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6546] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6547] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6561] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6562] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6563] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6564] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6565] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6571] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6603] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6604] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6605] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6609] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6612] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6627] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6704] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6705] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6706] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6708] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6709] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6710] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6711] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6761] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6762] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6844] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6981] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7003] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7028] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7029] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7044] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7046] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7070] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7261] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7321] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7384] = true, -- Not in the game
+        [7429] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7463] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7483] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7485] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7488] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7489] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7494] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7500] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7505] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7506] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7561] = true, -- Correct version is 7787
+        [7562] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7563] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7564] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7581] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7582] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7583] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7602] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7603] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7621] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7622] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7623] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7624] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7625] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7627] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7630] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7631] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7632] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7634] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7635] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7636] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7637] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7638] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7639] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7640] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7641] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7645] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7647] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7648] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7649] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7651] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7652] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7653] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7654] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7655] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7656] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7657] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7658] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7659] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7722] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7723] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7724] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7725] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7726] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7727] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7728] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7729] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7730] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7731] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7732] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7733] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7734] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7738] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 25454)
+        [7790] = true, -- Not in the game
+        [7791] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7792] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7793] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7794] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7795] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7796] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7798] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7799] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7800] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7801] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7802] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7803] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7806] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7807] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7808] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7809] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7811] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7812] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7813] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7814] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7815] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7816] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7817] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7818] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7819] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7820] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7826] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7827] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7828] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7829] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7830] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7831] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7832] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7833] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7834] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7835] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7836] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7837] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7839] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7840] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7844] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7845] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7846] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7847] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7849] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7850] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7861] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7862] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7869] = true, -- Not in the game
         [7870] = true, -- Not in the game
-        [7962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8053] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8054] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8055] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8056] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8057] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8058] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8059] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8060] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8062] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8064] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8065] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8066] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8067] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8068] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8070] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8071] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8072] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8073] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8074] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8075] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8076] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8077] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8078] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8079] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8101] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8102] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8103] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8104] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8110] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8111] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8112] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8113] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8151] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [7877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [7962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8043] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8044] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8045] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8046] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8047] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8048] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8049] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8050] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8051] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8052] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8053] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8054] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8055] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8056] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8057] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8058] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8059] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8060] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8062] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8070] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8071] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8072] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8073] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8074] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8075] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8076] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8077] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8078] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8079] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8104] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8106] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8107] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8108] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8109] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8110] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8112] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8113] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8117] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8118] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8119] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8152] = true, -- Not in the game
-        [8153] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8185] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8186] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8187] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8188] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8189] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8190] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8191] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8192] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8227] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8231] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8232] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8233] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8234] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8235] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8236] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8153] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8184] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8185] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8186] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8187] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8188] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8189] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8190] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8191] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8192] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8195] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8196] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8227] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8231] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8232] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8233] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8234] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8235] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8236] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8237] = true, -- Not in the game
-        [8244] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8247] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8248] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8250] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8251] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8252] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8254] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8255] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8256] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8257] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8258] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8239] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8240] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8241] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8242] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8243] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8244] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8245] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8246] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8247] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8250] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8251] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8252] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8253] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8254] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8255] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8256] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8257] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8258] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8259] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8270] = true, -- Not in the game
+        [8273] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8274] = true, -- Not in the game
-        [8316] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8337] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8376] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8377] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8378] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8379] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8380] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8410] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8412] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8413] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8414] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8415] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8416] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8417] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8418] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8419] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8420] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8422] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8423] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8424] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8425] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8446] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8275] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8286] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8288] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8301] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8302] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8303] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8305] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8315] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8316] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8331] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8332] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8333] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8337] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8343] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8348] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8349] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8351] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8352] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8365] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8366] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8376] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8377] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8378] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8379] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8410] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8412] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8413] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8414] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8415] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8416] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8417] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8418] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8419] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8420] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8422] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8423] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8424] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8444] = true, -- Not in the game
+        [8445] = true, -- Not in the game
+        [8446] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8448] = true, -- Not in the game
         [8449] = true, -- Not in the game
         [8450] = true, -- Not in the game
@@ -3085,677 +4509,1006 @@ function QuestieQuestBlacklist:Load()
         [8452] = true, -- Not in the game
         [8453] = true, -- Not in the game
         [8454] = true, -- Not in the game
-        [8458] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8459] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8462] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8464] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8465] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8466] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8467] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8469] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8471] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8485] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8552] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8905] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8906] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8907] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8908] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8909] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8910] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8911] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8912] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8913] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8914] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8915] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8916] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8917] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8918] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8919] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8920] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8922] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8925] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8927] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8928] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8929] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8930] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8931] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8932] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8933] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8934] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8935] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8936] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8937] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8938] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8940] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8941] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8942] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8943] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8944] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8945] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8947] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8948] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8949] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8950] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8951] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8952] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8953] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8954] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8955] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8956] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8957] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8958] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8959] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8960] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8963] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8964] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8965] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8966] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8967] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8968] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8970] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8977] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8978] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8985] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8986] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8987] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8988] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8989] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8990] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8991] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8994] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8995] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8996] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8997] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8998] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [8999] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9000] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9001] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9002] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9003] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9004] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9005] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9006] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9007] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9008] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9009] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9010] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9011] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9012] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9013] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9014] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9015] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9016] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9017] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9018] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9019] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9020] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9021] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9022] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9023] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9030] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9031] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9032] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9033] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9034] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9036] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9037] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9038] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9039] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9040] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9041] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9042] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9043] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9044] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9045] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9046] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9047] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9048] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9049] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9050] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9051] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9052] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9053] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9054] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9055] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9056] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9057] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9058] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9059] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9060] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9063] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9068] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9070] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9071] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9072] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9073] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9074] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9075] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9077] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9078] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9079] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9080] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9081] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9082] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9083] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9084] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9086] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9087] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9088] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9089] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9090] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9091] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9092] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9093] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9095] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9096] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9097] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9098] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9099] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9100] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9101] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9102] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9103] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9104] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9105] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9106] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9107] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9108] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9109] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9110] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9111] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9112] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9113] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9114] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9115] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9116] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9117] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9118] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9208] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9209] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9210] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9231] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8458] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8459] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8460] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8464] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8465] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8466] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8467] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8469] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8471] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8485] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8496] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8534] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8535] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8536] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8537] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8538] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8539] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8540] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8541] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8551] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8552] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8553] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8554] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8555] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8556] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8572] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8573] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8574] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8575] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8576] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8577] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8584] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8585] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8586] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8587] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8597] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8598] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8599] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8606] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8620] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8687] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8728] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8729] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8730] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8733] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8734] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8737] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8738] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8739] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8740] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8741] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8742] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8745] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8770] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8771] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8772] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8773] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8774] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8775] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8776] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8777] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8778] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8779] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8780] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8781] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8782] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8783] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8785] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8786] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8787] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8798] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8800] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8805] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8806] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8807] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8808] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8809] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8810] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8829] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8869] = true, -- incorrect duplicate of 5305
+        [8893] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8905] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8909] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8910] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8911] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8915] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8916] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8917] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8918] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8919] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8920] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8922] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8923] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8924] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8925] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8926] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8927] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8928] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8929] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8930] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8931] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8932] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8933] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8934] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8935] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8936] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8937] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8938] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8939] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8940] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8941] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8942] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8943] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8944] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8945] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8946] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8947] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8948] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8949] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8950] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8951] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8953] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8954] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8955] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8956] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8957] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8958] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8959] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8960] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8965] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8966] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8967] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8968] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8969] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8970] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8977] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8978] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8985] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8987] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8988] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8989] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8990] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8991] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8994] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8995] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8996] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8997] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8998] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [8999] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9000] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9003] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9005] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9006] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9007] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9008] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9009] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9010] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9011] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9012] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9013] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9014] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9015] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9016] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9017] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9018] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9019] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9020] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9030] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9031] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9032] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9033] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9034] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9036] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9037] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9038] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9039] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9040] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9043] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9044] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9045] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9046] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9047] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9048] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9049] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9050] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9051] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9052] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9053] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9054] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9055] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9056] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9057] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9058] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9059] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9060] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9061] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9070] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9071] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9072] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9073] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9074] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9075] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9077] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9078] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9079] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9080] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9081] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9082] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9084] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9086] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9087] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9089] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9090] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9091] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9092] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9093] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9095] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9096] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9099] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9100] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9101] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9102] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9103] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9104] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9105] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9106] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9107] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9108] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9109] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9110] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9112] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9113] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9114] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9117] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9118] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9121] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9122] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9129] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9131] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9132] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9136] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9137] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9184] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9185] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9186] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9187] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9188] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9189] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9190] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9191] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9194] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9195] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9196] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9197] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9198] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9200] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9202] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9208] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9209] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9210] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9211] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9213] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9222] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9223] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9224] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9225] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9226] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9227] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9228] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9231] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9273] = true, -- Redeem iCoke Prize Voucher
-        [9287] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9288] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9289] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9290] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9291] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9306] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9307] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9308] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9287] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9288] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9289] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9290] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9291] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9296] = true, -- Not in the game
+        [9297] = true, -- Not in the game
+        [9298] = true, -- Not in the game
+        [9306] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9307] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9308] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9316] = true, -- Not in the game
+        [9338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9347] = true, -- Correct version is 9351
+        [9348] = true, -- Not in the game
+        [9350] = true, -- Not in the game
         [9353] = true, -- Redeem iCoke Gift Box Voucher
-        [9362] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9364] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9411] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9412] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9413] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9414] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9435] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9440] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9448] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9449] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9450] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9451] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9458] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9459] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9462] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9464] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9465] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9467] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9468] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9477] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9478] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9479] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9484] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9485] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9486] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9489] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9491] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9493] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9495] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9496] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9497] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9500] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9501] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9502] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9503] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9504] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9508] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9509] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9524] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9525] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9529] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9551] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9552] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9553] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9554] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9555] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9572] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9575] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9364] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9377] = true, -- Not in the game
+        [9379] = true, -- Not in the game
+        [9384] = true, -- Not in the game
+        [9411] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9412] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9413] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9414] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9428] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9431] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9432] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9433] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9434] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9435] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9438] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9439] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9440] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9441] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9442] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9443] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9444] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9445] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9446] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9447] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9448] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9449] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9450] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9451] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9458] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9459] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9460] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9461] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9462] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9464] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9465] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9467] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9468] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9469] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9470] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9471] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9474] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9475] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9476] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9477] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9478] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9479] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9480] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9481] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9482] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9484] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9485] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9486] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9489] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9491] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9493] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9494] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9495] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9496] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9500] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9501] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9502] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9503] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9504] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9507] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9508] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9509] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9516] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9517] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9518] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9519] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9520] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9521] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9522] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9524] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9525] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9526] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9532] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9533] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9534] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9535] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9536] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9546] = true, -- Not in the game
+        [9547] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9551] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9552] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9553] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9554] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9555] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9572] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9575] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9577] = true, -- Not in the game
-        [9586] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9587] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9588] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9589] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9590] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9591] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9592] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9593] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9595] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9596] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [9597] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9598] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9600] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9601] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9607] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9608] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9609] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9610] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9613] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9614] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9615] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9617] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9618] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9619] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9650] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9651] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9653] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9654] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9655] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9657] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9658] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9660] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9661] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9673] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9675] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9677] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9678] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9679] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9681] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9684] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9685] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9686] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9690] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9691] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9692] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9707] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9710] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9721] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9722] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9723] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9725] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9735] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9736] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9737] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9745] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9757] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9764] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9876] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10177] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9586] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9587] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9588] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9589] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9590] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9591] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9592] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9593] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9595] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9596] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [9597] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9598] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9600] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9601] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9607] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9608] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9609] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9610] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9611] = true, -- Not in the game
+        [9613] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9614] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9615] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9617] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9618] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9619] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9651] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9652] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9653] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9654] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9655] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9656] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9657] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9658] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9659] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9660] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9662] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9664] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9665] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9673] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9675] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9691] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9692] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9695] = true, -- Not in the game
+        [9707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9710] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9714] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9715] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9717] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9719] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9721] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9722] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9723] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9725] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9737] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9738] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9745] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9757] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9763] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9764] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9766] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9881] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9909] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10032] = true, -- Not in the game
+        [10080] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10083] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10091] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10094] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10095] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10175] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10177] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10181] = true, -- Not in the game
+        [10212] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10216] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10217] = true, -- Not in the game
-        [10218] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10352] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10354] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10356] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10357] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10358] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10359] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10360] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10361] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10362] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10363] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10366] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10371] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10372] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10373] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10374] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10376] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10378] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10490] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10491] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10493] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10495] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10496] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10497] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10498] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10499] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10529] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10530] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10548] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10549] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10590] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10591] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10592] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10593] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10605] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [10218] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10283] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10284] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10285] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10298] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10352] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10354] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10356] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10357] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10358] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10359] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10360] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10361] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10366] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10376] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10378] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10402] = true, -- Not in the game
+        [10452] = true, -- Not in the game
+        [10453] = true, -- Not in the game
+        [10490] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10491] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10493] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10494] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10495] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10496] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10549] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10590] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10591] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10592] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10593] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10605] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10616] = true, -- Not in the game
-        [10743] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10746] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10787] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10788] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10789] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10790] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10794] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [10631] = true, -- Not in the game
+        [10743] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10746] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10752] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10754] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10755] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10756] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10757] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10758] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10787] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10788] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10789] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10790] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10794] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10831] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10832] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10833] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10890] = true, -- Not in the game
-        [10955] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10964] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10965] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10978] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10979] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10980] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10986] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10987] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10988] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10990] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10991] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10993] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [10994] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11001] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11011] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11088] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [10891] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10892] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10897] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10899] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10905] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10955] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10964] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10965] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10978] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10979] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10980] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10987] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10988] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10990] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10991] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10993] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10994] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11001] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11011] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11087] = true, -- Not in the game
+        [11088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11121] = true, -- Not in the game
-        [11123] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11124] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11125] = true, -- Not in the game
-        [11130] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11132] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11137] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11138] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11139] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11140] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11141] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11142] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11143] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11144] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11145] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11146] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11147] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11148] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11149] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11151] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11150] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11152] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11156] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11158] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11159] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11160] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11161] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11162] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11164] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11165] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11166] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11169] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11171] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11172] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11173] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11174] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11177] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11185] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11186] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11191] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11192] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11193] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11194] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11195] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11128] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11132] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11133] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11134] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11136] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11137] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11138] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11139] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11140] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11141] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11142] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11143] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11144] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11145] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11146] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11149] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11150] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11152] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11156] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11158] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11159] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11160] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11161] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11162] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11163] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11165] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11166] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11169] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11171] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11172] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11173] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11174] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11177] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11180] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11184] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11185] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11186] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11191] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11192] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11193] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11194] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11195] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11197] = true, -- Promo
-        [11198] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11200] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11203] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11206] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11207] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11209] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11210] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11214] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11217] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11222] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11198] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11200] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11201] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11203] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11206] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11207] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11209] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11210] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11214] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11217] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11222] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11223] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11225] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11226] = true, -- Promo
-        [11252] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11252] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11334] = true, -- Not in the game
-        [11335] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11336] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11337] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11338] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11339] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11340] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11341] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [11342] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11335] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11336] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11337] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11338] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11339] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11340] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11341] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11342] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11345] = true, -- Not in the game
+        [11347] = true, -- Not in the game
         [11353] = true, -- Not in the game
+        [11354] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11362] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11363] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11368] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11419] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [11435] = true, -- Not in the game
+        [11488] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [11492] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11493] = true, -- Not in the game
         [11588] = true, -- Not in the game
         [11589] = true, -- Not in the game
-        [11992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [12238] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [12765] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13159] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13167] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13182] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13428] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13574] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13637] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13638] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11875] = true, -- hiding because we use fake quests to mimic this one
+        [11934] = true, -- Not in the game
+        [11992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12001] = true, -- Not in the game
+        [12179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12313] = true, -- Not in the game
+        [12625] = true, -- Not in the game
+        [12626] = true, -- Not in the game
+        [12765] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12918] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [12923] = true, -- Not in the game
+        [12952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13099] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13159] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13167] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13190] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13204] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13205] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13266] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13267] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13299] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13303] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13407] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13427] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13428] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13431] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13574] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13608] = true, -- Not in the game
+        [13637] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13638] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13652] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13799] = true, -- Not in the game
+        [13800] = true, -- Not in the game
         [13802] = true, -- Not in the game
         [13804] = true, -- Not in the game
-        [13894] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13993] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13994] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [13827] = true, -- Not in the game
+        [13840] = true, -- Not in the game
+        [13894] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13939] = true, -- Not in the game
+        [13941] = true, -- Not in the game
+        [13972] = true, -- Not in the game
+        [13978] = true, -- Not in the game
+        [13984] = true, -- Not in the game
+        [13986] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13993] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13994] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [14000] = true, -- Not in the game
+        [14002] = true, -- Not in the game
+        [14015] = true, -- Not in the game
+        [14020] = true, -- Not in the game
         [14025] = true, -- Not in the game
-        [14100] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14111] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14114] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
-        [14137] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
-        [14139] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
+        [14026] = true, -- Not in the game
+        [14027] = true, -- Not in the game
+        [14029] = true, -- Not in the game
+        [14097] = true, -- Not in the game
+        [14100] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14111] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14114] = Expansions.Current >= Expansions.Cata, -- Hidden quest in cata
+        [14119] = true, -- Not in the game
+        [14133] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14137] = Expansions.Current >= Expansions.Cata, -- Hidden quest in cata
+        [14139] = Expansions.Current >= Expansions.Cata, -- Hidden quest in cata
         [14156] = true, -- Not in the game
-        [14158] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
-        [14163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14164] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14179] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14180] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14181] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14182] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14183] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14411] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [14414] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [14418] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14419] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14420] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14425] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14158] = Expansions.Current >= Expansions.Cata, -- Hidden quest in cata
+        [14163] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14164] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14178] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14180] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14183] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14220] = true, -- Not in the game
+        [14231] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14259] = true, -- Not in the game
+        [14298] = true, -- Not in the game
+        [14315] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14317] = true, -- Not in the game
+        [14319] = true, -- Not in the game
+        [14349] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14350] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14352] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14355] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14356] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14409] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14411] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14414] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14415] = true, -- Not in the game
+        [14418] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14419] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14420] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14421] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14425] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [14426] = true, -- Not in the game
         [14427] = true, -- Not in the game
-        [14436] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14437] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14439] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14440] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [14446] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28826
+        [14436] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14437] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14439] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14440] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [14446] = Expansions.Current >= Expansions.Cata, -- Duplicate of 28826
         [14450] = true, -- Not in the game
         [14451] = true, -- Not in the game
-        [14453] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [14454] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [14474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 14001
-        [24216] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24217] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24218] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24219] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24220] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24221] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24222] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24223] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24224] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24225] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24226] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24227] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24426] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24443] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24444] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24445] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24446] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24447] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [14453] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14454] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [14474] = Expansions.Current >= Expansions.Cata, -- Duplicate of 14001
+        [14481] = true, -- Not in the game
+        [24216] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24217] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24218] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24219] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24220] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24221] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24222] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24223] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24224] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24225] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24226] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24227] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24426] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24427] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24443] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24444] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24445] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24446] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24447] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [24460] = true, -- Not in the game
         [24462] = true, -- Not in the game
-        [24464] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24465] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24466] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24481] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24482] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24485] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
+        [24464] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24465] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24466] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24481] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24482] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24485] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24503] = Expansions.Current >= Expansions.Cata, -- Duplicate of 28414
         [24544] = true, -- Not in the game
-        [24568] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24644] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
-        [24688] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24696] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24716] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24738] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24739] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [24568] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24630] = true, -- Not in the game
+        [24644] = Expansions.Current >= Expansions.Cata, -- Hidden quest in cata
+        [24661] = true, -- Not in the game
+        [24688] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24696] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24716] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24738] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24739] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [24746] = true, -- Not in the game
-        [24857] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24860] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24867] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24908] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24909] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24984] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24985] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24986] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24987] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24935] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24936] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24992] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [24993] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25016] = QuestieCorrections.CATA_HIDE, -- Hidden quest
-        [25033] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25039] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25040] = QuestieCorrections.CATA_HIDE, -- Hidden quest
+        [24797] = true, -- Not in the game
+        [24803] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [24806] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [24857] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24860] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24867] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24898] = true, -- Not in the game
+        [24899] = true, -- Not in the game
+        [24900] = true, -- Not in the game
+        [24908] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24909] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24984] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24985] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24986] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24987] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24935] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24936] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24992] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [24993] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25016] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [25033] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25039] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25040] = Expansions.Current >= Expansions.Cata, -- Hidden quest
         [25055] = true, -- Not in the game
-        [25071] = QuestieCorrections.CATA_HIDE, -- Hidden quest
-        [25076] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25077] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25078] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25083] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25071] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [25076] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25077] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25078] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25083] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25092] = true, -- Not in the game
-        [25096] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25097] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25101] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25113] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25114] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25116] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25117] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25119] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25124] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25137] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25140] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25142] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25144] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25146] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25148] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25150] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25096] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25097] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25101] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25113] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25114] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25116] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25117] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25119] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25124] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25137] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25140] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25142] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25144] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25146] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25148] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25150] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25198] = true, -- Not in the game
         [25199] = true, -- Not in the game
         [25212] = true, -- Not in the game
-        [25225] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25225] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25226] = true, -- Hidden quest
-        [25229] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25231] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25229] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25231] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25245] = true, -- Hidden quest
+        [25254] = true, -- Not in the game
         [25283] = true, -- Not in the game
         [25285] = true, -- Not in the game
         [25286] = true, -- Not in the game
         [25287] = true, -- Not in the game
         [25289] = true, -- Not in the game
         [25295] = true, -- Not in the game
-        [25302] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25305] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25307] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25313] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25318] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25322] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25326] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25327] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25335] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25376] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25384] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25302] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25305] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25307] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25313] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25318] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25322] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25326] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25327] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25331] = true, -- Not in the game
+        [25335] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25376] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25384] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25393] = true, -- Not in the game
-        [25413] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25435] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25455] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25413] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25435] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25455] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25457] = true, -- Not in the game
-        [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
-        [25497] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25498] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25474] = Expansions.Current >= Expansions.Cata, -- Duplicate of 27729
+        [25497] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25498] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25500] = true, -- Not in the game
-        [25501] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25506] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25508] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25557] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25501] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25506] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25508] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25527] = true, -- Not in the game
+        [25530] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25528] = true, -- Not in the game
+        [25529] = true, -- Not in the game
+        [25557] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25567] = true, -- Not in the game
         [25568] = true, -- Not in the game
         [25569] = true, -- Not in the game
         [25570] = true, -- Not in the game
         [25572] = true, -- Not in the game
-        [25573] = QuestieCorrections.CATA_HIDE, -- Hidden quest
+        [25573] = Expansions.Current >= Expansions.Cata, -- Hidden quest
         [25603] = true, -- Not in the game
         [25604] = true, -- Not in the game
         [25605] = true, -- Not in the game
         [25606] = true, -- Not in the game
-        [25625] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25635] = QuestieCorrections.CATA_HIDE, -- Duplicate of 25583 and 25956
-        [25636] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25639] = QuestieCorrections.CATA_HIDE, -- Hidden quest
-        [25666] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25737] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25738] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25742] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25625] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25635] = Expansions.Current >= Expansions.Cata, -- Duplicate of 25583 and 25956
+        [25636] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25639] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [25666] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25737] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25738] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25742] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25750] = true, -- Not in the game
         [25781] = true, -- Not in the game
         [25782] = true, -- Not in the game
         [25783] = true, -- Not in the game
@@ -3769,188 +5522,387 @@ function QuestieQuestBlacklist:Load()
         [25829] = true, -- Hidden quest
         [25831] = true, -- Not in the game
         [25833] = true, -- Not in the game
-        [25902] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [25903] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26104] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25902] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [25903] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26104] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [26109] = true, -- Not in the game
-        [26136] = QuestieCorrections.CATA_HIDE, -- Hidden quest
-        [26138] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26151] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26155] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26156] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26216] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26217] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26218] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26231] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26242] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26243] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26253] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26262] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [26119] = true, -- Hidden quest
+        [26123] = true, -- Not in the game
+        [26136] = true, -- Hidden quest
+        [26138] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26151] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26155] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26156] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26216] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26217] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26218] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26231] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26239] = true, -- Not in the game
+        [26242] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26243] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26253] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26262] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26282] = true, -- Not in the game
+        [26379] = true, -- Not in the game
         [26392] = true, -- Not in the game
-        [26398] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26431] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [26398] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26415] = true, -- Not in the game
+        [26431] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26458] = true, -- Not in the game
+        [26459] = true, -- Not in the game
+        [26460] = true, -- Not in the game
+        [26461] = true, -- Not in the game
+        [26471] = true, -- Not in the game
+        [26522] = true, -- Not in the game
+        [26527] = true, -- Not in the game
         [26559] = true, -- Hidden quest
-        [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
-        [26626] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [26565] = Expansions.Current >= Expansions.Cata, -- Duplicate of 26588
+        [26626] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26673] = true, -- Hidden quest
+        [26675] = true, -- Not in the game
+        [26704] = true, -- Hidden quest
         [26705] = true, -- Hidden quest
+        [26715] = true, -- Not in the game
         [26716] = true, -- Not in the game
-        [26767] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26789] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26790] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26825] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26826
-        [26847] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26848] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26849] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26850] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26851] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26852] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26853] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [26877] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [26718] = true, -- Not in the game
+        [26741] = true, -- Not in the game
+        [26758] = true, -- Not in the game
+        [26759] = true, -- Not in the game
+        [26764] = true, -- Not in the game
+        [26767] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26782] = true, -- Duplicate of 26783
+        [26789] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26790] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26826] = Expansions.Current >= Expansions.Cata, -- Duplicate of 26825
+        [26837] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26839] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26847] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26848] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26849] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26850] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26851] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26852] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26853] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26856] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26858] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26859] = true, -- Hidden quest
+        [26862] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26865] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26866] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26867] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26874] = true, -- Hidden quest
+        [26877] = true, -- Hidden quest
+        [26879] = true, -- Hidden quest
         [26880] = true, -- Hidden quest
+        [26893] = true, -- Not in the game
+        [26900] = true, -- Not in the game
         [26902] = true, -- Hidden quest
-        [26951] = QuestieCorrections.CATA_HIDE, -- Seems to not be available
-        [27052] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [27081] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [27121] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [27543] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [26951] = Expansions.Current >= Expansions.Cata, -- Seems to not be available
+        [26972] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26973] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26974] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26976] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26982] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26983] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26984] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26985] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26993] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26994] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [26996] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27018] = Expansions.Current >= Expansions.Cata, -- Seems to not be available
+        [27052] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [27079] = true, -- Hidden quest
+        [27080] = true, -- Hidden quest
+        [27081] = true, -- Not in the game
+        [27121] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [27140] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27142] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27143] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27145] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27146] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27147] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27148] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [27149] = true, -- Not in the game
+        [27250] = true, -- Not in the game
+        [27289] = true, -- Not in the game
+        [27309] = true, -- Duplicate version of 27293
+        [27419] = true, -- Not in the game
+        [27543] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [27552] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [27553] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [27554] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [27563] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [27634] = true, -- Not in the game
+        [27678] = true, -- Not in the game
         [27723] = true, -- Not in the game
         [27819] = true, -- Not in the game
-        [27861] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
-        [27862] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
+        [27861] = Expansions.Current >= Expansions.Cata, -- Duplicate of 27863
+        [27862] = Expansions.Current >= Expansions.Cata, -- Duplicate of 27863
         [27872] = true, -- Hidden quest
         [27873] = true, -- Hidden quest
-        [27925] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28003] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28036] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28037] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28039] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28040] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28065] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28072] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28073] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28074] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28075] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28076] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28077] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28095] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28106] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
-        [28240] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28255] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [27925] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [27946] = true, -- Not in the game
+        [28003] = true, -- Not in the game
+        [28004] = true, -- Not in the game
+        [28005] = true, -- Not in the game
+        [28006] = true, -- Not in the game
+        [28007] = true, -- Not in the game
+        [28008] = true, -- Not in the game
+        [28009] = true, -- Not in the game
+        [28010] = true, -- Not in the game
+        [28011] = true, -- Not in the game
+        [28012] = true, -- Not in the game
+        [28013] = true, -- Not in the game
+        [28014] = true, -- Not in the game
+        [28015] = true, -- Not in the game
+        [28016] = true, -- Not in the game
+        [28017] = true, -- Not in the game
+        [28018] = true, -- Not in the game
+        [28019] = true, -- Not in the game
+        [28020] = true, -- Not in the game
+        [28021] = true, -- Not in the game
+        [28022] = true, -- Not in the game
+        [28023] = true, -- Not in the game
+        [28024] = true, -- Not in the game
+        [28025] = true, -- Not in the game
+        [28026] = true, -- Not in the game
+        [28027] = true, -- Not in the game
+        [28036] = true, -- Not in the game
+        [28037] = true, -- Not in the game
+        [28039] = true, -- Not in the game
+        [28040] = true, -- Not in the game
+        [28065] = true, -- Not in the game
+        [28066] = true, -- Not in the game
+        [28067] = true, -- Not in the game
+        [28070] = true, -- Not in the game
+        [28071] = true, -- Not in the game
+        [28072] = true, -- Not in the game
+        [28073] = true, -- Not in the game
+        [28074] = true, -- Not in the game
+        [28075] = true, -- Not in the game
+        [28076] = true, -- Not in the game
+        [28077] = true, -- Not in the game
+        [28078] = true, -- Not in the game
+        [28079] = true, -- Not in the game
+        [28080] = true, -- Not in the game
+        [28081] = true, -- Not in the game
+        [28082] = true, -- Not in the game
+        [28083] = true, -- Not in the game
+        [28095] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28106] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28110] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28236] = Expansions.Current >= Expansions.Cata, -- Duplicate of 28233
+        [28240] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28255] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28270] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [28347] = true, -- Hidden quest
-        [28365] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28371] = QuestieCorrections.CATA_HIDE, -- Hidden quest
-        [28412] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28462] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28468] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28481] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28516] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28541] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28546] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28547] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28642] = QuestieCorrections.CATA_HIDE, -- Not in the game - Shy Rotam quest is 28742
-        [28648] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28720] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28721] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28365] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28371] = Expansions.Current >= Expansions.Cata, -- Hidden quest
+        [28412] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28462] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28468] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28481] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28516] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28541] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28546] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28547] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28555] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28585] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28601] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28642] = Expansions.Current >= Expansions.Cata, -- Not in the game - Shy Rotam quest is 28742
+        [28648] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28720] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28721] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [28739] = true, -- Hidden quest
-        [28751] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28754] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28758
-        [28835] = QuestieCorrections.CATA_HIDE, -- Hidden quest
+        [28743] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28751] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28752] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28754] = Expansions.Current >= Expansions.Cata, -- Duplicate of 28758
+        [28835] = Expansions.Current >= Expansions.Cata, -- Hidden quest
         [28844] = true, -- Not in the game
         [28846] = true, -- Hidden quest
-        [28851] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28876] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28877] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28851] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28855] = true, -- Not in the game
+        [28876] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [28877] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [28886] = true, -- Hidden quest
         [28887] = true, -- Hidden quest
         [28888] = true, -- Hidden quest
         [28889] = true, -- Hidden quest
+        [28890] = true, -- Not in the game
+        [28891] = true, -- Not in the game
+        [28892] = true, -- Not in the game
+        [28893] = true, -- Not in the game
+        [28894] = true, -- Not in the game
+        [28895] = true, -- Not in the game
+        [28896] = true, -- Not in the game
+        [28897] = true, -- Not in the game
+        [28898] = true, -- Not in the game
+        [28899] = true, -- Not in the game
+        [28900] = true, -- Not in the game
+        [28901] = true, -- Not in the game
+        [28902] = true, -- Not in the game
+        [28903] = true, -- Not in the game
+        [28904] = true, -- Not in the game
         [28936] = true, -- Hidden quest
         [28937] = true, -- Hidden quest
         [28938] = true, -- Hidden quest
         [28940] = true, -- Hidden quest
         [28941] = true, -- Hidden quest
         [28942] = true, -- Hidden quest
-        [29025] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29028] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29029] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29035] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29052
-        [29037] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29039
-        [29038] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29053
-        [29040] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29051
-        [29049] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29025] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29028] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29029] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29033] = true, -- Not in the game
+        [29035] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29052
+        [29037] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29039
+        [29038] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29053
+        [29040] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29051
+        [29049] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29076] = true, -- Not in the game
-        [29091] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29096] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29097] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29098] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29099] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29091] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29096] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29097] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29098] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29099] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29108] = true, -- Not in the game
-        [29212] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29234] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29256] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29260] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29266] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29140] = true, -- Not in the game
+        [29170] = true, -- Not in the game
+        [29171] = true, -- Not in the game
+        [29212] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29216] = true, -- Not in the game
+        [29218] = true, -- Not in the game
+        [29224] = true, -- Not in the game
+        [29256] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29258] = true, -- Not in the game
+        [29259] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29260] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29266] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29271] = true, -- Not in the game
+        [29277] = true, -- Not in the game
+        [29286] = true, -- Not in the game
+        [29291] = true, -- Not in the game
+        [29292] = true, -- Not in the game
+        [29294] = true, -- Not in the game
         [29339] = true, -- Not in the game
         [29340] = true, -- Not in the game
         [29341] = true, -- Not in the game
         [29368] = true, -- Not in the game
         [29372] = true, -- Not in the game
         [29373] = true, -- Not in the game
-        [29386] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29378] = true, -- Hidden quest
+        [29379] = true, -- Hidden quest
+        [29380] = true, -- Hidden quest
+        [29381] = true, -- Hidden quest
+        [29386] = true, -- Hidden quest
+        [29395] = true, -- Hidden quest
+        [29404] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29405] = Expansions.Current >= Expansions.MoP, -- Not in the game
+        [29407] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [29413] = true, -- Not in the game
         [29429] = true, -- Not in the game
-        [29432] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29432] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29441] = true, -- Not in the game
-        [29447] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29448] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29449] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29450] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29454] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29459] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29460] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29461] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29465] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29466] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29467] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29511
-        [29468] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29508
-        [29469] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29518
-        [29470] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29519
-        [29471] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29515
-        [29472] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29517
-        [29473] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29512
-        [29474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29510
-        [29476] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29477
-        [29478] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29506
-        [29479] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29514
-        [29480] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29520
-        [29483] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29516
-        [29484] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29509
-        [29485] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29507
+        [29447] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29448] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29449] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29450] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29454] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29459] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29460] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29461] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29465] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29466] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29467] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29511
+        [29468] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29508
+        [29469] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29518
+        [29470] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29519
+        [29471] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29515
+        [29472] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29517
+        [29473] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29512
+        [29474] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29510
+        [29476] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29477
+        [29478] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29506
+        [29479] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29514
+        [29480] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29520
+        [29483] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29516
+        [29484] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29509
+        [29485] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29507
+        [29532] = true, -- Not in the game
+        [29533] = true, -- Not in the game
+        [29534] = true, -- Not in the game
+        [29544] = true, -- Not in the game
+        [29545] = true, -- Not in the game
+        [29549] = true, -- Not in the game
+        [29550] = true, -- Not in the game
+        [29551] = true, -- Not in the game
+        [29554] = true, -- Not in the game
+        [29561] = true, -- Not in the game
+        [29569] = true, -- Not in the game
+        [29584] = true, -- Not in the game
         [29592] = true, -- Hidden quest
-        [29761] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29801] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29802] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29847] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29934] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30092] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30093] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30097] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30102] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30104] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30105] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30106] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30107] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30108] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30109] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30110] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30111] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30113] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30116] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [30118] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29597] = true, -- Not in the game
+        [29601] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29648] = true, -- Not in the game
+        [29671] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29672] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29673] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29683] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29693] = true, -- Not in the game
+        [29703] = true, -- Not in the game
+        [29705] = true, -- Not in the game
+        [29706] = true, -- Not in the game
+        [29712] = true, -- Not in the game
+        [29713] = true, -- Not in the game
+        [29714] = true, -- Not in the game
+        [29718] = true, -- Not in the game
+        [29719] = true, -- Not in the game
+        [29721] = true, -- Not in the game
+        [29722] = true, -- Not in the game
+        [29724] = true, -- Not in the game
+        [29729] = true, -- Not in the game
+        [29732] = true, -- Not in the game
+        [29744] = true, -- Not in the game
+        [29761] = true, -- Not in the game
+        [29766] = true, -- Not in the game
+        [29767] = true, -- Not in the game
+        [29773] = true, -- Not in the game
+        [29805] = true, -- Not in the game
+        [29812] = true, -- Not in the game
+        [29813] = true, -- Not in the game
+        [29814] = true, -- Not in the game
+        [29816] = true, -- Not in the game
+        [29817] = true, -- Not in the game
+        [29818] = true, -- Not in the game
+        [29819] = true, -- Not in the game
+        [29837] = true, -- Not in the game
+        [29841] = true, -- Not in the game
+        [29842] = true, -- Not in the game
+        [29843] = true, -- Not in the game
+        [29856] = true, -- Not in the game
+        [29858] = true, -- Not in the game
+        [29859] = true, -- Not in the game
+        [29868] = true, -- Not in the game
+        [29869] = true, -- Not in the game
+        [29876] = true, -- Not in the game
+        [29878] = true, -- Not in the game
+        [29896] = true, -- Not in the game
+        [29897] = true, -- Not in the game
+        [29938] = true, -- Not in the game
+        [30003] = true, -- Not in the game
+        [30009] = true, -- Not in the game
+        [30110] = true, -- Not in the game
+        [30111] = true, -- Not in the game
+        [30173] = true, -- Not in the game
+        [30454] = true, -- Not in the game
+        [30455] = true, -- Not in the game
+        [30461] = true, -- Believe this is duplicate and not actually in game
+        [30462] = true, -- Believe this is duplicate and not actually in game
+        [30464] = true, -- Believe this is duplicate and not actually in game
+        [30465] = true, -- Believe this is duplicate and not actually in game
+        [30490] = true, -- Believe this is duplicate and not actually in game
+        [30537] = true, -- Not in the game
+        [30538] = true, -- Not in the game
         [30539] = true, -- Hidden quest
         [30540] = true, -- Hidden quest
         [30541] = true, -- Hidden quest
@@ -3975,15 +5927,101 @@ function QuestieQuestBlacklist:Load()
         [30560] = true, -- Hidden quest
         [30561] = true, -- Hidden quest
         [30562] = true, -- Hidden quest
-        [65593] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65597] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65601] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65602] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65603] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65604] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [65610] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [83713] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [83714] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30663] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [30673] = true, -- Duplicate of 30682
+        [30680] = true, -- Duplicate of 30682
+        [30681] = true, -- Duplicate of 30682
+        [30759] = true, -- Not in the game
+        [30817] = true, -- Not in the game
+        [30818] = true, -- Not in the game
+        [30934] = true, -- Not in the game
+        [30936] = true, -- Not in the game
+        [31025] = true, -- Not in the game
+        [31028] = true, -- Not in the game
+        [31033] = true, -- Not in the game
+        [31035] = true, -- Not in the game
+        [31115] = true, -- Not in the game
+        [31172] = true, -- Not in the game
+        [31212] = true, -- Not in the game
+        [31213] = true, -- Not in the game
+        [31214] = true, -- Not in the game
+        [31306] = Expansions.Current >= Expansions.MoP, -- Believe this is duplicate and not actually in game
+        [31387] = true, -- Not in the game
+        [31389] = true, -- Not in the game
+        [31396] = true, -- Not in the game
+        [31397] = true, -- Not in the game
+        [31399] = true, -- Not in the game
+        [31402] = true, -- Not in the game
+        [31403] = true, -- Not in the game
+        [31404] = true, -- Not in the game
+        [31423] = true, -- Not in the game
+        [31424] = true, -- Not in the game
+        [31425] = true, -- Not in the game
+        [31426] = true, -- Not in the game
+        [31427] = true, -- Not in the game
+        [31428] = true, -- Not in the game
+        [31429] = true, -- Not in the game
+        [31430] = true, -- Not in the game
+        [31431] = true, -- Not in the game
+        [31432] = true, -- Not in the game
+        [31433] = true, -- Not in the game
+        [31434] = true, -- Not in the game
+        [31435] = true, -- Not in the game
+        [31436] = true, -- Not in the game
+        [31437] = true, -- Not in the game
+        [31438] = true, -- Not in the game
+        [31530] = true, -- Not in the game
+        [31604] = true, -- Not in the game
+        [31665] = true, -- Not in the game
+        [31666] = true, -- Not in the game
+        [31697] = true, -- Not in the game
+        [31764] = true, -- Not in the game
+        [31863] = true, -- Not in the game
+        [31864] = true, -- Not in the game
+        [31865] = true, -- Not in the game
+        [31866] = true, -- Not in the game
+        [31867] = true, -- Not in the game
+        [31868] = true, -- Not in the game
+        [31869] = true, -- Not in the game
+        [31939] = true, -- Not in the game
+        [31968] = true, -- Not in the game
+        [32010] = true, -- Not in the game
+        [32011] = true, -- Not in the game
+        [32129] = true, -- Not in the game
+        [32173] = true, -- Not in the game
+        [32174] = true, -- Not in the game
+        [32189] = true, -- Not in the game
+        [32198] = true, -- Not in the game
+        [32364] = true, -- Not in the game
+        [32396] = true, -- Not in the game
+        [32666] = true, -- Hidden quest
+        [32890] = true, -- Not in the game
+        [32891] = true, -- Not in the game
+        [33019] = true, -- Not in the game
+        [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65601] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65602] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65603] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65604] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [65610] = Expansions.Current >= Expansions.Cata, -- Not in the game
+
+        --- MoP Learn to Ride quests
+        [32618] = true, -- Learn To Ride
+        [32661] = true, -- Learn To Ride
+        [32662] = true, -- Learn To Ride
+        [32663] = true, -- Learn To Ride
+        [32664] = true, -- Learn To Ride
+        [32665] = true, -- Learn To Ride
+        [32667] = true, -- Learn To Ride
+        [32668] = true, -- Learn To Ride
+        [32669] = true, -- Learn To Ride
+        [32670] = true, -- Learn To Ride
+        [32671] = true, -- Learn To Ride
+        [32672] = true, -- Learn To Ride
+        [32673] = true, -- Learn To Ride
+        [32674] = true, -- I Believe You Can Fly
+        [32675] = true, -- I Believe You Can Fly
 
         --- Daily quests
         [28905] = true, -- Daily Heroic Random (1st) (Cataclysm)
@@ -3997,18 +6035,18 @@ function QuestieQuestBlacklist:Load()
         [30177] = true, -- Daily Heroic Random (1st) (Cataclysm)
 
         -- ICC weekly quests
-        [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24870] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24871] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24872] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24873] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24874] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24875] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24876] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24877] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24878] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24879] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [24880] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24869] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24870] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24871] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24872] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24873] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24874] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24875] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24878] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
 
         -- First Pre-Event
         [25444] = true, -- Da Perfect Spies
@@ -4050,8 +6088,11 @@ function QuestieQuestBlacklist:Load()
         --[29156] = true, -- The Troll Incursion
         --[29157] = true, -- The Zandalari Menace
         [29158] = true, -- The Zandalar Representative
+        [29168] = true, -- Secondary Targets
+        [29169] = true, -- The Beasts Within
         --[29172] = true, -- The Beasts Within
         --[29173] = true, -- Secondary Targets
+        [29174] = true, -- Break Their Spirits
         --[29175] = true, -- Break Their Spirits
         --[29186] = true, -- The Hex Lord's Fetish
         --[29208] = true, -- An Old Friend
@@ -4088,10 +6129,10 @@ function QuestieQuestBlacklist:Load()
         --[29437] = true, -- The Fallen Guardian
         --[29439] = true, -- The Call of the World-Shaman
         --[29440] = true, -- The Call of the World-Shaman
-        [29452] = true, -- Your Time Has Come
-        [29453] = true, -- Your Time Has Come
-        [30094] = true, -- The End Time
-        [30095] = true, -- The End Time
+        --[29452] = true, -- Your Time Has Come
+        --[29453] = true, -- Your Time Has Come
+        --[30094] = true, -- The End Time
+        --[30095] = true, -- The End Time
 
         -- Phase 4 - Hour of Twilight
         --[29801] = true, -- Proving Your Worth
@@ -4336,16 +6377,100 @@ function QuestieQuestBlacklist:Load()
         [82985] = true, -- Boosted quest
         [82989] = true, -- Boosted quest
 
+        [88776] = true, -- Boosted quest
+        [88777] = true, -- Boosted quest
+        [88778] = true, -- Boosted quest
+        [88779] = true, -- Boosted quest
+        [88780] = true, -- Boosted quest
+        [88781] = true, -- Boosted quest
+        [88782] = true, -- Boosted quest
+        [88783] = true, -- Boosted quest
+        [88784] = true, -- Boosted quest
+        [88785] = true, -- Boosted quest
+        [88786] = true, -- Boosted quest
+        [88787] = true, -- Boosted quest
+        [88788] = true, -- Boosted quest
+        [88789] = true, -- Boosted quest
+        [88790] = true, -- Boosted quest
+        [88793] = true, -- Boosted quest
+        [88794] = true, -- Boosted quest
+        [88796] = true, -- Boosted quest
+        [88797] = true, -- Boosted quest
+        [88798] = true, -- Boosted quest
+        [88800] = true, -- Boosted quest
+        [88801] = true, -- Boosted quest
+
+        ----- MoP -------------- MoP quests --------------- MoP -----
+        ----- MoP ------------- starting here -------------- MoP -----
+        [9754] = true, -- Not in the game
+        [9755] = true, -- Not in the game
+        [10215] = true, -- Not in the game
+        [11522] = true, -- Not in the game
+        [12445] = true, -- Not in the game
+        [12731] = true, -- Not in the game
+        [13541] = true, -- Not in the game
+        [30415] = true, -- A Ruby Shard for Chee Chee (duplicate of 30397) - wowhead even lists this as "Tracking Quest - Successful"
+        [31533] = true, -- The Perfect Feather (not in the game)
+        [31878] = true, -- Audrey Burnhep
+        [31879] = true, -- Audrey Burnhep
+        [31880] = true, -- Audrey Burnhep
+        [31881] = true, -- Audrey Burnhep
+        [31882] = true, -- Varzok
+        [31883] = true, -- Varzok
+        [31884] = true, -- Varzok
+        [31885] = true, -- Varzok
+        [31887] = true, -- Pet Battle Trainers: Kalimdor
+        [31888] = true, -- Pet Battle Trainers: Kalimdor
+        [31890] = true, -- Pet Battle Trainers: Kalimdor
+        [31892] = true, -- Battle Pet Trainers: Kalimdor
+        [31893] = true, -- Battle Pet Trainers: Kalimdor
+        [31940] = true, -- Battle Pet Trainers: Pandaria
+        [31990] = true, -- Audrey Burnhep
+        [31554] = true, -- On The Mend (duplicate of 31553)
+        [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
+        [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
+        [32482] = true, -- Test Your Chicken Guardian [PH]
+        [33121] = true, -- DEPRECATED The Celestial Tournament
+        [33122] = true, -- DEPRECATED Great Job, You Won
+
+        -- Hallow's End
+        [32020] = true,
+        [32021] = true,
+        [32022] = true,
+        [32023] = true,
+        [32024] = true,
+        [32026] = true,
+        [32027] = true,
+        [32028] = true,
+        [32029] = true,
+        [32031] = true,
+        [32032] = true,
+        [32033] = true,
+        [32034] = true,
+        [32036] = true,
+        [32037] = true,
+        [32039] = true,
+        [32040] = true,
+        [32041] = true,
+        [32042] = true,
+        [32043] = true,
+        [32044] = true,
+        [32046] = true,
+        [32047] = true,
+        [32048] = true,
+        [32049] = true,
+        [32050] = true,
+        [32051] = true,
+        [32052] = true,
+
         ----- SoD -------------- SoD quests --------------- SoD -----
-        [2950] = QuestieCorrections.SOD_HIDE, -- Nogg's Ring Redo
-        [3446] = QuestieCorrections.SOD_HIDE, -- Into the Depths
-        [4146] = QuestieCorrections.SOD_HIDE, -- Zapper Fuel
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
         [78288] = true, -- Let Me Make You An Offer (not longer in the game)
         [78297] = true, -- You've Got Yourself A Deal (not longer in the game)
         [78304] = true, -- You've Got Yourself A Deal (not longer in the game)
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
+        [78924] = true, -- In Search of Thaelrid (no longer available)
         [79482] = true, -- Stolen Winter Veil Treats
         [79483] = true, -- Stolen Winter Veil Treats
         [79484] = true, -- You're a Mean One...
@@ -4413,12 +6538,15 @@ function QuestieQuestBlacklist:Load()
     if Questie.IsSoD then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
         questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
-    elseif Questie.IsAnniversary then
+    elseif Questie.IsAnniversary or Questie.IsAnniversaryHardcore then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
         questsToBlacklist = ContentPhases.BlacklistSoMQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
+    elseif Questie.IsMoP then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
+        questsToBlacklist = ContentPhases.BlacklistMoPQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.MoP)
     end
 
     return questsToBlacklist
@@ -5181,7 +7309,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         --[13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431) -- it is still available in wotlk P3
 
         -- Darnassus WOTLK
-        [10520] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
+        [10520] = Expansions.Current >= Expansions.Wotlk, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
 
         --! 8.0.1
         -- Raids -> Sunwell Plateau (3 -> 4075)

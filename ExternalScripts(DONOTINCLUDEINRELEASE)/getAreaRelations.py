@@ -19,19 +19,21 @@ cross-referencing first.
 """
 
 areatable = {}
-with open('DBC - WoW.tools/areatable_cata.csv', 'r') as f:
+
+mop_build_version = '5.5.0.60700'
+with open('DBC - WoW.tools/AreaTable.%s.csv' % mop_build_version, 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         areatable[row['ID']] = row
 
 uimap = {}
-with open('DBC - WoW.tools/uimap_cata.csv', 'r') as f:
+with open('DBC - WoW.tools/UiMap.%s.csv' % mop_build_version, 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         uimap[row['ID']] = row
 
 uimapassignment = {}
-with open('DBC - WoW.tools/uimapassignment_cata.csv', 'r') as f:
+with open('DBC - WoW.tools/UiMapAssignment.%s.csv' % mop_build_version, 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         uimapassignment[row['ID']] = row
@@ -52,13 +54,25 @@ for weirdID in uimapassignment:
             print('double for UiMapID:', item['UiMapID'])
 
 map0 = {}
+# Pre-Mop values
+# '<ID>' = ID from UiMap
+# map1 = {
+#     #'946': ('Cosmic', 0, -1),
+#     #'947': ('Azeroth', 946, -1),
+#     '113': ('Northrend', '947', '571'),
+#     '1414': ('Kalimdor', '947', '1'),
+#     '1415': ('Eastern Kingdoms', '947', '0'),
+#     '1945': ('Outland', '946', '530'),
+#     '1945': ('Pandaria', '947', '0'),
+# }
 map1 = {
     #'946': ('Cosmic', 0, -1),
     #'947': ('Azeroth', 946, -1),
-    '113': ('Northrend', '947', '571'),
-    '1414': ('Kalimdor', '947', '1'),
-    '1415': ('Eastern Kingdoms', '947', '0'),
-    '1945': ('Outland', '946', '530'),
+    '988': ('Northrend', '947', '571'),
+    '1464': ('Kalimdor', '947', '1'),
+    '1463': ('Eastern Kingdoms', '947', '0'),
+    '1467': ('Outland', '946', '530'),
+    '2473': ('Pandaria', '947', '0'),
 }
 map2 = {}
 map3 = {}

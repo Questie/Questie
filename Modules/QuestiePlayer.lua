@@ -11,6 +11,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+---@type table<QuestId, Quest>
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
 local playerRaceId = -1
@@ -59,7 +60,7 @@ end
 ---@return boolean isMaxLevel
 function QuestiePlayer.IsMaxLevel()
     local level = QuestiePlayer.GetPlayerLevel()
-    return (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
+    return (Questie.IsMoP and level == 90) or (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
 end
 
 ---@return string

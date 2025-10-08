@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# This script collects untranslated UI strings from the various files into a single one
+#
+# Usage: python -m untranslated
+
 import re
 
 basePath = '../Localization/Translations/'
@@ -11,20 +15,20 @@ for filePath in re.findall('file="([\\a-zA-Z]*?.lua)"', open('%sTranslations.xml
     with open('%s%s' % (basePath, filePath.replace('\\', '/')), 'r', encoding='utf-8') as translationFile:
         if translationFile.name.endswith('Objectives.lua'):
             continue
-        for filePath, tableContent in re.findall(r'\n\nlocal (.*?) = {\n(.*?\n)\}\n\n', translationFile.read(), re.DOTALL):
-            if filePath not in translations:
-                translations[filePath] = {}
+        for variableName, tableContent in re.findall(r'\n\nlocal (.*?) = {\n(.*?\n)\}\n\n', translationFile.read(), re.DOTALL):
+            if variableName not in translations:
+                translations[variableName] = {}
             for option, comment, translationContent in re.findall(r'\["(.*?)"] = {(.*?)\n(.*?)}', tableContent, re.DOTALL):
-                translations[filePath][option] = {}
+                translations[variableName][option] = {}
                 if option in duplicates:
                     duplicates[option] += 1
                 else:
                     duplicates[option] = 0
                 for lang, translation, comment in re.findall(r'\["(.*?)"] = (.*?),(.*?)\n', translationContent, re.DOTALL):
                     if translation in ('nil', 'false'):
-                        translations[filePath][option][lang] = False
+                        translations[variableName][option][lang] = False
                     else:
-                        translations[filePath][option][lang] = translation
+                        translations[variableName][option][lang] = translation
 
 
 numOptions = 0
@@ -64,7 +68,7 @@ def printStats():
     print("Missing overall:", numMissing)
     for lang in numLangMissing:
         complete = (numOptions - numLangMissing[lang]) / numOptions * 100
-        print(f'Missing for language "{lang}": {numLangMissing[lang]} ({complete}% complete)')
+        print(f'Missing for language "{lang}": {numLangMissing[lang]} ({complete:.2f}% complete)')
 
 def printMissing():
     for filePath in missingTranslations:

@@ -199,7 +199,7 @@ function _QuestieNameplate.GetFrame(guid)
 
     local iconScale = Questie.db.profile.nameplateScale
 
-    frame:SetFrameStrata("LOW")
+    frame:SetFrameStrata("HIGH")
     frame:SetFrameLevel(10)
     frame:SetWidth(16 * iconScale)
     frame:SetHeight(16 * iconScale)
@@ -240,6 +240,8 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     elseif SUFUnittarget then
         targetFrame = SUFUnittarget
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
+    elseif XPerl_Target then
+        targetFrame = XPerl_Target
     end
 
     frame:SetParent(targetFrame)
@@ -281,18 +283,24 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
             tooltip.objective:Update() -- get latest qlog data if its outdated
             if (not tooltip.objective.Completed) and tooltip.objective.Icon then
                 -- If the tooltip icon is Questie.ICON_TYPE_OBJECT we use Questie.ICON_TYPE_LOOT because NPCs should never show
-                -- a cogwheel icon.
+                -- a cogwheel icon (for pfquest only).
                 local iconType = tooltip.objective.Icon
-                if iconType == Questie.ICON_TYPE_OBJECT or iconType == Questie.ICON_TYPE_LOOT then
-                    return Questie.icons["loot"]
+                if iconType == Questie.ICON_TYPE_LOOT then
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
+                elseif iconType == Questie.ICON_TYPE_OBJECT then
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
                 elseif iconType == Questie.ICON_TYPE_SLAY then
-                    return Questie.icons["slay"]
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["slay"] or Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
                 elseif iconType == Questie.ICON_TYPE_EVENT then
-                    return Questie.icons["event"]
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["event"] or Questie.db.profile.ICON_EVENT or Questie.icons["event"]
                 elseif iconType == Questie.ICON_TYPE_TALK then
-                    return Questie.icons["talk"]
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK or Questie.icons["talk"]
                 elseif iconType == Questie.ICON_TYPE_INTERACT then
-                    return Questie.icons["interact"]
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT or Questie.icons["interact"]
+                elseif iconType == Questie.ICON_TYPE_MOUNT_UP then
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["mount_up"] or Questie.db.profile.MOUNT_UP or Questie.icons["mount_up"]
+                elseif iconType == Questie.ICON_TYPE_PET_BATTLE then
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["petbattle"] or Questie.db.profile.ICON_TYPE_PET_BATTLE or Questie.icons["petbattle"]
                 --? icon types below here are never reached or just not used on nameplates ?
                 elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
                     return Questie.icons["available"]

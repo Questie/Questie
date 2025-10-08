@@ -15,7 +15,7 @@
 -- make into AceTimer.
 -- @class file
 -- @name AceTimer-3.0
--- @release $Id: AceTimer-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
+-- @release $Id: AceTimer-3.0.lua 1342 2024-05-26 11:49:35Z nevcairiel $
 
 local MAJOR, MINOR = "AceTimer-3.0", 17 -- Bump minor on changes
 local AceTimer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
@@ -78,7 +78,7 @@ end
 
 --- Schedule a new one-shot timer.
 -- The timer will fire once in `delay` seconds, unless canceled before.
--- @param callback Callback function for the timer pulse (funcref or method name).
+-- @param func Callback function for the timer pulse (funcref or method name).
 -- @param delay Delay for the timer, in seconds.
 -- @param ... An optional, unlimited amount of arguments to pass to the callback function.
 -- @usage
@@ -107,7 +107,7 @@ end
 
 --- Schedule a repeating timer.
 -- The timer will fire every `delay` seconds, until canceled.
--- @param callback Callback function for the timer pulse (funcref or method name).
+-- @param func Callback function for the timer pulse (funcref or method name).
 -- @param delay Delay for the timer, in seconds.
 -- @param ... An optional, unlimited amount of arguments to pass to the callback function.
 -- @usage
