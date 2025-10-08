@@ -205,7 +205,7 @@ function EventHandler:RegisterLateEvents()
 
         Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
-            if Questie.db.profile.trackerEnabled then
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 QuestieCombatQueue:Queue(function()
                     local baseFrame = TrackerBaseFrame.baseFrame
                     if baseFrame and not baseFrame:IsShown() then
@@ -213,6 +213,33 @@ function EventHandler:RegisterLateEvents()
                         QuestieTracker:Update()
                     end
                 end)
+            end
+        end)
+
+        -- Additional pet battle events to handle edge cases
+        Questie:RegisterEvent("PET_BATTLE_PET_CHANGED", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
+            -- Ensure tracker stays hidden during pet changes/deaths
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
+            -- Ensure tracker stays hidden during battle round transitions
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
             end
         end)
     end

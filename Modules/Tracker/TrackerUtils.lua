@@ -796,6 +796,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped zone proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)
@@ -906,6 +911,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)

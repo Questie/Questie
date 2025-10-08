@@ -103,6 +103,9 @@ local migrationFunctions = {
     [13] = function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
     end,
+    [14] = function()
+        Questie.db.profile.hideTrackerInPetBattles = true
+    end,
 }
 
 function Migration:Migrate()
