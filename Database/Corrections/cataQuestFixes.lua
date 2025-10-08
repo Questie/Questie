@@ -1205,6 +1205,22 @@ function CataQuestFixes.Load()
         [9407] = { -- Through the Dark Portal
             [questKeys.breadcrumbForQuestId] = 10120,
         },
+        [9415] = { -- Report to Marshal Bluewall
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
+        [9416] = { -- Report to General Kirika
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
+        [9419] = { -- Scouring the Desert
+            [questKeys.breadcrumbs] = {},
+        },
+        [9422] = { -- Scouring the Desert
+            [questKeys.breadcrumbs] = {},
+        },
         [9436] = { -- Bloodscalp Insight
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26280,26321},
