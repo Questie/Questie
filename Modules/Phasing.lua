@@ -458,6 +458,12 @@ local phases = {
     THRALL_VALLEY_OF_TRIALS = 1386,
     THRALL_ECHO_ISLES_1 = 1387,
     THRALL_ECHO_ISLES_2 = 1388,
+    SARANNHA_AT_MOGUJIA = 1389,
+    SARANNHA_AT_RUINS_OF_KORUNE = 1390,
+    JAINA_IN_DARNASSUS = 1391,
+    JAINA_IN_TELDRASSIL = 1392,
+    ANDUIN_ENTRANCE_OF_TOMB = 1393,
+    ANDUIN_AT_LIONS_LANDING = 1394,
 }
 Phasing.phases = phases
 
@@ -2103,6 +2109,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THRALL_ECHO_ISLES_2 then
         return complete[32372] or (questLog[32372] and questLog[32372].isComplete == 1) or false
+    end
+
+    if phase == phases.SARANNHA_AT_MOGUJIA then
+        return not complete[32371] or false
+    end
+
+    if phase == phases.SARANNHA_AT_RUINS_OF_KORUNE then
+        return complete[32371] or false
+    end
+
+    if phase == phases.JAINA_IN_DARNASSUS then
+        return not (complete[32460] or (questLog[32460] and questLog[32460].isComplete == 1)) or false
+    end
+
+    if phase == phases.JAINA_IN_TELDRASSIL then
+        return complete[32460] or (questLog[32460] and questLog[32460].isComplete == 1) or false
+    end
+
+    if phase == phases.ANDUIN_ENTRANCE_OF_TOMB then
+        return not complete[32321] or false
+    end
+
+    if phase == phases.ANDUIN_AT_LIONS_LANDING then
+        return complete[32321] or false
     end
 
     return false

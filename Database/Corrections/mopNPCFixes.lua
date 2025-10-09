@@ -4208,7 +4208,12 @@ function MopNpcFixes.Load()
         [67734] = { -- Sarannha Skyglaive
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{59.97,75.32}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {
+                    {59.97,75.32,phases.SARANNHA_AT_MOGUJIA},
+                    {32.9,26.27,phases.SARANNHA_AT_RUINS_OF_KORUNE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [67742] = { -- Docks Sentry Ward Location
@@ -4283,6 +4288,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.32,34.07}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67848] = { -- Seamus Goldenkicks
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.1,33.75}}},
+        },
         [67866] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.66,93.22}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -4353,10 +4361,8 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Sarannha Skyglaive",
             [npcKeys.minLevel] = 35,
             [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 5841,
-            [npcKeys.spawns] = {
-                [5841] = {{32.6,30.4}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.CRYPT_OF_KORUNE] = {{61.92,25.66}}},
+            [npcKeys.zoneID] = zoneIDs.CRYPT_OF_KORUNE,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32394},
         },
@@ -4370,6 +4376,23 @@ function MopNpcFixes.Load()
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68003] = { -- The Monkey King
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.8,50.48}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68004] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {{52.96,46.45,phases.ANDUIN_ENTRANCE_OF_TOMB}},
+                [zoneIDs.KRASARANG_WILDS] = {{88.98,31.71,phases.ANDUIN_AT_LIONS_LANDING}},
+            },
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68005] = { -- The Jade Warlord
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.95,49.7}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68006] = { -- Sha-Touched Footman
             [npcKeys.spawns] = {
@@ -4442,6 +4465,19 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{26.78,39.01}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
         },
+        [68117] = { -- Untamed Ambertail
+            [npcKeys.name] = "Untamed Ambertail",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{65.92,71.86}}},
+            [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [68128] = { -- Sam the Wise
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.87,50.48}}},
+        },
+        [68130] = { -- The Monkey King
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.16,45.64}}},
+        },
         [68137] = { -- Akama
             [npcKeys.name] = "Akama",
             [npcKeys.minLevel] = 35,
@@ -4450,6 +4486,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [6613] = {{45.2,49.4}},
             },
+        },
+        [68150] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.87,50.48}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68166] = { -- Sully "The Pickle" McLeary
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.76,78.6}}},
@@ -4647,6 +4687,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.93,47.75}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [68504] = { -- Dreadweaver Avartu
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.98,25.98}}},
+        },
         [68526] = { -- Barkeep Townsley
             [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{69.98,47.1},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BIZMOS_BRAWLPUB,
@@ -4667,6 +4710,12 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{64.55,22.69},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BIZMOS_BRAWLPUB,
+        },
+        [68538] = { -- The Monkey King
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{88.88,31.74}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [68539] = { -- Tasha Windpaw
             [npcKeys.name] = "Tasha Windpaw",
@@ -4735,14 +4784,26 @@ function MopNpcFixes.Load()
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
         },
+        [68651] = { -- Lady Jaina Proudmoore
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{38.91,32.77,phases.JAINA_IN_DARNASSUS}},
+                [zoneIDs.TELDRASSIL] = {{39.98,50.49,phases.JAINA_IN_TELDRASSIL}},
+            },
+            [npcKeys.zoneID] = zoneIDs.DARNASSUS,
+        },
+        [68687] = { -- Vereesa Windrunner
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{34.26,48.69}}},
+        },
         [68690] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",
-            [npcKeys.minLevel] = 99,
-            [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 6134,
-            [npcKeys.spawns] = {
-                [6134] = {{87.8,33}},
-            },
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{87.91,33.1}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32423},
         },
@@ -4803,6 +4864,26 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{88.34,34.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [68751] = { -- Magister Brasael
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{53.54,15.47}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68752] = { -- Inkmaster Aelon
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{41.57,35.98}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68753] = { -- Gearmage Astalon
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{39.45,24.54}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68754] = { -- Tolyria
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{43.28,26.1}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68755] = { -- Sintharia Cinderweave
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{36.61,32.53}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
         },
         [68756] = { -- Sunreaver Assassin
             [npcKeys.name] = "Sunreaver Assassin",
@@ -4870,6 +4951,10 @@ function MopNpcFixes.Load()
         [68952] = { -- Bizmo's Brawlpub Entrance
             [npcKeys.spawns] = {[zoneIDs.DEEPRUN_TRAM] = {{52.15,47.69},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DEEPRUN_TRAM,
+        },
+        [68962] = { -- Trail Thieves Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{39.98,50.6}}},
+            [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
         },
         [69026] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",

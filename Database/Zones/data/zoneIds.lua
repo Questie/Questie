@@ -354,6 +354,7 @@ ZoneDB.zoneIDs = {
     THE_DEEPER_LOWER_LEVEL = 10084, -- cave in Kun_Lai Summit -- 384
     RUINS_OF_OGUDEI = 10085, -- Ruins of Ogudei - cave in Krasarang Wilds -- 420
     RUINS_OF_OGUDEI_RELIQUARY_INCURSION = 10086, -- Ruins of Ogudei - cave in Krasarang Wilds -- 421
+    CRYPT_OF_KORUNE = 10087, -- Ruins of Ogudei - cave in Krasarang Wilds -- 421
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map

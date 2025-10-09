@@ -111,6 +111,7 @@ QuestieCorrections.killCreditObjectiveFirst[31947] = true
 QuestieCorrections.killCreditObjectiveFirst[31949] = true
 QuestieCorrections.killCreditObjectiveFirst[32247] = true
 QuestieCorrections.killCreditObjectiveFirst[32250] = true
+QuestieCorrections.objectObjectiveFirst[32333] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -5477,6 +5478,7 @@ function MopQuestFixes.Load()
         },
         [31320] = { -- Buy A Fish A Drink?
             [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
+            [questKeys.reputationReward] = {{factionIDs.JOGU,8}},
         },
         [31321] = { -- Buy A Fish A Round?
             [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
@@ -7882,6 +7884,8 @@ function MopQuestFixes.Load()
         [32321] = { -- The Monkey King
             [questKeys.preQuestSingle] = {32355},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.objectives] = {{{68004,nil,Questie.ICON_TYPE_TALK},{68150,nil,Questie.ICON_TYPE_EVENT},{68005}}},
         },
         [32326] = { -- Insertion
             [questKeys.preQuestSingle] = {32392},
@@ -7918,19 +7922,24 @@ function MopQuestFixes.Load()
         [32332] = { -- The First Riddle: Mercy
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the amber"),0,{{"object",216360}}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32333] = { -- The Second Riddle: Fellowship
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32334] = { -- The Third Riddle: Strength
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32335] = { -- The Greatest Prank
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32332,32333,32334},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.objectives] = {{{68538,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32336] = { -- The Handle
             [questKeys.preQuestSingle] = {32335},
@@ -7995,11 +8004,15 @@ function MopQuestFixes.Load()
         [32355] = { -- The Harmonic Mallet
             [questKeys.preQuestSingle] = {32423},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Valley of Emperors"),0,{{"monster",68741}}}},
+            [questKeys.objectives] = {{{68004,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,33}},
         },
         [32362] = { -- The Fate of Dalaran
             [questKeys.preQuestSingle] = {32331},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,11850},
             [questKeys.objectives] = {{{68108,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,6},{factionIDs.OPERATION_SHIELDWALL,7}},
         },
         [32363] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32330},
@@ -8121,11 +8134,16 @@ function MopQuestFixes.Load()
         [32393] = { -- The Ruins of Korune
             [questKeys.preQuestSingle] = {32371},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Ruins of Korune"),0,{{"monster",68741}}}},
+            [questKeys.objectives] = {{{67734,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
         },
         [32394] = { -- The Divine Bell
             [questKeys.preQuestSingle] = {32393},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
             [questKeys.finishedBy] = {{67951}},
+            [questKeys.objectives] = {{{68504}},{{216678}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
         },
         [32397] = { -- He Won't Even Miss It
             [questKeys.preQuestSingle] = {32382},
@@ -8211,37 +8229,49 @@ function MopQuestFixes.Load()
         [32414] = { -- Darnassus Attacked?
             [questKeys.preQuestSingle] = {32394},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.objectives] = {{{67848,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,33}},
         },
         [32416] = { -- Jaina's Resolution
             [questKeys.preQuestSingle] = {32460},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.objectives] = {nil,{{216720}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,33}},
         },
         [32417] = { -- Sewer Cleaning
             [questKeys.preQuestSingle] = {32416},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68756,68757,68758,68647},68647}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,5}},
         },
         [32418] = { -- Unfair Trade
             [questKeys.preQuestSingle] = {32416},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,5}},
         },
         [32419] = { -- Nowhere to Hide
             [questKeys.preQuestSingle] = {32416},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68051,68760,68761,68050},68050}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,5}},
         },
         [32420] = { -- Cashing Out
             [questKeys.preQuestSingle] = {32416},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12},{factionIDs.ALLIANCE,5}},
         },
         [32421] = { -- Nowhere to Run
             [questKeys.preQuestSingle] = {32416},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.objectives] = {{{68762,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,12},{factionIDs.ALLIANCE,5}},
         },
         [32423] = { -- What Had To Be Done
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {32417,32418,32419,32420,32421},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.objectives] = {{{68687,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,6},{factionIDs.ALLIANCE,6}},
         },
         [32426] = { -- Stirred, Not Shaken
             [questKeys.preQuestSingle] = {32381},
@@ -8340,6 +8370,8 @@ function MopQuestFixes.Load()
         [32460] = { -- Tracking the Thieves
             [questKeys.preQuestSingle] = {32414},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
+            [questKeys.objectives] = {nil,{{216720}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
         },
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},

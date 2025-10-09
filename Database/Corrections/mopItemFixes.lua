@@ -1123,6 +1123,12 @@ function MopItemFixes.Load()
         [92499] = { -- Sturdy Needle
             [itemKeys.npcDrops] = {68026,68027},
         },
+        [92539] = { -- Untamed Amber
+            [itemKeys.npcDrops] = {68117},
+        },
+        [92557] = { -- The Metal Brew
+            [itemKeys.objectDrops] = {216362},
+        },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },
