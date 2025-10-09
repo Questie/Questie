@@ -1105,6 +1105,9 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 32166,
             [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
+        [91874] = { -- Chunk of Mystery Meat
+            [itemKeys.npcDrops] = {67895,67896,68584},
+        },
         [91907] = { -- Lion's Landing Lumber
             [itemKeys.objectDrops] = {216229},
         },

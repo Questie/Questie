@@ -7779,19 +7779,19 @@ function MopQuestFixes.Load()
         [32236] = { -- Bug Off!
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {32137,32237,32139,32238},
+            [questKeys.exclusiveTo] = {32136,32137,32237,32138,32139,32238},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32237] = { -- Precious Resource
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {32141,32236,32139,32238},
+            [questKeys.exclusiveTo] = {32141,32236,32138,32139,32140,32238},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32238] = { -- Universal Remote-Explode
             [questKeys.preQuestSingle] = {32108},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.exclusiveTo] = {32137,32237,32141,32236},
+            [questKeys.exclusiveTo] = {32136,32137,32237,32140,32141,32236},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32242] = { -- Buried Secrets
@@ -7906,12 +7906,15 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{215126}}},
             [questKeys.preQuestSingle] = {32352},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,23700},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31},{factionIDs.SILVERMOON_CITY,31}},
         },
         [32330] = { -- What's in the Box?
+            [questKeys.startedBy] = {{16802}},
             [questKeys.preQuestSingle] = {32329},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,23700},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {{{68430,nil,Questie.ICON_TYPE_EVENT},{68086,nil,Questie.ICON_TYPE_TALK},{68085,nil,Questie.ICON_TYPE_TALK},{68259}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the box"),0,{{"object",216484}}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.SILVERMOON_CITY,7}},
         },
         [32331] = { -- The Kirin Tor
             [questKeys.preQuestGroup] = {32383,32397},
@@ -7994,12 +7997,15 @@ function MopQuestFixes.Load()
         [32351] = { -- Echoes of Thunder
             [questKeys.preQuestSingle] = {32384},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,19750},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{68287,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31}},
         },
         [32352] = { -- A Gathering Storm
             [questKeys.preQuestSingle] = {32351},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,19750},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {{{68284,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HUOJIN_PANDAREN,27}},
         },
         [32355] = { -- The Harmonic Mallet
             [questKeys.preQuestSingle] = {32423},

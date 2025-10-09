@@ -1420,6 +1420,9 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.35,45.38}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
+        [216484] = { -- Intensifier Disc
+            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.59}}},
+        },
         [259806] = { -- Love Potion Recipe
             [objectKeys.questStarts] = {},
         },

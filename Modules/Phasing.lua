@@ -464,6 +464,8 @@ local phases = {
     JAINA_IN_TELDRASSIL = 1392,
     ANDUIN_ENTRANCE_OF_TOMB = 1393,
     ANDUIN_AT_LIONS_LANDING = 1394,
+    GARROSH_TOP_FLOOR_WEST = 1395,
+    GARROSH_TOP_FLOOR_EAST = 1396,
 }
 Phasing.phases = phases
 
@@ -2133,6 +2135,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ANDUIN_AT_LIONS_LANDING then
         return complete[32321] or false
+    end
+
+    if phase == phases.GARROSH_TOP_FLOOR_WEST then
+        return not complete[32384] or false
+    end
+
+    if phase == phases.GARROSH_TOP_FLOOR_EAST then
+        return complete[32384] or false
     end
 
     return false

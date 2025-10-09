@@ -4281,7 +4281,12 @@ function MopNpcFixes.Load()
         [67840] = { -- Garrosh Hellscream
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
-            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{32.26,84.86}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {
+                    {32.26,84.86,phases.GARROSH_TOP_FLOOR_WEST},
+                    {65.35,46.47,phases.GARROSH_TOP_FLOOR_EAST},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
         },
         [67847] = { -- Belloc Brightblade
@@ -4444,14 +4449,26 @@ function MopNpcFixes.Load()
         },
         [68084] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 3487,
-            [npcKeys.spawns] = {
-                [3487] = {{91.2,37.4}},
-            },
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{91.12,37.51}}},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.questEnds] = {32330},
+        },
+        [68085] = { -- Grand Magister Rommath
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.32,37.14}}},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [68086] = { -- Archmage Aethas Sunreaver
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.25,37.82}}},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [npcKeys.friendlyToFaction] = "H",
         },
         [68106] = { -- Anduin Wrynn
             [npcKeys.minLevel] = 90,
@@ -4564,6 +4581,9 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32316},
         },
+        [68259] = { -- Concentrated Sha
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.59}}},
+        },
         [68274] = { -- Kaelis Sunsoar
             [npcKeys.spawns] = {[zoneIDs.RUINS_OF_OGUDEI_RELIQUARY_INCURSION] = {{35.27,42.12}}},
             [npcKeys.zoneID] = zoneIDs.RUINS_OF_OGUDEI_RELIQUARY_INCURSION,
@@ -4571,6 +4591,20 @@ function MopNpcFixes.Load()
         [68275] = { -- Hilda Hornswaggle
             [npcKeys.spawns] = {[zoneIDs.RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION] = {{30.11,27.48}}},
             [npcKeys.zoneID] = zoneIDs.RUINS_OF_OGUDEI_ALLIANCE_EXCAVATION,
+        },
+        [68284] = { -- Sha-Touched Grunt
+            [npcKeys.spawns] = {
+                [zoneIDs.SHRINE_OF_TWO_MOONS] = {{73.88,26.03},{67.71,34.87},{75.11,52.9},{60.45,45.52},{64.58,64.36},{60.27,73.35},{46.86,84.18},{39.61,54.69},{38.04,70.31},{31.94,72.38},{26.06,58.2},{26.1,35.37},{49.55,40.13}},
+                [zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{41.56,82.34},{29.25,84.72},{30.02,77.61},{25.28,67.01},{29.23,40.5},{24.9,29.82},{33.07,31.25},{41.94,51.76},{60.94,69.26},{75.25,74.28},{68.51,65.34},{54.22,23.74},{66.53,20.98}},
+                [zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{58.9,19.79},{60.08,21.9},{62.16,23.77},{61.84,22.01},{62.64,18.95},{64.25,18.66}},
+            },
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
+        },
+        [68287] = { -- Baine Bloodhoof
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{68.67,43.8}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
         },
         [68289] = { -- Xi'ri
             [npcKeys.name] = "Xi'ri",
@@ -4678,7 +4712,9 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68430] = { -- Arcanis Mechanica
-            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.4,31.8}}},
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.61,32.65}}},
         },
         [68473] = { -- Legacy of Korune
             [npcKeys.name] = "Legacy of Korune",
