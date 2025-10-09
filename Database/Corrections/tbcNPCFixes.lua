@@ -534,6 +534,9 @@ function QuestieTBCNpcFixes:Load()
         [17214] = {
             [npcKeys.waypoints] = {},
         },
+        [17215] = {
+            [npcKeys.waypoints] = {},
+        },
         [17219] = { -- Sulaa
             [npcKeys.questStarts] = {9462,9500,9551},
         },
