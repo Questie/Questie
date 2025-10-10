@@ -466,6 +466,8 @@ local phases = {
     ANDUIN_AT_LIONS_LANDING = 1394,
     GARROSH_TOP_FLOOR_WEST = 1395,
     GARROSH_TOP_FLOOR_EAST = 1396,
+    BAINE_IN_SHRINE = 1397,
+    BAINE_AT_GARROSHAR_ADVANCE = 1398,
 }
 Phasing.phases = phases
 
@@ -2143,6 +2145,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GARROSH_TOP_FLOOR_EAST then
         return complete[32384] or false
+    end
+
+    if phase == phases.BAINE_IN_SHRINE then
+        return not complete[32330] or false
+    end
+
+    if phase == phases.BAINE_AT_GARROSHAR_ADVANCE then
+        return complete[32330] or false
     end
 
     return false

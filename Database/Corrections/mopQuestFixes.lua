@@ -8024,12 +8024,15 @@ function MopQuestFixes.Load()
         [32363] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32330},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,27650},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Garrosh'ar Advance"),0,{{"monster",68681}}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32368] = { -- Memory Wine
             [questKeys.preQuestSingle] = {32448},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,27650},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {{{68362,nil,Questie.ICON_TYPE_EVENT},{68357,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7}},
         },
         [32370] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32316},
@@ -8349,7 +8352,7 @@ function MopQuestFixes.Load()
         [32448] = { -- Ties with the Past
             [questKeys.preQuestSingle] = {32363},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,27650},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
         },
         [32449] = { -- The Ruins of Ogudei
             [questKeys.preQuestSingle] = {32108},

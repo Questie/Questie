@@ -4606,7 +4606,10 @@ function MopNpcFixes.Load()
         [68287] = { -- Baine Bloodhoof
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
-            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{68.67,43.8}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{68.67,43.8,phases.BAINE_IN_SHRINE}},
+                [zoneIDs.KUN_LAI_SUMMIT] = {{60.34,55.14,phases.BAINE_AT_GARROSHAR_ADVANCE}},
+            },
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
         },
         [68289] = { -- Xi'ri
@@ -4662,6 +4665,16 @@ function MopNpcFixes.Load()
         [68342] = { -- Kor'kron Soulbreaker
             [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{38.51,46.46}}},
             [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
+        },
+        [68357] = { -- Shan Kien
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.4,55.11}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68362] = { -- Kill Credit: Memory Wine - Drink
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{60.4,55.11}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68367] = { -- Kor'kron Reaver
             [npcKeys.name] = "Kor'kron Reaver",
@@ -4986,6 +4999,13 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.12,70.91}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68907] = { -- Varatus the Conqueror
+            [npcKeys.name] = "Varatus the Conqueror",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{63.92,45.13}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68908] = { -- Amber Kearnen

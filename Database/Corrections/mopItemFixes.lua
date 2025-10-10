@@ -1178,18 +1178,21 @@ function MopItemFixes.Load()
         [93009] = { -- Shieldwall Soldier Dog Tag
             [itemKeys.npcDrops] = {68700},
         },
-        [93179] = { -- Scrap Metal
-            [itemKeys.npcDrops] = {67285},
-        },
         [93022] = { -- Animatable Stone
             [itemKeys.npcDrops] = {67929},
             [itemKeys.objectDrops] = {216160},
+        },
+        [93179] = { -- Scrap Metal
+            [itemKeys.npcDrops] = {67285},
         },
         [93189] = { -- Korune Artifact
             [itemKeys.npcDrops] = {67804,67805,67806},
         },
         [93190] = { -- Sha-Touched Claw
             [itemKeys.npcDrops] = {68815},
+        },
+        [93212] = { -- Spirit Essence of Varatus
+            [itemKeys.npcDrops] = {68907},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
