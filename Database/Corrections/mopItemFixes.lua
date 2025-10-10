@@ -1132,6 +1132,15 @@ function MopItemFixes.Load()
         [92557] = { -- The Metal Brew
             [itemKeys.objectDrops] = {216362},
         },
+        [92560] = { -- Mallet Head
+            [itemKeys.objectDrops] = {216421},
+        },
+        [92561] = { -- Mallet Handle
+            [itemKeys.npcDrops] = {68545},
+        },
+        [92562] = { -- Harmonic Ointment
+            [itemKeys.npcDrops] = {61010},
+        },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
         },

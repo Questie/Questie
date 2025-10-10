@@ -7951,6 +7951,7 @@ function MopQuestFixes.Load()
         [32337] = { -- The Head
             [questKeys.preQuestSingle] = {32335},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,39500},
+            [questKeys.objectives] = {{{68554,nil,Questie.ICON_TYPE_TALK}},nil,{{92560}}},
         },
         [32338] = { -- The Harmonic Ointment
             [questKeys.preQuestSingle] = {32335},
@@ -8170,10 +8171,13 @@ function MopQuestFixes.Load()
         [32400] = { -- The Bell Speaks
             [questKeys.preQuestGroup] = {32336,32337,32338},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,42000},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Emperor's Reach"),0,{{"monster",68741}}}},
+            [questKeys.objectives] = {{{68939,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32401] = { -- Breath of Darkest Shadow
             [questKeys.preQuestSingle] = {32400},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,42000},
+            [questKeys.objectives] = {{{68936}},{{216721}}},
         },
         [32402] = { -- The Situation In Dalaran
             [questKeys.preQuestSingle] = {32328},
@@ -8366,6 +8370,7 @@ function MopQuestFixes.Load()
         [32455] = { -- The Silence
             [questKeys.preQuestSingle] = {32401},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,42000},
+            [questKeys.objectives] = {{{68928,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},

@@ -839,6 +839,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{89.19,33.56}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [216421] = { -- Mallet Head
+            [objectKeys.name] = "Mallet Head",
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{24.98,28.06}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [216427] = { -- Hammer of Fellowship
             [objectKeys.name] = "Hammer of Fellowship",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.4,34.3}}},
@@ -877,7 +882,7 @@ function MopObjectFixes.Load()
         },
         [216721] = { -- Divine Bell
             [objectKeys.name] = "Divine Bell",
-            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56,31.8}}}, -- needs more accurate coords
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.95,31.8}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [216743] = { -- Goblin Explosives Crate

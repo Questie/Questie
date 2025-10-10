@@ -2255,6 +2255,9 @@ function MopNpcFixes.Load()
         [61816] = { -- Lin Silentstrike
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT]= {{34.96,59.4}}},
         },
+        [61818] = { -- Needlebottom
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES]= {{63.08,87.68}}},
+        },
         [61819] = { -- Ban Bearheart
             [npcKeys.spawns] = {
                 [zoneIDs.KUN_LAI_SUMMIT] = {
@@ -4773,12 +4776,24 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "The Monkey King",
             [npcKeys.minLevel] = 99,
             [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 6134,
-            [npcKeys.spawns] = {
-                [6134] = {{43.4,86.4}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.46,86.51}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32336},
+        },
+        [68545] = { -- Chief Ingoo Ingoo XVII
+            [npcKeys.name] = "Chief Ingoo Ingoo XVII",
+            [npcKeys.subName] = "Rod-Haver",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{43.56,86.05}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [68554] = { -- Royal Finder
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{23.09,30.64}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [68558] = { -- Gorespine
             [npcKeys.name] = "Gorespine",
@@ -4984,6 +4999,19 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.08,84.56},{58.22,84.94},{58.35,84.05}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [68928] = { -- Kill Credit: Use the Alliance Flare Gun
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.96,31.88}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68936] = { -- Ishi
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.82,31.92}}},
+        },
+        [68939] = { -- Anduin Wrynn
+            [npcKeys.minLevel] = 15,
+            [npcKeys.maxLevel] = 15,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{56.37,34.31}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [68952] = { -- Bizmo's Brawlpub Entrance
             [npcKeys.spawns] = {[zoneIDs.DEEPRUN_TRAM] = {{52.15,47.69},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DEEPRUN_TRAM,
@@ -4991,6 +5019,12 @@ function MopNpcFixes.Load()
         [68962] = { -- Trail Thieves Kill Credit
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{39.98,50.6}}},
             [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
+        },
+        [68987] = { -- Anduin Wrynn
+            [npcKeys.minLevel] = 15,
+            [npcKeys.maxLevel] = 15,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.96,31.88}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [69026] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",
@@ -5013,12 +5047,10 @@ function MopNpcFixes.Load()
         },
         [69090] = { -- Admiral Taylor
             [npcKeys.name] = "Admiral Taylor",
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 6134,
-            [npcKeys.spawns] = {
-                [6134] = {{87.6,33}},
-            },
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{87.72,33.07}}},
+            [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.questEnds] = {32455},
         },
