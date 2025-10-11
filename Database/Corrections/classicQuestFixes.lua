@@ -4751,6 +4751,10 @@ function QuestieQuestFixes:Load()
         },
         [9236] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.requiredMinRep] = {nil,nil},
+        },
+        [9237] = {
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9238] = {
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
@@ -4760,6 +4764,7 @@ function QuestieQuestFixes:Load()
         },
         [9240] = {
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9241] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
@@ -4769,6 +4774,7 @@ function QuestieQuestFixes:Load()
         },
         [9243] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9244] = {
             [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
@@ -4778,6 +4784,7 @@ function QuestieQuestFixes:Load()
         },
         [9246] = {
             [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9247] = {
             [questKeys.requiredLevel] = 1,
