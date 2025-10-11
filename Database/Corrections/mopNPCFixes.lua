@@ -4190,7 +4190,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67639] = { -- Alliance Supply Drop
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{10.91,67.77},{11.66,67.98},{13.64,69.31},{14.02,68.93},{8.46,64.98},{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67682] = { -- Brann Bronzebeard
@@ -4378,7 +4378,7 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Alliance Supply Drop",
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.98,67.85},{11.53,67.04},{13.88,67.57},{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67976] = { -- Tinkmaster Overspark
@@ -4662,6 +4662,13 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.friendlyToFaction] = "H",
         },
+        [68337] = { -- Ishi
+            [npcKeys.spawns] = {
+                [zoneIDs.KUN_LAI_SUMMIT] = {{32.88,26.35,phases.ISHI_AT_RUINS_OF_KORUNE}},
+                [zoneIDs.CRYPT_OF_KORUNE] = {{61.84,25.6,phases.ISHI_IN_CRYPT}},
+            },
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [68342] = { -- Kor'kron Soulbreaker
             [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{38.51,46.46}}},
             [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
@@ -4731,6 +4738,10 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.61,32.65}}},
+        },
+        [68472] = { -- Sarannha Skyglaive
+            [npcKeys.spawns] = {[zoneIDs.CRYPT_OF_KORUNE] = {{60.33,23.52}}},
+            [npcKeys.zoneID] = zoneIDs.CRYPT_OF_KORUNE,
         },
         [68473] = { -- Legacy of Korune
             [npcKeys.name] = "Legacy of Korune",

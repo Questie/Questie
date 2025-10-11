@@ -8025,6 +8025,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32330},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,27650},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Garrosh'ar Advance"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{68287,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32368] = { -- Memory Wine
@@ -8132,14 +8133,16 @@ function MopQuestFixes.Load()
         },
         [32391] = { -- The Ruins of Korune
             [questKeys.preQuestSingle] = {32368},
-            [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,31625}, -- check if rep value is correct
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,31650},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Ruins of Korune"),0,{{"monster",68681}}}},
+            [questKeys.objectives] = {{{68337,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,31},{factionIDs.HORDE,1}},
         },
         [32392] = { -- The Divine Bell
             [questKeys.finishedBy] = {{68337}},
             [questKeys.preQuestSingle] = {32391},
-            [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,31625}, -- check if rep value is correct
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,31650},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HORDE,6}},
         },
         [32393] = { -- The Ruins of Korune
             [questKeys.preQuestSingle] = {32371},

@@ -468,6 +468,8 @@ local phases = {
     GARROSH_TOP_FLOOR_EAST = 1396,
     BAINE_IN_SHRINE = 1397,
     BAINE_AT_GARROSHAR_ADVANCE = 1398,
+    ISHI_AT_RUINS_OF_KORUNE = 1399,
+    ISHI_IN_CRYPT = 1400,
 }
 Phasing.phases = phases
 
@@ -2153,6 +2155,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BAINE_AT_GARROSHAR_ADVANCE then
         return complete[32330] or false
+    end
+
+    if phase == phases.ISHI_AT_RUINS_OF_KORUNE then
+        return not (complete[32392] or (questLog[32392] and questLog[32392].isComplete == 1)) or false
+    end
+
+    if phase == phases.ISHI_IN_CRYPT then
+        return complete[32392] or (questLog[32392] and questLog[32392].isComplete == 1) or false
     end
 
     return false
