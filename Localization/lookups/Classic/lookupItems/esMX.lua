@@ -2187,6 +2187,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [22945] = "Una nota con tono de agobio",
 [22946] = "Una página hecha jirones",
 [22948] = "Un documento manchado",
+[22950] = "Cristal necrótico tenue",
 [22970] = "Un sobre manchado de sangre",
 [22972] = "Una nota con tono de agobio",
 [22973] = "Una misiva arrugada",
