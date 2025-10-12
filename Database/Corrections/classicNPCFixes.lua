@@ -2963,10 +2963,9 @@ function QuestieNPCFixes:Load()
         },
         [16033] = { -- Bodley
             [npcKeys.spawns] = {
-                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
-                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
+                [zoneIDs.EASTERN_KINGDOMS] = {{48.896,63.93},},
             },
-            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
         [16042] = {
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
