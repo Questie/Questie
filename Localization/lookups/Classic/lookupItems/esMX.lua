@@ -1924,6 +1924,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [20395] = "Lexicón Crepuscular: Capítulo 2",
 [20396] = "Lexicón Crepuscular: Capítulo 3",
 [20401] = "Tablilla Crepuscular restaurada",
+[20402] = "Agente de Nozdormu",
 [20404] = "Texto Crepuscular codificado",
 [20405] = "Transcripción de tablilla decodificada",
 [20407] = "Toga de cultor Crepuscular",
