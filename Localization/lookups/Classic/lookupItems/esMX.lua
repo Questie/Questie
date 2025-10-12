@@ -2019,6 +2019,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [21027] = "Cadáver de Lakmaeran",
 [21028] = "Pollo de 500 kilos",
 [21029] = "Carta de rescate",
+[21032] = "Carta de amor de Meridith",
 [21042] = "Equipo especial de Narain",
 [21111] = "Dracónico para torpes: volumen II",
 [21112] = "Encuadernación de libro mágico",
