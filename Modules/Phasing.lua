@@ -470,6 +470,12 @@ local phases = {
     BAINE_AT_GARROSHAR_ADVANCE = 1398,
     ISHI_AT_RUINS_OF_KORUNE = 1399,
     ISHI_IN_CRYPT = 1400,
+    ROMMATH_NEAR_BANK = 1401,
+    ROMMATH_IN_TUNNEL_1 = 1402,
+    ROMMATH_IN_TUNNEL_2 = 1403,
+    ROMMATH_AT_TUNNEL_RAMP = 1404,
+    ROMMATH_AT_RUNEWEAVER_SQUARE = 1405,
+    THERON_SILVERMOON_CITY_LANDFALL = 1406,
 }
 Phasing.phases = phases
 
@@ -2163,6 +2169,30 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ISHI_IN_CRYPT then
         return complete[32392] or (questLog[32392] and questLog[32392].isComplete == 1) or false
+    end
+
+    if phase == phases.ROMMATH_NEAR_BANK then
+        return not (complete[32403] or (questLog[32403] and questLog[32403].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_IN_TUNNEL_1 then
+        return (complete[32403] or (questLog[32403] and questLog[32403].isComplete == 1)) and not (complete[32404] or (questLog[32404] and questLog[32404].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_IN_TUNNEL_2 then
+        return (complete[32404] or (questLog[32404] and questLog[32404].isComplete == 1)) and not (complete[32405] or (questLog[32405] and questLog[32405].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_AT_TUNNEL_RAMP then
+        return (complete[32405] or (questLog[32405] and questLog[32405].isComplete == 1)) and not (complete[32406] or questLog[32406]) or false
+    end
+
+    if phase == phases.ROMMATH_AT_RUNEWEAVER_SQUARE then
+        return (complete[32406] or questLog[32406]) or false
+    end
+
+    if phase == phases.THERON_SILVERMOON_CITY_LANDFALL then
+        return (complete[32412] or questLog[32412]) and not (complete[32398] or questLog[32398]) or false
     end
 
     return false

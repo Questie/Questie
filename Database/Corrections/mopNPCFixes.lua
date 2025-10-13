@@ -110,6 +110,14 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{62.26,42.31}}},
             [npcKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [16802] = { -- Lor'themar Theron
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERMOON_CITY] = {
+                    {53.8,20.23},
+                    {71.03,41.27,phases.THERON_SILVERMOON_CITY_LANDFALL},
+                },
+            },
+        },
         [17087] = { -- Spirit of the Vale
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{32.36,20.7}}},
         },
@@ -4292,6 +4300,12 @@ function MopNpcFixes.Load()
             },
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
         },
+        [67844] = { -- Malkorok
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.89,34.07}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [67847] = { -- Belloc Brightblade
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.32,34.07}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -4442,9 +4456,17 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{76,90.2},{76.8,90.2},{77.2,92.2},{77.2,93},{77.2,94.4},{77.4,89.4},{77.4,94.8},{77.6,91.4},{77.6,91.6},{77.6,94.8}},[zoneIDs.THE_JADE_FOREST] = {{21.4,38.6},{21.6,38.6},{21.8,41},{22,41.6},{22.4,44},{22.6,42.8}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [68047] = { -- Lieutenant Corwin
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{45.01,18.29}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
         [68048] = { -- Gul'tar the Subjugator
             [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{61.87,66.24}}},
             [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
+        },
+        [68049] = { -- Arcanist Rathaella
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{61.87,66.24}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
         },
         [68072] = { -- Kor'kron Bodyguard
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
@@ -4576,14 +4598,16 @@ function MopNpcFixes.Load()
         },
         [68223] = { -- Garrosh Hellscream
             [npcKeys.name] = "Garrosh Hellscream",
-            [npcKeys.minLevel] = 99,
-            [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 5841,
-            [npcKeys.spawns] = {
-                [5841] = {{55.8,32}},
-            },
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.95,31.99}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.questEnds] = {32399},
+        },
+        [68225] = { -- Ishi
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.82,31.92}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68242] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",
@@ -4877,6 +4901,42 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
             [npcKeys.friendlyToFaction] = "H",
         },
+        [68586] = { -- Grand Magister Rommath
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.spawns] = {
+                [zoneIDs.DALARAN_LANDFALL_UNDERBELLY] = {
+                    {31.47,50.12,phases.ROMMATH_NEAR_BANK},
+                    {45.62,53.59,phases.ROMMATH_IN_TUNNEL_1},
+                    {54.51,27.96,phases.ROMMATH_IN_TUNNEL_2},
+                    {64.67,48.71,phases.ROMMATH_AT_TUNNEL_RAMP},
+                },
+                [zoneIDs.DALARAN_LANDFALL] = {
+                    {50.59,48.11,phases.ROMMATH_AT_RUNEWEAVER_SQUARE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL_UNDERBELLY,
+        },
+        [68587] = { -- Sorin Magehand
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL_UNDERBELLY] = {{62.68,13.05}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL_UNDERBELLY,
+        },
+        [68632] = { -- Mage-Commander Zuros
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{29.5,48.39}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+        },
+        [68635] = { -- Escape Dalaran Credit
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL_UNDERBELLY] = {{9.69,88.02}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL_UNDERBELLY,
+        },
+        [68636] = { -- Rommath's Portal
+            [npcKeys.name] = "Rommath's Portal",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{29,48.25}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
+            [npcKeys.friendlyToFaction] = "H",
+        },
         [68651] = { -- Lady Jaina Proudmoore
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
@@ -4912,42 +4972,42 @@ function MopNpcFixes.Load()
         },
         [68711] = { -- Uda the Beast
             [npcKeys.name] = "Uda the Beast",
-            [npcKeys.minLevel] = 75,
-            [npcKeys.maxLevel] = 75,
-            [npcKeys.zoneID] = zoneIDs.DALARAN,
-            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{65.61,32.16}}},
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{70.07,34.37}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
             [npcKeys.friendlyToFaction] = "H",
         },
         [68714] = { -- High Arcanist Savor
             [npcKeys.name] = "High Arcanist Savor",
-            [npcKeys.minLevel] = 75,
-            [npcKeys.maxLevel] = 75,
-            [npcKeys.zoneID] = zoneIDs.DALARAN,
-            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{58.11,20.59}}},
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{60.35,14.16}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
             [npcKeys.friendlyToFaction] = "H",
         },
         [68715] = { -- Magister Hathorel
             [npcKeys.name] = "Magister Hathorel",
-            [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,
-            [npcKeys.zoneID] = zoneIDs.DALARAN,
-            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{70.05,31.46}}},
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{66.94,35.37}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
             [npcKeys.friendlyToFaction] = "H",
         },
         [68716] = { -- Magister Surdiel
             [npcKeys.name] = "Magister Surdiel",
-            [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,
-            [npcKeys.zoneID] = zoneIDs.DALARAN,
-            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{58.46,19.59}}},
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{58.7,27.81}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
             [npcKeys.friendlyToFaction] = "H",
         },
         [68717] = { -- Magistrix Vesara
             [npcKeys.name] = "Magistrix Vesara",
-            [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,
-            [npcKeys.zoneID] = zoneIDs.DALARAN,
-            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{64.98,23.02}}},
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN_LANDFALL] = {{65.79,23.06}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN_LANDFALL,
             [npcKeys.friendlyToFaction] = "H",
         },
         [68741] = { -- Fennie Hornswaggle
