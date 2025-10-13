@@ -14,7 +14,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local titleBox, messageBox
 
 local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox
-local _CreateNoteAddButton, _HandleNoteEntry
+local _CreateNoteAddButton, _HandleNoteEntry, _DeleteNote
 
 
 function _QuestieJourney:ShowNotePopup()
@@ -126,3 +126,52 @@ _HandleNoteEntry = function ()
     _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
     _QuestieJourney.notePopup:Hide()
 end
+
+_DeleteNote = function(noteIndex)
+    local success = false
+    if noteIndex and noteIndex > 0 and noteIndex <= #Questie.db.char.journey then
+        local entry = Questie.db.char.journey[noteIndex]
+        if entry and entry.Event == "Note" then
+            table.remove(Questie.db.char.journey, noteIndex)
+            success = true
+            local message = Questie:Colorize('[Questie] ', 'lightBlue') .. l10n('Note deleted successfully')
+            print(message)
+            if _QuestieJourney.myJourney and _QuestieJourney.treeCache then
+                _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
+            end
+        end
+    end
+
+    return success
+end
+
+function _QuestieJourney:DeleteNote(noteIndex)
+    return _DeleteNote(noteIndex)
+end
+
+StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
+    text = l10n("Are you sure you want to delete this note?"),
+    button1 = l10n("Yes"),
+    button2 = l10n("No"),
+    OnAccept = function(self)
+        local noteIndex = self.data
+        _DeleteNote(noteIndex)
+    end,
+    OnShow = function(self)
+        local noteIndex = self.data
+        if noteIndex then
+            local entry = Questie.db.char.journey[noteIndex]
+            if entry and entry.Event == "Note" then
+                self.text:SetText(l10n("Are you sure you want to delete this note?") .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow'))
+            end
+        end
+        self.button1:SetText(l10n("Yes"))
+        self.button2:SetText(l10n("No"))
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
