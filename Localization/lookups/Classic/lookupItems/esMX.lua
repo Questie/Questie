@@ -692,6 +692,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5734] = "Planos de la Súper Segadora 6000",
 [5735] = "Sobre lacrado",
 [5736] = "Brazo mecánico de Gerenzo",
+[5770] = "Togas de Arcana",
 [5791] = "Diario de Henrig Soliceja",
 [5792] = "Medallón de Filonavaja",
 [5793] = "Corazón de Filonavaja",
