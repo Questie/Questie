@@ -7396,7 +7396,7 @@ function MopQuestFixes.Load()
         [32030] = { -- Once in a Hundred Lifetimes
             [questKeys.startedBy] = {{62667,63349}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {31066,31086,31092,31359,31398,31354},
+            [questKeys.preQuestGroup] = {31066,31092,31359,31398,31354},
         },
         [32035] = { -- Got Silk?
             [questKeys.exclusiveTo] = {30072},
@@ -7890,17 +7890,21 @@ function MopQuestFixes.Load()
         [32326] = { -- Insertion
             [questKeys.preQuestSingle] = {32392},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,35500},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.objectives] = {nil,{{216710}}},
         },
         [32327] = { -- The Darnassus Mission
             [questKeys.preQuestSingle] = {32326},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,35500},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",68077}}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,15},{factionIDs.HORDE,6}},
+            [questKeys.objectives] = {{{68076,nil,Questie.ICON_TYPE_EVENT}},{{216347}}},
         },
         [32328] = { -- Victorious Return
             [questKeys.preQuestSingle] = {32327},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,35500},
-            -- [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Go through the portal"),0,{{"monster",68582}}}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,15}},
         },
         [32329] = { -- Get My Results!
             [questKeys.objectives] = {nil,{{215126}}},

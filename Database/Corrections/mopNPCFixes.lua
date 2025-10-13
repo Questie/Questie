@@ -4450,6 +4450,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{8.67,64.45}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [68076] = { -- Cenarion Enclave Credit
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{38.48,33.25}}},
+            [npcKeys.zoneID] = zoneIDs.DARNASSUS,
+        },
+        [68077] = { -- Fanlyr Silverthorn
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{40.06,50.44}}},
+            [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
+        },
         [68084] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
             [npcKeys.minLevel] = 93,
@@ -4858,6 +4868,14 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
+        },
+        [68582] = { -- Portal: Domination Point
+            [npcKeys.name] = "Portal: Domination Point",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{40.01,50.55}}},
+            [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
+            [npcKeys.friendlyToFaction] = "H",
         },
         [68651] = { -- Lady Jaina Proudmoore
             [npcKeys.minLevel] = 93,
