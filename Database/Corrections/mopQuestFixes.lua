@@ -5531,7 +5531,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMaxRep] = {factionIDs.NOMI,42000},
         },
         [31337] = { -- A Token of Appreciation
-            [questKeys.preQuestSingle] = {31521},
+            [questKeys.preQuestSingle] = {31820},
             [questKeys.requiredMinRep] = {factionIDs.NOMI,42000},
         },
         [31338] = { -- Lost Sheepie
