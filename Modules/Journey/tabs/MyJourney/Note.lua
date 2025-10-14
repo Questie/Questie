@@ -145,9 +145,6 @@ _DeleteNote = function(noteIndex)
     return success
 end
 
-function _QuestieJourney:DeleteNote(noteIndex)
-    return _DeleteNote(noteIndex)
-end
 
 StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     text = l10n("Are you sure you want to delete this note?"),
