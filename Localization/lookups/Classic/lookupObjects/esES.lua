@@ -1110,6 +1110,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [180619] = "Cristal de Osirio",
 [180633] = "Lágrima cristalina",
 [180642] = "Caja inadvertida",
+[180652] = "Tierra removida",
 [180654] = "Ventisquero duro",
 [180665] = "Dracónico para torpes",
 [180666] = "Dracónico para torpes",
