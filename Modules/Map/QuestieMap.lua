@@ -20,6 +20,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type WeaponMasterSkills
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
+---@type Moonwells
+local Moonwells = QuestieLoader:ImportModule("Moonwells")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
 
@@ -428,10 +430,9 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     data.Name = object.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    data.ManualTooltipData.Title = title or (object.name .. " (object)")
-    data.ManualTooltipData.Body = body or {
-        { 'ID:', tostring(object.id) },
-    }
+    local baseTitle = title or (object.name .. " (object)")
+    data.ManualTooltipData.Title = baseTitle
+    data.ManualTooltipData.Body = body or {}
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
     local manualIcons = {}
