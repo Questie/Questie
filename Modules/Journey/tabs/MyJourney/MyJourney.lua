@@ -71,6 +71,19 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     created:SetText(l10n('Note Created: %s', timestamp));
                     f:AddChild(created);
 
+                    QuestieJourneyUtils:Spacer(f);
+
+                    local deleteButton = AceGUI:Create("Button");
+                    deleteButton:SetText(l10n('Delete Note'));
+                    deleteButton:SetWidth(150);
+                    deleteButton:SetCallback("OnClick", function()
+                        local popup = StaticPopup_Show("QUESTIE_DELETE_NOTE_CONFIRM");
+                        if popup then
+                            popup.data = tonumber(e);
+                        end
+                    end);
+                    f:AddChild(deleteButton);
+
                 elseif entry.Event == "Level" then
                     header:SetText(l10n('You Reached Level %s', entry.NewLevel));
 
