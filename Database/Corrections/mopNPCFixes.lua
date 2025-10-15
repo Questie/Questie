@@ -3320,6 +3320,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
             [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
         },
+        [64058] = { -- Jorunga Stonehoof
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{26.6,45.6}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
+            [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
+        },
         [64183] = { -- Enormous Stone Quilen
             [npcKeys.name] = "Enormous Stone Quilen",
             [npcKeys.spawns] = {[zoneIDs.MOGUSHAN_VAULTS] = {{48.1,63},{55.2,66.1},{-1,-1}}},
@@ -5782,7 +5787,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questEnds] = {30674,30675},
         },
-        [110016] = { -- It Does You No Good In The Keg, 
+        [110016] = { -- It Does You No Good In The Keg,
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{17.9,56.01}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
