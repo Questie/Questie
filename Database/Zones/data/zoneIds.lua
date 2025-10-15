@@ -361,6 +361,7 @@ ZoneDB.zoneIDs = {
     KALIMDOR = 10073, -- continent map
     EASTERN_KINGDOMS = 10074, -- continent map
     PANDARIA = 10075, -- continent map
+    AZEROTH = 10089, -- continent map
 
     -- Fake IDs for SoD
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
