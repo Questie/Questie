@@ -147,21 +147,23 @@ end
 
 
 StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
-    text = l10n("Are you sure you want to delete this note?"),
-    button1 = l10n("Yes"),
-    button2 = l10n("No"),
+    text = "",
+    button1 = "Yes",
+    button2 = "No",
     OnAccept = function(self)
         local noteIndex = self.data
         _DeleteNote(noteIndex)
     end,
     OnShow = function(self)
         local noteIndex = self.data
+        local confirmText = l10n("Are you sure you want to delete this note?")
         if noteIndex then
             local entry = Questie.db.char.journey[noteIndex]
             if entry and entry.Event == "Note" then
-                self.text:SetText(l10n("Are you sure you want to delete this note?") .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow'))
+                confirmText = confirmText .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow')
             end
         end
+        self.text:SetText(confirmText)
         self.button1:SetText(l10n("Yes"))
         self.button2:SetText(l10n("No"))
         self:SetFrameStrata("FULLSCREEN_DIALOG")
