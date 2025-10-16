@@ -1309,7 +1309,7 @@ l10n.zoneLookup = {
     },
     [109]={
         [1417]="Sunken Temple",
-        [1477]="The Temple of Atal'Hakkar",
+        [1477]="Sunken Temple",
     },
     [129]={
         [722]="Razorfen Downs",
@@ -2744,7 +2744,7 @@ l10n.zoneCategoryLookup = {
         [1196] = "Utgarde Pinnacle",
         [1337] = "Uldaman",
         [1417] = "Sunken Temple",
-        [1477] = "The Temple of Atal'Hakkar",
+        [1477] = "Sunken Temple",
         [1581] = "The Deadmines",
         [1583] = "Blackrock Spire",
         [1584] = "Blackrock Depths",
