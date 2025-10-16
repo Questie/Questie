@@ -534,7 +534,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     icon:SetHeight(16 * (data:GetIconScale() or 0.7))
 
     -- add the map icon
-    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, icon.UiMapID, x / 100, y / 100, 3) -- showFlag)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, icon.UiMapID, x / 100, y / 100, HBD_PINS_WORLDMAP_SHOW_WORLD)
     tinsert(QuestieMap.manualFrames[typ][data.id], icon:GetName())
 
     -- create the minimap icon
