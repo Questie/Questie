@@ -4459,24 +4459,36 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
+        [8966] = {
+            [questKeys.exclusiveTo] = {8967,8968,8969},
+        },
+        [8967] = {
+            [questKeys.exclusiveTo] = {8966,8968,8969},
+        },
+        [8968] = {
+            [questKeys.exclusiveTo] = {8966,8967,8969},
+        },
+        [8969] = {
+            [questKeys.exclusiveTo] = {8966,8967,8968},
+        },
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8985] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {{8966,8970}},
+            [questKeys.preQuestGroup] = {8966,8970},
         },
         [8986] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {{8967,8970}},
+            [questKeys.preQuestGroup] = {8967,8970},
         },
         [8987] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {{8968,8970}},
+            [questKeys.preQuestGroup] = {8968,8970},
         },
         [8988] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {{8969,8970}},
+            [questKeys.preQuestGroup] = {8969,8970},
         },
         [8989] = {
             [questKeys.preQuestSingle] = {8985},
