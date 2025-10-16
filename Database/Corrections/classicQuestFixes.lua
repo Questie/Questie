@@ -4462,6 +4462,28 @@ function QuestieQuestFixes:Load()
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [8985] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {{8966,8970}},
+        },
+        [8986] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {{8967,8970}},
+        },
+        [8987] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {{8968,8970}},
+        },
+        [8988] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {{8969,8970}},
+        },
+        [8989] = {
+            [questKeys.preQuestSingle] = {8985},
+        },
+        [8990] = {
+            [questKeys.preQuestSingle] = {8986},
+        },
         [9015] = {
             [questKeys.objectives] = {{{16059,"Theldren's Team Defeated"}},nil,{{22047,nil}},nil}, -- #2408
         },
