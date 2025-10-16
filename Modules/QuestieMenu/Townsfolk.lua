@@ -191,10 +191,15 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
     end
 
-    if Questie.IsClassic then
+    if Expansions.Current <= Expansions.Tbc then
+        -- The vendors below are selling profession rank up books up to TBC.
+        -- The books themselves were removed in 3.1, but we stop at TBC.
         -- Vendors selling "Expert First Aid - Under Wraps"
         tinsert(professionTrainers[professionKeys.FIRST_AID], 2805)
         tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
+        -- Vendors selling "Expert Cookbook"
+        tinsert(professionTrainers[professionKeys.COOKING], 3955)
+        tinsert(professionTrainers[professionKeys.COOKING], 12033)
     end
 
     if Expansions.Current >= Expansions.Tbc then
