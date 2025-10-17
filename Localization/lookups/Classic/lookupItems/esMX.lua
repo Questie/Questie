@@ -1427,6 +1427,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [12630] = "Cabeza de Rend Puño Negro",
 [12638] = "Reloj de Andorhal",
 [12652] = "Informe de reconocimiento de Bijou",
+[12655] = "Barra de torio encantado",
 [12663] = "Rama de roble con inscripciones",
 [12708] = "Cajón de suministros de El Cruce",
 [12710] = "Trozo resplandeciente de carne de la Bestia",
