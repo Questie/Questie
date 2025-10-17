@@ -381,6 +381,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4105] = "Piel de crocolisco mayor",
 [4106] = "Cristal caído",
 [4234] = "Cuero pesado",
+[4265] = "Refuerzo para armadura pesado",
 [4278] = "Mena de sangrita inferior",
 [4304] = "Cuero grueso",
 [4306] = "Paño de seda",
