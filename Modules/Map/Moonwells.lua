@@ -8,33 +8,33 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
 Moonwells.data = {
     -- Teldrassil Moonwells
-    19549, -- Starting area moonwell in Shadowglen
-    19550, -- Village moonwell in Starbreeze Village
-    19551, -- Moonwell at the Pools of Arlithrien
-    19552, -- Moonwell in Oracle Glade
+    [19549] = true, -- Starting area moonwell in Shadowglen
+    [19550] = true, -- Village moonwell in Starbreeze Village
+    [19551] = true, -- Moonwell at the Pools of Arlithrien
+    [19552] = true, -- Moonwell in Oracle Glade
     -- Ashenvale Moonwells
-    20806, -- Sacred moonwell in central Ashenvale
+    [20806] = true, -- Sacred moonwell in central Ashenvale
     -- Darkshore Moonwells
-    174795, -- Main moonwell in Auberdine
-    175337, -- Secondary Auberdine moonwell
-    177274, -- Darkshore moonwell
+    [174795] = true, -- Main moonwell in Auberdine
+    [175337] = true, -- Secondary Auberdine moonwell
+    [177274] = true, -- Darkshore moonwell
     -- Felwood Moonwells
-    177275, -- Moonwell in Felwood
-    177276, -- Corrupted moonwell in Felwood
-    148501, -- Corrupted moonwell with spell focus
+    [177275] = true, -- Moonwell in Felwood
+    [177276] = true, -- Corrupted moonwell in Felwood
+    [148501] = true, -- Corrupted moonwell with spell focus
     -- Moonglade Moonwells
-    177273, -- Sacred moonwell in Moonglade
+    [177273] = true, -- Sacred moonwell in Moonglade
     -- Feralas Moonwells
-    181632, -- Moonwell at Thalanaar outpost
+    [181632] = true, -- Moonwell at Thalanaar outpost
     -- Generic/Multi-location Moonwells
-    177232, -- Generic moonwell
-    177272, -- Multi-zone Moonwell
-    177277, -- Ashenvale moonwell
-    177278, -- Multi-zone moonwell
-    177279, -- Feralas moonwell
-    177280, -- Multi-zone moonwell
-    177281, -- Multi-zone moonwell
-    177666, -- Multi-zone Moonwell
+    [177232] = true, -- Generic moonwell
+    [177272] = true, -- Multi-zone Moonwell
+    [177277] = true, -- Ashenvale moonwell
+    [177278] = true, -- Multi-zone moonwell
+    [177279] = true, -- Feralas moonwell
+    [177280] = true, -- Multi-zone moonwell
+    [177281] = true, -- Multi-zone moonwell
+    [177666] = true, -- Multi-zone Moonwell
 }
 
 function Moonwells:ShowMoonwell(objectID, icon, scale)
@@ -45,13 +45,13 @@ function Moonwells:ShowMoonwell(objectID, icon, scale)
 end
 
 function Moonwells:ShowAll()
-    for _, objectID in ipairs(Moonwells.data) do
+    for objectID in pairs(Moonwells.data) do
         Moonwells:ShowMoonwell(objectID)
     end
 end
 
 function Moonwells:HideAll()
-    for _, objectID in ipairs(Moonwells.data) do
+    for objectID in pairs(Moonwells.data) do
         QuestieMap:UnloadManualFrames(objectID, "moonwell")
     end
 end
