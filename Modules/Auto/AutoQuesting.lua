@@ -5,13 +5,11 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-AutoQuesting.private = AutoQuesting.private or {
-    lastRejectionMessages = {},
-    disallowedNPCs = {},
-    disallowedQuests = {
-        accept = {},
-        turnIn = {}
-    }
+local lastRejectionMessages = {}
+local disallowedNPCs = {}
+local disallowedQuests = {
+    accept = {},
+    turnIn = {}
 }
 
 local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
@@ -39,9 +37,9 @@ function AutoQuesting.OnQuestDetail()
             local questTitle = GetTitleText() or l10n("Unknown Quest")
             local spamKey = questId .. ":" .. playerName
             local currentTime = GetTime()
-            local lastMessageTime = AutoQuesting.private.lastRejectionMessages[spamKey] or 0
+            local lastMessageTime = lastRejectionMessages[spamKey] or 0
             if (currentTime - lastMessageTime) >= 60 then
-                AutoQuesting.private.lastRejectionMessages[spamKey] = currentTime
+                lastRejectionMessages[spamKey] = currentTime
                 local questLink = "|cffffff00|Hquest:" .. questId .. ":1|h[" .. questTitle .. "]|h|r"
                 local message = l10n("Automatically rejected quest %s shared by %s in battleground. Change this in Questie settings under Auto Accept.", questLink, playerName)
                 Questie:Print(message)
@@ -236,7 +234,7 @@ _IsAllowedNPC = function()
         local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
         if npcIDStr then
             local npcId = tonumber(npcIDStr)
-            if AutoQuesting.private.disallowedNPCs[npcId] then
+            if disallowedNPCs[npcId] then
                 return false
             end
         end
@@ -248,7 +246,7 @@ end
 _IsQuestAllowedToAccept = function()
     local questId = GetQuestID()
     if questId > 0 then
-        if AutoQuesting.private.disallowedQuests.accept[questId] then
+        if disallowedQuests.accept[questId] then
             return false
         end
     end
@@ -259,7 +257,7 @@ end
 _IsQuestAllowedToTurnIn = function()
     local questId = GetQuestID()
     if questId > 0 then
-        if AutoQuesting.private.disallowedQuests.turnIn[questId] then
+        if disallowedQuests.turnIn[questId] then
             return false
         end
     end
