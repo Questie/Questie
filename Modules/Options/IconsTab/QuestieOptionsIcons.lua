@@ -626,7 +626,37 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
-                    spacer_scale = QuestieOptionsUtils:Spacer(5.3),
+                    globalTownsfolkScale = {
+                        type = "range",
+                        order = 5.3,
+                        name = function() return l10n('Townsfolk Icons'); end,
+                        desc = function() return l10n('How large the townsfolk map icons are.\n(Default: %s)', optionsDefaults.profile.globalTownsfolkScale); end,
+                        width = 1.55,
+                        min = 0.01,
+                        max = 4,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieMap:RescaleTownsfolkIcons()
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                    globalMiniMapTownsfolkScale = {
+                        type = "range",
+                        order = 5.31,
+                        name = function() return l10n('Minimap Townsfolk Icons'); end,
+                        desc = function() return l10n('How large the townsfolk minimap icons are.\n(Default: %s)', optionsDefaults.profile.globalMiniMapTownsfolkScale); end,
+                        width = 1.55,
+                        min = 0.01,
+                        max = 4,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieMap:RescaleTownsfolkIcons()
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                    spacer_scale = QuestieOptionsUtils:Spacer(5.4),
                     availableScale = {
                         type = "range",
                         order = 5.4,
