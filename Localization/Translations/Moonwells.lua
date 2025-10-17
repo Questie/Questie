@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local moonwellLocales = {
     ["Moonwell"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Mondbrunnen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -16,7 +16,7 @@ local moonwellLocales = {
     },
     ["Moonwells"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Mondbrunnen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
