@@ -194,10 +194,13 @@ function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
             frame.data.IconScale = frame.data:GetIconScale();
             local scale
             if frame.miniMapIcon then
-                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.profile.globalMiniMapScale or 0.7);
+                -- Use globalMiniMapTownsfolkScale for townsfolk icons, globalMiniMapScale for quest icons
+                local scaleProfile = frame.isManualIcon and Questie.db.profile.globalMiniMapTownsfolkScale or Questie.db.profile.globalMiniMapScale
+                scale = 16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7);
             else
                 --? If you ever chanage this logic, make sure you change the logic in QuestieMap:ProcessQueue() too!
-                scale = (16 * (frame.data.IconScale or 1) * (Questie.db.profile.globalScale or 0.7)) * iconScale;
+                local scaleProfile = frame.isManualIcon and Questie.db.profile.globalTownsfolkScale or Questie.db.profile.globalScale
+                scale = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * iconScale;
             end
 
             if scale > 1 then
