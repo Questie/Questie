@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 --- COMPATIBILITY ---
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
@@ -28,6 +30,11 @@ function QuestFinisher.AddFinisher(quest)
         quest:IsComplete() == -1 or
         Questie.db.char.complete[questId] then
         -- We don't add finisher for quests that are not in the quest log or are already completed
+        return
+    end
+
+    if QuestieEvent.IsEventQuest(questId) and (not QuestieEvent.IsEventActiveForQuest(questId)) then
+        -- We don't want to show finishers for event quests that are not active atm
         return
     end
 

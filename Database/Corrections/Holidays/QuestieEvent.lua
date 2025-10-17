@@ -302,13 +302,22 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     end
 end
 
+---@param questId QuestId
 ---@return string
-function QuestieEvent:GetEventNameFor(questId)
+function QuestieEvent.GetEventNameFor(questId)
     return _QuestieEvent.eventNamesForQuests[questId] or ""
 end
 
-function QuestieEvent:IsEventQuest(questId)
+---@param questId QuestId
+---@return boolean @True if the quest is part of an event, false otherwise
+function QuestieEvent.IsEventQuest(questId)
     return _QuestieEvent.eventNamesForQuests[questId] ~= nil
+end
+
+---@param questId QuestId
+---@return boolean @True if the quest is part of an event and the event is currently active, false otherwise
+function QuestieEvent.IsEventActiveForQuest(questId)
+    return QuestieEvent.activeQuests[questId] == true
 end
 
 local isChinaRegion = GetCurrentRegion() == 5

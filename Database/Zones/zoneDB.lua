@@ -313,7 +313,7 @@ function _ZoneDB.SplitSeasonalQuests()
     updatedZoneMap[-404] = {}
 
     for questId, _ in pairs(questsToSplit) do
-        local eventName = QuestieEvent:GetEventNameFor(questId)
+        local eventName = QuestieEvent.GetEventNameFor(questId)
         if eventName == "Love is in the Air" then
             updatedZoneMap[-400][questId] = true
         elseif eventName == "Children's Week" then
