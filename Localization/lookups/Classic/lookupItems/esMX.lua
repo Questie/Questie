@@ -2202,6 +2202,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [22974] = "Una página hecha jirones",
 [22975] = "Un documento manchado",
 [22977] = "Una carta rota",
+[23024] = "Documentación de instrucción de campo lista",
 [23179] = "Llama de Orgrimmar",
 [23180] = "Llama de Cima del Trueno",
 [23181] = "Llama de Entrañas",
