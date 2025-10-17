@@ -400,16 +400,71 @@ end
 
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
+    local suffixPriority = {
+        [""] = 1,    -- No suffix (normal quests) - should come first
+        ["+"] = 2,   -- Elite
+        ["S"] = 3,   -- Scenario
+        ["D"] = 4,   -- Dungeon
+        ["H"] = 5,   -- Heroic
+        ["R"] = 6,   -- Raid
+        ["++"] = 7,  -- Legendary
+    }
 
-    local function compareTablesByIndex(a, b)
-        return a[1] < b[1]
+    local function getSuffixFromQuestId(questId)
+        local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
+
+        if not questTagId or not questTagName then
+            return ""
+        end
+
+        local questTagIds = QuestieDB.questTagIds
+        local langCode = l10n:GetUILocale()
+        local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
+
+        if questTagId == questTagIds.ELITE then
+            return "+"
+        elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
+            return ""
+        elseif questTagId == questTagIds.LEGENDARY then
+            return "++"
+        elseif isMultiByteLocale then
+            if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
+                return "R"
+            elseif questTagId == questTagIds.DUNGEON then
+                return "D"
+            elseif questTagId == questTagIds.HEROIC then
+                return "H"
+            elseif questTagId == questTagIds.SCENARIO then
+                return "S"
+            else
+                return ""
+            end
+        else
+            local char = stringSub(questTagName, 1, 1)
+            return char
+        end
+    end
+
+    local function compareQuestsByLevelAndType(a, b)
+        if a[1] ~= b[1] then
+            return a[1] < b[1]
+        end
+
+        -- if levels are the same, compare by suffix priority
+        local suffixA = a[3] or ""
+        local suffixB = b[3] or ""
+        local priorityA = suffixPriority[suffixA] or 999
+        local priorityB = suffixPriority[suffixB] or 999
+
+        return priorityA < priorityB
     end
 
     for q in pairs(quests) do
-        local questLevel, _ = QuestieLib.GetTbcLevel(q);
-        tinsert(sortedQuestsByLevel, { questLevel or 0, q })
+        local questLevel, _ = QuestieLib.GetTbcLevel(q)
+        local suffix = getSuffixFromQuestId(q)
+        tinsert(sortedQuestsByLevel, { questLevel or 0, q, suffix })
     end
-    table.sort(sortedQuestsByLevel, compareTablesByIndex)
+    table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 
     return sortedQuestsByLevel
 end
