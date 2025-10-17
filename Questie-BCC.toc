@@ -176,7 +176,7 @@ Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
-Modules\Map\Moonwells.lua
+Modules\Map\Moonwell.lua
 
 # Quest
 Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua

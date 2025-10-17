@@ -27,8 +27,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
----@type Moonwells
-local Moonwells = QuestieLoader:ImportModule("Moonwells")
+---@type Moonwell
+local Moonwell = QuestieLoader:ImportModule("Moonwell")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -46,7 +46,7 @@ local _townsfolk_texturemap = {
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = QuestieLib.AddonPath.."Icons\\mailbox.blp",
-    ["Moonwells"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
+    ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -86,11 +86,11 @@ local _townsfolk_texturemap = {
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    if key == "Moonwells" then
+    if key == "Moonwell" then
         if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
-            Moonwells:ShowAll()
+            Moonwell:ShowAll()
         else
-            Moonwells:HideAll()
+            Moonwell:HideAll()
         end
         return
     end
@@ -194,7 +194,7 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
             ["Flight Master"] = true,
             ["Mailbox"] = true,
             ["Meeting Stones"] = true,
-            ["Moonwells"] = false
+            ["Moonwell"] = false
         }
     end
     for key in pairs(Questie.db.profile.townsfolkConfig) do
@@ -254,14 +254,14 @@ function QuestieMenu.buildTailoringSubmenu()
             keepShownOnClick = true
         },
         {
-            text = l10n("Moonwells"),
+            text = l10n("Moonwell"),
             func = function()
-                Questie.db.profile.townsfolkConfig["Moonwells"] = not Questie.db.profile.townsfolkConfig["Moonwells"]
-                toggle("Moonwells")
+                Questie.db.profile.townsfolkConfig["Moonwell"] = not Questie.db.profile.townsfolkConfig["Moonwell"]
+                toggle("Moonwell")
             end,
             icon = "Interface\\Icons\\inv_fabric_moonrag_01",
             notCheckable = false,
-            checked = Questie.db.profile.townsfolkConfig["Moonwells"],
+            checked = Questie.db.profile.townsfolkConfig["Moonwell"],
             isNotRadio = true,
             keepShownOnClick = true
         }

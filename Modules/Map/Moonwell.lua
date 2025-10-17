@@ -1,12 +1,12 @@
----@class Moonwells
-local Moonwells = QuestieLoader:CreateModule("Moonwells")
+---@class Moonwell
+local Moonwell = QuestieLoader:CreateModule("Moonwell")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
-Moonwells.data = {
+Moonwell.data = {
     -- Teldrassil Moonwells
     [19549] = true, -- Starting area moonwell in Shadowglen
     [19550] = true, -- Village moonwell in Starbreeze Village
@@ -37,23 +37,23 @@ Moonwells.data = {
     [177666] = true, -- Multi-zone Moonwell
 }
 
-function Moonwells:ShowMoonwell(objectID, icon, scale)
+function Moonwell:ShowMoonwell(objectID, icon, scale)
     icon = icon or "Interface\\Icons\\inv_fabric_moonrag_01.blp"
     scale = scale or 0.6
     local title = Questie:Colorize(l10n("Moonwell"), "white")
     QuestieMap:ShowObject(objectID, icon, scale, title, nil, true, "moonwell")
 end
 
-function Moonwells:ShowAll()
-    for objectID in pairs(Moonwells.data) do
-        Moonwells:ShowMoonwell(objectID)
+function Moonwell:ShowAll()
+    for objectID in pairs(Moonwell.data) do
+        Moonwell:ShowMoonwell(objectID)
     end
 end
 
-function Moonwells:HideAll()
-    for objectID in pairs(Moonwells.data) do
+function Moonwell:HideAll()
+    for objectID in pairs(Moonwell.data) do
         QuestieMap:UnloadManualFrames(objectID, "moonwell")
     end
 end
 
-return Moonwells
+return Moonwell
