@@ -107,6 +107,30 @@ function QuestieQuest:ToggleNotes(showIcons)
     end
 end
 
+function QuestieQuest:ToggleNonQuestIcons()
+    for typ, frameTypeList in pairs(QuestieMap.manualFrames) do
+        for _, frameList in pairs(frameTypeList) do
+            for _, frameName in ipairs(frameList) do
+                local frame = _G[frameName]
+                if frame then
+                    if Questie.db.profile.hideNonQuestIcons then
+                        frame.shouldBeShowing = frame:IsShown()
+                        frame:Hide()
+                        frame.hidden = true
+                    else
+                        if frame.hidden then
+                            frame.hidden = false
+                            if frame.shouldBeShowing then
+                                frame:SetShown(true)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 function _QuestieQuest:ShowQuestIcons()
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
