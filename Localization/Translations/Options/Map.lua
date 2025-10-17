@@ -244,7 +244,7 @@ local mapOptionsLocales = {
     },
     ["Townsfolk Icons"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Stadtbewohner Icons",
         ["esES"] = "Iconos de aldeanos",
         ["esMX"] = "Iconos de aldeanos",
         ["frFR"] = "Icônes des villageois",
@@ -256,7 +256,7 @@ local mapOptionsLocales = {
     },
     ["How large the townsfolk map icons are.\n(Default: %s)"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Skaliert wie groß die Stadtbewohner-Icons sind.\n(Standard: %s)",
         ["esES"] = "Tamaño de los iconos de aldeanos en el mapa.\n(Predeterminado: %s)",
         ["esMX"] = "Tamaño de los iconos de aldeanos en el mapa.\n(Predeterminado: %s)",
         ["frFR"] = "Taille des icônes des villageois sur la carte.\n(Par défaut : %s)",
@@ -268,7 +268,7 @@ local mapOptionsLocales = {
     },
     ["Minimap Townsfolk Icons"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Minimap-Stadtbewohner-Icons",
         ["esES"] = "Iconos de aldeanos en el minimapa",
         ["esMX"] = "Iconos de aldeanos en el minimapa",
         ["frFR"] = "Icônes des villageois sur la minicarte",
@@ -280,7 +280,7 @@ local mapOptionsLocales = {
     },
     ["How large the townsfolk minimap icons are.\n(Default: %s)"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Skaliert wie groß die Minimap-Stadtbewohner-Icons sind.\n(Standard: %s)",
         ["esES"] = "Tamaño de los iconos de aldeanos en el minimapa.\n(Predeterminado: %s)",
         ["esMX"] = "Tamaño de los iconos de aldeanos en el minimapa.\n(Predeterminado: %s)",
         ["frFR"] = "Taille des icônes des villageois sur la minicarte.\n(Par défaut : %s)",
