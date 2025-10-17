@@ -5,6 +5,15 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+AutoQuesting.private = AutoQuesting.private or {
+    lastRejectionMessages = {},
+    disallowedNPCs = {},
+    disallowedQuests = {
+        accept = {},
+        turnIn = {}
+    }
+}
+
 local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
@@ -26,7 +35,17 @@ function AutoQuesting.OnQuestDetail()
         local unitType = strsplit("-", UnitGUID("questnpc"))
         if unitType == "Player" then
             DeclineQuest()
-            Questie:Print(l10n("Automatically rejected quest shared by player."))
+            local playerName = UnitName("questnpc") or l10n("Unknown Player")
+            local questTitle = GetTitleText() or l10n("Unknown Quest")
+            local spamKey = questId .. ":" .. playerName
+            local currentTime = GetTime()
+            local lastMessageTime = AutoQuesting.private.lastRejectionMessages[spamKey] or 0
+            if (currentTime - lastMessageTime) >= 60 then
+                AutoQuesting.private.lastRejectionMessages[spamKey] = currentTime
+                local questLink = "|cffffff00|Hquest:" .. questId .. ":1|h[" .. questTitle .. "]|h|r"
+                local message = l10n("Automatically rejected quest %s shared by %s in battleground. Change this in Questie settings under Auto Accept.", questLink, playerName)
+                Questie:Print(message)
+            end
             return
         end
     end
