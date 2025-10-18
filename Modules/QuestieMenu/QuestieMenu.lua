@@ -82,6 +82,27 @@ local _townsfolk_texturemap = {
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
+---@param id NpcId
+---@param key string
+---@return string
+local function getNpcTitle(id, key)
+    local npcName = QuestieDB.QueryNPCSingle(id, "name")
+    local npcTitle = Questie:Colorize(npcName, "white")
+
+    local subName = QuestieDB.QueryNPCSingle(id, "subName")
+    if (not subName) then
+        local trainerName = QuestieProfessions.GetTrainerName(key)
+        if trainerName then
+            subName = l10n(trainerName)
+        end
+    end
+    if subName then
+        npcTitle = npcTitle .. " (" .. subName .. ")"
+    end
+
+    return npcTitle
+end
+
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local ids = Questie.db.global.townsfolk[key] or
             Questie.db.char.townsfolk[key] or
@@ -124,9 +145,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if (not _spawned[id]) then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
-                            local npcName = QuestieDB.QueryNPCSingle(id, "name")
-                            local subName = QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key))
-                            local npcTitle = Questie:Colorize(npcName, "white") .. " (" .. subName .. ")"
+                            local npcTitle = getNpcTitle(id, key)
+
                             QuestieMap:ShowNPC(id, icon, 1.2, npcTitle, {}, true, key, true)
                             _spawned[id] = true
                         end
