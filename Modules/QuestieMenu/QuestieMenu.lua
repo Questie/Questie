@@ -94,13 +94,12 @@ local function getNpcTitle(id, key)
         local trainerName = QuestieProfessions.GetTrainerName(key)
         if trainerName then
             subName = l10n(trainerName)
+        else
+            subName = l10n(tostring(key))
         end
     end
-    if subName then
-        npcTitle = npcTitle .. " (" .. subName .. ")"
-    end
 
-    return npcTitle
+    return npcTitle .. " (" .. subName .. ")"
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
