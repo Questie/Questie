@@ -5,14 +5,14 @@ local moonwellLocales = {
     ["Moonwell"] = {
         ["enUS"] = true,
         ["deDE"] = "Mondbrunnen",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["esES"] = "Poza de la Luna",
+        ["esMX"] = "Poza de la Luna",
+        ["frFR"] = "Puits de lune",
+        ["koKR"] = "달샘",
+        ["ptBR"] = "Poço Lunar",
+        ["ruRU"] = "Лунный колодец",
+        ["zhCN"] = "月亮井",
+        ["zhTW"] = "月井",
     },
 }
 
