@@ -27,6 +27,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+---@type Moonwell
+local Moonwell = QuestieLoader:ImportModule("Moonwell")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -44,6 +46,7 @@ local _townsfolk_texturemap = {
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = QuestieLib.AddonPath.."Icons\\mailbox.blp",
+    ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -103,6 +106,15 @@ local function getNpcTitle(id, key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
+    if key == "Moonwell" then
+        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
+            Moonwell:ShowAll()
+        else
+            Moonwell:HideAll()
+        end
+        return
+    end
+
     local ids = Questie.db.global.townsfolk[key] or
             Questie.db.char.townsfolk[key] or
             Questie.db.global.professionTrainers[key] or
@@ -200,7 +212,8 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
         Questie.db.profile.townsfolkConfig = {
             ["Flight Master"] = true,
             ["Mailbox"] = true,
-            ["Meeting Stones"] = true
+            ["Meeting Stones"] = true,
+            ["Moonwell"] = false
         }
     end
     for key in pairs(Questie.db.profile.townsfolkConfig) do
@@ -245,6 +258,35 @@ local secondaryProfessions = {
     [professionKeys.FISHING] = true
 }
 
+function QuestieMenu.buildTailoringSubmenu()
+    return {
+        {
+            text = l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
+            func = function()
+                Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
+                toggle(professionKeys.TAILORING)
+            end,
+            icon = _townsfolk_texturemap[professionKeys.TAILORING],
+            notCheckable = false,
+            checked = Questie.db.profile.townsfolkConfig[professionKeys.TAILORING],
+            isNotRadio = true,
+            keepShownOnClick = true
+        },
+        {
+            text = l10n("Moonwell"),
+            func = function()
+                Questie.db.profile.townsfolkConfig["Moonwell"] = not Questie.db.profile.townsfolkConfig["Moonwell"]
+                toggle("Moonwell")
+            end,
+            icon = "Interface\\Icons\\inv_fabric_moonrag_01",
+            notCheckable = false,
+            checked = Questie.db.profile.townsfolkConfig["Moonwell"],
+            isNotRadio = true,
+            keepShownOnClick = true
+        }
+    }
+end
+
 function QuestieMenu.buildProfessionMenu()
     local profMenu = {}
     local profMenuSorted = {}
@@ -252,7 +294,18 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuData = {}
     for key, _ in pairs(Questie.db.global.professionTrainers) do
         local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
-        profMenuData[localizedKey] = buildLocalized(key, localizedKey)
+        if key == professionKeys.TAILORING then
+            profMenuData[localizedKey] = {
+                text = localizedKey,
+                func = function() end,
+                keepShownOnClick = true,
+                hasArrow = true,
+                menuList = QuestieMenu.buildTailoringSubmenu(),
+                notCheckable = true
+            }
+        else
+            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
+        end
         if secondaryProfessions[key] then
             tinsert(secondaryProfMenuSorted, localizedKey)
         else
@@ -374,10 +427,10 @@ function QuestieMenu:Show(hideDelay)
 end
 
 function QuestieMenu:Hide()
-    LibDropDown:CloseDropDownMenus()    
+    LibDropDown:CloseDropDownMenus()
 end
 
-function QuestieMenu.IsOpen() 
+function QuestieMenu.IsOpen()
    return LibDropDown:getOpen()
 end
 
