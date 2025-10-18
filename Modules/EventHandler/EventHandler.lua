@@ -58,7 +58,7 @@ local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 local trackerMinimizedByDungeon = false
-local trackerCompletelyHiddenByDungeon = false
+local trackerHiddenByDungeon = false
 
 
 --* Calculated in _EventHandler:PlayerLogin()
@@ -177,7 +177,7 @@ function EventHandler:RegisterLateEvents()
                 -- Handle complete hiding in dungeons
                 if Questie.db.profile.hideTrackerInDungeons then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
-                    trackerCompletelyHiddenByDungeon = true
+                    trackerHiddenByDungeon = true
                     local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
                     if TrackerBaseFrame.baseFrame then
                         TrackerBaseFrame.baseFrame:Hide()
@@ -201,11 +201,11 @@ function EventHandler:RegisterLateEvents()
             end
 
             -- Handle complete hiding when exiting dungeons
-            if trackerCompletelyHiddenByDungeon == true then
+            if trackerHiddenByDungeon == true then
                 C_Timer.After(8, function()
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
                     if Questie.db.profile.hideTrackerInDungeons then
-                        trackerCompletelyHiddenByDungeon = false
+                        trackerHiddenByDungeon = false
                         local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
                         if TrackerBaseFrame.baseFrame then
                             TrackerBaseFrame.baseFrame:Show()
@@ -598,21 +598,21 @@ function _EventHandler:ChatMsgCompatFactionChange()
     end
 end
 
-local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false, false, false
-local trackerCompletelyHiddenByCombat, trackerCompletelyHiddenByDungeon = false, false
+local trackerMinimizedByCombat, trackerHiddenByCombat = false, false
+local optionsHiddenByCombat, journeyHiddenByCombat = false, false
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
-        if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
-            trackerHiddenByCombat = true
+        if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerMinimizedByCombat) then
+            trackerMinimizedByCombat = true
             QuestieTracker:Collapse()
         end
 
         -- Handle complete hiding in combat
-        if Questie.db.profile.hideTrackerInCombat and (not trackerCompletelyHiddenByCombat) then
-            trackerCompletelyHiddenByCombat = true
+        if Questie.db.profile.hideTrackerInCombat and (not trackerHiddenByCombat) then
+            trackerHiddenByCombat = true
             local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
             if TrackerBaseFrame.baseFrame then
                 TrackerBaseFrame.baseFrame:Hide()
@@ -643,9 +643,9 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.profile.minimizeTrackerInCombat and trackerHiddenByCombat then
+    if Questie.db.profile.minimizeTrackerInCombat and trackerMinimizedByCombat then
         if (not Questie.db.profile.minimizeTrackerInDungeons) or (not IsInInstance()) then
-            trackerHiddenByCombat = false
+            trackerMinimizedByCombat = false
             QuestieTracker:Expand()
         end
 
@@ -655,9 +655,9 @@ function _EventHandler:PlayerRegenEnabled()
     end
 
     -- Handle complete hiding in combat
-    if Questie.db.profile.hideTrackerInCombat and trackerCompletelyHiddenByCombat then
+    if Questie.db.profile.hideTrackerInCombat and trackerHiddenByCombat then
         if (not Questie.db.profile.hideTrackerInDungeons) or (not IsInInstance()) then
-            trackerCompletelyHiddenByCombat = false
+            trackerHiddenByCombat = false
             local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
             if TrackerBaseFrame.baseFrame then
                 TrackerBaseFrame.baseFrame:Show()
