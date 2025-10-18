@@ -1264,6 +1264,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [11162] = "Espada de excelencia de Linken",
 [11172] = "Garras de plata",
 [11173] = "Corazón de Troncoferro",
+[11178] = "Fragmento radiante grande",
 [11179] = "Llama dorada",
 [11184] = "Cristal de poder azul",
 [11185] = "Cristal de poder verde",
