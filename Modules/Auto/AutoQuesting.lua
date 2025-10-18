@@ -234,7 +234,7 @@ _IsAllowedNPC = function()
         local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
         if npcIDStr then
             local npcId = tonumber(npcIDStr)
-            if disallowedNPCs[npcId] then
+            if AutoQuesting.private.disallowedNPCs[npcId] then
                 return false
             end
         end
@@ -246,7 +246,7 @@ end
 _IsQuestAllowedToAccept = function()
     local questId = GetQuestID()
     if questId > 0 then
-        if disallowedQuests.accept[questId] then
+        if AutoQuesting.private.disallowedQuests.accept[questId] then
             return false
         end
     end
