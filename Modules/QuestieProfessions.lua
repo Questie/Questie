@@ -11,7 +11,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
-local trainerNames = {}
 local specializationNames
 local alternativeProfessionNames = {}
 
@@ -220,25 +219,6 @@ professionNames = {
     [QuestieProfessions.professionKeys.RIDING] = "Riding",
 }
 
-trainerNames = {
-    [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid Trainer",
-    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing Trainer",
-    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking Trainer",
-    [QuestieProfessions.professionKeys.ALCHEMY] = "Alchemy Trainer",
-    [QuestieProfessions.professionKeys.HERBALISM] = "Herbalism Trainer",
-    [QuestieProfessions.professionKeys.COOKING] = "Cooking Trainer",
-    [QuestieProfessions.professionKeys.MINING] = "Mining Trainer",
-    [QuestieProfessions.professionKeys.TAILORING] = "Tailoring Trainer",
-    [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering Trainer",
-    [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting Trainer",
-    [QuestieProfessions.professionKeys.FISHING] = "Fishing Trainer",
-    [QuestieProfessions.professionKeys.SKINNING] = "Skinning Trainer",
-    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting Trainer",
-    [QuestieProfessions.professionKeys.ARCHAEOLOGY] = "Archaeology Trainer",
-    [QuestieProfessions.professionKeys.INSCRIPTION] = "Inscription Trainer",
-    [QuestieProfessions.professionKeys.RIDING] = "Riding Trainer",
-}
-
 local sortIds = {
     [QuestieProfessions.professionKeys.FIRST_AID] = -324,
     [QuestieProfessions.professionKeys.BLACKSMITHING] = -121,
@@ -305,6 +285,25 @@ specializationNames = {
 function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
 end
+
+local trainerNames = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid Trainer",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing Trainer",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking Trainer",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Alchemy Trainer",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Herbalism Trainer",
+    [QuestieProfessions.professionKeys.COOKING] = "Cooking Trainer",
+    [QuestieProfessions.professionKeys.MINING] = "Mining Trainer",
+    [QuestieProfessions.professionKeys.TAILORING] = "Tailoring Trainer",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering Trainer",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting Trainer",
+    [QuestieProfessions.professionKeys.FISHING] = "Fishing Trainer",
+    [QuestieProfessions.professionKeys.SKINNING] = "Skinning Trainer",
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting Trainer",
+    [QuestieProfessions.professionKeys.ARCHAEOLOGY] = "Archaeology Trainer",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Inscription Trainer",
+    [QuestieProfessions.professionKeys.RIDING] = "Riding Trainer",
+}
 
 ---@return string
 function QuestieProfessions.GetTrainerName(professionKey)
