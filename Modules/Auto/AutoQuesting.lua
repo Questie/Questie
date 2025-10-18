@@ -19,33 +19,40 @@ local shouldRunAuto = true
 local INDIZES_COMPLETE = 6
 
 function AutoQuesting.OnQuestDetail()
-    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
-        return
-    end
-
     local questId = GetQuestID()
+    -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
     if questId == 0 then
-        -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
         return
     end
 
     if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
-        local unitType = strsplit("-", UnitGUID("questnpc"))
-        if unitType == "Player" then
-            DeclineQuest()
-            local playerName = UnitName("questnpc") or l10n("Unknown Player")
-            local questTitle = GetTitleText() or l10n("Unknown Quest")
-            local spamKey = questId .. ":" .. playerName
-            local currentTime = GetTime()
-            local lastMessageTime = lastRejectionMessages[spamKey] or 0
-            if (currentTime - lastMessageTime) >= 60 then
-                lastRejectionMessages[spamKey] = currentTime
-                local questLink = "|cffffff00|Hquest:" .. questId .. ":1|h[" .. questTitle .. "]|h|r"
-                local message = l10n("Automatically rejected quest %s shared by %s in battleground. Change this in Questie settings under Auto Accept.", questLink, playerName)
-                Questie:Print(message)
+        local playerGUID = UnitGUID("player")
+        local questNpcGUID = UnitGUID("questnpc")
+
+        if questNpcGUID and playerGUID and questNpcGUID ~= playerGUID then
+            local unitType = strsplit("-", questNpcGUID)
+            if unitType == "Player" then
+                DeclineQuest()
+                local playerName = UnitName("questnpc") or l10n("Unknown Player")
+                local questTitle = GetTitleText() or l10n("Unknown Quest")
+                local spamKey = questId .. ":" .. playerName
+                local currentTime = GetTime()
+                local lastMessageTime = lastRejectionMessages[spamKey] or 0
+                if (currentTime - lastMessageTime) >= 60 then
+                    lastRejectionMessages[spamKey] = currentTime
+                    local questLink = "|cffffff00|Hquest:" .. questId .. ":1|h[" .. questTitle .. "]|h|r"
+                    local message = l10n(
+                        "Automatically rejected quest %s shared by %s in battleground. Change this in Questie settings under Auto Accept.",
+                        questLink,
+                        playerName
+                    )
+                end
             end
-            return
         end
+    end
+
+    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+        return
     end
 
     local doAcceptQuest = true
