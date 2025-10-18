@@ -1418,9 +1418,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
         [9046] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.EASTERN_KINGDOMS] = {{49.119,64.098},},
-            },
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{49.119,64.098}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
         [9077] = {

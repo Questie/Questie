@@ -59,7 +59,7 @@ function Townsfolk.Initialize()
     local townsfolkData = {
         ["Repair"] = {
             mask = QuestieDB.npcFlags.REPAIR,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Auctioneer"] = {
@@ -188,18 +188,44 @@ function Townsfolk.Initialize()
 
     -- Fix NPC Aresella (18991) can train first aid profession
     if Expansions.Current >= Expansions.Tbc then
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 18991) -- Aresella
     end
 
     if Expansions.Current <= Expansions.Tbc then
         -- The vendors below are selling profession rank up books up to TBC.
         -- The books themselves were removed in 3.1, but we stop at TBC.
         -- Vendors selling "Expert First Aid - Under Wraps"
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 2805)
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 2805) -- Deneb Walker
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 13476) -- Balai Lok'Wein
         -- Vendors selling "Expert Cookbook"
-        tinsert(professionTrainers[professionKeys.COOKING], 3955)
-        tinsert(professionTrainers[professionKeys.COOKING], 12033)
+        tinsert(professionTrainers[professionKeys.COOKING], 3955) -- Shandrina
+        tinsert(professionTrainers[professionKeys.COOKING], 12033) -- Wulan
+    end
+
+    if Expansions.Current >= Expansions.MoP then
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 56777) -- Ni Gentlepaw
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 64058) -- Jorunga Stonehoof
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 64085) -- Cullen Hammerblow
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 66360) -- Master Brandom
+        tinsert(professionTrainers[professionKeys.COOKING], 56707) -- Chin
+        tinsert(professionTrainers[professionKeys.COOKING], 58712) -- Kol Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 58713) -- Anthea Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 58714) -- Mei Mei Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 58715) -- Yan Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 58716) -- Jian Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 58717) -- Bobo Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 64231) -- Sungshin Ironpaw
+        tinsert(professionTrainers[professionKeys.COOKING], 66353) -- Master Chang
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 64924) -- Guyo Crystalgear
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 54614) -- Mishka
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 56227) -- Mishka
+        tinsert(professionTrainers[professionKeys.FISHING], 63721) -- Nat Pagle
+        tinsert(professionTrainers[professionKeys.HERBALISM], 66355) -- Master Marshall
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 66355) -- Master Marshall
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 66354) -- Master Cannon
+        tinsert(professionTrainers[professionKeys.SKINNING], 66354) -- Master Cannon
+        tinsert(professionTrainers[professionKeys.SKINNING], 55646) -- Shademaster Kiryn
+        tinsert(professionTrainers[professionKeys.SKINNING], 63825) -- Mr. Pleeb
     end
 
     if Expansions.Current >= Expansions.Tbc then

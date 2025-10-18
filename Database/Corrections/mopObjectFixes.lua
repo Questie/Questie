@@ -781,6 +781,112 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.02,49.05}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [215873] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [215874] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{41.69,23.14}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215875] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR] = {{58.64,78.23}}},
+            [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
+        },
+        [215876] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [215877] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [215879] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{55.11,72.23}}},
+            [objectKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
+        },
+        [215880] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.79,43.61}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215881] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215884] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.1,34.62}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215886] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{55.72,24.41}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215889] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.6,63.33}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215891] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{59.56,83.24}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215892] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [215894] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{75.92,6.87}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [215895] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.46,59.96}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215897] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{72.74,92.28}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215898] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{62.77,80.5}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215899] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{64.21,61.28}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215900] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{54.07,82.82}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215902] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{71.14,57.77}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [215903] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{35.14,77.78}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [215904] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{61.03,25.14}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [215905] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{83.65,20.13}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [215906] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{19.88,55.78}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [215907] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.8,84.36}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215908] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.46,13.27}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [215914] = { -- Candy Bucket
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [215915] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS] = {{37.81,65.86}}},
+            [objectKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
+        },
         [215973] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{44.83,84.61}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,

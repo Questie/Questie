@@ -2030,6 +2030,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.ORDER_OF_THE_CLOUD_SERPENT,21000},
         },
         [30160] = { -- A Ruby Shard for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,23}},
@@ -2085,6 +2086,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31810,31811},
         },
         [30189] = { -- A Lovely Apple for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,23}},
@@ -2722,12 +2724,14 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30313,30341},
         },
         [30317] = { -- Water, Water Everywhere
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.objectives] = {{{59574,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Borrow a kite"),0,{{"monster",60231}}}},
             [questKeys.exclusiveTo] = {30318,30319,30321,30322},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.FARMER_FUNG,11}},
         },
         [30318] = { -- Chasing the Chicken
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30317,30319,30321,30322},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.OLD_HILLPAW,19}},
         },
@@ -2747,6 +2751,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 115913,
         },
         [30321] = { -- Weed War II
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredMinRep] = {1272,9000},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385}}}},
             [questKeys.exclusiveTo] = {30317,30318,30319,30322},
@@ -2759,14 +2764,17 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.GINA_MUDCLAW,18}},
         },
         [30323] = { -- They Don't Even Wear Them
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30324,30325,30326,30327},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.TINA_MUDCLAW,11}},
         },
         [30324] = { -- Not in Chee-Chee's Backyard
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30323,30325,30326,30327},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.CHEE_CHEE,11}},
         },
         [30325] = { -- Where it Counts
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.objectives] = {{{59123}},{{210890},{210955}}},
             [questKeys.exclusiveTo] = {30323,30324,30326,30327},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.SHO,11}},
@@ -2778,29 +2786,30 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.FISH_FELLREED,11}},
         },
         [30327] = { -- You Have to Burn the Ropes
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.objectives] = {nil,{{210760}}},
             [questKeys.exclusiveTo] = {30323,30324,30325,30326},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.ELLA,11}},
         },
         [30328] = { -- The Thousand-Year Dumpling
-            [questKeys.preQuestSingle] = {31279},
+            [questKeys.preQuestGroup] = {30257,31279},
             [questKeys.exclusiveTo] = {30329,30330,30331,30332},
         },
         [30329] = { -- Cindergut Peppers
-            [questKeys.preQuestSingle] = {31279},
+            [questKeys.preQuestGroup] = {30257,31279},
             [questKeys.exclusiveTo] = {30328,30330,30331,30332},
         },
         [30330] = { -- The Truffle Shuffle
-            [questKeys.preQuestSingle] = {31279},
+            [questKeys.preQuestGroup] = {30257,31279},
             [questKeys.exclusiveTo] = {30328,30329,30331,30332},
             [questKeys.objectives] = {{{59168,nil,Questie.ICON_TYPE_EVENT}},nil,{{79833}}},
         },
         [30331] = { -- The Mile-High Grub
-            [questKeys.preQuestSingle] = {31279},
+            [questKeys.preQuestGroup] = {30257,31279},
             [questKeys.exclusiveTo] = {30328,30329,30330,30332},
         },
         [30332] = { -- Fatty Goatsteak
-            [questKeys.preQuestSingle] = {31279},
+            [questKeys.preQuestGroup] = {30257,31279},
             [questKeys.exclusiveTo] = {30328,30329,30330,30331},
         },
         [30333] = { -- The Lesser of Two Evils
@@ -2913,26 +2922,31 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30465},
         },
         [30379] = { -- A Ruby Shard for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,23}},
         },
         [30380] = { -- A Lovely Apple for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,23}},
         },
         [30381] = { -- A Jade Cat for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,22}},
         },
         [30382] = { -- A Blue Feather for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,23}},
         },
         [30383] = { -- A Marsh Lily for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,23}},
@@ -2948,241 +2962,289 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31245,31249,31294,31295}, -- 31245,31249 to not show this one if mistfall is 3rd hub
         },
         [30386] = { -- A Dish for Ella
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1275,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.ELLA,17}},
         },
         [30387] = { -- A Jade Cat for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,23}},
         },
         [30388] = { -- A Blue Feather for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,23}},
         },
         [30389] = { -- A Marsh Lily for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,22}},
         },
         [30390] = { -- A Dish for Gina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1281,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.GINA_MUDCLAW,17}},
         },
         [30391] = { -- A Ruby Shard for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,23}},
         },
         [30392] = { -- A Lovely Apple for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,23}},
         },
         [30393] = { -- A Jade Cat for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,23}},
         },
         [30394] = { -- A Blue Feather for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,22}},
         },
         [30395] = { -- A Marsh Lily for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,23}},
         },
         [30396] = { -- A Dish for Old Hillpaw
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1276,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.OLD_HILLPAW,17}},
         },
         [30397] = { -- A Ruby Shard for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,23}},
         },
         [30398] = { -- A Lovely Apple for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,23}},
         },
         [30399] = { -- A Jade Cat for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,23}},
         },
         [30400] = { -- A Blue Feather for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,22}},
         },
         [30401] = { -- A Marsh Lily for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,23}},
         },
         [30402] = { -- A Dish for Chee Chee
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1277,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,17}},
         },
         [30403] = { -- A Ruby Shard for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,23}},
         },
         [30404] = { -- A Lovely Apple for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,22}},
         },
         [30405] = { -- A Jade Cat for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,23}},
         },
         [30406] = { -- A Blue Feather for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,23}},
         },
         [30407] = { -- A Marsh Lily for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,23}},
         },
         [30408] = { -- A Dish for Sho
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1278,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.SHO,17}},
         },
         [30409] = { -- A Ruby Shard for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,22}},
         },
         [30410] = { -- A Lovely Apple for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,23}},
         },
         [30411] = { -- A Jade Cat for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,23}},
         },
         [30412] = { -- A Blue Feather for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,23}},
         },
         [30413] = { -- A Marsh Lily for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,23}},
         },
         [30414] = { -- A Dish for Haohan
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1279,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.HAOHAN_MUDCLAW,17}},
         },
         [30416] = { -- A Ruby Shard for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,23}},
         },
         [30417] = { -- A Lovely Apple for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,23}},
         },
         [30418] = { -- A Jade Cat for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,23}},
         },
         [30419] = { -- A Blue Feather for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,23}},
         },
         [30420] = { -- A Marsh Lily for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,22}},
         },
         [30421] = { -- A Dish for Farmer Fung
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1283,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FARMER_FUNG,17}},
         },
         [30422] = { -- A Ruby Shard for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,23}},
         },
         [30423] = { -- A Lovely Apple for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,23}},
         },
         [30424] = { -- A Jade Cat for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,22}},
         },
         [30425] = { -- A Blue Feather for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,23}},
         },
         [30426] = { -- A Marsh Lily for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,23}},
         },
         [30427] = { -- A Dish for Fish
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1282,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.FISH_FELLREED,17}},
         },
         [30428] = { -- A Ruby Shard for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,22}},
         },
         [30429] = { -- A Lovely Apple for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,23}},
         },
         [30430] = { -- A Jade Cat for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,23}},
         },
         [30431] = { -- A Blue Feather for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,23}},
         },
         [30432] = { -- A Marsh Lily for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,23}},
         },
         [30433] = { -- A Dish for Tina
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1280,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,17}},
         },
         [30434] = { -- A Ruby Shard for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3190,6 +3252,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,23}},
         },
         [30435] = { -- A Lovely Apple for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3197,6 +3260,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,22}},
         },
         [30436] = { -- A Jade Cat for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3204,6 +3268,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,23}},
         },
         [30437] = { -- A Blue Feather for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3211,6 +3276,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,23}},
         },
         [30438] = { -- A Marsh Lily for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3218,6 +3284,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,23}},
         },
         [30439] = { -- A Dish for Jogu
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredMaxRep] = {1273,42000}, -- Not available at Best Friend
             [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,17}},
@@ -6255,42 +6322,49 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {31006},
         },
         [31669] = { -- The Cabbage Test
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {79102},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31670] = { -- That Dangling Carrot
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80590},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31671] = { -- Why Not Scallions?
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80591},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31672] = { -- A Pumpkin-y Perfume
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80592},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80593},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31674] = { -- The Pink Turnip Challenge
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80594},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31675] = { -- The White Turnip Treatment
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943,32682},
             [questKeys.requiredSourceItems] = {80595},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -7147,18 +7221,21 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30529},
         },
         [31941] = { -- Squash Those Foul Odors
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943,32682},
             [questKeys.requiredSourceItems] = {89328},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31942] = { -- It's Melon Time
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943,32682},
             [questKeys.requiredSourceItems] = {89329},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31943] = { -- Which Berries? Witchberries.
+            [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942,32682},
             [questKeys.requiredSourceItems] = {89326},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
