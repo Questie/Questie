@@ -124,7 +124,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if (not _spawned[id]) then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
-                            local npcName = QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id))
+                            local npcName = QuestieDB.QueryNPCSingle(id, "name")
                             local subName = QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key))
                             local npcTitle = Questie:Colorize(npcName, "white") .. " (" .. subName .. ")"
                             QuestieMap:ShowNPC(id, icon, 1.2, npcTitle, {}, true, key, true)
