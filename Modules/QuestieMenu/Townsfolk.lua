@@ -171,7 +171,7 @@ function Townsfolk.Initialize()
                     tinsert(townfolk[subName], id)
                 else
                     for k, professionId in pairs(QuestieProfessions.professionTable) do
-                        if string.match(subName, k) and professionId ~= 762 then -- Skip Riding Trainer for now
+                        if string.match(subName, k) and professionId ~= professionKeys.RIDING then -- Skip Riding Trainer for now
                             tinsert(professionTrainers[professionId], id)
                         end
                     end
