@@ -13,11 +13,13 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
-local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
+local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
 local _AddTooltipLine, _AddColoredTooltipLine
 
 
@@ -96,6 +98,7 @@ function QuestieLink:CreateQuestTooltip(link)
             _AddTooltipLine(" ")
 
             _AddQuestDescription(quest)
+            _AddDungeonInfo(quest)
             _AddQuestRequirements(quest)
             local starterName, starterZoneName = _GetQuestStarter(quest)
             local finisherName, finisherZoneName = _GetQuestFinisher(quest)
@@ -175,6 +178,25 @@ _AddQuestDescription = function (quest)
         end
     else
         _AddColoredTooltipLine(l10n("This quest is an automatic completion quest and does not contain an objective."), "white", true)
+    end
+end
+
+_AddDungeonInfo = function (quest)
+    local function FormatLabelWithColon(label)
+        local locale = GetLocale()
+        if locale == "frFR" then
+            return label .. " :"
+        else
+            return label .. ":"
+        end
+    end
+
+    if quest and quest.zoneOrSort and quest.zoneOrSort > 0 then
+        local dungeonName = ZoneDB:GetDungeonName(quest.zoneOrSort)
+        if dungeonName then
+            _AddTooltipLine(" ")
+            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, "gray")
+        end
     end
 end
 
