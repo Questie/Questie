@@ -3651,6 +3651,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{18.87,67.83}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [64924] = { -- Guyo Crystalgear
+            [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
+        },
         [64937] = { -- Great Cliff Hawk
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},
         },
@@ -3680,7 +3683,7 @@ function MopNpcFixes.Load()
         [65599] = { -- H.A.R.V.E.Y.
             [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS] = {{56.99,52.59}}},
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
-            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
             [npcKeys.npcFlags] = npcFlags.AUCTIONEER,
         },
         [65614] = { -- Seed of Doubt
@@ -4157,7 +4160,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.06,33.83}}},
         },
         [67130] = { -- D.E.N.T.
-            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
         },
         [67138] = { -- Chen Stormstout
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {
