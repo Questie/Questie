@@ -191,6 +191,16 @@ function MapIconTooltip:Show()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        -- helper function to format a label with a colon, respecting localization rules
+        local function FormatLabelWithColon(label)
+            local locale = GetLocale()
+            if locale == "frFR" then
+                return label .. " :"
+            else
+                return label .. ":"
+            end
+        end
+
         -- generate the tooltips
         local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
@@ -249,7 +259,7 @@ function MapIconTooltip:Show()
                         if zoneOrSort and zoneOrSort > 0 then
                             local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
                             if dungeonName then
-                                self:AddLine("  " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
                             end
                         end
                     end
@@ -341,7 +351,7 @@ function MapIconTooltip:Show()
                 if zoneOrSort and zoneOrSort > 0 then
                     local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
                     if dungeonName then
-                        self:AddLine("   " .. l10n("Dungeon") .. ": " .. dungeonName, 0.7, 0.7, 0.7)
+                        self:AddLine("   " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
                     end
                 end
             end
