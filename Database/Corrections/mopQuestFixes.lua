@@ -3562,6 +3562,7 @@ function MopQuestFixes.Load()
         },
         [30534] = { -- A Second Hand
             [questKeys.preQuestSingle] = {30529},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{57298,57402,58647,58705,58706,58707,58708,58709,58710,58761},57298,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30535] = { -- Learn and Grow I: Seeds
             [questKeys.preQuestSingle] = {30252},
