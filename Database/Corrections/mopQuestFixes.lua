@@ -1803,10 +1803,10 @@ function MopQuestFixes.Load()
         },
         [30072] = { -- Where Silk Comes From
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {32035}, --ingame bug
+            [questKeys.exclusiveTo] = {32035}, -- ingame bug
         },
         [30073] = { -- The Emperor
-            [questKeys.preQuestSingle] = {30055},
+            [questKeys.preQuestSingle] = {30055}, -- there are more!!!!
         },
         [30075] = { -- Clear the Way
             [questKeys.preQuestSingle] = {30074},
