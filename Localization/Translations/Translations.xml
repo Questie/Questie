@@ -46,6 +46,7 @@
     <Script file="Generics.lua"/>
     <Script file="KeyboardShortcuts.lua"/>
     <Script file="Map.lua"/>
+    <Script file="Moonwell.lua"/>
     <Script file="Professions.lua"/>
     <Script file="QuestStates.lua"/>
     <Script file="Races.lua"/>
