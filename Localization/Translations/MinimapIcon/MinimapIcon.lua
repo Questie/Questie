@@ -16,7 +16,7 @@ local minimapIconLocales = {
     },
     ["Toggle Quests"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Quests anzeigen/ausblenden",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -28,7 +28,7 @@ local minimapIconLocales = {
     },
     ["Toggle Townsfolk"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Stadtbewohner anzeigen/ausblenden",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
