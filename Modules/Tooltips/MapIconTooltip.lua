@@ -21,6 +21,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -189,6 +191,16 @@ function MapIconTooltip:Show()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        -- helper function to format a label with a colon, respecting localization rules
+        local function FormatLabelWithColon(label)
+            local locale = GetLocale()
+            if locale == "frFR" then
+                return label .. " :"
+            else
+                return label .. ":"
+            end
+        end
+
         -- generate the tooltips
         local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
@@ -239,6 +251,16 @@ function MapIconTooltip:Show()
                         else
                             -- We use a transparent icon because this eases setting the correct margin
                             self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                        end
+                    end
+                    -- Add dungeon information if this is a dungeon quest
+                    if shift and quest then
+                        local zoneOrSort = quest.zoneOrSort
+                        if zoneOrSort and zoneOrSort > 0 then
+                            local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
+                            if dungeonName then
+                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                            end
                         end
                     end
                 end
@@ -322,6 +344,18 @@ function MapIconTooltip:Show()
 
             -- Used to get the white color for the quests which don't have anything to collect
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
+
+            -- Add what dungeon this is in if this is a dungeon quest
+            if shift and quest then
+                local zoneOrSort = quest.zoneOrSort
+                if zoneOrSort and zoneOrSort > 0 then
+                    local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
+                    if dungeonName then
+                        self:AddLine("   " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                    end
+                end
+            end
+
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
                 local addedCreatureNames = {}
