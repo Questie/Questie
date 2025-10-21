@@ -89,7 +89,7 @@ local _spawned = {} -- used to check if we have already spawned an icon for this
 ---@param key string
 ---@return string
 local function getNpcTitle(id, key)
-    local npcName = QuestieDB.QueryNPCSingle(id, "name")
+    local npcName = QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id))
     local npcTitle = Questie:Colorize(npcName, "white")
 
     local subName = QuestieDB.QueryNPCSingle(id, "subName")
