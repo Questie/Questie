@@ -1,6 +1,7 @@
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.translations.keybindings = {
+local keybindingsLocales = {
     ["Toggle Questie Journey"] = {
         ["enUS"] = true,
         ["deDE"] = false,
@@ -12,5 +13,9 @@ l10n.translations.keybindings = {
         ["ruRU"] = false,
         ["zhCN"] = false,
         ["zhTW"] = false,
-    }
+    },
 }
+
+for k, v in pairs(keybindingsLocales) do
+    l10n.translations[k] = v
+end
