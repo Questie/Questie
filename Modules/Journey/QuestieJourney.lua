@@ -164,17 +164,13 @@ function QuestieJourney:ToggleJourneyWindow()
     end
 end
 
--- Global function for keybinding
-function QUESTIE_ToggleJourney() -- luacheck: globals QUESTIE_ToggleJourney
-    QuestieJourney:ToggleJourneyWindow()
-end
-
 function QuestieJourney:SetupKeybinding()
-    -- Set default keybinding to ';' if no binding exists
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle Questie Journey")
     local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
     if not currentBinding then
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
-        Questie:Debug(Questie.DEBUG_INFO, "Set default keybinding ';' for Questie Journey")
+        -- TODO: l10n this
+        Questie:Debug(Questie.DEBUG_INFO, l10n("Set default keybinding ';' for Questie Journey"))
     end
 end
 

@@ -1,5 +1,5 @@
 <Bindings>
-    <Binding name="QUESTIE_TOGGLE_JOURNEY" category="ADDONS">
-        QUESTIE_ToggleJourney();
+     <Binding name="QUESTIE_TOGGLE_JOURNEY" category="Questie">
+        QuestieLoader:ImportModule("QuestieJourney"):ToggleJourneyWindow()
     </Binding>
 </Bindings>

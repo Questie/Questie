@@ -227,7 +227,6 @@ Modules\Journey\tabs\QuestsByZone\QuestsByZoneTab.lua
 #Modules\Journey\tabs\Search\SearchTab.lua
 Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
-Bindings.xml
 
 # Tracker
 Modules\Tracker\AutoCompleteFrame.lua
