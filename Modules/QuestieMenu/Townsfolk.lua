@@ -201,6 +201,11 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.COOKING], 12033) -- Wulan
     end
 
+    if Expansions.Current < Expansions.Cata then
+        -- NPCs that used to be needed up to Cata
+        tinsert(professionTrainers[professionKeys.FISHING], 10216) -- Gubber Blump
+    end
+
     if Expansions.Current >= Expansions.MoP then
         tinsert(professionTrainers[professionKeys.ALCHEMY], 56777) -- Ni Gentlepaw
         tinsert(professionTrainers[professionKeys.ALCHEMY], 57620) -- Whittler Dewei
