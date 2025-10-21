@@ -135,9 +135,7 @@ function Townsfolk.Initialize()
         [professionKeys.LEATHERWORKING] = {},
         [professionKeys.ALCHEMY] = {},
         [professionKeys.HERBALISM] = {},
-        [professionKeys.COOKING] = {
-            19186, -- Kylene <Barmaid> (this is an edge case)
-        },
+        [professionKeys.COOKING] = {},
         [professionKeys.MINING] = {},
         [professionKeys.TAILORING] = {},
         [professionKeys.ENGINEERING] = {},
@@ -189,6 +187,7 @@ function Townsfolk.Initialize()
     -- Fix NPC Aresella (18991) can train first aid profession
     if Expansions.Current >= Expansions.Tbc then
         tinsert(professionTrainers[professionKeys.FIRST_AID], 18991) -- Aresella
+        tinsert(professionTrainers[professionKeys.COOKING], 19186) -- Kylene <Barmaid> (this is an edge case)
     end
 
     if Expansions.Current <= Expansions.Tbc then
