@@ -83,6 +83,7 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
 end
 
+---@param link string
 function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
@@ -109,18 +110,19 @@ end
 
 ---@param text string
 ---@param wrapText boolean?
-_AddTooltipLine = function (text, wrapText)
+_AddTooltipLine = function(text, wrapText)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param text string
 ---@param color string
 ---@param wrapText boolean?
-_AddColoredTooltipLine = function (text, color, wrapText)
+_AddColoredTooltipLine = function(text, color, wrapText)
     text = Questie:Colorize(text, color)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
+---@param quest Quest
 _AddQuestTitle = function(quest)
     local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level)
 
@@ -140,7 +142,8 @@ _AddQuestTitle = function(quest)
     end
 end
 
-_AddQuestStatus = function (quest)
+---@param quest Quest
+_AddQuestStatus = function(quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")
         local stateText
@@ -167,13 +170,15 @@ _AddQuestStatus = function (quest)
     end
 end
 
-_AddQuestDescription = function (quest)
-    if quest and quest.Description and quest.Description[1] then
-        _AddColoredTooltipLine(quest.Description[1], "white", true)
-        if #quest.Description > 2 then
-            for i = 2, #quest.Description do
+---@param quest Quest
+_AddQuestDescription = function(quest)
+    local description = quest.Description
+    if description and description[1] then
+        _AddColoredTooltipLine(description[1], "white", true)
+        if #description > 2 then
+            for i = 2, #description do
                 --_AddTooltipLine(" ") -- this is just adding extra lines between text definitions in DB files
-                _AddColoredTooltipLine(quest.Description[i], "white", true)
+                _AddColoredTooltipLine(description[i], "white", true)
             end
         end
     else
@@ -205,7 +210,8 @@ _AddDungeonInfo = function(quest)
     end
 end
 
-_AddQuestRequirements = function (quest)
+---@param quest Quest
+_AddQuestRequirements = function(quest)
     if #quest.ObjectiveData > 0 and not (QuestiePlayer.currentQuestlog[quest.Id] or Questie.db.char.complete[quest.Id]) then
         for i = 1, #quest.ObjectiveData do
             local currentObjective = quest.ObjectiveData[i]
@@ -237,7 +243,9 @@ _AddQuestRequirements = function (quest)
     end
 end
 
-_GetQuestStarter = function (quest)
+---@param quest Quest
+---@return string?, string?
+_GetQuestStarter = function(quest)
     if quest.Starts then
         local starterName, starterZoneName
         if quest.Starts.NPC ~= nil then
@@ -289,7 +297,9 @@ _GetQuestStarter = function (quest)
     return nil, nil
 end
 
-_GetQuestFinisher = function (quest)
+---@param quest Quest
+---@return string?, string?
+_GetQuestFinisher = function(quest)
     local finisherName, finisherZoneName
     if quest.Finisher.NPC then
         local npc = QuestieDB:GetNPC(quest.Finisher.NPC[1])
@@ -315,7 +325,12 @@ _GetQuestFinisher = function (quest)
     return finisherName, finisherZoneName
 end
 
-_AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finisherName, finisherZoneName)
+---@param quest Quest
+---@param starterName string?
+---@param starterZoneName string?
+---@param finisherName string?
+---@param finisherZoneName string?
+_AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisherName, finisherZoneName)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         -- On Quest: display quest progress
         if (QuestieDB.IsComplete(quest.Id) == 0) then
