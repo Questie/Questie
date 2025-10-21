@@ -830,6 +830,18 @@ local dungeonLocales = {
         ["zhCN"] = "酿月祭",
         ["zhTW"] = "酒月節",
     },
+    ["Arena of Annihilation"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Arena der Auslöschung",
+        ["esES"] = "Arena de la Aniquilación",
+        ["esMX"] = "Arena de la Aniquilación",
+        ["frFR"] = "Arène de l’Annihilation",
+        ["koKR"] = "파멸의 투기장",
+        ["ptBR"] = "Arena da Aniquilação",
+        ["ruRU"] = "Арена Истребления",
+        ["zhCN"] = "破军比武场",
+        ["zhTW"] = "殲滅競技場",
+    },
 }
 
 for k, v in pairs(dungeonLocales) do
