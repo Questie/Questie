@@ -181,18 +181,23 @@ _AddQuestDescription = function (quest)
     end
 end
 
-_AddDungeonInfo = function (quest)
-    local function FormatLabelWithColon(label)
-        local locale = GetLocale()
-        if locale == "frFR" then
-            return label .. " :"
-        else
-            return label .. ":"
-        end
+-- helper function to format a label with a colon, respecting localization rules
+---@param label string
+---@return string
+local function FormatLabelWithColon(label)
+    local locale = GetLocale()
+    if locale == "frFR" then
+        return label .. " :"
+    else
+        return label .. ":"
     end
+end
 
-    if quest and quest.zoneOrSort and quest.zoneOrSort > 0 then
-        local dungeonName = ZoneDB:GetDungeonName(quest.zoneOrSort)
+---@param quest Quest
+_AddDungeonInfo = function(quest)
+    local zoneOrSort = quest.zoneOrSort
+    if zoneOrSort and zoneOrSort > 0 then
+        local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
         if dungeonName then
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, "gray")

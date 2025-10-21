@@ -38,6 +38,18 @@ local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
 
+-- helper function to format a label with a colon, respecting localization rules
+---@param label string
+---@return string
+local function FormatLabelWithColon(label)
+    local locale = GetLocale()
+    if locale == "frFR" then
+        return label .. " :"
+    else
+        return label .. ":"
+    end
+end
+
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
@@ -191,16 +203,6 @@ function MapIconTooltip:Show()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        -- helper function to format a label with a colon, respecting localization rules
-        local function FormatLabelWithColon(label)
-            local locale = GetLocale()
-            if locale == "frFR" then
-                return label .. " :"
-            else
-                return label .. ":"
-            end
-        end
-
         -- generate the tooltips
         local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
