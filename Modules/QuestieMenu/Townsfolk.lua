@@ -140,9 +140,7 @@ function Townsfolk.Initialize()
         [professionKeys.TAILORING] = {},
         [professionKeys.ENGINEERING] = {},
         [professionKeys.ENCHANTING] = {},
-        [professionKeys.FISHING] = {
-            10216, -- Gubber Blump
-        },
+        [professionKeys.FISHING] = {},
         [professionKeys.SKINNING] = {}
     }
 
