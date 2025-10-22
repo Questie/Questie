@@ -302,6 +302,12 @@ function CataObjectFixes.Load()
         [176545] = { -- Remains of Lucien Sarkhoff
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{92.02,52.02}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [177272] = { -- Moonwell
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{55.71,54.14}},
+                [zoneIDs.ZANGARMARSH]={{80.33,65.06}},
+            },
+        },
         [177287] = { -- Unfinished Painting
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{27.38,76.13},{-1,-1}}},
         },

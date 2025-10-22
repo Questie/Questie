@@ -233,6 +233,14 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{45.27,69.21}}},
             [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
+        [177272] = { -- Moonwell
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{20.43,53.33}},
+                [zoneIDs.TELDRASSIL]={{56.02,61.99}},
+                [zoneIDs.ASHENVALE]={{62.07,51.04},{60.21,72.91}},
+                [zoneIDs.FERALAS]={{32.56,43.91},{57.97,44.49}},
+            },
+        },
         [177673] = { -- Desolace for quest 6027
             [objectKeys.name] = "Serpent Statue",
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
