@@ -165,7 +165,7 @@ function QuestieJourney:ToggleJourneyWindow()
 end
 
 function QuestieJourney:SetupKeybinding()
-    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle Questie Journey")
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
     local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
     if not currentBinding then
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
