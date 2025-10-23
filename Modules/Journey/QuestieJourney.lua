@@ -75,6 +75,9 @@ function QuestieJourney:Initialize()
     self.zones = ZoneDB.GetRelevantZones()
     coroutine.yield()
     self:BuildMainFrame()
+
+    -- Set up default keybinding for Journey window
+    self:SetupKeybinding()
 end
 
 function QuestieJourney:BuildMainFrame()
@@ -158,6 +161,15 @@ function QuestieJourney:ToggleJourneyWindow()
         end
     else
         Questie:Error("QuestieJourney:ToggleJourneyWindow() called before QuestieJourneyFrame was initialized!")
+    end
+end
+
+function QuestieJourney:SetupKeybinding()
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
+    local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
+    if not currentBinding then
+        SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
+        Questie:Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
 end
 
