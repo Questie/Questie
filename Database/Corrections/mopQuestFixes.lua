@@ -8625,20 +8625,6 @@ function MopQuestFixes.Load()
         [33379] = { -- One Final Turn
             [questKeys.preQuestSingle] = {33378},
         },
-        [64845] = { -- Alliance War Effort
-            [questKeys.triggerEnd] = {"Victory in a battleground match", {
-                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
-                [zoneIDs.STORMWIND_CITY] = {{86.82,36.09}},
-                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
-                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
-                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
-                [zoneIDs.ARATHI_HIGHLANDS] = {{40.43,45.84}},
-                [zoneIDs.DALARAN] = {{29.79,75.78}},
-                [zoneIDs.DARNASSUS] = {{56.05,47.61}},
-                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
-                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
-            }},
-        },
         [91701] = { -- A Celestial Challenge: Darkmaster Gandling
             [questKeys.name] = "A Celestial Challenge: Darkmaster Gandling",
             [questKeys.startedBy] = {{63994}},

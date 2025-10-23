@@ -1966,6 +1966,30 @@ function CataQuestFixes.Load()
         [11294] = { -- Bark for the Thunderbrews!
             [questKeys.exclusiveTo] = {11293},
         },
+        [11336] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
+            }},
+        },
+        [11340] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
+                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
+                [zoneIDs.DALARAN]={{58.19,20.59}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{58.4,33.3}},
+            }},
+        },
         [11354] = { -- Wanted: Nazan's Riding Crop
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.startedBy] = {},
@@ -2419,6 +2443,30 @@ function CataQuestFixes.Load()
         },
         [13411] = { -- Hellfire Fortifications
             [questKeys.nextQuestInChain] = 10110,
+        },
+        [13427] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
+            }},
+        },
+        [13428] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
+                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
+                [zoneIDs.DALARAN]={{58.19,20.59}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{58.4,33.3}},
+            }},
         },
         [13432] = { -- The Vials of Eternity
             [questKeys.startedBy] = {{19935}},
@@ -3994,6 +4042,30 @@ function CataQuestFixes.Load()
         },
         [24215] = { -- Rite of the Winds
             [questKeys.zoneOrSort] = 215,
+        },
+        [24426] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
+            }},
+        },
+        [24427] = { -- Call to Arms: Alterac Valley
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
+                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
+                [zoneIDs.DALARAN]={{58.19,20.59}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{58.4,33.3}},
+            }},
         },
         [24429] = { -- A Most Puzzling Circumstance
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -15322,6 +15394,20 @@ function CataQuestFixes.Load()
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
+        },
+        [64845] = { -- Alliance War Effort
+            [questKeys.triggerEnd] = {"Victory in a battleground match", {
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.STORMWIND_CITY] = {{86.82,36.09}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{40.43,45.84}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.DARNASSUS] = {{56.05,47.61}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+            }},
         },
         [82948] = {
             [questKeys.name] = "Hero's Call Board",
