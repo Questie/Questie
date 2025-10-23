@@ -1972,7 +1972,7 @@ function CataQuestFixes.Load()
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.STORMWIND_CITY]={{86.82,36.08}},
                 [zoneIDs.DALARAN]={{29.79,75.78}},
                 [zoneIDs.WINTERGRASP]={{50.02,15.16}},
                 [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
@@ -1980,7 +1980,7 @@ function CataQuestFixes.Load()
         },
         [11340] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.ORGRIMMAR]={{74.83,45.48}},
                 [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
                 [zoneIDs.UNDERCITY]={{58.27,97.9}},
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
@@ -2450,7 +2450,7 @@ function CataQuestFixes.Load()
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.STORMWIND_CITY]={{86.82,36.08}},
                 [zoneIDs.DALARAN]={{29.79,75.78}},
                 [zoneIDs.WINTERGRASP]={{50.02,15.16}},
                 [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
@@ -2458,7 +2458,7 @@ function CataQuestFixes.Load()
         },
         [13428] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.ORGRIMMAR]={{74.83,45.48}},
                 [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
                 [zoneIDs.UNDERCITY]={{58.27,97.9}},
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
@@ -4049,7 +4049,7 @@ function CataQuestFixes.Load()
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.STORMWIND_CITY]={{86.82,36.08}},
                 [zoneIDs.DALARAN]={{29.79,75.78}},
                 [zoneIDs.WINTERGRASP]={{50.02,15.16}},
                 [zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.5,46}},
@@ -4057,7 +4057,7 @@ function CataQuestFixes.Load()
         },
         [24427] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.ORGRIMMAR]={{74.83,45.48}},
                 [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
                 [zoneIDs.UNDERCITY]={{58.27,97.9}},
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
