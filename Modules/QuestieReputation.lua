@@ -267,7 +267,7 @@ _GetRewardMultiplier = function()
         multiplier = multiplier + 0.05 -- 5% bonus reputation from Mr. Popularity Rank 1
     end
 
-    return multiplier -- need to figure out how to add commendation bonuses
+    return multiplier
 end
 
 ---@return boolean
