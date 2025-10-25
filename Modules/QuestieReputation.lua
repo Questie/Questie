@@ -11,7 +11,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _HasDmfBuff, _FilterShaTarRewards
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
@@ -249,13 +249,9 @@ end
 _GetRewardMultiplier = function()
     local knowsMrPopularityRank1 = IsSpellKnown(78634)
     local knowsMrPopularityRank2 = IsSpellKnown(78635)
-    local hasDarkmoonFaireReputationBuff = _HasDmfBuff()
+    local buffMultiplier = _GetBuffMultiplier()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
-    local multiplier = 1
-
-    if hasDarkmoonFaireReputationBuff then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Darkmoon Faire buff
-    end
+    local multiplier = 1 + buffMultiplier
 
     if playerIsHuman then
         multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
@@ -270,18 +266,25 @@ _GetRewardMultiplier = function()
     return multiplier
 end
 
----@return boolean
-_HasDmfBuff = function()
+---@return number
+_GetBuffMultiplier = function()
+    local buffMultiplier = 0
     for i = 1, 40 do
         local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
         if spellId == nil then
-            return false
+            break
         end
 
         if spellId == 46668 then
-            return true
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Darkmoon Faire buff
+        elseif spellId == 95987 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Unburdened (Hallow's End Alliance)
+        elseif spellId == 24705 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Grim Visage (Hallow's End Horde)
         end
     end
+
+    return buffMultiplier
 end
 
 ---@param reputationReward ReputationPair[]
