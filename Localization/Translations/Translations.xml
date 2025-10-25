@@ -37,6 +37,7 @@
     <Script file="Zones\Pandaria.lua"/>
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
+    <Script file="Zones\Scenarios.lua"/>
 
     <Script file="AutoQuesting.lua"/>
     <Script file="Classes.lua"/>
