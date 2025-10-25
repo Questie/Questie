@@ -122,6 +122,18 @@ local dungeonLocales = {
         ["zhCN"] = "潘达利亚的黑暗之心",
         ["zhTW"] = "潘達利亞的黑暗之心",
     },
+    ["Domination Point"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Krasarangwildnis",
+        ["esES"] = "Espesura Krasarang",
+        ["esMX"] = "Espesura Krasarang",
+        ["frFR"] = "Étendues sauvages de Krasarang",
+        ["koKR"] = "크라사랑 밀림",
+        ["ptBR"] = "Selva de Krasarang",
+        ["ruRU"] = "Красарангские джунгли",
+        ["zhCN"] = "卡桑琅丛林",
+        ["zhTW"] = "喀撒朗蠻荒",
+    },
     ["Greenstone Village"] = {
         ["enUS"] = true,
         ["deDE"] = "Grünstein",
