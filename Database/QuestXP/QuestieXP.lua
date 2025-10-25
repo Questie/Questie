@@ -128,7 +128,9 @@ _GetBuffMultiplier = function()
             break
         end
 
-        if spellId == 95987 then
+        if spellId == 46668 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Darkmoon Faire buff
+        elseif spellId == 95987 then
             buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Unburdened (Hallow's End Alliance)
         elseif spellId == 24705 then
             buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Grim Visage (Hallow's End Horde)
