@@ -165,6 +165,7 @@ function QuestieJourney:ToggleJourneyWindow()
             isWindowShown = false
         end
     else
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
         Questie:Error("QuestieJourney:ToggleJourneyWindow() failed to create QuestieJourneyFrame!")
     end
 end
