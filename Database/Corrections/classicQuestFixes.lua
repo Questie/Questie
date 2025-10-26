@@ -4845,6 +4845,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {609,0},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."),0,{{"object", 180466},{"object", 180539},{"object", 180559},}}},
         },
+        [9250] = {
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.PRIEST + classIDs.DRUID + classIDs.WARLOCK,
+        },
+        [9251] = {
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.PRIEST + classIDs.DRUID + classIDs.WARLOCK,
+        },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
         },
