@@ -204,8 +204,9 @@ _AddDungeonInfo = function(quest)
     if zoneOrSort and zoneOrSort > 0 then
         local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
         if dungeonName then
+            local localizedDungeonName = C_Map.GetAreaInfo(zoneOrSort) or dungeonName
             _AddTooltipLine(" ")
-            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. l10n(dungeonName), "gray")
+            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, "gray")
         end
     end
 end
