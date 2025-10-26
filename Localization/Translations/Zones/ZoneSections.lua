@@ -146,6 +146,18 @@ local zoneSectionLocales = {
         ["zhCN"] = "地下城",
         ["zhTW"] = "副本",
     },
+    ["Scenarios"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Szenarien",
+        ["esES"] = "Gestas",
+        ["esMX"] = "Gestas",
+        ["frFR"] = "Scénarios",
+        ["koKR"] = "시나리오",
+        ["ptBR"] = "Cenários",
+        ["ruRU"] = "Сценарии",
+        ["zhCN"] = "场景",
+        ["zhTW"] = "事件",
+    },
     ["Unknown Zone"] = {
         ["enUS"] = true,
         ["deDE"] = "Unbekannte Zone",
