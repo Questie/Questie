@@ -1418,6 +1418,9 @@ function CataObjectFixes.Load()
         [209448] = { -- Portal Energy Focus
             [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{16.03,34.54},{-1,-1}}},
         },
+        [209620] = { -- Darkmoon Treasure Chest
+            [objectKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{44.66,78.77},{-1,-1}}},
+        },
         [209927] = { -- Convenient Rope
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,

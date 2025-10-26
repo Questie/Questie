@@ -7858,6 +7858,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
             },
         },
+        [55402] = { -- Korgol Crushskull
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.37,78.91},{-1,-1}}},
+        },
         [55532] = { -- Illidan Stormrage
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{81.84,57.77},{-1,-1}}},
         },

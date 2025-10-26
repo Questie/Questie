@@ -15291,6 +15291,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [29761] = { -- Master Pit Fighter
+            [questKeys.preQuestSingle] = {29760},
+        },
         [29802] = { -- A Hidden Message
             [questKeys.objectives] = {{{57800,nil,Questie.ICON_TYPE_TALK},{55488,nil,Questie.ICON_TYPE_TALK}},nil,{{74752}}},
             [questKeys.requiredSourceItems] = {74748,74750},
