@@ -1326,7 +1326,7 @@ if Expansions.Current >= Expansions.MoP then
     pandaria[6844]="The Blazing Way"
     pandaria[6846]="Time-Lost Waters"
     -- Isle of Thunder
-    pandaria[6507]="Isle of Thunder"
+    -- pandaria[6507]="Isle of Thunder" -- reenable when live!!
     pandaria[6576]="Diremoor"
     pandaria[6577]="The Thunderspire"
     pandaria[6578]="Court of Bones"
@@ -1363,7 +1363,7 @@ if Expansions.Current >= Expansions.MoP then
     pandaria[6725]="Greymist Firth"
     pandaria[6726]="Wildvine Marsh"
     pandaria[6727]="Shadewood Thicket"
-    pandaria[6729]="Isle of Thunder"
+    -- pandaria[6729]="Isle of Thunder" -- reenable when live!!
     pandaria[6731]="The Secrets of Ragefire"
     pandaria[6732]="The Tiger's Peak"
     pandaria[6733]="Dark Heart of Pandaria"

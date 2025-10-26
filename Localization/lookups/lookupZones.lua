@@ -21,6 +21,7 @@ l10n.continentLookup = {
     [11] = "Professions",
     [12] = "Events",
     [13] = "Pet Battle",
+    [14] = "Scenarios",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2911,5 +2912,24 @@ l10n.zoneCategoryLookup = {
     },
     [13] = {
         [-394] = "Battle Pets",
+    },
+    [14] = {
+        [6101] = "A Brewing Storm",
+        [6616] = "A Little Patience",
+        [6219] = "Arena of Annihilation",
+        [6328] = "Assault on Zan'vess",
+        -- [6567] = "Battle on the High Seas",
+        -- [6814] = "Blood in the Snow",
+        [6426] = "Brewmoon Festival",
+        [6208] = "Crypt of Forgotten Kings",
+        [6565] = "Dagger in the Dark",
+        -- [6733] = "Dark Heart of Pandaria",
+        [6615] = "Domination Point",
+        [6209] = "Greenstone Village",
+        [6575] = "Lion's Landing",
+        -- [6731] = "The Secrets of Ragefire",
+        [6040] = "Theramore's Fall", -- H
+        [6500] = "Theramore's Fall", -- A
+        [6309] = "Unga Ingoo",
     },
 }
