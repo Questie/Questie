@@ -703,6 +703,10 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [83767] = { -- Krosh's Back
+            [itemKeys.npcDrops] = {56833},
+            [itemKeys.startQuest] = 29758,
+        },
         [83769] = { -- Between a Saurok and a Hard Place
             [itemKeys.startQuest] = 31055,
         },
