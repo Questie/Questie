@@ -683,6 +683,9 @@ function MopQuestFixes.Load()
         [28169] = { -- Withdraw to the Loading Room!
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.MAGE + classIDs.WARLOCK + classIDs.ROGUE + classIDs.PRIEST + classIDs.MONK, -- gnome DKs don't get these quests
         },
+        [28414] = { -- Fourth and Goal
+            [questKeys.requiredRaces] = raceIDs.GOBLIN,
+        },
         [28651] = { -- Novice Elreth
             [questKeys.exclusiveTo] = {31148},
             [questKeys.preQuestSingle] = {24964,24965,24966,24967,24968,24969,31147},
@@ -3300,15 +3303,19 @@ function MopQuestFixes.Load()
         },
         [30449] = { -- Darkmoon Crane Deck
             [questKeys.startedBy] = {nil,nil,{79325}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30450] = { -- Darkmoon Ox Deck
             [questKeys.startedBy] = {nil,nil,{79324}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30451] = { -- Darkmoon Serpent Deck
             [questKeys.startedBy] = {nil,nil,{79326}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30452] = { -- Darkmoon Tiger Deck
             [questKeys.startedBy] = {nil,nil,{79323}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [30457] = { -- Call Out Their Leader
             [questKeys.preQuestSingle] = {},
@@ -4705,6 +4712,9 @@ function MopQuestFixes.Load()
         [31055] = { -- Between a Saurok and a Hard Place
             [questKeys.reputationReward] = {{factionIDs.THE_LOREWALKERS,29}},
         },
+        [31058] = { -- The Funky Monkey Brew
+            [questKeys.zoneOrSort] = zoneIDs.UNGA_INGOO,
+        },
         [31061] = { -- Riding the Storm
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {31042,31043,31047,31105}, -- might not need all
@@ -5653,6 +5663,7 @@ function MopQuestFixes.Load()
         [31372] = { -- The Tillers
             [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
             [questKeys.breadcrumbForQuestId] = 30252,
+            [questKeys.nextQuestInChain] = 30252,
         },
         [31373] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
@@ -5661,6 +5672,7 @@ function MopQuestFixes.Load()
         [31374] = { -- The Tillers
             [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
             [questKeys.breadcrumbForQuestId] = 30252,
+            [questKeys.nextQuestInChain] = 30252,
         },
         [31375] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
@@ -6311,6 +6323,9 @@ function MopQuestFixes.Load()
         },
         [31612] = { -- Shadow of the Empire
             [questKeys.objectives] = {nil,nil,nil,nil,{{{62538,66800},66800,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [31613] = { -- Volatile Greenstone Brew
+            [questKeys.zoneOrSort] = zoneIDs.GREENSTONE_VILLAGE,
         },
         [31656] = { -- The Threat in the South
             [questKeys.breadcrumbForQuestId] = 31001,
