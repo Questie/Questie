@@ -142,8 +142,13 @@ function QuestieJourney:IsShown()
     return isWindowShown
 end
 
+-- There are ways to toggle this function before the frame has been created
 function QuestieJourney:ToggleJourneyWindow()
-    -- There are ways to toggle this function before the frame has been created
+    if not QuestieJourneyFrame then
+        -- Initialize the frame if it hasn't been created yet
+        self:BuildMainFrame()
+    end
+
     if QuestieJourneyFrame then
         if (not isWindowShown) then
             PlaySound(882)
@@ -160,7 +165,7 @@ function QuestieJourney:ToggleJourneyWindow()
             isWindowShown = false
         end
     else
-        Questie:Error("QuestieJourney:ToggleJourneyWindow() called before QuestieJourneyFrame was initialized!")
+        Questie:Error("QuestieJourney:ToggleJourneyWindow() failed to create QuestieJourneyFrame!")
     end
 end
 

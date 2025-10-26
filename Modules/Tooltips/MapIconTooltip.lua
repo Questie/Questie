@@ -261,7 +261,7 @@ function MapIconTooltip:Show()
                         if zoneOrSort and zoneOrSort > 0 then
                             local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
                             if dungeonName then
-                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. l10n(dungeonName), 0.7, 0.7, 0.7)
                             end
                         end
                     end
@@ -353,7 +353,7 @@ function MapIconTooltip:Show()
                 if zoneOrSort and zoneOrSort > 0 then
                     local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
                     if dungeonName then
-                        self:AddLine("   " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                        self:AddLine("   " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. l10n(dungeonName), 0.7, 0.7, 0.7)
                     end
                 end
             end
