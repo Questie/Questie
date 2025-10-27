@@ -379,10 +379,10 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         else
             if starterName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(starterName, "gray")))
+                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(l10n(starterName), "gray")))
             end
             if starterZoneName then
-                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(starterZoneName, "gray")))
+                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(l10n(starterZoneName), "gray")))
             end
         end
     end
