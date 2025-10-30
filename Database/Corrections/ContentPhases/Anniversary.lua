@@ -738,6 +738,7 @@ local questsToBlacklistByPhase = {
         [9244] = true,
         [9245] = true,
         [9246] = true,
+        [9247] = true, -- Was never implemented for Anniversary
         [9250] = true,
         [9251] = true,
         -- Silithus/EPL PvP
