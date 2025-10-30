@@ -878,6 +878,7 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
+        [9247] = true -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
         [9260] = not(Questie.IsSoD or Questie.IsAnniversary),
         [9261] = not(Questie.IsSoD or Questie.IsAnniversary),
         [9262] = not(Questie.IsSoD or Questie.IsAnniversary),
