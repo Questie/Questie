@@ -748,10 +748,10 @@ local questsToBlacklistByPhase = {
         [9310] = true,
         -- Silithus/EPL PvP
         [9248] = true,
-        [9422] = true,
         [9415] = true,
-        [9419] = true,
         [9416] = true,
+        [9419] = true,
+        [9422] = true,
         [9664] = true,
         [9665] = true,
     },

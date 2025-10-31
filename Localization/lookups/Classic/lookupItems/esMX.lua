@@ -2087,6 +2087,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [21384] = "Informe de tareas logísticas VIII",
 [21385] = "Informe de tareas logísticas X",
 [21514] = "Informe de tareas logísticas XI",
+[21515] = "Marca de Remulos",
 [21533] = "Coraza del Coloso de Zora",
 [21534] = "Coraza del Coloso de Ashi",
 [21535] = "Coraza del Coloso de Regal",
