@@ -877,19 +877,7 @@ function QuestieQuestBlacklist:Load()
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
         -- Classic Phase 6 Invasion quests
-        -- Investigate the Scourge of X
         [9247] = true, -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
-        [9260] = not(Questie.IsSoD),
-        [9261] = not(Questie.IsSoD),
-        [9262] = not(Questie.IsSoD),
-        [9263] = not(Questie.IsSoD),
-        [9264] = not(Questie.IsSoD),
-        [9265] = not(Questie.IsSoD),
-        --
-        [9085] = true,
-        [9153] = true,
-        [9154] = not(Questie.IsSoD),
-        --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
