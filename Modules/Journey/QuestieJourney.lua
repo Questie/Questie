@@ -50,6 +50,7 @@ local questCategoryKeys = {
     PROFESSIONS = 11,
     EVENTS = 12,
     PET_BATTLES = 13,
+    SCENARIOS = 14,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -62,7 +63,9 @@ function QuestieJourney:Initialize()
             not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
-            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) then
+            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.SCENARIOS == id and Expansions.Current < Expansions.MoP)
+        then
             continents[id] = l10n(name)
         end
     end
