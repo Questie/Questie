@@ -5569,9 +5569,11 @@ function MopQuestFixes.Load()
         },
         [31325] = { -- A Very Nice Necklace
             [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
+            [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,34}},
         },
         [31326] = { -- Tina's Tasteful Tiara
             [questKeys.requiredMinRep] = {1280,16800}, -- Tina at Buddy level (16800-25200)
+            [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,34}},
         },
         [31327] = { -- Trouble Brewing
             [questKeys.preQuestSingle] = {},
@@ -5579,9 +5581,11 @@ function MopQuestFixes.Load()
         },
         [31328] = { -- An Exquisite Earring
             [questKeys.requiredMinRep] = {1280,25200}, -- Tina at Friend level or above (25200+)
+            [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,34}},
         },
         [31329] = { -- A Beautiful Brooch
             [questKeys.requiredMinRep] = {1280,33600}, -- Tina at Good Friend level or above (33600+)
+            [questKeys.reputationReward] = {{factionIDs.TINA_MUDCLAW,34}},
         },
         [31332] = { -- Lesson 1: Sliced Peaches
             [questKeys.preQuestSingle] = {31521},
