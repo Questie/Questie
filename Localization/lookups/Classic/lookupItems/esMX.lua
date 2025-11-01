@@ -2004,6 +2004,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [20879] = "Ídolo de la Vida",
 [20881] = "Ídolo de la Disputa",
 [20882] = "Ídolo de la guerra",
+[20886] = "Puño con pinchos qiraji",
 [20926] = "Aro de Vek'nilash",
 [20927] = "Pellejo intacto de Ouro",
 [20928] = "Ataduras de mando qiraji",
