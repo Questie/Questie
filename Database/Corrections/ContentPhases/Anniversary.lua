@@ -755,8 +755,8 @@ local questsToBlacklistByPhase = {
         [9664] = true,
         [9665] = true,
     },
-[7] = {}, -- Phase 7 is a pseudo-phase that represents Phase 6 when the scourge invasion event is complete
-[8] = {
+    [7] = {}, -- Phase 7 is a pseudo-phase that represents Phase 6 when the scourge invasion event is complete
+    [8] = {
         -- These are Invasion quests that should be blacklisted when the invasion is complete
         [9085] = true,
         [9153] = true,
@@ -776,7 +776,6 @@ local questsToBlacklistByPhase = {
         [9302] = true,
         [9304] = true,
         [9310] = true,
-
     },
 }
 
@@ -785,6 +784,10 @@ local questsToBlacklistByPhase = {
 ---@return table<QuestId, boolean>
 function ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, contentPhase)
     for phase = contentPhase + 1, #questsToBlacklistByPhase do
+        if table.getn(questsToBlacklistByPhase[phase]) == 0 then
+            -- This is a special case to handle "Phase 7", which hides the invasion quests from Phase 6
+            break
+        end
         for questId in pairs(questsToBlacklistByPhase[phase]) do
             questsToBlacklist[questId] = true
         end

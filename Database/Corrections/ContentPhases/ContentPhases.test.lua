@@ -63,6 +63,12 @@ describe("ContentPhases", function()
 
             assert.same({}, questToBlacklist)
         end)
+
+        it("should blacklist correct quests for phase 7", function()
+            local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 7)
+
+            assert.is_true(questToBlacklist[9085]) -- Phase 7 (disabled invasion)
+        end)
     end)
 
     describe("BlacklistSoMQuestsByPhase", function()
