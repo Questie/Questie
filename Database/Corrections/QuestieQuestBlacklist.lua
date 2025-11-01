@@ -878,6 +878,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         [9247] = true, -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
+        [9260] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9261] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9262] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9263] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9264] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9265] = not(Questie.IsSoD or Questie.IsAnniversary),
+        --
+        [9085] = (not Questie.IsAnniversary),
+        [9153] = (not Questie.IsAnniversary),
+        [9154] = not(Questie.IsSoD or Questie.IsAnniversary),
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
