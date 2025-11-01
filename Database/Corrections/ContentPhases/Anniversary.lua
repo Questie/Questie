@@ -609,7 +609,7 @@ local questsToBlacklistByPhase = {
         [9210] = true,
         [9338] = true,
     },
-    [6] = { --Phase 6 - Naxxramas
+    [6] = { -- Phase 6 - Naxxramas with invasion quests inactive
         [9033] = true,
         [9034] = true,
         [9036] = true,
@@ -651,7 +651,6 @@ local questsToBlacklistByPhase = {
         [9082] = true,
         [9083] = true,
         [9084] = true,
-        [9085] = true,
         [9086] = true,
         [9087] = true,
         [9088] = true,
@@ -700,8 +699,6 @@ local questsToBlacklistByPhase = {
         [9137] = true,
         [9141] = true,
         [9142] = true,
-        [9153] = true,
-        [9154] = true,
         [9165] = true,
         [9211] = true,
         [9213] = true,
@@ -730,22 +727,8 @@ local questsToBlacklistByPhase = {
         [9244] = true,
         [9245] = true,
         [9246] = true,
-        [9247] = true,
         [9250] = true,
         [9251] = true,
-        [9260] = true,
-        [9261] = true,
-        [9262] = true,
-        [9263] = true,
-        [9264] = true,
-        [9265] = true,
-        [9295] = true,
-        [9299] = true,
-        [9300] = true,
-        [9301] = true,
-        [9302] = true,
-        [9304] = true,
-        [9310] = true,
         -- Silithus/EPL PvP
         [9248] = true,
         [9415] = true,
@@ -755,9 +738,7 @@ local questsToBlacklistByPhase = {
         [9664] = true,
         [9665] = true,
     },
-    [7] = {}, -- Phase 7 is a pseudo-phase that represents Phase 6 when the scourge invasion event is complete
-    [8] = {
-        -- These are Invasion quests that should be blacklisted when the invasion is complete
+    [7] = { -- Phase 7 is a pseudo-phase that represents Phase 6 but with the Invasion quests active.
         [9085] = true,
         [9153] = true,
         [9154] = true,
@@ -784,15 +765,8 @@ local questsToBlacklistByPhase = {
 ---@return table<QuestId, boolean>
 function ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, contentPhase)
     for phase = contentPhase + 1, #questsToBlacklistByPhase do
-        local hasQuests = false
         for questId in pairs(questsToBlacklistByPhase[phase]) do
-            hasQuests = true
             questsToBlacklist[questId] = true
-        end
-
-        if (not hasQuests) then
-            -- This is a special case to handle "Phase 7", which hides the invasion quests from Phase 6
-            break
         end
     end
 
