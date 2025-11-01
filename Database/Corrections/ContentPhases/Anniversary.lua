@@ -784,12 +784,15 @@ local questsToBlacklistByPhase = {
 ---@return table<QuestId, boolean>
 function ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, contentPhase)
     for phase = contentPhase + 1, #questsToBlacklistByPhase do
-        if table.getn(questsToBlacklistByPhase[phase]) == 0 then
+        local hasQuests = false
+        for questId in pairs(questsToBlacklistByPhase[phase]) do
+            hasQuests = true
+            questsToBlacklist[questId] = true
+        end
+
+        if (not hasQuests) then
             -- This is a special case to handle "Phase 7", which hides the invasion quests from Phase 6
             break
-        end
-        for questId in pairs(questsToBlacklistByPhase[phase]) do
-            questsToBlacklist[questId] = true
         end
     end
 
