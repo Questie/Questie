@@ -1207,6 +1207,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
+        [7406] = { -- Oglethorpe Obnoticus
+            [npcKeys.questStarts] = {3642,3643,3645,3721},
+            [npcKeys.questEnds] = {648,836,2767,3635,3637,3642,3643,3645,3721,8857},
+        },
         [7664] = {
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{47.64,29.83}}},
@@ -1277,6 +1281,10 @@ function QuestieNPCFixes:Load()
         },
         [7937] = {
             [npcKeys.waypoints] = {}, -- the waypoints in the wotlkDB file are valid only during BREWFEST event
+        },
+        [7944] = { -- Tinkmaster Overspark
+            [npcKeys.questStarts] = {2922,3640,3641,3647},
+            [npcKeys.questEnds] = {2922,2923,3630,3632,3634,3640,3641,3647},
         },
         [7952] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
