@@ -1697,8 +1697,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
             [questKeys.finishedBy] = {nil,{152097}},
         },
-        [3526] = {
+        [3526] = { -- Goblin Engineering (Undercity)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3633},
         },
         [3625] = {
             [questKeys.objectives] = {{{7802,"Weaponry Creation"}}},
@@ -1708,27 +1709,34 @@ function QuestieQuestFixes:Load()
                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ward of the Defiler to summon Razelikh."), 0, {{"object", 153205}}},
 			},
         },
-        [3629] = {
+        [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3633,4181},
         },
-        [3630] = {
+        [3630] = { -- Gnome Engineering (Stormwind)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3632,3634},
         },
-        [3632] = {
+        [3632] = { -- Gnome Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.excsluvieTo] = {3630,3634},
         },
-        [3633] = {
+        [3633] = { -- Goblin Engineering (Ratchet Neutral)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3526,3629,4181},
         },
-        [3634] = {
+        [3634] = { -- Gnome Engineering (Ratchet Alliance)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3630,3632}
         },
-        [3635] = {
+        [3635] = { -- Gnome Engineering (Undercity)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3637},
         },
-        [3637] = {
+        [3637] = { -- Gnome Engineering (Ratchet Horde)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3635},
         },
         [3639] = {
             [questKeys.exclusiveTo] = {3643,3641},
@@ -1910,8 +1918,9 @@ function QuestieQuestFixes:Load()
         [4146] = { -- Zapper Fuel
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
-        [4181] = {
+        [4181] = { -- Goblin Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.exclusiveTo] = {3629,3633},
         },
         [4185] = {
             [questKeys.objectives] = {{{1749,"Advice from Lady Prestor"}}},
