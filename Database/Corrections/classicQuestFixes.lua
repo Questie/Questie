@@ -2406,7 +2406,6 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {5622},
         },
         [5622] = {
-            [questKeys.questLevel] = 5, -- #2306
             [questKeys.breadcrumbForQuestId] = 5621,
         },
         [5623] = {
