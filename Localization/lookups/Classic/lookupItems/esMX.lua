@@ -1475,6 +1475,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [12841] = "Piedra de la Plaga del invasor",
 [12842] = "Registro escrito de forma rudimentaria",
 [12843] = "Piedra de la Plaga del corruptor",
+[12844] = "Muestra de valor de El Alba Argenta",
 [12845] = "Medallón de fe",
 [12871] = "Caparazón cromático",
 [12884] = "Pezuña de Arnak",
