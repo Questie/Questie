@@ -1720,7 +1720,7 @@ function QuestieQuestFixes:Load()
         },
         [3632] = { -- Gnome Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
-            [questKeys.excsluvieTo] = {3630,3634},
+            [questKeys.exclusiveTo] = {3630,3634},
         },
         [3633] = { -- Goblin Engineering (Ratchet Neutral)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
