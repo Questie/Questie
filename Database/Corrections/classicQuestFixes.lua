@@ -1739,7 +1739,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {3635,3638},
         },
         [3639] = {
-            [questKeys.exclusiveTo] = {3643,3641},
+            [questKeys.exclusiveTo] = {3641,3643},
         },
         [3641] = {
             [questKeys.exclusiveTo] = {3639},
