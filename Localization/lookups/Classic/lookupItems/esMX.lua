@@ -1230,6 +1230,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10757] = "Resguardo del Rapiñador",
 [10759] = "Cuerno de Rapiñador cortado",
 [10789] = "Manual de disciplinas de Ingeniería",
+[10794] = "Compromiso de secreto perpetuo de Oglethorpe",
 [10819] = "Pluma de lechúcico salvaje",
 [10834] = "Equipo de rastreador can manáfago",
 [10958] = "Collar de Nida",
