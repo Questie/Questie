@@ -1762,7 +1762,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSpell] = 20222,
         },
         [3647] = {
-            [questKeys.preQuestSingle] = {3639,3641},
+            [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.startedBy] = {{7944},nil,nil},
             [questKeys.finishedBy] = {{7944},nil},
             [questKeys.requiredSpell] = 20219,
