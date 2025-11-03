@@ -25,7 +25,7 @@ CF_METADATA=$(cat <<-EOF
     "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
-    "gameVersions": [13559, 14029, 13839],
+    "gameVersions": [13559, 14029, 14036],
     "relations": {
         "projects": [
             {slug: "Ace3", type: "embeddedLibrary"},
