@@ -1747,13 +1747,25 @@ function QuestieQuestFixes:Load()
         [3643] = {
             [questKeys.exclusiveTo] = {3639},
         },
+        [3644] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.requiredSpell] = 20222,
+        },
         [3645] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.startedBy] = {{7406},nil,nil},
             [questKeys.finishedBy] = {{7406},nil},
+            [questKeys.requiredSpell] = 20219,
+        },
+        [3646] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.requiredSpell] = 20222,
         },
         [3647] = {
+            [questKeys.preQuestSingle] = {3639,3641},
             [questKeys.startedBy] = {{7944},nil,nil},
             [questKeys.finishedBy] = {{7944},nil},
+            [questKeys.requiredSpell] = 20219,
         },
         [3681] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
