@@ -6207,8 +6207,6 @@ function QuestieQuestBlacklist:Load()
         [32129] = true, -- Not in the game
         [32173] = true, -- Not in the game
         [32174] = true, -- Not in the game
-        [32189] = true, -- Not in the game
-        [32198] = true, -- Not in the game
         [32364] = true, -- Not in the game
         [32396] = true, -- Not in the game
         [32435] = true, -- Hidden quest

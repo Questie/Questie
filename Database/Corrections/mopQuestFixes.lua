@@ -7842,6 +7842,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32199},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32198] = { -- One Magical, Flying Kingdom's Trash...
+            [questKeys.preQuestSingle] = {32189},
+        },
         [32199] = { -- Krasarang Steampot
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32197},
