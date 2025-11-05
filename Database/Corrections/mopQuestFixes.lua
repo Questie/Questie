@@ -2420,14 +2420,14 @@ function MopQuestFixes.Load()
         },
         [30258] = { -- Mung-Mung's Vote I: A Hozen's Problem
             [questKeys.preQuestSingle] = {31945}, -- Gina chain required for Mung Mung
-            [questKeys.requiredMinRep] = {1272,14600}, -- available at 5600/12000 honored with Tillers
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,14600}, -- available at 5600/12000 honored with Tillers
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,15}},
         },
         [30259] = { -- Mung-Mung's Vote II: Rotten to the Core
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,15}},
         },
         [30260] = { -- Growing the Farm I: The Weeds
-            [questKeys.requiredMinRep] = {1272,9000},
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,9000},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,7}},
         },
         [30261] = { -- Roll Club: Serpent's Spine
@@ -2755,7 +2755,7 @@ function MopQuestFixes.Load()
         },
         [30321] = { -- Weed War II
             [questKeys.preQuestSingle] = {30257},
-            [questKeys.requiredMinRep] = {1272,9000},
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,9000},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",57385}}}},
             [questKeys.exclusiveTo] = {30317,30318,30319,30322},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.JOGU_THE_DRUNK,11}},
@@ -3511,12 +3511,12 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Set the Yaungol Banner ablaze"),0,{{"object",210933}}}},
         },
         [30516] = { -- Growing the Farm I: A Little Problem
-            [questKeys.requiredMinRep] = {1272,9000},
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,9000},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,7}},
         },
         [30517] = { -- Farmer Fung's Vote I: Yak Attack
             [questKeys.preQuestSingle] = {31946}, -- Mung Mung chain required for Farmer Fung
-            [questKeys.requiredMinRep] = {1272,25200}, -- Tillers 4200 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,25200}, -- Tillers 4200 into Revered (wowhead)
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,5},{factionIDs.FARMER_FUNG,8}},
         },
         [30518] = { -- Farmer Fung's Vote II: On the Loose
@@ -3526,12 +3526,12 @@ function MopQuestFixes.Load()
         },
         [30519] = { -- Nana's Vote I: Nana's Secret Recipe
             [questKeys.preQuestSingle] = {31947}, -- Farmer Fung chain required for Nana
-            [questKeys.requiredMinRep] = {1272,29400}, -- Tillers 8400 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,29400}, -- Tillers 8400 into Revered (wowhead)
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,15}},
         },
         [30521] = { -- Haohan's Vote I: Bungalow Break-In
             [questKeys.preQuestSingle] = {31949}, -- Nana chain required for Haohan
-            [questKeys.requiredMinRep] = {1272,37800}, -- Tillers 16800 into Revered (wowhead)
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,37800}, -- Tillers 16800 into Revered (wowhead)
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,12},{factionIDs.HAOHAN_MUDCLAW,11}},
         },
         [30522] = { -- Haohan's Vote II: The Real Culprits
@@ -3539,7 +3539,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,12}},
         },
         [30523] = { -- Growing the Farm II: The Broken Wagon
-            [questKeys.requiredMinRep] = {1272,21000}, -- Tillers at Revered (wowhead)
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,21000}, -- Tillers at Revered (wowhead)
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,7}},
         },
         [30524] = { -- Growing the Farm II: Knock on Wood
@@ -3550,7 +3550,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,12}},
         },
         [30526] = { -- Lost and Lonely
-            [questKeys.requiredMinRep] = {1272,33600}, -- Tillers 12600 into Revered (wowpedia)
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,33600}, -- Tillers 12600 into Revered (wowpedia)
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,7}},
         },
         [30527] = { -- Haohan's Vote IV: Melons For Felons
@@ -3565,7 +3565,7 @@ function MopQuestFixes.Load()
         },
         [30529] = { -- Growing the Farm III: The Mossy Boulder
             [questKeys.preQuestSingle] = {30528},
-            [questKeys.requiredMinRep] = {1272,42000}, -- Tillers at Exalted
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,42000}, -- Tillers at Exalted
         },
         [30534] = { -- A Second Hand
             [questKeys.preQuestSingle] = {30529},
@@ -5529,7 +5529,7 @@ function MopQuestFixes.Load()
         },
         [31312] = { -- The Old Map
             [questKeys.nextQuestInChain] = 31313,
-            [questKeys.requiredMinRep] = {1272,42000}, -- Tillers. we check for NPCs exalted via achievement
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,42000}, -- Tillers. we check for NPCs exalted via achievement
         },
         [31313] = { -- Just A Folk Story
             [questKeys.preQuestSingle] = {31312},
@@ -5560,12 +5560,15 @@ function MopQuestFixes.Load()
         },
         [31321] = { -- Buy A Fish A Round?
             [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
+            [questKeys.reputationReward] = {{factionIDs.JOGU,19}},
         },
         [31322] = { -- Buy A Fish A Keg?
             [questKeys.requiredMinRep] = {1273,25200}, -- Friend level with Jogu
+            [questKeys.reputationReward] = {{factionIDs.JOGU,35}},
         },
         [31323] = { -- Buy A Fish A Brewery?
             [questKeys.requiredMinRep] = {1273,36000}, -- within 6000 rep of Best Friend (wowhead comment)
+            [questKeys.reputationReward] = {{factionIDs.JOGU,26}},
         },
         [31325] = { -- A Very Nice Necklace
             [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
@@ -5618,13 +5621,20 @@ function MopQuestFixes.Load()
         },
         [31338] = { -- Lost Sheepie
             [questKeys.requiredMinRep] = {1277,16800}, -- Buddy level with Chee Chee
+            [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,34}},
         },
         [31339] = { -- Lost Sheepie... Again
             [questKeys.requiredMinRep] = {1277,25200}, -- Friend level with Chee Chee
+            [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,34}},
         },
         [31340] = { -- Oh Sheepie...
             [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
             [questKeys.objectives] = {{{64391,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,34}},
+        },
+        [31341] = { -- A Wolf In Sheep's Clothing
+            [questKeys.requiredMinRep] = {1277,33600}, -- Good Friends level with Chee Chee
+            [questKeys.reputationReward] = {{factionIDs.CHEE_CHEE,34}},
         },
         [31354] = { -- Mazu's Bounty
             [questKeys.preQuestSingle] = {31190},
@@ -6016,18 +6026,22 @@ function MopQuestFixes.Load()
         },
         [31529] = { -- Mission: Culling The Vermin
             [questKeys.requiredMinRep] = {1278,12600}, -- 4200 into Aquaintance with Sho
+            [questKeys.reputationReward] = {{factionIDs.SHO,34}},
         },
         --[31530] = { -- Mission: The Hozen Dozen -- Don't think this made it to live so blacklisted
             --[questKeys.requiredMinRep] = {1278,} --
        -- },
         [31531] = { -- Mission: Aerial Threat
             [questKeys.requiredMinRep] = {1278,29400}, -- 4200 into Friend with Sho
+            [questKeys.reputationReward] = {{factionIDs.SHO,34}},
         },
         [31532] = { -- Mission: Predator of the Cliffs
             [questKeys.requiredMinRep] = {1278,37800}, -- 4200 into Good Friend with Sho
+            [questKeys.reputationReward] = {{factionIDs.SHO,34}},
         },
         [31534] = { -- The Beginner's Brew
             [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
+            [questKeys.reputationReward] = {{factionIDs.ELLA,35}},
         },
         [31535] = { -- Replenishing the Pantry
             [questKeys.preQuestSingle] = {31536},
@@ -6038,10 +6052,12 @@ function MopQuestFixes.Load()
         [31537] = { -- Ella's Taste Test
             [questKeys.requiredMinRep] = {1275,25200}, -- Friend level with Ella
             [questKeys.objectives] = {{{58710,nil,Questie.ICON_TYPE_INTERACT},{58717,nil,Questie.ICON_TYPE_INTERACT},{58646,nil,Questie.ICON_TYPE_INTERACT},{64597,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.reputationReward] = {{factionIDs.ELLA,35}},
         },
         [31538] = { -- A Worthy Brew
             [questKeys.requiredMinRep] = {1275,33600}, -- Good friends level with Ella
             [questKeys.objectives] = {{{64946,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.reputationReward] = {{factionIDs.ELLA,35}},
         },
         [31539] = { -- A Thing of Beauty
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,525},
@@ -7808,6 +7824,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32166},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32189] = { -- A Shabby New Face
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,21000},
+        },
         [32190] = { -- To Mogujia
             [questKeys.preQuestSingle] = {32372},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,11850},
@@ -7843,6 +7862,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32198] = { -- One Magical, Flying Kingdom's Trash...
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,21000},
             [questKeys.preQuestSingle] = {32189},
         },
         [32199] = { -- Krasarang Steampot
@@ -8588,7 +8608,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 60,
         },
         [32682] = { -- Inherit the Earth
-            [questKeys.requiredMinRep] = {1272,42000}, -- Tillers at Exalted
+            [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,42000}, -- Tillers at Exalted
             [questKeys.preQuestSingle] = {30529},
             [questKeys.objectives] = {{{58646,nil,Questie.ICON_TYPE_TALK}}},
         },
