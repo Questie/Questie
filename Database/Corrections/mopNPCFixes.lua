@@ -3195,6 +3195,9 @@ function MopNpcFixes.Load()
         [63577] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{46.82,46.14}}},
         },
+        [63596] = { -- Audrey Burnhep
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [63603] = { -- Ban's Balloon
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{34.06,58.64}}},
         },
@@ -3205,6 +3208,9 @@ function MopNpcFixes.Load()
         },
         [63618] = { -- Hawkmaster Nurong
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{48.96,71}}},
+        },
+        [63626] = { -- Varzok
+            [npcKeys.friendlyToFaction] = "H",
         },
         [63640] = { -- Golden Lotus Captive
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{32.94,34.29},{18.07,32.12},{19.6,28.83},{20.55,30.11},{21.59,28.72},{22.09,29.89},{22.9,26.82},{23.57,33.07},{24.51,28.87},{24.62,26.5},{25.05,26.92},{26.18,30.68},{27.42,30.18},{28.99,30.59},{30.65,32.51},{30.04,29.28},{31.17,33.15},{31.96,29.2},{29.36,24.06},{22.71,41.25},{28.16,37.63},{26.76,39.18},{25.2,39.48},{24.75,39.88},{24.34,38.55},{22.53,38.28}}},
