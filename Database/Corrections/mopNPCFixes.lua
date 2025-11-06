@@ -4910,7 +4910,8 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [68504] = { -- Dreadweaver Avartu
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{58.98,25.98}}},
+            [npcKeys.spawns] = {[zoneIDs.CRYPT_OF_KORUNE] = {{58.98,25.98}}},
+            [npcKeys.zoneID] = zoneIDs.CRYPT_OF_KORUNE,
         },
         [68526] = { -- Barkeep Townsley
             [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{69.98,47.1},{-1,-1}}},

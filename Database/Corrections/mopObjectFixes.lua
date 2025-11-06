@@ -983,8 +983,8 @@ function MopObjectFixes.Load()
         },
         [216678] = { -- Divine Bell
             [objectKeys.name] = "Divine Bell",
-            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{61.71,20.75}}},
-            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+            [objectKeys.spawns] = {[zoneIDs.CRYPT_OF_KORUNE] = {{61.71,20.75}}},
+            [objectKeys.zoneID] = zoneIDs.CRYPT_OF_KORUNE,
         },
         [216710] = { -- Sunreaver Portal: Darnassus
             [objectKeys.name] = "Sunreaver Portal: Darnassus",
