@@ -2502,6 +2502,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{82.8,38.8}}},
         },
+        [62465] = { -- Captain Ook
+            [npcKeys.spawns] = {[zoneIDs.UNGA_INGOO] = {{49.9,53.7}}},
+        },
+        [62491] = { -- Brewmaster Bo
+            [npcKeys.spawns] = {[zoneIDs.UNGA_INGOO] = {{49.56,60.76}}},
+        },
         [62534] = { -- Investigate Cave Credit
             [npcKeys.spawns] = {[zoneIDs.NIUZAO_CATACOMBS] = {{63.15,41.74}}},
         },
