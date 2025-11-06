@@ -2334,6 +2334,12 @@ function CataQuestFixes.Load()
         [12515] = { -- Nice Hat...
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
         },
+        [12517] = { -- Rogues Deck
+            [questKeys.requiredSkill] = {},
+        },
+        [12518] = { -- Mages Deck
+            [questKeys.requiredSkill] = {},
+        },
         [12535] = { -- Mischief in the Making
             [questKeys.preQuestSingle] = {12532},
         },
@@ -2388,6 +2394,9 @@ function CataQuestFixes.Load()
         [12790] = { -- Learning to Leave and Return: the Magical Way
             [questKeys.preQuestSingle] = {},
         },
+        [12798] = { -- Swords Deck
+            [questKeys.requiredSkill] = {},
+        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}},
         },
@@ -2427,6 +2436,9 @@ function CataQuestFixes.Load()
         },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
+        },
+        [13311] = { -- Demons Deck
+            [questKeys.requiredSkill] = {},
         },
         [13312] = { -- The Ironwall Rampart
             [questKeys.preQuestSingle] = {},
