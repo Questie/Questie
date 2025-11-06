@@ -2891,7 +2891,8 @@ l10n.zoneCategoryLookup = {
         [-370] = "Brewfest",
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
-        [-376] = "Love is in the Air", -- Category added in WotLK
+        [-376] = "Love is in the Air",
+        [-378] = "Children's Week",
         [-391] = "Pandaren Brewmasters", -- Category added in MoP
         [-392] = "Scenario", -- Category added in MoP
         [-396] = "Landfall", -- Category added in MoP
@@ -2903,11 +2904,8 @@ l10n.zoneCategoryLookup = {
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        --[-400] = "Love is in the Air", -- Needed before WotLK
         [-400] = "Proving Grounds",
-        [-401] = "Children's Week",
         [-402] = "Harvest Festival",
-        [-403] = "Hallow's End",
         [-404] = "Winter Veil",
     },
     [13] = {

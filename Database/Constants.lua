@@ -52,6 +52,8 @@ QuestieDB.sortKeys = {
     MONK = -395,
     RIDING = -398,
     PROVING_GROUNDS = -400,
+    HARVEST_FESTIVAL = -402,
+    WINTER_VEIL = -404,
     NIGHTMARE_INCURSIONS = -641,
     BLACKROCK_ERUPTION = -644,
 }

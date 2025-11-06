@@ -312,37 +312,49 @@ end
 
 ---@return table
 function _ZoneDB.SplitSeasonalQuests()
-    if (not zoneMap[QuestieDB.sortKeys.SPECIAL]) or (not zoneMap[QuestieDB.sortKeys.SEASONAL]) then
+    local sortKeys = QuestieDB.sortKeys
+
+    if (not zoneMap[sortKeys.SPECIAL]) or (not zoneMap[sortKeys.SEASONAL]) then
         return zoneMap
     end
-    local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
+    local questsToSplit = zoneMap[sortKeys.SEASONAL]
     -- Merging SEASONAL and SPECIAL quests to be split into real groups
-    for k, v in pairs(zoneMap[QuestieDB.sortKeys.SPECIAL]) do questsToSplit[k] = v end
+    for k, v in pairs(zoneMap[sortKeys.SPECIAL]) do questsToSplit[k] = v end
 
     local updatedZoneMap = zoneMap
-    updatedZoneMap[-400] = {}
-    updatedZoneMap[-401] = {}
-    updatedZoneMap[-402] = {}
-    updatedZoneMap[-403] = {}
-    updatedZoneMap[-404] = {}
 
     for questId, _ in pairs(questsToSplit) do
         local eventName = QuestieEvent.GetEventNameFor(questId)
         if eventName == "Love is in the Air" then
-            updatedZoneMap[-400][questId] = true
+            if (not updatedZoneMap[sortKeys.LOVE_IS_IN_THE_AIR]) then
+                updatedZoneMap[sortKeys.LOVE_IS_IN_THE_AIR] = {}
+            end
+            updatedZoneMap[sortKeys.LOVE_IS_IN_THE_AIR][questId] = true
         elseif eventName == "Children's Week" then
-            updatedZoneMap[-401][questId] = true
+            if (not updatedZoneMap[sortKeys.CHILDRENS_WEEK]) then
+                updatedZoneMap[sortKeys.CHILDRENS_WEEK] = {}
+            end
+            updatedZoneMap[sortKeys.CHILDRENS_WEEK][questId] = true
         elseif eventName == "Harvest Festival" then
-            updatedZoneMap[-402][questId] = true
+            if (not updatedZoneMap[sortKeys.HARVEST_FESTIVAL]) then
+                updatedZoneMap[sortKeys.HARVEST_FESTIVAL] = {}
+            end
+            updatedZoneMap[sortKeys.HARVEST_FESTIVAL][questId] = true
         elseif eventName == "Hallow's End" then
-            updatedZoneMap[-403][questId] = true
+            if (not updatedZoneMap[sortKeys.HALLOWS_END]) then
+                updatedZoneMap[sortKeys.HALLOWS_END] = {}
+            end
+            updatedZoneMap[sortKeys.HALLOWS_END][questId] = true
         elseif eventName == "Winter Veil" then
-            updatedZoneMap[-404][questId] = true
+            if (not updatedZoneMap[sortKeys.WINTER_VEIL]) then
+                updatedZoneMap[sortKeys.WINTER_VEIL] = {}
+            end
+            updatedZoneMap[sortKeys.WINTER_VEIL][questId] = true
         end
     end
 
-    updatedZoneMap[QuestieDB.sortKeys.SEASONAL] = nil
-    updatedZoneMap[QuestieDB.sortKeys.SPECIAL] = nil
+    updatedZoneMap[sortKeys.SEASONAL] = nil
+    updatedZoneMap[sortKeys.SPECIAL] = nil
     return updatedZoneMap
 end
 
