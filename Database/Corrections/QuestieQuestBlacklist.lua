@@ -1078,13 +1078,19 @@ function QuestieQuestBlacklist:Load()
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64031] = true, -- Boosted character quest
+        [64034] = true, -- Boosted character quest
+        [64035] = true, -- Boosted character quest
         [64037] = true, -- Boosted character quest
         [64038] = true, -- Boosted character quest
         [64046] = true, -- First quest for boosted characters. Blocked to not show for others
         [64047] = true, -- First quest for boosted characters. Blocked to not show for others
         [64048] = true, -- Boosted character quest
+        [64049] = true, -- Boosted character quest
         [64050] = true, -- Boosted character quest
+        [64051] = true, -- Boosted character quest
         [64052] = true, -- Boosted character quest
+        [64053] = true, -- Boosted character quest
         [64063] = true, -- Boosted character quest
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
@@ -5272,6 +5278,7 @@ function QuestieQuestBlacklist:Load()
         [11875] = true, -- hiding because we use fake quests to mimic this one
         [11883] = true, -- Not in the game
         [11934] = true, -- Not in the game
+        [11974] = true, -- Not in the game
         [11992] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [12001] = true, -- Not in the game
         [12018] = true, -- Not in the game
