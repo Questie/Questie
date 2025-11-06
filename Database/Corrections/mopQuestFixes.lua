@@ -120,6 +120,7 @@ function MopQuestFixes.Load()
     local profKeys = QuestieProfessions.professionKeys
     local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
+    local sortKeys = QuestieDB.sortKeys
     local specialFlags = QuestieDB.specialFlags
     local questFlags = QuestieDB.questFlags
 
@@ -8947,7 +8948,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = {"Defeat the Sha of Doubt on Celestial Difficulty in the Temple of the Jade Serpent and acquire the Chimera of Doubt."},
             [questKeys.objectives] = {nil,nil,{{248204}}},
-            [questKeys.zoneOrSort] = -344,
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.preQuestGroup] = {31468,31473},
             [questKeys.reputationReward] = {{1359,5}},
             [questKeys.exclusiveTo] = {31481},
@@ -8964,7 +8965,7 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76097},{76098},{93351}}},
             [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92337,92338},
-            [questKeys.zoneOrSort] = -181,
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
         [92337] = { -- Elixir Master
             [questKeys.name] = "Elixir Master",
@@ -8978,7 +8979,7 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Bring a variety of flasks to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{76088},{76087},{76085},{76084}}},
             [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92336,92338},
-            [questKeys.zoneOrSort] = -181,
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
         [92338] = { -- Transmutation Master
             [questKeys.name] = "Transmutation Master",
@@ -8992,7 +8993,7 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Bring the requested materials to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{72104}}},
             [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481,29482,92336,92337},
-            [questKeys.zoneOrSort] = -181,
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
     }
 end

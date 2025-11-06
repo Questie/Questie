@@ -43,7 +43,6 @@ function QuestieQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
     local specialFlags = QuestieDB.specialFlags
-    local factionIDs = QuestieDB.factionIDs
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -3223,7 +3222,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{18880,nil}},nil},
             [questKeys.sourceItemId] = 18746,
-            [questKeys.zoneOrSort] = -82,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
             [questKeys.preQuestSingle] = {7667},
         },
@@ -3235,7 +3234,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.SHAMAN,
-            [questKeys.zoneOrSort] = -82,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {7668,8258},
         },
@@ -3250,7 +3249,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
             [questKeys.nextQuestInChain] = 7637,
             [questKeys.exclusiveTo] = {7638},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [7736] = {
             [questKeys.objectivesText] = {},
