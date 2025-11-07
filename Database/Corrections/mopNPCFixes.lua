@@ -3684,6 +3684,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{18.87,67.83}}},
             [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
+        [64901] = { -- Brewmaster Boof
+            [npcKeys.spawns] = {[zoneIDs.BREWMOON_FESTIVAL] = {{43.74,68.49}}},
+        },
         [64924] = { -- Guyo Crystalgear
             [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
         },
