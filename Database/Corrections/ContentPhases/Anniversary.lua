@@ -739,24 +739,23 @@ local questsToBlacklistByPhase = {
         [9665] = true,
     },
     [7] = { -- Phase 7 is a pseudo-phase that represents Phase 6 but with the Invasion quests active.
-        [9085] = true,
-        [9153] = true,
-        [9154] = true,
-        [9247] = true,
-        [9260] = true,
-        [9261] = true,
-        [9262] = true,
-        [9263] = true,
-        [9264] = true,
-        [9265] = true,
-        [9292] = true,
-        [9295] = true,
-        [9299] = true,
-        [9300] = true,
-        [9301] = true,
-        [9302] = true,
-        [9304] = true,
-        [9310] = true,
+        [9085] = true, -- Shadows of Doom
+        [9153] = true, -- Under the Shadow
+        [9154] = true, -- Light's Hope Chapel
+        [9260] = true, -- Investigate the Scourge of Stormwind
+        [9261] = true, -- Investigate the Scourge of Ironforge
+        [9262] = true, -- Investigate the Scourge of Darnassus
+        [9263] = true, -- Investigate the Scourge of Orgrimmar
+        [9264] = true, -- Investigate the Scourge of Thunder Bluff
+        [9265] = true, -- Investigate the Scourge of the Undercity
+        [9292] = true, -- Cracked Necrotic Crystal
+        [9295] = true, -- Letter from the Front
+        [9299] = true, -- Note from the Front
+        [9300] = true, -- Page from the Front
+        [9301] = true, -- Envelope from the Front
+        [9302] = true, -- Missive from the Front
+        [9304] = true, -- Document from the Front
+        [9310] = true, -- Faint Necrotic Crystal
     },
 }
 
