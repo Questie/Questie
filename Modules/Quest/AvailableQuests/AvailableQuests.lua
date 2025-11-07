@@ -214,6 +214,10 @@ _CalculateAndDrawAvailableQuests = function()
             (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
             (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
+            if availableQuests[questId] then
+                QuestieMap:UnloadQuestFrames(questId)
+                QuestieTooltips:RemoveQuest(questId)
+            end
             availableQuests[questId] = nil
             return
         end
