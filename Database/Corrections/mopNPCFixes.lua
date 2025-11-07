@@ -2066,6 +2066,11 @@ function MopNpcFixes.Load()
                 [5287] = {{39.8,72.6},{41.6,73},{42,68.4},{42,74.4},{42,74.6},{43,71.6},{43.2,71.2}},
             },
         },
+        [61203] = { -- Brewmaster Tzu
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.GREENSTONE_VILLAGE] = {{52.35,68.04}}},
+        },
         [61218] = { -- Lorewalker Cho
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.02,91.19}}},
             [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
