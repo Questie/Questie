@@ -231,6 +231,7 @@ ZoneDB.zoneIDs = {
     THE_DEEPER = 6084, -- Cave in Kun-Lai Summit
     KNUCKLETHUMP_HOLE = 6088, -- Cave in Kun-Lai Summit
     PRANKSTERS_HOLLOW = 6099, -- Cave in Kun-Lai Summit
+    A_BREWING_STORM = 6101, -- Scenario
     SCARLET_MONASTERY_MOP = 6109, -- Scarlet Monastery MoP
     MOGUSHAN_VAULTS = 6125, -- Dais of Conquerors
     KRASARANG_WILDS = 6134,

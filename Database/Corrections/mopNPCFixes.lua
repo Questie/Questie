@@ -1185,6 +1185,9 @@ function MopNpcFixes.Load()
         [58735] = { -- Lyalia
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{67.45,32.7}}},
         },
+        [58739] = { -- Borokhula the Destroyer
+            [npcKeys.spawns] = {[zoneIDs.A_BREWING_STORM] = {{30.09,60.46}}},
+        },
         [58745] = { -- Lorekeeper Vaeldrin
             [npcKeys.spawns] = {
                 [zoneIDs.KRASARANG_WILDS] = {
