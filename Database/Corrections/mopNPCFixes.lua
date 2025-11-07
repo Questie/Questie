@@ -2038,6 +2038,11 @@ function MopNpcFixes.Load()
                 [3711] = {{22,70},{36.4,80.4},{41.4,48.2},{51.8,30.4},{57.8,45}},
             },
         },
+        [61156] = { -- Vengeful Hui
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.spawns] = {[zoneIDs.GREENSTONE_VILLAGE] = {{45.12,70.26}}},
+        },
         [61161] = { -- Bluesaddle
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {
                 {39.21,62.01,phases.BLUESADDLE_TEMPLE},
