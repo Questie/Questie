@@ -386,6 +386,9 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         ---@type QuestObjective
         local objective = line.Objective
         local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
+        if (not criteriaInfo) then
+            return
+        end
 
         local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
