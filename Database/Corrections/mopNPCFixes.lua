@@ -3192,6 +3192,11 @@ function MopNpcFixes.Load()
         [63517] = { -- The Spring Drifter
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{52.04,43.12}}},
         },
+        [63528] = { -- Warbringer Qobi
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.spawns] = {[zoneIDs.BREWMOON_FESTIVAL] = {{33.92,54.25}}},
+        },
         [63535] = { -- Elder Shiao
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {
                 {61.2,82.22,phases.SHIAO_AND_KO_ON_YAUNGOL_ADVANCE},
