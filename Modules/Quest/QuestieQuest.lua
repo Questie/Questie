@@ -88,10 +88,15 @@ end
 
 function QuestieQuest.ToggleAvailableQuests(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleAvailableQuests] showIcons:", showIcons)
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    AvailableQuests.CalculateAndDrawAll()
+
     if showIcons then
-        AvailableQuests.CalculateAndDrawAll()
+        _QuestieQuest:ShowQuestIcons()
+    else
+        _QuestieQuest:HideQuestIcons()
     end
-    QuestieQuest:ToggleNotes(showIcons)
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
