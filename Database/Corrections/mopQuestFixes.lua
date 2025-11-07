@@ -729,6 +729,33 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{59153}}},
             [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE_MOP,
         },
+        [28798] = { -- Waters of Elune
+            [questKeys.requiredSkill] = {},
+        },
+        [28799] = { -- Might of the Earthen
+            [questKeys.requiredSkill] = {},
+        },
+        [28800] = { -- Whispers of the Djinn
+            [questKeys.requiredSkill] = {},
+        },
+        [28801] = { -- Tol'vir Heiroglyphics
+            [questKeys.requiredSkill] = {},
+        },
+        [28802] = { -- Map of the Architects
+            [questKeys.requiredSkill] = {},
+        },
+        [28803] = { -- Vengeance of the Wildhammer
+            [questKeys.requiredSkill] = {},
+        },
+        [28804] = { -- Dark Iron Contingency Plan
+            [questKeys.requiredSkill] = {},
+        },
+        [29261] = { -- Zul'Aman Voodoo
+            [questKeys.requiredSkill] = {},
+        },
+        [29262] = { -- Zul'Gurub Voodoo
+            [questKeys.requiredSkill] = {},
+        },
         [29406] = { -- The Lesson of the Sandy Fist
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.PANDAREN_ALLIANCE + raceIDs.PANDAREN_HORDE + raceIDs.PANDAREN,
