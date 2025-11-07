@@ -4131,7 +4131,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD] = {{28.61,33.88}}},
         },
         [66636] = { -- Nearly Headless Jacob
-            [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST] = {{34.78,10.63}}},
+            [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST] = {{50.12,58.95}}},
             [npcKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,
         },
         [66638] = { -- Okrut Dragonwaste
@@ -4156,8 +4156,11 @@ function MopNpcFixes.Load()
         [66732] = { -- Master Hight
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.12,40.35}}},
         },
+        [66738] = { -- Courageous Yon
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,73.62}}},
+        },
         [66741] = { -- Aki the Chosen - Remove with Patch 5.4
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.5,40.6}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.56,40.65}}},
         },
         [66744] = { -- Master Hight
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.32,41.52}}},
@@ -4169,8 +4172,15 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{54.01,34.51,phases.KILRUK_REVEALED}}},
             [npcKeys.questEnds] = {31612}, -- This is only possible for a short moment, the NPC will despawn quite fast
         },
+        [66824] = { -- Obalis
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{56.56,42}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+        },
         [66845] = { -- Sergeant Gorrok
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{29.13,13.72}}},
+        },
+        [66918] = { -- Seeker Zusshi
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{36.32,52.2}}},
         },
         [66949] = { -- Rell Nightwind
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.93,81.93}}},
@@ -4928,6 +4938,18 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 93,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{86.61,32.65}}},
         },
+        [68462] = { -- Flowing Pandaren Spirit
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{61.13,87.5}}},
+        },
+        [68463] = { -- Burning Pandaren Spirit
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{57.14,42.1}}},
+        },
+        [68464] = { -- Whispering Pandaren Spirit
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.89,36.03}}},
+        },
+        [68465] = { -- Thundering Pandaren Spirit
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{64.94,93.78}}},
+        },
         [68472] = { -- Sarannha Skyglaive
             [npcKeys.spawns] = {[zoneIDs.CRYPT_OF_KORUNE] = {{60.33,23.52}}},
             [npcKeys.zoneID] = zoneIDs.CRYPT_OF_KORUNE,
@@ -5014,7 +5036,7 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
-            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{26.2,50.2}}},
+            [npcKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{26.18,50.3}}},
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
@@ -5024,7 +5046,7 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
-            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{40.4,43.8}}},
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{40.53,43.66}}},
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
@@ -5034,7 +5056,7 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{67.8,84.6}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{67.87,84.69}}},
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
@@ -5044,7 +5066,7 @@ function MopNpcFixes.Load()
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57,29.2}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{57.04,29.12}}},
             [npcKeys.friendlyToFaction] = nil,
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,

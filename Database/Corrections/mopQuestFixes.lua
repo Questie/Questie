@@ -7240,6 +7240,7 @@ function MopQuestFixes.Load()
         [31927] = { -- Battle Pet Tamers: Northrend
             [questKeys.preQuestSingle] = {31920},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.objectives] = {{{66635,nil,Questie.ICON_TYPE_PET_BATTLE},{66636,nil,Questie.ICON_TYPE_PET_BATTLE},{66638,nil,Questie.ICON_TYPE_PET_BATTLE},{66639,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31928] = { -- Grand Master Payne
@@ -7249,10 +7250,13 @@ function MopQuestFixes.Load()
         [31929] = { -- Battle Pet Tamers: Northrend
             [questKeys.preQuestSingle] = {31920},
             [questKeys.requiredSpell] = 119467,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.objectives] = {{{66635,nil,Questie.ICON_TYPE_PET_BATTLE},{66636,nil,Questie.ICON_TYPE_PET_BATTLE},{66638,nil,Questie.ICON_TYPE_PET_BATTLE},{66639,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31930] = { -- Battle Pet Tamers: Pandaria
             [questKeys.requiredSpell] = 119467,
+            [questKeys.preQuestSingle] = {31970},
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31931] = { -- Beegle Blastfuse
@@ -7339,9 +7343,12 @@ function MopQuestFixes.Load()
         [31951] = { -- Grand Master Aki
             [questKeys.startedBy] = {{66741}},
             [questKeys.preQuestSingle] = {31930,31952},
+            [questKeys.objectives] = {{{66741,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31952] = { -- Battle Pet Tamers: Pandaria
             [questKeys.requiredSpell] = 119467,
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.preQuestSingle] = {31970},
             [questKeys.objectives] = {{{66730,nil,Questie.ICON_TYPE_PET_BATTLE},{66734,nil,Questie.ICON_TYPE_PET_BATTLE},{66733,nil,Questie.ICON_TYPE_PET_BATTLE},{66738,nil,Questie.ICON_TYPE_PET_BATTLE},{66918,nil,Questie.ICON_TYPE_PET_BATTLE},{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31953] = { -- Grand Master Hyuna
@@ -7365,6 +7372,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{66739,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31958] = { -- Grand Master Aki
+            [questKeys.preQuestSingle] = {31951},
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{66741,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
@@ -7387,18 +7395,24 @@ function MopQuestFixes.Load()
         },
         [31966] = { -- Battle Pet Tamers: Cataclysm
             [questKeys.requiredSpell] = 119467,
+            [questKeys.preQuestSingle] = {31928},
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.objectives] = {{{66819,nil,Questie.ICON_TYPE_PET_BATTLE},{66815,nil,Questie.ICON_TYPE_PET_BATTLE},{66822,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31967] = { -- Battle Pet Tamers: Cataclysm
             [questKeys.requiredSpell] = 119467,
+            [questKeys.preQuestSingle] = {31928},
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.objectives] = {{{66819,nil,Questie.ICON_TYPE_PET_BATTLE},{66815,nil,Questie.ICON_TYPE_PET_BATTLE},{66822,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31970] = { -- Grand Master Obalis
             [questKeys.requiredSpell] = 119467,
+            [questKeys.preQuestSingle] = {31966,31967},
             [questKeys.objectives] = {{{66824,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31971] = { -- Grand Master Obalis
             [questKeys.requiredSpell] = 119467,
+            [questKeys.preQuestSingle] = {31970},
             [questKeys.objectives] = {{{66824,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [31972] = { -- Brok
@@ -7429,7 +7443,7 @@ function MopQuestFixes.Load()
         [31977] = { -- The Returning Champion
             [questKeys.preQuestSingle] = {31897,31915},
             [questKeys.requiredSpell] = 119467,
-            [questKeys.nextQuestInChain] = 0, -- not exclusive to 31980!
+            [questKeys.nextQuestInChain] = 0,
         },
         [31978] = { -- Priorities!
             [questKeys.objectives] = {nil,{{215695}}},
@@ -7439,7 +7453,7 @@ function MopQuestFixes.Load()
         [31980] = { -- The Returning Champion
             [questKeys.preQuestSingle] = {31897,31915},
             [questKeys.requiredSpell] = 119467,
-            [questKeys.nextQuestInChain] = 0, -- not exclusive to 31977!
+            [questKeys.nextQuestInChain] = 0,
         },
         [31981] = { -- Exceeding Expectations
             [questKeys.requiredSpell] = 119467,
@@ -7454,18 +7468,22 @@ function MopQuestFixes.Load()
         [31983] = { -- A Brief Reprieve
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31928},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31984] = { -- A Brief Reprieve
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31928},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31985] = { -- The Triumphant Return
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31970},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31986] = { -- The Triumphant Return
             [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31970},
+            [questKeys.nextQuestInChain] = 0,
         },
         [31989] = { -- The Peak of Serenity - Complete Your Training
             [questKeys.requiredClasses] = classIDs.MONK,
@@ -8461,8 +8479,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{64616,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32428] = { -- Pandaren Spirit Tamer
+            [questKeys.requiredSpell] = 119467,
             [questKeys.preQuestSingle] = {31951},
-            [questKeys.objectives] = {{{68463},{68465},{68464},{68462}}},
+            [questKeys.objectives] = {{{68463,nil,Questie.ICON_TYPE_PET_BATTLE},{68465,nil,Questie.ICON_TYPE_PET_BATTLE},{68464,nil,Questie.ICON_TYPE_PET_BATTLE},{68462,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [32429] = { -- The Prince's Pursuit
             [questKeys.startedBy] = {{64616}},
@@ -8571,7 +8590,7 @@ function MopQuestFixes.Load()
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68560,nil,Questie.ICON_TYPE_PET_BATTLE},{68561,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE},{68566,nil,Questie.ICON_TYPE_PET_BATTLE}}},
-            [questKeys.preQuestSingle] = {31958},
+            [questKeys.preQuestSingle] = {31951},
         },
         [32604] = { -- Beasts of Fable Book I
             [questKeys.requiredSpell] = 119467,
@@ -9034,11 +9053,35 @@ function MopQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {30174,30273},
             [questKeys.exclusiveTo] = {30241},
         },
+        [30632] = { -- The Ruins of Guo-Lai
+            [questKeys.preQuestGroup] = {31511,30649},
+        },
         [31695] = { -- Beyond The Wall
             [questKeys.preQuestGroup] = {30655,30656,30661},
         },
-        [30632] = { -- The Ruins of Guo-Lai
-            [questKeys.preQuestGroup] = {31511,30649},
+        [32428] = { -- Pandaren Spirit Tamer
+            [questKeys.startedBy] = {{64582}},
+            [questKeys.finishedBy] = {{64582}},
+        },
+        [32603] = { -- Beasts of Fable
+            [questKeys.startedBy] = {{64582}},
+            [questKeys.finishedBy] = {{64582}},
+        },
+        [32604] = { -- Beasts of Fable Book I
+            [questKeys.startedBy] = {{64582}},
+            [questKeys.finishedBy] = {{64582}},
+        },
+        [32863] = { -- What We've Been Training For
+            [questKeys.startedBy] = {{63626,64582}},
+            [questKeys.finishedBy] = {{63626,64582}},
+        },
+        [32868] = { -- Beasts of Fable Book II
+            [questKeys.startedBy] = {{64582}},
+            [questKeys.finishedBy] = {{64582}},
+        },
+        [32869] = { -- Beasts of Fable Book III
+            [questKeys.startedBy] = {{64582}},
+            [questKeys.finishedBy] = {{64582}},
         },
     }
 
@@ -9049,11 +9092,35 @@ function MopQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {30273,30445},
             [questKeys.exclusiveTo] = {30360},
         },
+        [30632] = { -- The Ruins of Guo-Lai
+            [questKeys.preQuestGroup] = {31512,30631},
+        },
         [31695] = { -- Beyond The Wall
             [questKeys.preQuestGroup] = {30650,30651,30660},
         },
-        [30632] = { -- The Ruins of Guo-Lai
-            [questKeys.preQuestGroup] = {31512,30631},
+        [32428] = { -- Pandaren Spirit Tamer
+            [questKeys.startedBy] = {{64572}},
+            [questKeys.finishedBy] = {{64572}},
+        },
+        [32603] = { -- Beasts of Fable
+            [questKeys.startedBy] = {{64572}},
+            [questKeys.finishedBy] = {{64572}},
+        },
+        [32604] = { -- Beasts of Fable Book I
+            [questKeys.startedBy] = {{64572}},
+            [questKeys.finishedBy] = {{64572}},
+        },
+        [32863] = { -- What We've Been Training For
+            [questKeys.startedBy] = {{63596,64572}},
+            [questKeys.finishedBy] = {{63596,64572}},
+        },
+        [32868] = { -- Beasts of Fable Book II
+            [questKeys.startedBy] = {{64572}},
+            [questKeys.finishedBy] = {{64572}},
+        },
+        [32869] = { -- Beasts of Fable Book III
+            [questKeys.startedBy] = {{64572}},
+            [questKeys.finishedBy] = {{64572}},
         },
     }
 
