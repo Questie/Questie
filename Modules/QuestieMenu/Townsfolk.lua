@@ -297,7 +297,7 @@ function Townsfolk.Initialize()
     if Expansions.Current < Expansions.MoP then
         classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
     end
-    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
+    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705,29156,45139,47253}
 
     factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
     factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
