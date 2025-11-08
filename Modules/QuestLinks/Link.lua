@@ -202,9 +202,8 @@ end
 _AddDungeonInfo = function(quest)
     local zoneOrSort = quest.zoneOrSort
     if zoneOrSort and zoneOrSort > 0 then
-        local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
-        if dungeonName then
-            local localizedDungeonName = C_Map.GetAreaInfo(zoneOrSort) or dungeonName
+        local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
+        if localizedDungeonName then
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, "gray")
         end
@@ -349,11 +348,11 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         else
             if finisherName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Ended by")..": " .. Questie:Colorize(l10n(finisherName), "gray")))
+                _AddTooltipLine((l10n("Ended by")..": " .. Questie:Colorize(finisherName, "gray")))
             end
             if finisherZoneName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(l10n(finisherZoneName), "gray")))
+                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(finisherZoneName, "gray")))
             end
         end
     else
@@ -379,10 +378,10 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         else
             if starterName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(l10n(starterName), "gray")))
+                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(starterName), "gray")))
             end
             if starterZoneName then
-                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(l10n(starterZoneName), "gray")))
+                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(starterZoneName), "gray")))
             end
         end
     end

@@ -144,29 +144,29 @@ end
 
 -- There are ways to toggle this function before the frame has been created
 function QuestieJourney:ToggleJourneyWindow()
+    if not Questie.started then
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+        return
+    end
+
     if not QuestieJourneyFrame then
         -- Initialize the frame if it hasn't been created yet
         self:BuildMainFrame()
     end
 
-    if QuestieJourneyFrame then
-        if (not isWindowShown) then
-            PlaySound(882)
+    if (not isWindowShown) then
+        PlaySound(882)
 
-            local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
-            if treeGroup then
-                _QuestieJourney.treeCache = treeGroup
-            end
-
-            QuestieJourneyFrame:Show()
-            isWindowShown = true
-        else
-            QuestieJourneyFrame:Hide()
-            isWindowShown = false
+        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
+        if treeGroup then
+            _QuestieJourney.treeCache = treeGroup
         end
+
+        QuestieJourneyFrame:Show()
+        isWindowShown = true
     else
-        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
-        Questie:Error("QuestieJourney:ToggleJourneyWindow() failed to create QuestieJourneyFrame!")
+        QuestieJourneyFrame:Hide()
+        isWindowShown = false
     end
 end
 
