@@ -6736,6 +6736,8 @@ function QuestieQuestBlacklist:Load()
         [82985] = true, -- Boosted quest
         [82989] = true, -- Boosted quest
 
+        [83845] = true, -- PTR quest
+
         [88776] = true, -- Boosted quest
         [88777] = true, -- Boosted quest
         [88778] = true, -- Boosted quest

@@ -15490,6 +15490,16 @@ function CataQuestFixes.Load()
         },
 
         ----- Boosted character quests -----
+        [84385] = {
+            [questKeys.name] = "Shiny New Wears",
+            [questKeys.startedBy] = {{29156}},
+            [questKeys.finishedBy] = {},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with a Repurposed Arcane Titan in The Silver Enclave in Dalaran."},
+            [questKeys.zoneOrSort] = zoneIDs.THE_SILVER_ENCLAVE,
+        },
         [88776] = {
             [questKeys.name] = "A New Beginning",
             [questKeys.startedBy] = {}, -- This quest is auto accept
