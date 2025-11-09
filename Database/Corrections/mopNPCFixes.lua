@@ -5461,6 +5461,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.96,31.88}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [68993] = { -- Fenegan Cobbler
+            [npcKeys.name] = "Fenegan Cobbler",
+            [npcKeys.minLevel] = 5,
+            [npcKeys.maxLevel] = 5,
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS_CITY] = {{33.45,73.1},{69.78,62.16}},
+                [zoneIDs.GILNEAS] = {{42.73,38.73},{70.13,40.15},{60.91,91.63},{37.91,63.25}},
+            },
+            [npcKeys.zoneID] = zoneIDs.GILNEAS_CITY,
+            [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [69026] = { -- King Varian Wrynn
             [npcKeys.name] = "King Varian Wrynn",
             [npcKeys.minLevel] = 99,
