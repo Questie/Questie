@@ -3563,6 +3563,9 @@ function QuestieQuestFixes:Load()
         [8251] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8254] = {
+            [questKeys.startedBy] = {{5489,6018,11406}},
+        },
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
         },
