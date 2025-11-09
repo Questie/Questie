@@ -18,6 +18,13 @@ QuestieCorrections.spellObjectiveFirst[10070] = true
 QuestieCorrections.spellObjectiveFirst[10071] = true
 QuestieCorrections.spellObjectiveFirst[10072] = true
 QuestieCorrections.spellObjectiveFirst[10073] = true
+QuestieCorrections.spellObjectiveFirst[14266] = true
+QuestieCorrections.spellObjectiveFirst[14272] = true
+QuestieCorrections.spellObjectiveFirst[14274] = true
+QuestieCorrections.spellObjectiveFirst[14276] = true
+QuestieCorrections.spellObjectiveFirst[14279] = true
+QuestieCorrections.spellObjectiveFirst[14281] = true
+QuestieCorrections.spellObjectiveFirst[14283] = true
 QuestieCorrections.spellObjectiveFirst[24526] = true
 QuestieCorrections.spellObjectiveFirst[24527] = true
 QuestieCorrections.spellObjectiveFirst[24528] = true
@@ -281,6 +288,31 @@ function MopQuestFixes.Load()
         },
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
+        },
+        [14266] = { -- Charge
+            [questKeys.extraObjectives] = {},
+        },
+        [14272] = { -- Eviscerate
+            [questKeys.extraObjectives] = {},
+        },
+        [14274] = { -- Corruption
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{172}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [14276] = { -- Steady Shot
+            [questKeys.extraObjectives] = {},
+        },
+        [14279] = { -- Learning the Word
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{589}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [14281] = { -- Frost Nova
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{122}}},
+            [questKeys.extraObjectives] = {},
+        },
+        [14283] = { -- Moonfire
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{8921}}},
+            [questKeys.extraObjectives] = {},
         },
         [24494] = { -- Empowered Rune
             [questKeys.requiredLevel] = 2,

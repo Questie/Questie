@@ -23,6 +23,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SUNSTRIDER_ISLE] = {{77.46,68.81}}},
             [objectKeys.zoneID] = zoneIDs.SUNSTRIDER_ISLE,
         },
+        [201775] = { -- Ball and Chain
+            [objectKeys.spawns] = {[zoneIDs.GILNEAS] = {{75.71,31.17}},[zoneIDs.EMBERSTONE_MINE] = {{27.37,59.95},{27.12,66.7},{35.37,40.92},{34.03,13.91},{37.95,12.85},{41.62,26.08},{47.13,34.12},{49.73,47.34},{44.15,56.82},{50.4,27.81},{55.36,36.72},{63.23,32.75},{69.1,29.98},{72.42,41.78},{44.82,72.71},{64.11,74.25},{64.22,67.89}}},
+            [objectKeys.zoneID] = zoneIDs.EMBERSTONE_MINE,
+        },
         [202113] = { -- Spitescale Flag
             [objectKeys.spawns] = {[zoneIDs.SPITESCALE_CAVERN] = {{31.61,43.07},{39.94,41.39},{48.18,36.24},{46.5,64.53},{52.44,61.74},{62.98,65.16},{67.52,78.6},{74.64,75.09},{76.79,63.5},{73.11,55.41},{77.84,47},{72.46,43.91},{77.49,16.99},{70.17,27.77},{62.34,28.39},{56.64,44.03},{59.8,55.14},{68.98,40.85},{61.32,39.95},{64.18,52.98},{66.21,58.53},{62.14,71.58}}},
             [objectKeys.zoneID] = zoneIDs.SPITESCALE_CAVERN,
