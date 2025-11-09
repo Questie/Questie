@@ -178,6 +178,7 @@ function MopNpcFixes.Load()
                 [zoneIDs.MOLTEN_FRONT] = {{31.48,39.57},{58.76,37.53},{53.6,90.06}},
                 [zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.43,74.53}},
                 -- imported from BB's spawns, need verification
+                [zoneIDs.ECHO_ISLES] = {{51.21,42.74},{51.21,42.74}},
                 [zoneIDs.VALLEY_OF_TRIALS] = {{48.46,70.89},{48.46,70.89}},
                 [zoneIDs.SHADOWGLEN] = {{45.88,66.37},{45.88,66.37}},
                 [zoneIDs.COLDSHIRE_VALLEY] = {{65.55,32.2},{65.55,32.2}},
