@@ -205,9 +205,11 @@ function Townsfolk.Initialize()
     end
 
     if Expansions.Current >= Expansions.MoP then
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.ALCHEMY], 56777) -- Ni Gentlepaw
         tinsert(professionTrainers[professionKeys.ALCHEMY], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.ALCHEMY], 65043) -- Elder Oakpaw
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.BLACKSMITHING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.BLACKSMITHING], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.BLACKSMITHING], 64058) -- Jorunga Stonehoof
@@ -222,32 +224,41 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.COOKING], 58717) -- Bobo Ironpaw
         tinsert(professionTrainers[professionKeys.COOKING], 64231) -- Sungshin Ironpaw
         tinsert(professionTrainers[professionKeys.COOKING], 66353) -- Master Chang
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.ENCHANTING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.ENCHANTING], 65043) -- Elder Oakpaw
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.ENGINEERING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.ENGINEERING], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.ENGINEERING], 64924) -- Guyo Crystalgear
         tinsert(professionTrainers[professionKeys.FIRST_AID], 54614) -- Mishka
         tinsert(professionTrainers[professionKeys.FIRST_AID], 56227) -- Mishka
         tinsert(professionTrainers[professionKeys.FISHING], 63721) -- Nat Pagle
+        tinsert(professionTrainers[professionKeys.HERBALISM], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.HERBALISM], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.HERBALISM], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.HERBALISM], 66355) -- Master Marshall
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.INSCRIPTION], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.INSCRIPTION], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.INSCRIPTION], 66355) -- Master Marshall
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 65043) -- Elder Oakpaw
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.LEATHERWORKING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.LEATHERWORKING], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.LEATHERWORKING], 66354) -- Master Cannon
+        tinsert(professionTrainers[professionKeys.MINING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.MINING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.MINING], 65043) -- Elder Oakpaw
+        tinsert(professionTrainers[professionKeys.SKINNING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.SKINNING], 55646) -- Shademaster Kiryn
         tinsert(professionTrainers[professionKeys.SKINNING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.SKINNING], 65043) -- Elder Oakpaw
         tinsert(professionTrainers[professionKeys.SKINNING], 63825) -- Mr. Pleeb
         tinsert(professionTrainers[professionKeys.SKINNING], 66354) -- Master Cannon
+        tinsert(professionTrainers[professionKeys.TAILORING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.TAILORING], 57620) -- Whittler Dewei
         tinsert(professionTrainers[professionKeys.TAILORING], 65043) -- Elder Oakpaw
     end
