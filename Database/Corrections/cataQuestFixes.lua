@@ -3250,7 +3250,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{195327}}},
         },
         [14099] = { -- Royal Orders
-            [questKeys.preQuestGroup] = {14093,14098},
+            [questKeys.preQuestGroup] = {14093,14094,14098},
             [questKeys.preQuestSingle] = {},
         },
         [14101] = { -- Drottinn Hrothgar
@@ -4327,6 +4327,10 @@ function CataQuestFixes.Load()
         [24577] = { -- Desolation Hold Inspection
             [questKeys.objectives] = {{{37811,"Gar'dul Notified",Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride to Desolation Hold"),0,{{"monster",37679}}}},
+        },
+        [24578] = { -- The Blackwald
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24495,24501},
         },
         [24591] = { -- Changing of the Gar'dul
             [questKeys.objectives] = {{{37843,nil,Questie.ICON_TYPE_EVENT},{37811,nil,Questie.ICON_TYPE_EVENT}}},
