@@ -244,6 +244,7 @@ function QuestieQuestBlacklist:Load()
         [7938] = true,
         [7944] = true,
         [7945] = true,
+        [8226] = true,
         [8857] = true,
         [8858] = true,
         [8859] = true,
@@ -987,24 +988,23 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         [9247] = true, -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
-        [9260] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9261] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9262] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9263] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9264] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9265] = not(Questie.IsSoD or Questie.IsAnniversary),
-        [9292] = Expansions.Current >= Expansions.Cata, -- Cracked Necrotic Crystal
-        [9295] = Expansions.Current >= Expansions.Cata, -- Letter from the Front
-        [9299] = Expansions.Current >= Expansions.Cata, -- Note from the Front
-        [9300] = Expansions.Current >= Expansions.Cata, -- Page from the Front
-        [9301] = Expansions.Current >= Expansions.Cata, -- Envelope from the Front
-        [9302] = Expansions.Current >= Expansions.Cata, -- Missive from the Front
-        [9304] = Expansions.Current >= Expansions.Cata, -- Document from the Front
-        [9310] = Expansions.Current >= Expansions.Cata, -- Faint Necrotic Crystal
-        --
-        [9085] = (not Questie.IsAnniversary),
-        [9153] = (not Questie.IsAnniversary),
-        [9154] = not(Questie.IsSoD or Questie.IsAnniversary),
+        [9085] = Expansions.Current >= Expansions.Wotlk, -- Shadows of Doom
+        [9153] = Expansions.Current >= Expansions.Wotlk, -- Under the Shadow
+        [9154] = Expansions.Current >= Expansions.Wotlk, -- Light's Hope Chapel
+        [9260] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Stormwind
+        [9261] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Ironforge
+        [9262] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Darnassus
+        [9263] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Orgrimmar
+        [9264] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Thunder Bluff
+        [9265] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of the Undercity
+        [9292] = Expansions.Current >= Expansions.Wotlk, -- Cracked Necrotic Crystal
+        [9295] = Expansions.Current >= Expansions.Wotlk, -- Letter from the Front
+        [9299] = Expansions.Current >= Expansions.Wotlk, -- Note from the Front
+        [9300] = Expansions.Current >= Expansions.Wotlk, -- Page from the Front
+        [9301] = Expansions.Current >= Expansions.Wotlk, -- Envelope from the Front
+        [9302] = Expansions.Current >= Expansions.Wotlk, -- Missive from the Front
+        [9304] = Expansions.Current >= Expansions.Wotlk, -- Document from the Front
+        [9310] = Expansions.Current >= Expansions.Wotlk, -- Faint Necrotic Crystal
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
