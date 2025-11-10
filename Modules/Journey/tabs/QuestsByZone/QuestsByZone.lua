@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
@@ -131,13 +133,16 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
     local unobtainableQuestIds = {}
     local temp = {}
+
+    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
+    local hiddenQuests = QuestieCorrections.hiddenQuests
     local playerlevel = UnitLevel("player")
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type number
         local questId = levelAndQuest[2]
         -- Only show quests which are not hidden
-        if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[questId]) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
+        if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 

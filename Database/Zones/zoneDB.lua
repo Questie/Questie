@@ -12,6 +12,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieProfessions
@@ -31,8 +33,10 @@ local alternativeDungeonAreaIdToDungeonAreaId = {}
 
 local zoneMap = {} -- Generated
 
+local HIDE_ON_MAP
 
 function ZoneDB.Initialize()
+    HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
     areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
 
     -- Override areaIdToUiMapId with manual overrides
@@ -187,7 +191,7 @@ do
         local _QueryQuestSingle = QuestieDB.QueryQuestSingle
 
         for questId in pairs(QuestieDB.QuestPointers) do
-            if (not hiddenQuests[questId]) or QuestieEvent.IsEventQuest(questId) then
+            if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
 
                     local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")

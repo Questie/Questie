@@ -5,7 +5,11 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
----@return table<QuestId, boolean>
+local HIDE_ON_MAP = "HIDE_ON_MAP"
+
+QuestieQuestBlacklist.HIDE_ON_MAP = HIDE_ON_MAP
+
+---@return table<QuestId, boolean|string>
 function QuestieQuestBlacklist:Load()
     local locale = GetLocale()
     local questsToBlacklist = {
