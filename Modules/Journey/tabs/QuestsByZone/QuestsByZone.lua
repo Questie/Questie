@@ -218,15 +218,15 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     repeatableCounter = repeatableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to HAVE learned a spell
                 elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Quests which you have outleveled
-                elseif requiredMaxLevel and playerlevel > requiredMaxLevel then
-                    tinsert(zoneTree[3].children, temp)
+                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Available quests
                 else
