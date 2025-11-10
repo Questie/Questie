@@ -80,7 +80,7 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
 end
 
 ---@param link string

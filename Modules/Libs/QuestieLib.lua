@@ -7,6 +7,8 @@ local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -153,7 +155,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
 end
 
 local colors = {
