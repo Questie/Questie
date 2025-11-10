@@ -261,14 +261,14 @@ function QuestieQuestBlacklist:Load()
         [7672] = true,
         [7676] = true,
         --fishing tournament
-        [8194] = true,
-        [8221] = true,
-        [8224] = true,
-        [8225] = true,
-        [8193] = true,
-        [8226] = true,
-        [8228] = true,
-        [8229] = true,
+        [8194] = HIDE_ON_MAP,
+        [8221] = HIDE_ON_MAP,
+        [8224] = HIDE_ON_MAP,
+        [8225] = HIDE_ON_MAP,
+        [8193] = HIDE_ON_MAP,
+        [8226] = HIDE_ON_MAP,
+        [8228] = HIDE_ON_MAP,
+        [8229] = HIDE_ON_MAP,
         --love is in the air
         [8903] = true,
         [8904] = true,
@@ -6342,8 +6342,8 @@ function QuestieQuestBlacklist:Load()
         [32174] = true, -- Not in the game
         [32364] = true, -- Not in the game
         [32396] = true, -- Not in the game
-        [32435] = true, -- Hidden quest
-        [32436] = true, -- Hidden quest
+        [32435] = HIDE_ON_MAP, -- Hidden quest
+        [32436] = HIDE_ON_MAP, -- Hidden quest
         [32444] = true, -- Hidden quest
         [32475] = true, -- Not in the game
         [32504] = true, -- Not in the game
