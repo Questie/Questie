@@ -219,7 +219,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(zoneTree[3].children, temp)
-                    completedCounter = completedCounter + 1
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to HAVE learned a spell
                 elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(zoneTree[3].children, temp)
