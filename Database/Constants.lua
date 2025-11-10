@@ -48,6 +48,7 @@ QuestieDB.sortKeys = {
     FIRELANDS_INVASION = -379,
     THE_ZANDALARI = -380,
     ELEMENTAL_BONDS = -381,
+    PANDAREN_BREWMASTERS = -391,
     PET_BATTLE = -394,
     MONK = -395,
     RIDING = -398,
