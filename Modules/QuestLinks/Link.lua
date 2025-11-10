@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ZoneDB
@@ -80,7 +82,7 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
 end
 
 ---@param link string
