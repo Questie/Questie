@@ -187,7 +187,7 @@ do
         local _QueryQuestSingle = QuestieDB.QueryQuestSingle
 
         for questId in pairs(QuestieDB.QuestPointers) do
-            if (not hiddenQuests[questId]) then
+            if (not hiddenQuests[questId]) or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
 
                     local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
