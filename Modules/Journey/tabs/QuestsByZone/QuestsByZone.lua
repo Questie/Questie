@@ -217,6 +217,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         tinsert(zoneTree[2].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                -- Quests which you have outleveled
+                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
@@ -227,10 +231,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to HAVE learned a spell
                 elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[5].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Quests which you have outleveled
-                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Available quests
