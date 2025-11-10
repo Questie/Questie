@@ -131,6 +131,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
     local unobtainableQuestIds = {}
     local temp = {}
+    local playerlevel = UnitLevel("player")
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type number
@@ -155,7 +156,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "preQuestGroup",
                         "requiredMinRep",
                         "requiredMaxRep",
-                        "requiredSpell"
+                        "requiredSpell",
+                        "requiredMaxLevel"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -166,6 +168,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local requiredMinRep = queryResult[6]
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
+                local requiredMaxLevel = queryResult[9]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -215,6 +218,14 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     repeatableCounter = repeatableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(zoneTree[3].children, temp)
+                    completedCounter = completedCounter + 1
+                -- Quests which require you to HAVE learned a spell
+                elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(zoneTree[3].children, temp)
+                    completedCounter = completedCounter + 1
+                -- Quests which you have outleveled
+                elseif requiredMaxLevel and playerlevel > requiredMaxLevel then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- Available quests
