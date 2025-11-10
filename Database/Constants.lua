@@ -53,6 +53,7 @@ QuestieDB.sortKeys = {
     MONK = -395,
     PANDAREN_CAMPAIGN = -397,
     RIDING = -398,
+    BRAWLERS_GUILD = -399,
     PROVING_GROUNDS = -400,
     HARVEST_FESTIVAL = -402,
     WINTER_VEIL = -404,
