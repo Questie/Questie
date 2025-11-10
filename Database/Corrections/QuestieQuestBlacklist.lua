@@ -267,7 +267,6 @@ function QuestieQuestBlacklist:Load()
         [8224] = HIDE_ON_MAP,
         [8225] = HIDE_ON_MAP,
         [8193] = HIDE_ON_MAP,
-        [8226] = HIDE_ON_MAP,
         [8228] = HIDE_ON_MAP,
         [8229] = HIDE_ON_MAP,
         --love is in the air
