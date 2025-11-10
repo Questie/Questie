@@ -1,5 +1,7 @@
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
@@ -30,13 +32,13 @@ tinsert(eventQuests, {"Darkmoon Faire", 7926}) -- The Darkmoon Faire
 tinsert(eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7928}) -- Darkmoon Warlords Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
-tinsert(eventQuests, {"Darkmoon Faire", 7930}) -- 5 Tickets - Darkmoon Flower
-tinsert(eventQuests, {"Darkmoon Faire", 7931}) -- 5 Tickets - Minor Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7932}) -- 12 Tickets - Lesser Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7933}) -- 40 Tickets - Greater Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7934}) -- 50 Tickets - Darkmoon Storage Box
-tinsert(eventQuests, {"Darkmoon Faire", 7935}) -- 10 Tickets - Last Month's Mutton
-tinsert(eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last Year's Mutton
+tinsert(eventQuests, {"Darkmoon Faire", 7930, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Darkmoon Flower
+tinsert(eventQuests, {"Darkmoon Faire", 7931, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Minor Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7932, nil, nil, Expansions.Current >= Expansions.Cata}) -- 12 Tickets - Lesser Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7933, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Greater Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7934, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Darkmoon Storage Box
+tinsert(eventQuests, {"Darkmoon Faire", 7935, nil, nil, Expansions.Current >= Expansions.Cata}) -- 10 Tickets - Last Month's Mutton
+tinsert(eventQuests, {"Darkmoon Faire", 7936, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Last Year's Mutton
 tinsert(eventQuests, {"Darkmoon Faire", 7937}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7938}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, Questie.IsSoD}) -- More Dense Grinding Stones
@@ -47,7 +49,7 @@ tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, Questie.IsSoD}) -- More 
 tinsert(eventQuests, {"Darkmoon Faire", 7944}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7945}) -- Your Fortune Awaits You...
 tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, Questie.IsSoD}) -- Spawn of Jubjub
-tinsert(eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the Darkmoon
+tinsert(eventQuests, {"Darkmoon Faire", 7981, nil, nil, Expansions.Current >= Expansions.Cata}) -- 1200 Tickets - Amulet of the Darkmoon
 tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, Questie.IsSoD}) -- Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, Questie.IsSoD}) -- More Glowing Scorpid Blood
 
