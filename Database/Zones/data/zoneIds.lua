@@ -182,6 +182,8 @@ ZoneDB.zoneIDs = {
     THE_SILVER_ENCLAVE = 4740,
     HROTHGARS_LANDING = 4742,
     GILNEAS_CITY = 4755,
+    KAJA_MINE = 4766, -- Cave in Kezan (North)
+    KAJA_MINE_CAVERN = 4778, -- Cave in The Lost Isles
     FORGE_OF_SOULS = 4809,
     ICECROWN_CITADEL = 4812, -- this is also The Lower Citadel map for Icecrown Citadel
     PIT_OF_SARON = 4813,
@@ -364,6 +366,8 @@ ZoneDB.zoneIDs = {
     RUINS_OF_OGUDEI_RELIQUARY_INCURSION = 10086, -- Ruins of Ogudei - cave in Krasarang Wilds -- 421
     CRYPT_OF_KORUNE = 10087, -- Ruins of Ogudei - cave in Krasarang Wilds -- 387
     DALARAN_LANDFALL_UNDERBELLY = 10088, -- Dalaran - Underbelly (Landfall version) -- 502
+    KAJA_MINE_SE = 10090, -- Kaja'mine SE - cave in Kezan -- 196
+    KAJA_MINE_SW = 10091, -- Kaja'mine SW - cave in Kezan -- 197
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map
