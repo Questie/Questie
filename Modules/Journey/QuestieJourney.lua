@@ -81,7 +81,7 @@ function QuestieJourney:Initialize()
 end
 
 function QuestieJourney:BuildMainFrame()
-    if not QuestieJourneyFrame then
+    if (not QuestieJourneyFrame) then
         local journeyFrame = AceGUI:Create("Frame")
         journeyFrame:SetCallback("OnClose", function()
             isWindowShown = false
@@ -144,14 +144,9 @@ end
 
 -- There are ways to toggle this function before the frame has been created
 function QuestieJourney:ToggleJourneyWindow()
-    if not Questie.started then
+    if (not Questie.started) then
         print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
         return
-    end
-
-    if not QuestieJourneyFrame then
-        -- Initialize the frame if it hasn't been created yet
-        self:BuildMainFrame()
     end
 
     if (not isWindowShown) then
