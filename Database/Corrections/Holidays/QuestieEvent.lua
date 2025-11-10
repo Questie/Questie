@@ -117,6 +117,7 @@ function QuestieEvent:Load()
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
+        local hideQuest = questData[5]
         local startDay, startMonth = nil, nil
         local endDay, endMonth = nil, nil
 
@@ -129,11 +130,10 @@ function QuestieEvent:Load()
             endMonth = tonumber(endMonth)
         end
 
-        _QuestieEvent.eventNamesForQuests[questId] = eventName
+        if (not hideQuest) then
+            _QuestieEvent.eventNamesForQuests[questId] = eventName
 
-        if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-            local hideQuest = questData[5]
-            if (not hideQuest) then
+            if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
