@@ -5570,8 +5570,8 @@ function QuestieQuestBlacklist:Load()
         [24739] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [24746] = true, -- Not in the game
         [24797] = true, -- Not in the game
-        [24803] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
-        [24806] = Expansions.Current >= Expansions.MoP, -- Removed in MoP
+        [24803] = Expansions.Current >= Expansions.MoP and true or HIDE_ON_MAP, -- Removed in MoP
+        [24806] = Expansions.Current >= Expansions.MoP and true or HIDE_ON_MAP, -- Removed in MoP
         [24857] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [24860] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [24867] = Expansions.Current >= Expansions.Cata, -- Not in the game
