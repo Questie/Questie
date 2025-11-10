@@ -1276,6 +1276,9 @@ function CataQuestFixes.Load()
         [9704] = { -- Slain by the Wretched
             [questKeys.breadcrumbs] = {8347},
         },
+        [9729] = { -- Fhwoor Smash!
+            [questKeys.requiredMinRep] = {970,42000},
+        },
         [9731] = { -- Drain Schematics
             [questKeys.startedBy] = {nil,nil,{24330}},
             [questKeys.preQuestSingle] = {9718},
