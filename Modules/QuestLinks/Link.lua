@@ -291,7 +291,7 @@ _GetQuestStarter = function(quest)
             starterZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
 
-        return starterName, starterZoneName
+        return starterName, l10n(starterZoneName)
     end
 
     return nil, nil
@@ -322,7 +322,7 @@ _GetQuestFinisher = function(quest)
         finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
     end
 
-    return finisherName, finisherZoneName
+    return finisherName, l10n(finisherZoneName)
 end
 
 ---@param quest Quest
