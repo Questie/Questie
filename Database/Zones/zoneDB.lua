@@ -156,6 +156,7 @@ function ZoneDB:GetLocalizedDungeonName(areaId)
     end
 
     if dungeonName then
+        -- The Questie DB has an entry for the area being a dungeon. We still prefer the Blizzard name if found.
         return C_Map.GetAreaInfo(areaId) or dungeonName
     end
     return nil
