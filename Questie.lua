@@ -59,7 +59,7 @@ end
 --- Colorize a string with a color code
 ---@param str string @The string colorize
 --Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|string
 ---@return string
 function Questie:Colorize(str, color)
     if not color then color = "yellow" end
@@ -86,7 +86,9 @@ function Questie:Colorize(str, color)
     elseif color == "white" then
         c = "|cFFffffff";
     elseif color == "gold" then
-        c = "|cFFffd100" -- this is the default game font
+        c = "|cFFffd100"; -- this is the default game color
+    elseif color == "lime" then
+        c = "|cFF6ce314"; -- holiday green
     end
 
     return c .. str .. "|r"
