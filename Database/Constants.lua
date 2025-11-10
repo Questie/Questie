@@ -51,6 +51,7 @@ QuestieDB.sortKeys = {
     PANDAREN_BREWMASTERS = -391,
     PET_BATTLE = -394,
     MONK = -395,
+    LANDFALL = -396,
     PANDAREN_CAMPAIGN = -397,
     RIDING = -398,
     BRAWLERS_GUILD = -399,
