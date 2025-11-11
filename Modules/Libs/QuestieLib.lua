@@ -36,14 +36,14 @@ local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjecti
     Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
     Gray: More than GetQuestGreenRange() below player
 --]]
-function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest, isEventQuest, isPvPQuest)
+function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEventQuest, isPvPQuest)
     if isEventQuest == true then
         return "|cFF6ce314" .. text .. "|r" -- Lime
     end
     if isPvPQuest == true then
         return "|cFFE35639" .. text .. "|r" -- Maroon
     end
-    if isDailyQuest == true then
+    if isRepeatableQuest == true then
         return "|cFF21CCE7" .. text .. "|r" -- Blue
     end
 
