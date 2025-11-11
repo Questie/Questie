@@ -147,15 +147,22 @@ end
 
 ---@param areaId AreaId
 ---@return string?
-function ZoneDB:GetDungeonName(areaId)
+function ZoneDB:GetLocalizedDungeonName(areaId)
     local dungeon = dungeons[areaId]
+    local dungeonName
     if dungeon then
-        return dungeon[1]
+        dungeonName = dungeon[1]
     else
         local alternativeDungeonAreaId = alternativeDungeonAreaIdToDungeonAreaId[areaId]
         if alternativeDungeonAreaId then
-            return dungeons[alternativeDungeonAreaId][1]
+            areaId = alternativeDungeonAreaId
+            dungeonName = dungeons[alternativeDungeonAreaId][1]
         end
+    end
+
+    if dungeonName then
+        -- The Questie DB has an entry for the area being a dungeon. We still prefer the Blizzard name if found.
+        return C_Map.GetAreaInfo(areaId) or dungeonName
     end
     return nil
 end

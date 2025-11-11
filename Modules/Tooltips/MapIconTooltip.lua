@@ -259,9 +259,9 @@ function MapIconTooltip:Show()
                     if shift and quest then
                         local zoneOrSort = quest.zoneOrSort
                         if zoneOrSort and zoneOrSort > 0 then
-                            local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
-                            if dungeonName then
-                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                            local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
+                            if localizedDungeonName then
+                                self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                             end
                         end
                     end
@@ -351,9 +351,9 @@ function MapIconTooltip:Show()
             if shift and quest then
                 local zoneOrSort = quest.zoneOrSort
                 if zoneOrSort and zoneOrSort > 0 then
-                    local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
-                    if dungeonName then
-                        self:AddLine("   " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, 0.7, 0.7, 0.7)
+                    local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
+                    if localizedDungeonName then
+                        self:AddLine("  " .. FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                     end
                 end
             end

@@ -201,10 +201,10 @@ end
 _AddDungeonInfo = function(quest)
     local zoneOrSort = quest.zoneOrSort
     if zoneOrSort and zoneOrSort > 0 then
-        local dungeonName = ZoneDB:GetDungeonName(zoneOrSort)
-        if dungeonName then
+        local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
+        if localizedDungeonName then
             _AddTooltipLine(" ")
-            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. dungeonName, "gray")
+            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, "gray")
         end
     end
 end
@@ -290,7 +290,7 @@ _GetQuestStarter = function(quest)
             starterZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
 
-        return starterName, starterZoneName
+        return starterName, l10n(starterZoneName)
     end
 
     return nil, nil
@@ -321,7 +321,7 @@ _GetQuestFinisher = function(quest)
         finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
     end
 
-    return finisherName, finisherZoneName
+    return finisherName, l10n(finisherZoneName)
 end
 
 ---@param quest Quest
