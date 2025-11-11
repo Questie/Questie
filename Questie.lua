@@ -77,6 +77,8 @@ function Questie:Colorize(str, color)
         c = "|cB900FFFF";
     elseif color == "reputationBlue" then
         c = "|cFF8080ff";
+    elseif color == "dailyBlue" then
+        c = "|cFF21CCE7";
     elseif color == "yellow" then
         c = "|cFFffff00";
     elseif color == "orange" then
@@ -89,6 +91,8 @@ function Questie:Colorize(str, color)
         c = "|cFFffd100"; -- this is the default game color
     elseif color == "lime" then
         c = "|cFF6ce314"; -- holiday green
+    elseif color == "pvpRed" then
+        c = "|cFFE35639";
     end
 
     return c .. str .. "|r"

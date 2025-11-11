@@ -130,7 +130,13 @@ _AddQuestTitle = function(quest)
 
     local titleColor = "gold"
     if quest.specialFlags == 1 then
-        titleColor = "lightBlue"
+        titleColor = "dailyBlue"
+    end
+    if QuestieDB.IsPvPQuest(quest.Id) then
+        titleColor = "pvpRed"
+    end
+    if QuestieEvent.IsEventQuest(quest.Id) then
+        titleColor = "lime"
     end
 
     if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
