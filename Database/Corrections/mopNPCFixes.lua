@@ -165,7 +165,6 @@ function MopNpcFixes.Load()
                 [zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{54.49,34.3},{54.91,56.95},{39.18,46.07}},
                 [zoneIDs.DALARAN] = {{34.74,39.1}},
                 [zoneIDs.SOUTHERN_BARRENS] = {{48.4,71.55},{41.41,27.85},{45.35,84.34},{44.85,54.84},{59.58,42.46},{47.14,34.17}},
-                [zoneIDs.THE_LOST_ISLES] = {{35.51,66.89},{28.12,74.61},{23.76,62.47}},
                 [zoneIDs.KELP_THAR_FOREST] = {{45.29,32.55},{58.22,52.29}},
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {{23.94,56.83},{60.55,16.12},{52.12,44.32},{57.38,58.07},{30.38,70.66},{65.04,83.91},{46.17,75.23},{66.57,16.12},{31.5,25.68},{62.82,17.85},{71.87,49.69},{74.56,71.51},{44.34,56.65}},
                 [zoneIDs.ULDUM] = {{74.04,53.76},{49,75.92},{74.14,83.63},{38.4,19.43},{56.65,32.53},{65.12,68.22},{77.18,85.18},{32.68,48.34},{64.46,65.75},{65.52,19.31}},
@@ -204,6 +203,7 @@ function MopNpcFixes.Load()
                 -- verified ingame spawns
                 [zoneIDs.GILNEAS_CITY] = {{38.33,43.65},{31.07,77.52},{58.71,77.29},{63.28,13.66}},
                 [zoneIDs.GILNEAS] = {{50.37,56.1},{78.6,67.66},{62.58,93.65},{56.04,77.21},{50.63,80.69}},
+                [zoneIDs.THE_LOST_ISLES] = {{28.12,74.61},{37.11,78.37},{35.51,66.89},{23.76,62.47},},
             },
         },
         [10181] = { -- Lady Sylvanas Windrunner
@@ -252,6 +252,14 @@ function MopNpcFixes.Load()
                 [zoneIDs.DALARAN] = {{34.38,38.37}},
                 -- verified ingame spawns
             },
+        },
+        [34830] = { -- Defiant Troll
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MINE_SW] = {{57.3,48.2},{58.51,35.79},{59.34,24.64},{65.51,17.16}},[zoneIDs.KAJA_MINE] = {{50.38,30.81},{49.57,60.34}},[zoneIDs.KAJA_MINE_SE] = {{61.81,38.99},{43.88,43.82}},[zoneIDs.KEZAN] = {{71,76.15},{74.8,83.82},{70.29,82.35},{69.14,81.75},{69.8,81.35},{67.71,78.68},{69.02,77.72},{71.32,77.7},{72.19,78.3},{72.51,80.15},{74.32,79.32},{71.74,82.15},{73.75,83.88},{72.71,85.6},{72.02,85.35},{70.57,86.45},{71.42,84.54},{67.97,83.12},{67.47,82.25},{67.16,85.26},{66,82.39}}},
+            [npcKeys.zoneID] = zoneIDs.KEZAN,
+        },
+        [34865] = { -- Tunneling Worm
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MINE_SW] = {{32.26,86.54},{29.13,76.11},{33.51,68.83},{43.76,79.78},{40.51,69.34},{45.52,62.37},{51.97,54.35},{53.91,65.78},{58.07,58.24},{69.14,55.02},{62.86,54.71},{57.38,37.88},{57.82,48.61},{59.28,26.11}},[zoneIDs.KAJA_MINE] = {{55.12,33.4},{65.92,37.24},{65.05,25.89},{45.96,35.93},{47.22,52.44},{44.69,72.74}},[zoneIDs.KAJA_MINE_SE] = {{70.11,67.46},{61.53,67.32},{63.17,50.34},{58.37,38.95},{48.78,43.38},{36.51,36.01}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MINE,
         },
         [36606] = { -- Queen Mia Greymane
             [npcKeys.spawns] = {[zoneIDs.GREYMANE_MANOR_MAIN_FLOOR] = {{62.12,49.64}}},
@@ -336,12 +344,12 @@ function MopNpcFixes.Load()
         [39660] = { -- Spirit Healer
             [npcKeys.spawns] = {
                 -- NOT verified ingame spawns, these are the CataDB spawns
-                [zoneIDs.THE_LOST_ISLES] = {{51.48,46.71},{53.62,75.25},{56.54,71.91},{45.45,67.2},{67.47,49.34},{66.94,49.84},{44.53,67.71},{51.48,46.71},{67.47,49.34},{55.05,15.45},{35.51,66.89},{37.11,78.37},{23.76,62.47},{45.45,67.2},{52.54,36.92},{45.6,28.09},{37.49,38.06}},
-                [zoneIDs.KEZAN] = {{45.04,42.68},{61.91,73.69},{45.04,42.68}},
-                -- [zoneIDs.GILNEAS_CITY] = {}, -- there are no spawns
+                [zoneIDs.THE_LOST_ISLES] = {{51.48,46.71},{53.62,75.25},{56.54,71.91},{45.45,67.2},{67.47,49.34},{66.94,49.84},{44.53,67.71},{51.48,46.71},{67.47,49.34},{55.05,15.45},{45.45,67.2},{52.54,36.92},{45.6,28.09},{37.49,38.06}},
                 [zoneIDs.DEEPHOLM] = {{49.4,23.97}},
                 -- verified ingame spawns
+                -- [zoneIDs.GILNEAS_CITY] = {}, -- there are no spawns
                 [zoneIDs.GILNEAS] = {{27.64,66.04},{35.62,64.55}},
+                [zoneIDs.KEZAN] = {{61.91,73.69},{45.04,42.68}},
             },
         },
         [41938] = { -- Tremor Totem
@@ -4855,7 +4863,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [68128] = { -- Sam the Wise
-            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{48.87,50.48}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{33.65,34.36}}},
         },
         [68130] = { -- The Monkey King
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.16,45.64}}},
@@ -5477,6 +5485,18 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 15,
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.96,31.88}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [68989] = { -- Beastblast Babblesnaff
+            [npcKeys.name] = "Beastblast Babblesnaff",
+            [npcKeys.minLevel] = 5,
+            [npcKeys.maxLevel] = 5,
+            [npcKeys.spawns] = {
+                [zoneIDs.KEZAN] = {{56.64,72.64}},
+                [zoneIDs.THE_LOST_ISLES] = {{27.96,76.3}},
+            },
+            [npcKeys.zoneID] = zoneIDs.KEZAN,
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [68993] = { -- Fenegan Cobbler
             [npcKeys.name] = "Fenegan Cobbler",
