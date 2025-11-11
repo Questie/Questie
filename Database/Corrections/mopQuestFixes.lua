@@ -18,6 +18,12 @@ QuestieCorrections.spellObjectiveFirst[10070] = true
 QuestieCorrections.spellObjectiveFirst[10071] = true
 QuestieCorrections.spellObjectiveFirst[10072] = true
 QuestieCorrections.spellObjectiveFirst[10073] = true
+QuestieCorrections.spellObjectiveFirst[14007] = true
+QuestieCorrections.spellObjectiveFirst[14008] = true
+QuestieCorrections.spellObjectiveFirst[14010] = true
+QuestieCorrections.spellObjectiveFirst[14011] = true
+QuestieCorrections.spellObjectiveFirst[14012] = true
+QuestieCorrections.spellObjectiveFirst[14013] = true
 QuestieCorrections.spellObjectiveFirst[14266] = true
 QuestieCorrections.spellObjectiveFirst[14272] = true
 QuestieCorrections.spellObjectiveFirst[14274] = true
@@ -288,6 +294,37 @@ function MopQuestFixes.Load()
         },
         [13409] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
+        },
+        [14007] = { -- Steady Shot
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14008] = { -- Frost Nova
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14009] = { -- Learning the Word
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{589}}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14010] = { -- Eviscerate
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14011] = { -- Primal Strike
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14012] = { -- Corruption
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{172}}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
+        },
+        [14013] = { -- Charge
+            [questKeys.requiredLevel] = 2,
+            [questKeys.extraObjectives] = {},
         },
         [14266] = { -- Charge
             [questKeys.extraObjectives] = {},
