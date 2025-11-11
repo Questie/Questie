@@ -120,6 +120,7 @@ tinsert(eventQuests, {"Darkmoon Faire", 29508}) -- Baby Needs Two Pair of Shoes
 tinsert(eventQuests, {"Darkmoon Faire", 29509}) -- Putting the Crunch in the Frog
 tinsert(eventQuests, {"Darkmoon Faire", 29510}) -- Putting Trash to Good Use
 tinsert(eventQuests, {"Darkmoon Faire", 29511}) -- Talkin' Tonks
+tinsert(eventQuests, {"Darkmoon Faire", 29512}) -- Putting the Carnies Back Together Again
 tinsert(eventQuests, {"Darkmoon Faire", 29513}) -- Spoilin' for Salty Sea Dogs
 tinsert(eventQuests, {"Darkmoon Faire", 29514}) -- Herbs for Healing
 tinsert(eventQuests, {"Darkmoon Faire", 29515}) -- Writing the Future
