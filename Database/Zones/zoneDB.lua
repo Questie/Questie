@@ -151,6 +151,7 @@ function ZoneDB:GetLocalizedDungeonName(areaId)
     else
         local alternativeDungeonAreaId = alternativeDungeonAreaIdToDungeonAreaId[areaId]
         if alternativeDungeonAreaId then
+            areaId = alternativeDungeonAreaId
             dungeonName = dungeons[alternativeDungeonAreaId][1]
         end
     end
