@@ -128,16 +128,7 @@ end
 _AddQuestTitle = function(quest)
     local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level)
 
-    local titleColor = "gold"
-    if quest.specialFlags == 1 then
-        titleColor = "dailyBlue"
-    end
-    if QuestieDB.IsPvPQuest(quest.Id) then
-        titleColor = "pvpRed"
-    end
-    if QuestieEvent.IsEventQuest(quest.Id) then
-        titleColor = "lime"
-    end
+    local titleColor = string.sub(QuestieLib:PrintDifficultyColor(quest.level, "", QuestieDB.IsRepeatable(quest.Id), QuestieEvent.IsEventQuest(quest.Id), QuestieDB.IsPvPQuest(quest.Id)),5,10)
 
     if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
         _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
