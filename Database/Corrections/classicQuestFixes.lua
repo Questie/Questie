@@ -3527,6 +3527,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {},
         },
+        [8193] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8194] = {
+            [questKeys.questLevel] = 60,
+        },
         [8195] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3535,6 +3541,15 @@ function QuestieQuestFixes:Load()
         },
         [8201] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8221] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8224] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8225] = {
+            [questKeys.questLevel] = 60,
         },
         [8227] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
