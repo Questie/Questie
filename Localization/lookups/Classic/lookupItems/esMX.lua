@@ -1804,6 +1804,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [18501] = "Fragmento de gangrevid",
 [18513] = "Una hoja élfica desafilada",
 [18539] = "Relicario de Pureza",
+[18540] = "Relicario de Pureza sellado",
 [18562] = "Lingote de elementium",
 [18563] = "Ataduras del Hijo del Viento",
 [18564] = "Ataduras del Hijo del Viento",
