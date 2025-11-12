@@ -292,7 +292,7 @@ _HandleAllZonesSelection = function()
                     table.insert(allZoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
-                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(requiredSpell) or IsPlayerSpell(requiredSpell)) then
+                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     table.insert(allZoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- available quests
