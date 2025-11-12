@@ -307,6 +307,26 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.EMBERSTONE_MINE] = {{54.23,81.18}}},
             [npcKeys.zoneID] = zoneIDs.EMBERSTONE_MINE,
         },
+        [35837] = { -- Dead Orc Scout
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MITE_CAVERN] = {{41.56,25.52}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MITE_CAVERN,
+        },
+        [37872] = { -- Capturing The Unknown - Bunny 1
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MITE_CAVERN] = {{51.7,71.16}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MITE_CAVERN,
+        },
+        [37895] = { -- Capturing The Unknown - Bunny 2
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MITE_CAVERN] = {{66.17,69.1}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MITE_CAVERN,
+        },
+        [37896] = { -- Capturing The Unknown - Bunny 3
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MITE_CAVERN] = {{87.28,44.21}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MITE_CAVERN,
+        },
+        [37897] = { -- Capturing The Unknown - Bunny 3
+            [npcKeys.spawns] = {[zoneIDs.KAJA_MITE_CAVERN] = {{44.84,25.22}}},
+            [npcKeys.zoneID] = zoneIDs.KAJA_MITE_CAVERN,
+        },
         [37961] = { -- Corrupted Bloodtalon
             [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{38.04,66.02},{35.1,67.5},{36.57,65.81},{36.46,64.17},{37.82,62.97},{35.63,63.02},{34.67,62.51},{34.37,64.41},{34.17,66.08},{33.52,68.78},{32.76,69.58},{31.92,71.53},{33.03,72.51},{34.36,70.31},{34.13,71.92},{35.3,72.77},{36,72.98},{36.7,74.21},{38.1,74.01},{39.9,74.8},{39.14,72.51},{40.52,73.21},{40.31,70.25},{40.27,68.88},{40.43,67.57},{38.67,69.15},{37.72,71.39},{38.16,70.22}}},
             [npcKeys.zoneID] = zoneIDs.ECHO_ISLES,
@@ -338,18 +358,26 @@ function MopNpcFixes.Load()
         [38442] = { -- Morakki
             [npcKeys.spawns] = {[zoneIDs.ECHO_ISLES] = {{58.91,23.09}}},
         },
+        [38855] = { -- Volcanoth
+            [npcKeys.spawns] = {[zoneIDs.VOLCANOTHS_LAIR] = {{57.41,41.73}}},
+            [npcKeys.zoneID] = zoneIDs.VOLCANOTHS_LAIR,
+        },
+        [38928] = { -- Sassy Hardwrench
+            [npcKeys.spawns] = {[zoneIDs.VOLCANOTHS_LAIR] = {{62.63,49.84}}},
+            [npcKeys.zoneID] = zoneIDs.VOLCANOTHS_LAIR,
+        },
         [39605] = { -- Garrosh Hellscream
             [npcKeys.questStarts] = {9627,13842,25275,26293,26324,26830,26840,28909,31034},
         },
         [39660] = { -- Spirit Healer
             [npcKeys.spawns] = {
                 -- NOT verified ingame spawns, these are the CataDB spawns
-                [zoneIDs.THE_LOST_ISLES] = {{51.48,46.71},{53.62,75.25},{56.54,71.91},{45.45,67.2},{67.47,49.34},{66.94,49.84},{44.53,67.71},{51.48,46.71},{67.47,49.34},{55.05,15.45},{45.45,67.2},{52.54,36.92},{45.6,28.09},{37.49,38.06}},
                 [zoneIDs.DEEPHOLM] = {{49.4,23.97}},
                 -- verified ingame spawns
                 -- [zoneIDs.GILNEAS_CITY] = {}, -- there are no spawns
                 [zoneIDs.GILNEAS] = {{27.64,66.04},{35.62,64.55}},
                 [zoneIDs.KEZAN] = {{61.91,73.69},{45.04,42.68}},
+                [zoneIDs.THE_LOST_ISLES] = {{45.45,67.2},{53.62,75.25},{56.54,71.91},{51.48,46.71},{54.97,15.19},{37.52,38.16},{67.47,49.34},{52.58,36.83},{45.68,27.28}},
             },
         },
         [41938] = { -- Tremor Totem
@@ -5492,7 +5520,7 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 5,
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {{56.64,72.64}},
-                [zoneIDs.THE_LOST_ISLES] = {{27.96,76.3}},
+                [zoneIDs.THE_LOST_ISLES] = {{42.45,16.29},{39.72,27.92},{53.01,35.64},{45.17,65.02},{27.96,76.3}},
             },
             [npcKeys.zoneID] = zoneIDs.KEZAN,
             [npcKeys.friendlyToFaction] = "H",

@@ -3175,7 +3175,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14001,14474},
         },
         [14021] = { -- Miner Troubles
-            [questKeys.triggerEnd] = {"Kaja'mite Ore mining a success!",{[zoneIDs.THE_LOST_ISLES] = {{31.9,73.6}}}},
             [questKeys.objectives] = {nil,{{195622,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14031] = { -- Capturing the Unknown
@@ -4478,8 +4477,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {24658,24659,24660,24662,24663,24664,24665,28934},
         },
         [24671] = { -- Cluster Cluck
-            [questKeys.objectives] = {{{38111}}},
+            [questKeys.objectives] = {{{38111,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {14245},
+            [questKeys.breadcrumbs] = {27139},
         },
         [24676] = { -- Push Them Out
             [questKeys.preQuestSingle] = {},
@@ -5381,7 +5381,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25203,25207},
         },
         [25214] = { -- Escape Velocity
-            [questKeys.objectives] = {{{39456,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{39456,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [25215] = { -- A Distracting Scent
             [questKeys.preQuestSingle] = {25222},
@@ -9275,7 +9275,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{43254,43258},43254,"Totem energized"}}},
         },
         [27139] = { -- Hobart Needs You
-            [questKeys.exclusiveTo] = {24671},
+            [questKeys.breadcrumbForQuestId] = 24671,
+            [questKeys.nextQuestInChain] = 24671,
         },
         [27141] = { -- Exploding Through
             [questKeys.preQuestSingle] = {},
