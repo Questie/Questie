@@ -2862,6 +2862,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {30317,30318,30319,30321},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,4},{factionIDs.GINA_MUDCLAW,18}},
+            [questKeys.objectives] = {nil,nil,{{80213,nil,Questie.ICON_TYPE_TALK},{80214,nil,Questie.ICON_TYPE_TALK},{80215,nil,Questie.ICON_TYPE_TALK},{80216,nil,Questie.ICON_TYPE_TALK}}},
         },
         [30323] = { -- They Don't Even Wear Them
             [questKeys.preQuestSingle] = {30257},
@@ -6139,6 +6140,7 @@ function MopQuestFixes.Load()
         [31534] = { -- The Beginner's Brew
             [questKeys.requiredMinRep] = {1275,16800}, -- Buddy level with Ella
             [questKeys.reputationReward] = {{factionIDs.ELLA,35}},
+            [questKeys.objectives] = {nil,nil,{{87554,nil,Questie.ICON_TYPE_TALK},{87555,nil,Questie.ICON_TYPE_TALK},{87556,nil,Questie.ICON_TYPE_TALK},{87553,nil,Questie.ICON_TYPE_TALK}}},
         },
         [31535] = { -- Replenishing the Pantry
             [questKeys.preQuestSingle] = {31536},
