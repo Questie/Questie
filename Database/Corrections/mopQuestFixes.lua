@@ -8638,9 +8638,8 @@ function MopQuestFixes.Load()
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32390},
+            [questKeys.preQuestSingle] = {32390,32457},
             [questKeys.breadcrumbForQuestId] = 32591,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32460] = { -- Tracking the Thieves
             [questKeys.preQuestSingle] = {32414},
