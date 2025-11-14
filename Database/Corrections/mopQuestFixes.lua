@@ -8659,9 +8659,8 @@ function MopQuestFixes.Load()
         },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32432},
+            [questKeys.preQuestSingle] = {32390,32432},
             [questKeys.breadcrumbForQuestId] = 32591,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [32591] = { -- Secrets of the First Empire
             [questKeys.preQuestSingle] = {32390,32432},

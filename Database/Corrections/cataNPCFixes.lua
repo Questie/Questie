@@ -7683,10 +7683,7 @@ function CataNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "H",
         },
         [54476] = { -- Nozdormu
-            [npcKeys.spawns] = {
-                [zoneIDs.END_TIME_RUBY_DRAGONSHRINE] = {{36.35,43.61}},
-                [zoneIDs.END_TIME] = {{79.54,44.94},{-1,-1}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.END_TIME] = {{79.54,44.94},{-1,-1}}},
         },
         [54485] = { -- Jessica Rogers
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{51.65,77.84},{-1,-1}}},
@@ -7728,6 +7725,9 @@ function CataNpcFixes.Load()
         [54636] = { -- Caza'rez
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{51.48,90.03},{-1,-1}}},
         },
+        [54645] = { -- Royal Handmaiden
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{43.46,27.33},{43.81,27.02},{-1,-1}}},
+        },
         [54667] = { -- Watcher Jhang
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{18.8,11.16},{-1,-1}}},
         },
@@ -7759,7 +7759,7 @@ function CataNpcFixes.Load()
         [54751] = { -- Nozdormu
             [npcKeys.spawns] = {
                 [zoneIDs.END_TIME] = {{-1,-1}},
-                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{37.3,79.94},{52.14,44.46,phases.ET_MUROZOND_DEAD}},
+                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{52.14,44.46,phases.ET_MUROZOND_DEAD}},
             },
         },
         [54840] = { -- Isfar
@@ -7798,8 +7798,14 @@ function CataNpcFixes.Load()
         [54934] = { -- Gunny
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{58.59,88.59},{-1,-1}}},
         },
+        [54938] = { -- Archbishop Benedictus
+            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {{47.24,50.86}},[zoneIDs.HOUR_OF_TWILIGHT] = {{-1,-1}}},
+        },
         [54968] = { -- Asira Dawnslayer
             [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{39.08,51.26},{-1,-1}}},
+        },
+        [54971] = { -- Thrall
+            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {{46.73,44.77}},[zoneIDs.HOUR_OF_TWILIGHT] = {{-1,-1}}},
         },
         [54972] = { -- Thrall
             [npcKeys.questEnds] = {30102,30103},
@@ -7861,8 +7867,14 @@ function CataNpcFixes.Load()
         [55402] = { -- Korgol Crushskull
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.37,78.91},{-1,-1}}},
         },
+        [55419] = { -- Captain Varo'then
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.37,78.91},{-1,-1}}},
+        },
+        [55503] = { -- Legion Demon
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{23.41,68.34},{-1,-1}}},
+        },
         [55532] = { -- Illidan Stormrage
-            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{81.84,57.77},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{84.49,56.01},{-1,-1}}},
         },
         [55624] = { -- Nozdormu/Image of Nozdormu
             [npcKeys.spawns] = {
@@ -7897,11 +7909,13 @@ function CataNpcFixes.Load()
         },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
-                [zoneIDs.END_TIME] = {{79.63,45.1},{-1,-1}},
-                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{51.01,43.49,phases.ET_MUROZOND_DEAD}},
+                [zoneIDs.END_TIME] = {{79.63,45.1,phases.ET_ALURMI_ENTRANCE},{79.63,45.1,phases.ET_ALURMI_MUROZOND_DEAD},{-1,-1,phases.ET_ALURMI_ENTRANCE},{-1,-1,phases.ET_ALURMI_MUROZOND_DEAD}},
+                [zoneIDs.END_TIME_BRONZE_DRAGONSHRINE] = {{51.01,43.49,phases.ET_ALURMI_MUROZOND_DEAD}},
                 [zoneIDs.WELL_OF_ETERNITY] = {
-                    {-1,-1},
-                    {25.99,62.87,phases.ET_MUROZOND_DEAD},
+                    {-1,-1,phases.WOT_MUROZOND_DEAD},
+                    {-1,-1,phases.WOT_MANNOROTH_DEAD},
+                    {25.99,62.87,phases.WOT_MUROZOND_DEAD},
+                    {87.85,49.84,phases.WOT_MANNOROTH_DEAD},
                 },
             },
         },

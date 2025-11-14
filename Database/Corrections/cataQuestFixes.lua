@@ -15385,28 +15385,34 @@ function CataQuestFixes.Load()
         },
         [30094] = { -- The End Time
             [questKeys.nextQuestInChain] = 30096,
+            [questKeys.breadcrumbForQuestId] = 30096,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
         },
         [30095] = { -- The End Time
             [questKeys.startedBy] = {{52408}},
             [questKeys.nextQuestInChain] = 30096,
+            [questKeys.breadcrumbForQuestId] = 30096,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
         },
         [30096] = { -- Murozond
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 30098,
+            [questKeys.breadcrumbs] = {30094,30095},
         },
         [30097] = { -- Archival Purposes
+            [questKeys.finishedBy] = {{57864}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{54123,54431,54445,54544},54123}}},
             [questKeys.requiredSourceItems] = {77939,77940,77941,77942},
         },
         [30098] = { -- The Well of Eternity
             [questKeys.nextQuestInChain] = 30099,
+            [questKeys.breadcrumbForQuestId] = 30099,
         },
         [30099] = { -- In Unending Numbers
             [questKeys.nextQuestInChain] = 30100,
-            [questKeys.objectives] = {{{55085}},{{209366},{209447},{209448}}},
+            [questKeys.objectives] = {{{55085}},{{209448},{209447},{209366}}},
             [questKeys.preQuestSingle] = {30096},
+            [questKeys.breadcrumbs] = {30098},
         },
         [30100] = { -- The Vainglorious
             [questKeys.nextQuestInChain] = 30101,
@@ -15415,16 +15421,23 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 30102,
         },
         [30102] = { -- The Hour of Twilight
+            [questKeys.breadcrumbForQuestId] = 30103,
             [questKeys.nextQuestInChain] = 30103,
             [questKeys.preQuestSingle] = {30101},
         },
         [30103] = { -- To Wyrmrest!
             [questKeys.preQuestSingle] = {30101},
+            [questKeys.breadcrumbs] = {30102},
+        },
+        [30104] = { -- Documenting the Timeways
+            [questKeys.preQuestSingle] = {30096},
+            [questKeys.objectives] = {{{55503},{54645},{55419}}},
         },
         [30105] = { -- The Twilight Prophet
             [questKeys.preQuestSingle] = {30101},
             [questKeys.startedBy] = {nil,nil,{77957}},
             [questKeys.finishedBy] = {{54971}},
+            [questKeys.objectives] = {{{54938,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
