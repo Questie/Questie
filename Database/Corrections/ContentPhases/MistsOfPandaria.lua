@@ -366,6 +366,7 @@ local questsToBlacklistByPhase = {
         [32587] = true, -- Forge Ahead!
         [32588] = true, -- On Her Magic-ey Secret Service
         [32589] = true, -- Life Blood
+        [32590] = true, -- Meet Me Upstairs
         [32591] = true, -- Secrets of the First Empire
         [32592] = true, -- I Need a Champion
         [32593] = true, -- The Thunder Forge
