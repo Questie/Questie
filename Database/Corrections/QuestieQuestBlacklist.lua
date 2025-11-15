@@ -267,8 +267,8 @@ function QuestieQuestBlacklist:Load()
         [8224] = HIDE_ON_MAP,
         [8225] = HIDE_ON_MAP,
         [8193] = HIDE_ON_MAP,
-        [8228] = true, -- No evidence that this quest is actually implemented in the game
-        [8229] = true, -- No evidence that this quest is actually implemented in the game
+        [8228] = HIDE_ON_MAP,
+        [8229] = HIDE_ON_MAP,
         --love is in the air
         [8903] = true,
         [8904] = true,
