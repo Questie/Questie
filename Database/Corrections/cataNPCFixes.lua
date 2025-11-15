@@ -7868,7 +7868,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.37,78.91},{-1,-1}}},
         },
         [55419] = { -- Captain Varo'then
-            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.37,78.91},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{85.19,53.69},{-1,-1}}},
         },
         [55503] = { -- Legion Demon
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{23.41,68.34},{-1,-1}}},
