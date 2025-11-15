@@ -224,6 +224,8 @@ Modules\Journey\tabs\MyJourney\MyJourney.lua
 Modules\Journey\tabs\MyJourney\MyJourneyTab.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZone.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZoneTab.lua
+Modules\Journey\tabs\QuestsByFaction\QuestsByFactions.lua
+Modules\Journey\tabs\QuestsByFaction\QuestsByFactionsTab.lua
 #Modules\Journey\tabs\Search\Search.lua
 #Modules\Journey\tabs\Search\SearchTab.lua
 Modules\Journey\QuestieSearch.lua
