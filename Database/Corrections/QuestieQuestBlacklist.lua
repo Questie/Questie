@@ -990,6 +990,7 @@ function QuestieQuestBlacklist:Load()
         [9094] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Argent Dawn Gloves
         [9153] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Under the Shadow
         [9154] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Light's Hope Chapel
+        [9247] = true, -- The Keeper's Call (Blizzard forgot to implement in Era and Anniversary)
         [9260] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Stormwind
         [9261] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Ironforge
         [9262] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Darnassus
