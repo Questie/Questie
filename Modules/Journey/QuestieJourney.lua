@@ -31,6 +31,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
 _QuestieJourney.lastZoneSelection = {}
+_QuestieJourney.lastFactionSelection = {}
 
 local notesPopupWin
 local notesPopupWinIsOpen = false
@@ -111,6 +112,10 @@ function QuestieJourney:BuildMainFrame()
             {
                 text = l10n("Quests by Zone"),
                 value="zone"
+            },
+            {
+                text = l10n("Quests by Faction"),
+                value="faction"
             },
             {
                 text = l10n("Advanced Search"),
