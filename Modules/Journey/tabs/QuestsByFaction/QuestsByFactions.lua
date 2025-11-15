@@ -218,17 +218,19 @@ local function _RegisterFactionForExpansion(factionId, introOrder)
         return
     end
 
-    for _, expansion in ipairs(expansionDefinitions) do
-        if expansion.order >= introOrder then
-            local bucket = QuestieJourney.factionsByExpansion[expansion.key]
-            if not bucket then
-                bucket = {}
-                QuestieJourney.factionsByExpansion[expansion.key] = bucket
-            end
-            if not bucket[factionId] then
-                bucket[factionId] = factionName
-            end
-        end
+    local expansionKey = expansionKeyByOrder[introOrder]
+    if not expansionKey then
+        return
+    end
+
+    local bucket = QuestieJourney.factionsByExpansion[expansionKey]
+    if not bucket then
+        bucket = {}
+        QuestieJourney.factionsByExpansion[expansionKey] = bucket
+    end
+
+    if not bucket[factionId] then
+        bucket[factionId] = factionName
     end
 end
 
