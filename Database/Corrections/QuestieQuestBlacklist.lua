@@ -986,24 +986,35 @@ function QuestieQuestBlacklist:Load()
         [10501] = Expansions.Current >= Expansions.Tbc,
 
         -- Classic Phase 6 Invasion quests
-        [9247] = true, -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
-        [9085] = Expansions.Current >= Expansions.Wotlk, -- Shadows of Doom
-        [9153] = Expansions.Current >= Expansions.Wotlk, -- Under the Shadow
-        [9154] = Expansions.Current >= Expansions.Wotlk, -- Light's Hope Chapel
-        [9260] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Stormwind
-        [9261] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Ironforge
-        [9262] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Darnassus
-        [9263] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Orgrimmar
-        [9264] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Thunder Bluff
-        [9265] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of the Undercity
-        [9292] = Expansions.Current >= Expansions.Wotlk, -- Cracked Necrotic Crystal
-        [9295] = Expansions.Current >= Expansions.Wotlk, -- Letter from the Front
-        [9299] = Expansions.Current >= Expansions.Wotlk, -- Note from the Front
-        [9300] = Expansions.Current >= Expansions.Wotlk, -- Page from the Front
-        [9301] = Expansions.Current >= Expansions.Wotlk, -- Envelope from the Front
-        [9302] = Expansions.Current >= Expansions.Wotlk, -- Missive from the Front
-        [9304] = Expansions.Current >= Expansions.Wotlk, -- Document from the Front
-        [9310] = Expansions.Current >= Expansions.Wotlk, -- Faint Necrotic Crystal
+        [9085] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Shadows of Doom
+        [9094] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Argent Dawn Gloves
+        [9153] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Under the Shadow
+        [9154] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Light's Hope Chapel
+        [9260] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Stormwind
+        [9261] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Ironforge
+        [9262] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Darnassus
+        [9263] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Orgrimmar
+        [9264] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of Thunder Bluff
+        [9265] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Investigate the Scourge of the Undercity
+        [9292] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Cracked Necrotic Crystal
+        [9295] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Letter from the Front
+        [9299] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Note from the Front
+        [9300] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Page from the Front
+        [9301] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Envelope from the Front
+        [9302] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Missive from the Front
+        [9304] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Document from the Front
+        [9310] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Faint Necrotic Crystal
+        [9317] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Consecrated Sharpening Stones
+        [9318] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Blessed Wizard Oil
+        [9320] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Major Mana Potion
+        [9321] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Major Healing Potion
+        [9333] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Argent Dawn Gloves
+        [9334] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Blessed Wizard Oil
+        [9335] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Consecrated Sharpening Stones
+        [9336] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Major Healing Potion
+        [9337] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Major Mana Potion
+        [9341] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Tabard of the Argent Dawn
+        [9343] = Questie.IsEra or Expansions.Current == Expansions.Wotlk, -- Tabard of the Argent Dawn
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
@@ -1446,18 +1457,6 @@ function QuestieQuestBlacklist:Load()
 
         [6804] = Expansions.Current >= Expansions.Wotlk,
         [7737] = Expansions.Current == Expansions.Wotlk, -- replaced by 13662 in wotlk
-        [9094] = Expansions.Current >= Expansions.Wotlk,
-        [9317] = Expansions.Current >= Expansions.Wotlk,
-        [9318] = Expansions.Current >= Expansions.Wotlk,
-        [9320] = Expansions.Current >= Expansions.Wotlk,
-        [9321] = Expansions.Current >= Expansions.Wotlk,
-        [9333] = Expansions.Current >= Expansions.Wotlk,
-        [9334] = Expansions.Current >= Expansions.Wotlk,
-        [9335] = Expansions.Current >= Expansions.Wotlk,
-        [9336] = Expansions.Current >= Expansions.Wotlk,
-        [9337] = Expansions.Current >= Expansions.Wotlk,
-        [9341] = Expansions.Current >= Expansions.Wotlk,
-        [9343] = Expansions.Current >= Expansions.Wotlk,
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
         [9120] = Expansions.Current >= Expansions.Wotlk, -- The Fall of Kel'Thuzad
