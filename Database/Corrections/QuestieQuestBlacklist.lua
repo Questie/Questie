@@ -5422,6 +5422,7 @@ function QuestieQuestBlacklist:Load()
         [12952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13052] = true, -- Not in the game
         [13096] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5924,6 +5925,7 @@ function QuestieQuestBlacklist:Load()
         [28936] = true, -- Hidden quest
         [28937] = true, -- Hidden quest
         [28938] = true, -- Hidden quest
+        [28939] = true, -- Hidden quest
         [28940] = true, -- Hidden quest
         [28941] = true, -- Hidden quest
         [28942] = true, -- Hidden quest
