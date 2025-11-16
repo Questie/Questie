@@ -295,6 +295,19 @@ function _EnsureFactionQuestData()
     end
 
     QuestieJourney.factionMap = factionQuestMap
+
+    if QuestieJourney.factionsByExpansion then
+        for expansionKey, bucket in pairs(QuestieJourney.factionsByExpansion) do
+            if bucket then
+                for factionId in pairs(bucket) do
+                    local questsForFaction = factionQuestMap[factionId]
+                    if (not questsForFaction) or (not next(questsForFaction)) then
+                        bucket[factionId] = nil
+                    end
+                end
+            end
+        end
+    end
 end
 
 ---Manage the faction tree itself and the contents of the per-quest window

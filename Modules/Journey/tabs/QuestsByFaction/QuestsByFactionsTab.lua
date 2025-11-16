@@ -96,7 +96,6 @@ end
 _CreateExpansionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.availableFactionExpansions, QuestieJourney.availableFactionExpansionOrder)
-    dropdown:SetText(l10n('Select Expansion'))
     dropdown:SetCallback("OnValueChanged", _HandleExpansionSelection)
 
     local lastExpansion = _QuestieJourney.lastFactionSelection[1]
