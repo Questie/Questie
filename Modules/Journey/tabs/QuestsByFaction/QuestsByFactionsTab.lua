@@ -11,15 +11,28 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+
 local RESET = -1000
 
 local _CreateExpansionDropdown, _CreateFactionDropdown
 local _HandleExpansionSelection, _HandleFactionSelection
+local _GetWatchedFactionId
 
 local selectedExpansionKey
 local expansionDropdown, factionDropdown, treegroup
 
 local function _GetDefaultExpansion()
+    local watchedFactionId = _GetWatchedFactionId and _GetWatchedFactionId()
+    if watchedFactionId and QuestieJourney.factionsByExpansion and QuestieJourney.availableFactionExpansionOrder then
+        for _, expansionKey in ipairs(QuestieJourney.availableFactionExpansionOrder) do
+            local factions = QuestieJourney.factionsByExpansion[expansionKey]
+            if factions and factions[watchedFactionId] then
+                return expansionKey
+            end
+        end
+    end
+
     local order = QuestieJourney.availableFactionExpansionOrder
     if order and #order > 0 then
         return order[1]
@@ -34,7 +47,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     treegroup = AceGUI:Create("SimpleGroup")
 
     local header = AceGUI:Create("Heading")
-    header:SetText(l10n('Select Your Expansion and Faction'))
+    header:SetText(l10n('Select Expansion and Faction'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -61,10 +74,29 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     container:AddChild(treegroup)
 end
 
+_GetWatchedFactionId = function()
+    if not GetNumFactions or not GetFactionInfo then
+        return nil
+    end
+
+    if ExpandFactionHeader then
+        ExpandFactionHeader(0)
+    end
+
+    for i = 1, GetNumFactions() do
+        local _, _, _, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)
+        if not isHeader and isWatched and factionID then
+            return factionID
+        end
+    end
+
+    return nil
+end
+
 _CreateExpansionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.availableFactionExpansions, QuestieJourney.availableFactionExpansionOrder)
-    dropdown:SetText(l10n('Select Your Expansion'))
+    dropdown:SetText(l10n('Select Expansion'))
     dropdown:SetCallback("OnValueChanged", _HandleExpansionSelection)
 
     local lastExpansion = _QuestieJourney.lastFactionSelection[1]
@@ -98,12 +130,20 @@ _CreateFactionDropdown = function()
     end
 
     if currentFactionId == RESET then
-        dropdown:SetText(l10n('Select Your Faction'))
+        dropdown:SetText(l10n('Select Faction'))
     end
 
     if factions and next(factions) then
         local sortedFactions = QuestieJourneyUtils:GetSortedZoneKeys(factions)
         dropdown:SetList(factions, sortedFactions)
+
+        if currentFactionId == RESET then
+            local watchedFactionId = _GetWatchedFactionId and _GetWatchedFactionId()
+            if watchedFactionId and factions[watchedFactionId] then
+                currentFactionId = watchedFactionId
+                _QuestieJourney.lastFactionSelection[2] = currentFactionId
+            end
+        end
 
         if currentFactionId ~= RESET and factions[currentFactionId] then
             dropdown:SetValue(currentFactionId)
@@ -113,7 +153,7 @@ _CreateFactionDropdown = function()
                 _QuestieJourney.questsByFaction:ManageTree(treegroup, factionTree)
             end
         elseif currentFactionId ~= RESET then
-            dropdown:SetText(l10n('Select Your Faction'))
+            dropdown:SetText(l10n('Select Faction'))
         end
     else
         dropdown:SetDisabled(true)
@@ -127,7 +167,7 @@ _HandleExpansionSelection = function(widget, _)
     selectedExpansionKey = widget.value
 
     factionDropdown:SetDisabled(false)
-    factionDropdown:SetText(l10n('Select Your Faction'))
+    factionDropdown:SetText(l10n('Select Faction'))
     local factions = QuestieJourney.factionsByExpansion[selectedExpansionKey]
 
     if factions and next(factions) then

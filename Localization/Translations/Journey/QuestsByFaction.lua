@@ -2,7 +2,7 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local questsByFactionLocales = {
-    ["Select Your Expansion and Faction"] = {
+    ["Select Expansion and Faction"] = {
         ["enUS"] = true,
         ["deDE"] = "",
         ["esES"] = "",
@@ -26,7 +26,7 @@ local questsByFactionLocales = {
         ["zhCN"] = "",
         ["zhTW"] = "",
     },
-    ["Select Your Expansion"] = {
+    ["Select Expansion"] = {
         ["enUS"] = true,
         ["deDE"] = "",
         ["esES"] = "",
@@ -38,7 +38,7 @@ local questsByFactionLocales = {
         ["zhCN"] = "",
         ["zhTW"] = "",
     },
-    ["Select Your Faction"] = {
+    ["Select Faction"] = {
         ["enUS"] = true,
         ["deDE"] = "",
         ["esES"] = "",
