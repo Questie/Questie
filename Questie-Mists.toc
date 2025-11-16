@@ -225,6 +225,7 @@ Modules\Network\QuestieCommsData.lua
 Modules\Journey\QuestieJourney.lua
 Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
+Modules\Journey\QuestieJourneyFactions.lua
 Modules\Journey\History.lua
 Modules\Journey\QuestDetailsFrame.lua
 Modules\Journey\tabs\MyJourney\Note.lua

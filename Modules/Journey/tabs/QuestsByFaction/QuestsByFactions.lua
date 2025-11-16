@@ -17,6 +17,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieJourneyFactions
+local QuestieJourneyFactions = QuestieLoader:ImportModule("QuestieJourneyFactions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type Expansions
@@ -32,11 +34,11 @@ local factionQuestMap
 local factionIDs = QuestieDB.factionIDs
 
 local expansionDefinitions = {
-    { key = "classic", label = l10n("Classic"), order = Expansions.Era },
-    { key = "tbc", label = l10n("Burning Crusade"), order = Expansions.Tbc },
-    { key = "wotlk", label = l10n("Wrath of the Lich King"), order = Expansions.Wotlk },
-    { key = "cata", label = l10n("Cataclysm"), order = Expansions.Cata },
-    { key = "mop", label = l10n("Mists of Pandaria"), order = Expansions.MoP },
+    { key = "classic", label = EXPANSION_NAME0, order = Expansions.Era },
+    { key = "tbc", label = EXPANSION_NAME1, order = Expansions.Tbc },
+    { key = "wotlk", label = EXPANSION_NAME2, order = Expansions.Wotlk },
+    { key = "cata", label = EXPANSION_NAME3, order = Expansions.Cata },
+    { key = "mop", label = EXPANSION_NAME4, order = Expansions.MoP },
 }
 
 local expansionKeyByOrder = {}
@@ -46,161 +48,14 @@ for _, expansion in ipairs(expansionDefinitions) do
     expansionOrderByKey[expansion.key] = expansion.order
 end
 
-local expansionFactionCandidates = {
-    classic = {
-        factionIDs.BOOTY_BAY,
-        factionIDs.IRONFORGE,
-        factionIDs.GNOMEREGAN,
-        factionIDs.THORIUM_BROTHERHOOD,
-        factionIDs.HORDE,
-        factionIDs.UNDERCITY,
-        factionIDs.DARNASSUS,
-        factionIDs.SYNDICATE,
-        factionIDs.STORMWIND,
-        factionIDs.ORGRIMMAR,
-        factionIDs.THUNDER_BLUFF,
-        factionIDs.GELKIS_CLAN_CENTAUR,
-        factionIDs.MAGRAM_CLAN_CENTAUR,
-        factionIDs.STEAMWHEEDLE_CARTEL,
-        factionIDs.ZANDALAR_TRIBE,
-        factionIDs.RAVENHOLDT,
-        factionIDs.GADGETZAN,
-        factionIDs.ALLIANCE,
-        factionIDs.RATCHET,
-        factionIDs.THE_LEAGUE_OF_ARATHOR,
-        factionIDs.THE_DEFILERS,
-        factionIDs.ARGENT_DAWN,
-        factionIDs.DARKSPEAR_TROLLS,
-        factionIDs.TIMBERMAW_HOLD,
-        factionIDs.EVERLOOK,
-        factionIDs.WINTERSABER_TRAINERS,
-        factionIDs.CENARION_CIRCLE,
-        factionIDs.FROSTWOLF_CLAN,
-        factionIDs.STORMPIKE_GUARD,
-        factionIDs.HYDRAXIAN_WATERLORDS,
-        factionIDs.SHEN_DRALAR,
-        factionIDs.WARSONG_OUTRIDERS,
-        factionIDs.SILVERWING_SENTINELS,
-        factionIDs.ALLIANCE_FORCES,
-        factionIDs.HORDE_FORCES,
-        factionIDs.DARKMOON_FAIRE,
-        factionIDs.BROOD_OF_NOZDORMU,
-    },
-    tbc = {
-        factionIDs.SILVERMOON_CITY,
-        factionIDs.TRANQUILLIEN,
-        factionIDs.EXODAR,
-        factionIDs.THE_ALDOR,
-        factionIDs.THE_CONSORTIUM,
-        factionIDs.THE_SCRYERS,
-        factionIDs.THE_SHA_TAR,
-        factionIDs.SHATTRATH_CITY,
-        factionIDs.THE_MAGHAR,
-        factionIDs.CENARION_EXPEDITION,
-        factionIDs.HONOR_HOLD,
-        factionIDs.THRALLMAR,
-        factionIDs.THE_VIOLET_EYE,
-        factionIDs.SPOREGGAR,
-        factionIDs.KURENAI,
-        factionIDs.THE_BURNING_CRUSADE,
-        factionIDs.KEEPERS_OF_TIME,
-        factionIDs.THE_SCALE_OF_THE_SANDS,
-        factionIDs.LOWER_CITY,
-        factionIDs.ASHTONGUE_DEATHSWORN,
-        factionIDs.NETHERWING,
-        factionIDs.SHA_TARI_SKYGUARD,
-        factionIDs.OGRILA,
-        factionIDs.SHATTERED_SUN_OFFENSIVE,
-    },
-    wotlk = {
-        factionIDs.ALLIANCE_VANGUARD,
-        factionIDs.VALIANCE_EXPEDITION,
-        factionIDs.HORDE_EXPEDITION,
-        factionIDs.THE_TAUNKA,
-        factionIDs.THE_HAND_OF_VENGEANCE,
-        factionIDs.EXPLORERS_LEAGUE,
-        factionIDs.THE_KALUAK,
-        factionIDs.WARSONG_OFFENSIVE,
-        factionIDs.KIRIN_TOR,
-        factionIDs.THE_WYRMREST_ACCORD,
-        factionIDs.THE_SILVER_COVENANT,
-        factionIDs.WRATH_OF_THE_LICH_KING,
-        factionIDs.KNIGHTS_OF_THE_EBON_BLADE,
-        factionIDs.FRENZYHEART_TRIBE,
-        factionIDs.THE_ORACLES,
-        factionIDs.ARGENT_CRUSADE,
-        factionIDs.SHOLAZAR_BASIN,
-        factionIDs.THE_SONS_OF_HODIR,
-        factionIDs.THE_SUNREAVERS,
-        factionIDs.THE_FROSTBORN,
-        factionIDs.THE_ASHEN_VERDICT,
-    },
-    cata = {
-        factionIDs.BILGEWATER_CARTEL,
-        factionIDs.GILNEAS,
-        factionIDs.THE_EARTHEN_RING,
-        factionIDs.GUARDIANS_OF_HYJAL,
-        factionIDs.THERAZANE,
-        factionIDs.DRAGONMAW_CLAN,
-        factionIDs.RAMKAHEN,
-        factionIDs.WILDHAMMER_CLAN,
-        factionIDs.BARADINS_WARDENS,
-        factionIDs.HELLSCREAMS_REACH,
-        factionIDs.AVENGERS_OF_HYJAL,
-    },
-    mop = {
-        factionIDs.SHANG_XIS_ACADEMY,
-        factionIDs.FOREST_HOZEN,
-        factionIDs.PEARLFIN_JINYU,
-        factionIDs.GOLDEN_LOTUS,
-        factionIDs.SHADO_PAN,
-        factionIDs.ORDER_OF_THE_CLOUD_SERPENT,
-        factionIDs.THE_TILLERS,
-        factionIDs.JOGU_THE_DRUNK,
-        factionIDs.ELLA,
-        factionIDs.OLD_HILLPAW,
-        factionIDs.CHEE_CHEE,
-        factionIDs.SHO,
-        factionIDs.HAOHAN_MUDCLAW,
-        factionIDs.TINA_MUDCLAW,
-        factionIDs.GINA_MUDCLAW,
-        factionIDs.FISH_FELLREED,
-        factionIDs.FARMER_FUNG,
-        factionIDs.THE_ANGLERS,
-        factionIDs.THE_KLAXXI,
-        factionIDs.THE_AUGUST_CELESTIALS,
-        factionIDs.THE_LOREWALKERS,
-        factionIDs.THE_BREWMASTERS,
-        factionIDs.HUOJIN_PANDAREN,
-        factionIDs.TUSHUI_PANDAREN,
-        factionIDs.NOMI,
-        factionIDs.NAT_PAGLE,
-        factionIDs.THE_BLACK_PRINCE,
-        factionIDs.BRAWLGAR_ARENA_SEASON_1,
-        factionIDs.DOMINANCE_OFFENSIVE,
-        factionIDs.OPERATION_SHIELDWALL,
-        factionIDs.KIRIN_TOR_OFFENSIVE,
-        factionIDs.SUNREAVER_ONSLAUGHT,
-        factionIDs.AKAMAS_TRUST,
-        factionIDs.BIZMOS_BRAWLPUB_SEASON_1,
-        factionIDs.SHADO_PAN_ASSAULT,
-        factionIDs.DARKSPEAR_REBELLION,
-    },
-}
-
-local factionIntroductionOrder = {}
-for expansionKey, factionList in pairs(expansionFactionCandidates) do
-    local order = expansionOrderByKey[expansionKey]
-    if order then
-        for _, factionId in ipairs(factionList) do
-            factionIntroductionOrder[factionId] = order
-        end
-    end
-end
+local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates
+local factionIntroductionOrder = QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKey)
 
 QuestieJourney.availableFactionExpansions = QuestieJourney.availableFactionExpansions or {}
 QuestieJourney.availableFactionExpansionOrder = QuestieJourney.availableFactionExpansionOrder or {}
 QuestieJourney.factionsByExpansion = QuestieJourney.factionsByExpansion or {}
+
+local _EnsureFactionQuestData
 
 local referencedFactionFields = {
     "requiredMinRep",
@@ -355,6 +210,10 @@ function _QuestieJourney.questsByFaction:InitializeFactionData()
     _EnsureFactionDataInitialized()
 end
 
+function _QuestieJourney.questsByFaction:InitializeFactionQuestData()
+    _EnsureFactionQuestData()
+end
+
 local function _AddQuestToFaction(factionId, questId)
     if not factionId or not questId then
         return
@@ -389,26 +248,7 @@ local function _IsQuestAvailableToPlayer(requiredRaces, requiredClasses)
     return QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses)
 end
 
-local function _GetFactionReputationRewardValue(questId, factionId)
-    if not questId or not factionId then
-        return nil
-    end
-
-    local reputationRewards = QuestieReputation.GetReputationReward(questId)
-    if not reputationRewards then
-        return nil
-    end
-
-    for _, rewardPair in pairs(reputationRewards) do
-        if rewardPair[1] == factionId then
-            return rewardPair[2]
-        end
-    end
-
-    return nil
-end
-
-local function _EnsureFactionQuestData()
+function _EnsureFactionQuestData()
     if factionQuestMap then
         return
     end
@@ -420,6 +260,7 @@ local function _EnsureFactionQuestData()
         "requiredMaxRep",
         "reputationReward",
         "requiredRaces",
+        "requiredClasses",
     }
 
     for questId in pairs(QuestieDB.QuestPointers) do
@@ -428,25 +269,28 @@ local function _EnsureFactionQuestData()
         local requiredMaxRep = queryResult[2]
         local reputationReward = queryResult[3]
         local requiredRaces = queryResult[4]
+        local requiredClasses = queryResult[5]
 
-        if requiredMinRep then
-            _AddQuestToFaction(requiredMinRep[1], questId)
-        end
-
-        if requiredMaxRep then
-            _AddQuestToFaction(requiredMaxRep[1], questId)
-        end
-
-        if reputationReward then
-            for _, factionPair in pairs(reputationReward) do
-                _AddQuestToFaction(factionPair[1], questId)
+        if _IsQuestAvailableToPlayer(requiredRaces, requiredClasses) then
+            if requiredMinRep then
+                _AddQuestToFaction(requiredMinRep[1], questId)
             end
-        end
 
-        if _IsAllianceRaceMask(requiredRaces) then
-            _AddQuestToFaction(factionIDs.ALLIANCE, questId)
-        elseif _IsHordeRaceMask(requiredRaces) then
-            _AddQuestToFaction(factionIDs.HORDE, questId)
+            if requiredMaxRep then
+                _AddQuestToFaction(requiredMaxRep[1], questId)
+            end
+
+            if reputationReward then
+                for _, factionPair in pairs(reputationReward) do
+                    _AddQuestToFaction(factionPair[1], questId)
+                end
+            end
+
+            if _IsAllianceRaceMask(requiredRaces) then
+                _AddQuestToFaction(factionIDs.ALLIANCE, questId)
+            elseif _IsHordeRaceMask(requiredRaces) then
+                _AddQuestToFaction(factionIDs.HORDE, questId)
+            end
         end
     end
 
@@ -516,8 +360,6 @@ end
 ---@param factionId number
 ---@return table<number, any> | nil
 function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
-    _EnsureFactionQuestData()
-
     local quests = QuestieJourney.factionMap and QuestieJourney.factionMap[factionId]
     if (not quests) then
         return nil
@@ -581,88 +423,87 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     "requiredMinRep",
                     "requiredMaxRep",
                     "requiredSpell",
-                    "requiredMaxLevel",
-                    "requiredRaces",
-                    "requiredClasses"
+                    "requiredMaxLevel"
                 }
             ) or {}
 
-            local requiredRaces = queryResult[10]
-            local requiredClasses = queryResult[11]
+            local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
-            if _IsQuestAvailableToPlayer(requiredRaces, requiredClasses) then
-                local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
-                local rewardValue = _GetFactionReputationRewardValue(questId, factionId)
-                if rewardValue and rewardValue ~= 0 then
-                    questName = questName .. " (" .. rewardValue .. ")"
+            local reputationRewards = QuestieReputation.GetReputationReward(questId)
+            if reputationRewards and next(reputationRewards) then
+                local rewardString = QuestieReputation.GetReputationRewardString(reputationRewards)
+                if rewardString and rewardString ~= "" then
+                    local rewardText = Questie:Colorize(" (" .. rewardString .. ")", "reputationBlue")
+                    questName = questName .. rewardText
                 end
-                temp.text = questName
+            end
 
-                if Questie.db.char.complete[questId] then
+            temp.text = questName
+
+            if Questie.db.char.complete[questId] then
+                tinsert(factionTree[3].children, temp)
+                completedCounter = completedCounter + 1
+            else
+                local exclusiveTo = queryResult[1]
+                local nextQuestInChain = queryResult[2]
+                local parentQuest = queryResult[3]
+                local preQuestSingle = queryResult[4]
+                local preQuestGroup = queryResult[5]
+                local requiredMinRep = queryResult[6]
+                local requiredMaxRep = queryResult[7]
+                local requiredSpell = queryResult[8]
+                local requiredMaxLevel = queryResult[9]
+
+                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(factionTree[3].children, temp)
                     completedCounter = completedCounter + 1
-                else
-                    local exclusiveTo = queryResult[1]
-                    local nextQuestInChain = queryResult[2]
-                    local parentQuest = queryResult[3]
-                    local preQuestSingle = queryResult[4]
-                    local preQuestGroup = queryResult[5]
-                    local requiredMinRep = queryResult[6]
-                    local requiredMaxRep = queryResult[7]
-                    local requiredSpell = queryResult[8]
-                    local requiredMaxLevel = queryResult[9]
-
-                    if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
-                        tinsert(factionTree[3].children, temp)
-                        completedCounter = completedCounter + 1
-                    elseif parentQuest and Questie.db.char.complete[parentQuest] then
-                        tinsert(factionTree[3].children, temp)
-                        completedCounter = completedCounter + 1
-                    elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
+                elseif parentQuest and Questie.db.char.complete[parentQuest] then
+                    tinsert(factionTree[3].children, temp)
+                    completedCounter = completedCounter + 1
+                elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableQuestIds[questId] = true
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
+                    if unobtainableQuestIds[preQuestSingle] ~= nil then
                         tinsert(factionTree[5].children, temp)
                         unobtainableQuestIds[questId] = true
                         unobtainableCounter = unobtainableCounter + 1
-                    elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
-                        if unobtainableQuestIds[preQuestSingle] ~= nil then
+                    else
+                        tinsert(factionTree[2].children, temp)
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
+                    local hasUnobtainablePreQuest = false
+                    for _, preQuestId in pairs(preQuestGroup) do
+                        if unobtainableQuestIds[preQuestId] ~= nil then
                             tinsert(factionTree[5].children, temp)
                             unobtainableQuestIds[questId] = true
                             unobtainableCounter = unobtainableCounter + 1
-                        else
-                            tinsert(factionTree[2].children, temp)
-                            prequestMissingCounter = prequestMissingCounter + 1
+                            hasUnobtainablePreQuest = true
+                            break
                         end
-                    elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
-                        local hasUnobtainablePreQuest = false
-                        for _, preQuestId in pairs(preQuestGroup) do
-                            if unobtainableQuestIds[preQuestId] ~= nil then
-                                tinsert(factionTree[5].children, temp)
-                                unobtainableQuestIds[questId] = true
-                                unobtainableCounter = unobtainableCounter + 1
-                                hasUnobtainablePreQuest = true
-                                break
-                            end
-                        end
-
-                        if not hasUnobtainablePreQuest then
-                            tinsert(factionTree[2].children, temp)
-                            prequestMissingCounter = prequestMissingCounter + 1
-                        end
-                    elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
-                        tinsert(factionTree[5].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
-                    elseif QuestieDB.IsRepeatable(questId) then
-                        tinsert(factionTree[4].children, temp)
-                        repeatableCounter = repeatableCounter + 1
-                    elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                        tinsert(factionTree[5].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
-                    elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                        tinsert(factionTree[5].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
-                    else
-                        tinsert(factionTree[1].children, temp)
-                        availableCounter = availableCounter + 1
                     end
+
+                    if not hasUnobtainablePreQuest then
+                        tinsert(factionTree[2].children, temp)
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif QuestieDB.IsRepeatable(questId) then
+                    tinsert(factionTree[4].children, temp)
+                    repeatableCounter = repeatableCounter + 1
+                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                else
+                    tinsert(factionTree[1].children, temp)
+                    availableCounter = availableCounter + 1
                 end
             end
             temp = {}

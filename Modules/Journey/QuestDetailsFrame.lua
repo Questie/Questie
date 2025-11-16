@@ -69,7 +69,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     local reputationRewardString = _QuestieJourney:GetReputationRewardString(quest.Id)
     if reputationRewardString then
-        local reputationRewardLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n('Reputation Reward: '), 'yellow') .. reputationRewardString, true)
+        local labelText = Questie:Colorize(l10n('Reputation Reward: '), 'yellow') .. Questie:Colorize(reputationRewardString, "reputationBlue")
+        local reputationRewardLabel = _QuestieJourney:CreateLabel(labelText, true)
         container:AddChild(reputationRewardLabel)
     end
 
