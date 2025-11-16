@@ -794,6 +794,30 @@ local dungeonLocales = {
         ["zhCN"] = "残阳关",
         ["zhTW"] = "落陽關",
     },
+    ["Bizmo's Brawlpub"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Bizmos Boxbar",
+        ["esES"] = "Club de Lucha de Bizmo",
+        ["esMX"] = "Club de Lucha de Bizmo",
+        ["frFR"] = "Bar-Tabasse de Bizmo",
+        ["koKR"] = "비즈모의 싸움굴",
+        ["ptBR"] = "Bar Brigalhada do Bizmo",
+        ["ruRU"] = "Потасовочная \"У Бизмо\"",
+        ["zhCN"] = "比兹莫搏击俱乐部",
+        ["zhTW"] = "畢茲摩鬥陣俱樂部",
+    },
+    ["Brawl'gar Arena"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Shlae'gararena",
+        ["esES"] = "Arena Liza'gar",
+        ["esMX"] = "Arena Liza'gar",
+        ["frFR"] = "Arène de Castagn’ar",
+        ["koKR"] = "싸울가르 투기장",
+        ["ptBR"] = "Arena de Brig'ga Fea",
+        ["ruRU"] = "Арена \"Морд'Бой\"",
+        ["zhCN"] = "搏击竞技场",
+        ["zhTW"] = "鬥陣競技場",
+    },
 }
 
 for k, v in pairs(dungeonLocales) do
