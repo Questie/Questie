@@ -3555,10 +3555,12 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [8228] = {
-            [questKeys.startedBy] = {{15116}},
+            [questKeys.startedBy] = {{15116},nil,nil},
+            [questKeys.finishedBy] = {{15116},nil},
         },
         [8229] = {
-            [questKeys.startedBy] = {{15119}},
+            [questKeys.startedBy] = {{15119},nil,nil},
+            [questKeys.finishedBy] = {{15119},nil},
         },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},

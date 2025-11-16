@@ -2591,9 +2591,11 @@ function QuestieNPCFixes:Load()
         },
         [15116] = { -- Grinkle
             [npcKeys.questStarts] = {8228},
+            [npcKeys.questEnds] = {8228},
         },
         [15119] = { -- Barrus
             [npcKeys.questStarts] = {8229},
+            [npcKeys.questEnds] = {8229},
         },
         [15197] = {
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{55.57,69.9}}},
