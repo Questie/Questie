@@ -3581,7 +3581,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [8249] = {
-            [questKeys.requiredClasses] = nil,
+            [questKeys.requiredClasses] = 0,
         },
         [8250] = {
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
