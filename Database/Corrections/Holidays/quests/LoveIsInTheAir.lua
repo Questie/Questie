@@ -30,7 +30,7 @@ tinsert(eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
 
 -- WotLK quests
 tinsert(eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)
-tinsert(eventQuests, {"Love is in the Air", 14488}) -- You've Been Served
+tinsert(eventQuests, {"Love is in the Air", 14488, nil, nil, Expansions.Current >= Expansions.Cata}) -- You've Been Served
 tinsert(eventQuests, {"Love is in the Air", 24597}) -- A Gift for the King of Stormwind
 tinsert(eventQuests, {"Love is in the Air", 24609}) -- A Gift for the Lord of Ironforge
 tinsert(eventQuests, {"Love is in the Air", 24610}) -- A Gift for the High Priestess of Elune

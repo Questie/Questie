@@ -662,6 +662,7 @@ function CataQuestFixes.Load()
         },
         [6984] = { -- A Smokywood Pastures' Thank You!
             [questKeys.startedBy] = {{13418}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7022] = { -- Greatfather Winter is Here!
             [questKeys.startedBy] = {{13433}},
@@ -677,6 +678,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
             [questKeys.startedBy] = {{13433}},
+        },
+        [7045] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7162] = { -- Proving Grounds
             [questKeys.preQuestSingle] = {},
