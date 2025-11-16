@@ -16,11 +16,11 @@ tinsert(eventQuests, {"Love is in the Air", 8903}) -- Dangerous Love
 tinsert(eventQuests, {"Love is in the Air", 8904}) -- Dangerous Love
 tinsert(eventQuests, {"Love is in the Air", 8979}) -- Fenstad's Hunch
 tinsert(eventQuests, {"Love is in the Air", 8980}) -- Zinge's Assessment
-tinsert(eventQuests, {"Love is in the Air", 8981, nil, nil, Expansions.Current == Expansions.Era}) -- Gift Giving
+tinsert(eventQuests, {"Love is in the Air", 8981, nil, nil, Expansions.Current ~= Expansions.Tbc}) -- Gift Giving
 tinsert(eventQuests, {"Love is in the Air", 8982}) -- Tracing the Source
 tinsert(eventQuests, {"Love is in the Air", 8983}) -- Tracing the Source
 tinsert(eventQuests, {"Love is in the Air", 8984}) -- The Source Revealed
-tinsert(eventQuests, {"Love is in the Air", 8993, nil, nil, Expansions.Current == Expansions.Era}) -- Gift Giving
+tinsert(eventQuests, {"Love is in the Air", 8993, nil, nil, Expansions.Current ~= Expansions.Tbc}) -- Gift Giving
 tinsert(eventQuests, {"Love is in the Air", 9024}) -- Aristan's Hunch
 tinsert(eventQuests, {"Love is in the Air", 9025}) -- Morgan's Discovery
 tinsert(eventQuests, {"Love is in the Air", 9026}) -- Tracing the Source
