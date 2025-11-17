@@ -267,8 +267,8 @@ function QuestieQuestBlacklist:Load()
         [8224] = HIDE_ON_MAP,
         [8225] = HIDE_ON_MAP,
         [8193] = HIDE_ON_MAP,
-        [8228] = true, -- No evidence that this quest is actually implemented in the game
-        [8229] = true, -- No evidence that this quest is actually implemented in the game
+        [8228] = HIDE_ON_MAP,
+        [8229] = HIDE_ON_MAP,
         --love is in the air
         [8903] = true,
         [8904] = true,
@@ -276,8 +276,8 @@ function QuestieQuestBlacklist:Load()
         [8898] = true,
         [8899] = true,
         [9029] = true,
-        [8981] = Expansions.Current >= Expansions.Wotlk,
-        [8993] = Expansions.Current >= Expansions.Wotlk,
+        [8981] = true,
+        [8993] = true,
         [8900] = true,
         [8901] = true,
         [8902] = true,
@@ -986,24 +986,36 @@ function QuestieQuestBlacklist:Load()
         [10501] = Expansions.Current >= Expansions.Tbc,
 
         -- Classic Phase 6 Invasion quests
-        [9247] = true, -- It appears that Blizzard forgot to implement this quest during Classic 2019 and also Anniversary, so blacklisting unless can be proven otherwise
-        [9085] = Expansions.Current >= Expansions.Wotlk, -- Shadows of Doom
-        [9153] = Expansions.Current >= Expansions.Wotlk, -- Under the Shadow
-        [9154] = Expansions.Current >= Expansions.Wotlk, -- Light's Hope Chapel
-        [9260] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Stormwind
-        [9261] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Ironforge
-        [9262] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Darnassus
-        [9263] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Orgrimmar
-        [9264] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Thunder Bluff
-        [9265] = Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of the Undercity
-        [9292] = Expansions.Current >= Expansions.Wotlk, -- Cracked Necrotic Crystal
-        [9295] = Expansions.Current >= Expansions.Wotlk, -- Letter from the Front
-        [9299] = Expansions.Current >= Expansions.Wotlk, -- Note from the Front
-        [9300] = Expansions.Current >= Expansions.Wotlk, -- Page from the Front
-        [9301] = Expansions.Current >= Expansions.Wotlk, -- Envelope from the Front
-        [9302] = Expansions.Current >= Expansions.Wotlk, -- Missive from the Front
-        [9304] = Expansions.Current >= Expansions.Wotlk, -- Document from the Front
-        [9310] = Expansions.Current >= Expansions.Wotlk, -- Faint Necrotic Crystal
+        [9085] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Shadows of Doom
+        [9094] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Argent Dawn Gloves
+        [9153] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Under the Shadow
+        [9154] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Light's Hope Chapel
+        [9247] = true, -- The Keeper's Call (Blizzard forgot to implement in Era and Anniversary)
+        [9260] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Stormwind
+        [9261] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Ironforge
+        [9262] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Darnassus
+        [9263] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Orgrimmar
+        [9264] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of Thunder Bluff
+        [9265] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Investigate the Scourge of the Undercity
+        [9292] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Cracked Necrotic Crystal
+        [9295] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Letter from the Front
+        [9299] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Note from the Front
+        [9300] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Page from the Front
+        [9301] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Envelope from the Front
+        [9302] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Missive from the Front
+        [9304] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Document from the Front
+        [9310] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Faint Necrotic Crystal
+        [9317] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Consecrated Sharpening Stones
+        [9318] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Blessed Wizard Oil
+        [9320] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Major Mana Potion
+        [9321] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Major Healing Potion
+        [9333] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Argent Dawn Gloves
+        [9334] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Blessed Wizard Oil
+        [9335] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Consecrated Sharpening Stones
+        [9336] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Major Healing Potion
+        [9337] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Major Mana Potion
+        [9341] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Tabard of the Argent Dawn
+        [9343] = Questie.IsEra or Expansions.Current >= Expansions.Wotlk, -- Tabard of the Argent Dawn
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
@@ -1446,18 +1458,6 @@ function QuestieQuestBlacklist:Load()
 
         [6804] = Expansions.Current >= Expansions.Wotlk,
         [7737] = Expansions.Current == Expansions.Wotlk, -- replaced by 13662 in wotlk
-        [9094] = Expansions.Current >= Expansions.Wotlk,
-        [9317] = Expansions.Current >= Expansions.Wotlk,
-        [9318] = Expansions.Current >= Expansions.Wotlk,
-        [9320] = Expansions.Current >= Expansions.Wotlk,
-        [9321] = Expansions.Current >= Expansions.Wotlk,
-        [9333] = Expansions.Current >= Expansions.Wotlk,
-        [9334] = Expansions.Current >= Expansions.Wotlk,
-        [9335] = Expansions.Current >= Expansions.Wotlk,
-        [9336] = Expansions.Current >= Expansions.Wotlk,
-        [9337] = Expansions.Current >= Expansions.Wotlk,
-        [9341] = Expansions.Current >= Expansions.Wotlk,
-        [9343] = Expansions.Current >= Expansions.Wotlk,
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
         [9120] = Expansions.Current >= Expansions.Wotlk, -- The Fall of Kel'Thuzad
@@ -5422,6 +5422,7 @@ function QuestieQuestBlacklist:Load()
         [12952] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13002] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13004] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [13052] = true, -- Not in the game
         [13096] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13097] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [13098] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5924,6 +5925,7 @@ function QuestieQuestBlacklist:Load()
         [28936] = true, -- Hidden quest
         [28937] = true, -- Hidden quest
         [28938] = true, -- Hidden quest
+        [28939] = true, -- Hidden quest
         [28940] = true, -- Hidden quest
         [28941] = true, -- Hidden quest
         [28942] = true, -- Hidden quest
@@ -6337,20 +6339,45 @@ function QuestieQuestBlacklist:Load()
         [32112] = true, -- Hidden quest
         [32113] = true, -- Hidden quest
         [32129] = true, -- Not in the game
+        [32147] = true, -- Hidden quest
+        [32155] = true, -- Not in the game
+        [32159] = true, -- Not in the game
         [32173] = true, -- Not in the game
         [32174] = true, -- Not in the game
+        [32195] = true, -- Not in the game
+        [32339] = true, -- Hidden quest
+        [32356] = true, -- Hidden quest
+        [32357] = true, -- Hidden quest
         [32364] = true, -- Not in the game
+        [32365] = true, -- Hidden quest
+        [32366] = true, -- Not in the game
+        [32367] = true, -- Not in the game
+        [32375] = true, -- Not in the game
+        [32395] = true, -- Hidden quest
         [32396] = true, -- Not in the game
+        [32407] = true, -- Not in the game
+        [32415] = true, -- Not in the game
+        [32422] = true, -- Not in the game
+        [32424] = true, -- Not in the game
+        [32425] = true, -- Not in the game
+        [32433] = true, -- Not in the game
         [32435] = HIDE_ON_MAP, -- Hidden quest
         [32436] = HIDE_ON_MAP, -- Hidden quest
+        [32437] = true, -- Hidden quest
+        [32438] = true, -- Hidden quest
         [32444] = true, -- Hidden quest
+        [32458] = true, -- Not in the game
         [32475] = true, -- Not in the game
         [32504] = true, -- Not in the game
         [32666] = true, -- Hidden quest
         [32717] = true, -- Not in the game
         [32718] = true, -- Not in the game
+        [32832] = true, -- Not in the game
+        [32860] = true, -- Hidden quest
+        [32872] = true, -- Not in the game
         [32890] = true, -- Not in the game
         [32891] = true, -- Not in the game
+        [32895] = true, -- Not in the game
         [32952] = true, -- Not in the game
         [33008] = true, -- Not in the game
         [33019] = true, -- Not in the game

@@ -740,6 +740,7 @@ local questsToBlacklistByPhase = {
     },
     [7] = { -- Phase 7 is a pseudo-phase that represents Phase 6 but with the Invasion quests active.
         [9085] = true, -- Shadows of Doom
+        [9094] = true, -- Argent Dawn Gloves
         [9153] = true, -- Under the Shadow
         [9154] = true, -- Light's Hope Chapel
         [9260] = true, -- Investigate the Scourge of Stormwind
@@ -756,6 +757,17 @@ local questsToBlacklistByPhase = {
         [9302] = true, -- Missive from the Front
         [9304] = true, -- Document from the Front
         [9310] = true, -- Faint Necrotic Crystal
+        [9317] = true, -- Consecrated Sharpening Stones
+        [9318] = true, -- Blessed Wizard Oil
+        [9320] = true, -- Major Mana Potion
+        [9321] = true, -- Major Healing Potion
+        [9333] = true, -- Argent Dawn Gloves
+        [9334] = true, -- Blessed Wizard Oil
+        [9335] = true, -- Consecrated Sharpening Stones
+        [9336] = true, -- Major Healing Potion
+        [9337] = true, -- Major Mana Potion
+        [9341] = true, -- Tabard of the Argent Dawn
+        [9343] = true, -- Tabard of the Argent Dawn
     },
 }
 
