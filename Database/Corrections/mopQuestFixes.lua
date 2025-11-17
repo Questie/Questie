@@ -5654,19 +5654,19 @@ function MopQuestFixes.Load()
         },
         [31320] = { -- Buy A Fish A Drink?
             [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,8}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,8}},
         },
         [31321] = { -- Buy A Fish A Round?
             [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,19}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,19}},
         },
         [31322] = { -- Buy A Fish A Keg?
             [questKeys.requiredMinRep] = {1273,25200}, -- Friend level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,35}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,35}},
         },
         [31323] = { -- Buy A Fish A Brewery?
             [questKeys.requiredMinRep] = {1273,36000}, -- within 6000 rep of Best Friend (wowhead comment)
-            [questKeys.reputationReward] = {{factionIDs.JOGU,26}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,26}},
         },
         [31325] = { -- A Very Nice Necklace
             [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
