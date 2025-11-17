@@ -6340,6 +6340,8 @@ function QuestieQuestBlacklist:Load()
         [32113] = true, -- Hidden quest
         [32129] = true, -- Not in the game
         [32147] = true, -- Hidden quest
+        [32155] = true, -- Not in the game
+        [32159] = true, -- Not in the game
         [32173] = true, -- Not in the game
         [32174] = true, -- Not in the game
         [32195] = true, -- Not in the game
@@ -6358,6 +6360,7 @@ function QuestieQuestBlacklist:Load()
         [32422] = true, -- Not in the game
         [32424] = true, -- Not in the game
         [32425] = true, -- Not in the game
+        [32433] = true, -- Not in the game
         [32435] = HIDE_ON_MAP, -- Hidden quest
         [32436] = HIDE_ON_MAP, -- Hidden quest
         [32437] = true, -- Hidden quest
@@ -6370,6 +6373,7 @@ function QuestieQuestBlacklist:Load()
         [32717] = true, -- Not in the game
         [32718] = true, -- Not in the game
         [32832] = true, -- Not in the game
+        [32860] = true, -- Hidden quest
         [32872] = true, -- Not in the game
         [32890] = true, -- Not in the game
         [32891] = true, -- Not in the game
