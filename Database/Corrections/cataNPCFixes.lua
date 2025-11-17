@@ -7804,6 +7804,9 @@ function CataNpcFixes.Load()
         [54968] = { -- Asira Dawnslayer
             [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{39.08,51.26},{-1,-1}}},
         },
+        [54969] = { -- Mannoroth
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{86.64,49.7},{-1,-1}}},
+        },
         [54971] = { -- Thrall
             [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {{46.73,44.77}},[zoneIDs.HOUR_OF_TWILIGHT] = {{-1,-1}}},
         },
