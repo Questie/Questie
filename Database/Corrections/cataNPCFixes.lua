@@ -7704,7 +7704,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.END_TIME_EMERALD_DRAGONSHRINE] = {{50.79,44.29}},[zoneIDs.END_TIME] = {{-1,-1}}},
         },
         [54548] = { -- Thrall
-            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{48.7,19.71},{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [54590] = { -- Arcurion
@@ -7720,6 +7728,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{50.94,90.15},{-1,-1}}},
         },
         [54634] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [54636] = { -- Caza'rez
@@ -7808,9 +7825,27 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{86.64,49.7},{-1,-1}}},
         },
         [54971] = { -- Thrall
-            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {{46.73,44.77}},[zoneIDs.HOUR_OF_TWILIGHT] = {{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
+            [npcKeys.questEnds] = {30102,30103},
         },
         [54972] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [55007] = { -- Exarch Larethor
@@ -7909,6 +7944,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [npcKeys.questStarts] = {30092,30107,30108,30116,30118},
+        },
+        [55779] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
+            [npcKeys.questEnds] = {30102,30103},
         },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
