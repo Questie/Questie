@@ -8110,6 +8110,7 @@ function MopQuestFixes.Load()
         [32318] = { -- Regeneration Takes Time
             [questKeys.preQuestSingle] = {32284},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [32319] = { -- Find Thrall!
             [questKeys.preQuestSingle] = {32318},
@@ -8172,16 +8173,19 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the amber"),0,{{"object",216360}}}},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32333] = { -- The Second Riddle: Fellowship
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32334] = { -- The Third Riddle: Strength
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32335] = { -- The Greatest Prank
             [questKeys.preQuestSingle] = {},
