@@ -62,6 +62,7 @@ local referencedFactionFields = {
     "requiredMaxRep",
     "reputationReward",
     "requiredRaces",
+    "requiredClasses",
 }
 
 local referencedFactionIds
@@ -101,6 +102,10 @@ local function _EnsureFactionRegistered(factionId)
     _RegisterFactionForExpansion(factionId, factionIntroductionOrder[factionId])
 end
 
+local function _IsQuestAvailableToPlayer(requiredRaces, requiredClasses)
+    return QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses)
+end
+
 local function _CollectReferencedFactionIds()
     if referencedFactionIds then
         return referencedFactionIds
@@ -119,35 +124,38 @@ local function _CollectReferencedFactionIds()
             local requiredMaxRep = result[2]
             local reputationReward = result[3]
             local requiredRaces = result[4]
+            local requiredClasses = result[5]
 
-            if requiredMinRep then
-                local factionId = requiredMinRep[1]
-                if factionId then
-                    refs[factionId] = true
-                end
-            end
-
-            if requiredMaxRep then
-                local factionId = requiredMaxRep[1]
-                if factionId then
-                    refs[factionId] = true
-                end
-            end
-
-            if reputationReward then
-                for _, reward in pairs(reputationReward) do
-                    local factionId = reward[1]
+            if _IsQuestAvailableToPlayer(requiredRaces, requiredClasses) then
+                if requiredMinRep then
+                    local factionId = requiredMinRep[1]
                     if factionId then
                         refs[factionId] = true
                     end
                 end
-            end
 
-            if requiredRaces and requiredRaces ~= QuestieDB.raceKeys.NONE then
-                if bit.band(requiredRaces, QuestieDB.raceKeys.ALL_ALLIANCE) == requiredRaces then
-                    refs[factionIDs.ALLIANCE] = true
-                elseif bit.band(requiredRaces, QuestieDB.raceKeys.ALL_HORDE) == requiredRaces then
-                    refs[factionIDs.HORDE] = true
+                if requiredMaxRep then
+                    local factionId = requiredMaxRep[1]
+                    if factionId then
+                        refs[factionId] = true
+                    end
+                end
+
+                if reputationReward then
+                    for _, reward in pairs(reputationReward) do
+                        local factionId = reward[1]
+                        if factionId then
+                            refs[factionId] = true
+                        end
+                    end
+                end
+
+                if requiredRaces and requiredRaces ~= QuestieDB.raceKeys.NONE then
+                    if bit.band(requiredRaces, QuestieDB.raceKeys.ALL_ALLIANCE) == requiredRaces then
+                        refs[factionIDs.ALLIANCE] = true
+                    elseif bit.band(requiredRaces, QuestieDB.raceKeys.ALL_HORDE) == requiredRaces then
+                        refs[factionIDs.HORDE] = true
+                    end
                 end
             end
         end
@@ -242,10 +250,6 @@ local function _IsHordeRaceMask(raceMask)
     end
 
     return bit.band(raceMask, QuestieDB.raceKeys.ALL_HORDE) == raceMask
-end
-
-local function _IsQuestAvailableToPlayer(requiredRaces, requiredClasses)
-    return QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses)
 end
 
 function _EnsureFactionQuestData()
@@ -534,5 +538,3 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
     return factionTree
 end
-
-
