@@ -662,6 +662,7 @@ function CataQuestFixes.Load()
         },
         [6984] = { -- A Smokywood Pastures' Thank You!
             [questKeys.startedBy] = {{13418}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7022] = { -- Greatfather Winter is Here!
             [questKeys.startedBy] = {{13433}},
@@ -677,6 +678,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
             [questKeys.startedBy] = {{13433}},
+        },
+        [7045] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7162] = { -- Proving Grounds
             [questKeys.preQuestSingle] = {},
@@ -15329,6 +15333,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{57800,nil,Questie.ICON_TYPE_TALK},{55488,nil,Questie.ICON_TYPE_TALK}},nil,{{74752}}},
             [questKeys.requiredSourceItems] = {74748,74750},
         },
+        [29803] = { -- Ears of the Lich King
+            [questKeys.reputationReward] = {}, -- TO DO probably has an alliance reputation reward
+        },
         [29826] = { -- Reclaiming Ahn'Kahet
             [questKeys.startedBy] = {{55658}},
         },
@@ -15436,7 +15443,6 @@ function CataQuestFixes.Load()
         [30105] = { -- The Twilight Prophet
             [questKeys.preQuestSingle] = {30101},
             [questKeys.startedBy] = {nil,nil,{77957}},
-            [questKeys.finishedBy] = {{54971}},
             [questKeys.objectives] = {{{54938,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30112] = { -- A Score to Settle

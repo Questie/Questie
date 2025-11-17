@@ -7704,7 +7704,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.END_TIME_EMERALD_DRAGONSHRINE] = {{50.79,44.29}},[zoneIDs.END_TIME] = {{-1,-1}}},
         },
         [54548] = { -- Thrall
-            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{48.7,19.71},{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [54590] = { -- Arcurion
@@ -7720,6 +7728,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLOOD_FURNACE] = {{50.94,90.15},{-1,-1}}},
         },
         [54634] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [54636] = { -- Caza'rez
@@ -7804,10 +7821,31 @@ function CataNpcFixes.Load()
         [54968] = { -- Asira Dawnslayer
             [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT] = {{39.08,51.26},{-1,-1}}},
         },
+        [54969] = { -- Mannoroth
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{86.64,49.7},{-1,-1}}},
+        },
         [54971] = { -- Thrall
-            [npcKeys.spawns] = {[zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {{46.73,44.77}},[zoneIDs.HOUR_OF_TWILIGHT] = {{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
+            [npcKeys.questEnds] = {30102,30103},
         },
         [54972] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [55007] = { -- Exarch Larethor
@@ -7868,7 +7906,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.37,78.91},{-1,-1}}},
         },
         [55419] = { -- Captain Varo'then
-            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{47.37,78.91},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{85.19,53.69},{-1,-1}}},
         },
         [55503] = { -- Legion Demon
             [npcKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{23.41,68.34},{-1,-1}}},
@@ -7890,6 +7928,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP] = {{35.48,83.14},{-1,-1}}},
         },
         [55779] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [56375] = { -- Mostrasz

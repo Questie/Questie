@@ -3554,6 +3554,14 @@ function QuestieQuestFixes:Load()
         [8227] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [8228] = {
+            [questKeys.startedBy] = {{15116},nil,nil},
+            [questKeys.finishedBy] = {{15116},nil},
+        },
+        [8229] = {
+            [questKeys.startedBy] = {{15119},nil,nil},
+            [questKeys.finishedBy] = {{15119},nil},
+        },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
         },
@@ -3571,6 +3579,9 @@ function QuestieQuestFixes:Load()
         },
         [8246] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8249] = {
+            [questKeys.requiredClasses] = classIDs.NONE,
         },
         [8250] = {
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},

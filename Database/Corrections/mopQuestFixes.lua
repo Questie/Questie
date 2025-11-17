@@ -5654,19 +5654,19 @@ function MopQuestFixes.Load()
         },
         [31320] = { -- Buy A Fish A Drink?
             [questKeys.requiredMinRep] = {1273,8400}, -- Aquaintance level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,8}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,8}},
         },
         [31321] = { -- Buy A Fish A Round?
             [questKeys.requiredMinRep] = {1273,16800}, -- Buddy level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,19}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,19}},
         },
         [31322] = { -- Buy A Fish A Keg?
             [questKeys.requiredMinRep] = {1273,25200}, -- Friend level with Jogu
-            [questKeys.reputationReward] = {{factionIDs.JOGU,35}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,35}},
         },
         [31323] = { -- Buy A Fish A Brewery?
             [questKeys.requiredMinRep] = {1273,36000}, -- within 6000 rep of Best Friend (wowhead comment)
-            [questKeys.reputationReward] = {{factionIDs.JOGU,26}},
+            [questKeys.reputationReward] = {{factionIDs.JOGU_THE_DRUNK,26}},
         },
         [31325] = { -- A Very Nice Necklace
             [questKeys.requiredMinRep] = {1280,8400}, -- Tina at Acquaintance level (8400-16800)
@@ -8110,6 +8110,7 @@ function MopQuestFixes.Load()
         [32318] = { -- Regeneration Takes Time
             [questKeys.preQuestSingle] = {32284},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [32319] = { -- Find Thrall!
             [questKeys.preQuestSingle] = {32318},
@@ -8172,16 +8173,19 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the amber"),0,{{"object",216360}}}},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32333] = { -- The Second Riddle: Fellowship
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32334] = { -- The Third Riddle: Strength
             [questKeys.preQuestSingle] = {32321},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,35500},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [32335] = { -- The Greatest Prank
             [questKeys.preQuestSingle] = {},

@@ -480,6 +480,8 @@ local phases = {
     ET_ALURMI_MUROZOND_DEAD = 1408,
     WOT_MUROZOND_DEAD = 1409,
     WOT_MANNOROTH_DEAD = 1410,
+    HOT_THRALL_START = 1411,
+    HOT_THRALL_TEMPLE = 1412,
 }
 Phasing.phases = phases
 
@@ -2213,6 +2215,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THERON_SILVERMOON_CITY_LANDFALL then
         return (complete[32412] or questLog[32412]) and not (complete[32398] or questLog[32398]) or false
+    end
+
+    if phase == phases.HOT_THRALL_START then
+        return not (complete[30103] or (questLog[30103] and questLog[30103].isComplete == 1)) or false
+    end
+
+    if phase == phases.HOT_THRALL_TEMPLE then
+        return (complete[30103] or (questLog[30103] and questLog[30103].isComplete == 1)) or false
     end
 
     return false
