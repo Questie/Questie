@@ -7928,6 +7928,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP] = {{35.48,83.14},{-1,-1}}},
         },
         [55779] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.HOUR_OF_TWILIGHT] = {
+                    {48.7,19.71,phases.HOT_THRALL_START},
+                    {-1,-1},
+                },
+                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
+                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
+                },
+            },
             [npcKeys.questEnds] = {30102,30103},
         },
         [56375] = { -- Mostrasz
@@ -7944,18 +7953,6 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.42,45.56}}},
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [npcKeys.questStarts] = {30092,30107,30108,30116,30118},
-        },
-        [55779] = { -- Thrall
-            [npcKeys.spawns] = {
-                [zoneIDs.HOUR_OF_TWILIGHT] = {
-                    {48.7,19.71,phases.HOT_THRALL_START},
-                    {-1,-1},
-                },
-                [zoneIDs.HOUR_OF_TWILIGHT_WYRMREST_TEMPLE] = {
-                    {46.73,44.77,phases.HOT_THRALL_TEMPLE},
-                },
-            },
-            [npcKeys.questEnds] = {30102,30103},
         },
         [57864] = { -- Alurmi
             [npcKeys.spawns] = {
