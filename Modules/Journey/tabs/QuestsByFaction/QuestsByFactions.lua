@@ -259,6 +259,9 @@ function _EnsureFactionQuestData()
 
     factionQuestMap = {}
 
+    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+
     local queryFields = {
         "requiredMinRep",
         "requiredMaxRep",
@@ -276,24 +279,31 @@ function _EnsureFactionQuestData()
         local requiredClasses = queryResult[5]
 
         if _IsQuestAvailableToPlayer(requiredRaces, requiredClasses) then
-            if requiredMinRep then
-                _AddQuestToFaction(requiredMinRep[1], questId)
-            end
-
-            if requiredMaxRep then
-                _AddQuestToFaction(requiredMaxRep[1], questId)
-            end
-
-            if reputationReward then
-                for _, factionPair in pairs(reputationReward) do
-                    _AddQuestToFaction(factionPair[1], questId)
+            -- Filter out hidden quests
+            if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) then
+                if requiredMinRep then
+                    _AddQuestToFaction(requiredMinRep[1], questId)
                 end
-            end
 
-            if _IsAllianceRaceMask(requiredRaces) then
-                _AddQuestToFaction(factionIDs.ALLIANCE, questId)
-            elseif _IsHordeRaceMask(requiredRaces) then
-                _AddQuestToFaction(factionIDs.HORDE, questId)
+                if requiredMaxRep then
+                    _AddQuestToFaction(requiredMaxRep[1], questId)
+                end
+
+                if reputationReward then
+                    for _, factionPair in pairs(reputationReward) do
+                        _AddQuestToFaction(factionPair[1], questId)
+                    end
+                end
+
+                -- Only add to ALLIANCE/HORDE factions if the quest provides reputation
+                -- Do we even want this? You can select each faction individually in the dropdown.
+                if reputationReward and next(reputationReward) then
+                    if _IsAllianceRaceMask(requiredRaces) then
+                        _AddQuestToFaction(factionIDs.ALLIANCE, questId)
+                    elseif _IsHordeRaceMask(requiredRaces) then
+                        _AddQuestToFaction(factionIDs.HORDE, questId)
+                    end
+                end
             end
         end
     end
@@ -421,13 +431,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     local unobtainableQuestIds = {}
     local temp = {}
 
-    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
-    local hiddenQuests = QuestieCorrections.hiddenQuests
     local playerlevel = UnitLevel("player")
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         local questId = levelAndQuest[2]
-        if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
+        if QuestieDB.QuestPointers[questId] then
             temp.value = questId
             local queryResult = QuestieDB.QueryQuest(
                 questId,
