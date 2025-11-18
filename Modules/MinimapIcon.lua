@@ -23,6 +23,13 @@ local _LibDBIcon = LibStub("LibDBIcon-1.0")
 
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
+
+    local icon = _LibDBIcon.objects.Questie.icon
+    -- Slightly adjust the size and position of the icon to not overlap with the minimap button border
+    icon:ClearAllPoints()
+    icon:SetSize(17, 17)
+    icon:SetPoint("CENTER", 0.5, 0.5)
+
     Questie.minimapConfigIcon = _LibDBIcon
 end
 
@@ -30,7 +37,7 @@ function _MinimapIcon:CreateDataBrokerObject()
     local LDBDataObject = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = Questie.db.profile.ldbDisplayText,
-        icon = "Interface\\Addons\\Questie\\Icons\\complete.blp",
+        icon = "Interface\\Addons\\Questie\\Icons\\questie.png",
 
         OnClick = _MinimapIcon.OnClick,
 
