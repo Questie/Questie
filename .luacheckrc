@@ -2822,6 +2822,11 @@ globals = {
     "WOW_PROJECT_CATACLYSM_CLASSIC",
     "WOW_PROJECT_MISTS_CLASSIC",
     "WOW_PROJECT_MAINLINE",
+    "EXPANSION_NAME0",
+    "EXPANSION_NAME1",
+    "EXPANSION_NAME2",
+    "EXPANSION_NAME3",
+    "EXPANSION_NAME4",
     "FACTION_STANDING_CHANGED",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",

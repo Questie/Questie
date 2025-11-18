@@ -8,6 +8,7 @@
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
+    <Script file="Journey\QuestsByFaction.lua"/>
     <Script file="Journey\Search.lua"/>
 
     <Script file="MinimapIcon\MinimapIcon.lua"/>

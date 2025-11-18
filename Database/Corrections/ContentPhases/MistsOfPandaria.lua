@@ -294,6 +294,7 @@ local questsToBlacklistByPhase = {
         [32503] = true, -- Desecrate this Fire!
         [32506] = true, -- A Wing to Fly On
         [32507] = true, -- Skin of the Saurok
+        [32508] = true, -- Welcome to the Island
         [32509] = true, -- Honor the Flame
         [32510] = true, -- Honor the Flame
         [32517] = true, -- The Conquest of Stone
