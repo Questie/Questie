@@ -1792,10 +1792,10 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 3761,
         },
         [3785] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
         },
         [3786] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
         },
         [3787] = {
             [questKeys.preQuestSingle] = {3781},
@@ -1812,7 +1812,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 3764,
         },
         [3791] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
+            [questKeys.preQuestSingle] = {3781}, -- #7241
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
         },
         [3903] = {
