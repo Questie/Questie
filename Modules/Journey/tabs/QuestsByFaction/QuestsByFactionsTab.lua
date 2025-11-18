@@ -116,16 +116,14 @@ end
 _CreateFactionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
 
-    local currentFactionId = RESET
     if not selectedExpansionKey then
         selectedExpansionKey = _GetDefaultExpansion()
     end
     local factions = selectedExpansionKey and QuestieJourney.factionsByExpansion[selectedExpansionKey]
 
+    local currentFactionId = RESET
     if _QuestieJourney.lastFactionSelection[2] then
         currentFactionId = _QuestieJourney.lastFactionSelection[2]
-    else
-        currentFactionId = RESET
     end
 
     if currentFactionId == RESET then
