@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
@@ -448,7 +450,8 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     "requiredMinRep",
                     "requiredMaxRep",
                     "requiredSpell",
-                    "requiredMaxLevel"
+                    "requiredMaxLevel",
+                    "requiredSkill",
                 }
             ) or {}
 
@@ -478,6 +481,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
                 local requiredMaxLevel = queryResult[9]
+                local requiredSkill = queryResult[10]
 
                 if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(factionTree[3].children, temp)
@@ -520,6 +524,12 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(factionTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
+                elseif requiredSkill then
+                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+                    if (not (hasProfession and hasSkillLevel)) then
+                        tinsert(factionTree[5].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
+                    end
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(factionTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
