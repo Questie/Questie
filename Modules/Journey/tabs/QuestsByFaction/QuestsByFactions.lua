@@ -483,7 +483,13 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 local requiredMaxLevel = queryResult[9]
                 local requiredSkill = queryResult[10]
 
-                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
+                if requiredSkill then
+                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+                    if (not (hasProfession and hasSkillLevel)) then
+                        tinsert(factionTree[5].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
+                    end
+                elseif (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(factionTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then
@@ -524,12 +530,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(factionTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
-                elseif requiredSkill then
-                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-                    if (not (hasProfession and hasSkillLevel)) then
-                        tinsert(factionTree[5].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
-                    end
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(factionTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
