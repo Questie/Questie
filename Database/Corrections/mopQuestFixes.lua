@@ -2737,6 +2737,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,{{85582}},nil,{{{63640,63651,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_EVENT}}}, -- 63651,63655 -> 63657 are the NPCs after you rescue them
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213289}}}},
+            [questKeys.reputationReward] = {{factionIDs.GOLDEN_LOTUS,33}},
         },
         [30301] = { -- Offering a Warm Welcome
             [questKeys.startedBy] = {{59332}},
