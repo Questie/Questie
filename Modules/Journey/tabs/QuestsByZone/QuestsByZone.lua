@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
@@ -162,7 +164,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "requiredMinRep",
                         "requiredMaxRep",
                         "requiredSpell",
-                        "requiredMaxLevel"
+                        "requiredMaxLevel",
+                        "requiredSkill"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -174,10 +177,18 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
                 local requiredMaxLevel = queryResult[9]
+                local requiredSkill = queryResult[10]
 
+                -- Profession skill quests first because all other checks are irrelevant in these cases
+                if requiredSkill then
+                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+                    if (not (hasProfession and hasSkillLevel)) then
+                        tinsert(factionTree[5].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
+                    end
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
+                elseif (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- The parent quest has been completed
