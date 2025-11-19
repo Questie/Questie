@@ -2417,6 +2417,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.startedBy] = {{30007}},
         },
+        [13044] = { -- If There Are Survivors...
+            [questKeys.reputationReward] = {},
+        },
         [13078] = { -- Dahlia's Tears
             [questKeys.zoneOrSort] = zoneIDs.DRAGONBLIGHT,
         },
