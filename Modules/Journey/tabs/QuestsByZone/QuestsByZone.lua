@@ -183,7 +183,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 if requiredSkill then
                     local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
                     if (not (hasProfession and hasSkillLevel)) then
-                        tinsert(factionTree[5].children, temp)
+                        tinsert(zoneTree[5].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
                 -- Exclusive quests will never be available since another quests permanently blocks them.
