@@ -3891,6 +3891,10 @@ function MopNpcFixes.Load()
         [64937] = { -- Great Cliff Hawk
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{46.62,16.64}}},
         },
+        [64965] = { -- Milau
+            [npcKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS_THE_HALL_OF_THE_SERPENT] = {{55.24,61.24}}},
+            [npcKeys.zoneID] = zoneIDs.GUO_LAI_HALLS_THE_HALL_OF_THE_SERPENT,
+        },
         --[[[65183] = { -- Spirit Healer
             [npcKeys.spawns] = {},
         },]] -- TO DO
