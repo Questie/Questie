@@ -284,7 +284,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     coYield()
-    ChatFilter:RegisterEvents()
+    -- TODO: Re-enable once Blizzard fixes their issues
+    --ChatFilter:RegisterEvents()
 
     local dateToday = date("%y-%m-%d")
 
