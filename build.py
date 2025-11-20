@@ -81,6 +81,7 @@ def main():
     if len(includedExpansions) == 0:
         # If expansions go online/offline their major version needs to be added/removed here
         includedExpansions.append(1)
+        includedExpansions.append(2)
         includedExpansions.append(3)
         includedExpansions.append(5)
 
