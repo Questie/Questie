@@ -36,6 +36,7 @@ function CataQuestFixes.Load()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local profKeys = QuestieProfessions.professionKeys
+    local specKeys = QuestieProfessions.specializationKeys
     local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
