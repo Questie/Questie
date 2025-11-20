@@ -18,6 +18,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
+local GetActiveChatWindow = ChatFrameUtil and ChatFrameUtil.GetActiveWindow or ChatEdit_GetActiveWindow
+local InsertLinkToChat = ChatFrameUtil and ChatFrameUtil.InsertLink or ChatEdit_InsertLink
+
 QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
@@ -386,9 +389,9 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
     end
 end
 
-hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
+ChatFrame1:HookScript("OnHyperlinkClick", function(...)
     local _, link, _, button = ...
-    if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
+    if (IsShiftKeyDown() and GetActiveChatWindow() and button == "LeftButton") then
         local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat:", link)
@@ -399,7 +402,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
                 local msg = ChatFrame1EditBox:GetText()
                 if msg then
                     ChatFrame1EditBox:SetText("")
-                    ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                    InsertLinkToChat(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
                 end
             end
         end
