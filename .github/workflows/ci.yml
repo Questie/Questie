@@ -45,8 +45,8 @@ jobs:
       - name: Validate SoD database
         run: lua cli/validate-sod.lua
 
-#      - name: Validate TBC database
-#        run: lua cli/validate-tbc.lua
+      - name: Validate TBC database
+        run: lua cli/validate-tbc.lua
 
       - name: Validate WotLK database
         run: lua cli/validate-wotlk.lua
