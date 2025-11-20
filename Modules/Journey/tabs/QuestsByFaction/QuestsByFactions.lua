@@ -501,6 +501,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     tinsert(factionTree[5].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
+                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
                     if unobtainableQuestIds[preQuestSingle] ~= nil then
                         tinsert(factionTree[5].children, temp)
@@ -532,9 +535,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(factionTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
-                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(factionTree[5].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(factionTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1

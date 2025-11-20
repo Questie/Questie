@@ -193,6 +193,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
+                -- Profession specialization
+                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
                     -- The pre Quest is unobtainable therefore this quest is it as well
@@ -229,9 +233,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
-                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(zoneTree[5].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(zoneTree[5].children, temp)
