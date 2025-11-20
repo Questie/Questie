@@ -1710,31 +1710,24 @@ function QuestieQuestFixes:Load()
         },
         [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3633,3640,4181},
         },
         [3630] = { -- Gnome Engineering (Stormwind)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3632,3634,3638},
         },
         [3632] = { -- Gnome Engineering (Ironforge)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3630,3634,3638},
         },
         [3633] = { -- Goblin Engineering (Ratchet Neutral)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3526,3629,3640,3642,4181},
         },
         [3634] = { -- Gnome Engineering (Ratchet Alliance)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3630,3632,3638}
         },
         [3635] = { -- Gnome Engineering (Undercity)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3637,3638},
         },
         [3637] = { -- Gnome Engineering (Ratchet Horde)
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
             [questKeys.exclusiveTo] = {3635,3638},
         },
         [3639] = {
