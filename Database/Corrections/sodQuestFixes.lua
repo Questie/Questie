@@ -1266,7 +1266,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
-        [80241] = {
+        [80241] = { -- The Origins of Smithing
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
             [questKeys.requiredSkill] = {specKeys.BLACKSMITHING,210},
         },
