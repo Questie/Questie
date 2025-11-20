@@ -2961,6 +2961,9 @@ function QuestieQuestFixes:Load()
         [6661] = {
             [questKeys.objectives] = {{{13016,"Rats Captured",Questie.ICON_TYPE_INTERACT}}},
         },
+        [6681] = {
+            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
+        },
         [6721] = {
             [questKeys.startedBy] = {{5116},nil,nil},
             [questKeys.exclusiveTo] = {6071,6072,6073,6722},
@@ -5150,7 +5153,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{8403},nil,nil}
         },
         [6681] = {
-            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283},nil,{17126}}
+            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}} -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815},nil,nil},
@@ -5193,7 +5196,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{3520},nil,nil}
         },
         [6681] = {
-            [questKeys.startedBy] = {{918,4163,5165},nil,{17126}}
+            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}} -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},
