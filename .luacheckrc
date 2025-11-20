@@ -2559,6 +2559,7 @@ globals = {
     "ChatFrame9EditBox",
     "ChatFrame9Tab",
     "ChatFrameChannelButton",
+    "ChatFrameUtil",
     "ChatFrameMenuButton",
     "ChatMenu",
     "CinematicFrame",
