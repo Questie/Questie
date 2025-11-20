@@ -450,6 +450,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     "requiredMinRep",
                     "requiredMaxRep",
                     "requiredSpell",
+                    "requiredSpecialization",
                     "requiredMaxLevel",
                     "requiredSkill",
                 }
@@ -480,8 +481,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 local requiredMinRep = queryResult[6]
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
-                local requiredMaxLevel = queryResult[9]
-                local requiredSkill = queryResult[10]
+                local requiredSpecialization = queryResult[9]
+                local requiredMaxLevel = queryResult[10]
+                local requiredSkill = queryResult[11]
 
                 if requiredSkill then
                     local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
@@ -530,6 +532,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(factionTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
+                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
+                    tinsert(factionTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(factionTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1

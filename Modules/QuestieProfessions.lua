@@ -134,7 +134,7 @@ end
 
 ---@param requiredSpecialization { [1]: number } [1] = professionId
 ---@return boolean HasSpecialization
-function QuestieProfessions:HasSpecialization(requiredSpecialization)
+function QuestieProfessions.HasSpecialization(requiredSpecialization)
     if not requiredSpecialization then
         --? We return true here because otherwise we would have to check for nil everywhere
         return true

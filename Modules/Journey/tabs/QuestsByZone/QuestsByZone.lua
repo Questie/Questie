@@ -17,6 +17,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -162,6 +164,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "requiredMinRep",
                         "requiredMaxRep",
                         "requiredSpell",
+                        "requiredSpecialization",
                         "requiredMaxLevel"
                         }
                 ) or {}
@@ -173,7 +176,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local requiredMinRep = queryResult[6]
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
-                local requiredMaxLevel = queryResult[9]
+                local requiredSpecialization = queryResult[9]
+                local requiredMaxLevel = queryResult[10]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -225,6 +229,9 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
+                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
                     tinsert(zoneTree[5].children, temp)
