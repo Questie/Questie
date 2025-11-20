@@ -513,7 +513,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {6681},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {6681,8233},
         },
         [3344] = { -- Kardris Dreamseeker
             [npcKeys.questStarts] = {},
