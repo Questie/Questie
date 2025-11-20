@@ -15144,11 +15144,11 @@ function CataQuestFixes.Load()
         },
         [29475] = { -- Goblin Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
-            [questKeys.requiredSpell] = -20222, -- NEEDS to be able to accept -20219 too, it's broken as it is now
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
         },
         [29477] = { -- Gnomish Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
-            [questKeys.requiredSpell] = -20219, -- NEEDS to be able to accept -20222 too, it's broken as it is now
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
         },
         [29481] = { -- Elixir Master
             [questKeys.requiredLevel] = 75,
