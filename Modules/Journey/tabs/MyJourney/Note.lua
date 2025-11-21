@@ -148,8 +148,8 @@ end
 
 StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     text = "",
-    button1 = l10n("Yes"),
-    button2 = l10n("No"),
+    button1 = YES,
+    button2 = NO,
     OnAccept = function(self)
         local noteIndex = self.data
         _DeleteNote(noteIndex)
