@@ -164,8 +164,6 @@ StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
             end
         end
         self.Text:SetText(confirmText)
-        self.button1 = YES
-        self.button2 = NO
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
     end,
