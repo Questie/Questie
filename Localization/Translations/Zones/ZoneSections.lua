@@ -144,7 +144,7 @@ local zoneSectionLocales = {
         ["ptBR"] = "Masmorras",
         ["ruRU"] = "Подземелья",
         ["zhCN"] = "地下城",
-        ["zhTW"] = "副本",
+        ["zhTW"] = "地下城",
     },
     ["Scenarios"] = {
         ["enUS"] = true,
