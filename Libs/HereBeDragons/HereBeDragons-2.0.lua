@@ -16,11 +16,11 @@ HereBeDragons.worldMapData     = HereBeDragons.worldMapData or {}
 HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
-local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
-local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
-local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
+local WoWClassic = ((WOW_PROJECT_ID or 0) == (WOW_PROJECT_CLASSIC or 2))
+local WoWBC = ((WOW_PROJECT_ID or 0) == (WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5))
+local WoWWrath = ((WOW_PROJECT_ID or 0) == (WOW_PROJECT_WRATH_CLASSIC or 11))
+local WoWCata = ((WOW_PROJECT_ID or 0) == (WOW_PROJECT_CATACLYSM_CLASSIC or 14))
+local WoWMists = ((WOW_PROJECT_ID or 0) == (WOW_PROJECT_MISTS_CLASSIC or 19))
 
 -- Data Constants
 local COSMIC_MAP_ID = 946

@@ -775,9 +775,14 @@ local questsToBlacklistByPhase = {
 ---@param contentPhase number
 ---@return table<QuestId, boolean>
 function ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, contentPhase)
+    if not questsToBlacklistByPhase or not contentPhase then
+        return questsToBlacklist
+    end
     for phase = contentPhase + 1, #questsToBlacklistByPhase do
-        for questId in pairs(questsToBlacklistByPhase[phase]) do
-            questsToBlacklist[questId] = true
+        if questsToBlacklistByPhase[phase] then
+            for questId in pairs(questsToBlacklistByPhase[phase]) do
+                questsToBlacklist[questId] = true
+            end
         end
     end
 

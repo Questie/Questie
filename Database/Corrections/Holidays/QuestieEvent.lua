@@ -141,7 +141,7 @@ function QuestieEvent:Load()
     end
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if Questie.IsClassic and (((not Questie.IsAnniversary) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then
+    if Questie.IsClassic and (((not Questie.IsAnniversary) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases and ContentPhases.activePhases and ContentPhases.activePhases.Anniversary and ContentPhases.activePhases.Anniversary >= 3)) then
         _LoadDarkmoonFaire()
     end
 

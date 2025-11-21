@@ -1879,14 +1879,24 @@ function QuestieTracker:UpdateHeight()
 
     if Questie.db.char.isTrackerExpanded then
         -- Removes any padding from the last line in the tracker
-        TrackerLinePool.GetCurrentLine():SetHeight(TrackerLinePool.GetCurrentLine().label:GetStringHeight())
+        local currentLine = TrackerLinePool.GetCurrentLine()
+        local firstLine = TrackerLinePool.GetFirstLine()
 
-        if TrackerLinePool.GetCurrentLine().mode == "zone" then
-            -- If a single zone is the only line in the tracker then don't add pixel padding
-            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
-        else
-            -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
-            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
+        if currentLine and firstLine then
+            currentLine:SetHeight(currentLine.label:GetStringHeight())
+
+            local firstLineTop = firstLine:GetTop()
+            local currentLineBottom = currentLine:GetBottom()
+
+            if firstLineTop and currentLineBottom then
+                if currentLine.mode == "zone" then
+                    -- If a single zone is the only line in the tracker then don't add pixel padding
+                    trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom))
+                else
+                    -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
+                    trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom + 3))
+                end
+            end
         end
 
         -- Set the baseFrame to full height so we can measure it

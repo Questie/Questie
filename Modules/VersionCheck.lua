@@ -48,23 +48,24 @@ Questie._sessionWarnings = {}
 
 --- Addon is running on Classic MoP client
 ---@type boolean
-Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
+Questie.IsMoP = (WOW_PROJECT_ID or 0) == (WOW_PROJECT_MISTS_CLASSIC or 19)
 
 --- Addon is running on Classic Cata client
 ---@type boolean
-Questie.IsCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
+Questie.IsCata = (WOW_PROJECT_ID or 0) == (WOW_PROJECT_CATACLYSM_CLASSIC or 14)
 
 --- Addon is running on Classic Wotlk client
 ---@type boolean
-Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+Questie.IsWotlk = (WOW_PROJECT_ID or 0) == (WOW_PROJECT_WRATH_CLASSIC or 11)
 
---- Addon is running on Classic TBC client
+--- Addon is running on Classic TBC client (includes TBC Anniversary 2.5.5+)
+--- Note: TBC Anniversary uses the same WOW_PROJECT_ID (5) as regular TBC, so it uses the same database
 ---@type boolean
-Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+Questie.IsTBC = (WOW_PROJECT_ID or 0) == (WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5)
 
 --- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
 ---@type boolean
-Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+Questie.IsClassic = (WOW_PROJECT_ID or 0) == (WOW_PROJECT_CLASSIC or 2)
 
 --- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean

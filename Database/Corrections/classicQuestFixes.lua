@@ -3734,6 +3734,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
         },
         [8374] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8393,8394,8395,8396}, -- #6068
             [questKeys.requiredMaxLevel] = 29,
         },
         [8375] = { -- Remember Alterac Valley!

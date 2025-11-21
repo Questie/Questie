@@ -6960,7 +6960,9 @@ function QuestieQuestBlacklist:Load()
     if Questie.IsSoD then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
         questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
-    elseif Questie.IsAnniversary or Questie.IsAnniversaryHardcore then
+    elseif (Questie.IsAnniversary or Questie.IsAnniversaryHardcore) and ContentPhases.activePhases and ContentPhases.activePhases.Anniversary and ContentPhases.BlacklistAnniversaryQuestsByPhase then
+        -- Only apply Anniversary blacklist for Classic Anniversary, not TBC Anniversary
+        -- TBC Anniversary uses the same database as regular TBC and doesn't need phase-based blacklisting
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then

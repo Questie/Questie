@@ -253,6 +253,7 @@ function QuestieCorrections:Initialize(validationTables)
     _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
     _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
 
+    -- TBC corrections apply to both regular TBC and TBC Anniversary (2.5.5) since they use the same WOW_PROJECT_ID (5)
     if Expansions.Current >= Expansions.Tbc then
         _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)

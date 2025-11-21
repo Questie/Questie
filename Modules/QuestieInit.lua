@@ -171,6 +171,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     end
 
     -- Check if the DB needs to be recompiled
+    -- Note: TBC Anniversary (2.5.5) uses WOW_PROJECT_ID = 5 (same as regular TBC), so it uses the same database
     if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
