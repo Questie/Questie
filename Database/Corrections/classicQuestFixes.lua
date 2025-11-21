@@ -3771,6 +3771,7 @@ function QuestieQuestFixes:Load()
         },
         [8390] = { -- Conquering Arathi Basin
             [questKeys.requiredMaxLevel] = 29,
+            [questKeys.objectivesText] = {},
         },
         [8391] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393},
@@ -3932,9 +3933,13 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8370,8436,8437,8439},
             [questKeys.requiredMaxLevel] = 59,
         },
+        [8439] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8370,8436,8437,8438},
+        },
         [8440] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436},
             [questKeys.requiredMaxLevel] = 39,
+            [questKeys.objectivesText] = {},
         },
         [8441] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436,8437},
