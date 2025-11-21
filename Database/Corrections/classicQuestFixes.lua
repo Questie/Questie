@@ -3799,6 +3799,7 @@ function QuestieQuestFixes:Load()
         },
         [8397] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393,8394,8395},
+            [questKeys.requiredMaxLevel] = 59,
             [questKeys.objectivesText] = {},
         },
         [8398] = { -- Claiming Arathi Basin
