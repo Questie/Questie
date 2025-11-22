@@ -286,8 +286,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     coYield()
-    -- TODO: Re-enable once Blizzard fixes their issues
-    --ChatFilter:RegisterEvents()
+    -- TODO: Re-enable for every expansion once Blizzard fixes their issues on TBC
+    if (not Questie.IsTBC) then
+        ChatFilter:RegisterEvents()
+    end
 
     local dateToday = date("%y-%m-%d")
 
