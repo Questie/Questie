@@ -1,3 +1,7 @@
+-- TODO: Remove me!
+Questie = {
+    TBC = false
+}
 dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/Expansions.lua")
 
