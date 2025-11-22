@@ -406,6 +406,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [4813] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
