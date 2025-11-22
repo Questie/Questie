@@ -427,7 +427,7 @@ function QuestieMenu:Show(hideDelay)
         end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
-    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
 end
 
@@ -447,7 +447,7 @@ function QuestieMenu:ShowTownsfolk(hideDelay)
         QuestieMenu.menuTowns = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameTownsfolk", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menuTowns, "cursor", -80, -15, "MENU", hideDelay)
 end
 
@@ -459,7 +459,7 @@ function QuestieMenu:ShowProfessions(hideDelay)
         QuestieMenu.menuProfs = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameProfs", UIParent)
     end
     local menuTable = QuestieMenu.buildProfessionMenu()
-    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menuProfs, "cursor", -75, -15, "MENU", hideDelay)
 end
 
@@ -471,7 +471,7 @@ function QuestieMenu:ShowVendors(hideDelay)
         QuestieMenu.menuVendors = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameVendors", UIParent)
     end
     local menuTable = QuestieMenu.buildVendorMenu()
-    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menuVendors, "cursor", -60, -15, "MENU", hideDelay)
 end
 

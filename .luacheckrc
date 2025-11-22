@@ -2799,6 +2799,7 @@ globals = {
     -----------------------------------------------------> Blizzard Data
     "CALENDAR_FULLDATE_MONTH_NAMES",
     "CALENDAR_WEEKDAY_NAMES",
+    "CANCEL",
     "CLOSE",
     "ERR_QUEST_ACCEPTED_S",
     "ERR_QUEST_COMPLETE_S",
