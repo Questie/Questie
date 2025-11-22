@@ -18,9 +18,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
-local GetActiveChatWindow = ChatFrameUtil and ChatFrameUtil.GetActiveWindow or ChatEdit_GetActiveWindow
-local InsertLinkToChat = ChatFrameUtil and ChatFrameUtil.InsertLink or ChatEdit_InsertLink
-
 QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
@@ -390,7 +387,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
 end
 
 -- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow
-local function HandleHyperlinkClick(link, text, button)
+local function HandleHyperlinkClick(link, button)
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
         local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
@@ -414,16 +411,12 @@ end
 
 -- Try new API first (2.5.5+)
 if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
-    -- Hook OnHyperlinkClick for all chat frames
     local function HookChatFrameHyperlink(chatFrame)
-        if chatFrame and chatFrame.HookScript then
-            chatFrame:HookScript("OnHyperlinkClick", function(self, link, text, button)
-                HandleHyperlinkClick(link, text, button)
-            end)
-        end
+        chatFrame:HookScript("OnHyperlinkClick", function(_, link, _, button)
+            HandleHyperlinkClick(link, button)
+        end)
     end
 
-    -- Hook existing chat frames
     for i = 1, (NUM_CHAT_WINDOWS or 10) do
         local chatFrame = _G["ChatFrame" .. i]
         if chatFrame then
@@ -432,8 +425,7 @@ if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
     end
 else
     -- Fallback to old API (pre-2.5.5)
-    hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
-        local _, link, _, button = ...
-        HandleHyperlinkClick(link, nil, button)
+    hooksecurefunc("ChatFrame_OnHyperlinkShow", function(_, link, _, button)
+        HandleHyperlinkClick(link, button)
     end)
 end
