@@ -389,22 +389,51 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
     end
 end
 
-ChatFrame1:HookScript("OnHyperlinkClick", function(...)
-    local _, link, _, button = ...
-    if (IsShiftKeyDown() and GetActiveChatWindow() and button == "LeftButton") then
+-- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow
+local function HandleHyperlinkClick(link, text, button)
+    if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
         local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat:", link)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkClick] Relinking Quest Link to chat:", link)
             questId = tonumber(questId)
 
             local quest = QuestieDB.GetQuest(questId)
             if quest then
-                local msg = ChatFrame1EditBox:GetText()
-                if msg then
-                    ChatFrame1EditBox:SetText("")
-                    InsertLinkToChat(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                local activeWindow = ChatEdit_GetActiveWindow()
+                if activeWindow then
+                    local msg = activeWindow:GetText()
+                    if msg then
+                        activeWindow:SetText("")
+                        ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                    end
                 end
             end
         end
     end
-end)
+end
+
+-- Try new API first (2.5.5+)
+if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
+    -- Hook OnHyperlinkClick for all chat frames
+    local function HookChatFrameHyperlink(chatFrame)
+        if chatFrame and chatFrame.HookScript then
+            chatFrame:HookScript("OnHyperlinkClick", function(self, link, text, button)
+                HandleHyperlinkClick(link, text, button)
+            end)
+        end
+    end
+
+    -- Hook existing chat frames
+    for i = 1, (NUM_CHAT_WINDOWS or 10) do
+        local chatFrame = _G["ChatFrame" .. i]
+        if chatFrame then
+            HookChatFrameHyperlink(chatFrame)
+        end
+    end
+else
+    -- Fallback to old API (pre-2.5.5)
+    hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
+        local _, link, _, button = ...
+        HandleHyperlinkClick(link, nil, button)
+    end)
+end
