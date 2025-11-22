@@ -110,6 +110,11 @@ local migrationFunctions = {
         Questie.db.profile.globalTownsfolkScale = 0.6
         Questie.db.profile.globalMiniMapTownsfolkScale = 0.7
     end,
+    [16] = function()
+        if (not Questie.db.global.isleOfQuelDanasPhase) then
+            Questie.db.global.isleOfQuelDanasPhase = 1
+        end
+    end
 }
 
 function Migration:Migrate()
