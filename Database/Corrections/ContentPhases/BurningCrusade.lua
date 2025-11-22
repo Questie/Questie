@@ -13,9 +13,18 @@ local questsToBlacklistByPhase = {
     [4] = { -- Phase 3.5 - Zul'Aman
     },
     [5] = { -- Phase 4 - Sunwell, Isle of Quel'Danas
+        [11481] = true,
+        [11482] = true,
+        [11488] = true,
+        [11490] = true,
+        [11492] = true,
         [11496] = true,
+        [11499] = true,
+        [11500] = true,
         [11513] = true,
         [11514] = true,
+        [11515] = true,
+        [11516] = true,
         [11517] = true,
         [11520] = true,
         [11521] = true,
@@ -41,6 +50,16 @@ local questsToBlacklistByPhase = {
         [11547] = true,
         [11548] = true,
         [11549] = true,
+        [11550] = true,
+        [11554] = true,
+        [11555] = true,
+        [11556] = true,
+        [11557] = true,
+        [11877] = true,
+        [11880] = true,
+        [64997] = true,
+        [64998] = true,
+        [64999] = true,
     }
 }
 
