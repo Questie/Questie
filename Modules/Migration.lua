@@ -112,7 +112,11 @@ local migrationFunctions = {
     end,
     [16] = function()
         if (not Questie.db.global.isleOfQuelDanasPhase) then
-            Questie.db.global.isleOfQuelDanasPhase = 1
+            if Expansions.Current > Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 9 -- Max phase for everything that comes after TBC
+            elseif Expansions.Current == Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 1
+            end
         end
     end
 }
