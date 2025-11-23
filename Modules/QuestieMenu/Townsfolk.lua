@@ -206,29 +206,128 @@ function Townsfolk.Initialize()
 
     if Expansions.Current >= Expansions.Cata then
         tinsert(professionTrainers[professionKeys.ALCHEMY], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.ALCHEMY], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.BLACKSMITHING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.BLACKSMITHING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.COOKING], 45286) -- KTC Train-a-Tron Deluxe
         tinsert(professionTrainers[professionKeys.ENCHANTING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.ENCHANTING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.ENCHANTING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.ENGINEERING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.ENGINEERING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.FIRST_AID], 45286) -- KTC Train-a-Tron Deluxe
         tinsert(professionTrainers[professionKeys.FISHING], 45286) -- KTC Train-a-Tron Deluxe
         tinsert(professionTrainers[professionKeys.HERBALISM], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.HERBALISM], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.HERBALISM], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.HERBALISM], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.INSCRIPTION], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.INSCRIPTION], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.INSCRIPTION], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.LEATHERWORKING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.LEATHERWORKING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.MINING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.MINING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.MINING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.MINING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.MINING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.MINING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.MINING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.MINING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.MINING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.MINING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.MINING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.SKINNING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.SKINNING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.SKINNING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.SKINNING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.SKINNING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.SKINNING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.SKINNING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.SKINNING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.SKINNING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.SKINNING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.SKINNING], 50247) -- Jack "All-Trades" Derrington
         tinsert(professionTrainers[professionKeys.TAILORING], 45286) -- KTC Train-a-Tron Deluxe
+        tinsert(professionTrainers[professionKeys.TAILORING], 47384) -- Lien Farner
+        tinsert(professionTrainers[professionKeys.TAILORING], 47396) -- Wembil Taskwidget
+        tinsert(professionTrainers[professionKeys.TAILORING], 47400) -- Nedric Sallow
+        tinsert(professionTrainers[professionKeys.TAILORING], 47418) -- Runda
+        tinsert(professionTrainers[professionKeys.TAILORING], 47419) -- Lalum Darkmane
+        tinsert(professionTrainers[professionKeys.TAILORING], 47420) -- Iranis Shadebloom
+        tinsert(professionTrainers[professionKeys.TAILORING], 47421) -- Saren
+        tinsert(professionTrainers[professionKeys.TAILORING], 47431) -- Valn
+        tinsert(professionTrainers[professionKeys.TAILORING], 48619) -- Therisa Sallow
         tinsert(professionTrainers[professionKeys.TAILORING], 50247) -- Jack "All-Trades" Derrington
     end
 
