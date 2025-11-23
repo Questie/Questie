@@ -338,6 +338,18 @@ local myJourneyLocales = {
         ["zhCN"] = "笔记删除成功",
         ["zhTW"] = "筆記刪除成功",
     },
+    ["Character re-creation detected, resetting Journey data."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Charakter-Neuerstellung erkannt, \"Meine Reise\"-Daten werden zurückgesetzt.",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    }
 }
 
 for k, v in pairs(myJourneyLocales) do

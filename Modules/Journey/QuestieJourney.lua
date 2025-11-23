@@ -55,6 +55,19 @@ local questCategoryKeys = {
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
+-- Detect character re-creation and ask user about journey reset
+local function checkForCharacterRecreation()
+    local guid = UnitGUID("player") -- this is unique per character
+    if (not Questie.db.char.guid) then
+        -- First login for this character
+        Questie.db.char.guid = guid
+    elseif (Questie.db.char.guid ~= guid) then
+        -- Character re-created, ask user about journey reset
+        Questie:Print(l10n("Character re-creation detected, resetting \"My Journey\" data."))
+        Questie.db.char.journey = {}
+        Questie.db.char.guid = guid
+    end
+end
 
 function QuestieJourney:Initialize()
     local continents = {}
@@ -72,6 +85,8 @@ function QuestieJourney:Initialize()
     end
     coroutine.yield()
     continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+
+    checkForCharacterRecreation()
 
     coroutine.yield()
     self.continents = continents
