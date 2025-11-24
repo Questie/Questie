@@ -25,8 +25,6 @@ function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
 
     _MinimapIcon.RepositionIcon()
-
-    Questie.minimapConfigIcon = _LibDBIcon
 end
 
 function _MinimapIcon:CreateDataBrokerObject()
@@ -88,7 +86,7 @@ function _MinimapIcon.OnClick(_, button)
     elseif button == "RightButton" then
         if IsControlKeyDown() then
             Questie.db.profile.minimap.hide = true
-            Questie.minimapConfigIcon:Hide("Questie")
+            _LibDBIcon:Hide("Questie")
             return
         end
 
@@ -112,9 +110,9 @@ function MinimapIcon.Toggle(shouldShow)
     Questie.db.profile.minimap.hide = not shouldShow;
 
     if shouldShow then
-        Questie.minimapConfigIcon:Show("Questie")
+        _LibDBIcon:Show("Questie")
     else
-        Questie.minimapConfigIcon:Hide("Questie")
+        _LibDBIcon:Hide("Questie")
     end
 end
 
