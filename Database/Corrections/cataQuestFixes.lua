@@ -2424,6 +2424,10 @@ function CataQuestFixes.Load()
         [13078] = { -- Dahlia's Tears
             [questKeys.zoneOrSort] = zoneIDs.DRAGONBLIGHT,
         },
+        [13094] = { -- Have They No Shame?
+            [questKeys.startedBy] = {{55537}},
+            [questKeys.objectivesText] = {"Image of Warmage Kaitlyn wants you to recover Berinand's Research."},
+        },
         [13095] = { -- Have They No Shame?
             [questKeys.startedBy] = {{55537}},
             [questKeys.objectivesText] = {"Image of Warmage Kaitlyn wants you to recover Berinand's Research."},
