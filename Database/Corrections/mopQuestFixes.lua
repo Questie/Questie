@@ -5841,12 +5841,12 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbForQuestId] = 30814,
         },
         [31390] = { -- The Klaxxi
-            [questKeys.preQuestSingle] = {30631}, -- TO DO not entirely sure, but seems plausible. it's not 30935/31512!
+            -- [questKeys.preQuestSingle] = {}, -- available on char where i only did dungeon quests + the intro quest to pandaria
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31391,31656,31847,31886,31895},
         },
         [31391] = { -- The Klaxxi
-            [questKeys.preQuestSingle] = {30649}, -- TO DO not entirely sure, but seems plausible. it's not 30935/31511!
+            -- [questKeys.preQuestSingle] = {}, -- available on char where i only did dungeon quests + the intro quest to pandaria
             [questKeys.breadcrumbForQuestId] = 31001,
             [questKeys.exclusiveTo] = {31000,31390,31656,31847,31886,31895},
         },
