@@ -24,11 +24,7 @@ local _LibDBIcon = LibStub("LibDBIcon-1.0")
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
 
-    local icon = _LibDBIcon.objects.Questie.icon
-    -- Slightly adjust the size and position of the icon to not overlap with the minimap button border
-    icon:ClearAllPoints()
-    icon:SetSize(17, 17)
-    icon:SetPoint("CENTER", 0.5, 0.5)
+    _MinimapIcon.RepositionIcon()
 
     Questie.minimapConfigIcon = _LibDBIcon
 end
@@ -109,6 +105,27 @@ end
 function MinimapIcon:UpdateText(text)
     Questie.db.profile.ldbDisplayText = text
     _MinimapIcon.LDBDataObject.text = text
+end
+
+---@param shouldShow boolean
+function MinimapIcon.Toggle(shouldShow)
+    Questie.db.profile.minimap.hide = not shouldShow;
+
+    if shouldShow then
+        Questie.minimapConfigIcon:Show("Questie")
+    else
+        Questie.minimapConfigIcon:Hide("Questie")
+    end
+end
+
+function _MinimapIcon.RepositionIcon()
+    local button = _LibDBIcon:GetMinimapButton("Questie")
+    if button then
+        -- Slightly adjust the size and position of the icon to not overlap with the minimap button border
+        button.icon:ClearAllPoints()
+        button.icon:SetSize(17, 17)
+        button.icon:SetPoint("CENTER", 0.5, 0.5)
+    end
 end
 
 return MinimapIcon
