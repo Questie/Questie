@@ -5400,6 +5400,7 @@ function QuestieQuestBlacklist:Load()
         [11493] = true, -- Not in the game
         [11588] = true, -- Not in the game
         [11589] = true, -- Not in the game
+        [11790] = true, -- Not in the game
         [11875] = true, -- hiding because we use fake quests to mimic this one
         [11883] = true, -- Not in the game
         [11934] = true, -- Not in the game
