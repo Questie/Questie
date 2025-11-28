@@ -531,7 +531,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
             showHideButton.idsToShow = npcIdsWithSpawns
             f:AddChild(showHideButton)
         end
-        AddLinkedParagraph(f, "npc", npcIdsWithSpawns, l10n("NPCs dropping this item:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(f, "npc", npcIdsWithSpawns, "", QuestieDB.QueryNPCSingle)
     end
 
     ---@type AceGUIHeading
@@ -565,7 +565,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
             showHideButton.idsToShow = objectIdsWithSpawns
             f:AddChild(showHideButton)
         end
-        AddLinkedParagraph(f, "object", objectIdsWithSpawns, l10n("Objects containing this item:"), QuestieDB.QueryObjectSingle)
+        AddLinkedParagraph(f, "object", objectIdsWithSpawns, "", QuestieDB.QueryObjectSingle)
     end
 
     ---@type AceGUIHeading
@@ -600,7 +600,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
             showHideButton.idsToShow = vendorIdsWithSpawns
             f:AddChild(showHideButton)
         end
-        AddLinkedParagraph(f, "npc", vendorIdsWithSpawns, l10n("Vendors selling this item:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(f, "npc", vendorIdsWithSpawns, "", QuestieDB.QueryNPCSingle)
     end
 
     if Questie.db.profile.debugEnabled then
@@ -646,7 +646,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
                     id = ' (' .. k .. ')'
                 end
                 table.insert(results, {
-                    ["text"] = complete .. name .. id,
+                    ["text"] = name .. id .. " " .. complete,
                     ["value"] = tonumber(k)
                 })
             end
@@ -662,7 +662,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     local resultTree = AceGUI:Create("TreeGroup");
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
-    resultTree.treeframe:SetWidth(420);
+    resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
     resultTree:SetCallback("OnGroupSelected", _HandleOnGroupSelected)
 

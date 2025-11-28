@@ -278,6 +278,30 @@ local eventsLocales = {
         ["zhCN"] = "暗月岛",
         ["zhTW"] = "暗月島",
     },
+    ["Riding"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Reiten",
+        ["esES"] = "Equitación",
+        ["esMX"] = "Equitación",
+        ["frFR"] = "Monte",
+        ["koKR"] = "탈것 타기",
+        ["ptBR"] = "Montaria",
+        ["ruRU"] = "Верховая езда",
+        ["zhCN"] = "骑术",
+        ["zhTW"] = "騎術",
+    },
+    ["Brawler's Guild"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kampfgilde",
+        ["esES"] = "Hermandad de camorristas",
+        ["esMX"] = "Gremio de luchadores",
+        ["frFR"] = "Les Bastonneurs",
+        ["koKR"] = "싸움꾼 조합",
+        ["ptBR"] = "Guilda dos Brigões",
+        ["ruRU"] = "Бойцовская гильдия",
+        ["zhCN"] = "搏击俱乐部",
+        ["zhTW"] = "鬥陣俱樂部",
+    },
 }
 
 for k, v in pairs(eventsLocales) do

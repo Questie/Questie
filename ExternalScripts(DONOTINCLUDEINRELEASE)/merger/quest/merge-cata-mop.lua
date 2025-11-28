@@ -4,6 +4,10 @@ local mopTrinity = require('data.mopQuestDB-trinity')
 
 local printToFile = require('printToFile')
 
+local function starts_with(str, start)
+    return str:sub(1, #start) == start
+end
+
 local questKeys = {
     ['name'] = 1, -- string
     ['startedBy'] = 2, -- table
@@ -50,18 +54,26 @@ local questKeys = {
 
 for questId, data in pairs(mop) do
     local cataQuest = cata[questId]
+    local trinityQuest = mopTrinity[questId]
 
     if cataQuest then
         mop[questId] = cataQuest
+        mop[questId][questKeys.requiredRaces] = data[questKeys.requiredRaces] -- Rollback requiredRaces change, because cata data is incorrect for sure.
+
         -- Only take race and class requirements from MoP for cata quests, because Pandaren and Monks were added.
-        if data[questKeys.requiredRaces] then
-            mop[questId][questKeys.requiredRaces] = data[questKeys.requiredRaces]
+        if mop[questId][questKeys.requiredRaces] == 0 and trinityQuest and trinityQuest[questKeys.requiredRaces] ~= 0 then
+            mop[questId][questKeys.requiredRaces] = trinityQuest[questKeys.requiredRaces]
         end
         if data[questKeys.requiredClasses] then
             mop[questId][questKeys.requiredClasses] = data[questKeys.requiredClasses]
         end
+
+        if trinityQuest and trinityQuest[questKeys.objectivesText] and next(trinityQuest[questKeys.objectivesText]) and starts_with(trinityQuest[questKeys.objectivesText][1], "Reach level 3") then
+            -- The starting zone quests have been updates for MoP, but that is not reflected in the Skyfire DB. So we take the name and objectivesText from Trinity.
+            mop[questId][questKeys.name] = trinityQuest[questKeys.name]
+            mop[questId][questKeys.objectivesText] = trinityQuest[questKeys.objectivesText]
+        end
     else
-        local trinityQuest = mopTrinity[questId]
         if trinityQuest then
             mop[questId][questKeys.requiredRaces] = trinityQuest[questKeys.requiredRaces] -- Always take Trinity requiredRaces, because it has actual data.
             -- iterate questKeys and take the values from mopTrinity if mop doesn't have them
@@ -97,7 +109,7 @@ end
 
 -- add trinity quests that are not in Skyfire
 for questId, data in pairs(mopTrinity) do
-    if not mop[questId] then
+    if (not mop[questId]) then
         mop[questId] = data
     end
 end

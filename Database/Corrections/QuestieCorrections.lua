@@ -99,6 +99,7 @@ QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
 QuestieCorrections.itemObjectiveFirst = {}
 QuestieCorrections.eventObjectiveFirst = {}
+QuestieCorrections.spellObjectiveFirst = {}
 
 do
     local type, assert = type, assert
@@ -151,6 +152,13 @@ do
             addOverride(QuestieDB.npcDataOverrides, CataNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, CataItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, CataObjectFixes:LoadFactionFixes())
+        end
+
+        -- MOP Corrections
+        if (Expansions.Current >= Expansions.MoP) then
+            addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadFactionFixes())
         end
 
         -- Season of Discovery Corrections

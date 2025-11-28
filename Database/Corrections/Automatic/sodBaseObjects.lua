@@ -2747,6 +2747,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [489943] = {
+            [objectKeys.name] = "Shallow Grave",
+            [objectKeys.zoneID] = 490,
+            [objectKeys.spawns] = {
+                [490] = {{21.4,36.8}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = {85559},
+        },
         [489963] = {
             [objectKeys.name] = "Blistering Stone",
             [objectKeys.zoneID] = 0,

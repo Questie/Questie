@@ -6,7 +6,7 @@ local BlacklistFilter = QuestieLoader:CreateModule("BlacklistFilter")
 ---@return table<QuestId, boolean>
 function BlacklistFilter.filterExpansion(blacklist)
     for questId, flag in pairs(blacklist) do
-        if flag ~= true then
+        if flag == false then
             blacklist[questId] = nil
         end
     end

@@ -7,6 +7,8 @@ local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -34,14 +36,14 @@ local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjecti
     Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
     Gray: More than GetQuestGreenRange() below player
 --]]
-function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest, isEventQuest, isPvPQuest)
+function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEventQuest, isPvPQuest)
     if isEventQuest == true then
         return "|cFF6ce314" .. text .. "|r" -- Lime
     end
     if isPvPQuest == true then
         return "|cFFE35639" .. text .. "|r" -- Maroon
     end
-    if isDailyQuest == true then
+    if isRepeatableQuest == true then
         return "|cFF21CCE7" .. text .. "|r" -- Blue
     end
 
@@ -125,15 +127,14 @@ function QuestieLib:GetRGBForObjective(objective)
 end
 
 ---@param questId number
----@param showLevel boolean? @ Whether the quest level should be included
----@param showState boolean? @ Whether to show (Complete/Failed)
----@param blizzLike boolean? @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
+---@param showLevel number @ Whether the quest level should be included
+---@param showState boolean @ Whether to show (Complete/Failed)
+function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
     local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
-        name = QuestieLib:GetLevelString(questId, level, blizzLike) .. name
+        name = QuestieLib:GetLevelString(questId, level) .. name
     end
 
     if Questie.db.profile.enableTooltipsQuestID then
@@ -154,7 +155,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
 end
 
 local colors = {
@@ -227,57 +228,47 @@ end
 
 ---@param questId QuestId
 ---@param level Level @The quest level
----@param blizzLike boolean @True = [40+], false = [40D/R]
 ---@return string levelString @String of format "[40+]"
-function QuestieLib:GetLevelString(questId, level, blizzLike)
-    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
+function QuestieLib:GetLevelString(questId, level)
+    local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
+    local levelString = tostring(level)
 
-    local retLevel = tostring(level)
-    if questType and questTag then
-        local char = "+"
-        if (not blizzLike) then
-            char = stringSub(questTag, 1, 1)
-        end
-        -- the string.sub above doesn't work for multi byte characters in Chinese
-        local langCode = l10n:GetUILocale()
-        if questType == 1 then
-            -- Elite quest
-            retLevel = "[" .. retLevel .. "+" .. "] "
-        elseif questType == 81 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "D"
-            end
-            -- Dungeon quest
-            retLevel = "[" .. retLevel .. char .. "] "
-        elseif questType == 62 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "R"
-            end
-            -- Raid quest
-            retLevel = "[" .. retLevel .. char .. "] "
-        elseif questType == 41 then
-            -- Which one? This is just default.
-            retLevel = "[" .. retLevel .. "] "
-            -- PvP quest
-            -- name = "[" .. level .. questTag .. "] " .. name
-        elseif questType == 83 then
-            -- Legendary quest
-            retLevel = "[" .. retLevel .. "++" .. "] "
-        elseif questType == 102 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "A"
-            end
-            -- Account quest
-            retLevel = "[" .. retLevel .. char .. "] "
-        else
-            -- Some other irrelevant type
-            retLevel = "[" .. retLevel .. "] "
-        end
-    else
-        retLevel = "[" .. retLevel .. "] "
+    if (not questTagId) or (not questTagName) then
+        return "[" .. levelString .. "] "
     end
 
-    return retLevel
+    local questTagIds = QuestieDB.questTagIds
+
+    local char = stringSub(questTagName, 1, 1)
+    local langCode = l10n:GetUILocale()
+    -- the string.sub above doesn't work for multi byte characters
+    local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
+
+    if questTagId == questTagIds.ELITE then
+        char = "+"
+    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
+        char = ""
+    elseif questTagId == questTagIds.LEGENDARY then
+        char = "++"
+    elseif isMultiByteLocale then
+        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
+            char = "R"
+        elseif questTagId == questTagIds.DUNGEON then
+            char = "D"
+        elseif questTagId == questTagIds.HEROIC then
+            char = "H"
+        elseif questTagId == questTagIds.SCENARIO then
+            char = "S"
+        elseif questTagId == questTagIds.ACCOUNT then
+            char = "A"
+        elseif questTagId == questTagIds.CELESTIAL then
+            char = "C"
+        else
+            char = ""
+        end
+    end
+
+    return "[" .. levelString .. char .. "] "
 end
 
 function QuestieLib:GetRaceString(raceMask)

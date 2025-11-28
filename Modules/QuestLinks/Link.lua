@@ -11,13 +11,17 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
-local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
+local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
 local _AddTooltipLine, _AddColoredTooltipLine
 
 
@@ -70,7 +74,7 @@ end
 
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
-    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true, false)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true)
     local questLevel, _ = QuestieLib.GetTbcLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
 
@@ -78,9 +82,10 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
 end
 
+---@param link string
 function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
@@ -96,6 +101,7 @@ function QuestieLink:CreateQuestTooltip(link)
             _AddTooltipLine(" ")
 
             _AddQuestDescription(quest)
+            _AddDungeonInfo(quest)
             _AddQuestRequirements(quest)
             local starterName, starterZoneName = _GetQuestStarter(quest)
             local finisherName, finisherZoneName = _GetQuestFinisher(quest)
@@ -106,25 +112,23 @@ end
 
 ---@param text string
 ---@param wrapText boolean?
-_AddTooltipLine = function (text, wrapText)
+_AddTooltipLine = function(text, wrapText)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param text string
 ---@param color string
 ---@param wrapText boolean?
-_AddColoredTooltipLine = function (text, color, wrapText)
+_AddColoredTooltipLine = function(text, color, wrapText)
     text = Questie:Colorize(text, color)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
+---@param quest Quest
 _AddQuestTitle = function(quest)
-    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level, false)
+    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level)
 
-    local titleColor = "gold"
-    if quest.specialFlags == 1 then
-        titleColor = "lightBlue"
-    end
+    local titleColor = string.sub(QuestieLib:PrintDifficultyColor(quest.level, "", QuestieDB.IsRepeatable(quest.Id), QuestieEvent.IsEventQuest(quest.Id), QuestieDB.IsPvPQuest(quest.Id)),5,10)
 
     if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
         _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
@@ -137,7 +141,8 @@ _AddQuestTitle = function(quest)
     end
 end
 
-_AddQuestStatus = function (quest)
+---@param quest Quest
+_AddQuestStatus = function(quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")
         local stateText
@@ -164,13 +169,15 @@ _AddQuestStatus = function (quest)
     end
 end
 
-_AddQuestDescription = function (quest)
-    if quest and quest.Description and quest.Description[1] then
-        _AddColoredTooltipLine(quest.Description[1], "white", true)
-        if #quest.Description > 2 then
-            for i = 2, #quest.Description do
+---@param quest Quest
+_AddQuestDescription = function(quest)
+    local description = quest.Description
+    if description and description[1] then
+        _AddColoredTooltipLine(description[1], "white", true)
+        if #description > 2 then
+            for i = 2, #description do
                 --_AddTooltipLine(" ") -- this is just adding extra lines between text definitions in DB files
-                _AddColoredTooltipLine(quest.Description[i], "white", true)
+                _AddColoredTooltipLine(description[i], "white", true)
             end
         end
     else
@@ -178,7 +185,32 @@ _AddQuestDescription = function (quest)
     end
 end
 
-_AddQuestRequirements = function (quest)
+-- helper function to format a label with a colon, respecting localization rules
+---@param label string
+---@return string
+local function FormatLabelWithColon(label)
+    local locale = GetLocale()
+    if locale == "frFR" then
+        return label .. " :"
+    else
+        return label .. ":"
+    end
+end
+
+---@param quest Quest
+_AddDungeonInfo = function(quest)
+    local zoneOrSort = quest.zoneOrSort
+    if zoneOrSort and zoneOrSort > 0 then
+        local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
+        if localizedDungeonName then
+            _AddTooltipLine(" ")
+            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, "gray")
+        end
+    end
+end
+
+---@param quest Quest
+_AddQuestRequirements = function(quest)
     if #quest.ObjectiveData > 0 and not (QuestiePlayer.currentQuestlog[quest.Id] or Questie.db.char.complete[quest.Id]) then
         for i = 1, #quest.ObjectiveData do
             local currentObjective = quest.ObjectiveData[i]
@@ -210,7 +242,9 @@ _AddQuestRequirements = function (quest)
     end
 end
 
-_GetQuestStarter = function (quest)
+---@param quest Quest
+---@return string?, string?
+_GetQuestStarter = function(quest)
     if quest.Starts then
         local starterName, starterZoneName
         if quest.Starts.NPC ~= nil then
@@ -256,13 +290,15 @@ _GetQuestStarter = function (quest)
             starterZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
 
-        return starterName, starterZoneName
+        return starterName, l10n(starterZoneName)
     end
 
     return nil, nil
 end
 
-_GetQuestFinisher = function (quest)
+---@param quest Quest
+---@return string?, string?
+_GetQuestFinisher = function(quest)
     local finisherName, finisherZoneName
     if quest.Finisher.NPC then
         local npc = QuestieDB:GetNPC(quest.Finisher.NPC[1])
@@ -285,10 +321,15 @@ _GetQuestFinisher = function (quest)
         finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
     end
 
-    return finisherName, finisherZoneName
+    return finisherName, l10n(finisherZoneName)
 end
 
-_AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finisherName, finisherZoneName)
+---@param quest Quest
+---@param starterName string?
+---@param starterZoneName string?
+---@param finisherName string?
+---@param finisherZoneName string?
+_AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisherName, finisherZoneName)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         -- On Quest: display quest progress
         if (QuestieDB.IsComplete(quest.Id) == 0) then
@@ -345,8 +386,8 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
     end
 end
 
-hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
-    local _, link, _, button = ...
+-- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow
+local function HandleHyperlinkClick(link, button)
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
         local linkType, questIdStr, _ = string.split(":", link)
         if linkType and linkType == "questie" and questIdStr then
@@ -355,12 +396,36 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
 
             local quest = QuestieDB.GetQuest(questId)
             if quest then
-                local msg = ChatFrame1EditBox:GetText()
-                if msg then
-                    ChatFrame1EditBox:SetText("")
-                    ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                local activeWindow = ChatEdit_GetActiveWindow()
+                if activeWindow then
+                    local msg = activeWindow:GetText()
+                    if msg then
+                        activeWindow:SetText("")
+                        ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                    end
                 end
             end
         end
     end
-end)
+end
+
+-- Try new API first (2.5.5+)
+if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
+    local function HookChatFrameHyperlink(chatFrame)
+        chatFrame:HookScript("OnHyperlinkClick", function(_, link, _, button)
+            HandleHyperlinkClick(link, button)
+        end)
+    end
+
+    for i = 1, (NUM_CHAT_WINDOWS or 10) do
+        local chatFrame = _G["ChatFrame" .. i]
+        if chatFrame then
+            HookChatFrameHyperlink(chatFrame)
+        end
+    end
+else
+    -- Fallback to old API (pre-2.5.5)
+    hooksecurefunc("ChatFrame_OnHyperlinkShow", function(_, link, _, button)
+        HandleHyperlinkClick(link, button)
+    end)
+end

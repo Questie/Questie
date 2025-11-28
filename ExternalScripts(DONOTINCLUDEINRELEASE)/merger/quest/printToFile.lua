@@ -29,6 +29,64 @@ local function printToFile(questData, questKeys)
     local file = io.open("output/merged-file.lua", "w")
     print("writing to output/merged-file.lua")
 
+    file:write("-- AUTO GENERATED FILE! DO NOT EDIT!\
+\
+---@type QuestieDB\
+local QuestieDB = QuestieLoader:ImportModule(\"QuestieDB\");\
+\
+QuestieDB.questKeys = {\
+    ['name'] = 1, -- string\
+    ['startedBy'] = 2, -- table\
+        --['creatureStart'] = 1, -- table {creature(int),...}\
+        --['objectStart'] = 2, -- table {object(int),...}\
+        --['itemStart'] = 3, -- table {item(int),...}\
+    ['finishedBy'] = 3, -- table\
+        --['creatureEnd'] = 1, -- table {creature(int),...}\
+        --['objectEnd'] = 2, -- table {object(int),...}\
+    ['requiredLevel'] = 4, -- int\
+    ['questLevel'] = 5, -- int\
+    ['requiredRaces'] = 6, -- bitmask\
+    ['requiredClasses'] = 7, -- bitmask\
+    ['objectivesText'] = 8, -- table: {string,...}, Description of the quest. Auto-complete if nil.\
+    ['triggerEnd'] = 9, -- table: {text, {[zoneID] = {coordPair,...},...}}\
+    ['objectives'] = 10, -- table\
+        --['creatureObjective'] = 1, -- table {{creature(int), text(string), iconFile},...}, If text is nil the default \"<Name> slain x/y\" is used\
+        --['objectObjective'] = 2, -- table {{object(int), text(string), iconFile},...}\
+        --['itemObjective'] = 3, -- table {{item(int), text(string), iconFile},...}\
+        --['reputationObjective'] = 4, -- table: {faction(int), value(int)}\
+        --['killCreditObjective'] = 5, -- table: {{{creature(int), ...}, baseCreatureID, baseCreatureText, iconFile}, ...}\
+    ['sourceItemId'] = 11, -- int, item provided by quest starter\
+    ['preQuestGroup'] = 12, -- table: {quest(int)}\
+    ['preQuestSingle'] = 13, -- table: {quest(int)}\
+    ['childQuests'] = 14, -- table: {quest(int)}\
+    ['inGroupWith'] = 15, -- table: {quest(int)}\
+    ['exclusiveTo'] = 16, -- table: {quest(int)}\
+    ['zoneOrSort'] = 17, -- int, >0: AreaTable.dbc ID; <0: QuestSort.dbc ID\
+    ['requiredSkill'] = 18, -- table: {skill(int), value(int)}\
+    ['requiredMinRep'] = 19, -- table: {faction(int), value(int)}\
+    ['requiredMaxRep'] = 20, -- table: {faction(int), value(int)}\
+    ['requiredSourceItems'] = 21, -- table: {item(int), ...} Items that are not an objective but still needed for the quest.\
+    ['nextQuestInChain'] = 22, -- int: if this quest is active/finished, the current quest is not available anymore\
+    ['questFlags'] = 23, -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags\
+    ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags\
+    ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)\
+    ['reputationReward'] = 26, --table: {{faction(int), value(int)},...}, a list of reputation rewarded upon quest completion\
+    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to\
+    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest\
+    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems\
+    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID\
+    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.\
+    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level\
+    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to\
+    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest\
+    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems\
+    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID\
+    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.\
+    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level\
+}\
+\
+QuestieDB.questData = [[return {\n")
+
     for questId, data in pairsByKeys(questData) do
         --print("questId: " .. questId)
         -- build print string with npcId and data
@@ -292,14 +350,14 @@ local function printToFile(questData, questKeys)
         printString = printString .. (data[questKeys.requiredSpecialization] or "nil") .. ","
         printString = printString .. (data[questKeys.requiredMaxLevel] or "nil")
         printString = printString .. "},"
-        -- TODO: replace ,} and ,nil} and so on with }
-        -- Do we really want this?
-        --while printString:sub(-6) == ",nil}," do
-        --    printString = printString:sub(1, -7) .. "},"
-        --end
-
+        -- remove trailing zero data
+        printString = printString:gsub(",}", "}")
+        for i = 1, 20 do
+            printString = printString:gsub(",nil}", "}")
+        end
         file:write(printString .. "\n")
     end
+    file:write("}]]\n")
     print("Done")
 end
 

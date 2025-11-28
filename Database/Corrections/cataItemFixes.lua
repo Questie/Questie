@@ -247,6 +247,9 @@ function CataItemFixes.Load()
         [20743] = { -- Unstable Mana Crystal
             [itemKeys.npcDrops] = {},
         },
+        [21007] = { -- Unkempt Robe
+            [itemKeys.objectDrops] = {},
+        },
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
@@ -1252,6 +1255,9 @@ function CataItemFixes.Load()
         },
         [72160] = { -- Hellfire Supplies
             [itemKeys.objectDrops] = {209347},
+        },
+        [72663] = { -- Blinding Fury
+            [itemKeys.npcDrops] = {19218,19710},
         },
         [73269] = { -- Great Sea Herring
             [itemKeys.npcDrops] = {},

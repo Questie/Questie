@@ -73,7 +73,7 @@ QuestieDB.npcFlags = {
     AUCTIONEER = Questie.IsClassic and 4096 or 2097152,
     STABLEMASTER = Questie.IsClassic and 8192 or 4194304,
     REPAIR = Questie.IsClassic and 16384 or 4096,
-    BARBER = (Expansions.Current >= Expansions.Wotlk) and 16777216 or nil,
+    BARBER = (Expansions.Current >= Expansions.Wotlk) and 33554432 or nil,
     ARCANE_REFORGER = Expansions.Current >= Expansions.Cata and 134217728 or nil,
     TRANSMOGRIFIER = Expansions.Current >= Expansions.Cata and 268435456 or nil
 }

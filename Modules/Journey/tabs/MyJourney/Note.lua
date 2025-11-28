@@ -14,7 +14,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local titleBox, messageBox
 
 local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox
-local _CreateNoteAddButton, _HandleNoteEntry
+local _CreateNoteAddButton, _HandleNoteEntry, _DeleteNote
 
 
 function _QuestieJourney:ShowNotePopup()
@@ -132,3 +132,49 @@ _HandleNoteEntry = function ()
     _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
     _QuestieJourney.notePopup:Hide()
 end
+
+_DeleteNote = function(noteIndex)
+    local success = false
+    if noteIndex and noteIndex > 0 and noteIndex <= #Questie.db.char.journey then
+        local entry = Questie.db.char.journey[noteIndex]
+        if entry and entry.Event == "Note" then
+            table.remove(Questie.db.char.journey, noteIndex)
+            success = true
+            local message = Questie:Colorize('[Questie] ', 'lightBlue') .. l10n('Note deleted successfully')
+            print(message)
+            if _QuestieJourney.myJourney and _QuestieJourney.treeCache then
+                _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
+            end
+        end
+    end
+
+    return success
+end
+
+
+StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
+    text = "",
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        local noteIndex = self.data
+        _DeleteNote(noteIndex)
+    end,
+    OnShow = function(self)
+        local noteIndex = self.data
+        local confirmText = l10n("Are you sure you want to delete this note?")
+        if noteIndex then
+            local entry = Questie.db.char.journey[noteIndex]
+            if entry and entry.Event == "Note" then
+                confirmText = confirmText .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow')
+            end
+        end
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}

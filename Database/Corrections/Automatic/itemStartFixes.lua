@@ -2252,5 +2252,21 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [77957] = {
         [itemKeys.startQuest] = 30105,
       },
+      --* Starts: Darkmoon Tiger Deck(30452)
+      [79323] = {
+        [itemKeys.startQuest] = 30452,
+      },
+      --* Starts: Darkmoon Ox Deck(30450)
+      [79324] = {
+        [itemKeys.startQuest] = 30450,
+      },
+      --* Starts: Darkmoon Crane Deck(30449)
+      [79325] = {
+        [itemKeys.startQuest] = 30449,
+      },
+      --* Starts: Darkmoon Serpent Deck(30451)
+      [79326] = {
+        [itemKeys.startQuest] = 30451,
+      },
     }
 end

@@ -98,6 +98,25 @@ local migrationFunctions = {
         Questie.db.profile.autoAccept.rejectSharedInBattleground = false
         Questie.db.profile.tutorialRejectInBattlegroundsDone = false
     end,
+    [13] = function()
+        Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
+    end,
+    [14] = function()
+        Questie.db.profile.hideTrackerInPetBattles = true
+    end,
+    [15] = function()
+        Questie.db.profile.globalTownsfolkScale = 0.6
+        Questie.db.profile.globalMiniMapTownsfolkScale = 0.7
+    end,
+    [16] = function()
+        if (not Questie.db.global.isleOfQuelDanasPhase) then
+            if Expansions.Current > Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 9 -- Max phase for everything that comes after TBC
+            elseif Expansions.Current == Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 1
+            end
+        end
+    end
 }
 
 function Migration:Migrate()

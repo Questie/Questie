@@ -16,7 +16,7 @@ local function printToFile(npcData, npcKeys)
         printString = printString .. data[npcKeys.minLevel] .. ","
         printString = printString .. data[npcKeys.maxLevel] .. ","
         printString = printString .. data[npcKeys.rank] .. ","
-        if data[npcKeys.spawns] then
+        if data[npcKeys.spawns] and next(data[npcKeys.spawns]) then
             printString = printString .. "{"
             for zoneID, coords in pairsByKeys(data[npcKeys.spawns]) do
                 printString = printString .. "[" .. zoneID .. "]={"
@@ -42,7 +42,7 @@ local function printToFile(npcData, npcKeys)
         else
             printString = printString .. "nil,"
         end
-        if data[npcKeys.waypoints] then
+        if data[npcKeys.waypoints] and next(data[npcKeys.waypoints]) then
             printString = printString .. "{"
             for zoneID, coords in pairs(data[npcKeys.waypoints]) do
                 printString = printString .. "[" .. zoneID .. "]={{"
@@ -91,7 +91,7 @@ local function printToFile(npcData, npcKeys)
         else
             printString = printString .. "nil,"
         end
-        if data[npcKeys.subName] then
+        if data[npcKeys.subName] and data[npcKeys.subName] ~= "" then
             printString = printString .. "\"" .. data[npcKeys.subName]:gsub("\"", "\\\"") .. "\","
         else
             printString = printString .. "nil,"

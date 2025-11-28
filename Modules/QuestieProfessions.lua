@@ -2,6 +2,8 @@
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -60,8 +62,10 @@ function QuestieProfessions:Update()
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
 
+    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
+    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
     for i=1, GetNumSkillLines() do
-        if i > 14 then break; end -- We don't have to go through all the weapon skills
+        if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
         if (not isHeader) and professionTable[skillName] then
@@ -72,17 +76,19 @@ function QuestieProfessions:Update()
     for professionId, _ in pairs(temporaryPlayerProfessions) do
         if not playerProfessions[professionId] then
             Questie:Debug(Questie.DEBUG_DEVELOP, "New profession: " .. temporaryPlayerProfessions[professionId][1])
-            -- This is kept here for legacy support, even though it's not really true...
             hasProfessionUpdate = true
-            -- A new profession was learned
             hasNewProfession = true
 
             --? Reset all autoBlacklisted quests if a new skill is learned
             QuestieQuest.ResetAutoblacklistCategory("skill")
-        elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] and(temporaryPlayerProfessions[professionId][2] % 5 == 0) then
-            -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
-            Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
-            hasProfessionUpdate = true -- A profession leveled up, not something like "Defense"
+        else
+            local oldRank = playerProfessions[professionId][2]
+            local newRank = temporaryPlayerProfessions[professionId][2]
+            if newRank > oldRank and (math.floor(oldRank / 5) ~= math.floor(newRank / 5)) then
+                -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
+                Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. oldRank .. " -> " .. newRank)
+                hasProfessionUpdate = true
+            end
         end
     end
     playerProfessions = temporaryPlayerProfessions
@@ -128,7 +134,7 @@ end
 
 ---@param requiredSpecialization { [1]: number } [1] = professionId
 ---@return boolean HasSpecialization
-function QuestieProfessions:HasSpecialization(requiredSpecialization)
+function QuestieProfessions.HasSpecialization(requiredSpecialization)
     if not requiredSpecialization then
         --? We return true here because otherwise we would have to check for nil everywhere
         return true
@@ -278,6 +284,30 @@ specializationNames = {
 ---@return string
 function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
+end
+
+local trainerNames = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid Trainer",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing Trainer",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking Trainer",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Alchemy Trainer",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Herbalism Trainer",
+    [QuestieProfessions.professionKeys.COOKING] = "Cooking Trainer",
+    [QuestieProfessions.professionKeys.MINING] = "Mining Trainer",
+    [QuestieProfessions.professionKeys.TAILORING] = "Tailoring Trainer",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering Trainer",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting Trainer",
+    [QuestieProfessions.professionKeys.FISHING] = "Fishing Trainer",
+    [QuestieProfessions.professionKeys.SKINNING] = "Skinning Trainer",
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting Trainer",
+    [QuestieProfessions.professionKeys.ARCHAEOLOGY] = "Archaeology Trainer",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Inscription Trainer",
+    [QuestieProfessions.professionKeys.RIDING] = "Riding Trainer",
+}
+
+---@return string
+function QuestieProfessions.GetTrainerName(professionKey)
+    return trainerNames[professionKey]
 end
 
 ---@return string

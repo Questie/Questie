@@ -91,6 +91,16 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
     end
 end
 
+local preQuestExclusions = {
+    [30235] = true,
+    [30236] = true,
+    [30239] = true,
+    [30277] = true,
+    [30280] = true,
+    [30296] = true,
+    [30297] = true,
+}
+
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@return table<QuestId, string>
@@ -100,7 +110,7 @@ function Validators.checkPreQuestExclusiveness(quests, questKeys)
     for questId, questData in pairs(quests) do
         local preQuestSingle = questData[questKeys.preQuestSingle]
         local preQuestGroup = questData[questKeys.preQuestGroup]
-        if preQuestSingle and next(preQuestSingle) and preQuestGroup and next(preQuestGroup) then
+        if preQuestSingle and next(preQuestSingle) and preQuestGroup and next(preQuestGroup) and (not preQuestExclusions[questId]) then
             invalidQuests[questId] = true
         end
     end
@@ -187,10 +197,11 @@ end
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
+---@param npcKeys DatabaseNpcKeys
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
 ---@return table<QuestId, string>
-function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+function Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
     print("\n\27[36mSearching for quest starters...\27[0m")
     local invalidQuests = {}
     for questId, questData in pairs(quests) do
@@ -199,6 +210,8 @@ function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
             for _, npcStarter in pairs(startedBy[1] or {}) do
                 if not npcs[npcStarter] then
                     invalidQuests[questId] = "NPC starter " .. npcStarter .. " is missing in the database"
+                elseif (not npcs[npcStarter][npcKeys.name]) then
+                    invalidQuests[questId] = "NPC starter " .. npcStarter .. " has no name"
                 end
             end
             for _, objectStarter in pairs(startedBy[2] or {}) do
@@ -227,6 +240,47 @@ function Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
         return invalidQuests
     else
         print("\27[32mNo quests found with invalid quest starters\27[0m")
+        return nil
+    end
+end
+
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param npcs table<NpcId, NPC>
+---@param objects table<ObjectId, Object>
+---@return table<QuestId, string>
+function Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+    print("\n\27[36mSearching for quest finishers...\27[0m")
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        local finishedBy = questData[questKeys.finishedBy]
+        if finishedBy then
+            for _, npcFinisher in pairs(finishedBy[1] or {}) do
+                if not npcs[npcFinisher] then
+                    invalidQuests[questId] = "NPC finisher " .. npcFinisher .. " is missing in the database"
+                end
+            end
+            for _, objectFinisher in pairs(finishedBy[2] or {}) do
+                if not objects[objectFinisher] then
+                    invalidQuests[questId] = "Object finisher " .. objectFinisher .. " is missing in the database"
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid quest finishers:\27[0m")
+        for questId, reason in pairs(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid quest finishers\27[0m")
         return nil
     end
 end
@@ -268,6 +322,16 @@ function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
                         invalidQuests[questId] = {}
                     end
                     table.insert(invalidQuests[questId], "Item objective " .. itemId .. " is missing in the database")
+                end
+            end
+            for _, killCreditObjective in pairs(objectives[5] or {}) do
+                for _, npcId in pairs(killCreditObjective[1]) do
+                    if not npcs[npcId] then
+                        if not invalidQuests[questId] then
+                            invalidQuests[questId] = {}
+                        end
+                        table.insert(invalidQuests[questId], "NPC " .. npcId .. " for killCredit objective is missing in the database")
+                    end
                 end
             end
         end

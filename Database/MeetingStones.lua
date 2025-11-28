@@ -271,7 +271,7 @@ _MeetingStones.levelRanges = {
         range = "(90)"
     },
     [212859] = {
-        name = "Shadow-Pan Monastery",
+        name = "Shado-Pan Monastery",
         range = "(87-90)"
     },
     [213170] = {
@@ -279,11 +279,11 @@ _MeetingStones.levelRanges = {
         range = "(85-90)"
     },
     [213254] = {
-        name = "Mogu Shan Palace",
+        name = "Mogu'shan Palace",
         range = "(87-90)"
     },
     [213255] = {
-        name = "Mogu Shan Palace",
+        name = "Mogu'shan Palace",
         range = "(87-90)"
     },
     [214169] = {

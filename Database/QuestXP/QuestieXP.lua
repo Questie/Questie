@@ -14,6 +14,8 @@ local UnitLevel = UnitLevel
 local globalXPMultiplier = 1
 local isDiscovererDelightActive = false
 
+local _GetBuffMultiplier
+
 function QuestXP.Init()
     if Questie.IsSoD or Expansions.Current >= Expansions.Wotlk and globalXPMultiplier == 1 then
         for i = 1, 40 do
@@ -74,7 +76,7 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         xp = 50 * floor((xp + 25) / 50)
     end
 
-    return floor(xp * globalXPMultiplier)
+    return floor(xp * (globalXPMultiplier + _GetBuffMultiplier()))
 end
 
 
@@ -114,4 +116,26 @@ function QuestXP.GetQuestRewardMoney(questId)
         modifier = 3
     end
     return floor(GetQuestLogRewardMoney(questId) * modifier)
+end
+
+---Check for temporary buffs being active that give XP bonuses.
+---@return number
+_GetBuffMultiplier = function()
+    local buffMultiplier = 0
+    for i = 1, 40 do
+        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        if spellId == nil then
+            break
+        end
+
+        if spellId == 46668 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Darkmoon Faire buff
+        elseif spellId == 95987 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Unburdened (Hallow's End Alliance)
+        elseif spellId == 24705 then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Grim Visage (Hallow's End Horde)
+        end
+    end
+
+    return buffMultiplier
 end

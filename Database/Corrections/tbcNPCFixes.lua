@@ -23,7 +23,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184,6681},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,64031,64034,64035,64037,64038},
+            [npcKeys.questStarts] = {5634,5645,5676,64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {5640,5678,64028,64031,64034,64035},
         },
         [461] = { -- Demisette Cloyce
@@ -62,6 +62,9 @@ function QuestieTBCNpcFixes:Load()
         [3036] = { -- Kym Wildmane
             [npcKeys.questStarts] = {64049,64051,64053,64128,64217},
             [npcKeys.questEnds] = {64047,64049,64051,64053},
+        },
+        [3230] = { -- Nazgrel
+            [npcKeys.questStarts] = {9400,9405,9438,9495,10121,10136,10390,10391,10392,10756,10876},
         },
         [3324] = { -- Grol'dar
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
@@ -141,7 +144,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {6681},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {10379},
+            [npcKeys.questStarts] = {5643,5657,5658,5679,10379},
         },
         [4947] = { -- Theramore Lieutenant
             [npcKeys.questStarts] = {},
@@ -151,6 +154,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8}}}, -- New position in TBC
+        },
+        [5113] = { -- Kelv Sternhammer
+            [npcKeys.questStarts] = {1718,8417},
         },
         [5149] = { -- Brandur Ironhammer
             [npcKeys.questStarts] = {2999,3681,7670,8415},
@@ -218,6 +224,9 @@ function QuestieTBCNpcFixes:Load()
         [6467] = { -- Mennet Carkad
             [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
         },
+        [7315] = { -- Darnath Bladesinger
+            [npcKeys.questStarts] = {1698,8417},
+        },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
@@ -234,6 +243,9 @@ function QuestieTBCNpcFixes:Load()
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
+        },
+        [10540] = { -- Vol'jin
+            [npcKeys.questStarts] = {1361},
         },
         [10839] = { -- Argent Officer Garush
             [npcKeys.questStarts] = {5402,5403,5406,5503},
@@ -323,9 +335,6 @@ function QuestieTBCNpcFixes:Load()
         },
         [15967] = {
             [npcKeys.waypoints] = {},
-        },
-        [16033] = {
-            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{32.29,25.8},},[zoneIDs.SEARING_GORGE]={{39.87,96.46},},},
         },
         [16206] = {
             [npcKeys.waypoints] = {},
@@ -520,6 +529,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
         [17214] = {
+            [npcKeys.waypoints] = {},
+        },
+        [17215] = {
             [npcKeys.waypoints] = {},
         },
         [17219] = { -- Sulaa

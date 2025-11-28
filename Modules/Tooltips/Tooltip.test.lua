@@ -54,7 +54,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
 
@@ -66,6 +66,15 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
             assert.are.same({}, tooltip)
+        end)
+
+        it("should return nil when no tooltip is registered", function()
+            QuestieTooltips.lookupByKey = {}
+
+            local tooltip = QuestieTooltips.GetTooltip("key")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
+            assert.is_nil(tooltip)
         end)
 
         it("should return quest name and objective when tooltip has spell objective", function()
@@ -86,7 +95,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
             assert.spy(QuestieDB.QueryItemSingle).was_called_with(5, "name")
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   goldItem Name"}, tooltip)
         end)
 
@@ -105,7 +114,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
@@ -122,16 +131,13 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[440]={{10,10}}}
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should return nil for objects which are not in the zone of the player", function()
@@ -141,15 +147,12 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[1]={{10,10}}}
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.is_nil(tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should return quest name and objective description when players zone ID is 0", function()
@@ -162,19 +165,35 @@ describe("Tooltip", function()
                 }
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
-            QuestieDB.QueryObjectSingle = spy.new(function()
-                return {[440]={{10,10}}}
-            end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 0
-            end)
+            QuestieDB.QueryObjectSingle = spy.new(function() end)
+            local playerZone = 0
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
-            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
-            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
+            assert.spy(QuestieDB.QueryObjectSingle).was_not_called()
+        end)
+
+        it("should return quest name and objective description when players zone ID is nil", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+            QuestieDB.QueryObjectSingle = spy.new(function() end)
+            _G.Questie.Debug = spy.new(function() end)
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", nil)
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.spy(QuestieDB.QueryObjectSingle).was_not_called()
+            assert.spy(Questie.Debug).was_called_with(Questie, Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
         end)
 
         it("should return quest name and objective description when object has no spawn", function()
@@ -190,13 +209,11 @@ describe("Tooltip", function()
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return nil
             end)
-            QuestiePlayer.GetCurrentZoneId = spy.new(function()
-                return 440
-            end)
+            local playerZone = 440
 
-            local tooltip = QuestieTooltips.GetTooltip("o_123")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
         end)
@@ -224,7 +241,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
 
@@ -251,7 +268,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
@@ -296,8 +313,8 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 2, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 2, nil, true)
             assert.are.same({
                 "Quest Name", "   gold0/1 do something else", "   gold3/5 do it",
                 "Quest Name 2", "   gold10/10 do something"

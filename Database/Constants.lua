@@ -1,13 +1,14 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieDB.sortKeys = {
     EPIC = -1,
+    HALLOWS_END = -21,
     SEASONAL = -22,
+    UNDERCITY = -23,
     HERBALISM = -24,
     BATTLEGROUND = -25,
+    DAY_OF_THE_DEAD = -41,
     WARLOCK = -61,
     WARRIOR = -81,
     SHAMAN = -82,
@@ -19,6 +20,8 @@ QuestieDB.sortKeys = {
     ALCHEMY = -181,
     LEATHERWORKING = -182,
     ENGINEERING = -201,
+    TREASURE_MAP = -221,
+    TOURNAMENT = -241,
     HUNTER = -261,
     PRIEST = -262,
     DRUID = -263,
@@ -28,6 +31,7 @@ QuestieDB.sortKeys = {
     FIRST_AID = -324,
     LEGENDARY = -344,
     DARKMOON_FAIRE = -364,
+    AHN_QIRAJ_WAR = -365,
     LUNAR_FESTIVAL = -366,
     REPUTATION = -367,
     INVASION = -368,
@@ -44,9 +48,16 @@ QuestieDB.sortKeys = {
     FIRELANDS_INVASION = -379,
     THE_ZANDALARI = -380,
     ELEMENTAL_BONDS = -381,
+    PANDAREN_BREWMASTERS = -391,
     PET_BATTLE = -394,
     MONK = -395,
+    LANDFALL = -396,
+    PANDAREN_CAMPAIGN = -397,
+    RIDING = -398,
+    BRAWLERS_GUILD = -399,
     PROVING_GROUNDS = -400,
+    HARVEST_FESTIVAL = -402,
+    WINTER_VEIL = -404,
     NIGHTMARE_INCURSIONS = -641,
     BLACKROCK_ERUPTION = -644,
 }

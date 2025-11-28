@@ -143,6 +143,7 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.THE_BARRENS] = {{48,40}},
             },
             [objectKeys.questStarts] = {90129},
+            [objectKeys.questEnds] = {90129},
         },
         [407247] = { -- Glade Flower
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,

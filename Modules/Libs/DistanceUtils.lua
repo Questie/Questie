@@ -155,6 +155,10 @@ end
 _GetDistance = function(zoneId, spawnX, spawnY, playerX, playerY, playerZone)
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawnX / 100.0, spawnY / 100.0, uiMapId)
+    if (not dX) or (not dY) then
+        dX, dY = 0, 0 -- Fallback to 0,0 if no coordinates are found
+    end
+
     local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
     if dInstance ~= playerZone then
         dist = 500000 + dist * 100 -- hack
