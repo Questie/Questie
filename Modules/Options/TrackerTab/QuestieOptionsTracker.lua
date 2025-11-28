@@ -402,9 +402,33 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end
                     },
-                    fadeMinMaxButtons = {
+                    minimizeInPetBattles = {
                         type = "toggle",
                         order = 3,
+                        width = 1.5,
+                        name = function() return l10n("Hide In Pet Battles") end,
+                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return Expansions.Current < Expansions.MoP end,
+                        get = function() return Questie.db.profile.hideTrackerInPetBattles end,
+                        set = function(_, value)
+                            Questie.db.profile.hideTrackerInPetBattles = value
+                            if C_PetBattles and C_PetBattles.IsInBattle() then
+                                local baseFrame = TrackerBaseFrame.baseFrame
+                                if baseFrame then
+                                    if value then
+                                        baseFrame:Hide()
+                                    else
+                                        baseFrame:Show()
+                                        QuestieTracker:Update()
+                                    end
+                                end
+                            end
+                        end
+                    },
+                    fadeMinMaxButtons = {
+                        type = "toggle",
+                        order = 4,
                         width = 1.5,
                         name = function() return l10n("Fade Min/Max Buttons") end,
                         desc = function() return l10n("When this is checked, the Minimize and Maximize Buttons will fade and become transparent when not in use.") end,
@@ -440,7 +464,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     fadeQuestItemButtons = {
                         type = "toggle",
-                        order = 4,
+                        order = 5,
                         width = 1.5,
                         name = function() return l10n("Fade Quest Item Buttons") end,
                         desc = function() return l10n("When this is checked, the Quest Item Buttons will fade and become transparent when not in use.") end,
@@ -476,7 +500,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     hideSizer = {
                         type = "toggle",
-                        order = 5,
+                        order = 6,
                         width = 1.5,
                         name = function() return l10n("Hide Tracker Sizer") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.") end,
@@ -489,7 +513,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     lockTracker = {
                         type = "toggle",
-                        order = 6,
+                        order = 7,
                         width = 1.5,
                         name = function() return l10n("Lock Tracker") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it.") end,
@@ -502,7 +526,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     stickyDurabilityFrame = {
                         type = "toggle",
-                        order = 7,
+                        order = 8,
                         width = 1.5,
                         name = function() return l10n("Sticky Durability Frame") end,
                         desc = function() return l10n("When this is checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
@@ -518,7 +542,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     stickyVoiceOverFrame = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         width = 1.5,
                         name = function() return l10n("Sticky VoiceOver Frame") end,
                         desc = function() return l10n("When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
@@ -911,9 +935,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 9,
                         width = 1.5,
                         values = {
-                            ["None"] = "",
-                            ["Outline"] = "OUTLINE",
-                            ["Monochrome"] = "MONOCHROME"
+                            [NONE] = "None",
+                            [SELF_HIGHLIGHT_MODE_OUTLINE] = "Outline",
                         },
                         style = "dropdown",
                         name = function() return l10n("Outline for Zones, Titles, and Objectives") end,

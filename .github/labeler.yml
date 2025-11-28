@@ -10,6 +10,10 @@ Season of Discovery:
   - '### Game flavor\s*Season of Discovery'
 
 # Label for WotLK quests
+tbc:
+  - '### Game flavor\s*TBC'
+
+# Label for WotLK quests
 wotlk:
   - '### Game flavor\s*WotLK'
 

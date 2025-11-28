@@ -1,8 +1,4 @@
-cataItemDB.lua
-cataItemDB-trinity.lua
-item_ids_cata.py
-merged-file.lua
-wotlkItemDB.lua
-wotlkQuestDB.lua
+data/*
+!data/.gitkeep
+output/
 corrections.lua
-mopItemDB.lua

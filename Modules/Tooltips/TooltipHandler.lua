@@ -29,11 +29,12 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         lastGuid ~= guid
     ) then
         QuestieTooltips.lastGametooltipUnit = name
+        if Questie.db.profile.enableTooltipsNPCID then
+            GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
+        end
+
         local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
         if tooltipData then
-            if Questie.db.profile.enableTooltipsNPCID == true then
-                GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
-            end
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)
             end
@@ -64,11 +65,12 @@ function _QuestieTooltips:AddItemDataToTooltip()
         QuestieTooltips.lastFrameName ~= self:GetName()
     ) then
         QuestieTooltips.lastGametooltipItem = name
+        if Questie.db.profile.enableTooltipsItemID then
+            GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
+        end
+
         local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
-            if Questie.db.profile.enableTooltipsItemID == true then
-                GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
-            end
             for _, v in pairs (tooltipData) do
                 self:AddLine(v)
             end
@@ -80,7 +82,9 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-function _QuestieTooltips.AddObjectDataToTooltip(name)
+---@param name string
+---@param playerZone AreaId
+function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
@@ -106,7 +110,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
         if tooltipData then
             for _, line in pairs (tooltipData) do
                 if (not alreadyAddedObjectiveLines[line]) then

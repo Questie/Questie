@@ -117,6 +117,7 @@ function QuestieEvent:Load()
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
+        local hideQuest = questData[5]
         local startDay, startMonth = nil, nil
         local endDay, endMonth = nil, nil
 
@@ -129,11 +130,10 @@ function QuestieEvent:Load()
             endMonth = tonumber(endMonth)
         end
 
-        _QuestieEvent.eventNamesForQuests[questId] = eventName
+        if (not hideQuest) then
+            _QuestieEvent.eventNamesForQuests[questId] = eventName
 
-        if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-            local hideQuest = questData[5]
-            if (not hideQuest) then
+            if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -302,13 +302,22 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     end
 end
 
+---@param questId QuestId
 ---@return string
-function QuestieEvent:GetEventNameFor(questId)
+function QuestieEvent.GetEventNameFor(questId)
     return _QuestieEvent.eventNamesForQuests[questId] or ""
 end
 
-function QuestieEvent:IsEventQuest(questId)
+---@param questId QuestId
+---@return boolean @True if the quest is part of an event, false otherwise
+function QuestieEvent.IsEventQuest(questId)
     return _QuestieEvent.eventNamesForQuests[questId] ~= nil
+end
+
+---@param questId QuestId
+---@return boolean @True if the quest is part of an event and the event is currently active, false otherwise
+function QuestieEvent.IsEventActiveForQuest(questId)
+    return QuestieEvent.activeQuests[questId] == true
 end
 
 local isChinaRegion = GetCurrentRegion() == 5
@@ -327,12 +336,12 @@ QuestieEvent.eventDates = {
     ["Midsummer"] = (isChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "13/9",
-        endDate = "19/9"
+        startDate = "2/10",
+        endDate = "8/10"
     },
-    ["Pilgrim's Bounty"] = {startDate = "26/11", endDate = "2/12"},
+    ["Pilgrim's Bounty"] = {startDate = "25/11", endDate = "1/12"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"},
+    ["Winter Veil"] = {startDate = "16/12", endDate = "1/1"},
     ["Day of the Dead"] = {startDate = "1/11", endDate = "2/11"},
 }
 

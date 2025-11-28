@@ -31,6 +31,28 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [5641] = { -- Fear Ward (Ironforge)
+            [questKeys.startedBy] = {{11406},nil,nil},
+        },
+        [5645] = { -- Fear Ward (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
+        },
+        [5658] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{4606}},
+            [questKeys.objectivesText] = {},
+        },
+        [5657] = { -- Hex of Weakness (Undercity)
+            [questKeys.startedBy] = {{4606},nil,nil},
+        },
+        [5661] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{11407}},
+        },
+        [5663] = { -- Touch of Weakness
+            [questKeys.startedBy] = {{3044}},
+        },
+        [5676] = { -- Feedback (Stormwind)
+            [questKeys.startedBy] = {{376},nil,nil},
+        },
         [7636] = { -- An Introduction
             [questKeys.nextQuestInChain] = 84546,
         },
@@ -1244,7 +1266,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
-        [80241] = {
+        [80241] = { -- The Origins of Smithing
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
             [questKeys.requiredSkill] = {specKeys.BLACKSMITHING,210},
         },
@@ -3766,11 +3788,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
         [85713] = { -- The Art of the Armorsmith
             [questKeys.finishedBy] = {{5164}},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
         [85772] = { -- Elemental Distress
             [questKeys.startedBy] = {{12736}},
@@ -6491,7 +6515,7 @@ function SeasonOfDiscovery:LoadQuests()
         [90129] = {
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {nil,{407117,407120}},
-            [questKeys.finishedBy] = {{407120}},
+            [questKeys.finishedBy] = {nil,{407120}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -8541,6 +8565,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90301] = {
             [questKeys.name] = "Purifying Power",
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
             [questKeys.requiredSpell] = -429255,

@@ -626,7 +626,37 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
-                    spacer_scale = QuestieOptionsUtils:Spacer(5.3),
+                    globalTownsfolkScale = {
+                        type = "range",
+                        order = 5.3,
+                        name = function() return l10n('Townsfolk Icons'); end,
+                        desc = function() return l10n('How large the townsfolk map icons are.\n(Default: %s)', optionsDefaults.profile.globalTownsfolkScale); end,
+                        width = 1.55,
+                        min = 0.01,
+                        max = 4,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieMap:RescaleTownsfolkIcons()
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                    globalMiniMapTownsfolkScale = {
+                        type = "range",
+                        order = 5.31,
+                        name = function() return l10n('Minimap Townsfolk Icons'); end,
+                        desc = function() return l10n('How large the townsfolk minimap icons are.\n(Default: %s)', optionsDefaults.profile.globalMiniMapTownsfolkScale); end,
+                        width = 1.55,
+                        min = 0.01,
+                        max = 4,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieMap:RescaleTownsfolkIcons()
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                    spacer_scale = QuestieOptionsUtils:Spacer(5.4),
                     availableScale = {
                         type = "range",
                         order = 5.4,
@@ -1349,11 +1379,12 @@ end
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
     if value == "questie" then
-        if GetCVar("questPOI") then -- if wotlk objectives available
-            SetCVar("questPOI", "0") -- disable them
+        if GetCVar("questPOI") then -- check for Blizzard style objectives
+            SetCVar("questPOI", "0")
         end
-        if WorldMapQuestShowObjectives then -- if wotlk blizzard objectives button exists
-            WorldMapQuestShowObjectives:SetChecked(false) -- uncheck it
+        if WorldMapQuestShowObjectives then
+            -- Blizzard objectives button exists
+            WorldMapQuestShowObjectives:SetChecked(false)
         end
         Questie.db.profile.enableObjectives = true
         Questie.db.profile.ICON_SLAY = Questie.icons["slay"]
@@ -1368,11 +1399,12 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.clusterLevelHotzone = optionsDefaults.profile.clusterLevelHotzone
     elseif value == "pfquest" then
-        if GetCVar("questPOI") then -- if wotlk objectives available
-            SetCVar("questPOI", "0") -- disable them
+        if GetCVar("questPOI") then -- check for Blizzard style objectives
+            SetCVar("questPOI", "0")
         end
-        if WorldMapQuestShowObjectives then -- if wotlk blizzard objectives button exists
-            WorldMapQuestShowObjectives:SetChecked(false) -- uncheck it
+        if WorldMapQuestShowObjectives then
+            -- Blizzard objectives button exists
+            WorldMapQuestShowObjectives:SetChecked(false)
         end
         Questie.db.profile.enableObjectives = true
         Questie.db.profile.ICON_SLAY = Questie.icons["node"]
@@ -1387,11 +1419,12 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = false
         Questie.db.profile.clusterLevelHotzone = 1
     elseif value == "blizzard" then
-        if GetCVar("questPOI") then -- if wotlk objectives available
-            SetCVar("questPOI", "1") -- enable them
+        if GetCVar("questPOI") then -- check for Blizzard style objectives
+            SetCVar("questPOI", "1")
         end
-        if WorldMapQuestShowObjectives then -- if wotlk blizzard objectives button exists
-            WorldMapQuestShowObjectives:SetChecked(false) -- check it
+        if WorldMapQuestShowObjectives then
+            -- Blizzard objectives button exists
+            WorldMapQuestShowObjectives:SetChecked(false)
         end
         Questie.db.profile.enableObjectives = false
         Questie.db.profile.ICON_SLAY = Questie.icons["slay"]

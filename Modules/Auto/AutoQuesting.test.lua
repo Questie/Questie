@@ -584,8 +584,6 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
-            AutoQuesting.OnGossipShow()
-
             AutoQuesting.OnQuestProgress()
 
             assert.spy(_G.CompleteQuest).was_not.called()

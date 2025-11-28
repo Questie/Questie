@@ -67,7 +67,10 @@ killcredit = function(npcId, objective, objectiveData)
     local ret = {}
     for npcIdIndex = 1, #objectiveData.IdList do
         local killCreditNpcId = objectiveData.IdList[npcIdIndex]
-        ret[killCreditNpcId] = monster(killCreditNpcId, objective)[killCreditNpcId]
+        local npc = monster(killCreditNpcId, objective)
+        if npc then
+            ret[killCreditNpcId] = npc[killCreditNpcId]
+        end
     end
     return ret
 end

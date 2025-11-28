@@ -81,8 +81,9 @@ def main():
     if len(includedExpansions) == 0:
         # If expansions go online/offline their major version needs to be added/removed here
         includedExpansions.append(1)
+        includedExpansions.append(2)
         includedExpansions.append(3)
-        includedExpansions.append(4) # TODO: Replace 4 with 5 once MoP goes live
+        includedExpansions.append(5)
 
     release_dir = get_version_dir(isReleaseBuild, versionOverride)
 
@@ -181,9 +182,9 @@ def get_version_dir(is_release_build, versionOverride):
     return release_dir
 
 directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
-filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc']
+filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc', 'README.md']
 expansionStrings = ['', 'Classic', 'TBC', 'Wotlk', 'Cata', 'MoP']
-ignorePatterns = ['*.test.lua', '*.png']
+ignorePatterns = ['*.test.lua']
 
 def copy_content_to(release_folder_path):
     for i in [1,2,3,4,5]:

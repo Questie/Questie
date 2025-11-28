@@ -251,3 +251,13 @@ tinsert(eventQuests, {"Midsummer", 29030}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 29031}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 29036}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 29092}) -- Inform the Elder
+
+-- MoP quests
+tinsert(eventQuests, {"Midsummer", 32496}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 32497}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32498}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32499}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32500}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32501}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32502}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32503}) -- Desecrate this Fire!

@@ -15,7 +15,7 @@ if version[0] == "v":
     print('Please omit the "v" prefix. The script will add it')
     exit()
 
-tocs = ['Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc']
+tocs = ['Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc', 'Questie-Mists.toc']
 
 for toc in tocs:
     with fileinput.FileInput(toc, inplace=True) as file:
@@ -34,7 +34,7 @@ with fileinput.FileInput('README.md', inplace=True) as file:
         else:
             print(line, end='')
 
-changelogString = changelog.get_commit_changelog()
+changelogString = changelog.get_commit_changelog(True)
 
 print('######### START CHANGELOG')
 print('# Questie v' + version + '\n\n' + changelogString)

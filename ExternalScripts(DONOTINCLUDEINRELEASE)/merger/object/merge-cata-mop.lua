@@ -1,7 +1,7 @@
-local cata = require('cataObjectDB')
-local mop = require('mopObjectDB')
-local mopTrinity = require('mopObjectDB-trinity')
-local wowhead = require('wowheadObjectDB')
+local cata = require('data.cataObjectDB')
+local mop = require('data.mopObjectDB')
+local mopTrinity = require('data.mopObjectDB-trinity')
+local wowhead = require('data.wowheadObjectDB')
 
 local printToFile = require('printToFile')
 
@@ -14,10 +14,24 @@ local objectKeys = {
     ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
 }
 
+-- With MoP all starting zones got an actual map, so we can not use the cata data for those.
+local startingZones = {
+    [6170] = true, -- Northshire
+    [6176] = true, -- Coldridge Valley
+    [6450] = true, -- Shadowglen
+    [6451] = true, -- Valley of Trials
+    [6452] = true, -- Camp Narache
+    [6453] = true, -- Echo Isles
+    [6454] = true, -- Deathknell
+    [6455] = true, -- Sunstrider Isle
+    [6456] = true, -- Ammen Vale
+    [6457] = true, -- New Tinkertown
+}
+
 for objId, data in pairs(mop) do
     local cataObject = cata[objId]
 
-    if cataObject then
+    if cataObject and (not startingZones[data[objectKeys.zoneID]]) then
         mop[objId] = cataObject
     else
         local trinityObject = mopTrinity[objId]
@@ -42,6 +56,10 @@ for objId, data in pairs(mop) do
                     mop[objId][index] = wowheadObject[index]
                 end
             end
+        end
+
+        if data[objectKeys.factionID] == 0 and cataObject and cataObject[objectKeys.factionID] ~= 0 then
+            mop[objId][objectKeys.factionID] = cataObject[objectKeys.factionID]
         end
     end
 end

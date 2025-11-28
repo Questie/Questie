@@ -17,12 +17,25 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 QuestieFramePool.Qframe = {}
 
+---@class QuestieFrameHandlers
 local _Qframe = {}
+
+---@class IconData
+---@field Id QuestId
+---@field Type string
+---@field Icon number
+---@field GetIconScale fun(): number
+---@field IconScale number
+---@field QuestData Quest
+---@field Name string
+---@field IsObjectiveNote boolean
+---@field StarterType string|nil
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
+    ---@field data IconData
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
@@ -131,7 +144,8 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     return newFrame
 end
 
-function _Qframe:OnLeave()
+---@param self IconFrame
+function _Qframe.OnLeave(self)
     if WorldMapTooltip then
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
@@ -160,7 +174,8 @@ function _Qframe:OnLeave()
     GameTooltip.ShownAsMapIcon = false
 end
 
-function _Qframe:OnClick(button)
+---@param self IconFrame
+function _Qframe.OnClick(self, button)
     local uiMapId = self.UiMapID
 
     if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
@@ -223,7 +238,8 @@ function _Qframe:OnClick(button)
     end
 end
 
-function _Qframe:GlowUpdate()
+---@param self IconFrame
+function _Qframe.GlowUpdate(self)
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
@@ -241,7 +257,8 @@ function _Qframe:GlowUpdate()
     end
 end
 
-function _Qframe:BaseOnShow()
+---@param self IconFrame
+function _Qframe.BaseOnShow(self)
     local data = self.data
 
     if data and data.Type and data.Type == "complete" then
@@ -265,7 +282,8 @@ function _Qframe:BaseOnShow()
     end
 end
 
-function _Qframe:BaseOnHide()
+---@param self IconFrame
+function _Qframe.BaseOnHide(self)
     local data = self.data
 
     if data and data.Type and data.Type == "complete" then
@@ -274,7 +292,8 @@ function _Qframe:BaseOnHide()
     self.glow:Hide()
 end
 
-function _Qframe:UpdateTexture(texture)
+---@param self IconFrame
+function _Qframe.UpdateTexture(self, texture)
     --Different settings depending on noteType
     local globalScale
     local objectiveColor
@@ -319,7 +338,8 @@ function _Qframe:UpdateTexture(texture)
     end
 end
 
-function _Qframe:Unload()
+---@param self IconFrame
+function _Qframe.Unload(self)
     if not self._loaded then
         self._needsUnload = true
         return -- icon is still in the draw queue
@@ -387,7 +407,8 @@ function _Qframe:Unload()
     QuestieFramePool:RecycleFrame(self)
 end
 
-function _Qframe:FadeOut()
+---@param self IconFrame
+function _Qframe.FadeOut(self)
     if not self.faded then
         self.faded = true
         if self.texture then
@@ -409,7 +430,8 @@ function _Qframe:FadeOut()
     end
 end
 
-function _Qframe:FadeIn()
+---@param self IconFrame
+function _Qframe.FadeIn(self)
     if self.faded then
         self.faded = nil
         if self.texture then
@@ -432,7 +454,8 @@ function _Qframe:FadeIn()
 end
 
 --- This is needed because HBD will show the icons again after switching zones and stuff like that
-function _Qframe:FakeHide()
+---@param self IconFrame
+function _Qframe.FakeHide(self)
     if not self.hidden then
         self.shouldBeShowing = self:IsShown();
         self._show = self.Show;
@@ -454,7 +477,8 @@ function _Qframe:FakeHide()
 end
 
 --- This is needed because HBD will show the icons again after switching zones and stuff like that
-function _Qframe:FakeShow()
+---@param self IconFrame
+function _Qframe.FakeShow(self)
     if self.hidden then
         self.hidden = false
         self.Show = self._show;
@@ -473,8 +497,9 @@ function _Qframe:FakeShow()
 end
 
 ---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
+---@param self IconFrame
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
-function _Qframe:ShouldBeHidden()
+function _Qframe.ShouldBeHidden(self)
     local profile = Questie.db.profile
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
@@ -497,7 +522,7 @@ function _Qframe:ShouldBeHidden()
         or ((not profile.enableTurnins) and iconType == "complete")
         or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
         or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+        or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
@@ -523,3 +548,5 @@ function _Qframe:ShouldBeHidden()
 
     return false
 end
+
+return _Qframe

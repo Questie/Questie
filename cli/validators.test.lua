@@ -3,6 +3,8 @@ local exitMock
 
 local questKeys = {
     startedBy = "startedBy",
+    finishedBy = "finishedBy",
+    requiredRaces = "requiredRaces",
     sourceItemId = "sourceItemId",
     requiredSourceItems = "requiredSourceItems",
     objectives = "objectives",
@@ -10,6 +12,23 @@ local questKeys = {
     preQuestGroup = "preQuestGroup",
     parentQuest = "parentQuest",
     childQuests = "childQuests",
+}
+local npcKeys = {
+    name = "name",
+    questStarts = "questStarts",
+    questEnds = "questEnds",
+}
+local objectKeys = {
+    name = "name",
+    questStarts = "questStarts",
+    questEnds = "questEnds",
+}
+
+local raceKeys = {
+    ALL_ALLIANCE = 18875469,
+    ALL_HORDE = 33555378,
+    PANDAREN_ALLIANCE = 16777216,
+    PANDAREN_HORDE = 33554432,
 }
 
 describe("Validators", function()
@@ -98,6 +117,34 @@ describe("Validators", function()
                 },
                 [2] = {
                     preQuestSingle = {},
+                    preQuestGroup = {2,3},
+                },
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report anything for quest 30277", function()
+            local quests = {
+                [30277] = {
+                    preQuestSingle = {1},
+                    preQuestGroup = {2,3},
+                },
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report anything for quest 30280", function()
+            local quests = {
+                [30280] = {
+                    preQuestSingle = {1},
                     preQuestGroup = {2,3},
                 },
             }
@@ -232,10 +279,28 @@ describe("Validators", function()
             local objects = {[2]={}}
             local items = {[2]={}}
 
-            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
 
             assert.are.same({
                 [1] = "NPC starter 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with NPC starters that don't have a name", function()
+            local quests = {
+                [1] = {
+                    startedBy = {{2}},
+                },
+            }
+            local npcs = {[2]={}}
+            local objects = {[2]={}}
+            local items = {[2]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
+
+            assert.are.same({
+                [1] = "NPC starter 2 has no name"
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
         end)
@@ -246,11 +311,11 @@ describe("Validators", function()
                     startedBy = {nil,{2}},
                 },
             }
-            local npcs = {[2]={}}
+            local npcs = {[2]={name="second NPC"}}
             local objects = {}
             local items = {[2]={}}
 
-            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
 
             assert.are.same({
                 [1] = "Object starter 2 is missing in the database"
@@ -264,11 +329,11 @@ describe("Validators", function()
                     startedBy = {nil,nil,{2}},
                 },
             }
-            local npcs = {[2]={}}
+            local npcs = {[2]={name="second NPC"}}
             local objects = {[2]={}}
             local items = {}
 
-            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
 
             assert.are.same({
                 [1] = "Item starter 2 is missing in the database"
@@ -286,6 +351,64 @@ describe("Validators", function()
                 },
                 [3] = {
                     startedBy = {nil,nil,{3}},
+                },
+            }
+            local npcs = {[1]={name="first NPC"}}
+            local objects = {[2]={}}
+            local items = {[3]={}}
+
+            local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkQuestFinishers", function()
+        it("should find quests with non-existing NPC finisher", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {{2}},
+                },
+            }
+            local npcs = {}
+            local objects = {[2]={}}
+
+            local invalidQuests = Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+
+            assert.are.same({
+                [1] = "NPC finisher 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with non-existing object finisher", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {nil,{2}},
+                },
+            }
+            local npcs = {[2]={}}
+            local objects = {}
+
+            local invalidQuests = Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
+
+            assert.are.same({
+                [1] = "Object finisher 2 is missing in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all quest finisher are valid", function()
+            local quests = {
+                [1] = {
+                    finishedBy = {{1}},
+                },
+                [2] = {
+                    finishedBy = {nil,{2}},
+                },
+                [3] = {
+                    finishedBy = {nil,nil,{3}},
                 },
             }
             local npcs = {[1]={}}
@@ -366,6 +489,28 @@ describe("Validators", function()
             assert.spy(exitMock).was_called_with(1)
         end)
 
+        it("should find quests which have killCredit objectives that do not exist in the DB", function()
+            local quests = {
+                [1] = {
+                    objectives = {{{3}}},
+                },
+                [2] = {
+                    objectives = {nil,nil,nil,nil,{{{4,5},4}}},
+                },
+            }
+            local npcs = {[3]={}}
+
+            local invalidQuests = Validators.checkObjectives(quests, questKeys, npcs, {}, {})
+
+            assert.are.same({
+                [2] = {
+                    "NPC 4 for killCredit objective is missing in the database",
+                    "NPC 5 for killCredit objective is missing in the database",
+                }
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
         it("should not report anything when all objectives are valid", function()
             local quests = {
                 [1] = {
@@ -386,6 +531,523 @@ describe("Validators", function()
 
             assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkNpcQuestStarts", function()
+        it("should find NPCs which have invalid questStarts entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questStarts = {2, 3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questStarts = {5, 6},
+                },
+                [4] = {
+                    name = "Fourth NPC",
+                    questStarts = {7,9},
+                },
+            }
+            local quests = {
+                [2] = {startedBy = {{1}}},
+                [4] = {startedBy = {{2}}},
+                [7] = {startedBy = {nil,{8}}},
+                [9] = {startedBy = {{4}}},
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {"questStart 3 is not in the database"},
+                [3] = {
+                    "questStart 5 is not in the database",
+                    "questStart 6 is not in the database"
+                },
+                [4] = {"quest 7 is not started by this NPC"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestStarts)
+        end)
+
+        it("should find NPCs which have missing questStarts entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questStarts = {3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questStarts = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    startedBy = {{1}},
+                },
+                [4] = {
+                    startedBy = {{2}},
+                },
+                [5] = {
+                    startedBy = {{3}},
+                },
+                [6] = {
+                    startedBy = {{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questStarts",
+                    "questStart 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questStarts"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestStarts)
+        end)
+
+        it("should not report anything when all questStarts and questEnds are valid", function()
+            local npcs = {
+                [1] = {
+                    questStarts = {2},
+                },
+                [2] = {
+                    questStarts = {4},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.are.same(nil, targetQuestStarts)
+        end)
+    end)
+
+    describe("checkNpcQuestEnds", function()
+        it("should find NPCs which have invalid questEnds entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {2, 3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questEnds = {5, 6},
+                },
+                [4] = {
+                    name = "Fourth NPC",
+                    questEnds = {7,9},
+                },
+            }
+            local quests = {
+                [2] = {finishedBy = {{1}}},
+                [4] = {finishedBy = {{2}}},
+                [7] = {finishedBy = {nil,{8}}},
+                [9] = {finishedBy = {{4}}},
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {"questEnd 3 is not in the database"},
+                [3] = {
+                    "questEnd 5 is not in the database",
+                    "questEnd 6 is not in the database",
+                },
+                [4] = {"quest 7 is not finished by this NPC"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestEnds)
+        end)
+
+        it("should find NPCs which have missing questEnds entries", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {3},
+                },
+                [2] = {
+                    name = "Second NPC",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third NPC",
+                    questEnds = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    finishedBy = {{1}},
+                },
+                [4] = {
+                    finishedBy = {{2}},
+                },
+                [5] = {
+                    finishedBy = {{3}},
+                },
+                [6] = {
+                    finishedBy = {{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questEnds",
+                    "questEnd 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questEnds"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestEnds)
+        end)
+
+        it("should skip finishedBy entries of quests", function()
+            local npcs = {
+                [1] = {
+                    name = "First NPC",
+                    questEnds = {2},
+                },
+            }
+            local quests = {
+                [2] = {finishedBy={{1}}},
+                [4] = {finishedBy={{3}}},
+            }
+
+            local invalidQuests = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+
+        it("should not report anything when all questEnds are valid", function()
+            local npcs = {
+                [1] = {
+                    questEnds = {3},
+                },
+                [2] = {
+                    questEnds = {4},
+                },
+            }
+            local quests = {
+                [3] = {},
+                [4] = {},
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.are.same(nil, targetQuestEnds)
+        end)
+    end)
+
+    describe("checkObjectQuestStarts", function()
+        it("should find objects which have invalid questStarts entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questStarts = {2, 3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questStarts = {5, 6},
+                },
+                [4] = {
+                    name = "Fourth Object",
+                    questStarts = {7,9},
+                },
+            }
+            local quests = {
+                [2] = {startedBy = {nil,{1}}},
+                [4] = {startedBy = {nil,{2}}},
+                [7] = {startedBy = {{8}}},
+                [9] = {startedBy = {nil,{4}}},
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {"questStart 3 is not in the database"},
+                [3] = {
+                    "questStart 5 is not in the database",
+                    "questStart 6 is not in the database"
+                },
+                [4] = {"quest 7 is not started by this object"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestStarts)
+        end)
+
+        it("should find objects which have missing questStarts entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questStarts = {3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questStarts = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questStarts = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    startedBy = {nil,{1}},
+                },
+                [4] = {
+                    startedBy = {nil,{2}},
+                },
+                [5] = {
+                    startedBy = {nil,{3}},
+                },
+                [6] = {
+                    startedBy = {nil,{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questStarts",
+                    "questStart 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questStarts"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestStarts)
+        end)
+
+        it("should not report anything when all questStarts and questEnds are valid", function()
+            local objects = {
+                [1] = {
+                    questStarts = {2},
+                },
+                [2] = {
+                    questStarts = {4},
+                },
+            }
+            local quests = {
+                [2] = {},
+                [4] = {},
+            }
+
+            local invalidQuests, targetQuestStarts = Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.are.same(nil, targetQuestStarts)
+        end)
+    end)
+
+    describe("checkObjectQuestEnds", function()
+        it("should find objects which have invalid questEnds entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questEnds = {2, 3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questEnds = {5, 6},
+                },
+                [4] = {
+                    name = "Fourth Object",
+                    questEnds = {7,9},
+                },
+            }
+            local quests = {
+                [2] = {finishedBy = {nil,{1}}},
+                [4] = {finishedBy = {nil,{2}}},
+                [7] = {finishedBy = {{8}}},
+                [9] = {finishedBy = {nil,{4}}},
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {"questEnd 3 is not in the database"},
+                [3] = {
+                    "questEnd 5 is not in the database",
+                    "questEnd 6 is not in the database",
+                },
+                [4] = {"quest 7 is not finished by this object"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {},
+                [4] = {9},
+            }, targetQuestEnds)
+        end)
+
+        it("should find objects which have missing questEnds entries", function()
+            local objects = {
+                [1] = {
+                    name = "First Object",
+                    questEnds = {3},
+                },
+                [2] = {
+                    name = "Second Object",
+                    questEnds = {4},
+                },
+                [3] = {
+                    name = "Third Object",
+                    questEnds = {5},
+                },
+            }
+            local quests = {
+                [2] = {
+                    finishedBy = {nil,{1}},
+                },
+                [4] = {
+                    finishedBy = {nil,{2}},
+                },
+                [5] = {
+                    finishedBy = {nil,{3}},
+                },
+                [6] = {
+                    finishedBy = {nil,{3}},
+                },
+            }
+
+            local invalidQuests, targetQuestEnds = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
+
+            assert.are.same({
+                [1] = {
+                    "quest 2 is missing in questEnds",
+                    "questEnd 3 is not in the database",
+                },
+                [3] = {"quest 6 is missing in questEnds"},
+            }, invalidQuests)
+
+            assert.are.same({
+                [1] = {2},
+                [3] = {5,6},
+            }, targetQuestEnds)
+        end)
+
+        it("should not report anything when all questEnds are valid", function()
+            local objects = {
+                [1] = {
+                    questEnds = {3},
+                },
+                [2] = {
+                    questEnds = {4},
+                },
+            }
+            local quests = {
+                [3] = {},
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+    describe("checkRequiredRaces", function()
+        it("should find quests with too high requiredRaces", function()
+            local quests = {
+                [1] = {
+                    requiredRaces = 54043195541028864
+                },
+                [2] = {
+                    requiredRaces = 16777216 + 33554432
+                },
+                [3] = {
+                    requiredRaces = 4294967295
+                }
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+
+            assert.are.same({
+                [1] = "requiredRaces is too high",
+                [3] = "requiredRaces is too high"
+            }, invalidQuests)
+        end)
+
+        it("should find quests with missing requiredRaces", function()
+            local quests = {
+                [1] = {}
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+
+            assert.are.same({
+                [1] = "no requiredRaces entry"
+            }, invalidQuests)
+        end)
+
+        it("should not report anything when requiredRaces is fine", function()
+            local quests = {
+                [1] = {
+                    requiredRaces = 18875469
+                },
+                [2] = {
+                    requiredRaces = 0
+                },
+                [3] = {
+                    requiredRaces = 33555378
+                }
+            }
+
+            local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
+
+            assert.are.same(nil, invalidQuests)
         end)
     end)
 end)

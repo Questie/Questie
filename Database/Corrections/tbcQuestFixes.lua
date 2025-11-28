@@ -29,7 +29,6 @@ function QuestieTBCQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
     local profKeys = QuestieProfessions.professionKeys
-    local specKeys = QuestieProfessions.specializationKeys
 
     return {
         [62] = {
@@ -196,6 +195,9 @@ function QuestieTBCQuestFixes:Load()
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
+        [1361] = {
+            [questKeys.startedBy] = {{2229,4485,10540}},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },
@@ -222,6 +224,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1687] = {
             [questKeys.questLevel] = -1,
+        },
+        [1698] = {
+            [questKeys.startedBy] = {{5479,7315}},
         },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
@@ -290,7 +295,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2501] = {
-            [questKeys.zoneOrSort] = -181,
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
@@ -371,6 +376,9 @@ function QuestieTBCQuestFixes:Load()
         [3741] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [3803] = { -- Morrowgrain to Darnassus
+            [questKeys.startedBy] = {{4217}},
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
@@ -397,6 +405,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{6251}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4813] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1177,6 +1188,12 @@ function QuestieTBCQuestFixes:Load()
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
         },
+        [9415] = { -- Report to Marshal Bluewall
+            [questKeys.nextQuestInChain] = 9419,
+        },
+        [9416] = { -- Report to General Kirika
+            [questKeys.nextQuestInChain] = 9422,
+        },
         [9417] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1301,7 +1318,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9544] = {
             [questKeys.requiredSourceItems] = {23801},
-            [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410019}}}},
         },
         [9545] = {
@@ -1418,7 +1435,7 @@ function QuestieTBCQuestFixes:Load()
                 {nil,Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}},
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
             },
-            [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9668] = {
             [questKeys.nextQuestInChain] = 9693,
@@ -1636,7 +1653,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.57,38.78}}}},
         },
         [9889] = {
-            [questKeys.triggerEnd] = {"Unkor Submits", {[zoneIDs.TEROKKAR_FOREST]={{20.02,63.05}}}},
+            [questKeys.objectives] = {{{18260},{18262}}},
         },
         [9898] = {
             [questKeys.name] = "The Respect of Another",
@@ -1646,6 +1663,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9905] = {
             [questKeys.requiredMinRep] = {978,0},
+        },
+        [9910] = {
+            [questKeys.objectives] = {nil,{{182261},{182264},{182262}}},
         },
         [9911] = {
             [questKeys.startedBy] = {nil,nil,{25459}},
@@ -1664,14 +1684,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {25509},
         },
         [9927] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9928] = {
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9931] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,"Expedition Researcher Freed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,"Kil'sorrow Banner Planted",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
@@ -1708,6 +1728,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
         [9955] = {
             [questKeys.objectives] = {{{18445,"Corki Freed"}}},
@@ -1719,22 +1741,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {942,3000},
         },
         [9962] = {
-            [questKeys.triggerEnd] = {"Brokentoe Defeated", {[zoneIDs.NAGRAND]={{43.32,20.72}}}},
+            [questKeys.nextQuestInChain] = 9967,
         },
         [9967] = {
-            [questKeys.triggerEnd] = {"The Blue Brothers Defeated", {[zoneIDs.NAGRAND]={{43.26,20.76}}}},
+            [questKeys.nextQuestInChain] = 9970,
         },
         [9970] = {
-            [questKeys.triggerEnd] = {"Rokdar the Sundered Lord Defeated", {[zoneIDs.NAGRAND]={{43.34,20.71}}}},
+            [questKeys.nextQuestInChain] = 9972,
         },
         [9972] = {
-            [questKeys.triggerEnd] = {"Skra'gath Defeated", {[zoneIDs.NAGRAND]={{43.26,20.77}}}},
+            [questKeys.nextQuestInChain] = 9973,
         },
         [9973] = {
-            [questKeys.triggerEnd] = {"The Warmaul Champion Defeated", {[zoneIDs.NAGRAND]={{43.37,20.69}}}},
-        },
-        [9977] = {
-            [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72}}}},
+            [questKeys.nextQuestInChain] = 9977,
         },
         [9982] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1799,12 +1818,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [10040] = {
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To",Questie.ICON_TYPE_TALK},{18717,"Shadowy Laborer Spoken To",Questie.ICON_TYPE_TALK},{18719,"Shadowy Advisor Spoken To",Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
         },
         [10041] = {
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To",Questie.ICON_TYPE_TALK},{18717,"Shadowy Laborer Spoken To",Questie.ICON_TYPE_TALK},{18719,"Shadowy Advisor Spoken To",Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
         },
         [10044] = {
-            [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
+            [questKeys.objectives] = {{{18141,"Listen to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {9934,9868,10011},
             [questKeys.preQuestSingle] = {},
         },
@@ -1885,22 +1906,27 @@ function QuestieTBCQuestFixes:Load()
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
+        [10085] = {
+            [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
         [10106] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredMaxRep] = {},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10107] = {
-            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster",Questie.ICON_TYPE_TALK}}},
         },
         [10108] = {
-            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster",Questie.ICON_TYPE_TALK}}},
         },
         [10110] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredMaxRep] = {},
+            [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10111] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Jump!"), 0, {{"object", 183146}}}},
@@ -1937,10 +1963,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits."), 0, {{"monster", 18688}}}},
         },
         [10172] = {
-            [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
+            [questKeys.objectives] = {{{18141,"Speak to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
         },
         [10182] = {
-            [questKeys.startedBy] = {{19543},nil,nil},
             [questKeys.objectives] = {nil,{{183269,"Put Dathric's Spirit to Rest"}}},
         },
         [10183] = {
@@ -1990,6 +2015,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
+            [questKeys.objectives] = {{{19866,"Activate Eastern Rune", Questie.ICON_TYPE_EVENT},{19867,"Activate Northeastern Rune", Questie.ICON_TYPE_EVENT},{19868,"Activate Western Rune", Questie.ICON_TYPE_EVENT}}},
         },
         [10242] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
@@ -2011,8 +2037,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{16880,"Administer Antidote"}}},
         },
         [10256] = {
-            [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"}},nil,nil,nil,nil},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
+            [questKeys.objectives] = {{{19938,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
         },
         [10263] = {
             [questKeys.preQuestGroup] = {10551,10186},
@@ -2029,7 +2055,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85}}}},
         },
         [10270] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Wind Trader Marid"), 0, {{"object", 184073}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Wind Trader Marid"), 0, {{"object", 184073}}}},
         },
         [10274] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Challenge of the Blue Fight to challenge Veraku"), 0, {{"object", 184108}}}},
@@ -2058,21 +2084,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{15608,"The Dark Portal Opened"}}},
         },
         [10299] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
+            [questKeys.objectives] = {nil,{{183770}},{{29366}}},
         },
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
         [10305] = {
-            [questKeys.startedBy] = {{19546},nil,nil},
             [questKeys.objectives] = {nil,{{183268,"Put Belmara's Spirit to Rest"}}},
         },
         [10306] = {
-            [questKeys.startedBy] = {{19544},nil,nil},
             [questKeys.objectives] = {nil,{{183267,"Put Luminrath's Spirit to Rest"}}},
         },
         [10307] = {
-            [questKeys.startedBy] = {{19545},nil,nil},
             [questKeys.objectives] = {nil,{{183266,"Put Cohlien's Spirit to Rest"}}},
         },
         [10308] = {
@@ -2083,13 +2106,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38}}}},
         },
         [10321] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"), 0, {{"object", 183956}}}},
+            [questKeys.objectives] = {nil,{{183956}},{{29396}}},
         },
         [10322] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
+            [questKeys.objectives] = {nil,{{184311}},{{29397}}},
         },
         [10323] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"), 0, {{"object", 184312}}}},
+            [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
         [10325] = {
             [questKeys.requiredMaxRep] = {932,9000},
@@ -2106,19 +2129,22 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [10329] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
+            [questKeys.objectives] = {nil,{{183770}},{{29366}}},
         },
         [10330] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"), 0, {{"object", 183956}}}},
+            [questKeys.objectives] = {nil,{{183956}},{{29396}}},
+        },
+        [10335] = {
+            [questKeys.objectives] = {{{20473,"Surveying Marker One placed",Questie.ICON_TYPE_EVENT},{20475,"Surveying Marker Two placed",Questie.ICON_TYPE_EVENT},{20476,"Surveying Marker Three placed",Questie.ICON_TYPE_EVENT}}},
         },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97}}}},
         },
         [10338] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
+            [questKeys.objectives] = {nil,{{184311}},{{29397}}},
         },
         [10339] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10340] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
@@ -2143,7 +2169,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10359,10360,10361},
         },
         [10365] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"), 0, {{"object", 184312}}}},
+            [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
@@ -2166,10 +2192,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
         },
         [10384] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10385] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10388] = {
             [questKeys.startedBy] = {{16576,19273},nil,nil},
@@ -2182,14 +2208,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil},
         },
         [10405] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10406] = {
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10408] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
         [10409] = {
             [questKeys.objectives] = {{{20132,"Deathblow to the Legion"}}},
@@ -2201,14 +2227,13 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10411] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge"), 0, {{"monster", 20501}, {"monster", 20778}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Seeping Sludges"), 1, {{"monster", 20501}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes"), 2, {{"monster", 20778}}},
+            },
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestSingle] = {10551,10552},
-        },
-        [10413] = {
-            [questKeys.startedBy] = {{20779},nil,nil},
         },
         [10414] = {
             [questKeys.requiredMaxRep] = {934,9000},
@@ -2223,7 +2248,7 @@ function QuestieTBCQuestFixes:Load()
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184588}}}},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,"Captain Tyralius Freed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,"Captain Tyralius Freed",Questie.ICON_TYPE_EVENT}}},
         },
         [10424] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"), 0, {{"object", 184609}}}},
@@ -2232,13 +2257,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43}}}},
         },
         [10426] = {
-            [questKeys.objectives] = {{{20774,"Test Energy Modulator"}},nil,nil,nil},
+            [questKeys.objectives] = {{{20774,"Test Energy Modulator",Questie.ICON_TYPE_INTERACT}}},
         },
         [10427] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged",Questie.ICON_TYPE_INTERACT}}},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
+        },
+        [10439] = {
+            [questKeys.objectives] = {{{19554},{20985,"Speak to Captain Saeed",Questie.ICON_TYPE_TALK}}},
         },
         [10446] = {
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2347,10 +2375,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Air Spirits"), 0, {{"monster", 21060}}}},
         },
         [10488] = {
-            [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"}},nil,nil,nil,nil},
+            [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves",Questie.ICON_TYPE_INTERACT}}},
         },
         [10506] = {
-            [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"}},nil,nil,nil,nil},
+            [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"}}},
         },
         [10507] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take the portal to Socrethar's Seat"), 0, {{"object", 410016}}},
@@ -2381,11 +2409,14 @@ function QuestieTBCQuestFixes:Load()
         [10525] = {
             [questKeys.triggerEnd] = {"Final Thunderlord artifact discovered", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{52.76,58.89}}}},
         },
+        [10526] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Attempt to loot The Thunderspike"), 0, {{"object", 184729}}}},
+        },
         [10540] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, Questie.ICON_TYPE_EVENT, l10n("Walk with your Spirit Hunter")}},
         },
         [10545] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken",Questie.ICON_TYPE_INTERACT}}},
         },
         [10554] = {
             [questKeys.requiredMinRep]= {932,0},
@@ -2401,14 +2432,15 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
+        [10565] = { -- The Stones of Vekh'nir
+            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.81,74.67}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Vekh'nir Crystal")}},
+        },
         [10566] = { -- Trial and Error
-            [questKeys.objectives] = {{{21254},{21254},{21254},{21254}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
+            [questKeys.objectives] = {{{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
+            [questKeys.requiredSourceItems] = {30651,30652,30653,30654,30655},
         },
-        [10567] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven at the Ruuan'ok Oracle Circle"), 0, {{"object", 184943}}}},
-        },
-        [10596] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
+        [10567] = { -- Creating the Pendant
+            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{64.48,33.11}}}, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven")}},
         },
         [10570] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bundle of Bloodthistle at the end of the bridge"), 0, {{"object", 184841}}}},
@@ -2440,6 +2472,12 @@ function QuestieTBCQuestFixes:Load()
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
         },
+        [10596] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
+        },
+        [10598] = {
+            [questKeys.objectives] = {{{21512,"Destroy Legion Hold Infernals",Questie.ICON_TYPE_EVENT}}},
+        },
         [10605] = {
             [questKeys.exclusiveTo] = {1472,1507},
         },
@@ -2458,12 +2496,6 @@ function QuestieTBCQuestFixes:Load()
         [10613] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185059}}}},
             [questKeys.objectives] = {nil,{{184979,"Deathforged Infernal Destroyed"}}},
-        },
-        [10621] = {
-            [questKeys.startedBy] = {{21499},nil,nil},
-        },
-        [10623] = {
-            [questKeys.startedBy] = {{21499},nil,nil},
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
@@ -2493,6 +2525,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10646] = {
             [questKeys.objectives] = {{{18417,"Illidan's Pupil"}}},
+        },
+        [10652] = {
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",20162}}}},
         },
         [10653] = {
             [questKeys.requiredMaxRep] = {},
@@ -2533,10 +2568,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15.9,40.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth")}},
         },
         [10672] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Arcano Control Unit and then swim in the lava to tag the Greater Felfire Diemetradon"), 0, {{"object", 185008}}}},
+            [questKeys.objectives] = {{{21462,"Greater Felfire Diemetradon Tagged",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Arcano Control Unit and then swim in the lava to tag the Greater Felfire Diemetradon"), 0, {{"object", 185008},{"object", 185009},{"object", 185010}}}},
         },
         [10674] = {
-            [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped"}},nil,nil,nil},
+            [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped",Questie.ICON_TYPE_EVENT}}},
         },
         [10675] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Razaani ethereals to lure Nexus-Prince Razaan out"), 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}},
@@ -2544,7 +2580,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10682] = {
-            [questKeys.objectives] = {{{21981,"Negotiations with Overseer Nuaar complete"}}},
+            [questKeys.objectives] = {{{21981,"Negotiations with Overseer Nuaar complete",Questie.ICON_TYPE_TALK}}},
         },
         [10683] = {
             [questKeys.preQuestSingle] = {10552},
@@ -2577,22 +2613,29 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"), 0, {{"monster", 21461}}}},
         },
+        [10719] = {
+            [questKeys.preQuestSingle] = {10682},
+        },
         [10714] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{58,30}}}, Questie.ICON_TYPE_EVENT, l10n("Find a Bloodmaul Taskmaster and a Bloodmaul Soothsayer engaged in conversation, then use Rexxar's Whistle to summon Spirit to spy on them."), 0}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{22160,22384},22160,"Meeting with Kolphis Darkscale attended",Questie.ICON_TYPE_EVENT}}},
+        },
+        [10720] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Control the Marmot"), 0, {{"monster", 22480}}}},
+            [questKeys.objectives] = {nil,{{185206,"Poison the keg of Green Spot Grog",Questie.ICON_TYPE_EVENT},{185213,"Poison the keg of Ripe Moonshine",Questie.ICON_TYPE_EVENT},{185214,"Poison the keg of Fermented Seed Beer",Questie.ICON_TYPE_EVENT}}},
         },
         [10721] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the whistle and have Grulloc run after the boar"), 0, {{"monster", 20216}}}},
         },
         [10722] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to him while disguised"), 0, {{"monster", 22019}}}},
-            [questKeys.objectives] = {{{22019,"Meeting with Kolphis Darkscale attended"}}},
+            [questKeys.objectives] = {{{22019,"Meeting with Kolphis Darkscale attended",Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredSourceItems] = {31121,31122},
         },
         [10723] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}}},
+            [questKeys.objectives] = {{{21514,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [10724] = {
+            [questKeys.objectives] = {{{22268,"Rescue Leokk",Questie.ICON_TYPE_EVENT}}},
         },
         [10725] = {
             [questKeys.nextQuestInChain] = 11031,
@@ -2667,9 +2710,6 @@ function QuestieTBCQuestFixes:Load()
         [10772] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
         },
-        [10778] = {
-            [questKeys.sourceItemId] = 31316,
-        },
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79}}}},
         },
@@ -2698,9 +2738,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Put Grulloc to sleep using Sablemane's Sleeping Powder"), 0, {{"monster", 20216}}}},
         },
         [10802] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
-                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}}},
+            [questKeys.objectives] = {{{21514,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Kill flayers and take their carcasses. Place a carcass in the field"), 0, {{"monster", 21477}, {"monster", 21478}}}},
@@ -2712,6 +2751,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
+        },
+        [10808] = {
+            [questKeys.objectives] = {{{22137,"End Dark Conclave Summoning Ritual",Questie.ICON_TYPE_EVENT}}},
         },
         [10813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,"Eye of Grillok Returned"}}},
@@ -2726,6 +2768,7 @@ function QuestieTBCQuestFixes:Load()
         [10822] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.zoneOrSort] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [10823] = {
             [questKeys.requiredMaxRep] = {},
@@ -2778,13 +2821,17 @@ function QuestieTBCQuestFixes:Load()
         },
         [10854] = {
             [questKeys.objectives] = {{{21722,"Enslaved Netherwing Drake freed"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake"), 0, {{"monster", 21722}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake"), 0, {{"monster", 21722}}}},
+        },
+        [10855] = { -- Fel Reavers, No Thanks!
+            [questKeys.objectives] = {{{22293,"Inactive Fel Reaver Destroyed",Questie.ICON_TYPE_EVENT}}},
         },
         [10857] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943}}}},
+            [questKeys.objectives] = {{{22348,"Western Teleporter Destroyed",Questie.ICON_TYPE_EVENT},{22350,"Central Teleporter Destroyed",Questie.ICON_TYPE_EVENT},{22351,"Eastern Teleporter Destroyed",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943}}}},
         },
         [10859] = {
-            [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"}},nil,nil,nil},
+            [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped",Questie.ICON_TYPE_EVENT}}},
         },
         [10861] = {
             [questKeys.objectives] = {nil,{{185210,"Hatchlings Redeemed"}},nil,nil,{{{22337},22337}}},
@@ -3043,13 +3090,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Slaag's Standard"), 0, {{"monster", 22199}}}},
         },
         [10998] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Step into fire rings to summon Vim'gol"), 0, {{"monster", 22911}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Step into fire rings to summon Vim'gol"), 0, {{"monster", 22911}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Vim'gol's Vile Grimoire"), 0, {{"monster", 22911}}},
             },
         },
         [11000] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}},
-                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
             },
         },
         [11002] = {
@@ -3112,9 +3159,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
         },
-        [11030] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
-        },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
@@ -3144,7 +3188,7 @@ function QuestieTBCQuestFixes:Load()
         [11038] = {
             [questKeys.startedBy] = {{23270,23271},nil,nil},
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042},
-            [questKeys.preQuestSingle] = {10551},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [11039] = {
             [questKeys.preQuestSingle] = {10551,10552},
@@ -3210,9 +3254,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11060] = {
             [questKeys.specialFlags] = 1,
-        },
-        [11061] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Sorcerer for the cost of 10 Apexis Shards"), 0, {{"object", 185921}}}},
         },
         [11063] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3389,7 +3430,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
-            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [11146] = {
@@ -3657,6 +3698,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11526] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [11531] = {
+            [questKeys.specialFlags] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11532] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Ayren Cloudbreaker"), 0, {{"monster", 25059}}}},
@@ -4489,7 +4534,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Costumed Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4224,
         },
@@ -4503,7 +4548,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"The Costumed Orphan Matron wants you to help put out all the village fires after the Headless Horseman lights them. When they are out, speak again to the Costumed Orphan Matron.",},
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.preQuestSingle] = {11360,11439,11440},
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
@@ -4519,7 +4564,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"The Masked Orphan Matron wants you to help put out all the village fires. When they are out, speak again to the Masked Orphan Matron in town.",},
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
             [questKeys.preQuestSingle] = {11361,11449,11450},
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
@@ -4534,7 +4579,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Masked Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4224,
         },
@@ -4546,7 +4591,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4096,
         },
@@ -4560,7 +4605,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12318] = {
             [questKeys.startedBy] = {{27584,28329},nil,nil,},
@@ -4574,7 +4619,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12332] = {
             [questKeys.name] = "Candy Bucket",
@@ -4583,7 +4628,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12333] = {
             [questKeys.name] = "Candy Bucket",
@@ -4592,7 +4637,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12334] = {
             [questKeys.name] = "Candy Bucket",
@@ -4601,7 +4646,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12335] = {
             [questKeys.name] = "Candy Bucket",
@@ -4610,7 +4655,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12336] = {
             [questKeys.name] = "Candy Bucket",
@@ -4619,7 +4664,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12337] = {
             [questKeys.name] = "Candy Bucket",
@@ -4628,7 +4673,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12338] = {
             [questKeys.name] = "Candy Bucket",
@@ -4637,7 +4682,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12339] = {
             [questKeys.name] = "Candy Bucket",
@@ -4646,7 +4691,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12340] = {
             [questKeys.name] = "Candy Bucket",
@@ -4655,7 +4700,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12341] = {
             [questKeys.name] = "Candy Bucket",
@@ -4664,7 +4709,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12342] = {
             [questKeys.name] = "Candy Bucket",
@@ -4673,7 +4718,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12343] = {
             [questKeys.name] = "Candy Bucket",
@@ -4682,7 +4727,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12344] = {
             [questKeys.name] = "Candy Bucket",
@@ -4691,7 +4736,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12345] = {
             [questKeys.name] = "Candy Bucket",
@@ -4700,7 +4745,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12346] = {
             [questKeys.name] = "Candy Bucket",
@@ -4709,7 +4754,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12347] = {
             [questKeys.name] = "Candy Bucket",
@@ -4718,7 +4763,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12348] = {
             [questKeys.name] = "Candy Bucket",
@@ -4727,7 +4772,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12349] = {
             [questKeys.name] = "Candy Bucket",
@@ -4736,7 +4781,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12350] = {
             [questKeys.name] = "Candy Bucket",
@@ -4745,7 +4790,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12351] = {
             [questKeys.name] = "Candy Bucket",
@@ -4754,7 +4799,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12352] = {
             [questKeys.name] = "Candy Bucket",
@@ -4763,7 +4808,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12353] = {
             [questKeys.name] = "Candy Bucket",
@@ -4772,7 +4817,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12354] = {
             [questKeys.name] = "Candy Bucket",
@@ -4781,7 +4826,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12355] = {
             [questKeys.name] = "Candy Bucket",
@@ -4790,7 +4835,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12356] = {
             [questKeys.name] = "Candy Bucket",
@@ -4799,7 +4844,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12357] = {
             [questKeys.name] = "Candy Bucket",
@@ -4808,7 +4853,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12358] = {
             [questKeys.name] = "Candy Bucket",
@@ -4817,7 +4862,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12359] = {
             [questKeys.name] = "Candy Bucket",
@@ -4826,7 +4871,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12360] = {
             [questKeys.name] = "Candy Bucket",
@@ -4835,7 +4880,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12361] = {
             [questKeys.name] = "Candy Bucket",
@@ -4844,7 +4889,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12362] = {
             [questKeys.name] = "Candy Bucket",
@@ -4853,7 +4898,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12363] = {
             [questKeys.name] = "Candy Bucket",
@@ -4862,7 +4907,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12364] = {
             [questKeys.name] = "Candy Bucket",
@@ -4871,7 +4916,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12365] = {
             [questKeys.name] = "Candy Bucket",
@@ -4880,7 +4925,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12366] = {
             [questKeys.name] = "Candy Bucket",
@@ -4889,7 +4934,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12367] = {
             [questKeys.name] = "Candy Bucket",
@@ -4898,7 +4943,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12368] = {
             [questKeys.name] = "Candy Bucket",
@@ -4907,7 +4952,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12369] = {
             [questKeys.name] = "Candy Bucket",
@@ -4916,7 +4961,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12370] = {
             [questKeys.name] = "Candy Bucket",
@@ -4925,7 +4970,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12371] = {
             [questKeys.name] = "Candy Bucket",
@@ -4934,7 +4979,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12373] = {
             [questKeys.name] = "Candy Bucket",
@@ -4943,7 +4988,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12374] = {
             [questKeys.name] = "Candy Bucket",
@@ -4952,7 +4997,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12375] = {
             [questKeys.name] = "Candy Bucket",
@@ -4961,7 +5006,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12376] = {
             [questKeys.name] = "Candy Bucket",
@@ -4970,7 +5015,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12377] = {
             [questKeys.name] = "Candy Bucket",
@@ -4979,7 +5024,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12378] = {
             [questKeys.name] = "Candy Bucket",
@@ -4988,7 +5033,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12379] = {
             [questKeys.name] = "Candy Bucket",
@@ -4997,7 +5042,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12380] = {
             [questKeys.name] = "Candy Bucket",
@@ -5006,7 +5051,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12381] = {
             [questKeys.name] = "Candy Bucket",
@@ -5015,7 +5060,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12382] = {
             [questKeys.name] = "Candy Bucket",
@@ -5024,7 +5069,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12383] = {
             [questKeys.name] = "Candy Bucket",
@@ -5033,7 +5078,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12384] = {
             [questKeys.name] = "Candy Bucket",
@@ -5042,7 +5087,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12385] = {
             [questKeys.name] = "Candy Bucket",
@@ -5051,7 +5096,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12386] = {
             [questKeys.name] = "Candy Bucket",
@@ -5060,7 +5105,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12387] = {
             [questKeys.name] = "Candy Bucket",
@@ -5069,7 +5114,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12388] = {
             [questKeys.name] = "Candy Bucket",
@@ -5078,7 +5123,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12389] = {
             [questKeys.name] = "Candy Bucket",
@@ -5087,7 +5132,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12390] = {
             [questKeys.name] = "Candy Bucket",
@@ -5096,7 +5141,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12391] = {
             [questKeys.name] = "Candy Bucket",
@@ -5105,7 +5150,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12392] = {
             [questKeys.name] = "Candy Bucket",
@@ -5114,7 +5159,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12393] = {
             [questKeys.name] = "Candy Bucket",
@@ -5123,7 +5168,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12394] = {
             [questKeys.name] = "Candy Bucket",
@@ -5132,7 +5177,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12395] = {
             [questKeys.name] = "Candy Bucket",
@@ -5141,7 +5186,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12396] = {
             [questKeys.name] = "Candy Bucket",
@@ -5150,7 +5195,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12397] = {
             [questKeys.name] = "Candy Bucket",
@@ -5159,7 +5204,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12398] = {
             [questKeys.name] = "Candy Bucket",
@@ -5168,7 +5213,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12399] = {
             [questKeys.name] = "Candy Bucket",
@@ -5177,7 +5222,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12400] = {
             [questKeys.name] = "Candy Bucket",
@@ -5186,7 +5231,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12401] = {
             [questKeys.name] = "Candy Bucket",
@@ -5195,7 +5240,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12402] = {
             [questKeys.name] = "Candy Bucket",
@@ -5204,7 +5249,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12403] = {
             [questKeys.name] = "Candy Bucket",
@@ -5213,7 +5258,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12404] = {
             [questKeys.name] = "Candy Bucket",
@@ -5222,7 +5267,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12406] = {
             [questKeys.name] = "Candy Bucket",
@@ -5231,7 +5276,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12407] = {
             [questKeys.name] = "Candy Bucket",
@@ -5240,7 +5285,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12408] = {
             [questKeys.name] = "Candy Bucket",
@@ -5249,7 +5294,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12409] = {
             [questKeys.name] = "Candy Bucket",
@@ -5258,7 +5303,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12420] = {
             [questKeys.name] = "Brew of the Month Club",
@@ -5269,7 +5314,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Larkin Thunderbrew in the Stonefire Tavern in Ironforge."},
             [questKeys.sourceItemId] = 37736,
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
         },
         [12421] = {
             [questKeys.name] = "Brew of the Month Club",
@@ -5280,7 +5325,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Ray'ma in the Darkbriar Lodge in Orgrimmar's Valley of Spirits."},
             [questKeys.sourceItemId] = 37737,
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
@@ -5456,19 +5501,6 @@ function QuestieTBCQuestFixes:Load()
         },
 
         ----- Boosted character quests -----
-        [64037] = {
-            [questKeys.name] = "Eastern Plaguelands",
-            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
-            [questKeys.finishedBy] = {{11036},nil},
-            [questKeys.requiredLevel] = 58,
-            [questKeys.questLevel] = 58,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
-            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64035},
-            [questKeys.exclusiveTo] = {64038},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        },
         [64028] = {
             [questKeys.name] = "A New Beginning",
             [questKeys.startedBy] = {}, -- This quest is auto accept
@@ -5477,7 +5509,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64031] = {
             [questKeys.name] = "Tools for Survival",
@@ -5489,7 +5521,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410010, "Open the Survival Kit"}, {410011, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64028},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64034] = {
             [questKeys.name] = "Combat Training",
@@ -5501,7 +5533,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{410012, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64031},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64035] = {
             [questKeys.name] = "Talented",
@@ -5513,11 +5545,24 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
             [questKeys.objectives] = {nil,{{410013, "Spend a Talent Point"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64034},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
+        },
+        [64037] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64035},
+            [questKeys.exclusiveTo] = {64038},
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64038] = {
             [questKeys.name] = "The Dark Portal",
-            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.startedBy] = {{331,376,914,928,5495,5497,5505,5515,13283},nil,nil},
             [questKeys.finishedBy] = {{16841},nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
@@ -5525,7 +5570,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Find Watch Commander Relthorn Netherwane at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64035},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64046] = {
             [questKeys.name] = "A New Beginning",
@@ -5535,7 +5580,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64047] = {
             [questKeys.name] = "A New Beginning",
@@ -5546,7 +5591,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunder Bluff."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64048] = {
             [questKeys.name] = "Tools for Survival",
@@ -5558,7 +5603,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410002, "Open the Survival Kit"}, {410003, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64046},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64049] = {
             [questKeys.name] = "Tools for Survival",
@@ -5571,7 +5616,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410004, "Open the Survival Kit"}, {410005, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64047},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64050] = {
             [questKeys.name] = "Combat Training",
@@ -5583,7 +5628,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{410006, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64048},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64051] = {
             [questKeys.name] = "Combat Training",
@@ -5596,7 +5641,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your Druid trainer."},
             [questKeys.objectives] = {nil,{{410007, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64049},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64052] = {
             [questKeys.name] = "Talented",
@@ -5608,7 +5653,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{410008, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64050},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64053] = {
             [questKeys.name] = "Talented",
@@ -5621,7 +5666,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{410009, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64051},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
@@ -5634,7 +5679,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64217},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64064] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -5647,7 +5692,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64063,64217,64128},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64128] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -5661,7 +5706,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Speak to Tal, the Wind Rider Master"},{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64217},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64217] = {
             [questKeys.name] = "The Dark Portal",
@@ -5674,7 +5719,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64997] = {
             [questKeys.name] = "Gaining the Advantage",

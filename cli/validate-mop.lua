@@ -152,8 +152,8 @@ local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
-local function _CheckCataDatabase()
-    print("\n\27[36mCompiling Cata database...\27[0m")
+local function _CheckMoPDatabase()
+    print("\n\27[36mCompiling MoP database...\27[0m")
     loadTOC("Questie-Mists.toc")
 
     assert(Questie.IsMoP, "Questie is not started for Mists of Pandaria")
@@ -213,18 +213,20 @@ local function _CheckCataDatabase()
     print("\n\27[36mValidating quests...\27[0m")
     QuestieDBCompiler:ValidateQuests()
 
-    print("\n\27[32mCata database compiled successfully\27[0m")
+    print("\n\27[32mMoP database compiled successfully\27[0m")
 
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
     end
 
+    Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
-    Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
+    Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.objectData, QuestieDB.itemData)
+    Validators.checkQuestFinishers(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData)
     Validators.checkObjectives(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
 end
 
-_CheckCataDatabase()
+_CheckMoPDatabase()

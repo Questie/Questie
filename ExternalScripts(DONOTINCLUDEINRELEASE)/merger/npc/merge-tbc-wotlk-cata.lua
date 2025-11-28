@@ -1,9 +1,10 @@
-local classic = require('classicNpcDB')
-local tbc = require('tbcNpcDB')
-local wotlk = require('wotlkNpcDB')
-local cata = require('cataNpcDB')
+local classic = require('data.classicNpcDB')
+local tbc = require('data.tbcNpcDB')
+local wotlk = require('data.wotlkNpcDB')
+local cata = require('data.cataNpcDB')
 
 local printToFile = require('printToFile')
+local tbcAndWotlkZoneIds = dofile('../tbcAndWotlkZoneIds.lua')
 
 local npcKeys = {
     ['name'] = 1, -- string
@@ -44,20 +45,20 @@ end
 for npcId, data in pairs(cata) do
     if tbcIds[npcId] then
         local tbcData = tbc[npcId]
-        if tbcData[npcKeys.spawns] then
+        if tbcData[npcKeys.spawns] and tbcAndWotlkZoneIds[tbcData[npcKeys.zoneID]] then
             cata[npcId][npcKeys.spawns] = tbcData[npcKeys.spawns]
             cata[npcId][npcKeys.zoneID] = tbcData[npcKeys.zoneID]
         end
-        if tbcData[npcKeys.waypoints] then
+        if tbcData[npcKeys.waypoints] and tbcAndWotlkZoneIds[tbcData[npcKeys.zoneID]] then
             cata[npcId][npcKeys.waypoints] = tbcData[npcKeys.waypoints]
         end
     elseif wotlkIds[npcId] then
         local wotlkData = wotlk[npcId]
-        if wotlkData[npcKeys.spawns] then
+        if wotlkData[npcKeys.spawns] and tbcAndWotlkZoneIds[wotlkData[npcKeys.zoneID]] then
             cata[npcId][npcKeys.spawns] = wotlkData[npcKeys.spawns]
             cata[npcId][npcKeys.zoneID] = wotlkData[npcKeys.zoneID]
         end
-        if wotlkData[npcKeys.waypoints] then
+        if wotlkData[npcKeys.waypoints] and tbcAndWotlkZoneIds[wotlkData[npcKeys.zoneID]] then
             cata[npcId][npcKeys.waypoints] = wotlkData[npcKeys.waypoints]
         end
     end

@@ -13,15 +13,13 @@ describe("BlacklistFilter", function()
         local blacklist = {
             [1] = true,
             [2] = false,
-            [3] = "invalid",
-            [4] = 0,
+            [3] = "HIDE_ON_MAP",
         }
 
         local result = BlacklistFilter.filterExpansion(blacklist)
 
         assert.is_true(result[1])
         assert.is_nil(result[2])
-        assert.is_nil(result[3])
-        assert.is_nil(result[4])
+        assert.is_equal("HIDE_ON_MAP", result[3])
     end)
 end)

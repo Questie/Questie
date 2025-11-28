@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Clone project
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 

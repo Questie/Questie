@@ -20,6 +20,8 @@ local Sounds = QuestieLoader:ImportModule("Sounds")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -177,6 +179,18 @@ function QuestieOptions.tabs.general:Initialize()
                                     Questie:Debug(Questie.DEBUG_DEVELOP, "Quest completed announce changed to:", value)
                                 end,
                             },
+                            questAnnounceIncompleteBreadcrumb = {
+                                type = "toggle",
+                                order = 6,
+                                name = function() return l10n("Incomplete breadcrumb"); end,
+                                desc = function() return l10n("Announce that you just picked up a quest for which you have an incomplete breadcrumb quest"); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceIncompleteBreadcrumb; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceIncompleteBreadcrumb = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest announce incomplete breadcrumb changed to:", value)
+                                end,
+                            },
                         },
                     },
                 },
@@ -241,13 +255,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.55,
                         get = function() return not Questie.db.profile.minimap.hide; end,
                         set = function(_, value)
-                            Questie.db.profile.minimap.hide = not value;
-
-                            if value then
-                                Questie.minimapConfigIcon:Show("Questie");
-                            else
-                                Questie.minimapConfigIcon:Hide("Questie");
-                            end
+                            MinimapIcon.Toggle(value)
                         end,
                     },
                     mapCoordinatesEnabled = {

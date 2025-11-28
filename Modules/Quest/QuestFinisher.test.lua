@@ -12,6 +12,8 @@ describe("QuestFinisher", function()
     local QuestieTooltips
     ---@type QuestieMap
     local QuestieMap
+    ---@type QuestieEvent
+    local QuestieEvent
 
     ---@type QuestFinisher
     local QuestFinisher
@@ -26,15 +28,20 @@ describe("QuestFinisher", function()
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
+        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
 
         _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
         ZoneDB.IsDungeonZone = function() return false end
+        QuestieEvent.IsEventQuest = function() return false end
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
         QuestiePlayer.currentQuestlog = {}
+        QuestiePlayer.GetCurrentZoneId = function()
+            return 440
+        end
         QuestieTooltips.lookupByKey = {}
 
         QuestFinisher = require("Modules.Quest.QuestFinisher")
@@ -233,9 +240,33 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWaypoints).was_not_called()
     end)
 
+    it("should not add finisher when quest is an event quest but event is not active", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function() end)
+        QuestieDB.GetObject = spy.new(function() end)
+        QuestieEvent.IsEventQuest = function() return true end
+        QuestieEvent.IsEventActiveForQuest = function() return false end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
+        assert.spy(QuestieDB.GetNPC).was_not_called()
+        assert.spy(QuestieDB.GetObject).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
     it("should not add finisher when quest has no finisher", function()
         QuestiePlayer.currentQuestlog[1] = true
-        Questie.db.char.complete[1] = true
         QuestieDB.GetNPC = spy.new(function() end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {

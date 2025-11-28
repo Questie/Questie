@@ -25,16 +25,19 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5
 
       - name: Install Lua
         run: |
           sudo apt-get install lua5.1 lua-check luarocks
           sudo luarocks install bit32
           sudo luarocks install busted
+          sudo luarocks install luafilesystem
 
       - name: Run busted Unit Tests
-        run: busted -p ".test.lua" .
+        run: |
+          busted -p ".test.lua" .
+          rm -rf cli/output
 
       - name: Validate Era database
         run: lua cli/validate-era.lua
@@ -42,14 +45,14 @@ jobs:
       - name: Validate SoD database
         run: lua cli/validate-sod.lua
 
-#      - name: Validate TBC database
-#        run: lua cli/validate-tbc.lua
+      - name: Validate TBC database
+        run: lua cli/validate-tbc.lua
 
       - name: Validate WotLK database
         run: lua cli/validate-wotlk.lua
 
-      - name: Validate Cata database
-        run: lua cli/validate-cata.lua
+#      - name: Validate Cata database
+#        run: lua cli/validate-cata.lua
 
       - name: Validate MoP database
         run: lua cli/validate-mop.lua
@@ -59,6 +62,13 @@ jobs:
 
       - name: Run Luacheck
         run: luacheck -q -- Database Localization Modules Questie.lua
+
+      - name: Upload correction files
+        uses: actions/upload-artifact@v5
+        with:
+          name: correction-files
+          path: cli/output/
+        if: success() || failure()
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0

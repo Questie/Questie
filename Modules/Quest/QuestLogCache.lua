@@ -7,10 +7,6 @@ local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type Sounds
 local Sounds = QuestieLoader:ImportModule("Sounds")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
@@ -167,9 +163,8 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
 ---@param questIdsToCheck table? @keys are the questIds
----@param shouldExistInQuestLog boolean?
 ---@return boolean cacheMiss, table changes, table questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
-function QuestLogCache.CheckForChanges(questIdsToCheck, shouldExistInQuestLog)
+function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
@@ -183,10 +178,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck, shouldExistInQuestLog)
         end
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
             questIdsChecked[questId] = true
-
-            if shouldExistInQuestLog and (not QuestiePlayer.currentQuestlog[questId]) and QuestieDB.QuestPointers[questId] then
-                Questie:Error("Please report this error on Discord or GitHub. GetQuestLogTitle returned data for a quest that is not in the players quest log.", questId)
-            end
 
             if HaveQuestData(questId) then
                 local cachedQuest = cache[questId]
@@ -242,12 +233,13 @@ function QuestLogCache.CheckForChanges(questIdsToCheck, shouldExistInQuestLog)
             else
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
 
-                -- In theory this shouldn't happen. This is not error but an edge case.
+                -- In theory this shouldn't happen, but it does. This is not error but an edge case.
 
                 -- Game's quest log has the questId, but game doesn't have data of the quest right now.
                 -- Use earlier cached version of the quest. This may very well be nonexisting version, which is okey.
                 -- Query with HaveQuestData() triggers game to get the data and fire QUEST_LOG_UPDATE once game has the data.
                 --   Does NOT trigger getting objectives data! (read: item data related to objectives)
+                -- It is also possible that the objective data is somewhat corrupted and we can't get it - Thanks Blizzard.
 
                 -- Speed up caching of objective items as HaveQuestData() won't trigger game to cache those.
                 C_QuestLog_GetQuestObjectives(questId)

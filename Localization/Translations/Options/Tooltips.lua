@@ -118,7 +118,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Afficher les prochaines quêtes",
         ["koKR"] = "연계 퀘스트 표시",
         ["ptBR"] = "Mostrar próximas missões",
-        ["ruRU"] = "Показывать следующие задания в цепочке",
+        ["ruRU"] = "Следующие задания в цепочке",
         ["zhCN"] = "显示下一个任务链中的任务",
         ["zhTW"] = "顯示後續任務",
     },

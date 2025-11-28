@@ -1,21 +1,11 @@
-local function pairsByKeys (t, f)
-    local a = {}
-    for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
-    local i = 0      -- iterator variable
-    local iter = function ()   -- iterator function
-        i = i + 1
-        if a[i] == nil then return nil
-        else return a[i], t[a[i]]
-        end
-    end
-    return iter
-end
+local lfs = require("lfs")
+local pairsByKeys = dofile("../pairsByKeys.lua")
 
--- print to "merged-file.lua"
 local function printToFile(npcData, npcKeys)
-    local file = io.open("merged-file.lua", "w")
-    print("writing to merged-file.lua")
+    lfs.mkdir("output")
+
+    local file = io.open("output/merged-file.lua", "w")
+    print("writing to output/merged-file.lua")
 
     for npcId, data in pairsByKeys(npcData) do
         -- build print string with npcId and data
@@ -26,7 +16,7 @@ local function printToFile(npcData, npcKeys)
         printString = printString .. data[npcKeys.minLevel] .. ","
         printString = printString .. data[npcKeys.maxLevel] .. ","
         printString = printString .. data[npcKeys.rank] .. ","
-        if data[npcKeys.spawns] then
+        if data[npcKeys.spawns] and next(data[npcKeys.spawns]) then
             printString = printString .. "{"
             for zoneID, coords in pairsByKeys(data[npcKeys.spawns]) do
                 printString = printString .. "[" .. zoneID .. "]={"
@@ -52,7 +42,7 @@ local function printToFile(npcData, npcKeys)
         else
             printString = printString .. "nil,"
         end
-        if data[npcKeys.waypoints] then
+        if data[npcKeys.waypoints] and next(data[npcKeys.waypoints]) then
             printString = printString .. "{"
             for zoneID, coords in pairs(data[npcKeys.waypoints]) do
                 printString = printString .. "[" .. zoneID .. "]={{"
@@ -101,7 +91,7 @@ local function printToFile(npcData, npcKeys)
         else
             printString = printString .. "nil,"
         end
-        if data[npcKeys.subName] then
+        if data[npcKeys.subName] and data[npcKeys.subName] ~= "" then
             printString = printString .. "\"" .. data[npcKeys.subName]:gsub("\"", "\\\"") .. "\","
         else
             printString = printString .. "nil,"

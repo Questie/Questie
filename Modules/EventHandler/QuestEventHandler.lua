@@ -26,8 +26,12 @@ local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type TaskQueue
+local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
@@ -84,31 +88,27 @@ function QuestEventHandler:Initialize()
                     quest = QuestieDB.GetQuest(questId)
 
                     if quest then
-                        local info = StaticPopupDialogs[which]
-                        local sourceItemId, soureItemName, sourceItemType, soureClassID
-                        local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
+                        local sourceItemId = quest.sourceItemId
+                        local sourceItemName
+                        local reqSourceItemId, reqSoureItemName
 
-                        if quest.sourceItemId then
-                            sourceItemId = quest.sourceItemId
-
-                            if sourceItemId then
-                                soureItemName, _, _, _, _, sourceItemType, _, _, _, _, _, soureClassID = GetItemInfo(sourceItemId)
-                            end
+                        if sourceItemId then
+                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
                         end
 
                         if quest.requiredSourceItems then
                             reqSourceItemId = quest.requiredSourceItems[1]
 
                             if reqSourceItemId then
-                                reqSoureItemName, _, _, _, _, reqSourceItemType, _, _, _, _, _, reqSoureClassID = GetItemInfo(reqSourceItemId)
+                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
                             end
                         end
 
-                        if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                        if sourceItemId and sourceItemName and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == sourceItemName then
                             questName = quest.name
                             foundQuestItem = true
                             break
-                        elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                        elseif reqSourceItemId and reqSoureItemName and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
                             questName = quest.name
                             foundQuestItem = true
                             break
@@ -128,25 +128,39 @@ function QuestEventHandler:Initialize()
             end
 
             if foundQuestItem and quest and questName then
-                local frame, text
+                if StaticPopup_ForEachShownDialog then
+                    -- MoP+
+                    StaticPopup_ForEachShownDialog(function(dialog)
+                        if dialog.Text.text_arg1 == text_arg1 then
+                            local text = dialog.Text
+                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                            text:SetFormattedText(updateText, text_arg1, questName)
+                            text.text_arg1 = updateText
 
-                for i = 1, STATICPOPUP_NUMDIALOGS do
-                    frame = _G["StaticPopup" .. i]
-                    if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
-                        text = _G[frame:GetName() .. "Text"]
-                        break
+                            StaticPopup_ResizeShownDialogs()
+                            deletedQuestItem = true
+
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                        end
+                    end)
+                else
+                    -- Pre-MoP
+                    for i = 1, STATICPOPUP_NUMDIALOGS do
+                        local frame = _G["StaticPopup" .. i]
+                        if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                            local text = _G[frame:GetName() .. "Text"]
+
+                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                            text:SetFormattedText(updateText, text_arg1, questName)
+                            text.text_arg1 = updateText
+
+                            StaticPopup_Resize(frame, which)
+                            deletedQuestItem = true
+
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                            break
+                        end
                     end
-                end
-
-                if frame ~= nil and text ~= nil then
-                    local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                    text:SetFormattedText(updateText, text_arg1, questName)
-                    text.text_arg1 = updateText
-
-                    StaticPopup_Resize(frame, which)
-                    deletedQuestItem = true
-
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
                 end
             end
         end
@@ -203,13 +217,41 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
 
+    if Questie.db.profile.questAnnounceIncompleteBreadcrumb then
+        local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
+        if breadcrumbs then
+            for _, breadcrumbQuestId in pairs(breadcrumbs) do
+                -- We want to let users know when they picked up a quest without finishing its breadcrumb
+                if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
+                    local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
+                    local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredClasses")
+
+                    local exclusiveQuests = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "exclusiveTo")
+                    local exclusiveQuestCompleted = false
+                    if exclusiveQuests then
+                        for _, exclusiveQuestId in pairs(exclusiveQuests) do
+                            if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
+                                exclusiveQuestCompleted = true
+                                break
+                            end
+                        end
+                    end
+
+                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and (not exclusiveQuestCompleted) then
+                        QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
+                    end
+                end
+            end
+        end
+    end
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true }, false)
+    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
@@ -229,7 +271,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     QuestieAnnounce:AcceptedQuest(questId)
 
     local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES
-    if Questie.IsWotlk and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
+    if Expansions.Current >= Expansions.Tbc and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
@@ -280,10 +322,12 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
         skipNextUQLCEvent = true
     end
 
-    QuestLogCache.RemoveQuest(questId)
-    QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+    TaskQueue:Queue(
+        function() QuestLogCache.RemoveQuest(questId) end,
+        function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+        function() QuestieQuest:CompleteQuest(questId) end
+    )
 
-    QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
 end
@@ -327,13 +371,15 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
-        QuestLogCache.RemoveQuest(questId)
-        QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+        TaskQueue:Queue(
+            function() QuestLogCache.RemoveQuest(questId) end,
+            function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+            function() QuestieQuest:AbandonedQuest(questId) end,
+            function() questLog[questId] = nil end
+        )
 
-        QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
-        questLog[questId] = nil
     end
 end
 
@@ -353,6 +399,12 @@ function QuestEventHandler.QuestLogUpdate()
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests(true)
     else
+        -- Don't update tracker if we're in a pet battle
+        if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped tracker update - in pet battle")
+            return
+        end
+        
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -426,17 +478,25 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
-
-            if (not QuestiePlayer.currentQuestlog[questId]) and QuestieDB.QuestPointers[questId] then
-                Questie:Error("Please report this error on Discord or GitHub. questLog of QuestEventHandler contains an accepted quest that is not in the players quest log.", questId)
-            end
         end
     end
 
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck, true)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
+            if (not QuestiePlayer.currentQuestlog[questId]) then
+                -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
+                -- We then add them to the player's quest log so they can be updated.
+                local quest = QuestieDB.GetQuest(questId)
+                if quest then
+                    Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
+                    QuestiePlayer.currentQuestlog[questId] = quest
+                else
+                    Questie:Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+                end
+            end
+
             --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
@@ -447,6 +507,11 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()
+                -- Don't update tracker if we're in a pet battle
+                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped UnitQuestLogChanged tracker update - in pet battle")
+                    return
+                end
                 QuestieTracker:Update()
             end)
         end)
@@ -470,6 +535,13 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests(false)
+        
+        -- Don't update tracker if we're in a pet battle
+        if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped QuestRelatedFrameClosed tracker update - in pet battle")
+            return
+        end
+        
         QuestieTracker:Update()
     end
 end

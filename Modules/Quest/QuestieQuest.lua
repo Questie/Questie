@@ -88,10 +88,15 @@ end
 
 function QuestieQuest.ToggleAvailableQuests(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleAvailableQuests] showIcons:", showIcons)
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    AvailableQuests.CalculateAndDrawAll()
+
     if showIcons then
-        AvailableQuests.CalculateAndDrawAll()
+        _QuestieQuest:ShowQuestIcons()
+    else
+        _QuestieQuest:HideQuestIcons()
     end
-    QuestieQuest:ToggleNotes(showIcons)
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
@@ -141,11 +146,13 @@ function _QuestieQuest:ShowQuestIcons()
 end
 
 function _QuestieQuest:ShowManualIcons()
-    for _, frameList in pairs(QuestieMap.manualFrames) do
-        for _, frameName in pairs(frameList) do
-            local icon = _G[frameName];
-            if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then -- check for function to make sure its a frame
-                icon:FakeShow()
+    for _, townsfolk in pairs(QuestieMap.manualFrames) do
+        for _, frameList in pairs(townsfolk) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and icon.hidden then
+                    icon:FakeShow()
+                end
             end
         end
     end
@@ -175,11 +182,13 @@ function _QuestieQuest:HideQuestIcons()
 end
 
 function _QuestieQuest:HideManualIcons()
-    for _, frameList in pairs(QuestieMap.manualFrames) do
-        for _, frameName in pairs(frameList) do
-            local icon = _G[frameName];
-            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                icon:FakeHide()
+    for _, townsfolk in pairs(QuestieMap.manualFrames) do
+        for _, frameList in pairs(townsfolk) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and (not icon.hidden) then
+                    icon:FakeHide()
+                end
             end
         end
     end
@@ -417,6 +426,7 @@ end
 
 local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
 local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
+local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
@@ -451,6 +461,8 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
             elseif hordeTournamentMarkerQuests[questId] then
                 Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            elseif xiaoFollowUpQuests[questId] then
+                Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
             end
 
             TaskQueue:Queue(
@@ -1113,8 +1125,10 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                             touched = nil, -- TODO change. This is meant to let lua reserve memory for all keys needed for sure.
                         }
                         local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x / 100, drawIcon.y / 100, uiMapId)
-                        x = x or 0
-                        y = y or 0
+                        if (not x) or (not y) then
+                            x, y = 0, 0 -- Fallback to 0,0 if no coordinates are found
+                        end
+
                         -- Cache world coordinates for clustering calculations
                         drawIcon.worldX = x
                         drawIcon.worldY = y

@@ -54,7 +54,7 @@ function QuestieJourneyUtils:GetZoneName(id)
             return l10n.zoneLookup[category][id]
         end
     end
-    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[6]) do
+    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[8]) do
         if dungeonZoneId == id then
             return dungeonName
         end
@@ -129,7 +129,7 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
     local label = AceGUI:Create("InteractiveLabel")
     local questId = quest.Id
 
-    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false, true))
+    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false))
     label:SetUserData('id', questId)
     label:SetUserData('type', 'quest')
     label:SetUserData('name', quest.name)

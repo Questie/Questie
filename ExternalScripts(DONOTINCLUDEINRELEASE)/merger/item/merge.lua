@@ -1,7 +1,7 @@
-local mangos =  require('cataItemDB')
-local trinity =  require('cataItemDB-trinity')
-local wotlkQuestDB =  require('wotlkQuestDB')
-local wotlkItemDB =  require('wotlkItemDB')
+local mangos =  require('data.cataItemDB')
+local trinity =  require('data.cataItemDB-trinity')
+local wotlkQuestDB =  require('data.wotlkQuestDB')
+local wotlkItemDB =  require('data.wotlkItemDB')
 
 local printToFile = require('printToFile')
 

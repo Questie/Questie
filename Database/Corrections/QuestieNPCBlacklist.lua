@@ -21,6 +21,7 @@ function QuestieNPCBlacklist:Load()
         [15799] = Expansions.Current == Expansions.Era, -- Colossus Researcher Eazel (AQ Opening event)
         [17544] = true, -- M'uru in Silvermoon City removed starting with SWP patch
         [21155] = true, -- Bloodelf War Effort Recruiter
+        [30676] = Expansions.Current >= Expansions.Cata, -- Chronicler Bah'Kini (outside of dungeon version of this NPC)
         [178420] = Expansions.Current >= Expansions.Wotlk,
     }
 end

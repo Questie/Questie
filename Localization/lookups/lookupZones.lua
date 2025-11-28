@@ -3,10 +3,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
--- IMPORTANT: This file is only used for Pre-MoP content.
-
 -- This file contains all zones which are used in Era, TBC and WotLK.
--- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
+-- Further expansions add corrections to this file, using a `lookupZonesCorrections.lua` file.
 
 -- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
@@ -22,6 +20,8 @@ l10n.continentLookup = {
     [10] = "Class",
     [11] = "Professions",
     [12] = "Events",
+    [13] = "Pet Battle",
+    [14] = "Scenarios",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -1310,7 +1310,7 @@ l10n.zoneLookup = {
     },
     [109]={
         [1417]="Sunken Temple",
-        [1477]="The Temple of Atal'Hakkar",
+        [1477]="Sunken Temple",
     },
     [129]={
         [722]="Razorfen Downs",
@@ -1410,6 +1410,7 @@ l10n.zoneLookup = {
         [3521]="Zangarmarsh",
         [3522]="Blade's Edge Mountains",
         [3523]="Netherstorm",
+        [3535]="Hellfire Citadel",
         [3536]="Thrallmar",
         [3538]="Honor Hold",
         [3539]="The Stair of Destiny",
@@ -1418,7 +1419,7 @@ l10n.zoneLookup = {
         [3542]="The Path of Glory",
         [3543]="The Great Fissure",
         [3544]="Plain of Shards",
-        [3545]="Hellfire Citadel",
+        --[3545]="Hellfire Citadel",
         [3546]="Expedition Armory",
         [3547]="Throne of Kil'jaeden",
         [3548]="Forge Camp: Rage",
@@ -1505,7 +1506,7 @@ l10n.zoneLookup = {
         [3685]="Bonechewer Ruins",
         [3686]="Veil Lithic",
         [3687]="Olembas",
-        [3688]="Auchindoun",
+        --[3688]="Auchindoun",
         [3689]="Veil Reskk",
         [3690]="Blackwind Lake",
         [3691]="Lake Ere'Noru",
@@ -2091,7 +2092,7 @@ l10n.zoneLookup = {
         [4269]="Shrine of Scales",
         [4270]="Drak'atal Passage",
         [4271]="Utgarde Pinnacle",
-        [4273]="Ulduar",
+        --[4273]="Ulduar",
         [4275]="The Argent Stand",
         [4276]="Altar of Sseratus",
         [4278]="Drak'Sotra Fields",
@@ -2695,80 +2696,6 @@ l10n.zoneLookup = {
     [977]={
         [5880]="Maelstrom Deathwing Fight",
     },
-    [2118]={
-        [14284]="Borean Tundra",
-        [14285]="Icecrown",
-        [14286]="Sholazar Basin",
-        [14287]="Dragonblight",
-        [14288]="Battle for Wintergrasp",
-        [14289]="Westspark Workshop",
-        [14290]="The Steppe of Life",
-        [14291]="Eastspark Workshop",
-        [14292]="The Chilled Quagmire",
-        [14293]="The Forest of Shadows",
-        [14294]="Glacial Falls",
-        [14295]="The Cauldron of Flames",
-        [14296]="Winter's Edge Tower",
-        [14297]="Flamewatch Tower",
-        [14298]="Western Bridge",
-        [14299]="Central Bridge",
-        [14300]="Wintergrasp Fortress",
-        [14301]="The Sunken Ring",
-        [14302]="Eastern Bridge",
-        [14303]="The Broken Temple",
-        [14304]="Shadowsight Tower",
-        [14305]="The Lifeblood Pillar",
-        [14306]="The Lost Lands",
-        [14307]="The Skyreach Pillar",
-        [14308]="Hardknuckle Clearing",
-        [14309]="Sapphire Hive",
-        [14310]="Wintergrasp River",
-        [14311]="Frenzyheart River",
-        [14312]="The Sundered Shard",
-        [14313]="Frenzyheart Hill",
-        [14314]="Rainspeaker Rapids",
-        [14315]="Lakeside Landing",
-        [14316]="River's Heart",
-        [14317]="Rainspeaker Canopy",
-        [14318]="The Blight Line",
-        [14319]="Wildgrowth Mangal",
-        [14320]="Mosswalker Village",
-        [14321]="Temple City of En'kilah",
-        [14322]="The Borean Wall",
-        [14323]="North Point Station",
-        [14324]="Spire of Pain",
-        [14325]="Spire of Decay",
-        [14326]="Spire of Blood",
-        [14327]="The Dens of Dying",
-        [14328]="Festering Pools",
-        [14329]="Talramas",
-        [14330]="Steam Springs",
-        [14331]="The Flood Plains",
-        [14332]="The Geyser Fields",
-        [14333]="Fizzcrank Pumping Station",
-        [14334]="Icecrown Citadel",
-        [14335]="The Court of Bones",
-        [14336]="Icemist Village",
-        [14337]="Westwind Refugee Camp",
-        [14338]="Obsidian Dragonshrine",
-        [14339]="Agmar's Hammer",
-        [14340]="Coldwind Pass",
-        [14341]="Angrathar the Wrathgate",
-        [14483]="Uncharted Territory",
-    },
-    [2755]={
-        [15307]="Tol Barad Peninsula",
-        [15308]="Baradin Base Camp",
-        [15309]="Hellscream's Grasp",
-        [15310]="The Restless Front",
-        [15311]="Largo's Overlook",
-        [15312]="Farson Hold",
-        [15313]="Rustberg Village",
-        [15314]="The Darkwood",
-        [15315]="Forgotten Hill",
-        [15316]="Cape of Lost Hope",
-        [15317]="Wellson Shipyard",
-    },
 }
 
 local maelstromZones = {}
@@ -2785,7 +2712,16 @@ end
 l10n.zoneCategoryLookup = {
     [1] = l10n.zoneLookup[0],
     [2] = l10n.zoneLookup[1],
-    [3] = l10n.zoneLookup[530],
+    [3] = {
+        [3483] = "Hellfire Peninsula",
+        [3518] = "Nagrand",
+        [3519] = "Terokkar Forest",
+        [3520] = "Shadowmoon Valley",
+        [3521] = "Zangarmarsh",
+        [3522] = "Blade's Edge Mountains",
+        [3523] = "Netherstorm",
+        [3703] = "Shattrath City",
+    },
     [4] = l10n.zoneLookup[571],
     [5] = {
         [-381] = "Elemental Bonds",
@@ -2794,7 +2730,7 @@ l10n.zoneCategoryLookup = {
         [5733] = "Molten Front",
     },
     [6] = maelstromZones,
-    [7] = {}, -- Empty because this file is only for Pre-MoP
+    [7] = l10n.zoneLookup[870],
     [8] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
@@ -2809,7 +2745,7 @@ l10n.zoneCategoryLookup = {
         [1196] = "Utgarde Pinnacle",
         [1337] = "Uldaman",
         [1417] = "Sunken Temple",
-        [1477] = "The Temple of Atal'Hakkar",
+        [1477] = "Sunken Temple",
         [1581] = "The Deadmines",
         [1583] = "Blackrock Spire",
         [1584] = "Blackrock Depths",
@@ -2823,12 +2759,15 @@ l10n.zoneCategoryLookup = {
         [2367] = "Old Hillsbrad Foothills",
         [2437] = "Ragefire Chasm",
         [2557] = "Dire Maul",
+        [2677] = "Blackwing Lair",
+        [2717] = "Molten Core",
+        [3428] = "Ahn'Qiraj",
         [3429] = "Ruins of Ahn'Qiraj",
         [3456] = "Naxxramas",
         [3457] = "Karazhan",
         [3477] = "Azjol-Nerub",
-        [3535] = "Hellfire Citadel",
         [3562] = "Hellfire Ramparts",
+        [3563] = "Hellfire Citadel",
         [3606] = "Hyjal Summit",
         [3713] = "The Blood Furnace",
         [3714] = "The Shattered Halls",
@@ -2839,13 +2778,13 @@ l10n.zoneCategoryLookup = {
         [3791] = "Sethekk Halls",
         [3792] = "Mana-Tombs",
         [3805] = "Zul'Aman",
-        [3842] = "Tempest Keep",
+        [3845] = "Tempest Keep",
         [3847] = "The Botanica",
         [3848] = "The Arcatraz",
         [3849] = "The Mechanar",
         [3789] = "Shadow Labyrinth",
         [3905] = "Coilfang Reservoir",
-        [3917] = "Auchindoun",
+        [3917] = "Auchindoun", -- dungeon group
         [3959] = "Black Temple",
         [4075] = "Sunwell Plateau",
         [4100] = "The Culling of Stratholme",
@@ -2855,6 +2794,7 @@ l10n.zoneCategoryLookup = {
         [4228] = "The Oculus",
         [4264] = "Halls of Stone",
         [4272] = "Halls of Lightning",
+        [4273] = "Ulduar",
         [4375] = "Gundrak",
         [4415] = "The Violet Hold",
         [4416] = "Gundrak",
@@ -2880,6 +2820,21 @@ l10n.zoneCategoryLookup = {
         [5789] = "End Time",
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
+        [5918] = "Shado-Pan Monastery",
+        [5956] = "Temple of the Jade Serpent",
+        [5963] = "Stormstout Brewery",
+        [5976] = "Gate of the Setting Sun",
+        [6052] = "Scarlet Halls",
+        [6066] = "Scholomance",
+        [6067] = "Terrace of Endless Spring",
+        [6109] = "Scarlet Monastery",
+        [6125] = "Mogu'shan Vaults",
+        [6182] = "Mogu'shan Palace",
+        [6214] = "Siege of Niuzao Temple",
+        [6297] = "Heart of Fear",
+        [6298] = "Brawl'gar Arena",
+        [6622] = "Throne of Thunder",
+        [6738] = "Siege of Orgrimmar",
     },
     [9] = {
         [-25] = "Battlegrounds",
@@ -2889,11 +2844,6 @@ l10n.zoneCategoryLookup = {
         [3820] = "Eye of the Storm",
         [4384] = "Strand of the Ancients",
         [4710] = "Isle of Conquest",
-        [14284] = "Borean Tundra",
-        [14285] = "Icecrown",
-        [14286] = "Sholazar Basin",
-        [14287] = "Dragonblight",
-        [14288] = "Battle for Wintergrasp",
     },
     [10] = {
         [-61] = "Warlock",
@@ -2906,6 +2856,7 @@ l10n.zoneCategoryLookup = {
         [-262] = "Priest",
         [-263] = "Druid",
         [-372] = "Death Knight",
+        [-395] = "Monk",
     },
     [11] = {
         [-24] = "Herbalism",
@@ -2940,16 +2891,43 @@ l10n.zoneCategoryLookup = {
         [-370] = "Brewfest",
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
-        [-376] = "Love is in the Air", -- Category added in WotLK
+        [-376] = "Love is in the Air",
+        [-378] = "Children's Week",
+        [-392] = "Scenario", -- Category added in MoP
+        [-396] = "Landfall", -- Category added in MoP
+        [-397] = "Pandaren Campaign", -- Category added in MoP
+        [-398] = "Riding", -- Category added in Cata
+        [-399] = "Brawler's Guild", -- Category added in MoP
         [-641] = "Nightmare Incursions", -- Category added in SoD P3
         [-644] = "Blackrock Eruption", -- Category added in SoD P4
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        --[-400] = "Love is in the Air", -- Needed before WotLK
-        [-401] = "Children's Week",
+        [-400] = "Proving Grounds",
         [-402] = "Harvest Festival",
-        [-403] = "Hallow's End",
         [-404] = "Winter Veil",
+    },
+    [13] = {
+        [-394] = "Battle Pets",
+    },
+    [14] = {
+        [6101] = "A Brewing Storm",
+        [6616] = "A Little Patience",
+        [6219] = "Arena of Annihilation",
+        [6328] = "Assault on Zan'vess",
+        -- [6567] = "Battle on the High Seas",
+        -- [6814] = "Blood in the Snow",
+        [6426] = "Brewmoon Festival",
+        [6208] = "Crypt of Forgotten Kings",
+        [6565] = "Dagger in the Dark",
+        -- [6733] = "Dark Heart of Pandaria",
+        [6615] = "Domination Point",
+        [6209] = "Greenstone Village",
+        [6575] = "Lion's Landing",
+        [-391] = "Pandaren Brewmasters", -- Only one quest here and it's scenario type
+        -- [6731] = "The Secrets of Ragefire",
+        [6040] = "Theramore's Fall", -- H
+        [6500] = "Theramore's Fall", -- A
+        [6309] = "Unga Ingoo",
     },
 }

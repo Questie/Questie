@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v10.23.0/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.11.1/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -71,6 +71,13 @@ Questie uses `luacheck` for linting. You can run it locally with:
 1. Run `busted -p ".test.lua" .` in the root directory of the project
 2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
+### Database validation
+
+There is a validation script for every expansion that checks the database for common errors. That way we try to keep data as correct as possible, and we don't forget to adjust the `NPC.questStarts` field when we adjust `Quest.startedBy`. You can run the scripts with:
+
+`lua cli/validate-<expansion>.lua`
+
+Replace `<expansion>` with the expansion you want to validate (check the `cli` folder for available scripts).
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
@@ -105,21 +112,21 @@ If you'd like to support the development of Questie by donating, you can do so v
 - Holding Shift while hovering over a map icon displays more information, like quest XP.
 
 ### Journey Log
-- Questie records the steps of your journey in the "My Journey" window. (left-click on minimap button and click "My Journey" to open or type `/questie journey`)
+- Questie records the steps of your journey in the "My Journey" window. (left-click on minimap button and select the "My Journey" tab or type `/questie journey`)
 
 ![Journey](https://user-images.githubusercontent.com/8838573/67285651-3cb32f00-f4d8-11e9-95d8-e8ceb2a8d871.png)
 
 ### Quests by Zone
-- Questie lists all the quests of a zone divided between completed and available quest. Gotta complete 'em all. (left-click on minimap button and click "Quests by Zone" to open)
+- Questie lists all the quests of a zone divided between completed and available quest. Gotta complete 'em all. (left-click on minimap button (or type `/questie journey`) and select the "Quests by Zone" tab)
 
 ![QuestsByZone](https://user-images.githubusercontent.com/8838573/67285665-450b6a00-f4d8-11e9-9283-325d26c7c70d.png)
 
 ### Search
-- Questie's database can be searched. (right-click on minimap button to open)
+- Questie's database can be searched. (left-click on minimap button (or type `/questie journey`) and select the "Advances Search" tab)
 
 ![Search](https://user-images.githubusercontent.com/8838573/67285691-4f2d6880-f4d8-11e9-8656-b3e37dce2f05.png)
 
 ### Configuration
-- Extensive configuration options. (right-click on minimap button to open or type `/questie`)
+- Extensive configuration options. (hold shift and left-click on minimap button to open or type `/questie`)
 
 
