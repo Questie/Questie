@@ -144,7 +144,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         ---@type number
         local questId = levelAndQuest[2]
         -- Only show quests which are not hidden
-        if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
+        if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent:IsEventQuest(questId)) and QuestieDB.LibQuestieDB.Quest.GetAllIds(true)[questId] then --TODO: Fix this, do not return the entire list every time for the Ids
             temp.value = questId
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
