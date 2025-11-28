@@ -47,32 +47,38 @@
 ---@field Type "monster"
 ---@field Id NpcId
 ---@field Text string
+---@field Icon Enum.QuestIcon
 
 ---@class ObjectObjective
 ---@field Type "object"
 ---@field Id ObjectId
 ---@field Text string
+---@field Icon Enum.QuestIcon
 
 ---@class ItemObjective
 ---@field Type "item"
 ---@field Id ItemId
 ---@field Text string
+---@field Icon Enum.QuestIcon
 
 ---@class ReputationObjective
 ---@field Type "reputation"
 ---@field Id FactionId
 ---@field RequiredRepValue number
+---@field Icon Enum.QuestIcon
 
 ---@class KillObjective
 ---@field Type "killcredit"
 ---@field IdList NpcId[]
 ---@field RootId NpcId
-----@field Text string
+---@field Text string
+---@field Icon Enum.QuestIcon
 
 ---@class SpellObjective
 ---@field Type "spell"
 ---@field Id SpellId
 ---@field Text string
+----@field Icon Enum.QuestIcon @ Does not have icon
 
 ---@class TriggerEndObjective
 ---@field Type "event"
@@ -134,7 +140,7 @@
 -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 ---@class ExtraObjective
 ---@field [1] table<AreaId, CoordPair[]>? spawnList
----@field [2] string iconFile path
+---@field [2] Enum.QuestIcon
 ---@field [3] string Objective Text
 ---@field [4] ObjectiveIndex? Optional ObjectiveIndex
 ---@field [5] table<"monster"|"object", function>? dbReference which uses _QuestieQuest.objectiveSpawnListCallTable to fetch spawns
@@ -147,11 +153,11 @@
 --   ['killCreditObjective'] = 5, -- table: {{{creature(int), ...}, baseCreatureID, baseCreatureText}, ...}
 
 ---@class RawObjectives : {[1]: RawNpcObjective[], [2]: RawObjectObjective[], [3]: RawItemObjective[], [4]: RawReputationObjective, [5]: RawKillObjective[]}
----@class RawNpcObjective : { [1]: NpcId, [2]: string }
----@class RawObjectObjective : { [1]: ObjectId, [2]: string }
----@class RawItemObjective : { [1]: ItemId, [2]: string }
----@class RawReputationObjective : { [1]: FactionId, [2]: number }
----@class RawKillObjective : { [1]: NpcId[], [2]: NpcId, [3]: string }
+---@class RawNpcObjective : { [1]: NpcId, [2]: string, [3]: Enum.QuestIcon }
+---@class RawObjectObjective : { [1]: ObjectId, [2]: string, [3]: Enum.QuestIcon }
+---@class RawItemObjective : { [1]: ItemId, [2]: string, [3]: Enum.QuestIcon }
+---@class RawReputationObjective : { [1]: FactionId, [2]: number, [3]: Enum.QuestIcon }
+---@class RawKillObjective : { [1]: NpcId[], [2]: NpcId, [3]: string, [4]: Enum.QuestIcon }
 
 
 

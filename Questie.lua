@@ -49,7 +49,7 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(_, db, profileName)
+function Questie:RefreshConfig(_, _, _) -- _, db, profileName
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()

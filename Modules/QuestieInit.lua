@@ -1,5 +1,6 @@
 ---@class QuestieInit
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
+QuestieInit.private = QuestieInit.private or {}
 local _QuestieInit = QuestieInit.private
 
 ---@type ThreadLib
@@ -386,7 +387,7 @@ function QuestieInit.OnAddonLoaded()
         QuestieSlash.RegisterSlashCommands()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
-        QuestieOptions.Initialize()
+        QuestieOptions:Initialize()
     end, 0,"Error during AddonLoaded initialization!")
 
     MinimapIcon:Init()
@@ -446,7 +447,9 @@ function QuestieInit.WaitForValidGameCache()
                 Questie:Debug(Questie.DEBUG_CRITICAL, "QuestieInit: Game Cache did not become valid in 3 seconds, continuing with initialization.")
             end
             doWait = false
-            timer:Cancel()
+            if timer then
+                timer:Cancel()
+            end
         end
         questIdsChecked = newQuestIdsChecked
         retries = retries + 1

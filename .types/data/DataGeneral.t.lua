@@ -13,3 +13,5 @@
 
 ---@alias SkillPair {[1]: SkillId, [2]: number}
 ---@alias ReputationPair {[1]: FactionId, [2]: number}
+
+---@alias Classes "WARRIOR"|"PALADIN"|"HUNTER"|"ROGUE"|"PRIEST"|"DEATHKNIGHT"|"SHAMAN"|"MAGE"|"WARLOCK"|"DRUID"|"MONK"
