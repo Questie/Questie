@@ -40,13 +40,13 @@ function QuestieNameplate:NameplateCreated(token)
         return
     end
 
-    local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local unitType, _, _, _, _, _, _ = strsplit("-", unitGUID)
     if unitType ~= "Creature" and unitType ~= "Vehicle" then
         -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
-    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = QuestieNameplate.GetIcon(unitGUID)
 
     if icon then
         activeGUIDs[unitGUID] = token
@@ -80,13 +80,11 @@ function QuestieNameplate:UpdateNameplate()
     for guid, token in pairs(activeGUIDs) do
 
         local unitName, _ = UnitName(token)
-        local _, _, _, _, _, npcId, _ = strsplit("-", guid)
-
-        if (not unitName) or (not npcId) then
+        if (not unitName) then
             return
         end
 
-        local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+        local icon = QuestieNameplate.GetIcon(guid)
 
         if icon then
             local frame = _QuestieNameplate.GetFrame(guid)
@@ -120,6 +118,21 @@ function QuestieNameplate:HideCurrentFrames()
     end
 end
 
+---@param guid string
+---@return IconTexture | nil
+function QuestieNameplate.GetIcon(guid)
+    if (not guid) then
+        return nil
+    end
+
+    local _, _, _, _, _, npcId, _ = strsplit("-", guid)
+    if (not npcId) then
+        return nil
+    end
+
+    return _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+end
+
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
@@ -141,13 +154,13 @@ function QuestieNameplate:DrawTargetFrame()
         return
     end
 
-    local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local unitType, _, _, _, _, _, _ = strsplit("-", unitGUID)
     if unitType ~= "Creature" and unitType ~= "Vehicle" then
         -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
-    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = QuestieNameplate.GetIcon(unitGUID)
     if (not icon) then
         return
     end
