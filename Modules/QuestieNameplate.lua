@@ -100,6 +100,44 @@ function QuestieNameplate:UpdateNameplate()
     end
 end
 
+---@param xPos number
+---@param yPos number
+---@param scale number
+function QuestieNameplate.SetIconPosition(xPos, yPos, scale)
+    QuestieNameplate.SetIconXPosition(xPos)
+    QuestieNameplate.SetIconYPosition(yPos)
+    QuestieNameplate.SetIconScale(scale)
+
+    QuestieNameplate:RedrawIcons()
+end
+
+---@param xPos number
+function QuestieNameplate.SetIconXPosition(xPos)
+    if (type(xPos) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateX = xPos
+end
+
+---@param yPos number
+function QuestieNameplate.SetIconYPosition(yPos)
+    if (type(yPos) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateY = yPos
+end
+
+---@param scale number
+function QuestieNameplate.SetIconScale(scale)
+    if (type(scale) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateScale = scale
+end
+
 function QuestieNameplate:RedrawIcons()
     for _, frame in pairs(npFrames) do
         local iconScale = Questie.db.profile.nameplateScale
