@@ -316,9 +316,14 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
-    --- The enum Standard does exist...
+    --- Enum.ItemQuality.Standard = 1
+    --- Enum.ItemQuality.Common = 1
+    --- For some reason all documentation says "Common" instead of "Standard"
+    --- But ingame Enum.ItemQuality.Standard is used...
+    --- https://wowpedia.fandom.com/wiki/Enum.ItemQuality
+    --- Documentation:  Patch 9.0.1 (2020-10-13): Renamed Standard, Good, Superior fields to Common, Uncommon, Rare
     ---@diagnostic disable-next-line: undefined-field
-    if itemID ~= nil and quality == Enum.ItemQuality.Standard then
+    if itemID ~= nil and quality == (Enum.ItemQuality.Standard or Enum.ItemQuality.Common) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
         skipNextUQLCEvent = false
