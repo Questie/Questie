@@ -59,7 +59,7 @@ end
 --- Colorize a string with a color code
 ---@param str string @The string colorize
 --Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"repeatableBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|"pvpRed"|string
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"repeatableBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|"pvpRed"|string|nil
 ---@return string
 function Questie:Colorize(str, color)
     if not color then color = "yellow" end
