@@ -106,10 +106,8 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
         end
     elseif type == "npc" then
         local npc = QuestieDB:GetNPC(id) or {minLevel = "??", name = l10n("Unknown NPC")}
-        if npc then
-            GameTooltip:AddLine("[" .. npc.minLevel .. "] " .. npc.name .. " (" .. id .. ")")
-            if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    " .. npc.subName .. "|r") end
-        end
+        GameTooltip:AddLine("[" .. npc.minLevel .. "] " .. npc.name .. " (" .. id .. ")")
+        if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    " .. npc.subName .. "|r") end
     elseif type == "object" then
         local object = QuestieDB.QueryObjectSingle(id, "name")
         GameTooltip:AddLine(object .. " (" .. id .. ")")
