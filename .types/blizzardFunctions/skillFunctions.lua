@@ -1,3 +1,4 @@
+---@meta
 ------ SKILL FUNCTIONS
 ---@param index number
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandSkillHeader)

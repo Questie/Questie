@@ -20,6 +20,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
+local JourneyInitializd = false
+
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
@@ -184,19 +186,25 @@ function QuestieJourney:ToggleJourneyWindow()
         return
     end
 
-    if (not isWindowShown) then
-        PlaySound(882)
+    -- Initialize the journey window if it hasn't been already
+    QuestieJourney:Initialize()
 
-        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
-        if treeGroup then
-            _QuestieJourney.treeCache = treeGroup
+    -- There are ways to toggle this function before the frame has been created
+    if QuestieJourneyFrame then
+        if (not isWindowShown) then
+            PlaySound(882)
+
+            local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
+            if treeGroup then
+                _QuestieJourney.treeCache = treeGroup
+            end
+
+            QuestieJourneyFrame:Show()
+            isWindowShown = true
+        else
+            QuestieJourneyFrame:Hide()
+            isWindowShown = false
         end
-
-        QuestieJourneyFrame:Show()
-        isWindowShown = true
-    else
-        QuestieJourneyFrame:Hide()
-        isWindowShown = false
     end
 end
 

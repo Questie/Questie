@@ -197,7 +197,9 @@ do
         local _HasRequiredClass = QuestiePlayer.HasRequiredClass
         local _QueryQuestSingle = QuestieDB.QueryQuestSingle
 
-        for questId in pairs(QuestieDB.QuestPointers) do
+        local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds()
+        for questIdIndex = 1, #questIds do
+            local questId = questIds[questIdIndex]
             if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
 
