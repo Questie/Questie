@@ -95,19 +95,17 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
     ---@diagnostic disable-next-line: invisible
     GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
     if type == "quest" then
-        local quest = QuestieDB.GetQuest(id)
-        if quest then
-            GameTooltip:AddLine("[" .. quest.level .. "] " .. quest.name .. " (" .. id .. ")")
-            if quest.Description and quest.Description ~= {} then
-                for _, line in pairs(quest.Description) do
-                    for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
-                        GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
-                    end
+        local quest = QuestieDB.GetQuest(id) or {level = "??", name = l10n("Unknown Quest")}
+        GameTooltip:AddLine("[" .. quest.level .. "] " .. quest.name .. " (" .. id .. ")")
+        if quest.Description and quest.Description ~= {} then
+            for _, line in pairs(quest.Description) do
+                for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
+                    GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
                 end
             end
         end
     elseif type == "npc" then
-        local npc = QuestieDB:GetNPC(id)
+        local npc = QuestieDB:GetNPC(id) or {minLevel = "??", name = l10n("Unknown NPC")}
         if npc then
             GameTooltip:AddLine("[" .. npc.minLevel .. "] " .. npc.name .. " (" .. id .. ")")
             if npc.subName then GameTooltip:AddLine("|cFFFFFFFF    " .. npc.subName .. "|r") end
