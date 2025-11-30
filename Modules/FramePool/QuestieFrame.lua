@@ -237,7 +237,7 @@ function _Qframe.OnClick(self, button)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
             local waypoint = Questie.db.char._tom_waypoint
             TomTom:RemoveWaypoint(waypoint)
-            add = ((waypoint and waypoint[1] ~= uiMapId) or (waypoint and waypoint[2] ~= x) or (waypoint and waypoint[3] ~= y) or (waypoint and waypoint.title ~= title) or (waypoint and waypoint.from ~= "Questie"))
+            add = (waypoint[1] ~= uiMapId) or (waypoint[2] ~= x) or (waypoint[3] ~= y) or (waypoint.title ~= title) or (waypoint.from ~= "Questie")
         end
 
         -- Add waypoint
