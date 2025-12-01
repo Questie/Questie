@@ -2007,7 +2007,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {79825},
         },
         [30134] = { -- Wild Things
-            [questKeys.breadcrumbs] = {31373,31375},
+            [questKeys.breadcrumbs] = {31373,31375,32461},
             [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30135] = { -- Beating the Odds
@@ -5782,6 +5782,7 @@ function MopQuestFixes.Load()
         [31373] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {32461},
         },
         [31374] = { -- The Tillers
             [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
@@ -5791,6 +5792,7 @@ function MopQuestFixes.Load()
         [31375] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {32461},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
             [questKeys.preQuestSingle] = {31511,31512},
@@ -8652,6 +8654,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
             [questKeys.objectives] = {nil,{{216720}}},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+        },
+        [32461] = { -- The Order of the Cloud Serpent
+            [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {31373,31375},
         },
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
