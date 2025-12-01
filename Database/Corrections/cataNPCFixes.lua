@@ -6940,11 +6940,32 @@ function CataNpcFixes.Load()
         [49537] = { -- Jeb Guthrie
             [npcKeys.questStarts] = {28638,28745,28782},
         },
+        [49577] = { -- Baird Darkfeather
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [49593] = { -- Tarm Deepgale
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [49600] = { -- Matthew Churchill
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [49689] = { -- Bonnie Hennigan
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [49749] = { -- Priestess Cocoa Anderson
             [npcKeys.questStarts] = {5628},
         },
         [49750] = { -- Warchief's Herald
             [npcKeys.questEnds] = {82949,82985,82989,88798,88800,88801},
+        },
+        [49755] = { -- Zay'hana
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [49767] = { -- Rukh Zumtarg
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [49803] = { -- Kennen
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [49893] = { -- Lisa McKeever
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.62,72.38}}},
