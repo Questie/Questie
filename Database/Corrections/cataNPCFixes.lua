@@ -2758,6 +2758,9 @@ function CataNpcFixes.Load()
         [17893] = { -- Naturalist Bite
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{95.79,66.26},{-1,-1}}},
         },
+        [17894] = { -- Windcaller Claw
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{41.39,22.52},{-1,-1}}},
+        },
         [17941] = { -- Mennu the Betrayer
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{48.79,25.51},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_SLAVE_PENS] = {{{48.79,25.51},{48.77,13.43}}}},

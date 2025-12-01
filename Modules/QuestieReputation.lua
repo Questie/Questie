@@ -181,6 +181,8 @@ local reputationRewards = {
     [33] = 100,
     [34] = 3750,
     [35] = 5000,
+    [36] = 750,
+    [37] = 1050,
 }
 
 ---@param questId QuestId
