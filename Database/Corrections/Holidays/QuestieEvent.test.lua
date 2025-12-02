@@ -29,12 +29,14 @@ describe("QuestieEvent", function()
 
     describe("Darkmoon Faire", function()
         it("should not load for Anniversary servers in P1", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 1
@@ -50,12 +52,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary HC servers in P1", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 1
@@ -72,12 +76,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary servers in P2", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 2
@@ -93,12 +99,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary servers in P2", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 2
@@ -115,12 +123,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Anniversary servers in P3", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 3
@@ -136,12 +146,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Anniversary HC servers in P3", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
             ContentPhases.activePhases.Anniversary = 3
@@ -158,12 +170,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Classic servers", function()
-            _G.C_DateAndTime = {GetTodaysDate=function()
+            _G.QuestieCompat = {GetCurrentCalendarTime=function()
                 return {
-                    weekDay = 4,
-                    day = 11,
+                    weekday = 4,
+                    monthDay = 11,
                     month = 12,
-                    year = 2024
+                    year = 2024,
+                    hour = 0,
+                    minute = 0,
                 }
             end}
 
