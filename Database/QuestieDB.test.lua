@@ -48,25 +48,25 @@ describe("QuestieDB", function()
 
             local quest = QuestieDB.GetQuest(123)
 
-            assert.are.same(123, quest.Id)
-            assert.are.same("Test Quest", quest.name)
+            assert.are_same(123, quest.Id)
+            assert.are_same("Test Quest", quest.name)
 
             local starter = quest.Starts
-            assert.are.same({100, 200}, starter.NPC)
+            assert.are_same({100, 200}, starter.NPC)
             assert.is_nil(starter.GameObject)
             assert.is_nil(starter.Item)
 
             local finisher = quest.Finisher
-            assert.are.same({300, 400}, finisher.NPC)
+            assert.are_same({300, 400}, finisher.NPC)
             assert.is_nil(finisher.GameObject)
 
-            assert.are.same(60, quest.requiredLevel)
-            assert.are.same(60, quest.questLevel)
-            assert.are.same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
-            assert.are.same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
-            assert.are.same("Finish him!", quest.Description)
+            assert.are_same(60, quest.requiredLevel)
+            assert.are_same(60, quest.questLevel)
+            assert.are_same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
+            assert.are_same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
+            assert.are_same("Finish him!", quest.Description)
 
-            assert.are.same({{Type="monster",Id=1000}}, quest.ObjectiveData)
+            assert.are_same({{Type="monster",Id=1000}}, quest.ObjectiveData)
         end)
     end)
 
@@ -76,8 +76,8 @@ describe("QuestieDB", function()
 
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(123)
 
-            assert.are.same(81, questTagId)
-            assert.are.same("Dungeon", questTagName)
+            assert.are_same(81, questTagId)
+            assert.are_same("Dungeon", questTagName)
             assert.spy(_G.GetQuestTagInfo).was.called_with(123)
         end)
 
@@ -86,8 +86,8 @@ describe("QuestieDB", function()
 
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(6846)
 
-            assert.are.same(41, questTagId)
-            assert.are.same("PvP", questTagName)
+            assert.are_same(41, questTagId)
+            assert.are_same("PvP", questTagName)
             assert.spy(_G.GetQuestTagInfo).was.not_called()
         end)
 
@@ -97,10 +97,10 @@ describe("QuestieDB", function()
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(600)
             local questTagId2, questTagName2 = QuestieDB.GetQuestTagInfo(600)
 
-            assert.are.same(81, questTagId)
-            assert.are.same("Dungeon", questTagName)
-            assert.are.same(81, questTagId2)
-            assert.are.same("Dungeon", questTagName2)
+            assert.are_same(81, questTagId)
+            assert.are_same("Dungeon", questTagName)
+            assert.are_same(81, questTagId2)
+            assert.are_same("Dungeon", questTagName2)
             assert.spy(_G.GetQuestTagInfo).was.called(1)
         end)
     end)

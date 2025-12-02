@@ -55,7 +55,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name"}, tooltip)
+            assert.are_same({"Quest Name"}, tooltip)
         end)
 
         it("should return empty tooltip when tooltip has name set but showQuestsInNpcTooltip is not active", function()
@@ -65,7 +65,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.not_called()
-            assert.are.same({}, tooltip)
+            assert.are_same({}, tooltip)
         end)
 
         it("should return nil when no tooltip is registered", function()
@@ -96,7 +96,7 @@ describe("Tooltip", function()
 
             assert.spy(QuestieDB.QueryItemSingle).was.called_with(5, "name")
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   goldItem Name"}, tooltip)
+            assert.are_same({"Quest Name", "   goldItem Name"}, tooltip)
         end)
 
         it("should return quest name and objective when tooltip has objective and Needed", function()
@@ -115,7 +115,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
+            assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
         it("should return quest name and objective description when tooltip has objective without Needed", function()
@@ -136,7 +136,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
@@ -171,7 +171,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.not_called()
         end)
 
@@ -191,7 +191,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("o_123", nil)
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.not_called()
             assert.spy(Questie.Debug).was.called_with(Questie, Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
         end)
@@ -214,7 +214,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
@@ -242,7 +242,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name"}, tooltip)
+            assert.are_same({"Quest Name"}, tooltip)
         end)
 
         it("should return quest name and objective description when tooltip has completed objective and showQuestsInNpcTooltip is false", function()
@@ -269,7 +269,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
+            assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
         it("should return multiple objectives for same key", function()
@@ -315,7 +315,7 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 2, nil, true)
-            assert.are.same({
+            assert.are_same({
                 "Quest Name", "   gold0/1 do something else", "   gold3/5 do it",
                 "Quest Name 2", "   gold10/10 do something"
             }, tooltip)
@@ -371,16 +371,16 @@ describe("Tooltip", function()
 
             assert.spy(QuestieDB.GetQuest).was.called_with(1)
 
-            assert.are.same(false, objective.hasRegisteredTooltips)
-            assert.are.same(false, objective.registeredItemTooltips)
-            assert.are.same({}, objective.AlreadySpawned)
+            assert.are_same(false, objective.hasRegisteredTooltips)
+            assert.are_same(false, objective.registeredItemTooltips)
+            assert.are_same({}, objective.AlreadySpawned)
 
-            assert.are.same(false, specialObjective.hasRegisteredTooltips)
-            assert.are.same(false, specialObjective.registeredItemTooltips)
-            assert.are.same({}, specialObjective.AlreadySpawned)
+            assert.are_same(false, specialObjective.hasRegisteredTooltips)
+            assert.are_same(false, specialObjective.registeredItemTooltips)
+            assert.are_same({}, specialObjective.AlreadySpawned)
 
-            assert.are.same({}, QuestieTooltips.lookupByKey)
-            assert.are.same({}, QuestieTooltips.lookupKeysByQuestId)
+            assert.are_same({}, QuestieTooltips.lookupByKey)
+            assert.are_same({}, QuestieTooltips.lookupKeysByQuestId)
         end)
 
         it("should do nothing when tooltip is already removed", function()
@@ -389,7 +389,7 @@ describe("Tooltip", function()
             QuestieTooltips:RemoveQuest(2)
 
             assert.spy(QuestieDB.GetQuest).was.not_called()
-            assert.are.same({[1] = {"key"}}, QuestieTooltips.lookupKeysByQuestId)
+            assert.are_same({[1] = {"key"}}, QuestieTooltips.lookupKeysByQuestId)
         end)
     end)
 end)
