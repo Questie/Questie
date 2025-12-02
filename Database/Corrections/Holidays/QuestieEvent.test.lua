@@ -2,7 +2,6 @@ dofile("setupTests.lua")
 dofile("Localization/l10n.lua")
 
 describe("QuestieEvent", function()
-
     ---@type QuestieEvent
     local QuestieEvent
     ---@type QuestieCorrections
@@ -12,11 +11,15 @@ describe("QuestieEvent", function()
     ---@type ContentPhases
     local ContentPhases
 
+    ---@type luassert.spy
+    local printMock
+
     before_each(function()
         Questie.IsClassic = false
         Questie.IsAnniversary = false
         _G.Questie.Colorize = function(_, str) return str end
-        _G.print = spy.new(function() end)
+        printMock = spy.new(function() end)
+        _G.print = printMock
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieNPCFixes = require("Database.Corrections.classicNPCFixes")
@@ -46,7 +49,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.not_called()
+            assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
@@ -70,7 +73,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.not_called()
+            assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
@@ -93,7 +96,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.not_called()
+            assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
@@ -117,7 +120,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.not_called()
+            assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
@@ -140,7 +143,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -164,7 +167,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -185,7 +188,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(_G.print).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
