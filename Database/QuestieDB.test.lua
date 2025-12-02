@@ -78,7 +78,7 @@ describe("QuestieDB", function()
 
             assert.are.same(81, questTagId)
             assert.are.same("Dungeon", questTagName)
-            assert.spy(_G.GetQuestTagInfo).was_called_with(123)
+            assert.spy(_G.GetQuestTagInfo).was.called_with(123)
         end)
 
         it("should return the corrected value", function()
@@ -88,7 +88,7 @@ describe("QuestieDB", function()
 
             assert.are.same(41, questTagId)
             assert.are.same("PvP", questTagName)
-            assert.spy(_G.GetQuestTagInfo).was_not_called()
+            assert.spy(_G.GetQuestTagInfo).was.not_called()
         end)
 
         it("should cache", function()
@@ -110,7 +110,7 @@ describe("QuestieDB", function()
             QuestiePlayer.GetPlayerLevel = spy.new(function() return 60 end)
 
             assert.is_false(QuestieDB.IsTrivial(-1))
-            assert.spy(QuestiePlayer.GetPlayerLevel).was_not_called()
+            assert.spy(QuestiePlayer.GetPlayerLevel).was.not_called()
         end)
 
         it("should return false for red quests", function()

@@ -47,20 +47,20 @@ describe("DistanceUtils", function()
                 return zoneId == 1 and 200 or 300
             end)
             local spawns = {
-                [1] = {{50,50}},
-                [2] = {{60,60}},
+                [1] = {{50, 50}},
+                [2] = {{60, 60}},
             }
 
             local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
 
-            assert.same({50,50}, bestSpawn)
+            assert.same({50, 50}, bestSpawn)
             assert.equals(1, bestSpawnZone)
             assert.equals(0, bestDistance)
 
             assert.spy(HBDMock.GetPlayerWorldPosition).was.called()
-            assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
-            assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
-            assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)
+            assert.spy(ZoneDB.GetUiMapIdByAreaId).was.called_with(_, 1)
+            assert.spy(HBDMock.GetWorldCoordinatesFromZone).was.called_with(HBDMock, 0.5, 0.5, 200)
+            assert.spy(QuestieLib.Euclid).was.called_with(50, 50, 123, 456)
         end)
 
         it("should compare dungeon location when spawn is in dungeon", function()
@@ -77,23 +77,23 @@ describe("DistanceUtils", function()
                 return dX == 123 and 0 or 100
             end)
             ZoneDB.GetDungeonLocation = spy.new(function()
-                return {{3,60,60}}
+                return {{3, 60, 60}}
             end)
             ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
                 return zoneId == 3 and 200 or 300
             end)
             local spawns = {
-                [1] = {{50,50}},
-                [2] = {{-1,-1}},
+                [1] = {{50, 50}},
+                [2] = {{-1, -1}},
             }
 
             local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
 
-            assert.same({60,60}, bestSpawn)
+            assert.same({60, 60}, bestSpawn)
             assert.equals(3, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(ZoneDB.GetDungeonLocation).was_called_with(_, 2)
+            assert.spy(ZoneDB.GetDungeonLocation).was.called_with(_, 2)
         end)
 
         it("should use 0 values when player position can not be determined", function()
@@ -113,17 +113,17 @@ describe("DistanceUtils", function()
                 return zoneId == 2 and 200 or 300
             end)
             local spawns = {
-                [1] = {{50,50}},
-                [2] = {{60,60}},
+                [1] = {{50, 50}},
+                [2] = {{60, 60}},
             }
 
             local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
 
-            assert.same({60,60}, bestSpawn)
+            assert.same({60, 60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieLib.Euclid).was_called_with(0, 0, 123, 456)
+            assert.spy(QuestieLib.Euclid).was.called_with(0, 0, 123, 456)
         end)
 
         it("should error once when dungeon location is not found", function()
@@ -132,14 +132,14 @@ describe("DistanceUtils", function()
                 return nil
             end)
             local spawns = {
-                [2] = {{-1,-1}},
+                [2] = {{-1, -1}},
             }
 
             DistanceUtils.GetNearestSpawn(spawns)
             DistanceUtils.GetNearestSpawn(spawns)
 
-            assert.spy(_G.Questie.Error).was_called(1)
-            assert.spy(_G.Questie.Error).was_called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
+            assert.spy(_G.Questie.Error).was.called(1)
+            assert.spy(_G.Questie.Error).was.called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
         end)
     end)
 
@@ -163,18 +163,18 @@ describe("DistanceUtils", function()
             local objectiveSpawnList = {{
                 Name = "Objective 1",
                 Spawns = {
-                    [1] = {{50,50}},
+                    [1] = {{50, 50}},
                 }
             }, {
                 Name = "Objective 2",
                 Spawns = {
-                    [2] = {{60,60}},
+                    [2] = {{60, 60}},
                 }
             }}
 
             local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestObjective(objectiveSpawnList)
 
-            assert.same({60,60}, bestSpawn)
+            assert.same({60, 60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
             assert.equals("Objective 2", bestSpawnName)
             assert.equals(0, bestDistance)
@@ -194,9 +194,9 @@ describe("DistanceUtils", function()
         it("should return the nearest NPC location", function()
             QuestieDB.GetNPC = spy.new(function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}}, friendly = true }
+                    return {id = 123, name = "Finisher 1", spawns = {[1] = {{50, 50}}}, friendly = true}
                 else
-                    return { id = 456, name = "Finisher 2", spawns = {[2]={{60,60}}}, friendly = true }
+                    return {id = 456, name = "Finisher 2", spawns = {[2] = {{60, 60}}}, friendly = true}
                 end
             end)
             QuestieDB.GetObject = spy.new(function() end)
@@ -215,25 +215,25 @@ describe("DistanceUtils", function()
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
             end)
-            local finisher = {NPC = {123,456}}
+            local finisher = {NPC = {123, 456}}
 
             local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
-            assert.same({60,60}, bestSpawn)
+            assert.same({60, 60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
             assert.equals("Finisher 2", bestSpawnName)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieDB.GetObject).was_not_called()
+            assert.spy(QuestieDB.GetObject).was.not_called()
         end)
 
         it("should return the nearest object location", function()
             QuestieDB.GetNPC = spy.new(function() end)
             QuestieDB.GetObject = spy.new(function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}} }
+                    return {id = 123, name = "Finisher 1", spawns = {[1] = {{50, 50}}}}
                 else
-                    return { id = 456, name = "Finisher 2", spawns = {[2]={{60,60}}} }
+                    return {id = 456, name = "Finisher 2", spawns = {[2] = {{60, 60}}}}
                 end
             end)
             HBDMock.GetPlayerWorldPosition = spy.new(function()
@@ -251,31 +251,31 @@ describe("DistanceUtils", function()
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
             end)
-            local finisher = {GameObject = {123,456}}
+            local finisher = {GameObject = {123, 456}}
 
             local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
-            assert.same({60,60}, bestSpawn)
+            assert.same({60, 60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
             assert.equals("Finisher 2", bestSpawnName)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieDB.GetNPC).was_not_called()
+            assert.spy(QuestieDB.GetNPC).was.not_called()
         end)
 
         it("should return the nearest location", function()
             QuestieDB.GetNPC = function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
+                    return {id = 123, name = "Finisher NPC 1", spawns = {[1] = {{50, 50}}}, friendly = true}
                 else
-                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}}, friendly = true }
+                    return {id = 456, name = "Finisher NPC 2", spawns = {[2] = {{60, 60}}}, friendly = true}
                 end
             end
             QuestieDB.GetObject = function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher Object 1", spawns = {[3]={{70,70}}} }
+                    return {id = 123, name = "Finisher Object 1", spawns = {[3] = {{70, 70}}}}
                 else
-                    return { id = 456, name = "Finisher Object 2", spawns = {[4]={{80,80}}} }
+                    return {id = 456, name = "Finisher Object 2", spawns = {[4] = {{80, 80}}}}
                 end
             end
             HBDMock.GetPlayerWorldPosition = function()
@@ -300,11 +300,11 @@ describe("DistanceUtils", function()
             QuestieLib.Euclid = function(_, _, dX)
                 return dX == 123 and 0 or 100
             end
-            local finisher = {NPC = {123,456}, GameObject = {123,456}}
+            local finisher = {NPC = {123, 456}, GameObject = {123, 456}}
 
             local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
-            assert.same({80,80}, bestSpawn)
+            assert.same({80, 80}, bestSpawn)
             assert.equals(4, bestSpawnZone)
             assert.equals("Finisher Object 2", bestSpawnName)
             assert.equals(0, bestDistance)
@@ -313,9 +313,9 @@ describe("DistanceUtils", function()
         it("should skip unfriendly NPCs", function()
             QuestieDB.GetNPC = function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
+                    return {id = 123, name = "Finisher NPC 1", spawns = {[1] = {{50, 50}}}, friendly = true}
                 else
-                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}}, friendly = false }
+                    return {id = 456, name = "Finisher NPC 2", spawns = {[2] = {{60, 60}}}, friendly = false}
                 end
             end
             HBDMock.GetPlayerWorldPosition = function()
@@ -330,11 +330,11 @@ describe("DistanceUtils", function()
             QuestieLib.Euclid = function()
                 return 0
             end
-            local finisher = {NPC = {123,456}}
+            local finisher = {NPC = {123, 456}}
 
             local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
-            assert.same({50,50}, bestSpawn)
+            assert.same({50, 50}, bestSpawn)
             assert.equals(1, bestSpawnZone)
             assert.equals("Finisher NPC 1", bestSpawnName)
             assert.equals(500000, bestDistance)
@@ -348,18 +348,18 @@ describe("DistanceUtils", function()
                 Finisher = {123}
             }
             DistanceUtils.GetNearestFinisherOrStarter = function()
-                return {60,60}, 2, "Finisher", 100
+                return {60, 60}, 2, "Finisher", 100
             end
             DistanceUtils.GetNearestObjective = spy.new(function() end)
 
             local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
-            assert.same({60,60}, spawn)
+            assert.same({60, 60}, spawn)
             assert.equals(2, zone)
             assert.equals("Finisher", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called()
         end)
 
         it("should return nearest objective when quest is not complete", function()
@@ -373,18 +373,18 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 100
+                return {60, 60}, 2, "Objective", 100
             end)
 
             local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
-            assert.same({60,60}, spawn)
+            assert.same({60, 60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
-            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.not_called()
         end)
 
         it("should return nearest specialObjective when quest is not complete", function()
@@ -398,18 +398,18 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 100
+                return {60, 60}, 2, "Objective", 100
             end)
 
             local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
-            assert.same({60,60}, spawn)
+            assert.same({60, 60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
-            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.not_called()
         end)
 
         it("should skip complete objectives", function()
@@ -424,18 +424,18 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 100
+                return {60, 60}, 2, "Objective", 100
             end)
 
             local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
-            assert.same({60,60}, spawn)
+            assert.same({60, 60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called_with({123})
         end)
 
         it("should skip complete specialObjectives", function()
@@ -450,18 +450,18 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 100
+                return {60, 60}, 2, "Objective", 100
             end)
 
             local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
-            assert.same({60,60}, spawn)
+            assert.same({60, 60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called_with({123})
         end)
 
         it("should skip special objectives that do not have a spawnList yet", function()
@@ -482,7 +482,7 @@ describe("DistanceUtils", function()
             assert.is_nil(name)
             assert.equals(999999999, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called()
         end)
     end)
 end)
