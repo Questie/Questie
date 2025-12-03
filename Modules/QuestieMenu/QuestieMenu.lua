@@ -165,7 +165,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     e = e + 1
                 end
                 if e == max then
-                    timer:Cancel()
+                    if timer then
+                        timer:Cancel()
+                    end
                 end
             end)
         else

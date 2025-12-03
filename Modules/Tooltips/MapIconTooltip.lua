@@ -50,6 +50,7 @@ local function FormatLabelWithColon(label)
     end
 end
 
+---@param self IconFrame
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
@@ -62,6 +63,7 @@ function MapIconTooltip:Show()
     end
     lastTooltipShowTimestamp = GetTime()
 
+    ---@class GameTooltip
     local Tooltip = GameTooltip;
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
@@ -270,7 +272,7 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
                             for _, line in pairs(lines) do
                                 self:AddLine(line, 0.86, 0.86, 0.86);
                             end

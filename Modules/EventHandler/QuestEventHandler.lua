@@ -207,6 +207,8 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 
     -- Timed quests do not need a full Quest Log Update.
     -- TODO: Add achievement timers later.
+    -- According to the Documentation this does not have a param, but from experiance that might not always be true
+    ---@diagnostic disable-next-line: redundant-parameter
     local questTimers = GetQuestTimers(questId)
     if type(questTimers) == "number" then
         skipNextUQLCEvent = false
@@ -314,7 +316,14 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
-    if itemID ~= nil and quality == Enum.ItemQuality.Standard then
+    --- Enum.ItemQuality.Standard = 1
+    --- Enum.ItemQuality.Common = 1
+    --- For some reason all documentation says "Common" instead of "Standard"
+    --- But ingame Enum.ItemQuality.Standard is used...
+    --- https://wowpedia.fandom.com/wiki/Enum.ItemQuality
+    --- Documentation:  Patch 9.0.1 (2020-10-13): Renamed Standard, Good, Superior fields to Common, Uncommon, Rare
+    ---@diagnostic disable-next-line: undefined-field
+    if itemID ~= nil and quality == (Enum.ItemQuality.Standard or Enum.ItemQuality.Common) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
         skipNextUQLCEvent = false
@@ -404,7 +413,7 @@ function QuestEventHandler.QuestLogUpdate()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped tracker update - in pet battle")
             return
         end
-        
+
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -484,7 +493,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
 
     if next(changes) then
-        for questId, objIds in pairs(changes) do
+        for questId, _--[[ objIds ]] in pairs(changes) do
             if (not QuestiePlayer.currentQuestlog[questId]) then
                 -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
                 -- We then add them to the player's quest log so they can be updated.
@@ -535,13 +544,13 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests(false)
-        
+
         -- Don't update tracker if we're in a pet battle
         if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped QuestRelatedFrameClosed tracker update - in pet battle")
             return
         end
-        
+
         QuestieTracker:Update()
     end
 end

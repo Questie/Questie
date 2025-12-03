@@ -465,7 +465,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should accept repeatable quest when setting is enabled", function()
@@ -498,7 +498,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should accept PvP quest when setting is enabled", function()
@@ -534,7 +534,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should not turn in quest when no quest is complete", function()
@@ -979,7 +979,7 @@ describe("AutoQuesting", function()
             end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(1)
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(1)
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
 
             AutoQuesting.OnQuestProgress()
@@ -995,7 +995,7 @@ describe("AutoQuesting", function()
             end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(2)
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(2)
 
             AutoQuesting.OnQuestProgress()
             assert.spy(_G.CompleteQuest).was.called()

@@ -13,7 +13,7 @@ local newTicker = C_Timer.NewTicker
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param errorMessage string? @What is the "Prepend" of the error message
 ---@param callbackFunction function? @Function to call when the thread is done
----@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return TimerCallback Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
 function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
   if lType(threadFunction) ~= "function" then
@@ -38,10 +38,15 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
             Questie:Error(errorMessage or "Error in thread", ret)
-            timer:Cancel();
+            if timer then
+                timer:Cancel();
+            end
         end
       elseif (coStatus(thread) == "dead") then --It's faster not to lookup the value but instead have it here
-        timer:Cancel();
+        -- The thread is done, cancel the timer and call the callback function if it exists
+        if timer then
+            timer:Cancel();
+        end
         if(callbackFunction) then
           callbackFunction()
         end
@@ -59,7 +64,7 @@ end
 ---@param threadFunction function @The function to thread
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param callbackFunction function @Function to call when the thread is done
----@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return TimerCallback Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
 function ThreadLib.ThreadCallback(threadFunction, delay, callbackFunction)
   return ThreadLib.Thread(threadFunction, delay, nil, callbackFunction)
@@ -69,7 +74,7 @@ end
 ---@param threadFunction function @The function to thread
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param errorMessage string @What is the "Prepend" of the error message
----@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return TimerCallback Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
 function ThreadLib.ThreadError(threadFunction, delay, errorMessage)
   return ThreadLib.Thread(threadFunction, delay, errorMessage)
@@ -78,7 +83,7 @@ end
 ---Thread a function
 ---@param threadFunction function @The function to thread
 ---@param delay integer @Anything below 0.05 is each frame
----@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return TimerCallback Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
 function ThreadLib.ThreadSimple(threadFunction, delay)
   return ThreadLib.Thread(threadFunction, delay)

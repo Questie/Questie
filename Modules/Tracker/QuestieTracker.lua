@@ -1,3 +1,6 @@
+-- ? We exclude reduntant-parameter because we override some built in functions and add a bool to check if it is questie requesting or not.
+---@diagnostic disable: redundant-parameter
+
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 -------------------------

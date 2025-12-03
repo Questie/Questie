@@ -75,13 +75,13 @@ function TrackerBaseFrame.Initialize()
 
     sizer:SetScript("OnEnter", _OnEnter)
 
-    sizer:SetScript("OnLeave", function(self)
+    sizer:SetScript("OnLeave", function()
         if GameTooltip:IsShown() then
             GameTooltip:Hide()
             GameTooltip._SizerToolTip = nil
         end
 
-        TrackerFadeTicker.Fade(self)
+        TrackerFadeTicker.Fade()
     end)
 
     baseFrame.sizer = sizer
