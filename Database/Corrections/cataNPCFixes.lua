@@ -1933,6 +1933,10 @@ function CataNpcFixes.Load()
         [14431] = { -- Fury Shelda
             [npcKeys.waypoints] = {},
         },
+        [14435] = { -- Prince Thunderaan
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{31.19,13.66}}},
+            [npcKeys.zoneID] = zoneIDs.SILITHUS,
+        },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{58.18,57.5}}},
             [npcKeys.questStarts] = {5502,29146,29167,29176,29190,29191},
