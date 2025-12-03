@@ -10,6 +10,8 @@ describe("QuestieEvent", function()
     local QuestieNPCFixes
     ---@type ContentPhases
     local ContentPhases
+    ---@type Expansions
+    local Expansions
 
     ---@type luassert.spy
     local printMock
@@ -22,11 +24,13 @@ describe("QuestieEvent", function()
         _G.print = printMock
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        Expansions = require("Modules.Expansions")
         QuestieNPCFixes = require("Database.Corrections.classicNPCFixes")
         QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
         ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
         QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
+        QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua
         dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
     end)
 
@@ -205,6 +209,32 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should load for MoP servers", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekDay = 4,
+                        monthDay = 3,
+                        month = 12,
+                        year = 2025
+                    }
+                end
+            }
+            local getNumDayEventsMock = spy.new(function() return 1 end)
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = getNumDayEventsMock,
+                GetDayEvent = function() return {iconTexture = 235448, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
     end)
 end)

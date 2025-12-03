@@ -64,6 +64,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type l10n
@@ -93,7 +95,7 @@ function QuestieEvent:Load()
         eventCorrections = {}
     end
 
-    for eventName,dates in pairs(eventCorrections) do
+    for eventName, dates in pairs(eventCorrections) do
         if dates then
             QuestieEvent.eventDates[eventName] = dates
         end
@@ -136,6 +138,28 @@ function QuestieEvent:Load()
             if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
+            end
+        end
+    end
+
+    if Expansions.Current >= Expansions.MoP then
+        local currentDate = QuestieCompat.GetCurrentCalendarTime()
+        local numDayEvents = C_Calendar.GetNumDayEvents(0, currentDate.monthDay)
+
+        for i = 1, numDayEvents do
+            local event = C_Calendar.GetDayEvent(0, currentDate.monthDay, i)
+            if event and event.calendarType == "HOLIDAY" and event.iconTexture == 235448 then
+                for _, questData in pairs(QuestieEvent.eventQuests) do
+                    local hideQuest = questData[5]
+                    if questData[1] == "Darkmoon Faire" and (not hideQuest) then
+                        local questId = questData[2]
+                        QuestieCorrections.hiddenQuests[questId] = nil
+                        QuestieEvent.activeQuests[questId] = true
+                    end
+                end
+
+                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+                break
             end
         end
     end
