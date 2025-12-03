@@ -394,6 +394,9 @@ function QuestieQuestFixes:Load()
         [660] = {
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS]={{60.1,53.83}}}},
         },
+        [664] = {
+            [questKeys.preQuestSingle] = {663}, -- #7258
+        },
         [665] = {
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.87,80.6}}}},
             [questKeys.preQuestSingle] = {663}, -- #6972
