@@ -5764,6 +5764,12 @@ function CataNpcFixes.Load()
         [45278] = { -- Freewind Brave
             [npcKeys.spawns] ={[zoneIDs.THOUSAND_NEEDLES] = {{42.2,48.3}}},
         },
+        [45297] = { -- Beast-Handler Rustclamp
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [45298] = { -- Mule Driver Ironshod
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [45301] = { -- Korok the Colossus
             [npcKeys.spawns] ={[zoneIDs.RUINS_OF_GILNEAS] = {{50.65,18.03}}},
         },
