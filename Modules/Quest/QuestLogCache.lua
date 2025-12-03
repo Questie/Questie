@@ -162,8 +162,8 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Updates questlogcache.
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
----@param questIdsToCheck table? @keys are the questIds
----@return boolean cacheMiss, table changes, table questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
+---@param questIdsToCheck table<QuestId, boolean>? @keys are the questIds
+---@return boolean cacheMiss, table<QuestId, ObjectiveIndex[]> changes, table<QuestId, boolean> questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
