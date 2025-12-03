@@ -211,7 +211,33 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
-        it("should load for MoP servers", function()
+        it("should load for MoP servers on days with DMF iconTexture for 'start'", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekDay = 4,
+                        monthDay = 3,
+                        month = 12,
+                        year = 2025
+                    }
+                end
+            }
+            local getNumDayEventsMock = spy.new(function() return 1 end)
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = getNumDayEventsMock,
+                GetDayEvent = function() return {iconTexture = 235447, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
+        end)
+
+        it("should load for MoP servers on days with DMF iconTexture for 'ongoing'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -227,6 +253,32 @@ describe("QuestieEvent", function()
             _G.C_Calendar = {
                 GetNumDayEvents = getNumDayEventsMock,
                 GetDayEvent = function() return {iconTexture = 235448, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
+        end)
+
+        it("should load for MoP servers on days with DMF iconTexture for 'end'", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekDay = 4,
+                        monthDay = 3,
+                        month = 12,
+                        year = 2025
+                    }
+                end
+            }
+            local getNumDayEventsMock = spy.new(function() return 1 end)
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = getNumDayEventsMock,
+                GetDayEvent = function() return {iconTexture = 235446, calendarType = "HOLIDAY"} end
             }
 
             QuestieEvent:Load()

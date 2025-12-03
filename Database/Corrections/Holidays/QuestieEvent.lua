@@ -79,6 +79,14 @@ local DMF_LOCATIONS = {
     ELWYNN_FOREST = 2,
 }
 
+-- The ingame calender adds a texture to the DMF event.
+-- We use this to identify the event without relying on dates or localized event titles.
+local DMF_CALENDER_ICON_TEXTURES = {
+    [235446] = true, -- End Texture
+    [235447] = true, -- Ongoing Texture
+    [235448] = true, -- Start Texture
+}
+
 function QuestieEvent:Load()
     local year = date("%y")
 
@@ -148,7 +156,7 @@ function QuestieEvent:Load()
 
         for i = 1, numDayEvents do
             local event = C_Calendar.GetDayEvent(0, currentDate.monthDay, i)
-            if event and event.calendarType == "HOLIDAY" and event.iconTexture == 235448 then
+            if event and event.calendarType == "HOLIDAY" and DMF_CALENDER_ICON_TEXTURES[event.iconTexture] then
                 for _, questData in pairs(QuestieEvent.eventQuests) do
                     local hideQuest = questData[5]
                     if questData[1] == "Darkmoon Faire" and (not hideQuest) then
