@@ -288,5 +288,31 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
+
+        it("should not load for MoP servers on days where DMF is inactive", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekDay = 1,
+                        monthDay = 23,
+                        month = 11,
+                        year = 2025
+                    }
+                end
+            }
+            local getNumDayEventsMock = spy.new(function() return 1 end)
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = getNumDayEventsMock,
+                GetDayEvent = function() return {iconTexture = 235458, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.spy(getNumDayEventsMock).was.called_with(0, 23)
+        end)
     end)
 end)
