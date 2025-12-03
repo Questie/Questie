@@ -124,6 +124,20 @@ function QuestieEvent:Load()
         end
     end
 
+    local dmfIsActive = false
+    if Expansions.Current >= Expansions.MoP then
+        local currentDate = QuestieCompat.GetCurrentCalendarTime()
+        local numDayEvents = C_Calendar.GetNumDayEvents(0, currentDate.monthDay)
+
+        for i = 1, numDayEvents do
+            local event = C_Calendar.GetDayEvent(0, currentDate.monthDay, i)
+            if event and event.calendarType == "HOLIDAY" and DMF_CALENDER_ICON_TEXTURES[event.iconTexture] then
+                dmfIsActive = true
+                break
+            end
+        end
+    end
+
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
@@ -143,33 +157,15 @@ function QuestieEvent:Load()
         if (not hideQuest) then
             _QuestieEvent.eventNamesForQuests[questId] = eventName
 
-            if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
+            if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth)) or (dmfIsActive and eventName == "Darkmoon Faire") then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
         end
     end
 
-    if Expansions.Current >= Expansions.MoP then
-        local currentDate = QuestieCompat.GetCurrentCalendarTime()
-        local numDayEvents = C_Calendar.GetNumDayEvents(0, currentDate.monthDay)
-
-        for i = 1, numDayEvents do
-            local event = C_Calendar.GetDayEvent(0, currentDate.monthDay, i)
-            if event and event.calendarType == "HOLIDAY" and DMF_CALENDER_ICON_TEXTURES[event.iconTexture] then
-                for _, questData in pairs(QuestieEvent.eventQuests) do
-                    local hideQuest = questData[5]
-                    if questData[1] == "Darkmoon Faire" and (not hideQuest) then
-                        local questId = questData[2]
-                        QuestieCorrections.hiddenQuests[questId] = nil
-                        QuestieEvent.activeQuests[questId] = true
-                    end
-                end
-
-                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
-                break
-            end
-        end
+    if dmfIsActive then
+        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
     end
 
     -- TODO: Also handle WotLK which has a different starting schedule
