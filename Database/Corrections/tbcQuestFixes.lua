@@ -189,6 +189,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{4456},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
         },
+        [1177] = {
+            [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 8 Mirefin Heads."},
+        },
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
