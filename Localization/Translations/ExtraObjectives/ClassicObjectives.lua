@@ -628,7 +628,7 @@ local classicObjectiveLocales = {
     },
     ["Silithyst"] = {
         ["enUS"] = true,
-        ["deDE"] = "Silithyst",
+        ["deDE"] = true,
         ["esES"] = "Silitista",
         ["esMX"] = "Silitista",
         ["frFR"] = "Silithyste",
@@ -636,7 +636,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Silitista",
         ["ruRU"] = "Силитист",
         ["zhCN"] = "水晶尘",
-        ["zhTW"] = false,
+        ["zhTW"] = "希利塞斯紅塵",
     },
     ["Use the Empty Leaden Collection Phial."] = {
         ["enUS"] = true,
