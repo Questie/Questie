@@ -346,7 +346,7 @@ local myJourneyLocales = {
         ["frFR"] = "Recréation de personnage détectée, réinitialisation des données du voyage",
         ["koKR"] = false,
         ["ptBR"] = "Recriação de personagem detectada, redefinindo os dados da jornada",
-        ["ruRU"] = false,
+        ["ruRU"] = "Обнаружено пересоздание персонажа, сброс данных Путешествия.",
         ["zhCN"] = false,
         ["zhTW"] = false,
     }
