@@ -124,6 +124,10 @@ function QuestieEvent:Load()
         end
     end
 
+    -- Store the current setting to restore later
+    local shouldShowDmfEvents = GetCVarBool("calendarShowDarkmoon")
+    SetCVar("calendarShowDarkmoon", "1")
+
     local dmfIsActive = false
     if Expansions.Current >= Expansions.MoP then
         local currentDate = QuestieCompat.GetCurrentCalendarTime()
@@ -167,6 +171,8 @@ function QuestieEvent:Load()
     if dmfIsActive then
         print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
     end
+
+    SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
     if Questie.IsClassic and (((not Questie.IsAnniversary) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then

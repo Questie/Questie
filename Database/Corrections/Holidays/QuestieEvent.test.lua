@@ -22,6 +22,8 @@ describe("QuestieEvent", function()
         _G.Questie.Colorize = function(_, str) return str end
         printMock = spy.new(function() end)
         _G.print = printMock
+        _G.GetCVarBool = function() return true end
+        _G.SetCVar = function() end
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         Expansions = require("Modules.Expansions")
@@ -313,6 +315,18 @@ describe("QuestieEvent", function()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
             assert.spy(getNumDayEventsMock).was.called_with(0, 23)
+        end)
+
+        it("should hide DMF events if user had them hidden before", function()
+            local getCvarBoolMock = spy.new(function() return false end)
+            _G.GetCVarBool = getCvarBoolMock
+            local setCvarMock = spy.new(function() end)
+            _G.SetCVar = setCvarMock
+
+            QuestieEvent:Load()
+
+            assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
+            assert.spy(setCvarMock).was.called_with("calendarShowDarkmoon", "0")
         end)
     end)
 end)
