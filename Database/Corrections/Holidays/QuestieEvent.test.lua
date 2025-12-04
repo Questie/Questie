@@ -211,7 +211,7 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
-        it("should load for MoP servers on days with DMF iconTexture for 'start'", function()
+        it("should load for MoP servers on days with DMF texture for 'start'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -226,7 +226,7 @@ describe("QuestieEvent", function()
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
                 GetNumDayEvents = getNumDayEventsMock,
-                GetDayEvent = function() return {iconTexture = 235447, calendarType = "HOLIDAY"} end
+                GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
             }
 
             QuestieEvent:Load()
@@ -237,7 +237,7 @@ describe("QuestieEvent", function()
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
 
-        it("should load for MoP servers on days with DMF iconTexture for 'ongoing'", function()
+        it("should load for MoP servers on days with DMF texture for 'ongoing'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -252,7 +252,7 @@ describe("QuestieEvent", function()
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
                 GetNumDayEvents = getNumDayEventsMock,
-                GetDayEvent = function() return {iconTexture = 235448, calendarType = "HOLIDAY"} end
+                GetHolidayInfo = function() return {texture = 235448, calendarType = "HOLIDAY"} end
             }
 
             QuestieEvent:Load()
@@ -263,7 +263,7 @@ describe("QuestieEvent", function()
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
 
-        it("should load for MoP servers on days with DMF iconTexture for 'end'", function()
+        it("should load for MoP servers on days with DMF texture for 'end'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -278,7 +278,7 @@ describe("QuestieEvent", function()
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
                 GetNumDayEvents = getNumDayEventsMock,
-                GetDayEvent = function() return {iconTexture = 235446, calendarType = "HOLIDAY"} end
+                GetHolidayInfo = function() return {texture = 235446, calendarType = "HOLIDAY"} end
             }
 
             QuestieEvent:Load()
@@ -304,7 +304,7 @@ describe("QuestieEvent", function()
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
                 GetNumDayEvents = getNumDayEventsMock,
-                GetDayEvent = function() return {iconTexture = 235458, calendarType = "HOLIDAY"} end
+                GetHolidayInfo = function() return {texture = 235458, calendarType = "HOLIDAY"} end
             }
 
             QuestieEvent:Load()

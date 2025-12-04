@@ -130,8 +130,8 @@ function QuestieEvent:Load()
         local numDayEvents = C_Calendar.GetNumDayEvents(0, currentDate.monthDay)
 
         for i = 1, numDayEvents do
-            local event = C_Calendar.GetDayEvent(0, currentDate.monthDay, i)
-            if event and event.calendarType == "HOLIDAY" and DMF_CALENDER_ICON_TEXTURES[event.iconTexture] then
+            local event = C_Calendar.GetHolidayInfo(0, currentDate.monthDay, i)
+            if event and DMF_CALENDER_ICON_TEXTURES[event.texture] then
                 dmfIsActive = true
                 break
             end
@@ -245,9 +245,9 @@ end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
 _GetDarkmoonFaireLocationSoD = function(currentDate)
-    local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
-    local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
-    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1 })
+    local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
+    currentDate = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
 
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDate - initialStartDate
