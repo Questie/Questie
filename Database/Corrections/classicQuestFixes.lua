@@ -740,6 +740,9 @@ function QuestieQuestFixes:Load()
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43}}}},
         },
+        [1177] = {
+            [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 12 Mirefin Heads."},
+        },
         [1190] = {
             [questKeys.childQuests] = {1191},
         },
