@@ -56,6 +56,7 @@ local _QuestieEvent = QuestieEvent.private
 -- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
 QuestieEvent.eventQuests = {}
 QuestieEvent.activeQuests = {}
+QuestieEvent.calendarDataCached = false
 _QuestieEvent.eventNamesForQuests = {}
 
 ---@type QuestieDB
@@ -86,6 +87,22 @@ local DMF_CALENDER_ICON_TEXTURES = {
     [235447] = true, -- Ongoing Texture
     [235448] = true, -- Start Texture
 }
+
+function QuestieEvent.Initialize()
+    if (not Questie.db.profile.showEventQuests) then
+        return
+    end
+
+    Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
+        QuestieEvent:Load()
+        Questie:UnregisterEvent("CALENDAR_UPDATE_EVENT_LIST")
+    end)
+
+    -- According to the docs, OpenCalendar queries the server to force a CALENDAR_UPDATE_EVENT_LIST update.
+    -- In reality SetMonth is the reliable one. So we simply call both.
+    C_Calendar.OpenCalendar()
+    C_Calendar.SetMonth(0)
+end
 
 function QuestieEvent:Load()
     local year = date("%y")
