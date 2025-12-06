@@ -1514,6 +1514,10 @@ function QuestieWotlkNpcFixes:Load()
         [29216] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{63.2,48.1}},[zoneIDs.AZJOL_NERUB]={{-1,-1}}},
         },
+        [29250] = { -- Tim Street
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS] = {{13.82,84.71}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [29301] = { --"Camp Winterhoof Wayfarer"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
