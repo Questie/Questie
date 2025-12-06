@@ -11,8 +11,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type RamerDouglasPeucker
 local RamerDouglasPeucker = QuestieLoader:ImportModule("RamerDouglasPeucker")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieNPCBlacklist
@@ -91,7 +89,7 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 
     Further information on how to use this can be found at the wiki
     https://github.com/Questie/Questie/wiki/Corrections
---]]
+]] --
 
 local filterExpansion = BlacklistFilter.filterExpansion
 
@@ -196,15 +194,6 @@ do
             for id, _ in pairs(HardcoreBlacklist:Load()) do
                 QuestieCorrections.hiddenQuests[id] = true
             end
-        end
-
-        if Questie.db.profile.showEventQuests then
-            C_Timer.After(1, function()
-                 -- This is done with a delay because on startup the Blizzard API seems to be
-                 -- very slow and therefore the date calculation in QuestieEvents isn't done
-                 -- correctly.
-                QuestieEvent:Load()
-            end)
         end
     end
 end
