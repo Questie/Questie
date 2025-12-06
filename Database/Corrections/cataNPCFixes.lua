@@ -2765,6 +2765,9 @@ function CataNpcFixes.Load()
         [17894] = { -- Windcaller Claw
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{41.39,22.52},{-1,-1}}},
         },
+        [17896] = { -- Kameel Longstride
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [17941] = { -- Mennu the Betrayer
             [npcKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{48.79,25.51},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_SLAVE_PENS] = {{{48.79,25.51},{48.77,13.43}}}},
@@ -2813,8 +2816,14 @@ function CataNpcFixes.Load()
         [18105] = { -- Ghaz'an
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBOG] = {{78.36,28.44},{-1,-1}}},
         },
+        [18244] = { -- Khalan
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [18248] = { -- Nekthar
             [npcKeys.questEnds] = {9795},
+        },
+        [18250] = { -- Joraal
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [18311] = { -- Ethereal Crypt Raider
             [npcKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{38.89,83.59},{38.74,84.97},{56.95,28.92},{54.43,27.73},{44.35,31.27},{44.36,23.46},{44.9,35.45},{40.71,32.33},{40.99,29.67},{40.99,27.92},{38.61,29.41},{38.63,27.84},{37.32,28.4},{33.19,26.27},{-1,-1}}},
@@ -2924,6 +2933,12 @@ function CataNpcFixes.Load()
         },
         [18940] = { -- Nutral
             [npcKeys.questStarts] = {11497,11498},
+        },
+        [18984] = { -- Trag
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [19018] = { -- Wilda Bearmane
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [19148] = { -- Dwarf Commoner
             [npcKeys.questStarts] = {11441,11970,12753,12772,12775,12777,12808,14022},
@@ -3106,8 +3121,14 @@ function CataNpcFixes.Load()
         [21212] = { -- Lady Vashj
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},
         },
+        [21336] = { -- Gedrah
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [21338] = { -- Coilfang Leper
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{30.31,79.67},{31.48,78.9},{31.01,78.19},{31.05,76.64},{32.11,77.47},{33.1,77.77},{32.66,79.15},{31.69,80.37},{35.29,76.39},{36.33,76.41},{35.84,77.2},{36.25,77.93},{35.77,78.87},{35.35,77.93},{34.77,77.14},{34.71,78.29},{-1,-1}}},
+        },
+        [21517] = { -- Ilthuril
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [21694] = { -- Bog Overlord
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{29.62,17.23},{35.4,15.22},{40.88,17.61},{35.01,37.76},{30.59,34.45},{-1,-1}}},
@@ -3127,6 +3148,9 @@ function CataNpcFixes.Load()
         },
         [22433] = { -- Ja'y Nosliw
             [npcKeys.questStarts] = {11063},
+        },
+        [22469] = { -- Liza Cutlerflix
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [22818] = { -- Draenei Orphan
             [npcKeys.questStarts] = {10950,10952,10954,10956,10962,10966},
@@ -3162,6 +3186,9 @@ function CataNpcFixes.Load()
         },
         [23306] = { -- Hazzik
             [npcKeys.questStarts] = {11029,11056,11074,11885},
+        },
+        [23392] = { -- Skyguard Stable Master
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [23558] = { -- Neill Ramstein
             [npcKeys.questStarts] = {11122,11318,29394},
@@ -3284,6 +3311,12 @@ function CataNpcFixes.Load()
         [24848] = { -- Kalecgos
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{94.05,36.13},{-1,-1}}},
             [npcKeys.questStarts] = {11492,29685},
+        },
+        [24905] = { -- Leassian
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [24974] = { -- Liza Cutlerflix
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [25034] = { -- Tradesman Portanuus
             [npcKeys.questStarts] = {11517,11534},
@@ -6859,6 +6892,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{49.40,46.73}}},
             [npcKeys.questStarts] = {},
         },
+        [48887] = { -- Darwishi
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [49000] = { -- Patch
             [npcKeys.questStarts] = {28593,28594,28595},
         },
@@ -6934,6 +6970,9 @@ function CataNpcFixes.Load()
         [49379] = { -- Ticker
             [npcKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{81.33,80.21},{80.80,80.52},{80.19,80.70},{79.57,80.72},{79.01,80.58},{78.49,80.22},{78.05,79.59},{77.70,78.84},{77.44,78.08},{77.23,77.28},{77.11,76.40},{77.15,75.46},{77.32,74.70},{77.58,73.89},{77.90,73.09},{78.26,72.37},{78.64,71.72},{79.10,71.10},{79.59,70.56},{80.11,70.20},{80.66,70.09},{81.24,70.24},{81.82,70.57},{82.35,71.05},{82.78,71.61},{83.14,72.31},{83.45,73.12},{83.68,73.98},{83.80,74.80},{83.79,75.67},{83.65,76.54},{83.40,77.36},{83.08,78.11},{82.70,78.74},{82.24,79.35},{81.74,79.87},{81.33,80.21}}}},
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{77.17,75.31}}},
+        },
+        [49408] = { -- Farah Tamina
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [49444] = { -- Pip Quickwit
             [npcKeys.name] = "Pip Quickwit",
