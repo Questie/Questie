@@ -15,7 +15,9 @@
         "Libs",
         "releases"
     ],
-    "diagnostics.globals": [],
+    "diagnostics.globals": [
+        "CallErrorHandler"
+    ],
     "format": {
         "defaultConfig": {
             "indent_style": "space",

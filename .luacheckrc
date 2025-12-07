@@ -684,6 +684,7 @@ globals = {
     "C_WowTokenPublic.UpdateTokenCount",
     "CalculateAuctionDeposit",
     "CalculateStringEditDistance",
+    "CallErrorHandler",
     "CameraOrSelectOrMoveStart",
     "CameraOrSelectOrMoveStop",
     "CameraZoomIn",

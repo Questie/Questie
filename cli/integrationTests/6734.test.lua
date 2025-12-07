@@ -6,7 +6,6 @@ dofile("setupTests.lua")
 
 
 describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
-
     ---@type QuestEventHandler
     local QuestEventHandler
     ---@type QuestLogCache
@@ -33,8 +32,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieAnnounce
     ---@type QuestieDB
     local QuestieDB
-    ---@type Expansions
-    local Expansions
 
     _G.HaveQuestData = function()
         return true
@@ -79,7 +76,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
                 return mockedQuestObjectives[questId] or {}
             end
         }
-        Expansions = require("Modules.Expansions")
+        require("Modules.Expansions")
         QuestLogCache = require("Modules.Quest.QuestLogCache")
         QuestieNameplate = require("Modules.QuestieNameplate")
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
@@ -110,6 +107,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
+        require("Modules.API")
 
         QuestEventHandler.InitQuestLogStates({})
 
