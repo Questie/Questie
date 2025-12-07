@@ -338,6 +338,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     AvailableQuests.CalculateAndDrawAll()
 
+    -- Let other addons know that Questie is ready
+    Questie.API.isReady = true
+
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage3] Questie init done.")
 end
 

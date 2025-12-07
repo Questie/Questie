@@ -78,7 +78,6 @@ function QuestieNameplate:UpdateNameplate()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
-
         local unitName, _ = UnitName(token)
         if (not unitName) then
             return
@@ -119,7 +118,7 @@ function QuestieNameplate:HideCurrentFrames()
 end
 
 ---@param guid string
----@return IconTexture | nil
+---@return string | nil
 function QuestieNameplate.GetIcon(guid)
     if (not guid) then
         return nil
@@ -193,7 +192,6 @@ function QuestieNameplate:RedrawFrameIcon()
     activeTargetFrame:SetHeight(16 * iconScale)
     activeTargetFrame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 end
-
 
 ---@param guid string
 function _QuestieNameplate.GetFrame(guid)
