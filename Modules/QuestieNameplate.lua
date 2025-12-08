@@ -74,23 +74,21 @@ function QuestieNameplate:UpdateNameplate()
 
     for guid, token in pairs(activeGUIDs) do
         local unitName, _ = UnitName(token)
-        if (not unitName) then
-            return
-        end
+        if unitName then
+            local icon = QuestieNameplate.GetIcon(guid)
 
-        local icon = QuestieNameplate.GetIcon(guid)
-
-        if icon then
-            local frame = _QuestieNameplate.GetFrame(guid)
-            -- check if the texture needs to be changed
-            if frame.lastIcon ~= icon then
-                frame.lastIcon = icon
-                frame.Icon:SetTexture(icon)
+            if icon then
+                local frame = _QuestieNameplate.GetFrame(guid)
+                -- check if the texture needs to be changed
+                if frame.lastIcon ~= icon then
+                    frame.lastIcon = icon
+                    frame.Icon:SetTexture(icon)
+                end
+            else
+                -- tooltip removed but we still have the frame active, remove it
+                activeGUIDs[guid] = nil
+                _QuestieNameplate.RemoveFrame(guid)
             end
-        else
-            -- tooltip removed but we still have the frame active, remove it
-            activeGUIDs[guid] = nil
-            _QuestieNameplate.RemoveFrame(guid)
         end
     end
 end
