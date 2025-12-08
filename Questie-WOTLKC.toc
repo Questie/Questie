@@ -271,7 +271,10 @@ Modules\QuestieCleanup.lua
 Modules\QuestieProfiler.lua
 
 # Public
-Public\API.lua
+Public\Enums.lua
+Public\GetQuestObjectiveIconForUnit.lua
+Public\RegisterForQuestUpdates.lua
+Public\RegisterOnReady.lua
 
 # Main
 Questie.lua

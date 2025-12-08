@@ -62,7 +62,7 @@ describe("QuestEventHandler", function()
         WatchFrameHook = require("Modules.WatchFrameHook")
         AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
         dofile("Public/Enums.lua")
-        QuestieAPI = require("Public.API")
+        QuestieAPI = require("Public.RegisterForQuestUpdates")
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
