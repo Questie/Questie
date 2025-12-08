@@ -39,9 +39,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     _G.GetQuestTimers = function()
         return nil
     end
-    _G.C_Timer = {NewTicker = function() return {
-        Cancel = function() end
-    } end}
+    _G.C_Timer = {
+        NewTicker = function()
+            return {
+                Cancel = function() end
+            }
+        end
+    }
     _G.GetNumQuestLogRewards = function()
         return 0
     end
@@ -108,7 +112,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
         dofile("Public/Enums.lua")
-        require("Public.API")
+        require("Public.RegisterForQuestUpdates")
 
         QuestEventHandler.InitQuestLogStates({})
 
