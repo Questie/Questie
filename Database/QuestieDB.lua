@@ -697,7 +697,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
-        local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
+        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession specialization requirements for quest " .. questId) end
             return false
@@ -987,7 +987,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
-        local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
+        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
             local msg = "Player does not meet profession specialization requirements for quest " .. questId
             if returnText and returnBrief then

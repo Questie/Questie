@@ -111,4 +111,56 @@ describe("QuestieCompat", function()
             }, availableQuests)
         end)
     end)
+
+    describe("GetCurrentCalendarTime", function()
+        it("should error when no known function is available", function()
+            _G.C_DateAndTime = {}
+
+            assert.has_error(function()
+                QuestieCompat.GetCurrentCalendarTime()
+            end)
+        end)
+
+        it("should return values from C_DateAndTime.GetCurrentCalendarTime", function()
+            local expected = {
+                monthDay = 2,
+                month = 12,
+                year = 2025,
+                weekday = 3,
+                hour = 8,
+                minute = 47,
+            }
+            _G.C_DateAndTime = {
+                GetCurrentCalendarTime = function() return expected end
+            }
+
+            local currentTime = QuestieCompat.GetCurrentCalendarTime()
+
+            assert.are_same(expected, currentTime)
+        end)
+
+        it("should map values from C_DateAndTime.GetTodaysDate", function()
+            _G.C_DateAndTime = {
+                GetTodaysDate = function()
+                    return {
+                        weekDay = 3,
+                        day = 2,
+                        month = 12,
+                        year = 2025,
+                    }
+                end
+            }
+
+            local currentTime = QuestieCompat.GetCurrentCalendarTime()
+
+            assert.are_same({
+                monthDay = 2,
+                month = 12,
+                year = 2025,
+                weekday = 3,
+                hour = 0,
+                minute = 0,
+            }, currentTime)
+        end)
+    end)
 end)

@@ -1266,7 +1266,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
-        [80241] = {
+        [80241] = { -- The Origins of Smithing
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
             [questKeys.requiredSkill] = {specKeys.BLACKSMITHING,210},
         },
@@ -3788,11 +3788,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
         [85713] = { -- The Art of the Armorsmith
             [questKeys.finishedBy] = {{5164}},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
         [85772] = { -- Elemental Distress
             [questKeys.startedBy] = {{12736}},

@@ -703,6 +703,10 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [83767] = { -- Krosh's Back
+            [itemKeys.npcDrops] = {56833},
+            [itemKeys.startQuest] = 29758,
+        },
         [83769] = { -- Between a Saurok and a Hard Place
             [itemKeys.startQuest] = 31055,
         },
@@ -1095,15 +1099,15 @@ function MopItemFixes.Load()
         },
         [91854] = { -- Sturdy Crane Snare
             [itemKeys.startQuest] = 32164,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91855] = { -- Sturdy Tiger Trap
             [itemKeys.startQuest] = 32165,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91856] = { -- Sturdy Crab Crate
             [itemKeys.startQuest] = 32166,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91874] = { -- Chunk of Mystery Meat
             [itemKeys.npcDrops] = {67895,67896,68584},

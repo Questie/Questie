@@ -609,19 +609,7 @@ local questsToBlacklistByPhase = {
         [9210] = true,
         [9338] = true,
     },
-    [6] = { --Phase 6 - Naxxramas
-        -- Investigate the Scourge of X - Blacklist after the event is over
-        [9260] = true,
-        [9261] = true,
-        [9262] = true,
-        [9263] = true,
-        [9264] = true,
-        [9265] = true,
-        ---
-        [9085] = true,
-        [9142] = true,
-        [9165] = true,
-        [9141] = true,
+    [6] = { -- Phase 6 - Naxxramas with invasion quests inactive
         [9033] = true,
         [9034] = true,
         [9036] = true,
@@ -709,8 +697,9 @@ local questsToBlacklistByPhase = {
         [9132] = true,
         [9136] = true,
         [9137] = true,
-        [9153] = true,
-        [9154] = true,
+        [9141] = true,
+        [9142] = true,
+        [9165] = true,
         [9211] = true,
         [9213] = true,
         [9221] = true,
@@ -742,12 +731,43 @@ local questsToBlacklistByPhase = {
         [9251] = true,
         -- Silithus/EPL PvP
         [9248] = true,
-        [9422] = true,
         [9415] = true,
-        [9419] = true,
         [9416] = true,
+        [9419] = true,
+        [9422] = true,
         [9664] = true,
         [9665] = true,
+    },
+    [7] = { -- Phase 7 is a pseudo-phase that represents Phase 6 but with the Invasion quests active.
+        [9085] = true, -- Shadows of Doom
+        [9094] = true, -- Argent Dawn Gloves
+        [9153] = true, -- Under the Shadow
+        [9154] = true, -- Light's Hope Chapel
+        [9260] = true, -- Investigate the Scourge of Stormwind
+        [9261] = true, -- Investigate the Scourge of Ironforge
+        [9262] = true, -- Investigate the Scourge of Darnassus
+        [9263] = true, -- Investigate the Scourge of Orgrimmar
+        [9264] = true, -- Investigate the Scourge of Thunder Bluff
+        [9265] = true, -- Investigate the Scourge of the Undercity
+        [9292] = true, -- Cracked Necrotic Crystal
+        [9295] = true, -- Letter from the Front
+        [9299] = true, -- Note from the Front
+        [9300] = true, -- Page from the Front
+        [9301] = true, -- Envelope from the Front
+        [9302] = true, -- Missive from the Front
+        [9304] = true, -- Document from the Front
+        [9310] = true, -- Faint Necrotic Crystal
+        [9317] = true, -- Consecrated Sharpening Stones
+        [9318] = true, -- Blessed Wizard Oil
+        [9320] = true, -- Major Mana Potion
+        [9321] = true, -- Major Healing Potion
+        [9333] = true, -- Argent Dawn Gloves
+        [9334] = true, -- Blessed Wizard Oil
+        [9335] = true, -- Consecrated Sharpening Stones
+        [9336] = true, -- Major Healing Potion
+        [9337] = true, -- Major Mana Potion
+        [9341] = true, -- Tabard of the Argent Dawn
+        [9343] = true, -- Tabard of the Argent Dawn
     },
 }
 

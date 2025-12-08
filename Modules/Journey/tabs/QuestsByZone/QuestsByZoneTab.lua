@@ -33,7 +33,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     -- Header
     local header = AceGUI:Create("Heading")
-    header:SetText(l10n('Select Your Continent and Zone'))
+    header:SetText(l10n('Select Continent and Zone'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -71,7 +71,7 @@ end
 _CreateContinentDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.continents)
-    dropdown:SetText(l10n('Select Your Continent'))
+    dropdown:SetText(l10n('Select Continent'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
     local currentContinentId = QuestiePlayer:GetCurrentContinentId()
@@ -110,7 +110,7 @@ _CreateZoneDropdown = function()
 
     local zones = QuestieJourney.zones[selectedContinentId]
     if currentZoneId == RESET and zones then
-        dropdown:SetText(l10n('Select Your Zone'))
+        dropdown:SetText(l10n('Select Zone'))
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)
     elseif currentZoneId and zones then
@@ -147,7 +147,7 @@ _HandleContinentSelection = function(key, _)
                 end
             end
         end
-        local text = l10n('Select Your Profession')
+        local text = l10n('Select Profession')
         if (not next(relevantProfessions)) then
             text = l10n('No Quests found')
             zoneDropdown:SetDisabled(true)
@@ -164,7 +164,7 @@ _HandleContinentSelection = function(key, _)
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
-        zoneDropdown:SetText(l10n("Select Your Zone"))
+        zoneDropdown:SetText(l10n("Select Zone"))
         zoneDropdown:SetDisabled(false)
         zoneDropdown.frame:Show()
     end

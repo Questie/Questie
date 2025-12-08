@@ -6,8 +6,9 @@ local ContentPhases = QuestieLoader:CreateModule("ContentPhases")
 ContentPhases.activePhases = {
     SoM = 5,
     SoD = 7,
-    Anniversary = 6,
+    Anniversary = 6, -- Phase 6 is the final state of the game, with invasions inactive.
     MoP = 2,
+    TBC = 1,
 }
 
 return ContentPhases

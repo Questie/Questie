@@ -117,6 +117,7 @@ function QuestieEvent:Load()
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
+        local hideQuest = questData[5]
         local startDay, startMonth = nil, nil
         local endDay, endMonth = nil, nil
 
@@ -129,11 +130,10 @@ function QuestieEvent:Load()
             endMonth = tonumber(endMonth)
         end
 
-        _QuestieEvent.eventNamesForQuests[questId] = eventName
+        if (not hideQuest) then
+            _QuestieEvent.eventNamesForQuests[questId] = eventName
 
-        if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-            local hideQuest = questData[5]
-            if (not hideQuest) then
+            if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -157,7 +157,7 @@ _GetDarkmoonFaireLocation = function()
         return false
     end
 
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+    local currentDate = QuestieCompat.GetCurrentCalendarTime()
 
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
@@ -288,8 +288,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
-    local day = date.monthDay or date.day
+    local date = QuestieCompat.GetCurrentCalendarTime()
+    local day = date.monthDay
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
         and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
@@ -339,9 +339,9 @@ QuestieEvent.eventDates = {
         startDate = "2/10",
         endDate = "8/10"
     },
-    ["Pilgrim's Bounty"] = {startDate = "26/11", endDate = "2/12"},
+    ["Pilgrim's Bounty"] = {startDate = "25/11", endDate = "1/12"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"},
+    ["Winter Veil"] = {startDate = "16/12", endDate = "1/1"},
     ["Day of the Dead"] = {startDate = "1/11", endDate = "2/11"},
 }
 

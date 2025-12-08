@@ -188,7 +188,7 @@ function QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
     local questLink = QuestieLink:GetQuestHyperLink(questId)
     local breadcrumbQuestLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
 
-    local message = l10n("You have accepted %s without completing its breadcrumb quest %s.", questLink, breadcrumbQuestLink)
+    local message = l10n("You have accepted %s without completing its breadcrumb quest %s", questLink, breadcrumbQuestLink)
     Questie:Print(message)
 end
 

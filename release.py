@@ -34,7 +34,7 @@ with fileinput.FileInput('README.md', inplace=True) as file:
         else:
             print(line, end='')
 
-changelogString = changelog.get_commit_changelog()
+changelogString = changelog.get_commit_changelog(True)
 
 print('######### START CHANGELOG')
 print('# Questie v' + version + '\n\n' + changelogString)

@@ -29,7 +29,6 @@ function QuestieTBCQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
     local profKeys = QuestieProfessions.professionKeys
-    local specKeys = QuestieProfessions.specializationKeys
 
     return {
         [62] = {
@@ -190,6 +189,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{4456},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
         },
+        [1177] = {
+            [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 8 Mirefin Heads."},
+        },
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
@@ -296,7 +298,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2501] = {
-            [questKeys.zoneOrSort] = -181,
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
@@ -406,6 +408,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{6251}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4813] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4532,7 +4537,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Costumed Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4224,
         },
@@ -4546,7 +4551,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"The Costumed Orphan Matron wants you to help put out all the village fires after the Headless Horseman lights them. When they are out, speak again to the Costumed Orphan Matron.",},
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.preQuestSingle] = {11360,11439,11440},
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
@@ -4562,7 +4567,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"The Masked Orphan Matron wants you to help put out all the village fires. When they are out, speak again to the Masked Orphan Matron in town.",},
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
             [questKeys.preQuestSingle] = {11361,11449,11450},
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
@@ -4577,7 +4582,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Masked Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4224,
         },
@@ -4589,7 +4594,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4096,
         },
@@ -4603,7 +4608,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12318] = {
             [questKeys.startedBy] = {{27584,28329},nil,nil,},
@@ -4617,7 +4622,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12332] = {
             [questKeys.name] = "Candy Bucket",
@@ -4626,7 +4631,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12333] = {
             [questKeys.name] = "Candy Bucket",
@@ -4635,7 +4640,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12334] = {
             [questKeys.name] = "Candy Bucket",
@@ -4644,7 +4649,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12335] = {
             [questKeys.name] = "Candy Bucket",
@@ -4653,7 +4658,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12336] = {
             [questKeys.name] = "Candy Bucket",
@@ -4662,7 +4667,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12337] = {
             [questKeys.name] = "Candy Bucket",
@@ -4671,7 +4676,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12338] = {
             [questKeys.name] = "Candy Bucket",
@@ -4680,7 +4685,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12339] = {
             [questKeys.name] = "Candy Bucket",
@@ -4689,7 +4694,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12340] = {
             [questKeys.name] = "Candy Bucket",
@@ -4698,7 +4703,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12341] = {
             [questKeys.name] = "Candy Bucket",
@@ -4707,7 +4712,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12342] = {
             [questKeys.name] = "Candy Bucket",
@@ -4716,7 +4721,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12343] = {
             [questKeys.name] = "Candy Bucket",
@@ -4725,7 +4730,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12344] = {
             [questKeys.name] = "Candy Bucket",
@@ -4734,7 +4739,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12345] = {
             [questKeys.name] = "Candy Bucket",
@@ -4743,7 +4748,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12346] = {
             [questKeys.name] = "Candy Bucket",
@@ -4752,7 +4757,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12347] = {
             [questKeys.name] = "Candy Bucket",
@@ -4761,7 +4766,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12348] = {
             [questKeys.name] = "Candy Bucket",
@@ -4770,7 +4775,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12349] = {
             [questKeys.name] = "Candy Bucket",
@@ -4779,7 +4784,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12350] = {
             [questKeys.name] = "Candy Bucket",
@@ -4788,7 +4793,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12351] = {
             [questKeys.name] = "Candy Bucket",
@@ -4797,7 +4802,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12352] = {
             [questKeys.name] = "Candy Bucket",
@@ -4806,7 +4811,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12353] = {
             [questKeys.name] = "Candy Bucket",
@@ -4815,7 +4820,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12354] = {
             [questKeys.name] = "Candy Bucket",
@@ -4824,7 +4829,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12355] = {
             [questKeys.name] = "Candy Bucket",
@@ -4833,7 +4838,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12356] = {
             [questKeys.name] = "Candy Bucket",
@@ -4842,7 +4847,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12357] = {
             [questKeys.name] = "Candy Bucket",
@@ -4851,7 +4856,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12358] = {
             [questKeys.name] = "Candy Bucket",
@@ -4860,7 +4865,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12359] = {
             [questKeys.name] = "Candy Bucket",
@@ -4869,7 +4874,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12360] = {
             [questKeys.name] = "Candy Bucket",
@@ -4878,7 +4883,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12361] = {
             [questKeys.name] = "Candy Bucket",
@@ -4887,7 +4892,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12362] = {
             [questKeys.name] = "Candy Bucket",
@@ -4896,7 +4901,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12363] = {
             [questKeys.name] = "Candy Bucket",
@@ -4905,7 +4910,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12364] = {
             [questKeys.name] = "Candy Bucket",
@@ -4914,7 +4919,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12365] = {
             [questKeys.name] = "Candy Bucket",
@@ -4923,7 +4928,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12366] = {
             [questKeys.name] = "Candy Bucket",
@@ -4932,7 +4937,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12367] = {
             [questKeys.name] = "Candy Bucket",
@@ -4941,7 +4946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12368] = {
             [questKeys.name] = "Candy Bucket",
@@ -4950,7 +4955,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12369] = {
             [questKeys.name] = "Candy Bucket",
@@ -4959,7 +4964,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12370] = {
             [questKeys.name] = "Candy Bucket",
@@ -4968,7 +4973,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12371] = {
             [questKeys.name] = "Candy Bucket",
@@ -4977,7 +4982,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12373] = {
             [questKeys.name] = "Candy Bucket",
@@ -4986,7 +4991,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12374] = {
             [questKeys.name] = "Candy Bucket",
@@ -4995,7 +5000,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12375] = {
             [questKeys.name] = "Candy Bucket",
@@ -5004,7 +5009,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12376] = {
             [questKeys.name] = "Candy Bucket",
@@ -5013,7 +5018,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12377] = {
             [questKeys.name] = "Candy Bucket",
@@ -5022,7 +5027,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12378] = {
             [questKeys.name] = "Candy Bucket",
@@ -5031,7 +5036,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12379] = {
             [questKeys.name] = "Candy Bucket",
@@ -5040,7 +5045,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12380] = {
             [questKeys.name] = "Candy Bucket",
@@ -5049,7 +5054,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12381] = {
             [questKeys.name] = "Candy Bucket",
@@ -5058,7 +5063,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12382] = {
             [questKeys.name] = "Candy Bucket",
@@ -5067,7 +5072,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12383] = {
             [questKeys.name] = "Candy Bucket",
@@ -5076,7 +5081,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12384] = {
             [questKeys.name] = "Candy Bucket",
@@ -5085,7 +5090,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12385] = {
             [questKeys.name] = "Candy Bucket",
@@ -5094,7 +5099,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12386] = {
             [questKeys.name] = "Candy Bucket",
@@ -5103,7 +5108,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12387] = {
             [questKeys.name] = "Candy Bucket",
@@ -5112,7 +5117,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12388] = {
             [questKeys.name] = "Candy Bucket",
@@ -5121,7 +5126,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12389] = {
             [questKeys.name] = "Candy Bucket",
@@ -5130,7 +5135,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12390] = {
             [questKeys.name] = "Candy Bucket",
@@ -5139,7 +5144,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12391] = {
             [questKeys.name] = "Candy Bucket",
@@ -5148,7 +5153,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12392] = {
             [questKeys.name] = "Candy Bucket",
@@ -5157,7 +5162,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12393] = {
             [questKeys.name] = "Candy Bucket",
@@ -5166,7 +5171,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12394] = {
             [questKeys.name] = "Candy Bucket",
@@ -5175,7 +5180,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12395] = {
             [questKeys.name] = "Candy Bucket",
@@ -5184,7 +5189,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12396] = {
             [questKeys.name] = "Candy Bucket",
@@ -5193,7 +5198,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12397] = {
             [questKeys.name] = "Candy Bucket",
@@ -5202,7 +5207,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12398] = {
             [questKeys.name] = "Candy Bucket",
@@ -5211,7 +5216,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12399] = {
             [questKeys.name] = "Candy Bucket",
@@ -5220,7 +5225,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12400] = {
             [questKeys.name] = "Candy Bucket",
@@ -5229,7 +5234,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12401] = {
             [questKeys.name] = "Candy Bucket",
@@ -5238,7 +5243,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12402] = {
             [questKeys.name] = "Candy Bucket",
@@ -5247,7 +5252,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12403] = {
             [questKeys.name] = "Candy Bucket",
@@ -5256,7 +5261,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12404] = {
             [questKeys.name] = "Candy Bucket",
@@ -5265,7 +5270,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12406] = {
             [questKeys.name] = "Candy Bucket",
@@ -5274,7 +5279,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12407] = {
             [questKeys.name] = "Candy Bucket",
@@ -5283,7 +5288,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12408] = {
             [questKeys.name] = "Candy Bucket",
@@ -5292,7 +5297,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12409] = {
             [questKeys.name] = "Candy Bucket",
@@ -5301,7 +5306,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.zoneOrSort] = -22,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12420] = {
             [questKeys.name] = "Brew of the Month Club",
@@ -5312,7 +5317,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Larkin Thunderbrew in the Stonefire Tavern in Ironforge."},
             [questKeys.sourceItemId] = 37736,
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
         },
         [12421] = {
             [questKeys.name] = "Brew of the Month Club",
@@ -5323,7 +5328,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Ray'ma in the Darkbriar Lodge in Orgrimmar's Valley of Spirits."},
             [questKeys.sourceItemId] = 37737,
-            [questKeys.zoneOrSort] = -370,
+            [questKeys.zoneOrSort] = sortKeys.BREWFEST,
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
@@ -5499,19 +5504,6 @@ function QuestieTBCQuestFixes:Load()
         },
 
         ----- Boosted character quests -----
-        [64037] = {
-            [questKeys.name] = "Eastern Plaguelands",
-            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
-            [questKeys.finishedBy] = {{11036},nil},
-            [questKeys.requiredLevel] = 58,
-            [questKeys.questLevel] = 58,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
-            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64035},
-            [questKeys.exclusiveTo] = {64038},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        },
         [64028] = {
             [questKeys.name] = "A New Beginning",
             [questKeys.startedBy] = {}, -- This quest is auto accept
@@ -5520,7 +5512,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64031] = {
             [questKeys.name] = "Tools for Survival",
@@ -5532,7 +5524,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410010, "Open the Survival Kit"}, {410011, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64028},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64034] = {
             [questKeys.name] = "Combat Training",
@@ -5544,7 +5536,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{410012, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64031},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
         },
         [64035] = {
             [questKeys.name] = "Talented",
@@ -5556,7 +5548,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
             [questKeys.objectives] = {nil,{{410013, "Spend a Talent Point"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64034},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.STORMWIND_CITY,
+        },
+        [64037] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64035},
+            [questKeys.exclusiveTo] = {64038},
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64038] = {
             [questKeys.name] = "The Dark Portal",
@@ -5568,7 +5573,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Find Watch Commander Relthorn Netherwane at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64035},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64046] = {
             [questKeys.name] = "A New Beginning",
@@ -5578,7 +5583,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64047] = {
             [questKeys.name] = "A New Beginning",
@@ -5589,7 +5594,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunder Bluff."},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64048] = {
             [questKeys.name] = "Tools for Survival",
@@ -5601,7 +5606,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410002, "Open the Survival Kit"}, {410003, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64046},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64049] = {
             [questKeys.name] = "Tools for Survival",
@@ -5614,7 +5619,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{410004, "Open the Survival Kit"}, {410005, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64047},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64050] = {
             [questKeys.name] = "Combat Training",
@@ -5626,7 +5631,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{410006, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64048},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64051] = {
             [questKeys.name] = "Combat Training",
@@ -5639,7 +5644,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your Druid trainer."},
             [questKeys.objectives] = {nil,{{410007, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64049},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64052] = {
             [questKeys.name] = "Talented",
@@ -5651,7 +5656,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{410008, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64050},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
         },
         [64053] = {
             [questKeys.name] = "Talented",
@@ -5664,7 +5669,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{410009, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64051},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.THUNDER_BLUFF,
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
@@ -5677,7 +5682,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64217},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64064] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -5690,7 +5695,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64063,64217,64128},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64128] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -5704,7 +5709,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Speak to Tal, the Wind Rider Master"},{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64217},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.EASTERN_PLAGUELANDS,
         },
         [64217] = {
             [questKeys.name] = "The Dark Portal",
@@ -5717,7 +5722,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
-            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.zoneOrSort] = sortKeys.BLASTED_LANDS,
         },
         [64997] = {
             [questKeys.name] = "Gaining the Advantage",

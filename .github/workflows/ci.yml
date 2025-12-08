@@ -45,8 +45,8 @@ jobs:
       - name: Validate SoD database
         run: lua cli/validate-sod.lua
 
-#      - name: Validate TBC database
-#        run: lua cli/validate-tbc.lua
+      - name: Validate TBC database
+        run: lua cli/validate-tbc.lua
 
       - name: Validate WotLK database
         run: lua cli/validate-wotlk.lua
@@ -64,7 +64,7 @@ jobs:
         run: luacheck -q -- Database Localization Modules Questie.lua
 
       - name: Upload correction files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: correction-files
           path: cli/output/

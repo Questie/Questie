@@ -31,6 +31,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
 _QuestieJourney.lastZoneSelection = {}
+_QuestieJourney.lastFactionSelection = {}
 
 local notesPopupWin
 local notesPopupWinIsOpen = false
@@ -50,9 +51,23 @@ local questCategoryKeys = {
     PROFESSIONS = 11,
     EVENTS = 12,
     PET_BATTLES = 13,
+    SCENARIOS = 14,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
+-- Detect character re-creation and ask user about journey reset
+local function checkForCharacterRecreation()
+    local guid = UnitGUID("player") -- this is unique per character
+    if (not Questie.db.char.guid) then
+        -- First login for this character
+        Questie.db.char.guid = guid
+    elseif (Questie.db.char.guid ~= guid) then
+        -- Character re-created, ask user about journey reset
+        Questie:Print(l10n("Character re-creation detected, resetting \"My Journey\" data."))
+        Questie.db.char.journey = {}
+        Questie.db.char.guid = guid
+    end
+end
 
 function QuestieJourney:Initialize()
     local continents = {}
@@ -62,23 +77,42 @@ function QuestieJourney:Initialize()
             not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
-            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) then
+            not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.SCENARIOS == id and Expansions.Current < Expansions.MoP)
+        then
             continents[id] = l10n(name)
         end
     end
     coroutine.yield()
     continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
+    checkForCharacterRecreation()
+
     coroutine.yield()
     self.continents = continents
     self.zoneMap = ZoneDB.GetZonesWithQuests(true)
     self.zones = ZoneDB.GetRelevantZones()
     coroutine.yield()
+
+    -- Pre-initialize faction data used by the "Quests by Faction" tab so it is ready on first open.
+    if _QuestieJourney.questsByFaction then
+        if _QuestieJourney.questsByFaction.InitializeFactionData then
+            _QuestieJourney.questsByFaction:InitializeFactionData()
+        end
+        if _QuestieJourney.questsByFaction.InitializeFactionQuestData then
+            _QuestieJourney.questsByFaction:InitializeFactionQuestData()
+        end
+    end
+
+    coroutine.yield()
     self:BuildMainFrame()
+
+    -- Set up default keybinding for Journey window
+    self:SetupKeybinding()
 end
 
 function QuestieJourney:BuildMainFrame()
-    if not QuestieJourneyFrame then
+    if (not QuestieJourneyFrame) then
         local journeyFrame = AceGUI:Create("Frame")
         journeyFrame:SetCallback("OnClose", function()
             isWindowShown = false
@@ -105,6 +139,10 @@ function QuestieJourney:BuildMainFrame()
             {
                 text = l10n("Quests by Zone"),
                 value="zone"
+            },
+            {
+                text = l10n("Quests by Faction"),
+                value="faction"
             },
             {
                 text = l10n("Advanced Search"),
@@ -139,25 +177,35 @@ function QuestieJourney:IsShown()
     return isWindowShown
 end
 
+-- There are ways to toggle this function before the frame has been created
 function QuestieJourney:ToggleJourneyWindow()
-    -- There are ways to toggle this function before the frame has been created
-    if QuestieJourneyFrame then
-        if (not isWindowShown) then
-            PlaySound(882)
+    if (not Questie.started) then
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+        return
+    end
 
-            local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
-            if treeGroup then
-                _QuestieJourney.treeCache = treeGroup
-            end
+    if (not isWindowShown) then
+        PlaySound(882)
 
-            QuestieJourneyFrame:Show()
-            isWindowShown = true
-        else
-            QuestieJourneyFrame:Hide()
-            isWindowShown = false
+        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
+        if treeGroup then
+            _QuestieJourney.treeCache = treeGroup
         end
+
+        QuestieJourneyFrame:Show()
+        isWindowShown = true
     else
-        Questie:Error("QuestieJourney:ToggleJourneyWindow() called before QuestieJourneyFrame was initialized!")
+        QuestieJourneyFrame:Hide()
+        isWindowShown = false
+    end
+end
+
+function QuestieJourney:SetupKeybinding()
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
+    local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
+    if not currentBinding then
+        SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
+        Questie:Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
 end
 

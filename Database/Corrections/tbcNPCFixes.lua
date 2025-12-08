@@ -23,7 +23,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184,6681},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,64031,64034,64035,64037,64038},
+            [npcKeys.questStarts] = {5634,5645,5676,64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {5640,5678,64028,64031,64034,64035},
         },
         [461] = { -- Demisette Cloyce
@@ -144,7 +144,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {6681},
         },
         [4606] = { -- Aelthalyste
-            [npcKeys.questStarts] = {5658,10379},
+            [npcKeys.questStarts] = {5643,5657,5658,5679,10379},
         },
         [4947] = { -- Theramore Lieutenant
             [npcKeys.questStarts] = {},
@@ -225,7 +225,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
         },
         [7315] = { -- Darnath Bladesinger
-            [npcKeys.questStarts] = {1718,8417},
+            [npcKeys.questStarts] = {1698,8417},
         },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},

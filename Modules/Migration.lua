@@ -111,6 +111,15 @@ local migrationFunctions = {
         Questie.db.profile.globalMiniMapTownsfolkScale = 0.7
     end,
     [16] = function()
+        if (not Questie.db.global.isleOfQuelDanasPhase) then
+            if Expansions.Current > Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 9 -- Max phase for everything that comes after TBC
+            elseif Expansions.Current == Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 1
+            end
+        end
+    end,
+    [17] = function()
         -- Preserve previous dungeon hide preference for both new flags
         local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
 
@@ -125,7 +134,7 @@ local migrationFunctions = {
         if Questie.db.profile.hideTrackerInDungeons == nil then
             Questie.db.profile.hideTrackerInDungeons = false
         end
-    end,
+    end
 }
 
 function Migration:Migrate()

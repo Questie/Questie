@@ -26,6 +26,8 @@ local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type TaskQueue
+local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type Expansions
@@ -269,7 +271,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     QuestieAnnounce:AcceptedQuest(questId)
 
     local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES
-    if Questie.IsWotlk and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
+    if Expansions.Current >= Expansions.Tbc and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
@@ -320,10 +322,12 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
         skipNextUQLCEvent = true
     end
 
-    QuestLogCache.RemoveQuest(questId)
-    QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+    TaskQueue:Queue(
+        function() QuestLogCache.RemoveQuest(questId) end,
+        function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+        function() QuestieQuest:CompleteQuest(questId) end
+    )
 
-    QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
 end
@@ -367,13 +371,15 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
-        QuestLogCache.RemoveQuest(questId)
-        QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+        TaskQueue:Queue(
+            function() QuestLogCache.RemoveQuest(questId) end,
+            function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+            function() QuestieQuest:AbandonedQuest(questId) end,
+            function() questLog[questId] = nil end
+        )
 
-        QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
-        questLog[questId] = nil
     end
 end
 

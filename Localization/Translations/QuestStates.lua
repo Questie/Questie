@@ -230,7 +230,7 @@ local questStateLocales = {
         ["ptBR"] = "Masmorra",
         ["ruRU"] = "Подземелье",
         ["zhCN"] = "地下城",
-        ["zhTW"] = "地城",
+        ["zhTW"] = "地下城",
     },
     ["Elite"] = {
         ["enUS"] = (Expansions.Current == Expansions.Era and true) or "Group",
