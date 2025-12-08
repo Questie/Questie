@@ -43,6 +43,7 @@ addonDir = 'Questie'
 includedExpansions = []
 tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc', 'Questie-Mists.toc']
 
+
 def main():
     isReleaseBuild = False
     versionOverride = ''
@@ -162,6 +163,7 @@ def main():
 
     print('New release "%s" created successfully' % release_dir)
 
+
 def get_version_dir(is_release_build, versionOverride):
     version, nr_of_commits, recent_commit = get_git_information()
     if versionOverride != '':
@@ -181,13 +183,15 @@ def get_version_dir(is_release_build, versionOverride):
 
     return release_dir
 
-directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
+
+directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules', 'Public']
 filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc', 'README.md']
 expansionStrings = ['', 'Classic', 'TBC', 'Wotlk', 'Cata', 'MoP']
 ignorePatterns = ['*.test.lua']
 
+
 def copy_content_to(release_folder_path):
-    for i in [1,2,3,4,5]:
+    for i in [1, 2, 3, 4, 5]:
         if i in includedExpansions:
             filesToInclude.append(tocs[i])
         else:
@@ -202,12 +206,14 @@ def copy_content_to(release_folder_path):
                 shutil.copy2(file, '%s/%s' % (release_folder_path, file))
         break
 
+
 def zip_release_folder(zip_name, version_dir, addon_dir):
     root = os.getcwd()
     os.chdir('releases/%s' % version_dir)
     print("Zipping %s" % zip_name)
     shutil.make_archive(zip_name, "zip", ".", addon_dir)
     os.chdir(root)
+
 
 def get_git_information():
     if is_tool("git"):
@@ -222,6 +228,7 @@ def get_git_information():
     else:
         raise RuntimeError("Warning: Git not found on the computer, using fallback to get a version.")
 
+
 def get_branch():
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -230,13 +237,16 @@ def get_branch():
         branch = str(p).rstrip("\\n'").lstrip("b'")
         return branch
 
+
 def get_interface_version(expansion='Classic'):
     with open('Questie-%s.toc' % expansion, 'r') as toc:
         return re.match('## Interface: (.*?)\n', toc.read(), re.DOTALL).group(1)
 
+
 def is_tool(name):
     """Check whether `name` is on PATH and marked as executable."""
     return shutil.which(name) is not None
+
 
 if __name__ == "__main__":
     main()

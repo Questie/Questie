@@ -61,7 +61,7 @@ jobs:
         run: lua cli/validate-localization.lua
 
       - name: Run Luacheck
-        run: luacheck -q -- Database Localization Modules Questie.lua
+        run: luacheck -q -- Database Localization Modules Public Questie.lua
 
       - name: Upload correction files
         uses: actions/upload-artifact@v5

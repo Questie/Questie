@@ -129,7 +129,6 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\RamerDouglasPeucker.lua
 
 # Modules
-Modules\API.lua
 Modules\QuestieValidateGameCache.lua
 Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
@@ -261,6 +260,9 @@ Modules\QuestieCleanup.lua
 
 # Profiler
 Modules\QuestieProfiler.lua
+
+# Public
+Public\API.lua
 
 # Main
 Questie.lua

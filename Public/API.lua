@@ -1,22 +1,8 @@
 ---@class QuestieAPI
-local QuestieAPI = QuestieLoader:CreateModule("QuestieAPI")
-
--- This module is used as official API for other addons to interact with Questie.
--- Everything that is exposed via Questie.API should be considered stable and safe to use.
+local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
-
-QuestieAPI.Enums = {
-    ---@enum QuestUpdateTriggerReason
-    QuestUpdateTriggerReason = {
-        QUEST_ACCEPTED = 1,
-        QUEST_UPDATED = 2,
-        QUEST_TURNED_IN = 3,
-        QUEST_ABANDONED = 4,
-    }
-}
-Questie.API.Enums = QuestieAPI.Enums
 
 ---@type table<number, fun()>
 local onReadyCallbacks = {}
