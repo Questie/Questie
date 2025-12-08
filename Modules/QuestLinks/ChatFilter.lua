@@ -50,7 +50,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     end
                 end
 
-                if questId and QuestieDB.QuestPointers[questId] then
+                if questId and QuestieDB.LibQuestieDB.Quest.GetAllIds(true)[questId] then --TODO: Fix this, do not return the entire list every time for the Ids
                     if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID
@@ -133,4 +133,5 @@ function ChatFilter:RegisterEvents() -- todo: register immediately and cache cal
 
     -- Emote
     SafeAddMessageEventFilter("CHAT_MSG_EMOTE", ChatFilter.Filter)
+
 end
