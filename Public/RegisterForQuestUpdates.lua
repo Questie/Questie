@@ -1,12 +1,12 @@
 ---@class QuestieAPI
 local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 
----@type table<number, fun(questId: number, objectiveIndex: number|nil, triggerReason: QuestUpdateTriggerReason)>
+---@type fun(questId: number, objectiveIndex: number?, triggerReason: QuestUpdateTriggerReason)[]
 local questUpdateCallbacks = {}
 
 --- Registers a callback function that will be called whenever a quest is updated.
---- The callback function should accept three parameters: questId (number), the objective index (number|nil) (if applicable) and the trigger reason (Enum).
----@param callback fun(questId: number, objectiveIndex: number, triggerReason: QuestUpdateTriggerReason)
+--- The callback function should accept three parameters: questId (number), the objective index (number|nil) and the trigger reason (Enum).
+---@param callback fun(questId: number, objectiveIndex: number?, triggerReason: QuestUpdateTriggerReason)
 function Questie.API.RegisterForQuestUpdates(callback)
     if type(callback) ~= "function" then
         error("Questie.API.RegisterForQuestUpdates: callback must be a function")
@@ -16,7 +16,7 @@ function Questie.API.RegisterForQuestUpdates(callback)
 end
 
 ---@param questId QuestId
----@param objectiveIndices table<number|nil>
+---@param objectiveIndices number[]
 ---@param triggerReason QuestUpdateTriggerReason
 function QuestieAPI.PropagateQuestUpdate(questId, objectiveIndices, triggerReason)
     for _, callback in pairs(questUpdateCallbacks) do
