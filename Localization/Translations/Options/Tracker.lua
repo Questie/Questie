@@ -504,6 +504,31 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和 (如果有啟用) 邊框會變成透明。",
     },
     ---------------------------------------------------------
+    ["Disable Quest Hover Fade"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ---------------------------------------------------------
     ["Hide Tracker Sizer"] = {
         ["enUS"] = true,
         ["deDE"] = "Tracker-Sizer ausblenden",
