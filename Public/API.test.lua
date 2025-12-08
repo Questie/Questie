@@ -9,6 +9,7 @@ describe("API", function()
     local QuestieAPI
 
     before_each(function()
+        dofile("Public/Enums.lua")
         _G.Questie.API.isReady = true
 
         QuestieNameplate = require("Modules.QuestieNameplate")
@@ -17,7 +18,7 @@ describe("API", function()
             return "Interface\\Addons\\Questie\\Icons\\slay.blp"
         end)
 
-        QuestieAPI = require("Modules.API")
+        QuestieAPI = require("Public.API")
     end)
 
     describe("RegisterOnReady", function()
