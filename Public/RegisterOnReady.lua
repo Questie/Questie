@@ -1,7 +1,7 @@
 ---@class QuestieAPI
 local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 
----@type table<number, fun()>
+---@type fun()[]
 local onReadyCallbacks = {}
 
 --- Register a callback to be invoked once Questie.API.isReady becomes true.
