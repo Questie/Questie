@@ -10,5 +10,9 @@ function Questie.API.GetQuestObjectiveIconForUnit(guid)
         return nil
     end
 
+    if type(guid) ~= "string" then
+        error("Questie.API.GetQuestObjectiveIconForUnit: guid must be a string")
+    end
+
     return QuestieNameplate.GetIcon(guid)
 end
