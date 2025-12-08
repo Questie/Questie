@@ -178,10 +178,7 @@ function EventHandler:RegisterLateEvents()
                 if Questie.db.profile.hideTrackerInDungeons then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
                     trackerHiddenByDungeon = true
-                    local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
-                    if TrackerBaseFrame.baseFrame then
-                        TrackerBaseFrame.baseFrame:Hide()
-                    end
+                    QuestieTracker:Hide()
                 end
             end)
 
@@ -206,13 +203,7 @@ function EventHandler:RegisterLateEvents()
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
                     if Questie.db.profile.hideTrackerInDungeons then
                         trackerHiddenByDungeon = false
-                        local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
-                        if TrackerBaseFrame.baseFrame then
-                            TrackerBaseFrame.baseFrame:Show()
-                            QuestieCombatQueue:Queue(function()
-                                QuestieTracker:Update()
-                            end)
-                        end
+                        QuestieTracker:Show()
                     end
                 end)
             end
@@ -224,12 +215,9 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
-                local baseFrame = TrackerBaseFrame.baseFrame
-                if baseFrame and baseFrame:IsShown() then
-                    QuestieCombatQueue:Queue(function()
-                        baseFrame:Hide()
-                    end)
-                end
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Hide()
+                end)
             end
         end)
 
@@ -237,11 +225,7 @@ function EventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 QuestieCombatQueue:Queue(function()
-                    local baseFrame = TrackerBaseFrame.baseFrame
-                    if baseFrame and not baseFrame:IsShown() then
-                        baseFrame:Show()
-                        QuestieTracker:Update()
-                    end
+                    QuestieTracker:Show()
                 end)
             end
         end)
@@ -251,12 +235,9 @@ function EventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
             -- Ensure tracker stays hidden during pet changes/deaths
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
-                local baseFrame = TrackerBaseFrame.baseFrame
-                if baseFrame and baseFrame:IsShown() then
-                    QuestieCombatQueue:Queue(function()
-                        baseFrame:Hide()
-                    end)
-                end
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Hide()
+                end)
             end
         end)
 
@@ -264,12 +245,9 @@ function EventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
             -- Ensure tracker stays hidden during battle round transitions
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
-                local baseFrame = TrackerBaseFrame.baseFrame
-                if baseFrame and baseFrame:IsShown() then
-                    QuestieCombatQueue:Queue(function()
-                        baseFrame:Hide()
-                    end)
-                end
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Hide()
+                end)
             end
         end)
     end
@@ -613,10 +591,7 @@ function _EventHandler:PlayerRegenDisabled()
         -- Handle complete hiding in combat
         if Questie.db.profile.hideTrackerInCombat and (not trackerHiddenByCombat) then
             trackerHiddenByCombat = true
-            local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
-            if TrackerBaseFrame.baseFrame then
-                TrackerBaseFrame.baseFrame:Hide()
-            end
+            QuestieTracker:Hide()
         end
 
         if IsInInstance() and Questie.db.profile.minimizeTrackerInDungeons then
@@ -658,13 +633,7 @@ function _EventHandler:PlayerRegenEnabled()
     if Questie.db.profile.hideTrackerInCombat and trackerHiddenByCombat then
         if (not Questie.db.profile.hideTrackerInDungeons) or (not IsInInstance()) then
             trackerHiddenByCombat = false
-            local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
-            if TrackerBaseFrame.baseFrame then
-                TrackerBaseFrame.baseFrame:Show()
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            end
+            QuestieTracker:Show()
         end
     end
 

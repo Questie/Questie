@@ -111,10 +111,20 @@ local migrationFunctions = {
         Questie.db.profile.globalMiniMapTownsfolkScale = 0.7
     end,
     [16] = function()
+        -- Preserve previous dungeon hide preference for both new flags
+        local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
+
         Questie.db.profile.minimizeTrackerInCombat = false
-        Questie.db.profile.minimizeTrackerInDungeons = true
+        Questie.db.profile.minimizeTrackerInDungeons = previousHideInDungeons
         Questie.db.profile.hideTrackerInCombat = false
-        Questie.db.profile.hideTrackerInDungeons = false
+        Questie.db.profile.hideTrackerInDungeons = previousHideInDungeons
+
+        if Questie.db.profile.minimizeTrackerInDungeons == nil then
+            Questie.db.profile.minimizeTrackerInDungeons = true
+        end
+        if Questie.db.profile.hideTrackerInDungeons == nil then
+            Questie.db.profile.hideTrackerInDungeons = false
+        end
     end,
 }
 
