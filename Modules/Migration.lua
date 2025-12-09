@@ -126,14 +126,7 @@ local migrationFunctions = {
         Questie.db.profile.minimizeTrackerInCombat = false
         Questie.db.profile.minimizeTrackerInDungeons = previousHideInDungeons
         Questie.db.profile.hideTrackerInCombat = false
-        Questie.db.profile.hideTrackerInDungeons = previousHideInDungeons
-
-        if Questie.db.profile.minimizeTrackerInDungeons == nil then
-            Questie.db.profile.minimizeTrackerInDungeons = true
-        end
-        if Questie.db.profile.hideTrackerInDungeons == nil then
-            Questie.db.profile.hideTrackerInDungeons = false
-        end
+        Questie.db.profile.hideTrackerInDungeons = false
     end
 }
 
