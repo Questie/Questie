@@ -1211,24 +1211,27 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1823},
         },
         [1839] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
         },
         [1840] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1844,
         },
         [1841] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1846,
         },
         [1842] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1839},
         },
         [1844] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1840},
         },
         [1846] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1841},
         },
         [1859] = {
