@@ -84,6 +84,10 @@ If you'd like to support the development of Questie by donating, you can do so v
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCUBJWKT395ME&source=url"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
 
+## Integrate Questie into your addon
+
+Checkout the [README of the Questie API](./Public/README.md).
+
 ## Features
 
 ### Show quests on map
