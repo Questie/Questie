@@ -46,7 +46,12 @@ function QuestFinisher.AddFinisher(quest)
     if quest.Finisher.NPC then
         for i = 1, #quest.Finisher.NPC do
             local finisher = QuestieDB:GetNPC(quest.Finisher.NPC[i])
-            _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
+
+            if finisher then
+                _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
+            else
+                Questie:Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
+            end
         end
     end
 
@@ -99,7 +104,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                     finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
 
                     if (not finisherLocs[finisherZone]) then
-                        finisherLocs[finisherZone] = { x, y }
+                        finisherLocs[finisherZone] = {x, y}
                     end
                 end
             end
@@ -113,7 +118,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                     local data = _GetIconData(quest, finisher.name)
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                    finisherLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
+                    finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                 end
 
                 QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)

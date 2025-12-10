@@ -10,6 +10,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type QuestieAPI
+local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ZoneDB
@@ -339,6 +341,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     AvailableQuests.CalculateAndDrawAll()
 
+    -- Let other addons know that Questie is ready
+    Questie.API.isReady = true
+    QuestieAPI.PropagateOnReady()
+
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage3] Questie init done.")
 end
 
@@ -357,7 +363,7 @@ function QuestieInit:LoadDatabase(key)
         end
         QuestieDB[key] = func
         coYield()
-        QuestieDB[key] = QuestieDB[key]()           -- execute the function (returns the table)
+        QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
     end
@@ -387,8 +393,8 @@ function QuestieInit.OnAddonLoaded()
         QuestieSlash.RegisterSlashCommands()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
-        QuestieOptions:Initialize()
-    end, 0,"Error during AddonLoaded initialization!")
+        QuestieOptions.Initialize()
+    end, 0, "Error during AddonLoaded initialization!")
 
     MinimapIcon:Init()
 
@@ -429,7 +435,6 @@ function QuestieInit:Init()
         end
     end
 end
-
 
 --- We really want to wait for the cache to be filled before we continue.
 --- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.

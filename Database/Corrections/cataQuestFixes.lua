@@ -1506,6 +1506,7 @@ function CataQuestFixes.Load()
         },
         [10279] = { -- To The Master's Lair
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [10282] = { -- Old Hillsbrad
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
@@ -15255,8 +15256,11 @@ function CataQuestFixes.Load()
         [29563] = { -- Lost in Action
             [questKeys.objectives] = {{{17893,nil,Questie.ICON_TYPE_TALK},{17890,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [29567] = { -- Stalk the Stalker
+            [questKeys.reputationReward] = {{factionIDs.SPOREGGAR,37}},
+        },
         [29570] = { -- Rescuing the Expedition
-            [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_TALK},{17894,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{17827,17894},17894,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29595] = { -- Everything Will Be Alright
             [questKeys.nextQuestInChain] = 29596,
@@ -15330,9 +15334,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{24822,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [29691] = { -- Bring Me A Shrubbery!
+            [questKeys.reputationReward] = {{factionIDs.SPOREGGAR,36}},
+            [questKeys.nextQuestInChain] = 29692,
+        },
         [29692] = { -- Bring Me Another Shrubbery!
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.reputationReward] = {{factionIDs.SPOREGGAR,36}},
         },
         [29761] = { -- Master Pit Fighter
             [questKeys.preQuestSingle] = {29760},

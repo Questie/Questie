@@ -867,8 +867,8 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         -- Darkmoon Faire
-        [7905] = Expansions.Current < Expansions.Cata,
-        [7926] = Expansions.Current < Expansions.Cata,
+        [7905] = true,
+        [7926] = true,
 
         -- Ahn'Qiraj War
         -- Commendation Signets
@@ -1654,6 +1654,7 @@ function QuestieQuestBlacklist:Load()
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
+        [93975] = Expansions.Current >= Expansions.Wotlk, -- Ragnaros Must Die!
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -6032,7 +6033,7 @@ function QuestieQuestBlacklist:Load()
         [29584] = true, -- Not in the game
         [29592] = true, -- Hidden quest
         [29597] = true, -- Not in the game
-        [29601] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [29601] = true, -- Not in the game
         [29621] = true, -- Not in the game
         [29625] = true, -- Not in the game
         [29638] = true, -- Not in the game
@@ -6561,39 +6562,39 @@ function QuestieQuestBlacklist:Load()
         --[27665] = true, -- Darkmoon Hurricane Deck
         --[27666] = true, -- Darkmoon Tsunami Deck
         --[27667] = true, -- Darkmoon Earthquake Deck
-        --[29433] = true, -- Test Your Strength
-        --[29434] = true, -- Tonk Commander
-        --[29436] = true, -- The Humanoid Cannonball
-        --[29438] = true, -- He Shoots, He Scores!
-        --[29443] = true, -- A Curious Crystal
-        --[29444] = true, -- An Exotic Egg
-        --[29445] = true, -- An Intriguing Grimoire
-        --[29446] = true, -- A Wondrous Weapon
-        --[29451] = true, -- The Master Strategist
-        --[29455] = true, -- Target: Turtle
-        --[29456] = true, -- A Captured Banner
-        --[29457] = true, -- The Enemy's Insignia
-        --[29458] = true, -- The Captured Journal
-        --[29463] = true, -- It's Hammer Time
-        --[29464] = true, -- Tools of Divination
-        --[29506] = true, -- A Fizzy Fusion
-        --[29507] = true, -- Fun for the Little Ones
-        --[29508] = true, -- Baby Needs Two Pair of Shoes
-        --[29509] = true, -- Putting the Crunch in the Frog
-        --[29510] = true, -- Putting Trash to Good Use
-        --[29511] = true, -- Talkin' Tonks
-        --[29512] = true, -- Putting the Carnies Back Together Again
-        --[29513] = true, -- Spoilin' for Salty Sea Dogs
-        --[29514] = true, -- Herbs for Healing
-        --[29515] = true, -- Writing the Future
-        --[29516] = true, -- Keeping the Faire Sparkling
-        --[29517] = true, -- Eyes on the Prizes
-        --[29518] = true, -- Rearm, Reuse, Recycle
-        --[29519] = true, -- Tan My Hide
-        --[29520] = true, -- Banners, Banners Everywhere!
+        [29433] = true, -- Test Your Strength
+        [29434] = true, -- Tonk Commander
+        [29436] = true, -- The Humanoid Cannonball
+        [29438] = true, -- He Shoots, He Scores!
+        [29443] = true, -- A Curious Crystal
+        [29444] = true, -- An Exotic Egg
+        [29445] = true, -- An Intriguing Grimoire
+        [29446] = true, -- A Wondrous Weapon
+        [29451] = true, -- The Master Strategist
+        [29455] = true, -- Target: Turtle
+        [29456] = true, -- A Captured Banner
+        [29457] = true, -- The Enemy's Insignia
+        [29458] = true, -- The Captured Journal
+        [29463] = true, -- It's Hammer Time
+        [29464] = true, -- Tools of Divination
+        [29506] = true, -- A Fizzy Fusion
+        [29507] = true, -- Fun for the Little Ones
+        [29508] = true, -- Baby Needs Two Pair of Shoes
+        [29509] = true, -- Putting the Crunch in the Frog
+        [29510] = true, -- Putting Trash to Good Use
+        [29511] = true, -- Talkin' Tonks
+        [29512] = true, -- Putting the Carnies Back Together Again
+        [29513] = true, -- Spoilin' for Salty Sea Dogs
+        [29514] = true, -- Herbs for Healing
+        [29515] = true, -- Writing the Future
+        [29516] = true, -- Keeping the Faire Sparkling
+        [29517] = true, -- Eyes on the Prizes
+        [29518] = true, -- Rearm, Reuse, Recycle
+        [29519] = true, -- Tan My Hide
+        [29520] = true, -- Banners, Banners Everywhere!
         --[29601] = true, -- The Darkmoon Field Guide
-        --[29760] = true, -- Pit Fighter
-        --[29761] = true, -- Master Pit Fighter
+        [29760] = true, -- Pit Fighter
+        [29761] = true, -- Master Pit Fighter
 
         -- Love is in the Air
         [14483] = true, -- Something is in the Air (and it Ain't Love)
@@ -6851,10 +6852,15 @@ function QuestieQuestBlacklist:Load()
         [31990] = true, -- Audrey Burnhep
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
+        [32175] = true, -- Darkmoon Pet Battle!
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
+        [32457] = true, -- The Thunder King -- only available before Phase 3
         [32482] = true, -- Test Your Chicken Guardian [PH]
+        [32683] = true, -- So You Want to Be a Blacksmith...
+        [32726] = true, -- So You Want to Be a Blacksmith...
         [33121] = true, -- DEPRECATED The Celestial Tournament
         [33122] = true, -- DEPRECATED Great Job, You Won
+        [33354] = true, -- Den Mother's Demise
 
         -- Hallow's End
         [32020] = true,
@@ -6885,6 +6891,18 @@ function QuestieQuestBlacklist:Load()
         [32050] = true,
         [32051] = true,
         [32052] = true,
+
+        -- Midsummer
+        [32496] = true, -- Desecrate this Fire!
+        [32497] = true, -- Honor the Flame
+        [32498] = true, -- Honor the Flame
+        [32499] = true, -- Honor the Flame
+        [32500] = true, -- Honor the Flame
+        [32501] = true, -- Honor the Flame
+        [32502] = true, -- Honor the Flame
+        [32503] = true, -- Desecrate this Fire!
+        [32509] = true, -- Honor the Flame
+        [32510] = true, -- Honor the Flame
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)

@@ -5615,7 +5615,7 @@ function MopNpcFixes.Load()
         },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
-            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.59,71.75,phases.BLACK_PRINCE_PHASE_3}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
             [npcKeys.friendlyToFaction] = "AH",
         },
@@ -5776,6 +5776,10 @@ function MopNpcFixes.Load()
         },
         [70346] = { -- Ao Pye
             [npcKeys.spawns] = {}, -- added with a later phase 
+        },
+        [70398] = { -- Ben of the Booming Voice
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{58.92,46.91}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [70414] = { -- Skumblade Pillager
             [npcKeys.name] = "Skumblade Pillager",

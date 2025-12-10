@@ -157,7 +157,7 @@ _GetDarkmoonFaireLocation = function()
         return false
     end
 
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+    local currentDate = QuestieCompat.GetCurrentCalendarTime()
 
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
@@ -288,8 +288,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
-    local day = date.monthDay or date.day
+    local date = QuestieCompat.GetCurrentCalendarTime()
+    local day = date.monthDay
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
         and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year

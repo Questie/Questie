@@ -2007,7 +2007,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSourceItems] = {79825},
         },
         [30134] = { -- Wild Things
-            [questKeys.breadcrumbs] = {31373,31375},
+            [questKeys.breadcrumbs] = {31373,31375,32461},
             [questKeys.reputationReward] = {{factionIDs.ORDER_OF_THE_CLOUD_SERPENT,7}},
         },
         [30135] = { -- Beating the Odds
@@ -5782,6 +5782,7 @@ function MopQuestFixes.Load()
         [31373] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {32461},
         },
         [31374] = { -- The Tillers
             [questKeys.preQuestGroup] = {31001,30637}, -- double check if it actually needs 31001
@@ -5791,13 +5792,14 @@ function MopQuestFixes.Load()
         [31375] = { -- The Order of the Cloud Serpent
             [questKeys.preQuestGroup] = {31001,30637}, -- 100% 31001,30637 if another quest is needed, add to this one
             [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {32461},
         },
         [31376] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31378,31380,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31377] = { -- Attack At The Temple of the Jade Serpent
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31379,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31378] = { -- Challenge At The Temple of the Red Crane
@@ -5809,19 +5811,19 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {31377,31381,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31380] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31376,31378,31382,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31381] = { -- Trial At The Temple of the White Tiger
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31377,31379,31383,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31382] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31376,31378,31380,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31383] = { -- Defense At Niuzao Temple
-            [questKeys.preQuestSingle] = {31511,31512},
+            --[questKeys.preQuestSingle] = {31511,31512}, -- this is available without 31511/31512
             [questKeys.exclusiveTo] = {31377,31379,31381,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
         },
         [31384] = { -- The Golden Lotus
@@ -7614,11 +7616,13 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{64029}},
             [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- repeatable until you get max charms
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
         },
         [32017] = { -- Elder Charms of Good Fortune
             [questKeys.startedBy] = {{63996}},
             [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- repeatable until you get max charms
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
         },
         [32018] = { -- His Name Was... Stormstout
             [questKeys.exclusiveTo] = {32019},
@@ -8644,14 +8648,18 @@ function MopQuestFixes.Load()
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},
-            [questKeys.preQuestSingle] = {32390,32457},
-            [questKeys.breadcrumbForQuestId] = 32591,
+            [questKeys.finishedBy] = {{64616,69782}},
+            [questKeys.preQuestSingle] = {32390,32432},
         },
         [32460] = { -- Tracking the Thieves
             [questKeys.preQuestSingle] = {32414},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,29900},
             [questKeys.objectives] = {nil,{{216720}}},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+        },
+        [32461] = { -- The Order of the Cloud Serpent
+            [questKeys.breadcrumbForQuestId] = 30134,
+            [questKeys.exclusiveTo] = {31373,31375},
         },
         [32474] = { -- A Test of Valor
             [questKeys.startedBy] = {{64616}},
@@ -8666,11 +8674,14 @@ function MopQuestFixes.Load()
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32390,32432},
-            [questKeys.breadcrumbForQuestId] = 32591,
         },
         [32591] = { -- Secrets of the First Empire
-            [questKeys.preQuestSingle] = {32390,32432},
-            [questKeys.breadcrumbs] = {32457,32590},
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.preQuestSingle] = {32457,32590},
+        },
+        [32592] = { -- I Need a Champion
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.preQuestSingle] = {32457,32590},
         },
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,
@@ -8684,6 +8695,42 @@ function MopQuestFixes.Load()
         [32618] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [32642] = { -- Work Order: Dominance Offensive I
+            [questKeys.preQuestGroup] = {32108,32682}, -- double check on 32108
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32645] = { -- Work Order: Operation: Shieldwall I
+            [questKeys.preQuestGroup] = {32109,32682}, -- double check on 32109
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32647] = { -- Work Order: Golden Lotus I
+            [questKeys.preQuestGroup] = {30638,32682}, -- double check on 30638
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32649] = { -- Work Order: Shado-Pan I
+            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32653] = { -- Work Order: The August Celestials I
+            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32658] = { -- Work Order: The Klaxxi I
+            [questKeys.preQuestGroup] = {31066,32682}, -- double check on 31066
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32661] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
@@ -8739,10 +8786,35 @@ function MopQuestFixes.Load()
         [32675] = { -- I Believe You Can Fly
             [questKeys.requiredLevel] = 60,
         },
+        [32678] = { -- Thunder Calls
+            [questKeys.nextQuestInChain] = 32680,
+            [questKeys.breadcrumbForQuestId] = 32680,
+        },
+        [32679] = { -- Thunder Calls
+            [questKeys.nextQuestInChain] = 32681,
+            [questKeys.breadcrumbForQuestId] = 32681,
+        },
+        [32680] = { -- The Storm Gathers
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {32678},
+        },
+        [32681] = { -- The Storm Gathers
+            [questKeys.breadcrumbs] = {32679},
+        },
         [32682] = { -- Inherit the Earth
             [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,42000}, -- Tillers at Exalted
             [questKeys.preQuestSingle] = {30529},
             [questKeys.objectives] = {{{58646,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [32718] = { -- Mogu Runes of Fate
+            [questKeys.startedBy] = {{63996}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
+        },
+        [32719] = { -- Mogu Runes of Fate
+            [questKeys.startedBy] = {{64029}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
         },
         [32805] = { -- Celestial Blessings
             [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
@@ -8758,6 +8830,18 @@ function MopQuestFixes.Load()
         [32869] = { -- Beasts of Fable Book III
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32942] = { -- Work Order: Sunreaver Onslaught I
+            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32944] = { -- Work Order: Kirin Tor Offensive I
+            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [33136] = { -- The Rainy Day is Here
             [questKeys.preQuestSingle] = {33137},

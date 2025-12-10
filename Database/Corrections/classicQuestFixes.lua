@@ -394,6 +394,9 @@ function QuestieQuestFixes:Load()
         [660] = {
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS]={{60.1,53.83}}}},
         },
+        [664] = {
+            [questKeys.preQuestSingle] = {663}, -- #7258
+        },
         [665] = {
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.87,80.6}}}},
             [questKeys.preQuestSingle] = {663}, -- #6972
@@ -736,6 +739,9 @@ function QuestieQuestFixes:Load()
         },
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43}}}},
+        },
+        [1177] = {
+            [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 12 Mirefin Heads."},
         },
         [1190] = {
             [questKeys.childQuests] = {1191},
@@ -1205,24 +1211,27 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1823},
         },
         [1839] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
         },
         [1840] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1844,
         },
         [1841] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1846,
         },
         [1842] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1839},
         },
         [1844] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1840},
         },
         [1846] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1841},
         },
         [1859] = {

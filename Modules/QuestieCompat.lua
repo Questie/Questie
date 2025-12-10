@@ -217,3 +217,31 @@ function QuestieCompat.GetMouseFocus()
         return GetMouseFocus()
     end
 end
+
+---@class CalendarTime
+---@field monthDay number
+---@field month number
+---@field year number
+---@field weekday number
+---@field hour number
+---@field minute number
+
+---[Documentation](https://wowpedia.fandom.com/wiki/API_C_DateAndTime.GetCurrentCalendarTime)
+---Returns the current date and time information.
+---@return CalendarTime
+function QuestieCompat.GetCurrentCalendarTime()
+    if C_DateAndTime and C_DateAndTime.GetCurrentCalendarTime then
+        return C_DateAndTime.GetCurrentCalendarTime()
+    elseif C_DateAndTime and C_DateAndTime.GetTodaysDate then
+        local today = C_DateAndTime.GetTodaysDate()
+        return {
+            monthDay = today.day,
+            month = today.month,
+            year = today.year,
+            weekday = today.weekDay,
+            hour = 0,
+            minute = 0,
+        }
+    end
+    error(errorMsg, 2)
+end

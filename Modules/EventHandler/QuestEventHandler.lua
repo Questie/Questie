@@ -4,7 +4,7 @@ local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 local _QuestEventHandler = QuestEventHandler.private
 
 local _QuestLogUpdateQueue = {} -- Helper module
-local questLogUpdateQueue = {}  -- The actual queue
+local questLogUpdateQueue = {} -- The actual queue
 
 ---@type QuestEventHandlerPrivate
 QuestEventHandler.private = QuestEventHandler.private or {}
@@ -42,6 +42,8 @@ local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieAPI
+local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local tableRemove = table.remove
@@ -253,7 +255,7 @@ end
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
+    local cacheMiss, _ = QuestLogCache.CheckForChanges({[questId] = true})
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
@@ -271,6 +273,8 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
 
     QuestieJourney:AcceptQuest(questId)
     QuestieAnnounce:AcceptedQuest(questId)
+
+    QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)
 
     local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES
     if Expansions.Current >= Expansions.Tbc and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
@@ -334,7 +338,8 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     TaskQueue:Queue(
         function() QuestLogCache.RemoveQuest(questId) end,
         function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
-        function() QuestieQuest:CompleteQuest(questId) end
+        function() QuestieQuest:CompleteQuest(questId) end,
+        function() QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_TURNED_IN) end
     )
 
     QuestieJourney:CompleteQuest(questId)
@@ -384,7 +389,8 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
             function() QuestLogCache.RemoveQuest(questId) end,
             function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
             function() QuestieQuest:AbandonedQuest(questId) end,
-            function() questLog[questId] = nil end
+            function() questLog[questId] = nil end,
+            function() QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ABANDONED) end
         )
 
         QuestieJourney:AbandonQuest(questId)
@@ -513,6 +519,8 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
             QuestieTracker.UpdateQuestLines(questId)
+
+            QuestieAPI.PropagateQuestUpdate(questId, objIds, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
         end
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()
@@ -526,7 +534,8 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
-        doFullQuestLogScan = doRetryWithoutChanges -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
+        -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
+        doFullQuestLogScan = doRetryWithoutChanges
     end
 
     -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)

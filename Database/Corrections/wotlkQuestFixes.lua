@@ -42,6 +42,7 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
     local profKeys = QuestieProfessions.professionKeys
     local specialFlags = QuestieDB.specialFlags
+    local questFlags = QuestieDB.questFlags
 
     return {
         [55] = {
@@ -7832,6 +7833,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [93975] = {
+            [questKeys.name] = "Ragnaros Must Die!",
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Kill Ragnaros."},
+            [questKeys.objectives] = {{{11502}}},
+            [questKeys.zoneOrSort] = zoneIDs.MOLTEN_CORE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
     }
