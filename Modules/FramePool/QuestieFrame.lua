@@ -129,7 +129,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame:SetScript("OnClick", _Qframe.OnClick);
 
     newFrame.GlowUpdate = _Qframe.GlowUpdate
-    newFrame.BaseOnUpdate = _Qframe.BaseOnUpdate
     newFrame.BaseOnShow = _Qframe.BaseOnShow
     newFrame.BaseOnHide = _Qframe.BaseOnHide
 
@@ -141,8 +140,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.FadeIn = _Qframe.FadeIn
     newFrame.FakeHide = _Qframe.FakeHide
     newFrame.FakeShow = _Qframe.FakeShow
-    newFrame.OnShow = _Qframe.OnShow
-    newFrame.OnHide = _Qframe.OnHide
     newFrame.ShouldBeHidden = _Qframe.ShouldBeHidden
 
     -- Fadelogic
@@ -393,12 +390,6 @@ function _Qframe.Unload(self)
     self.miniMapIcon = nil;
     self:SetScript("OnUpdate", nil)
 
-    if self.fadeLogicTimer then
-        self.fadeLogicTimer:Cancel();
-    end
-    if self.glowLogicTimer then
-        self.glowLogicTimer:Cancel();
-    end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
         for _, lineFrame in pairs(self.data.lineFrames) do

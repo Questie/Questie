@@ -96,12 +96,6 @@ function QuestieFramePool:GetFrame()
         returnFrame:SetScript("OnShow", returnFrame.BaseOnShow)
     end
 
-    if returnFrame.BaseOnUpdate then
-        returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
-    else
-        returnFrame:SetScript("OnUpdate", nil)
-    end
-
     if returnFrame.BaseOnHide then
         returnFrame:SetScript("OnHide", returnFrame.BaseOnHide)
     end
