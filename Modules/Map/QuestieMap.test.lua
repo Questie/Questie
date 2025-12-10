@@ -31,8 +31,8 @@ describe("QuestieMap", function()
 
             QuestieMap.UpdateDrawnIcons(1)
 
-            assert.spy(UpdateTextureMock).was_called(2)
-            assert.spy(UpdateTextureMock).was_called_with(_, 11)
+            assert.spy(UpdateTextureMock).was.called(2)
+            assert.spy(UpdateTextureMock).was.called_with(_, 11)
         end)
 
         it("should do nothing when no frames are found", function()
@@ -41,7 +41,7 @@ describe("QuestieMap", function()
 
             QuestieMap.UpdateDrawnIcons(1)
 
-            assert.spy(QuestieLib.GetQuestIcon).was_not_called()
+            assert.spy(QuestieLib.GetQuestIcon).was.not_called()
         end)
     end)
 end)
