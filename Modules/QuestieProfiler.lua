@@ -1,3 +1,4 @@
+---@class Profiler
 local QuestieProfiler = QuestieLoader:CreateModule("Profiler")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
@@ -455,6 +456,7 @@ function QuestieProfiler:CreateUI()
     search:HookScript("OnKeyUp", function()
         local txt = string.lower(search:GetText())
         if string.len(txt) == 0 then
+            ---@diagnostic disable-next-line: cast-local-type
             txt = nil
         end
         QuestieProfiler.searchFilter = txt
@@ -493,7 +495,9 @@ function QuestieProfiler:DoHooks(after)
             if toHook then
                 QuestieProfiler:HookTable(toHook[1], toHook[2])
             else
-                timer:Cancel()
+                if timer then
+                    timer:Cancel()
+                end
                 if after then after() end
                 return
             end

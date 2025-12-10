@@ -271,7 +271,7 @@ function QuestieQuest:ClearAllToolTips()
     end
 
     QuestieTooltips.lookupByKey = {}
-    QuestieTooltips.lookupKeyByQuestId = {}
+    QuestieTooltips.lookupKeysByQuestId = {}
 end
 
 -- This is only needed for SmoothReset(), normally special objectives don't need to update
@@ -380,11 +380,15 @@ function QuestieQuest:SmoothReset()
         if stepTable[step]() then
             step = step + 1
             if not stepTable[step] then
-                ticker:Cancel()
+                if ticker then
+                    ticker:Cancel()
+                end
             end
         end
         if QuestieQuest._resetAgain and not QuestieQuest._resetNeedsAvailables then -- we can stop the current reset
-            ticker:Cancel()
+            if ticker then
+                ticker:Cancel()
+            end
             QuestieQuest._resetAgain = nil
             QuestieQuest._isResetting = nil
             QuestieQuest:SmoothReset()

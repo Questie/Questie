@@ -54,10 +54,12 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         error("Stream encoding mode is not defined.")
     end
 
+    ---@class QuestieStreamLib
     local stream = tremove(StreamPool)
     if stream and stream._mode == mode then
         return stream
     else
+        ---@diagnostic disable-next-line: missing-fields
         stream = {}
     end
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object
@@ -219,7 +221,7 @@ end
 
 function QuestieStreamLib:ReadBytes(count)
     local ret = {};
-    for i=1, count do
+    for _=1, count do
         tinsert(ret, self:ReadByte());
     end
     return unpack(ret)
@@ -227,7 +229,7 @@ end
 
 function QuestieStreamLib:ReadShorts(count)
     local ret = {};
-    for i=1, count do
+    for _=1, count do
         tinsert(ret, self:ReadShort());
     end
     return unpack(ret)
@@ -286,7 +288,7 @@ end
 function QuestieStreamLib:_ReadTinyString()
     local length = self:ReadByte()
     local ret = {};
-    for i = 1, length do
+    for _ = 1, length do
         tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
     return stringchar(unpack(ret))
@@ -295,7 +297,7 @@ end
 function QuestieStreamLib:_ReadTinyString_b89()
     local length = self:ReadByte()
     local ret = {};
-    for i = 1, length do
+    for _ = 1, length do
         tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
     end
     return stringchar(unpack(ret))
@@ -325,7 +327,7 @@ function QuestieStreamLib:_ReadTinyStringNil()
     local length = self:ReadByte()
     if length == 0 then return nil end
     local ret = {};
-    for i = 1, length do
+    for _ = 1, length do
         tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
     return stringchar(unpack(ret))
@@ -335,12 +337,12 @@ function QuestieStreamLib:_ReadShortString()
     local length = self:ReadShort()
     local ret = {};
     if length > unpack_limit then
-        for i = 1, length do
+        for _ = 1, length do
             tinsert(ret, stringchar(self:ReadByte()))
         end
         return table.concat(ret)
     else
-        for i = 1, length do
+        for _ = 1, length do
             tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
         end
         return stringchar(unpack(ret))
