@@ -482,6 +482,7 @@ local phases = {
     WOT_MANNOROTH_DEAD = 1410,
     HOT_THRALL_START = 1411,
     HOT_THRALL_TEMPLE = 1412,
+    BLACK_PRINCE_PHASE_3 = 1413,
 }
 Phasing.phases = phases
 
@@ -2223,6 +2224,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HOT_THRALL_TEMPLE then
         return (complete[30103] or (questLog[30103] and questLog[30103].isComplete == 1)) or false
+    end
+
+    if phase == phases.BLACK_PRINCE_PHASE_3 then
+        return complete[32457] or complete[32590] or (questLog[32457] and questLog[32457].isComplete == 1) or (questLog[32590] and questLog[32590].isComplete == 1) or false
     end
 
     return false
