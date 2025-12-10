@@ -1735,6 +1735,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{45.8,52.84},{43.15,50.27},{39.71,51.11},{32.35,57.1},{33.11,50.09},{34.61,43.2},{35.16,38},{37.35,33.19},{40.29,39.54},{43.24,34.72},{47.32,33.06},{46.99,38.41},{45.87,42.88},{47.93,45.63},{48.27,48.73}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
+        [59582] = { -- Innkeeper Lei Lan
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{55.25,50.67}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [59608] = { -- Anduin Wrynn
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{40.63,33.73}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
@@ -4769,6 +4773,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67996] = { -- Archmage Modera
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.39,74.96}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [68003] = { -- The Monkey King
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
@@ -5571,6 +5579,11 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
+        [69075] = { -- Zandalari Sacrifice
+            [npcKeys.name] = "Zandalari Sacrifice",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+        },
         [69088] = { -- Keeper Jaril
             [npcKeys.name] = "Keeper Jaril",
             [npcKeys.subName] = "Innkeeper",
@@ -5612,6 +5625,26 @@ function MopNpcFixes.Load()
                 [6677] = {{56,39.2}},
             },
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [69675] = { -- Lyalia
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.31,75.19}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69677] = { -- Sanitation Sorcerer Stephen Litmatch
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.45,74.81}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69678] = { -- Image of Archmage Vargoth
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.23,74.97}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69741] = { -- Lady Jaina Proudmoore
+            [npcKeys.name] = "Lady Jaina Proudmoore",
+            [npcKeys.subName] = "Leader of the Kirin Tor",
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
         },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -5777,6 +5810,12 @@ function MopNpcFixes.Load()
         [70346] = { -- Ao Pye
             [npcKeys.spawns] = {}, -- added with a later phase 
         },
+        [70363] = { -- Lady Jaina Proudmoore
+            [npcKeys.name] = "Lady Jaina Proudmoore",
+            [npcKeys.subName] = "Leader of the Kirin Tor",
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [70398] = { -- Ben of the Booming Voice
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{58.92,46.91}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
@@ -5809,6 +5848,29 @@ function MopNpcFixes.Load()
                 [6006] = {{75.2,76.4}},
             },
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70551] = { -- Scout Captain Elsia
+            [npcKeys.name] = "Scout Captain Daelin",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [70552] = { -- Scout Captain Daelin
+            [npcKeys.name] = "Scout Captain Daelin",
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [70585] = { -- Farmer's Journal
+            [npcKeys.name] = "Farmer's Journal",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.65,47.89}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
         },
         [70980] = { -- Seer Hao Pham Roo
             [npcKeys.name] = "Seer Hao Pham Roo",

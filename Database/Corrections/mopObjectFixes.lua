@@ -1047,6 +1047,12 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
             [objectKeys.factionID] = 1735, -- horde only
         },
+        [218637] = { -- Secrets of Lightning Steel
+            [objectKeys.name] = "Secrets of Lightning Steel",
+        },
+        [218724] = { -- Secrets of Stabilized Lightning
+            [objectKeys.name] = "Secrets of Stabilized Lightning",
+        },
         [220069] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,83.24}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,

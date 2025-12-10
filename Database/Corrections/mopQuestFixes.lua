@@ -8671,6 +8671,21 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32427},
             [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
+        [32537] = { -- De-Constructed
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32549] = { -- Skin of the Saurok
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32554] = { -- Dino Might
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32557] = { -- Out of Enemy Hands
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32559] = { -- Even Giants Fall
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32390,32432},
@@ -8696,41 +8711,50 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
+        [32640] = { -- Champions of the Thunder King
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
         [32642] = { -- Work Order: Dominance Offensive I
-            [questKeys.preQuestGroup] = {32108,32682}, -- double check on 32108
+            [questKeys.preQuestGroup] = {32108,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {80593},
         },
         [32645] = { -- Work Order: Operation: Shieldwall I
-            [questKeys.preQuestGroup] = {32109,32682}, -- double check on 32109
+            [questKeys.preQuestGroup] = {32109,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {89326},
         },
         [32647] = { -- Work Order: Golden Lotus I
-            [questKeys.preQuestGroup] = {30638,32682}, -- double check on 30638
+            [questKeys.preQuestGroup] = {30638,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {80595},
         },
         [32649] = { -- Work Order: Shado-Pan I
             [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {79102},
         },
         [32653] = { -- Work Order: The August Celestials I
             [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {89329},
         },
         [32658] = { -- Work Order: The Klaxxi I
-            [questKeys.preQuestGroup] = {31066,32682}, -- double check on 31066
+            [questKeys.preQuestGroup] = {31066,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {80592},
         },
         [32661] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
@@ -8797,24 +8821,38 @@ function MopQuestFixes.Load()
         [32680] = { -- The Storm Gathers
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32678},
+            [questKeys.objectives] = {{{70358,nil,Questie.ICON_TYPE_TALK},{70365,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [32681] = { -- The Storm Gathers
             [questKeys.breadcrumbs] = {32679},
+            [questKeys.objectives] = {{{70360,nil,Questie.ICON_TYPE_TALK},{70364,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [32682] = { -- Inherit the Earth
             [questKeys.requiredMinRep] = {factionIDs.THE_TILLERS,42000}, -- Tillers at Exalted
             [questKeys.preQuestSingle] = {30529},
             [questKeys.objectives] = {{{58646,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [32706] = { -- Allies in the Shadows
+            [questKeys.preQuestSingle] = {32681},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
+        },
+        [32707] = { -- Secrets in the Isle of Thunder
+            [questKeys.preQuestSingle] = {32706},
+        },
         [32718] = { -- Mogu Runes of Fate
             [questKeys.startedBy] = {{63996}},
+            [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
         },
         [32719] = { -- Mogu Runes of Fate
             [questKeys.startedBy] = {{64029}},
+            [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
+        },
+        [32733] = { -- Za'Tual
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32805] = { -- Celestial Blessings
             [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
@@ -8832,16 +8870,18 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [32942] = { -- Work Order: Sunreaver Onslaught I
-            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.preQuestGroup] = {32680,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {80591},
         },
         [32944] = { -- Work Order: Kirin Tor Offensive I
-            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.preQuestGroup] = {32681,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {80590},
         },
         [33136] = { -- The Rainy Day is Here
             [questKeys.preQuestSingle] = {33137},
