@@ -8006,6 +8006,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32197},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32201] = { -- Grave Circumstances
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+        },
         [32209] = { -- Save Our Scouts!
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -8716,6 +8719,9 @@ function MopQuestFixes.Load()
         [32526] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
+        },
+        [32527] = { -- Grave Circumstances
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
         [32531] = { -- The Conquest of Stone
