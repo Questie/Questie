@@ -8933,6 +8933,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32733] = { -- Za'Tual
+            [questKeys.preQuestSingle] = {32680},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32805] = { -- Celestial Blessings
