@@ -44,7 +44,7 @@ end
 local stringFind = string.find
 local pattern
 
-function QuestieShutUp.FilterFunc(self, event, msg, author, ...)
+function QuestieShutUp.FilterFunc(_ --[[self]], _ --[[event]], msg, _ --[[author]], ...)
     if stringFind(msg, pattern) then
         return true
     end

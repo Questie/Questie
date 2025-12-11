@@ -60,7 +60,7 @@ function AutoQuesting.OnQuestGreeting()
 
     if Questie.db.profile.autocomplete then
         for index = 1, GetNumActiveQuests() do
-            local quest, isComplete = GetActiveTitle(index)
+            local _, isComplete = GetActiveTitle(index)
             if isComplete then
                 SelectActiveQuest(index)
                 return

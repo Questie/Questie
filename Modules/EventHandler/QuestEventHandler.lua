@@ -499,7 +499,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
 
     if next(changes) then
-        for questId, _--[[ objIds ]] in pairs(changes) do
+        for questId, objIds in pairs(changes) do
             if (not QuestiePlayer.currentQuestlog[questId]) then
                 -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
                 -- We then add them to the player's quest log so they can be updated.

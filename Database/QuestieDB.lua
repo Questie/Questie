@@ -691,7 +691,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+    if (not DailyQuests:IsActiveDailyQuest()) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is a daily quest which isn't active today!") end
         return false
     end
@@ -978,7 +978,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+    if (not DailyQuests:IsActiveDailyQuest()) then
         local msg = "Quest " .. questId .. " is a daily quest which isn't active today!"
         if returnText and returnBrief then
             return "Ineligible: Inactive daily"

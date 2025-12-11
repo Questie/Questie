@@ -291,7 +291,7 @@ function TrackerBaseFrame.ShrinkToMinSize(minSize)
 end
 
 ---@param button string @The mouse button that is pressed when dragging starts
-function TrackerBaseFrame.OnDragStart(frame, button)
+function TrackerBaseFrame.OnDragStart(_ --[[frame]], button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
         GameTooltip._SizerToolTip = nil
@@ -363,7 +363,7 @@ local function _UpdateTrackerPosition()
     end)
 end
 
-function TrackerBaseFrame.OnDragStop(frame, button)
+function TrackerBaseFrame.OnDragStop(_ --[[frame]], _ --[[button]])
     if IsShiftKeyDown() or IsAltKeyDown() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
         return
@@ -386,7 +386,7 @@ function TrackerBaseFrame.OnDragStop(frame, button)
 end
 
 ---@param button string @The mouse button that is pressed when resize starts
-function TrackerBaseFrame.OnResizeStart(frame, button)
+function TrackerBaseFrame.OnResizeStart(_ --[[frame]], button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
         GameTooltip._SizerToolTip = nil
@@ -465,7 +465,7 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
-function TrackerBaseFrame.OnResizeStop(frame, button)
+function TrackerBaseFrame.OnResizeStop(_ --[[frame]], button)
     if IsAltKeyDown() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
@@ -549,7 +549,7 @@ _OnEnter = function(self)
         GameTooltip._SizerToolTip = _SetSizerTooltip
     end
 
-    TrackerFadeTicker.Unfade(self)
+    TrackerFadeTicker.Unfade()
 end
 
 _SetSizerTooltip = function()

@@ -131,9 +131,9 @@ function _DailyQuests.ShowDailyQuest(questId)
     end
 end
 
----@param questId number
+----@param questId number This parameter is disabled
 ---@return boolean
-function DailyQuests:IsActiveDailyQuest(questId)
+function DailyQuests:IsActiveDailyQuest(_ --[[questId]])
     return true
     -- TODO: This might be reusable when reworking this module
     --local hiddenQuests = Questie.db.char.hiddenDailies

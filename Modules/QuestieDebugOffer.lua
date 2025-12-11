@@ -301,9 +301,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
         if itemInfo.questId then
             questID = itemInfo.questId
         end
-        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
-        itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
-        expacID, setID, isCraftingReagent = GetItemInfo(itemID)
+        local _, _, itemQuality, _, _, _, _, _, _, _, _, classID = GetItemInfo(itemID)
         local containerID = tonumber(containerGUID:match("-(%d+)-%x+$"), 10)
         local containerType = strsplit("-", containerGUID)
 

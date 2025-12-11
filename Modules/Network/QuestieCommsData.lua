@@ -96,7 +96,7 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
           if not item or item.Hidden then
             return
           end
-          for index, source in pairs(item.Sources or {}) do
+          for _ --[[index]], source in pairs(item.Sources or {}) do
             local sourceType = string.sub(source.Type, 1, 1);
             local sourceId = source.Id;
             local sourceLookupKey = sourceType.."_"..sourceId;
@@ -131,13 +131,13 @@ function QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveI
         commsTooltipLookup[lookupKey][playerName][questId] = {};
     end
     commsTooltipLookup[lookupKey][playerName][questId][objectiveIndex] = data;
-    
+
     playerRegisteredTooltips[playerName][questId][lookupKey] = true;
 end
 
 --Totally removes a player from the tooltip lookups
 function QuestieComms.data:RemovePlayer(playerName)
-    for questId, tooltipList in pairs(playerRegisteredTooltips[playerName] or {}) do
+    for questId, _ --[[tooltipList]] in pairs(playerRegisteredTooltips[playerName] or {}) do
         QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
     end
     if(playerRegisteredTooltips[playerName]) then
@@ -149,7 +149,7 @@ function QuestieComms.data:RemoveQuestFromPlayer(questId, playerName)
     --First check if the player exists and if it has tooltip related quests.
     if(playerRegisteredTooltips[playerName] and playerRegisteredTooltips[playerName][questId]) then
         --Loop through the tooltips to find which should be removed
-        for tooltip, active in pairs(playerRegisteredTooltips[playerName][questId]) do
+        for tooltip, _ --[[active]] in pairs(playerRegisteredTooltips[playerName][questId]) do
             --Check if the registered tooltip exists and if the player exists in it.
             if(commsTooltipLookup[tooltip] and commsTooltipLookup[tooltip][playerName]) then
                 --Does the questId we want to remove exist?

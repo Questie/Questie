@@ -315,7 +315,7 @@ function _EnsureFactionQuestData()
     QuestieJourney.factionMap = factionQuestMap
 
     if QuestieJourney.factionsByExpansion then
-        for expansionKey, bucket in pairs(QuestieJourney.factionsByExpansion) do
+        for _ --[[expansionKey]], bucket in pairs(QuestieJourney.factionsByExpansion) do
             if bucket then
                 for factionId in pairs(bucket) do
                     local questsForFaction = factionQuestMap[factionId]
