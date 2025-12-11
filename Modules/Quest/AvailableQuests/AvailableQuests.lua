@@ -372,7 +372,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
-                        IsObjectiveNote = false,
+                        -- IsObjectiveNote = false,
                         StarterType = starterType,
                     }
 
@@ -417,7 +417,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
-                        IsObjectiveNote = false,
+                        -- IsObjectiveNote = false,
                         StarterType = starterType,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])

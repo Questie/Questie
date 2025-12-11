@@ -52,7 +52,7 @@ for _, expansion in ipairs(expansionDefinitions) do
     expansionOrderByKey[expansion.key] = expansion.order
 end
 
-local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates
+-- local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates -- Unused
 local factionIntroductionOrder = QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKey)
 
 QuestieJourney.availableFactionExpansions = QuestieJourney.availableFactionExpansions or {}

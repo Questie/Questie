@@ -397,7 +397,6 @@ function _Qframe.Unload(self)
         end
     end
 
-    if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
     self.glow:Hide()
     self.data = nil -- Just to be safe

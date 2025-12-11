@@ -531,7 +531,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         for i=1, GetNumQuestLogEntries() do
-            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
+            local questTitle, _, _, _, _, _, _, questLogId = GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
             if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
@@ -618,7 +618,7 @@ end
 ---- Link handling code
 
 local LINK_CODE = "addon:questie:offer";
-local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
+-- local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
 local LINK_LENGTHS = LINK_CODE:len();
 
 -- handles clicking on link

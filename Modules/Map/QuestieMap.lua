@@ -367,7 +367,8 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.spawnType = "monster"
     data.npcData = npc
     data.Name = npc.name
-    data.IsObjectiveNote = false
+    -- data.IsObjectiveNote = false
+
     data.ManualTooltipData = {}
     local baseTitle = title or (npc.name .. " (" .. l10n("NPC") .. ")")
     data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(baseTitle, data.id)
@@ -441,7 +442,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     data.spawnType = "object"
     data.objectData = object
     data.Name = object.name
-    data.IsObjectiveNote = false
+    -- data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (object.name .. " (object)")
     data.ManualTooltipData.Body = body or {

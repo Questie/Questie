@@ -5905,7 +5905,7 @@ end
 
 function QuestieTBCQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
-    local raceIDs = QuestieDB.raceKeys
+    -- local raceIDs = QuestieDB.raceKeys
 
     local questFixesHorde = {
         [2861] = {

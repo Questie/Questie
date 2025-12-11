@@ -136,7 +136,7 @@ _GetIconData = function(quest, finisherName)
         Type = "complete",
         QuestData = quest,
         Name = finisherName,
-        IsObjectiveNote = false,
+        -- IsObjectiveNote = false,
     }
 end
 

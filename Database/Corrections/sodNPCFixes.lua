@@ -9,7 +9,7 @@ function SeasonOfDiscovery:LoadNPCs()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
-    local waypointPresets = QuestieDB.waypointPresets
+    -- local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [40] = { -- Kobold Miner
