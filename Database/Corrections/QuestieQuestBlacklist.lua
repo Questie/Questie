@@ -6855,6 +6855,10 @@ function QuestieQuestBlacklist:Load()
         [32175] = true, -- Darkmoon Pet Battle!
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
         [32457] = true, -- The Thunder King -- only available before Phase 3
+        [32467] = true, -- Sacrificial Prevention [PH]
+        [32469] = true, -- Urging on Hatchlings [PH]
+        [32470] = true, -- Plundering Profferings [PH]
+        [32472] = true, -- Frighten Pterodactyls [PH]
         [32482] = true, -- Test Your Chicken Guardian [PH]
         [32683] = true, -- So You Want to Be a Blacksmith...
         [32726] = true, -- So You Want to Be a Blacksmith...

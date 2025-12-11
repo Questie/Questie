@@ -572,6 +572,10 @@ function MopItemFixes.Load()
         [80808] = { -- Battle Spear of the Thunder King
             [itemKeys.objectDrops] = {211395},
         },
+        [80809] = { -- Bag of Green Cabbage Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [80827] = { -- Confusing Treasure Map
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
@@ -776,11 +780,35 @@ function MopItemFixes.Load()
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
+        [84782] = { -- Bag of Juicycrunch Carrot Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [84783] = { -- Bag of Scallion Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85153] = { -- Bag of Mogu Pumpkin Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85158] = { -- Bag of Red Blossom Leek Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [85159] = { -- Amber-Filled Jar
             [itemKeys.objectDrops] = {212923},
         },
         [85161] = { -- Soul-Gatherer's Beads
             [itemKeys.npcDrops] = {246246},
+        },
+        [85162] = { -- Bag of Pink Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85163] = { -- Bag of White Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [85204] = { -- Ancient Mogu Artifact
             [itemKeys.npcDrops] = {63273},
@@ -1065,6 +1093,18 @@ function MopItemFixes.Load()
         [89814] = { -- "Earth-Slasher" Master Plow
             [itemKeys.startQuest] = 31938,
             [itemKeys.npcDrops] = {58706}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+        },
+        [89847] = { -- Bag of Witchberry Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89848] = { -- Bag of Jade Squash Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89849] = { -- Bag of Striped Melon Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [89903] = { -- Thousand-Year Water
             [itemKeys.objectDrops] = {440008},

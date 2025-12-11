@@ -125,6 +125,14 @@ QuestieCorrections.killCreditObjectiveFirst[31949] = true
 QuestieCorrections.killCreditObjectiveFirst[32247] = true
 QuestieCorrections.killCreditObjectiveFirst[32250] = true
 QuestieCorrections.objectObjectiveFirst[32333] = true
+QuestieCorrections.killCreditObjectiveFirst[32643] = true
+QuestieCorrections.killCreditObjectiveFirst[32646] = true
+QuestieCorrections.killCreditObjectiveFirst[32648] = true
+QuestieCorrections.killCreditObjectiveFirst[32650] = true
+QuestieCorrections.killCreditObjectiveFirst[32657] = true
+QuestieCorrections.killCreditObjectiveFirst[32659] = true
+QuestieCorrections.killCreditObjectiveFirst[32943] = true
+QuestieCorrections.killCreditObjectiveFirst[32945] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -3655,7 +3663,7 @@ function MopQuestFixes.Load()
         [30527] = { -- Haohan's Vote IV: Melons For Felons
             [questKeys.objectives] = {nil,nil,{{74848}},nil,{{{66123,66128,66129},66129,nil,Questie.ICON_TYPE_INTERACT},{{58563},58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30525},
-            [questKeys.requiredSourceItems] = {89329},
+            [questKeys.requiredSourceItems] = {89329,89849},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,12}},
         },
         [30528] = { -- Haohan's Vote V: Chief Yip-Yip
@@ -6463,49 +6471,49 @@ function MopQuestFixes.Load()
         [31669] = { -- The Cabbage Test
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31670,31671,31672,31673,31674,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {79102},
+            [questKeys.requiredSourceItems] = {79102,80809},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31670] = { -- That Dangling Carrot
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31671,31672,31673,31674,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80590},
+            [questKeys.requiredSourceItems] = {80590,84782},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31671] = { -- Why Not Scallions?
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31672,31673,31674,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80591},
+            [questKeys.requiredSourceItems] = {80591,84783},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31672] = { -- A Pumpkin-y Perfume
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31673,31674,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80592},
+            [questKeys.requiredSourceItems] = {80592,85153},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31673] = { -- Red Blossom Leeks, You Make the Croc-in' World Go Down
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31674,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80593},
+            [questKeys.requiredSourceItems] = {80593,85158},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31674] = { -- The Pink Turnip Challenge
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31675,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80594},
+            [questKeys.requiredSourceItems] = {80594,85162},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31675] = { -- The White Turnip Treatment
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31941,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {80595},
+            [questKeys.requiredSourceItems] = {80595,85163},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
@@ -7370,21 +7378,21 @@ function MopQuestFixes.Load()
         [31941] = { -- Squash Those Foul Odors
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31942,31943,32682},
-            [questKeys.requiredSourceItems] = {89328},
+            [questKeys.requiredSourceItems] = {89328,89848},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31942] = { -- It's Melon Time
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31943,32682},
-            [questKeys.requiredSourceItems] = {89329},
+            [questKeys.requiredSourceItems] = {89329,89849},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
         [31943] = { -- Which Berries? Witchberries.
             [questKeys.preQuestSingle] = {30257},
             [questKeys.exclusiveTo] = {31669,31670,31671,31672,31673,31674,31675,31941,31942,32682},
-            [questKeys.requiredSourceItems] = {89326},
+            [questKeys.requiredSourceItems] = {89326,89847},
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,6}},
         },
@@ -7395,19 +7403,19 @@ function MopQuestFixes.Load()
         },
         [31945] = { -- Learn and Grow VI: Gina's Vote
             [questKeys.objectives] = {nil,nil,{{74843}},nil,{{{63160,63164,63165},63165,nil,Questie.ICON_TYPE_INTERACT},{{58563},58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80591},
+            [questKeys.requiredSourceItems] = {80591,84783},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,10},{factionIDs.GINA_MUDCLAW,26}},
         },
         [31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
             [questKeys.objectives] = {nil,nil,{{74841}},nil,{{{63154,63156,63158},63154,nil,Questie.ICON_TYPE_INTERACT},{{58563},58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30259},
-            [questKeys.requiredSourceItems] = {80590},
+            [questKeys.requiredSourceItems] = {80590,84782},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,15}},
         },
         [31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
             [questKeys.objectives] = {nil,nil,{{74840}},nil,{{{58567,63157,60113},58567,nil,Questie.ICON_TYPE_INTERACT},{{58563},58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {30518},
-            [questKeys.requiredSourceItems] = {79102},
+            [questKeys.requiredSourceItems] = {79102,80809},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,5},{factionIDs.FARMER_FUNG,21}},
         },
         [31948] = { -- Nana's Vote II: The Sacred Springs
@@ -7416,7 +7424,7 @@ function MopQuestFixes.Load()
         [31949] = { -- Nana's Vote III: Witchberry Julep
             [questKeys.objectives] = {nil,nil,{{74846}},nil,{{{66080,66084,66085},66085,nil,Questie.ICON_TYPE_INTERACT},{{58563},58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {31948},
-            [questKeys.requiredSourceItems] = {89326},
+            [questKeys.requiredSourceItems] = {89326,89847},
             [questKeys.reputationReward] = {{factionIDs.THE_TILLERS,15}},
         },
         [31951] = { -- Grand Master Aki
@@ -8719,42 +8727,72 @@ function MopQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80593},
+            [questKeys.requiredSourceItems] = {80593,85158},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32643] = { -- Work Order: Dominance Offensive II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74844}},nil,{{{63223,63228,63229},63223,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32645] = { -- Work Order: Operation: Shieldwall I
             [questKeys.preQuestGroup] = {32109,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {89326},
+            [questKeys.requiredSourceItems] = {89326,89847},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32646] = { -- Work Order: Operation: Shieldwall II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74846}},nil,{{{66080,66084,66085},66080,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32647] = { -- Work Order: Golden Lotus I
             [questKeys.preQuestGroup] = {30638,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80595},
+            [questKeys.requiredSourceItems] = {80595,85163},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32648] = { -- Work Order: Golden Lotus II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74850}},nil,{{{63260,63264,63265},63260,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32649] = { -- Work Order: Shado-Pan I
             [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {79102},
+            [questKeys.requiredSourceItems] = {79102,80809},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32650] = { -- Work Order: Shado-Pan II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74840}},nil,{{{58567,60113,63157},58567,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32653] = { -- Work Order: The August Celestials I
             [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {89329},
+            [questKeys.requiredSourceItems] = {89329,89849},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32657] = { -- Work Order: The August Celestials II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74848}},nil,{{{66123,66128,66129},66123,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32658] = { -- Work Order: The Klaxxi I
             [questKeys.preQuestGroup] = {31066,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80592},
+            [questKeys.requiredSourceItems] = {80592,85153},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32659] = { -- Work Order: The Klaxxi II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74842}},nil,{{{63180,63184,63185},63180,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32661] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
@@ -8874,14 +8912,24 @@ function MopQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80591},
+            [questKeys.requiredSourceItems] = {80591,84783},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32943] = { -- Work Order: Sunreaver Onslaught II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74843}},nil,{{{63160,63164,63165},63160,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32944] = { -- Work Order: Kirin Tor Offensive I
             [questKeys.preQuestGroup] = {32681,32682},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.requiredSourceItems] = {80590},
+            [questKeys.requiredSourceItems] = {80590,84782},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [32945] = { -- Work Order: Kirin Tor Offensive II
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.objectives] = {nil,nil,{{74841}},nil,{{{63154,63156,63158},63154,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [33136] = { -- The Rainy Day is Here
             [questKeys.preQuestSingle] = {33137},
