@@ -8005,11 +8005,17 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32197},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32209] = { -- Save Our Scouts!
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32221},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
+        },
+        [32215] = { -- Heinous Sacrifice
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32221] = { -- Storming the Beach
             [questKeys.preQuestSingle] = {32108},
@@ -8087,6 +8093,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32108},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32255] = { -- De-Constructed
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32256] = { -- Rise Of An Empire
             [questKeys.preQuestSingle] = {32251},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68681}}}},
@@ -8099,11 +8108,17 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,3950},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32268] = { -- Tactical Mana Bombs
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32284] = { -- Someone You Should See
             [questKeys.preQuestSingle] = {32257},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Binan Village"),0,{{"monster",68681}}}},
             [questKeys.objectives] = {{{67866,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32298] = { -- Dino Might
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
@@ -8679,6 +8694,15 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32427},
             [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
+        [32493] = { -- They All Fall Down
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32494] = { -- Power Play
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32506] = { -- A Wing to Fly On
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32537] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -8723,6 +8747,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
         [32640] = { -- Champions of the Thunder King
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [32641] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
         },
         [32642] = { -- Work Order: Dominance Offensive I
@@ -8852,8 +8879,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 60,
         },
         [32678] = { -- Thunder Calls
-            [questKeys.nextQuestInChain] = 32680,
-            [questKeys.breadcrumbForQuestId] = 32680,
+            [questKeys.nextQuestInChain] = 0,
         },
         [32679] = { -- Thunder Calls
             [questKeys.nextQuestInChain] = 32681,
@@ -8861,7 +8887,6 @@ function MopQuestFixes.Load()
         },
         [32680] = { -- The Storm Gathers
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {32678},
             [questKeys.objectives] = {{{70358,nil,Questie.ICON_TYPE_TALK},{70365,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [32681] = { -- The Storm Gathers
@@ -8891,6 +8916,15 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{440004}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
+        },
+        [32728] = { -- The Court of Bones
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32729] = { -- Za'Tual
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32730] = { -- Ihgaluk Crag
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32733] = { -- Za'Tual
             [questKeys.questFlags] = questFlags.DAILY,
