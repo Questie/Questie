@@ -8018,6 +8018,11 @@ function MopQuestFixes.Load()
         [32215] = { -- Heinous Sacrifice
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32220] = { -- Soul Surrender
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+        },
         [32221] = { -- Storming the Beach
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32214},
@@ -8703,6 +8708,11 @@ function MopQuestFixes.Load()
         },
         [32506] = { -- A Wing to Fly On
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32526] = { -- Soul Surrender
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
         [32537] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
