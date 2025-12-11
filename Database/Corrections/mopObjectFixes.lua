@@ -1042,6 +1042,13 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [objectKeys.factionID] = 1732, -- alliance only
         },
+        [217758] = { -- Sunreaver Perimeter Ward
+            [objectKeys.name] = "Sunreaver Perimeter Ward",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {{35.2,41.4},{35.3,41.6},{36.2,45.3},{36.4,41.6},{36.4,43.3},{36.4,43.5},{36.4,47.1},{36.5,41.5},{36.5,43.3},{36.5,43.5},{37.2,45.4},{37.2,45.5},{37.3,46.7},{37.4,35.7},{37.4,41.1},{37.5,41.1},{37.5,42.3},{37.5,42.5},{37.6,39.3},{37.7,37.6},{38.2,44.9},{38.4,34.2},{38.4,40.3},{38.5,34.2},{38.5,39},{38.5,47.3},{38.6,40.4},{38.7,49.3},{38.8,40.6},{38.9,43.2},{39,48.3},{39.1,45.8},{39.5,38.8},{40.1,37.7},{40.2,41},{40.2,46.4},{40.2,46.5},{40.8,39.3},{41,40.4},{41,40.5},{41,46.1},{41,47.6},{41.2,44.4},{41.2,44.6},{42.1,46.7},{42.2,47.6},{42.7,44.6},{43.1,42},{43.2,43.7},{43.4,46.4},{43.6,46.4},{43.6,46.5},{44.2,44.9},{44.8,47.6},{45.9,46.2}},
+            },
+        },
         [218229] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{49.54,83.26}}},
             [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
@@ -1052,6 +1059,36 @@ function MopObjectFixes.Load()
         },
         [218724] = { -- Secrets of Stabilized Lightning
             [objectKeys.name] = "Secrets of Stabilized Lightning",
+        },
+        [218731] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.5,27.6},{35.1,28.2},{36.3,38.2},{41.3,31.4},{41.3,31.5},{41.4,40.8},{41.5,40.8},{59,73.9},{59.2,65.4},{59.2,65.5},{62.6,78.7},{65.1,67.6}}},
+        },
+        [218732] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{58.9,73.7}}},
+        },
+        [218733] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{59.2,65.4},{59.2,65.5}}},
+        },
+        [218734] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.3,31.4}}},
+        },
+        [218735] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.4,40.7}}},
+        },
+        [218736] = { -- Tactical Mana Bomb
+            [objectKeys.name] = "Tactical Mana Bomb",
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{36.4,38.2}}},
         },
         [220069] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,83.24}}},
