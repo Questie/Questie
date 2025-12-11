@@ -145,6 +145,7 @@ function MopQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
     local questFlags = QuestieDB.questFlags
 
+    ---@format disable
     return {
         [2383] = { -- Simple Parchment
             [questKeys.requiredLevel] = 2,
@@ -9348,6 +9349,7 @@ end
 function MopQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
+    ---@format disable
     local questFixesHorde = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
@@ -9386,7 +9388,7 @@ function MopQuestFixes:LoadFactionFixes()
         },
     }
 
-
+    ---@format disable
     local questFixesAlliance = {
         [30376] = { -- Hope Springs Eternal
             [questKeys.preQuestSingle] = {},
