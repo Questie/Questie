@@ -9,6 +9,7 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@field exclusiveHubs table<HubId, boolean> A list of other hubs that are exclusive to this hub. If the player has quests from any of these hubs, they cannot have quests from this hub.
 ---@field preQuestHubs table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. Only the limit of a single hub needs to be reached to unlock this hub.
 
+---@format disable
 ---@type table<HubId, Hub>
 DailyQuests.hubs = {
     TOL_BARAD_ALLIANCE = {
@@ -398,6 +399,18 @@ DailyQuests.hubs = {
             DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
             DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
         },
+        preQuestHubs = {},
+    },
+    COURT_OF_BONES_ALLIANCE = {
+        quests = {32495,32525,32526,32527,32528,32529,32531,32532,32533},
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    COURT_OF_BONES_HORDE = {
+        quests = {32201,32218,32219,32220,32224,32225,32226,32495,32517},
+        limit = 3,
+        exclusiveHubs = {},
         preQuestHubs = {},
     },
 }
