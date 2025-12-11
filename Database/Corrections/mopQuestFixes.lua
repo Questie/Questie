@@ -8925,6 +8925,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32729] = { -- Za'Tual
+            [questKeys.preQuestSingle] = {32680},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32730] = { -- Ihgaluk Crag
