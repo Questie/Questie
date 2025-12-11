@@ -1,5 +1,9 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
+
+---@class AutoQuestingPrivate
+AutoQuesting.private = AutoQuesting.private or {}
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n

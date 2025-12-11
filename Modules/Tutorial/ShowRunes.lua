@@ -1,4 +1,4 @@
----@type Tutorial
+---@class Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")

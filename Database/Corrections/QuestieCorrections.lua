@@ -21,14 +21,23 @@ local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
 local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
 ---@type HardcoreBlacklist
 local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
----@type SeasonOfDiscovery
+-- ? Due to being ignored by LuaLS for performance reasons, it exists but we define the class here.
+---@class SeasonOfDiscovery
+---Files can be found here: Database/Corrections/Automatic
+---@field LoadBaseQuests fun(): table<number, table<number, string|table|number>>
+---@field LoadBaseNPCs fun(): table<number, table<number, string|table|number>>
+---@field LoadBaseItems fun(): table<number, table<number, string|table|number>>
+---@field LoadBaseObjects fun(): table<number, table<number, string|table|number>>
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type BlacklistFilter
 local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
----@type QuestieClassicQuestReputationFixes
+-- ? Due to being ignored by LuaLS for performance reasons, it exists but we define the class here.
+---@class QuestieClassicQuestReputationFixes
+---Files can be found here: Database/Corrections/Automatic
+---@field Load fun(): table<number, table<number, string|table|number>>
 local QuestieClassicQuestReputationFixes = QuestieLoader:ImportModule("QuestieClassicQuestReputationFixes")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
@@ -77,6 +86,10 @@ local MopObjectFixes = QuestieLoader:ImportModule("MopObjectFixes")
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
 --- Automatic corrections
+-- ? Due to being ignored by LuaLS for performance reasons, it exists but we define the class here.
+---@class QuestieItemStartFixes
+---Files can be found here: Database/Corrections/Automatic
+---@field LoadAutomaticQuestStarts fun(): table<number, table<number, string|table|number>>
 local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes")
 
 --[[

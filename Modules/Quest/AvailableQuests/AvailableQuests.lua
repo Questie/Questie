@@ -19,8 +19,6 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 

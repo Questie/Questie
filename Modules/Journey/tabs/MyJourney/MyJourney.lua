@@ -1,5 +1,7 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.myJourney = {}
 _QuestieJourney.notePopup = nil

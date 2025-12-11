@@ -1,5 +1,9 @@
+--- A lot of this code references a private table of AceGUI, so we disable it for the whole file
+---@diagnostic disable: invisible
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.

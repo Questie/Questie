@@ -1,7 +1,9 @@
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 QuestieJourney.private = QuestieJourney.private or {}
 
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 QuestieJourneyFrame = nil
 -------------------------

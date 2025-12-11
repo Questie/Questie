@@ -1,6 +1,8 @@
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+---@class QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
+---@class QuestieJourneyQuestsByFaction
 _QuestieJourney.questsByFaction = {}
 
 ---@type QuestieDB
