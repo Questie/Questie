@@ -1,6 +1,13 @@
 {
     "Lua.format.enable": true,
     "Lua.diagnostics.globals": [
+        // REAL GLOBALS ADDED BY LOGON IN THE LUALS FIXES
+        "ChatFrameUtil",
+        "ChatFrameMixin",
+        "DEFAULT_CHAT_FRAME", // The main chat frame
+        "WEEKLY", // String constant - There are DAILY and so on
+        "SELF_HIGHLIGHT_MODE_OUTLINE", // String constant
+
         "----> GlobalAPI",
         "AbandonQuest",
         "AbandonSkill",
@@ -6171,9 +6178,15 @@
         "ExternalScripts(DONOTINCLUDEINRELEASE)",
 
         // Questie
-        ".types",
+        "./.types",
         "setupTests.lua",
         "*test.lua",
+        // "**/*.test.lua",
+        "./cli",
+
+        // "old" Database
+        // "./Modules/Libs/QuestieSerializer.lua",
+        // "./Database/compiler.lua",
 
         // Logons WoW-API Reference.
         "WoW-API",
@@ -6186,7 +6199,7 @@
     ],
 
     "Lua.workspace.preloadFileSize": 3000,
-    "Lua.workspace.maxPreload": 2000,
+    "Lua.workspace.maxPreload": 5000,
 
     "search.exclude": {
         ".github/**": true,
