@@ -413,4 +413,16 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubs = {},
     },
+    ZA_TUAL_ALLIANCE = {
+        quests = {32538,32539,32540,32541,32542,32543,32544},
+        limit = 4,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    ZA_TUAL_HORDE = {
+        quests = {32215,32216,32217,32200,32227,32252,32275},
+        limit = 4,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
 }
