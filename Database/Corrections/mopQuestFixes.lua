@@ -8019,6 +8019,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32215] = { -- Heinous Sacrifice
+            [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32217] = { -- Dark Offerings
@@ -8735,6 +8736,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32538] = { -- Heinous Sacrifice
+            [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32539] = { -- Dark Offerings

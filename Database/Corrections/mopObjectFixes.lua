@@ -10,6 +10,7 @@ function MopObjectFixes.Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
+    ---@format disable
     return {
         [4406] = { -- Webwood Eggs
             [objectKeys.spawns] = {[zoneIDs.SHADOWTHREAD_CAVE] = {{44.22,31.59},{44.72,32.08},{45.49,32.76},{45.65,31.64},{46.53,31.94},{47.86,31.88}}},
@@ -1090,6 +1091,18 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{36.4,38.2}}},
         },
+        [218797] = { -- Cha'lat's Sacrificial Altar
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33.84,76.07}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [218798] = { -- Tec'uat's Sacrificial Altar
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{39.75,65.18}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [218801] = { -- Pa'chek's Sacrificial Altar
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{38.63,78.67}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [220069] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,83.24}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -1165,14 +1178,14 @@ function MopObjectFixes:LoadFactionFixes()
 
     local objectFixesHorde = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56, 82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
 
     local objectFixesAlliance = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59,54.42}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59, 54.42}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
