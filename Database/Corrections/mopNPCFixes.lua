@@ -4575,6 +4575,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{10.91,67.77},{11.66,67.98},{13.64,69.31},{14.02,68.93},{8.46,64.98},{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [67662] = { -- High Arcanist Savor
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.4,53.36}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67663] = { -- Magister Hathorel
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67673] = { -- Girana the Blooded
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.42,52.45}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [67682] = { -- Brann Bronzebeard
             [npcKeys.name] = "Brann Bronzebeard",
             [npcKeys.minLevel] = 90,
@@ -4772,6 +4784,14 @@ function MopNpcFixes.Load()
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67985] = { -- Scout Captain Elsia
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67990] = { -- Lor'themar Theron
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.36,52.41}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67996] = { -- Archmage Modera
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.39,74.96}}},

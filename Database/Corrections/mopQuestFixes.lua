@@ -8905,6 +8905,10 @@ function MopQuestFixes.Load()
         [32707] = { -- Secrets in the Isle of Thunder
             [questKeys.preQuestSingle] = {32706},
         },
+        [32709] = { -- Allies in the Shadows
+            [questKeys.preQuestSingle] = {32680},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
         [32718] = { -- Mogu Runes of Fate
             [questKeys.startedBy] = {{63996}},
             [questKeys.objectives] = {nil,{{440004}}},
