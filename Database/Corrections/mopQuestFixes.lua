@@ -8682,6 +8682,9 @@ function MopQuestFixes.Load()
         [32537] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32538] = { -- Heinous Sacrifice
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32549] = { -- Skin of the Saurok
             [questKeys.preQuestSingle] = {32681},
         },

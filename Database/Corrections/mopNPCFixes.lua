@@ -4777,6 +4777,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.39,74.96}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [67997] = { -- Narasi Snowdawn
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.19,59.56}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69668] = { -- Danara Silverglass
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69670] = { -- Vylene Amaranth
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.11,59.12}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [68003] = { -- The Monkey King
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
@@ -5626,6 +5638,14 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "H",
         },
+        [69673] = { -- Ako
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69674] = { -- Dalvin Jaacor
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.66,83.21}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [69675] = { -- Lyalia
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.31,75.19}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5848,6 +5868,10 @@ function MopNpcFixes.Load()
                 [6006] = {{75.2,76.4}},
             },
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70517] = { -- Archmage Lan'dalock
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70551] = { -- Scout Captain Elsia
             [npcKeys.name] = "Scout Captain Daelin",
