@@ -8021,6 +8021,9 @@ function MopQuestFixes.Load()
         [32215] = { -- Heinous Sacrifice
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32217] = { -- Dark Offerings
+            [questKeys.objectives] = {nil,{{216991}}},
+        },
         [32220] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
@@ -8733,6 +8736,9 @@ function MopQuestFixes.Load()
         },
         [32538] = { -- Heinous Sacrifice
             [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32539] = { -- Dark Offerings
+            [questKeys.objectives] = {nil,{{216991}}},
         },
         [32549] = { -- Skin of the Saurok
             [questKeys.preQuestSingle] = {32681},
