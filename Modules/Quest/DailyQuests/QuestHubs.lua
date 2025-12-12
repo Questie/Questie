@@ -425,4 +425,16 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubs = {},
     },
+    IHGALUK_CRAG_ALLIANCE = {
+        quests = {32299,32535,32536,32537,32545,32547,32548,32605},
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    IHGALUK_CRAG_HORDE = {
+        quests = {32204,32254,32255,32274,32299,32489,32491,32805},
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
 }
