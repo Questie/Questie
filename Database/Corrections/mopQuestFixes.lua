@@ -8719,6 +8719,10 @@ function MopQuestFixes.Load()
         [32506] = { -- A Wing to Fly On
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32507] = { -- Skin of the Saurok
+            [questKeys.finishedBy] = {{110018}},
+            [questKeys.preQuestSingle] = {32680},
+        },
         [32517] = { -- The Conquest of Stone
             [questKeys.objectives] = {{{69903}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
@@ -8749,6 +8753,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{216991}}},
         },
         [32549] = { -- Skin of the Saurok
+            [questKeys.finishedBy] = {{110018}},
             [questKeys.preQuestSingle] = {32681},
         },
         [32554] = { -- Dino Might

@@ -14,6 +14,7 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
     local npcFlags = QuestieDB.npcFlags
 
+    ---@format disable
     return {
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{65.5,43.12}}},
@@ -5637,15 +5638,15 @@ function MopNpcFixes.Load()
         },
         [69161] = { -- Oondasta
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [69359] = { -- Beeble Sockwrench
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [69360] = { -- Bozzle Blastinfuse
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [69617] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
@@ -5786,19 +5787,19 @@ function MopNpcFixes.Load()
         },
         [70022] = { -- Ku'ma
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70030] = { -- Agrant Sharpshot
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70034] = { -- Arnold Raygun
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70035] = { -- Atten Hamlock
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70059] = { -- Stunted Direhorn
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
@@ -5848,7 +5849,7 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
         },
         [70346] = { -- Ao Pye
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70363] = { -- Lady Jaina Proudmoore
             [npcKeys.name] = "Lady Jaina Proudmoore",
@@ -5867,7 +5868,7 @@ function MopNpcFixes.Load()
         },
         [70434] = { -- Talak
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [70438] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -5975,10 +5976,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38,90.8},{38.4,93.2},{39,93.2},{39.2,91.4},{39.2,91.6},{39.8,93.6},{40,93}}},
         },
         [71939] = { -- Chi-Ro the Skytamer
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [71940] = { -- Michi Windblossom
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [71986] = { -- Cove Shark
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6093,10 +6094,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{75,44.8}}},
         },
         [73401] = { -- Sentry Yinli
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73403] = { -- Sentry Dondao
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73531] = { -- Highwind Albatross
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6127,13 +6128,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65,50.6},{65.2,49.4},{65.4,50.4},{65.6,49.4},{65.6,49.6}}},
         },
         [73622] = { -- Graceful Swan
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73656] = { -- Crafter Kwon
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73674] = { -- Blizzix Sparkshiv
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73718] = { -- Southsea Lookout
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6355,6 +6356,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.questStarts] = {30587},
         },
+        [110018] = { -- Skin of the Saurok
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{45.35,73.19}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.questEnds] = {32507},
+        },
     }
 end
 
@@ -6364,13 +6371,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesHorde = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56, 25.46}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02, 24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64, 62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
@@ -6378,13 +6385,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2, 30.8}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93, 59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
         },
