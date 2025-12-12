@@ -8022,6 +8022,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32216] = { -- Pterrible Ptorment
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Arcweaver"),0,{{"monster",69223}}}},
+        },
         [32217] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
         },
@@ -8754,6 +8757,9 @@ function MopQuestFixes.Load()
         },
         [32539] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
+        },
+        [32544] = { -- Pterrible Ptorment
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Arcweaver"),0,{{"monster",69223}}}},
         },
         [32546] = { -- Just Some Light Clean-Up Work
             [questKeys.objectives] = {{{69251}}},
