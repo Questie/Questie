@@ -118,6 +118,15 @@ local migrationFunctions = {
                 Questie.db.global.isleOfQuelDanasPhase = 1
             end
         end
+    end,
+    [17] = function()
+        -- Preserve previous dungeon hide preference for both new flags
+        local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
+
+        Questie.db.profile.minimizeTrackerInCombat = false
+        Questie.db.profile.minimizeTrackerInDungeons = previousHideInDungeons
+        Questie.db.profile.hideTrackerInCombat = false
+        Questie.db.profile.hideTrackerInDungeons = false
     end
 }
 

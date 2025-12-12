@@ -545,6 +545,26 @@ function QuestieTracker:Expand()
     end
 end
 
+-- Hides the QuestieTracker
+function QuestieTracker:Hide()
+    if trackerBaseFrame and trackerBaseFrame:IsShown() then
+        trackerBaseFrame:Hide()
+    end
+end
+
+-- Shows the QuestieTracker
+function QuestieTracker:Show()
+    if trackerBaseFrame and Questie.db.profile.trackerEnabled then
+        if not trackerBaseFrame:IsShown() then
+            trackerBaseFrame:Show()
+        end
+
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
+end
+
 function QuestieTracker:Update()
     -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
     local now = GetTime()
