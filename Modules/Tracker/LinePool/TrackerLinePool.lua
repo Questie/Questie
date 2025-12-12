@@ -313,6 +313,10 @@ function TrackerLinePool.SetAllItemButtonAlpha(alpha)
 end
 
 TrackerLinePool.OnHighlightEnter = function(self)
+    if Questie.db.profile.trackerDisableHoverFade then
+        return
+    end
+
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
         local line = linePool[i]
