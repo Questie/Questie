@@ -8,6 +8,7 @@ function MopItemFixes.Load()
     local itemKeys = QuestieDB.itemKeys
     local itemClasses = QuestieDB.itemClasses
 
+    ---@format disable
     return {
         [10641] = { -- Moonpetal Lily
             [itemKeys.objectDrops] = {207346},
@@ -1166,6 +1167,18 @@ function MopItemFixes.Load()
         },
         [92493] = { -- Bilgewater Blasting Cap
             [itemKeys.npcDrops] = {67929},
+        },
+        [92494] = { -- Hellfire Fragment
+            [itemKeys.objectDrops] = {216327},
+        },
+        [92495] = { -- Netherstorm Fragment
+            [itemKeys.objectDrops] = {216328},
+        },
+        [92496] = { -- Blade's Edge Fragment
+            [itemKeys.objectDrops] = {216326},
+        },
+        [92497] = { -- Shadowmoon Fragment
+            [itemKeys.objectDrops] = {216325},
         },
         [92499] = { -- Sturdy Needle
             [itemKeys.npcDrops] = {68026,68027},

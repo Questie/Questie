@@ -944,6 +944,26 @@ function MopObjectFixes.Load()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {32108},
         },
+        [216325] = { -- Soulstone Fragment
+            [objectKeys.name] = "Soulstone Fragment",
+            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{42.89,44.91}}},
+            [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+        },
+        [216326] = { -- Soulstone Fragment
+            [objectKeys.name] = "Soulstone Fragment",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{77.54,31.41}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [216327] = { -- Soulstone Fragment
+            [objectKeys.name] = "Soulstone Fragment",
+            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{61.91,37.31}}},
+            [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
+        },
+        [216328] = { -- Soulstone Fragment
+            [objectKeys.name] = "Soulstone Fragment",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.30,21.05}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [216347] = { -- Divine Bell
             [objectKeys.name] = "Divine Bell",
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS] = {{39.81,39.75}}},
