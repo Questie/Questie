@@ -8106,6 +8106,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32108},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32254] = { -- Manipulating the Saurok
+            [questKeys.objectives] = {{{69293,nil,Questie.ICON_TYPE_TALK},{69309,nil,Questie.ICON_TYPE_TALK},{69310,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [32255] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -8731,6 +8734,9 @@ function MopQuestFixes.Load()
         [32531] = { -- The Conquest of Stone
             [questKeys.objectives] = {{{69903}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+        },
+        [32536] = { -- Manipulating the Saurok
+            [questKeys.objectives] = {{{69682,nil,Questie.ICON_TYPE_TALK},{69684,nil,Questie.ICON_TYPE_TALK},{69686,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32537] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
