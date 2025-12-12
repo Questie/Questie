@@ -8068,6 +8068,9 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32136,32137,32237,32140,32141,32236},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32299] = { -- Just Some Light Clean-Up Work
+            [questKeys.objectives] = {{{69251}}},
+        },
         [32242] = { -- Buried Secrets
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,3950},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
@@ -8751,6 +8754,9 @@ function MopQuestFixes.Load()
         },
         [32539] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
+        },
+        [32546] = { -- Just Some Light Clean-Up Work
+            [questKeys.objectives] = {{{69251}}},
         },
         [32549] = { -- Skin of the Saurok
             [questKeys.finishedBy] = {{110018}},
