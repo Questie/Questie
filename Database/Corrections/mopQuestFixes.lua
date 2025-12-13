@@ -8990,11 +8990,11 @@ function MopQuestFixes.Load()
         },
         [32640] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32708},
         },
         [32641] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
-            [questKeys.preQuestSingle] = {32680},
+            [questKeys.preQuestSingle] = {32708},
         },
         [32642] = { -- Work Order: Dominance Offensive I
             [questKeys.preQuestGroup] = {32108,32682},
