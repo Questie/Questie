@@ -757,6 +757,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{27,23.3},{27,23.8},{27.3,24.8},{27.8,23.2},{28.1,24.7},{28.3,23.5},{28.5,23.9},{28.5,24.8},{28.8,24.2},{29.1,23.6},{29.3,24.1},{29.5,23.4},{29.7,24.9},{30,23.7},{30.2,24.3},{30.5,23.8},{30.8,24.4},{31,23.9},{31.3,24.5},{31.5,24},{31.8,24.6},{32,25}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [214978] = { -- Meeting Stone (Heart of Fear)
+            [objectKeys.name] = 'Meeting Stone',
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.6,33.6}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
         [214979] = { -- Meeting Stone (Stormstout Brewery)
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{35.6,65.6}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
@@ -1123,6 +1128,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{38.63,78.67}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [219216] = { -- Meeting Stone (Throne of Thunder)
+            [objectKeys.name] = 'Meeting Stone',
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.27,33.73}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [220069] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,83.24}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
@@ -1132,16 +1142,6 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {},
             --[objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
             --[objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{69.8,45.5}}},
-        },
-        [223816] = { -- Meeting Stone (Heart of Fear)
-            [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{40.6,33.6}}},
-            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
-        },
-        [223817] = { -- Meeting Stone (Throne of Thunder) TODO: Add correct spawns, once The Isle of Thunder is available
-            [objectKeys.name] = 'Meeting Stone', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = {},
         },
         [223819] = { -- Traps for quest Tread Lightly
             [objectKeys.name] = 'Riverblade Spike Trap', -- DB says "unk name" and wowhead does not know this object, so we reuse it.
