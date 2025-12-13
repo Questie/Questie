@@ -4794,6 +4794,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.36,52.41}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [67992] = { -- Lady Jaina Proudmoore
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.6,89.44}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67993] = { -- Vereesa Windrunner
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.74,89.18}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67995] = { -- Captain Elleane Wavecrest
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.55,89.45}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [67996] = { -- Archmage Modera
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.39,74.96}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5817,6 +5829,10 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [70160] = { -- Taran Zhu
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.42,46.09}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [70166] = { -- Jubeka Shadowbreaker
             [npcKeys.name] = "Jubeka Shadowbreaker",
             [npcKeys.minLevel] = 35,
@@ -5840,16 +5856,22 @@ function MopNpcFixes.Load()
         },
         [70315] = { -- Yalia Sagewhisper
             [npcKeys.name] = "Yalia Sagewhisper",
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 6507,
-            [npcKeys.spawns] = {
-                [6507] = {{51.4,46}},
-            },
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{51.36,46.06}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70316] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.43,46.17}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70346] = { -- Ao Pye
             [npcKeys.spawns] = {}, -- added with a later phase
+        },
+        [70360] = { -- Vereesa Windrunner
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.93,69.04}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
         [70363] = { -- Lady Jaina Proudmoore
             [npcKeys.name] = "Lady Jaina Proudmoore",
@@ -6371,13 +6393,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesHorde = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56, 25.46}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02, 24.15}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64, 62.37}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
@@ -6385,13 +6407,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2, 30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93, 59.95}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
         },
