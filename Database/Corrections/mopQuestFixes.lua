@@ -8901,10 +8901,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32681}, -- further handled in questHubs
         },
         [32579] = { -- Competing Magic
-            [questKeys.preQuestSingle] = {32681}, -- further handled in questHubs
+            [questKeys.preQuestSingle] = {32681},
         },
         [32580] = { -- Encroaching Force
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32681}, -- further handled in questHubs
         },
         [32581] = { -- Imposing Threat
             [questKeys.preQuestSingle] = {32681},
@@ -9156,6 +9156,7 @@ function MopQuestFixes.Load()
         [32708] = { -- Setting the Trap
             [questKeys.preQuestSingle] = {32707},
             [questKeys.objectives] = {{{70203,nil,Questie.ICON_TYPE_OBJECT},{69341}}},
+            [questKeys.reputationReward] = {{factionIDs.SHADO_PAN_ASSAULT,12}},
         },
         [32709] = { -- Allies in the Shadows
             [questKeys.preQuestSingle] = {32680},
