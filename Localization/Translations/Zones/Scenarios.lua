@@ -194,6 +194,18 @@ local dungeonLocales = {
         ["zhCN"] = "盎迦猴岛",
         ["zhTW"] = "仰加印古",
     },
+    ["Mogu Island Loot Room"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(dungeonLocales) do

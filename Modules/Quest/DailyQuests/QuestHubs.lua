@@ -401,37 +401,43 @@ DailyQuests.hubs = {
         },
         preQuestHubs = {},
     },
-    COURT_OF_BONES_ALLIANCE = {
-        quests = {32495,32525,32526,32527,32528,32529,32531,32532,32533},
+    KIRIN_TOR_OFFENSIVE_COURT_OF_BONES_STAGE_1 = {
+        quests = {32525,32526,32527,32528,32529,32530,32531,32532,32533},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubs = {},
     },
-    COURT_OF_BONES_HORDE = {
-        quests = {32201,32218,32219,32220,32224,32225,32226,32495,32517},
-        limit = 3,
-        exclusiveHubs = {},
-        preQuestHubs = {},
-    },
-    ZA_TUAL_ALLIANCE = {
+    KIRIN_TOR_OFFENSIVE_ZA_TUAL_STAGE_1 = {
         quests = {32538,32539,32540,32541,32542,32543,32544},
         limit = 4,
         exclusiveHubs = {},
         preQuestHubs = {},
     },
-    ZA_TUAL_HORDE = {
-        quests = {32215,32216,32217,32200,32227,32252,32275},
-        limit = 4,
-        exclusiveHubs = {},
-        preQuestHubs = {},
-    },
-    IHGALUK_CRAG_ALLIANCE = {
+    KIRIN_TOR_OFFENSIVE_IHGALUK_CRAG_STAGE_1 = {
         quests = {32299,32535,32536,32537,32545,32547,32548,32605},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubs = {},
     },
-    IHGALUK_CRAG_HORDE = {
+    KIRIN_TOR_OFFENSIVE_FINAL_BOSS_STAGE_1 = {
+        quests = {32576,32577,32578},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    SUNREAVER_ONSLAUGHT_COURT_OF_BONES_STAGE_1 = {
+        quests = {32201,32218,32219,32220,32224,32225,32226,32495,32517},
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    SUNREAVER_ONSLAUGHT_ZA_TUAL_STAGE_1 = {
+        quests = {32215,32216,32217,32200,32227,32252,32275},
+        limit = 4,
+        exclusiveHubs = {},
+        preQuestHubs = {},
+    },
+    SUNREAVER_ONSLAUGHT_IHGALUK_CRAG_STAGE_1 = {
         quests = {32204,32254,32255,32274,32299,32489,32491,32805},
         limit = 3,
         exclusiveHubs = {},

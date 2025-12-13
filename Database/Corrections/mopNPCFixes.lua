@@ -5660,6 +5660,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {}, -- added with a later phase
         },
+        [69234] = { -- Ihgaluk Roach
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{52.67,77.57},{54.02,81.59},{50.29,83.01},{47.5,80.7},{45.31,77.34}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [69252] = { -- Ranger Shalan
             [npcKeys.subName] = "Stable Master",
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.11,51.54}}},
@@ -5670,6 +5674,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.14,51.63}}},
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
+        [69263] = { -- Tormented Skyscreamer
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.21,69.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69341] = { -- Echo of Kros
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.06,88.2}}},
+        },
         [69359] = { -- Beeble Sockwrench
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{41.76,79.31}}},
@@ -5679,6 +5690,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{52.03,75.5}}},
             [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
+        },
+        [69369] = { -- Lightning Ritual Bunny
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{32.97,56.01}}},
         },
         [69617] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
@@ -5886,6 +5901,11 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32325},
         },
+        [70176] = { -- Horgak the Enslaver
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{45.66,59.28}}},
+        },
         [70183] = { -- Valaden Silverblade
             [npcKeys.subName] = "Repairs",
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.43,90.43}}},
@@ -5895,6 +5915,10 @@ function MopNpcFixes.Load()
             [npcKeys.subName] = "Stable Master",
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.29,90.64}}}, -- NB spawn possible in Isle of Thunder SCENARIO mapid 6677
             [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [70203] = { -- Spirit Ritual Stone
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.18,87.71}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70270] = { -- Jubeka Shadowbreaker
             [npcKeys.name] = "Jubeka Shadowbreaker",
@@ -5922,6 +5946,19 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.36,45.67}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70319] = { -- Supplier Bao
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{36.13,80.39}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70320] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{35.73,79.8}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
+        },
+        [70321] = { -- Tenwu of the Red Smoke
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{37.35,79.07}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
         },
         [70346] = { -- Ao Pye
             [npcKeys.subName] = "Shado-Pan Assault Quartermaster",
