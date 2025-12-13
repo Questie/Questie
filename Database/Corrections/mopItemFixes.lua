@@ -1251,6 +1251,15 @@ function MopItemFixes.Load()
         [93212] = { -- Spirit Essence of Varatus
             [itemKeys.npcDrops] = {68907},
         },
+        [94197] = { -- The Zandalari Prophecy
+            [itemKeys.startQuest] = 32600,
+        },
+        [94198] = { -- Rumbles of Thunder
+            [itemKeys.startQuest] = 32601,
+        },
+        [94199] = { -- Gods and Monsters
+            [itemKeys.startQuest] = 32602,
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },
