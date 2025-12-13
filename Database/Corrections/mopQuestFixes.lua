@@ -8948,9 +8948,11 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [32605] = { -- Subtle Encouragement
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67760,69210,69226,69227,69228,69229,69338,69348,69387,69403,70347,70348,},67760,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {32680},
         },
         [32606] = { -- Subtle Encouragement
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{67760,69210,69226,69227,69228,69229,69338,69348,69387,69403,70347,70348,},67760,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {32681},
         },
         [32607] = { -- Extended Shore Leave
