@@ -8698,6 +8698,8 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{64616}},
             [questKeys.finishedBy] = {{64616,69782}},
             [questKeys.preQuestSingle] = {32390,32432},
+            [questKeys.nextQuestInChain] = 32590,
+            [questKeys.breadcrumbForQuestId] = 32590,
         },
         [32460] = { -- Tracking the Thieves
             [questKeys.preQuestSingle] = {32414},
@@ -8890,6 +8892,7 @@ function MopQuestFixes.Load()
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32390,32432},
+            [questKeys.breadcrumbs] = {32457},
         },
         [32591] = { -- Secrets of the First Empire
             [questKeys.startedBy] = {{69782}},
