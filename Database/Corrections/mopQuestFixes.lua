@@ -8142,6 +8142,9 @@ function MopQuestFixes.Load()
         [32298] = { -- Dino Might
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32301] = { -- Old Enemies
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
@@ -8716,6 +8719,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32427},
             [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
+        [32485] = { -- Bolstering the Defenses
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32493] = { -- They All Fall Down
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -8733,49 +8739,153 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{69903}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
+        [32525] = { -- Ashes of the Enemy
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32526] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
+            [questKeys.preQuestSingle] = {32681},
         },
         [32527] = { -- Grave Circumstances
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
+        [32528] = { -- Into the Crypts
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32529] = { -- The Call of Thunder
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32530] = { -- The Bloodletter
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32531] = { -- The Conquest of Stone
             [questKeys.objectives] = {{{69903}}},
-            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32532] = { -- Rise No More!
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32533] = { -- Stone Cold
+            [questKeys.preQuestSingle] = {32681},
         },
         [32536] = { -- Manipulating the Saurok
             [questKeys.objectives] = {{{69682,nil,Questie.ICON_TYPE_TALK},{69684,nil,Questie.ICON_TYPE_TALK},{69686,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {32681},
         },
         [32537] = { -- De-Constructed
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
         },
         [32538] = { -- Heinous Sacrifice
             [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
         },
         [32539] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32540] = { -- Harbingers of the Loa
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32541] = { -- Preventing a Future Threat
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32542] = { -- Surgical Strike
+            [questKeys.preQuestSingle] = {32681},
         },
         [32544] = { -- Pterrible Ptorment
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Arcweaver"),0,{{"monster",69223}}}},
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32545] = { -- The Residents of Ihgaluk
+            [questKeys.preQuestSingle] = {32681},
         },
         [32546] = { -- Just Some Light Clean-Up Work
             [questKeys.objectives] = {{{69251}}},
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32547] = { -- The Creeping Carpet of Ihgaluk
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32548] = { -- Left To Rot
+            [questKeys.preQuestSingle] = {32681},
         },
         [32549] = { -- Skin of the Saurok
             [questKeys.finishedBy] = {{110018}},
             [questKeys.preQuestSingle] = {32681},
         },
+        [32550] = { -- Saur Loser
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32551] = { -- Compy Stomp
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32554] = { -- Dino Might
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
         },
         [32557] = { -- Out of Enemy Hands
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
         },
         [32559] = { -- Even Giants Fall
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32560] = { -- Keep It Secret
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32567] = { -- The Beast Pens
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32568] = { -- No Time To Rest
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32572] = { -- The Sleepless Legion
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32573] = { -- Enemies Beneath the Tower
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32574] = { -- The Shuddering Moor
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32575] = { -- The Zandalari Colossus
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32576] = { -- Competing Magic
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32577] = { -- Imposing Threat
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32578] = { -- Among the Bones
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32579] = { -- Competing Magic
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32580] = { -- Encroaching Force
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32581] = { -- Imposing Threat
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32582] = { -- Raining Bones
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32583] = { -- Zandalari on the Rise
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32584] = { -- Encroaching Force
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32585] = { -- Encroaching Force
+            [questKeys.preQuestSingle] = {32681},
         },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
@@ -8789,6 +8899,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{69782}},
             [questKeys.preQuestSingle] = {32457,32590},
         },
+        [32599] = { -- Securing A Future
+            [questKeys.preQuestSingle] = {32681},
+            [questKeys.reputationReward] = {},
+        },
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68560,nil,Questie.ICON_TYPE_PET_BATTLE},{68561,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE},{68566,nil,Questie.ICON_TYPE_PET_BATTLE}}},
@@ -8798,15 +8912,54 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68555,nil,Questie.ICON_TYPE_PET_BATTLE},{68563,nil,Questie.ICON_TYPE_PET_BATTLE},{68564,nil,Questie.ICON_TYPE_PET_BATTLE},{68565,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32605] = { -- Subtle Encouragement
+            [questKeys.preQuestSingle] = {32680},
+        },
+        [32606] = { -- Subtle Encouragement
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32607] = { -- Extended Shore Leave
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32608] = { -- Raiding the Vault
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32618] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
+        [32628] = { -- Tactical Mana Bombs
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32631] = { -- High Recognition
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32634] = { -- Breaking Down the Defenses
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32635] = { -- Enough with the Bombs!
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32636] = { -- Captive Audience
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32637] = { -- Overpowered
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32638] = { -- Mana Scavengers
+            [questKeys.preQuestSingle] = {32681},
+        },
+        [32639] = { -- Deconstruction
+            [questKeys.preQuestSingle] = {32681},
+        },
         [32640] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.preQuestSingle] = {32681},
         },
         [32641] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.preQuestSingle] = {32680},
         },
         [32642] = { -- Work Order: Dominance Offensive I
             [questKeys.preQuestGroup] = {32108,32682},
@@ -8863,6 +9016,9 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {89329,89849},
             [questKeys.nextQuestInChain] = 0,
+        },
+        [32655] = { -- A Bold Idea
+            [questKeys.preQuestSingle] = {32652},
         },
         [32657] = { -- Work Order: The August Celestials II
             [questKeys.questFlags] = questFlags.DAILY,
@@ -8961,6 +9117,9 @@ function MopQuestFixes.Load()
         [32707] = { -- Secrets in the Isle of Thunder
             [questKeys.preQuestSingle] = {32706},
         },
+        [32708] = { -- Setting the Trap
+            [questKeys.preQuestSingle] = {32707},
+        },
         [32709] = { -- Allies in the Shadows
             [questKeys.preQuestSingle] = {32680},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
@@ -8988,8 +9147,16 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32680},
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32731] = { -- The Court of Bones
+            [questKeys.preQuestSingle] = {32681},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32732] = { -- Ihgaluk Crag
+            [questKeys.preQuestSingle] = {32681},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32733] = { -- Za'Tual
-            [questKeys.preQuestSingle] = {32680},
+            [questKeys.preQuestSingle] = {32681},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32805] = { -- Celestial Blessings
