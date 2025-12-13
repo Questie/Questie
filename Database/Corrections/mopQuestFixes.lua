@@ -8121,6 +8121,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{69293,nil,Questie.ICON_TYPE_TALK},{69309,nil,Questie.ICON_TYPE_TALK},{69310,nil,Questie.ICON_TYPE_TALK}}},
         },
         [32255] = { -- De-Constructed
+            [questKeys.objectives] = {{{69287,nil,Questie.ICON_TYPE_OBJECT},{69288,nil,Questie.ICON_TYPE_OBJECT},{69290,nil,Questie.ICON_TYPE_OBJECT},{69289,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32256] = { -- Rise Of An Empire
@@ -8796,6 +8797,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32681},
         },
         [32537] = { -- De-Constructed
+            [questKeys.objectives] = {{{69693,nil,Questie.ICON_TYPE_OBJECT},{69688,nil,Questie.ICON_TYPE_OBJECT},{69695,nil,Questie.ICON_TYPE_OBJECT},{69697,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestSingle] = {32681},
         },
