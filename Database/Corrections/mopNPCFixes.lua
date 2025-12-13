@@ -199,12 +199,12 @@ function MopNpcFixes.Load()
                 [zoneIDs.DREAD_WASTES] = {{99.85,74.91},{93.3,82.39},{77.78,77.37},{85.63,8.06},{60.13,26.21},{46.21,22.18},{39.54,36.74},{42.09,52.97},{30.37,75.94},{59.94,55.0},{78.88,44.99},{90.04,55.92},{96.22,1.4},{84.82,6.37},{82.82,20.16},{74.52,10.4},{35.34,3.8},{90.05,23.7},{92.87,34.72},{87.25,36.71},{85.87,30.0},{34.59,23.1},{25.05,83.66},{37.36,74.84},{29.35,30.82}},
                 [zoneIDs.THE_VEILED_STAIR] = {{5.44,63.66},{6.82,44.1},{79.94,97.15},{54.12,53.47},{57.13,5.88}},
                 [zoneIDs.KUN_LAI_SUMMIT] = {{37.39,94.96},{67.84,64.97},{0.29,76.37},{45.15,89.49},{42.49,71.15},{34.12,50.13},{32.2,56.78},{51.14,49.73},{55.77,49.13},{68.54,59.47},{71.48,90.36},{85.47,71.31},{29.0,95.57},{20.15,93.7},{11.86,77.47},{95.91,74.16},{85.1,93.27},{60.08,84.19},{56.5,62.08},{48.95,38.45},{29.15,62.11},{37.63,84.4},{75.0,24.11},{67.13,33.58},{59.39,38.13},{43.79,51.05},{23.78,76.72},{80.72,95.84},{87.91,63.69}},
-                -- [zoneIDs.ISLE_OF_GIANTS] = {{47.52,62.74}}, -- to enable with correct patch
-                -- [zoneIDs.ISLE_OF_THUNDER] = {{63.37,71.13},{58.19,59.26}}, -- to enable with correct patch
                 -- verified ingame spawns
                 [zoneIDs.GILNEAS_CITY] = {{38.33,43.65},{31.07,77.52},{58.71,77.29},{63.28,13.66}},
                 [zoneIDs.GILNEAS] = {{50.37,56.1},{78.6,67.66},{62.58,93.65},{56.04,77.21},{50.63,80.69}},
-                [zoneIDs.THE_LOST_ISLES] = {{28.12,74.61},{37.11,78.37},{35.51,66.89},{23.76,62.47},},
+                [zoneIDs.THE_LOST_ISLES] = {{28.12,74.61},{37.11,78.37},{35.51,66.89},{23.76,62.47}},
+                [zoneIDs.ISLE_OF_GIANTS] = {{47.52,62.7}},
+                [zoneIDs.ISLE_OF_THUNDER] = {{58.19,59.26},{48.94,68.75},{40.26,58.02},{31.39,33.84},{45.09,46.33},{63.37,71.13}}, -- TODO add 3 spirit healers
             },
         },
         [10181] = { -- Lady Sylvanas Windrunner
@@ -4584,6 +4584,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [67672] = { -- Vasarin Redmorn
+            [npcKeys.name] = "Vasarin Redmorn",
+            [npcKeys.subName] = "Sunreaver Onslaught Quartermaster",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.16,51.7}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "H",
+        },
         [67673] = { -- Girana the Blooded
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.42,52.45}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -4814,13 +4824,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.19,59.56}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
-        [69668] = { -- Danara Silverglass
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
+        [68000] = { -- Hiren Loresong
+            [npcKeys.subName] = "Kirin Tor Offensive Quartermaster",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.9,89.9}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
-        },
-        [69670] = { -- Vylene Amaranth
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.11,59.12}}},
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [68003] = { -- The Monkey King
             [npcKeys.minLevel] = 93,
@@ -5652,13 +5660,25 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {}, -- added with a later phase
         },
+        [69252] = { -- Ranger Shalan
+            [npcKeys.subName] = "Stable Master",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.11,51.54}}},
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [69259] = { -- Lanesh the Steelweaver
+            [npcKeys.subName] = "Blacksmithing Supplies",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.14,51.63}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
         [69359] = { -- Beeble Sockwrench
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{41.76,79.31}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [69360] = { -- Bozzle Blastinfuse
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{52.03,75.5}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [69617] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
@@ -5670,6 +5690,14 @@ function MopNpcFixes.Load()
                 [6677] = {{56,39.2}},
             },
             [npcKeys.friendlyToFaction] = "H",
+        },
+        [69668] = { -- Danara Silverglass
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69670] = { -- Vylene Amaranth
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.11,59.12}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69673] = { -- Ako
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
@@ -5799,19 +5827,33 @@ function MopNpcFixes.Load()
         },
         [70022] = { -- Ku'ma
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{32.6,54.83}}},
         },
         [70030] = { -- Agrant Sharpshot
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{35.43,53.32}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70031] = { -- Nellie Sattler
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{36.29,52.71}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+        },
+        [70032] = { -- Dr. Ion Goldbloom
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.77,44.46}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+        },
+        [70033] = { -- Nedris Smuggler
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.63,44.64}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
         },
         [70034] = { -- Arnold Raygun
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.66,44.24}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70035] = { -- Atten Hamlock
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{36.94,51.15}}},
         },
         [70059] = { -- Stunted Direhorn
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
@@ -5844,6 +5886,16 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32325},
         },
+        [70183] = { -- Valaden Silverblade
+            [npcKeys.subName] = "Repairs",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.43,90.43}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70184] = { -- Tassia Whisperglen
+            [npcKeys.subName] = "Stable Master",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.29,90.64}}}, -- NB spawn possible in Isle of Thunder SCENARIO mapid 6677
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
         [70270] = { -- Jubeka Shadowbreaker
             [npcKeys.name] = "Jubeka Shadowbreaker",
             [npcKeys.minLevel] = 35,
@@ -5865,6 +5917,11 @@ function MopNpcFixes.Load()
         [70316] = { -- Taoshi
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.43,46.17}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [70318] = { -- Supplier Bao
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.36,45.67}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70346] = { -- Ao Pye
             [npcKeys.spawns] = {}, -- added with a later phase
@@ -5890,7 +5947,7 @@ function MopNpcFixes.Load()
         },
         [70434] = { -- Talak
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{29.17,68.1}}},
         },
         [70438] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -5915,6 +5972,10 @@ function MopNpcFixes.Load()
         [70517] = { -- Archmage Lan'dalock
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [70535] = { -- Teng of the Flying Daggers
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.72,46.53}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70551] = { -- Scout Captain Elsia
             [npcKeys.name] = "Scout Captain Daelin",
