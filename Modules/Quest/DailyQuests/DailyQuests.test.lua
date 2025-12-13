@@ -1,10 +1,9 @@
 dofile("setupTests.lua")
 
 describe("DailyQuests", function()
-    
     ---@type DailyQuests
     local DailyQuests
-    
+
     before_each(function()
         _G["Questie"] = {db = {char = {complete = {}}}}
 
@@ -12,27 +11,27 @@ describe("DailyQuests", function()
 
         DailyQuests.hubs = {
             TEST_HUB = {
-                quests = { 1, 2, 3, 4, 5 },
+                quests = {1, 2, 3, 4, 5},
                 limit = 3,
-                exclusiveHubs = { TEST_HUB_2 = true },
-                preQuestHubs = {},
+                exclusiveHubs = {TEST_HUB_2 = true},
+                preQuestHubsSingle = {},
             },
             TEST_HUB_2 = {
-                quests = { 6, 7, 8 },
+                quests = {6, 7, 8},
                 limit = 1,
-                exclusiveHubs = { TEST_HUB = true },
-                preQuestHubs = {},
+                exclusiveHubs = {TEST_HUB = true},
+                preQuestHubsSingle = {},
             },
             TEST_HUB_3 = {
-                quests = { 9 },
+                quests = {9},
                 limit = 1,
                 exclusiveHubs = {},
-                preQuestHubs = { TEST_HUB_2 = true, TEST_HUB = true },
+                preQuestHubsSingle = {TEST_HUB_2 = true, TEST_HUB = true},
             },
         }
         DailyQuests.Initialize()
     end)
-    
+
     describe("ShouldBeHidden", function()
         it("should return true when quest is registered and limit of quests is reached by completed quests", function()
             local completedQuests = {
@@ -167,7 +166,7 @@ describe("DailyQuests", function()
             assert.is_false(shouldBeHidden)
         end)
 
-        it("should return false when quest is part of a hub for which all preQuestHubs are complete", function()
+        it("should return false when quest is part of a hub for which all preQuestHubsSingle are complete", function()
             local completedQuests = {
                 [1] = true,
                 [2] = true,

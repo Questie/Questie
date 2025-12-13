@@ -148,10 +148,10 @@ end
 ---@return boolean
 function DailyQuests:IsDailyQuest(questId)
     return nhcDailyIds[questId] ~= nil or
-            hcDailyIds[questId] ~= nil or
-            cookingDailyIds[questId] ~= nil or
-            fishingDailyIds[questId] ~= nil or
-            pvpDailyIds[questId] ~= nil;
+        hcDailyIds[questId] ~= nil or
+        cookingDailyIds[questId] ~= nil or
+        fishingDailyIds[questId] ~= nil or
+        pvpDailyIds[questId] ~= nil;
 end
 
 nhcDailyIds = {
@@ -252,8 +252,8 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
         return true
     end
 
-    local singlePreQuestHubComplete = (not next(hub.preQuestHubs))
-    for hubId, _ in pairs(hub.preQuestHubs) do
+    local singlePreQuestHubComplete = (not next(hub.preQuestHubsSingle))
+    for hubId, _ in pairs(hub.preQuestHubsSingle) do
         local preHub = DailyQuests.hubs[hubId]
         local preHubCompletedCount = 0
         for _, preHubQuestId in pairs(preHub.quests) do
