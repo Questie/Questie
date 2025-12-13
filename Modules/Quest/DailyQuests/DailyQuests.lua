@@ -271,6 +271,26 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
         return true
     end
 
+    local groupPreQuestHubComplete = true
+    for hubId, _ in pairs(hub.preQuestHubsGroup) do
+        local preHub = DailyQuests.hubs[hubId]
+        local preHubCompletedCount = 0
+        for _, preHubQuestId in pairs(preHub.quests) do
+            if completedQuests[preHubQuestId] then
+                preHubCompletedCount = preHubCompletedCount + 1
+            end
+        end
+
+        if preHubCompletedCount < preHub.limit then
+            groupPreQuestHubComplete = false
+            break
+        end
+    end
+
+    if (not groupPreQuestHubComplete) then
+        return true
+    end
+
     return false
 end
 
