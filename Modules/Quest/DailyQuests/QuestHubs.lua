@@ -461,7 +461,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     KIRIN_TOR_OFFENSIVE_IHGALUK_CRAG_STAGE_1 = {
-        quests = {32299,32535,32536,32537,32545,32547,32548,32605},
+        quests = {32535,32536,32537,32545,32546,32547,32548,32606},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
@@ -489,7 +489,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     SUNREAVER_ONSLAUGHT_IHGALUK_CRAG_STAGE_1 = {
-        quests = {32204,32254,32255,32274,32299,32489,32491,32805},
+        quests = {32204,32254,32255,32274,32299,32489,32491,32605},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
