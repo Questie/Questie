@@ -5924,7 +5924,9 @@ function MopNpcFixes.Load()
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70346] = { -- Ao Pye
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.subName] = "Shado-Pan Assault Quartermaster",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{38.01,64.56}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70360] = { -- Vereesa Windrunner
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.93,69.04}}},
