@@ -74,7 +74,7 @@ function Questie:Colorize(str, color)
     elseif color == "blue" then
         c = "|cFF0000FF";
     elseif color == "lightBlue" then
-        c = "|cB900FFFF";
+        c = "|cFF00BBFF";
     elseif color == "reputationBlue" then
         c = "|cFF8080ff";
     elseif color == "repeatableBlue" then
