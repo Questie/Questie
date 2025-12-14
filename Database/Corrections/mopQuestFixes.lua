@@ -9154,7 +9154,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32707] = { -- Secrets in the Isle of Thunder
-            [questKeys.preQuestSingle] = {32706},
+            [questKeys.preQuestSingle] = {32706,32709},
             [questKeys.reputationReward] = {{factionIDs.SHADO_PAN_ASSAULT,31}},
         },
         [32708] = { -- Setting the Trap
