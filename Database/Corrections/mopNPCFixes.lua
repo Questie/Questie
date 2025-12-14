@@ -5664,6 +5664,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{52.67,77.57},{54.02,81.59},{50.29,83.01},{47.5,80.7},{45.31,77.34}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [69241] = { -- Gura the Reclaimed
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{36.79,56.55}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [69252] = { -- Ranger Shalan
             [npcKeys.subName] = "Stable Master",
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.11,51.54}}},
@@ -5710,6 +5714,12 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "H",
         },
+        [69665] = { -- Arcweaver Jor'guva
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.01,68.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [69668] = { -- Danara Silverglass
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5736,6 +5746,16 @@ function MopNpcFixes.Load()
         },
         [69678] = { -- Image of Archmage Vargoth
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.23,74.97}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69682] = { -- Magister Yalis
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.16,83.38}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{44.47,83.22},{44.50,83.21},{44.58,83.29},{44.76,83.50},{44.91,83.74},{45.02,83.91},{45.09,84.03},{45.01,84.00},{44.84,83.91},{44.66,83.75},{44.50,83.60},{44.38,83.48},{44.20,83.39},{44.16,83.38},{44.47,83.22}}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69686] = { -- Magistrix Sanal
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.83,73.4}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{51.80,73.55},{51.84,73.83},{51.98,73.95},{52.03,73.95},{51.87,74.03},{51.69,74.11},{51.50,74.06},{51.35,74.02},{51.16,73.95},{51.02,73.85},{50.86,73.68},{50.82,73.47},{50.82,73.42},{50.81,73.40},{50.91,73.74},{51.06,73.84},{51.25,73.88},{51.44,73.86},{51.59,73.82},{51.72,73.60},{51.84,73.38},{51.83,73.40}}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69695] = { -- Distressed Silver Covenant Construct
@@ -6501,13 +6521,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesHorde = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56, 25.46}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02, 24.15}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64, 62.37}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
@@ -6515,13 +6535,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2, 30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93, 59.95}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
         },

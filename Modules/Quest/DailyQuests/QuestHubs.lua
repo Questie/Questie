@@ -446,53 +446,68 @@ DailyQuests.hubs = {
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    KIRIN_TOR_OFFENSIVE_COURT_OF_BONES_STAGE_1 = {
+    KIRIN_TOR_OFFENSIVE_STAGE_1_COURT_OF_BONES = {
         quests = {32525,32526,32527,32528,32529,32530,32531,32532,32533},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    KIRIN_TOR_OFFENSIVE_ZA_TUAL_STAGE_1 = {
+    KIRIN_TOR_OFFENSIVE_STAGE_1_ZA_TUAL = {
         quests = {32538,32539,32540,32541,32542,32543,32544},
         limit = 4,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    KIRIN_TOR_OFFENSIVE_IHGALUK_CRAG_STAGE_1 = {
+    KIRIN_TOR_OFFENSIVE_STAGE_1_IHGALUK_CRAG = {
         quests = {32535,32536,32537,32545,32546,32547,32548,32606},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    KIRIN_TOR_OFFENSIVE_FINAL_BOSS_STAGE_1 = {
+    KIRIN_TOR_OFFENSIVE_STAGE_1_FINAL_BOSS = {
         quests = {32576,32577,32578},
         limit = 1,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
-        preQuestHubsGroup = {},
+        preQuestHubsGroup = {
+            KIRIN_TOR_OFFENSIVE_STAGE_1_COURT_OF_BONES = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_1_ZA_TUAL = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_1_IHGALUK_CRAG = true,
+        },
     },
-    SUNREAVER_ONSLAUGHT_COURT_OF_BONES_STAGE_1 = {
+    SUNREAVER_ONSLAUGHT_STAGE_1_COURT_OF_BONES = {
         quests = {32201,32218,32219,32220,32224,32225,32226,32495,32517},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_ZA_TUAL_STAGE_1 = {
-        quests = {32215,32216,32217,32200,32227,32252,32275},
+    SUNREAVER_ONSLAUGHT_STAGE_1_ZA_TUAL = {
+        quests = {32200,32215,32216,32217,32227,32252,32275},
         limit = 4,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_IHGALUK_CRAG_STAGE_1 = {
-        quests = {32204,32254,32255,32274,32299,32489,32491,32605},
+    SUNREAVER_ONSLAUGHT_STAGE_1_IHGALUK_CRAG = {
+        quests = {32204,32254,32255,32274,32299,32489,32491,32805},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_1_FINAL_BOSS = {
+        quests = {32293,32561,32562},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {
+            SUNREAVER_ONSLAUGHT_STAGE_1_COURT_OF_BONES = true,
+            SUNREAVER_ONSLAUGHT_STAGE_1_ZA_TUAL = true,
+            SUNREAVER_ONSLAUGHT_STAGE_1_IHGALUK_CRAG = true,
+        },
     },
 }
