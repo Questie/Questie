@@ -35,18 +35,19 @@ function _MinimapIcon:CreateDataBrokerObject()
 
         OnClick = _MinimapIcon.OnClick,
 
+        ---@param tooltip any
         OnTooltipShow = function (tooltip)
-            tooltip:AddDoubleLine("Questie", Questie:Colorize(QuestieLib:GetAddonVersionString(),'gray'), 1, 0.82, 0, 1, 1, 1)
+            tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
             tooltip:AddLine(" ")
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), (Questie:Colorize(l10n('Toggle My Journey'), 'white')))
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), (Questie:Colorize(l10n('Toggle Menu'), 'white')))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle My Journey'), 'white'))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
             tooltip:AddLine(" ")
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Shift + Left Click'), 'lightBlue'), (Questie:Colorize(l10n('Questie Options'), 'white')))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Questie Options'), 'white'))
             tooltip:AddLine(" ")
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Left Click'), 'lightBlue'), (Questie:Colorize(l10n('Reload Questie'), 'white')))
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), (Questie:Colorize(l10n('Hide Minimap Button'), 'white')))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Reload Questie'), 'white'))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), Questie:Colorize(l10n('Hide Minimap Button'), 'white'))
             tooltip:AddLine(" ")
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), (Questie:Colorize(l10n('Toggle Questie'), 'white')))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
         end,
     })
 
