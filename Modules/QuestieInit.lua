@@ -77,6 +77,8 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
@@ -193,6 +195,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         coYield()
         Townsfolk:BuildCharacterTownsfolk()
     end
+
+    QuestieEvent.Initialize()
 
     coYield()
     QuestieDB:Initialize()
