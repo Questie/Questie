@@ -1260,6 +1260,10 @@ function MopItemFixes.Load()
         [94199] = { -- Gods and Monsters
             [itemKeys.startQuest] = 32602,
         },
+        [94221] = { -- Shan'ze Ritual Stone
+            [itemKeys.npcDrops] = {50358,69664,69996,69997,69998,69999,70000,70001,70002,70003,70530},
+            [itemKeys.objectDrops] = {218593},
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },
