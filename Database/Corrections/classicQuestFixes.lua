@@ -3000,10 +3000,11 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
-            -- [questKeys.nextQuestInChain] = 6962, -- question mark
+            [questKeys.breadcrumbForQuestId] = 6962,
         },
         [6962] = {
             [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
+            [questKeys.breadcrumbs] = {6961,7021,7024},
         },
         [6981] = {
             [questKeys.objectives] = {{{3442,"Speak with someone in Ratchet about the Glowing Shard"}},nil,nil,nil},
@@ -3028,18 +3029,23 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
-            -- [questKeys.nextQuestInChain] = 6962, -- question mark
+            [questKeys.breadcrumbForQuestId] = 6962,
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 7025,
         },
         [7023] = {
             [questKeys.startedBy] = {{13435},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 7025,
         },
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
-            -- [questKeys.nextQuestInChain] = 6962, -- question mark
+            [questKeys.breadcrumbForQuestId] = 6962,
+        },
+        [7025] = {
+            [questKeys.breadcrumbs] = {7022,7023},
         },
         [7026] = {
             [questKeys.objectivesText] = {},
