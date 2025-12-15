@@ -1209,14 +1209,14 @@ function MopObjectFixes:LoadFactionFixes()
 
     local objectFixesHorde = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56, 82.14}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
 
     local objectFixesAlliance = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59, 54.42}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59,54.42}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }

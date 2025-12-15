@@ -240,6 +240,12 @@ function MopQuestFixes.Load()
         [3120] = { -- Verdant Sigil
             [questKeys.requiredLevel] = 2,
         },
+        [6983] = { -- You're a Mean One...
+            [questKeys.objectives] = {nil,nil,{{17662}},nil,{{{15664},15664,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [7043] = { -- You're a Mean One...
+            [questKeys.objectives] = {nil,nil,{{17662}},nil,{{{15664},15664,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [8327] = { -- Report to Lanthan Perilon
             [questKeys.nextQuestInChain] = 0,
         },
