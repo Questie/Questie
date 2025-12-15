@@ -64,7 +64,7 @@ jobs:
         run: luacheck -q -- Database Localization Modules Public Questie.lua
 
       - name: Upload correction files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: correction-files
           path: cli/output/
