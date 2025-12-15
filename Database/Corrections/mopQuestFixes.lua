@@ -9077,6 +9077,12 @@ function MopQuestFixes.Load()
         [32608] = { -- Raiding the Vault
             [questKeys.preQuestSingle] = {32681},
         },
+        [32616] = { -- A Large Pile of Giant Dinosaur Bones
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [32617] = { -- A Mountain of Giant Dinosaur Bones
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [32618] = { -- Learn To Ride
             [questKeys.requiredLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.HUMAN,
