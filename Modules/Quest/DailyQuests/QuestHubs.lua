@@ -455,7 +455,7 @@ DailyQuests.hubs = {
     },
     KIRIN_TOR_OFFENSIVE_STAGE_1_ZA_TUAL = {
         quests = {32538,32539,32540,32541,32542,32543,32544},
-        limit = 4,
+        limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
