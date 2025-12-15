@@ -3000,7 +3000,6 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
-            [questKeys.nextQuestInChain] = 6962,
         },
         [6962] = {
             [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
