@@ -3027,7 +3027,6 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
-            [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
@@ -3038,7 +3037,6 @@ function QuestieQuestFixes:Load()
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
-            [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},
