@@ -35,6 +35,7 @@ local timer
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
 local availableQuests = {}
+local availableQuestsByNpc = {}
 
 local dungeons
 local playerFaction
@@ -128,6 +129,11 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                 return
             end
 
+            if (not availableQuestsByNpc[npc.id]) then
+                availableQuestsByNpc[npc.id] = {}
+            end
+            availableQuestsByNpc[npc.id][quest.Id] = true
+
             if limit == 0 or added < limit then
                 added = added + _AddStarter(npc, quest, "m_" .. npc.id, (limit == 0 and 0) or (limit - added))
             else
@@ -143,6 +149,77 @@ function AvailableQuests.UnloadUndoable()
             QuestieMap:UnloadQuestFrames(questId)
         end
     end
+end
+
+---@type string|nil
+local lastNpcGuid
+
+--- Called on GOSSIP_SHOW to hide all quests that are not available from the NPC.
+--- This is relevant on NPCs which offer random quests each day and especially a different number of quests.
+---@param fromGossip boolean True if called from the GOSSIP_SHOW event, false if called from another event.
+function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
+    local npcGuid = UnitGUID("target")
+    if (not npcGuid) then
+        return
+    end
+
+    local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+    if (not npcIDStr) then
+        return
+    end
+
+    local npcId = tonumber(npcIDStr)
+    if (not availableQuestsByNpc[npcId]) then
+        return
+    end
+
+    if fromGossip then
+        lastNpcGuid = npcGuid
+
+        local availableQuestsInGossip = QuestieCompat.GetAvailableQuests() -- empty list when not from gossip
+        for questId in pairs(availableQuestsByNpc[npcId]) do
+            local isAvailableInGossip = false
+            for _, gossipQuest in pairs(availableQuestsInGossip) do
+                if gossipQuest.questID == questId then
+                    isAvailableInGossip = true
+                    break
+                end
+            end
+
+            if (not isAvailableInGossip) then
+                print("Unloading quest ID:", questId)
+                QuestieMap:UnloadQuestFrames(questId)
+                QuestieTooltips:RemoveQuest(questId)
+
+                availableQuests[questId] = nil
+                availableQuestsByNpc[npcId][questId] = nil
+            end
+        end
+    elseif lastNpcGuid == npcGuid then
+        -- We already processed this NPC on GOSSIP_SHOW, so we don't do anything here
+        return
+    else
+        -- Hide all quests but the current one
+        local questId = GetQuestID()
+        if questId == 0 then
+            -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
+            return
+        end
+
+        for availableQuestId in pairs(availableQuestsByNpc[npcId]) do
+            if (availableQuestId ~= questId) then
+                QuestieMap:UnloadQuestFrames(availableQuestId)
+                QuestieTooltips:RemoveQuest(availableQuestId)
+
+                availableQuests[availableQuestId] = nil
+                availableQuestsByNpc[npcId][questId] = nil
+            end
+        end
+    end
+end
+
+function AvailableQuests.ResetLastNpcGuid()
+    lastNpcGuid = nil
 end
 
 _CalculateAndDrawAvailableQuests = function()
@@ -239,6 +316,7 @@ _CalculateAndDrawAvailableQuests = function()
         _CheckAvailability(questId)
     end
 
+    availableQuestsByNpc = {}
     local questCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then

@@ -113,6 +113,7 @@ function EventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
+        AvailableQuests.ResetLastNpcGuid()
         AutoQuesting.OnQuestFinished()
         if Expansions.Current >= Expansions.Cata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
@@ -126,6 +127,7 @@ function EventHandler:RegisterLateEvents()
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
+        AvailableQuests.HideNotAvailableQuestsFromNPC(false)
         AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
@@ -133,6 +135,7 @@ function EventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
     Questie:RegisterEvent("GOSSIP_SHOW", function()
+        AvailableQuests.HideNotAvailableQuestsFromNPC(true)
         AutoQuesting.OnGossipShow()
         QuestgiverFrame.GossipMark()
     end)
@@ -141,8 +144,11 @@ function EventHandler:RegisterLateEvents()
         QuestgiverFrame.GreetingMark()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)              -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", function()                               -- When complete window shows
+    Questie:RegisterEvent("GOSSIP_CLOSED", function() -- Called twice when the stopping to talk to an NPC
+        AvailableQuests.ResetLastNpcGuid()
+        AutoQuesting.OnGossipClosed()
+    end)
+    Questie:RegisterEvent("QUEST_COMPLETE", function() -- When complete window shows
         AutoQuesting.OnQuestComplete()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
@@ -310,7 +316,7 @@ function EventHandler:RegisterLateEvents()
     end
 
     if Expansions.Current >= Expansions.Cata and Questie.db.profile.trackerEnabled then
-       -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
+        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
         end)
