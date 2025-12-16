@@ -3001,6 +3001,7 @@ function QuestieQuestFixes:Load()
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
             [questKeys.breadcrumbForQuestId] = 6962,
+            [questKeys.nextQuestInChain] = 6962,
         },
         [6962] = {
             [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
@@ -3030,6 +3031,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
             [questKeys.breadcrumbForQuestId] = 6962,
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
@@ -3041,6 +3043,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
             [questKeys.breadcrumbForQuestId] = 6962,
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},
