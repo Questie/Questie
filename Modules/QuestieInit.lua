@@ -327,6 +327,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.started = true
 
+    -- We only update this if Questie fully loads to make sure we don't update it on crashes/fast reloads
+    QuestieLib.UpdateLastKnownDailyReset()
+
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 

@@ -684,4 +684,24 @@ function QuestieLib.GetQuestIcon(quest)
     return Questie.ICON_TYPE_AVAILABLE
 end
 
+--- Checks if a daily reset has occurred since the player's last login.
+---@return boolean True if a daily reset has occurred, false otherwise.
+function QuestieLib.DidDailyResetHappenSinceLastLogin()
+    local realmName = GetRealmName()
+    local lastKnownDailyReset = Questie.db.global.lastKnownDailyReset[realmName]
+
+    if (not lastKnownDailyReset) then
+        return true -- No previous login recorded, assume a reset has occurred
+    end
+
+    return GetServerTime() >= lastKnownDailyReset
+end
+
+--- Updates the last known daily reset time to the next reset time.
+function QuestieLib.UpdateLastKnownDailyReset()
+    local realmName = GetRealmName()
+
+    Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + GetQuestResetTime()
+end
+
 return QuestieLib

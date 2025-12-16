@@ -121,6 +121,8 @@ local migrationFunctions = {
     end,
     [17] = function()
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        ---@type table<string, number>
+        Questie.db.global.lastKnownDailyReset = {}
     end,
 }
 
