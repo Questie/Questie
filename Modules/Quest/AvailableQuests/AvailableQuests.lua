@@ -36,6 +36,7 @@ local timer
 -- Keep track of all available quests to unload undoable when abandoning a quest
 local availableQuests = {}
 local availableQuestsByNpc = {}
+local unavailableQuestsDeterminedByTalking = {} -- quests that were hidden after talking to an NPC
 
 local dungeons
 local playerFaction
@@ -191,6 +192,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
 
+                unavailableQuestsDeterminedByTalking[questId] = true
                 availableQuests[questId] = nil
                 availableQuestsByNpc[npcId][questId] = nil
             end
@@ -211,6 +213,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
                 QuestieMap:UnloadQuestFrames(availableQuestId)
                 QuestieTooltips:RemoveQuest(availableQuestId)
 
+                unavailableQuestsDeterminedByTalking[availableQuestId] = true
                 availableQuests[availableQuestId] = nil
                 availableQuestsByNpc[npcId][questId] = nil
             end
@@ -265,7 +268,8 @@ _CalculateAndDrawAvailableQuests = function()
         if (autoBlacklist[questId] or -- Don't show autoBlacklist quests marked as such by IsDoable
                 completedQuests[questId] or -- Don't show completed quests
                 hiddenQuests[questId] or -- Don't show blacklisted quests
-                hidden[questId] -- Don't show quests hidden by the player
+                hidden[questId] or -- Don't show quests hidden by the player
+                unavailableQuestsDeterminedByTalking[questId] -- Don't show quests hidden after talking to an NPC
             ) then
             availableQuests[questId] = nil
             return
