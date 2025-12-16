@@ -50,7 +50,7 @@ function AvailableQuests.Initialize()
     playerFaction = UnitFactionGroup("player")
 
     local realmName = GetRealmName()
-    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]) then
+    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
         Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
     end
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
