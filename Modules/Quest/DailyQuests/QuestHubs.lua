@@ -487,7 +487,7 @@ DailyQuests.hubs = {
     },
     SUNREAVER_ONSLAUGHT_STAGE_1_ZA_TUAL = {
         quests = {32200,32215,32216,32217,32227,32252,32275},
-        limit = 4,
+        limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
