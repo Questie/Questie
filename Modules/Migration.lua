@@ -118,7 +118,10 @@ local migrationFunctions = {
                 Questie.db.global.isleOfQuelDanasPhase = 1
             end
         end
-    end
+    end,
+    [17] = function()
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+    end,
 }
 
 function Migration:Migrate()

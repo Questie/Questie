@@ -36,7 +36,7 @@ local timer
 -- Keep track of all available quests to unload undoable when abandoning a quest
 local availableQuests = {}
 local availableQuestsByNpc = {}
-local unavailableQuestsDeterminedByTalking = {} -- quests that were hidden after talking to an NPC
+local unavailableQuestsDeterminedByTalking -- quests that were hidden after talking to an NPC
 
 local dungeons
 local playerFaction
@@ -48,6 +48,12 @@ function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
     dungeons = ZoneDB:GetDungeons()
     playerFaction = UnitFactionGroup("player")
+
+    local realmName = GetRealmName()
+    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]) then
+        Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
+    end
+    unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
 end
 
 ---@param callback function | nil
