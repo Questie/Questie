@@ -3033,19 +3033,14 @@ function QuestieQuestFixes:Load()
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
-            [questKeys.breadcrumbForQuestId] = 7025,
         },
         [7023] = {
             [questKeys.startedBy] = {{13435},nil,nil},
-            [questKeys.breadcrumbForQuestId] = 7025,
         },
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
             [questKeys.breadcrumbForQuestId] = 6962,
-        },
-        [7025] = {
-            [questKeys.breadcrumbs] = {7022,7023},
         },
         [7026] = {
             [questKeys.objectivesText] = {},
