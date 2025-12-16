@@ -52,7 +52,8 @@ QuestieWorldMapButtonMixin = {
     OnMouseUp = function() end,
     OnEnter = function(self)
         local tooltip = GameTooltip
-        tooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+        tooltip:SetOwner(self, "ANCHOR_NONE");
+        tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
         tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
         tooltip:AddLine(" ")
         tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
