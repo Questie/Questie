@@ -9277,6 +9277,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30529},
             [questKeys.objectives] = {{{58646,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [32683] = { -- So You Want to Be a Blacksmith...
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,1},
+            [questKeys.requiredSpell] = -110396, -- BANDAID FIX. This is actually available up to 499 skill included. At 500 it's not. Can't do that so we do this.
+        },
         [32706] = { -- Allies in the Shadows
             [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
@@ -9309,6 +9313,10 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
+        },
+        [32726] = { -- So You Want to Be a Blacksmith...
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,1},
+            [questKeys.requiredSpell] = -110396, -- BANDAID FIX. This is actually available up to 499 skill included. At 500 it's not. Can't do that so we do this.
         },
         [32728] = { -- The Court of Bones
             [questKeys.preQuestSingle] = {32680},
