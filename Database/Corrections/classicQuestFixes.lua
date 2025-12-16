@@ -3020,9 +3020,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 55,
         },
         [7001] = {
-            [questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78}}},
-            },
+            [questKeys.objectives] = {{{14282,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7002] = {
             [questKeys.objectivesText] = {},
@@ -3049,9 +3047,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {},
         },
         [7027] = {
-            [questKeys.triggerEnd] = {"Ram Collared and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}}},
-            },
+            [questKeys.objectives] = {{{10990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7042] = {
             [questKeys.finishedBy] = {{13636}},
