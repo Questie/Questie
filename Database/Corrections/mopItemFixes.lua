@@ -1162,6 +1162,9 @@ function MopItemFixes.Load()
         [92425] = { -- Ancient Korune Tablet
             [itemKeys.npcDrops] = {67833},
         },
+        [92441] = { -- The Codex of Xerrath
+            [itemKeys.startQuest] = 32295,
+        },
         [92474] = { -- Extra-Waxy Alliance Ears
             [itemKeys.npcDrops] = {67296,67297,67304,67317,67441},
         },
