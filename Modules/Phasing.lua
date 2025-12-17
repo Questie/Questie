@@ -483,6 +483,8 @@ local phases = {
     HOT_THRALL_START = 1411,
     HOT_THRALL_TEMPLE = 1412,
     BLACK_PRINCE_PHASE_3 = 1413,
+    IOT_ALLIANCE_BOAT = 1414,
+    IOT_ALLIANCE_VIOLET_RISE = 1415,
 }
 Phasing.phases = phases
 
@@ -2228,6 +2230,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BLACK_PRINCE_PHASE_3 then
         return complete[32457] or complete[32590] or (questLog[32457] and questLog[32457].isComplete == 1) or (questLog[32590] and questLog[32590].isComplete == 1) or false
+    end
+
+    if phase == phases.IOT_ALLIANCE_BOAT then
+        return not (complete[32644] or (questLog[32644] and questLog[32644].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_ALLIANCE_VIOLET_RISE then
+        return (complete[32644] or (questLog[32644] and questLog[32644].isComplete == 1)) or false
     end
 
     return false

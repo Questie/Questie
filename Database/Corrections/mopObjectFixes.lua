@@ -1038,6 +1038,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.95,31.8}}},
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [216734] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33,32}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.factionID] = 1735, -- horde only
+        },
         [216743] = { -- Goblin Explosives Crate
             [objectKeys.name] = "Goblin Explosives Crate",
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{25.47,59.41}}},
@@ -1086,6 +1091,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SHRINE_OF_TWO_MOONS] = {{49.54,83.26}}},
             [objectKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS,
             [objectKeys.factionID] = 1735, -- horde only
+        },
+        [218378] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.08,72.4}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [objectKeys.factionID] = 1732, -- alliance only
         },
         [218593] = { -- Trove of the Thunder King
             [objectKeys.name] = "Trove of the Thunder King",

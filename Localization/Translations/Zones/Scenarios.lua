@@ -206,6 +206,18 @@ local dungeonLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Mogu Island Progression Events"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(dungeonLocales) do

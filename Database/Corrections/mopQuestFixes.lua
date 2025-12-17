@@ -8103,6 +8103,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32680},
             [questKeys.objectives] = {{{69128,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+            [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
         },
         [32235] = { -- Flash! Aaaaaahhhh!
             [questKeys.preQuestSingle] = {32108},
@@ -8834,7 +8835,8 @@ function MopQuestFixes.Load()
         },
         [32517] = { -- The Conquest of Stone
             [questKeys.preQuestSingle] = {32680},
-            [questKeys.objectives] = {{{69903}}},
+            [questKeys.objectives] = {{{69238,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Disrupt the Ancient Stone Conqueror ritual"),0,{{"monster",69903}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32525] = { -- Ashes of the Enemy
@@ -8869,7 +8871,8 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32531] = { -- The Conquest of Stone
-            [questKeys.objectives] = {{{69903}}},
+            [questKeys.objectives] = {{{69238,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Disrupt the Ancient Stone Conqueror ritual"),0,{{"monster",69903}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             [questKeys.preQuestSingle] = {32681},
         },
@@ -8916,6 +8919,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32681},
             [questKeys.objectives] = {{{69128,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
+            [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
         },
         [32542] = { -- Surgical Strike
             [questKeys.preQuestSingle] = {32681},
@@ -9139,6 +9143,10 @@ function MopQuestFixes.Load()
         [32643] = { -- Work Order: Dominance Offensive II
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,{{74844}},nil,{{{63223,63228,63229},63223,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [32644] = { -- The Assault on Shaol'mara
+            [questKeys.startedBy] = {{67992}},
+            [questKeys.objectives] = {{{67992,nil,Questie.ICON_TYPE_TALK},{70345,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32645] = { -- Work Order: Operation: Shieldwall I
             [questKeys.preQuestGroup] = {32109,32682},

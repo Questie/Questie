@@ -1271,11 +1271,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Gather a Fel Ember using Grand Warlock's Amulet"), 0, {{"object", 181679}}}},
         },
         [9498] = {
-            [questKeys.preQuestSingle] = {10124},
+            [questKeys.preQuestSingle] = {10123},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,
         },
         [9499] = {
-            [questKeys.preQuestSingle] = {10124},
+            [questKeys.preQuestSingle] = {10123},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9500] = {

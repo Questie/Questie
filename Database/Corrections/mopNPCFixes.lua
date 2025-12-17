@@ -423,6 +423,8 @@ function MopNpcFixes.Load()
         },
         [43929] = { -- Blingtron 4000
             [npcKeys.name] = "Blingtron 4000",
+            [npcKeys.questStarts] = {31752},
+            [npcKeys.questEnds] = {31752},
         },
         [45847] = { -- S.A.F.E. Operative
             [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.32,73.84},{48.16,44.14},{48.44,44.2},{48.69,44.23},{58.77,23.21},{59.04,23.28},{59.31,23.34},{55.83,85.03},{55.38,85.46},{55.33,79.45},{54.59,75.91},{53.36,75.82},{49.12,62.94},{49.13,61.97},{51.02,32.35},{50.47,31.5},{40.88,34.77},{41.13,29.76},{36.62,29.92},{36.34,30.46},{36.34,32.24},{33.21,31.64},{34.43,35.26},{35.07,33.52},{36.55,33.61},{38.13,33.66},{39.89,33.6},{39.96,32.61},{40.09,31.64},{40.17,30.71}}},
@@ -4805,15 +4807,38 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67992] = { -- Lady Jaina Proudmoore
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.6,89.44}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.6,89.44,phases.IOT_ALLIANCE_BOAT},
+                    {63.24,72.22,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67993] = { -- Vereesa Windrunner
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.74,89.18}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.74,89.18,phases.IOT_ALLIANCE_BOAT},
+                    {63.24,72.12,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67994] = { -- Warmage Yurias
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {63.48,73.61,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67995] = { -- Captain Elleane Wavecrest
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.55,89.45}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.55,89.45,phases.IOT_ALLIANCE_BOAT},
+                    {62.7,73.56,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67996] = { -- Archmage Modera
@@ -4826,7 +4851,12 @@ function MopNpcFixes.Load()
         },
         [68000] = { -- Hiren Loresong
             [npcKeys.subName] = "Kirin Tor Offensive Quartermaster",
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{34.9,89.9}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.9,89.9,phases.IOT_ALLIANCE_BOAT},
+                    {64.69,74.54,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
@@ -5729,11 +5759,21 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69673] = { -- Ako
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
+                    {63.31,72.01,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69674] = { -- Dalvin Jaacor
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.66,83.21}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.66,83.21,phases.IOT_ALLIANCE_BOAT},
+                    {63.41,72.06,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69675] = { -- Lyalia
@@ -5761,6 +5801,10 @@ function MopNpcFixes.Load()
         [69695] = { -- Distressed Silver Covenant Construct
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
             [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{55.59,87.06},{55.61,86.55},{55.63,86.05},{55.60,85.53},{55.56,85.03},{55.51,84.53},{55.44,84.03},{55.35,83.54},{55.21,83.08},{55.07,82.62},{54.93,82.16},{54.79,81.69},{54.66,81.22},{54.53,80.75},{54.40,80.28},{54.27,79.81},{54.13,79.33},{54.00,78.86},{53.87,78.40},{53.73,77.91},{53.60,77.44},{53.39,77.05},{53.13,76.72},{52.89,76.37},{52.66,76.00},{52.44,75.60},{52.25,75.19},{52.05,74.78},{51.80,74.44},{51.47,74.38},{51.14,74.46},{50.93,74.83},{50.81,75.31},{50.69,75.79},{50.57,76.26},{50.46,76.74},{50.36,77.22},{50.31,77.73},{50.14,78.16},{49.93,78.56},{49.70,78.94},{49.48,79.32},{49.25,79.70},{49.08,80.13},{49.10,80.63},{49.20,81.12},{49.32,81.59},{49.45,82.06},{49.58,82.53},{49.71,83.01},{49.82,83.49},{49.79,83.99},{49.72,84.49},{49.64,84.98},{49.57,85.48},{49.47,85.96},{49.36,86.44},{49.23,86.92},{49.09,87.38},{48.95,87.84},{48.93,88.35},{49.04,88.83},{49.21,89.27},{49.40,89.68},{49.63,90.06},{49.89,90.39},{50.16,90.69},{50.44,90.98},{50.72,91.26},{51.01,91.53},{51.33,91.64},{51.67,91.55},{52.00,91.44},{52.33,91.37},{52.67,91.37},{53.01,91.37},{53.34,91.34},{53.67,91.20},{53.89,90.83},{53.93,90.33},{53.92,89.82},{53.91,89.32},{53.96,88.82},{54.13,88.38},{54.37,88.02},{54.63,87.69},{54.93,87.45},{55.26,87.36},{55.43,87.37}}}},
+        },
+        [69697] = { -- Malfunctioning Silver Covenant Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{46.58,71.98}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69741] = { -- Lady Jaina Proudmoore
             [npcKeys.name] = "Lady Jaina Proudmoore",
@@ -5934,14 +5978,33 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 90,
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{45.66,59.28}}},
         },
+        [70182] = { -- Isirami Fairwind
+            [npcKeys.subName] = "Innkeeper",
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {64.95,72.99,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
+        },
         [70183] = { -- Valaden Silverblade
             [npcKeys.subName] = "Repairs",
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.43,90.43}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {35.43,90.43,phases.IOT_ALLIANCE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {64.69,74.05,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70184] = { -- Tassia Whisperglen
             [npcKeys.subName] = "Stable Master",
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.29,90.64}}}, -- NB spawn possible in Isle of Thunder SCENARIO mapid 6677
+            [npcKeys.spawns] = { -- NB spawn possible in Isle of Thunder SCENARIO mapid 6677
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {35.29,90.64,phases.IOT_ALLIANCE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {63.26,73.97,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [70203] = { -- Spirit Ritual Stone
@@ -6037,7 +6100,12 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
         },
         [70517] = { -- Archmage Lan'dalock
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{31.46,83.24}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
+                    {63.37,72.29,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70535] = { -- Teng of the Flying Daggers
@@ -6057,6 +6125,12 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 90,
             [npcKeys.rank] = 1,
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [70561] = { -- Assignment Map
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.19,72.19,phases.IOT_ALLIANCE_VIOLET_RISE}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70585] = { -- Farmer's Journal
             [npcKeys.name] = "Farmer's Journal",
