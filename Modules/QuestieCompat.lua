@@ -72,7 +72,7 @@ function QuestieCompat.GetAvailableQuests()
     elseif GetGossipAvailableQuests then
         local info = {GetGossipAvailableQuests()}
         local availableQuests = {}
-        for i=1, #info, INDIZES_AVAILABLE do
+        for i = 1, #info, INDIZES_AVAILABLE do
             local quest = {
                 title = info[i],
                 questLevel = info[i + 1],
@@ -188,19 +188,19 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
         local containerInfo = C_Container.GetContainerItemInfo(bagID, slot)
         if containerInfo then
             return containerInfo.iconFileID,
-                   containerInfo.stackCount,
-                   containerInfo.isLocked,
-                   containerInfo.quality,
-                   containerInfo.isReadable,
-                   containerInfo.hasLoot,
-                   containerInfo.hyperlink,
-                   containerInfo.isFiltered,
-                   containerInfo.hasNoValue,
-                   containerInfo.itemID,
-                   containerInfo.isBound
-       else
+                containerInfo.stackCount,
+                containerInfo.isLocked,
+                containerInfo.quality,
+                containerInfo.isReadable,
+                containerInfo.hasLoot,
+                containerInfo.hyperlink,
+                containerInfo.isFiltered,
+                containerInfo.hasNoValue,
+                containerInfo.itemID,
+                containerInfo.isBound
+        else
             return nil
-       end
+        end
     elseif GetContainerItemInfo then
         return GetContainerItemInfo(bagID, slot)
     end
