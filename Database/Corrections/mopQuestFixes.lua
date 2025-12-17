@@ -9150,6 +9150,7 @@ function MopQuestFixes.Load()
         [32644] = { -- The Assault on Shaol'mara
             [questKeys.startedBy] = {{67992}},
             [questKeys.objectives] = {{{67992,nil,Questie.ICON_TYPE_TALK},{70345,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {32681},
         },
         [32645] = { -- Work Order: Operation: Shieldwall I
             [questKeys.preQuestGroup] = {32109,32682},
