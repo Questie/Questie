@@ -208,20 +208,20 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         return
     else
         -- Hide all quests but the current one
-        local questId = GetQuestID()
-        if questId == 0 then
+        local availableQuestId = GetQuestID()
+        if availableQuestId == 0 then
             -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
             return
         end
 
-        for availableQuestId in pairs(availableQuestsByNpc[npcId]) do
-            if (availableQuestId ~= questId) then
+        for questId in pairs(availableQuestsByNpc[npcId]) do
+            if (questId ~= availableQuestId) then
                 print("Unloading quest ID:", questId)
-                QuestieMap:UnloadQuestFrames(availableQuestId)
-                QuestieTooltips:RemoveQuest(availableQuestId)
+                QuestieMap:UnloadQuestFrames(questId)
+                QuestieTooltips:RemoveQuest(questId)
 
-                unavailableQuestsDeterminedByTalking[availableQuestId] = true
-                availableQuests[availableQuestId] = nil
+                unavailableQuestsDeterminedByTalking[questId] = true
+                availableQuests[questId] = nil
                 availableQuestsByNpc[npcId][questId] = nil
             end
         end
