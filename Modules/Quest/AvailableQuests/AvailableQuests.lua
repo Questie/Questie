@@ -184,9 +184,16 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         lastNpcGuid = npcGuid
 
         local availableQuestsInGossip = QuestieCompat.GetAvailableQuests() -- empty list when not from gossip
+        local activeQuests = QuestieCompat.GetActiveQuests()
         for questId in pairs(availableQuestsByNpc[npcId]) do
             local isAvailableInGossip = false
             for _, gossipQuest in pairs(availableQuestsInGossip) do
+                if gossipQuest.questID == questId then
+                    isAvailableInGossip = true
+                    break
+                end
+            end
+            for _, gossipQuest in pairs(activeQuests) do
                 if gossipQuest.questID == questId then
                     isAvailableInGossip = true
                     break
@@ -226,10 +233,6 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
             end
         end
     end
-end
-
-function AvailableQuests.ResetLastNpcGuid()
-    lastNpcGuid = nil
 end
 
 _CalculateAndDrawAvailableQuests = function()

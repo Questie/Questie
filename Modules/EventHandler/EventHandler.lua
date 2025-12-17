@@ -113,7 +113,6 @@ function EventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
-        AvailableQuests.ResetLastNpcGuid()
         AutoQuesting.OnQuestFinished()
         if Expansions.Current >= Expansions.Cata then
             -- There might be other quest events which need to finish first, so we wait a bit before checking.
@@ -145,7 +144,6 @@ function EventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", function() -- Called twice when the stopping to talk to an NPC
-        AvailableQuests.ResetLastNpcGuid()
         AutoQuesting.OnGossipClosed()
     end)
     Questie:RegisterEvent("QUEST_COMPLETE", function() -- When complete window shows
