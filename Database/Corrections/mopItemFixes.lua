@@ -1267,6 +1267,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {50358,69664,69996,69997,69998,69999,70000,70001,70002,70003,70530},
             [itemKeys.objectDrops] = {218593},
         },
+        [94605] = { -- Wild Pterrorwing Hatchling
+            [itemKeys.npcDrops] = {69428},
+        },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
         },

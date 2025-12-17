@@ -9001,17 +9001,20 @@ function MopQuestFixes.Load()
         [32568] = { -- No Time To Rest
             [questKeys.preQuestSingle] = {32681},
         },
+        [32571] = { -- A Wing to Fly On
+            [questKeys.preQuestSingle] = {32644},
+        },
         [32572] = { -- The Sleepless Legion
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32644},
         },
         [32573] = { -- Enemies Beneath the Tower
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32644},
         },
         [32574] = { -- The Shuddering Moor
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32644},
         },
         [32575] = { -- The Zandalari Colossus
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32644},
         },
         [32576] = { -- Competing Magic
             [questKeys.startedBy] = {{67992,67996,67997,70517}},
@@ -9283,6 +9286,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{70358,nil,Questie.ICON_TYPE_TALK},{70365,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [32681] = { -- The Storm Gathers
+            [questKeys.finishedBy] = {{67992}},
             [questKeys.breadcrumbs] = {32679},
             [questKeys.objectives] = {{{70360,nil,Questie.ICON_TYPE_TALK},{70364,nil,Questie.ICON_TYPE_EVENT}}}
         },

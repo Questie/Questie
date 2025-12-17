@@ -4842,7 +4842,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67996] = { -- Archmage Modera
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.39,74.96}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.39,74.96,phases.IOT_ALLIANCE_BOAT},
+                    {55.74,74.41,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67997] = { -- Narasi Snowdawn
@@ -5777,15 +5782,30 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69675] = { -- Lyalia
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.31,75.19}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.31,75.19,phases.IOT_ALLIANCE_BOAT},
+                    {55.9,74.42,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69677] = { -- Sanitation Sorcerer Stephen Litmatch
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.45,74.81}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.45,74.81,phases.IOT_ALLIANCE_BOAT},
+                    {55.55,74.44,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69678] = { -- Image of Archmage Vargoth
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{42.23,74.97}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.23,74.97,phases.IOT_ALLIANCE_BOAT},
+                    {55.62,74.53,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69682] = { -- Magister Yalis
@@ -5797,6 +5817,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.83,73.4}}},
             [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{51.80,73.55},{51.84,73.83},{51.98,73.95},{52.03,73.95},{51.87,74.03},{51.69,74.11},{51.50,74.06},{51.35,74.02},{51.16,73.95},{51.02,73.85},{50.86,73.68},{50.82,73.47},{50.82,73.42},{50.81,73.40},{50.91,73.74},{51.06,73.84},{51.25,73.88},{51.44,73.86},{51.59,73.82},{51.72,73.60},{51.84,73.38},{51.83,73.40}}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69688] = { -- Buried Silver Covenant Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{53.55,91.27}}},
         },
         [69695] = { -- Distressed Silver Covenant Construct
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
