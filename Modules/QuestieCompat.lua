@@ -4,6 +4,7 @@ QuestieCompat = {}
 
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 local INDIZES_AVAILABLE = 7
+local INDIZES_ACTIVE = 6
 
 local tinsert = table.insert
 
@@ -97,21 +98,33 @@ function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
         -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        local info = C_GossipInfo.GetActiveQuests()
-        local activeQuests = {}
-        local index = 1
-        for _, activeQuest in pairs(info) do
-            activeQuests[index] = activeQuest.title
-            activeQuests[index + 1] = activeQuest.questLevel
-            activeQuests[index + 2] = activeQuest.isTrivial
-            activeQuests[index + 3] = activeQuest.isComplete or QuestieDB.IsComplete(activeQuest.questID) == 1
-            activeQuests[index + 4] = activeQuest.isLegendary
-            activeQuests[index + 5] = activeQuest.isIgnored
-            index = index + 6
+
+        local activeQuests = C_GossipInfo.GetActiveQuests()
+        for _, quest in pairs(activeQuests) do
+            quest.isComplete = quest.isComplete or QuestieDB.IsComplete(quest.questID) == 1
         end
-        return unpack(activeQuests)
+        return activeQuests
     elseif GetGossipActiveQuests then
-        return GetGossipActiveQuests() -- https://wowpedia.fandom.com/wiki/API_GetGossipActiveQuests
+        local info = {GetGossipActiveQuests()}
+        local activeQuests = {}
+
+        for i = 1, #info, INDIZES_ACTIVE do
+            local quest = {
+                title = info[i],
+                questLevel = info[i + 1],
+                isTrivial = info[i + 2],
+                isComplete = info[i + 3],
+                isLegendary = info[i + 4],
+                isIgnored = info[i + 5],
+                frequency = nil, -- Not available from GetGossipActiveQuests
+                repeatable = false, -- Not available from GetGossipActiveQuests
+                isImportant = false, -- Not available from GetGossipAvailableQuests
+                isMeta = false, -- Not available from GetGossipAvailableQuests
+                questID = 0, -- Not available from GetGossipActiveQuests
+            }
+            tinsert(activeQuests, quest)
+        end
+        return activeQuests
     end
     error(errorMsg, 2)
 end
