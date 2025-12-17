@@ -1039,7 +1039,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [216734] = { -- Mailbox
-            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33,32}}},
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33.3,32.83}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [objectKeys.factionID] = 1735, -- horde only
         },

@@ -8032,8 +8032,9 @@ function MopQuestFixes.Load()
         },
         [32212] = { -- The Assault on Zeb'tula
             [questKeys.startedBy] = {{67990}},
-            [questKeys.objectives] = {{{67990,nil,Questie.ICON_TYPE_TALK},{69775,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{67990,nil,Questie.ICON_TYPE_TALK},{69775}}},
             [questKeys.preQuestSingle] = {32680},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
@@ -8226,6 +8227,7 @@ function MopQuestFixes.Load()
         },
         [32296] = { -- Treasures of the Thunder King
             [questKeys.finishedBy] = {{70316,70320}},
+            [questKeys.preQuestSingle] = {32680,32681},
             [questKeys.objectives] = {{{70316,nil,Questie.ICON_TYPE_TALK},{70321,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32298] = { -- Dino Might
@@ -9040,7 +9042,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32681},
         },
         [32581] = { -- Imposing Threat
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32644},
         },
         [32582] = { -- Raining Bones
             [questKeys.preQuestSingle] = {32681},
@@ -9156,6 +9158,7 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{67992}},
             [questKeys.objectives] = {{{67992,nil,Questie.ICON_TYPE_TALK},{70345,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {32681},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,12}},
         },
         [32645] = { -- Work Order: Operation: Shieldwall I
             [questKeys.preQuestGroup] = {32109,32682},
@@ -9300,6 +9303,7 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -110396, -- BANDAID FIX. This is actually available up to 499 skill included. At 500 it's not. Can't do that so we do this.
         },
         [32706] = { -- Allies in the Shadows
+            [questKeys.startedBy] = {{67992}},
             [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
@@ -9313,6 +9317,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SHADO_PAN_ASSAULT,12}},
         },
         [32709] = { -- Allies in the Shadows
+            [questKeys.startedBy] = {{67990}},
             [questKeys.preQuestSingle] = {32680},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
@@ -9342,6 +9347,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32729] = { -- Za'Tual
+            [questKeys.startedBy] = {{67990}},
             [questKeys.preQuestSingle] = {32680},
             [questKeys.breadcrumbForQuestId] = 32200,
             [questKeys.questFlags] = questFlags.DAILY,
@@ -9362,6 +9368,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32733] = { -- Za'Tual
+            [questKeys.startedBy] = {{67992}},
             [questKeys.preQuestSingle] = {32681},
             [questKeys.breadcrumbForQuestId] = 32543,
             [questKeys.questFlags] = questFlags.DAILY,

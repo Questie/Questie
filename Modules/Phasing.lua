@@ -485,6 +485,8 @@ local phases = {
     BLACK_PRINCE_PHASE_3 = 1413,
     IOT_ALLIANCE_BOAT = 1414,
     IOT_ALLIANCE_VIOLET_RISE = 1415,
+    IOT_HORDE_BOAT = 1416,
+    IOT_HORDE_DAWNSEEKER_PROMONTORY = 1417,
 }
 Phasing.phases = phases
 
@@ -2238,6 +2240,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.IOT_ALLIANCE_VIOLET_RISE then
         return (complete[32644] or (questLog[32644] and questLog[32644].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_HORDE_BOAT then
+        return not (complete[32212] or (questLog[32212] and questLog[32212].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_HORDE_DAWNSEEKER_PROMONTORY then
+        return (complete[32212] or (questLog[32212] and questLog[32212].isComplete == 1)) or false
     end
 
     return false
