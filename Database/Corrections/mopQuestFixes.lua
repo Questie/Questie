@@ -8030,6 +8030,9 @@ function MopQuestFixes.Load()
         [32209] = { -- Save Our Scouts!
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32212] = { -- The Assault on Zeb'tula
+            [questKeys.preQuestSingle] = {32680},
+        },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32221},
