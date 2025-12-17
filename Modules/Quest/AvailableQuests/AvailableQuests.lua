@@ -201,7 +201,6 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
             end
 
             if (not isAvailableInGossip) then
-                print("Unloading quest ID:", questId)
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
 
@@ -223,7 +222,6 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
 
         for questId in pairs(availableQuestsByNpc[npcId]) do
             if (questId ~= availableQuestId) then
-                print("Unloading quest ID:", questId)
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
 
