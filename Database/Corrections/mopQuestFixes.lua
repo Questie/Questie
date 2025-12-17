@@ -8031,6 +8031,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32212] = { -- The Assault on Zeb'tula
+            [questKeys.objectives] = {{{67990,nil,Questie.ICON_TYPE_TALK},{69775,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {32680},
         },
         [32214] = { -- Bilgewater Infiltrators
