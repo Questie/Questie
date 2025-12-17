@@ -326,7 +326,6 @@ _CalculateAndDrawAvailableQuests = function()
         _CheckAvailability(questId)
     end
 
-    availableQuestsByNpc = {}
     local questCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
