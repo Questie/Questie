@@ -35,14 +35,19 @@ function _MinimapIcon:CreateDataBrokerObject()
 
         OnClick = _MinimapIcon.OnClick,
 
+        ---@param tooltip any
         OnTooltipShow = function (tooltip)
-            tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-            tooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle My Journey'))
-            tooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
-            tooltip:AddLine(Questie:Colorize(l10n('Shift + Left Click') , 'gray') .. ": ".. l10n('Questie Options'))
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Right Click') , 'gray') .. ": ".. l10n('Hide Minimap Button'))
-            tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'))
+            tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
+            tooltip:AddLine(" ")
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle My Journey'), 'white'))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
+            tooltip:AddLine(" ")
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Questie Options'), 'white'))
+            tooltip:AddLine(" ")
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Reload Questie'), 'white'))
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), Questie:Colorize(l10n('Hide Minimap Button'), 'white'))
+            tooltip:AddLine(" ")
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
         end,
     })
 

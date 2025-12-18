@@ -51,12 +51,14 @@ QuestieWorldMapButtonMixin = {
     end,
     OnMouseUp = function() end,
     OnEnter = function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_NONE");
-        GameTooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
-        GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
-        GameTooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
-        GameTooltip:Show()
+        local tooltip = GameTooltip
+        tooltip:SetOwner(self, "ANCHOR_NONE");
+        tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
+        tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
+        tooltip:AddLine(" ")
+        tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
+        tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
+        tooltip:Show()
     end,
     OnLeave = function() end,
     OnClick = function() end, -- Only fires on left click

@@ -78,6 +78,8 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
@@ -194,6 +196,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         coYield()
         Townsfolk:BuildCharacterTownsfolk()
     end
+
+    QuestieEvent.Initialize()
 
     coYield()
     QuestieDB:Initialize()
@@ -323,6 +327,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     Questie.started = true
+
+    -- We only update this if Questie fully loads to make sure we don't update it on crashes/fast reloads
+    QuestieLib.UpdateLastKnownDailyReset()
 
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()

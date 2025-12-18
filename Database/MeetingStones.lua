@@ -298,20 +298,20 @@ _MeetingStones.levelRanges = {
         name = "Mogu'shan Vaults",
         range = "(90)"
     },
+    [214978] = {
+        name = "Heart of Fear",
+        range = "(90)"
+    },
     [214979] = {
         name = "Stormstout Brewery",
         range = "(85-90)"
     },
+    [219216] = {
+        name = "Throne of Thunder",
+        range = "(90)"
+    },
     [221268] = {
         name = "Siege of Orgrimmar",
-        range = "(90)"
-    },
-    [223816] = {
-        name = "Heart of Fear",
-        range = "(90)"
-    },
-    [223817] = {
-        name = "Throne of Thunder",
         range = "(90)"
     },
 }
