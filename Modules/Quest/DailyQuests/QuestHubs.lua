@@ -446,23 +446,13 @@ DailyQuests.hubs = {
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    KIRIN_TOR_OFFENSIVE_STAGE_1_COURT_OF_BONES = {
-        quests = {32525,32526,32527,32528,32529,32530,32531,32532,32533},
-        limit = 3,
-        exclusiveHubs = {},
-        preQuestHubsSingle = {},
-        preQuestHubsGroup = {},
-    },
-    KIRIN_TOR_OFFENSIVE_STAGE_1_ZA_TUAL = {
-        quests = {32538,32539,32540,32541,32542,32543,32544},
-        limit = 3,
-        exclusiveHubs = {},
-        preQuestHubsSingle = {},
-        preQuestHubsGroup = {},
-    },
-    KIRIN_TOR_OFFENSIVE_STAGE_1_IHGALUK_CRAG = {
-        quests = {32535,32536,32537,32545,32546,32547,32548,32606},
-        limit = 3,
+    KIRIN_TOR_OFFENSIVE_STAGE_1 = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+        }
+        limit = 11,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
@@ -471,30 +461,83 @@ DailyQuests.hubs = {
         quests = {32576,32577,32578},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubsSingle = {},
-        preQuestHubsGroup = {
-            KIRIN_TOR_OFFENSIVE_STAGE_1_COURT_OF_BONES = true,
-            KIRIN_TOR_OFFENSIVE_STAGE_1_ZA_TUAL = true,
-            KIRIN_TOR_OFFENSIVE_STAGE_1_IHGALUK_CRAG = true,
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_1 = true,
         },
+        preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_STAGE_1_COURT_OF_BONES = {
-        quests = {32201,32218,32219,32220,32224,32225,32226,32495,32517},
-        limit = 3,
-        exclusiveHubs = {},
+    KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+            32571,32572,32573,32574,32575, -- diremoor
+        }
+        limit = 11,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_STAGE_1_ZA_TUAL = {
-        quests = {32200,32215,32216,32217,32227,32252,32275},
-        limit = 3,
-        exclusiveHubs = {},
+    KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = {
+        quests = {32578,32579,32580,32581},
+        limit = 1,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_PVP = {
+        quests = {32485,32634,32636,32627,32639,32635,32632,32638,32301,32637,32633,32628}
+        limit = 7,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+        },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_STAGE_1_IHGALUK_CRAG = {
-        quests = {32204,32254,32255,32274,32299,32489,32491,32805},
-        limit = 3,
+    KIRIN_TOR_OFFENSIVE_PVP_FINAL = {
+        quests = {32631}
+        limit = 1,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_1 = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+        }
+        limit = 11,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
@@ -503,11 +546,74 @@ DailyQuests.hubs = {
         quests = {32293,32561,32562},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubsSingle = {},
-        preQuestHubsGroup = {
-            SUNREAVER_ONSLAUGHT_STAGE_1_COURT_OF_BONES = true,
-            SUNREAVER_ONSLAUGHT_STAGE_1_ZA_TUAL = true,
-            SUNREAVER_ONSLAUGHT_STAGE_1_IHGALUK_CRAG = true,
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_1 = true,
         },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_2_PVE = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+            32228,32230,32285,32287,32506, -- diremoor
+        }
+        limit = 11,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_2_FINAL_BOSS = {
+        quests = {32293,32520,32521,32522},
+        limit = 1,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_PVP = {
+        quests = {32288,32269,32262,32265,32302,32300,32303,32266,32213,32305,32264,32268}
+        limit = 7,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_PVP_FINAL = {
+        quests = {32304}
+        limit = 1,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+        },
+        preQuestHubsGroup = {},
     },
 }
