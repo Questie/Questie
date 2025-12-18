@@ -27,7 +27,7 @@ QuestieSerializer.SerializerHashDBReversed = {
 local function addHash(str)
     local hash = QuestieSerializer:Hash(str)
     if QuestieSerializer.SerializerHashDBReversed[hash] then
-        -- dont add, also prevents collissions 
+        -- dont add, also prevents collissions
         return
     end
     QuestieSerializer.SerializerHashDB[str] = hash

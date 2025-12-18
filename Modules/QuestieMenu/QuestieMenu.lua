@@ -105,6 +105,8 @@ local function getNpcTitle(id, key)
     return npcTitle .. " (" .. subName .. ")"
 end
 
+---@param key manualType
+---@param forceRemove boolean|nil
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     if key == "Moonwell" then
         if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
@@ -179,6 +181,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
     end
 end
 
+---@param key manualType
+---@return table
 local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 

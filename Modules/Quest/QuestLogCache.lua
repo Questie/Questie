@@ -31,7 +31,7 @@ local cache = {
                 finished = false,
                 numFulfilled = 2,
                 numRequired = 3,
-                raw_Text = "Objective Text slain: 2/3",
+                raw_text = "Objective Text slain: 2/3",
                 raw_finished = false
                 raw_numFulfilled = 2,
             },
@@ -58,7 +58,7 @@ local cache = {
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
----@field raw_Text string E.g "Objective Text slain: 2/3",
+---@field raw_text string E.g "Objective Text slain: 2/3",
 ---@field raw_finished boolean
 ---@field raw_numFulfilled number
 

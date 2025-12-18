@@ -23,7 +23,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local _CreateOptionsTable
 
 ---Initializes the frames for the options menu
-function QuestieOptions:Initialize()
+function QuestieOptions.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
