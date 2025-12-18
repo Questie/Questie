@@ -369,12 +369,69 @@ describe("QuestieReputation", function()
                 return {{909, 3}}
             end)
             _G.UnitAura = spy.new(function(_, i, _)
-                return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668, nil
+                if i == 1 then
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668, nil
+                end
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+        end)
+
+        it("should respect Hallow's End Alliance buff bonus", function()
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.UnitAura = spy.new(function(_, i, _)
+                if i == 1 then
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, 95987, nil
+                end
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+        end)
+
+        it("should respect Hallow's End Horde buff bonus", function()
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.UnitAura = spy.new(function(_, i, _)
+                if i == 1 then
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, 24705, nil
+                end
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+        end)
+
+        it("should respect DMF + Hallow's End buff bonus", function()
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.UnitAura = spy.new(function(_, i, _)
+                if i == 1 then
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, 24705, nil
+                end
+                if i == 2 then
+                    return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668, nil
+                end
+                return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 90}}, reputationReward)
             assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
         end)
 

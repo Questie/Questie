@@ -498,9 +498,21 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    hideSizer = {
+                    disableHoverFade = {
                         type = "toggle",
                         order = 6,
+                        width = 1.5,
+                        name = function() return l10n("Disable Quest Hover Fade") end,
+                        desc = function() return l10n("When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerDisableHoverFade end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerDisableHoverFade = value
+                        end
+                    },
+                    hideSizer = {
+                        type = "toggle",
+                        order = 7,
                         width = 1.5,
                         name = function() return l10n("Hide Tracker Sizer") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.") end,
@@ -513,7 +525,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     lockTracker = {
                         type = "toggle",
-                        order = 7,
+                        order = 8,
                         width = 1.5,
                         name = function() return l10n("Lock Tracker") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it.") end,
@@ -526,7 +538,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     stickyDurabilityFrame = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         width = 1.5,
                         name = function() return l10n("Sticky Durability Frame") end,
                         desc = function() return l10n("When this is checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
@@ -542,7 +554,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     stickyVoiceOverFrame = {
                         type = "toggle",
-                        order = 9,
+                        order = 10,
                         width = 1.5,
                         name = function() return l10n("Sticky VoiceOver Frame") end,
                         desc = function() return l10n("When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
@@ -560,7 +572,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Spacer_Dropdowns = QuestieOptionsUtils:Spacer(9),
                     setTomTom = {
                         type = "select",
-                        order = 10,
+                        order = 11,
                         values = _GetShortcuts,
                         style = "dropdown",
                         name = function() return l10n("Set |cFF54e33bTomTom|r Target") end,
@@ -580,7 +592,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     trackerSetpoint = {
                         type = "select",
-                        order = 11,
+                        order = 12,
                         values = function()
                             return {
                                 ["TOPLEFT"] = l10n("Down & Right"),

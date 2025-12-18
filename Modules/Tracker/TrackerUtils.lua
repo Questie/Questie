@@ -388,8 +388,10 @@ function TrackerUtils:GetZoneNameByID(zoneId)
         return zoneCache[zoneId]
     end
 
-    if C_Map and C_Map.GetAreaInfo(zoneId) then
+    if C_Map.GetAreaInfo(zoneId) then
         zoneCache[zoneId] = C_Map.GetAreaInfo(zoneId)
+    elseif ZoneDB:GetLocalizedDungeonName(zoneId) then
+        zoneCache[zoneId] = ZoneDB:GetLocalizedDungeonName(zoneId)
     else
         zoneCache[zoneId] = GetZoneNameByIDFallback(zoneId)
     end

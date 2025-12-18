@@ -148,8 +148,8 @@ end
 
 StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     text = "",
-    button1 = "Yes",
-    button2 = "No",
+    button1 = YES,
+    button2 = NO,
     OnAccept = function(self)
         local noteIndex = self.data
         _DeleteNote(noteIndex)
@@ -163,9 +163,7 @@ StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
                 confirmText = confirmText .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow')
             end
         end
-        self.text:SetText(confirmText)
-        self.button1:SetText(l10n("Yes"))
-        self.button2:SetText(l10n("No"))
+        self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
     end,

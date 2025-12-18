@@ -18,6 +18,21 @@ local function getAvailableTestQuest(override)
     }
 end
 
+---@param override GossipQuestUIInfo
+local function getActiveTestQuest(override)
+    return {
+        title = override.title or "Test Quest",
+        questLevel = override.questLevel or 1,
+        isTrivial = override.isTrivial or false,
+        frequency = override.frequency or 1,
+        repeatable = override.repeatable or false,
+        isComplete = override.isComplete or false,
+        isLegendary = override.isLegendary or false,
+        isIgnored = override.isIgnored or false,
+        questID = override.questID or 0,
+    }
+end
+
 describe("AutoQuesting", function()
     ---@type AutoQuesting
     local AutoQuesting
@@ -37,7 +52,7 @@ describe("AutoQuesting", function()
         Questie.Print = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
-        _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
+        _G.QuestieCompat.GetActiveQuests = spy.new(function() return {} end)
         _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
         _G.GossipFrame = nil
@@ -60,10 +75,6 @@ describe("AutoQuesting", function()
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
         _G.UnitGUID = spy.new(function() end)
-        _G.GetTitleText = spy.new(function() return "Test Quest" end)
-        _G.UnitName = spy.new(function() return "Test NPC" end)
-        _G.GetTime = spy.new(function() return 0 end)
-        _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         _G.C_Timer = {
             After = function(_, callback)
@@ -420,7 +431,7 @@ describe("AutoQuesting", function()
                 return {getAvailableTestQuest({})}
             end
             _G.QuestieCompat.GetActiveQuests = function()
-                return "Test Quest", 1, false, false, false, false
+                return {getActiveTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -559,7 +570,7 @@ describe("AutoQuesting", function()
         it("should skip PvP quest when setting is disabled and accept non-PvP", function()
             Questie.db.profile.autoAccept.pvp = false
             _G.QuestieCompat.GetAvailableQuests = function()
-                return {getAvailableTestQuest({questID = 1}),getAvailableTestQuest({questID = 2})}
+                return {getAvailableTestQuest({questID = 1}), getAvailableTestQuest({questID = 2})}
             end
             QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
 
@@ -570,7 +581,7 @@ describe("AutoQuesting", function()
 
         it("should not turn in quest when no quest is complete", function()
             _G.QuestieCompat.GetActiveQuests = function()
-                return "Test Quest", 1, false, false, false, false
+                return {getActiveTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -1014,7 +1025,7 @@ describe("AutoQuesting", function()
     describe("Turn-in Flow", function()
         it("should turn in quest from gossip show", function()
             _G.QuestieCompat.GetActiveQuests = function()
-                return "Test Quest", 1, false, true, false, false
+                return {getActiveTestQuest({isComplete = true})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -1030,7 +1041,7 @@ describe("AutoQuesting", function()
 
         it("should turn in second quest from gossip show when first is not complete", function()
             _G.QuestieCompat.GetActiveQuests = function()
-                return "Incomplete Quest", 1, false, false, false, false, "Complete Quest", 1, false, true, false, false
+                return {getActiveTestQuest({}), getActiveTestQuest({isComplete = true})}
             end
 
             AutoQuesting.OnGossipShow()

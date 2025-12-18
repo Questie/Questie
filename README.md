@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.6.0/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.14.0/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -83,6 +83,10 @@ Replace `<expansion>` with the expansion you want to validate (check the `cli` f
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCUBJWKT395ME&source=url"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
+
+## Integrate Questie into your addon
+
+Checkout the [README of the Questie API](./Public/README.md).
 
 ## Features
 

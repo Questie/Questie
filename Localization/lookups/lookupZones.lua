@@ -21,6 +21,7 @@ l10n.continentLookup = {
     [11] = "Professions",
     [12] = "Events",
     [13] = "Pet Battle",
+    [14] = "Scenarios",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2890,8 +2891,8 @@ l10n.zoneCategoryLookup = {
         [-370] = "Brewfest",
         [-374] = "Noblegarden",
         [-375] = "Pilgrim's Bounty",
-        [-376] = "Love is in the Air", -- Category added in WotLK
-        [-391] = "Pandaren Brewmasters", -- Category added in MoP
+        [-376] = "Love is in the Air",
+        [-378] = "Children's Week",
         [-392] = "Scenario", -- Category added in MoP
         [-396] = "Landfall", -- Category added in MoP
         [-397] = "Pandaren Campaign", -- Category added in MoP
@@ -2902,14 +2903,31 @@ l10n.zoneCategoryLookup = {
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        --[-400] = "Love is in the Air", -- Needed before WotLK
         [-400] = "Proving Grounds",
-        [-401] = "Children's Week",
         [-402] = "Harvest Festival",
-        [-403] = "Hallow's End",
         [-404] = "Winter Veil",
     },
     [13] = {
         [-394] = "Battle Pets",
+    },
+    [14] = {
+        [6101] = "A Brewing Storm",
+        [6616] = "A Little Patience",
+        [6219] = "Arena of Annihilation",
+        [6328] = "Assault on Zan'vess",
+        -- [6567] = "Battle on the High Seas",
+        -- [6814] = "Blood in the Snow",
+        [6426] = "Brewmoon Festival",
+        [6208] = "Crypt of Forgotten Kings",
+        [6565] = "Dagger in the Dark",
+        -- [6733] = "Dark Heart of Pandaria",
+        [6615] = "Domination Point",
+        [6209] = "Greenstone Village",
+        [6575] = "Lion's Landing",
+        [-391] = "Pandaren Brewmasters", -- Only one quest here and it's scenario type
+        -- [6731] = "The Secrets of Ragefire",
+        [6040] = "Theramore's Fall", -- H
+        [6500] = "Theramore's Fall", -- A
+        [6309] = "Unga Ingoo",
     },
 }

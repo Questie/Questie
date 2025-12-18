@@ -21,6 +21,8 @@ describe("QuestEventHandler", function()
     local QuestieAnnounce
     ---@type QuestiePlayer
     local QuestiePlayer
+    ---@type TaskQueue
+    local TaskQueue
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieDB
@@ -31,6 +33,8 @@ describe("QuestEventHandler", function()
     local WatchFrameHook
     ---@type AutoCompleteFrame
     local AutoCompleteFrame
+    ---@type QuestieAPI
+    local QuestieAPI
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -46,11 +50,19 @@ describe("QuestEventHandler", function()
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        TaskQueue = require("Modules.TaskQueue")
+        TaskQueue.Queue = function(_, ...)
+            for _, val in pairs({...}) do
+                val()
+            end
+        end
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieDB = require("Database.QuestieDB")
         QuestieNameplate = require("Modules.QuestieNameplate")
         WatchFrameHook = require("Modules.WatchFrameHook")
         AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
+        dofile("Public/Enums.lua")
+        QuestieAPI = require("Public.RegisterForQuestUpdates")
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
@@ -81,6 +93,7 @@ describe("QuestEventHandler", function()
         local callbacks = {}
         _G.C_Timer = {After = function(_, callback) table.insert(callbacks, callback) end}
         QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
+        QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieQuest.AcceptQuest = spy.new(function() end)
         QuestieJourney.AcceptQuest = spy.new(function() end)
@@ -90,6 +103,7 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieAPI.PropagateQuestUpdate).was.not_called()
         assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_not_called()
         assert.spy(QuestieJourney.AcceptQuest).was_not_called()
@@ -103,6 +117,7 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestLogUpdate()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestieAPI.PropagateQuestUpdate).was.called_with(QUEST_ID, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
@@ -156,7 +171,12 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler.QuestRemoved(QUEST_ID)
 
-        _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
+        _G.C_Timer = {
+            NewTicker = function(_, callback)
+                callback()
+                return {}
+            end
+        }
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
@@ -181,7 +201,12 @@ describe("QuestEventHandler", function()
         QuestieJourney.AbandonQuest = spy.new(function() end)
         QuestieAnnounce.AbandonedQuest = spy.new(function() end)
         local callbacks = {}
-        _G.C_Timer = {NewTicker = function(_, callback) table.insert(callbacks, callback) return {} end}
+        _G.C_Timer = {
+            NewTicker = function(_, callback)
+                table.insert(callbacks, callback)
+                return {}
+            end
+        }
 
         QuestEventHandler.QuestRemoved(QUEST_ID)
         callbacks[1]()
@@ -241,6 +266,7 @@ describe("QuestEventHandler", function()
     it("should do full quest log scan after QUEST_WATCH_UPDATE", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
         QuestiePlayer.currentQuestlog[QUEST_ID] = {}
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
@@ -253,6 +279,7 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestLogUpdate()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestieAPI.PropagateQuestUpdate).was.called_with(QUEST_ID, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieNameplate.UpdateNameplate).was.called()
         assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, QUEST_ID)

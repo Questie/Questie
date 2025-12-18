@@ -110,6 +110,23 @@ local migrationFunctions = {
         Questie.db.profile.globalTownsfolkScale = 0.6
         Questie.db.profile.globalMiniMapTownsfolkScale = 0.7
     end,
+    [16] = function()
+        if (not Questie.db.global.isleOfQuelDanasPhase) then
+            if Expansions.Current > Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 9 -- Max phase for everything that comes after TBC
+            elseif Expansions.Current == Expansions.Tbc then
+                Questie.db.global.isleOfQuelDanasPhase = 1
+            end
+        end
+    end,
+    [17] = function()
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        ---@type table<string, number>
+        Questie.db.global.lastKnownDailyReset = {}
+    end,
+    [18] = function()
+        Questie.db.profile.trackerDisableHoverFade = false
+    end
 }
 
 function Migration:Migrate()

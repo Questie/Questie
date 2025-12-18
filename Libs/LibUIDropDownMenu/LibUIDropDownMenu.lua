@@ -1727,7 +1727,7 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
             end
             listFrame:ClearAllPoints();
             -- If this is a dropdown button, not the arrow anchor it to itself
-            if (strsub(button:GetParent():GetName(), 0, 14) == "L_DropDownListQuestie" and strlen(button:GetParent():GetName()) == 15) then
+            if (strsub(button:GetParent():GetName(), 1, 21) == "L_DropDownListQuestie" and strlen(button:GetParent():GetName()) == 22) then
                 anchorFrame = button;
             else
                 anchorFrame = button:GetParent();

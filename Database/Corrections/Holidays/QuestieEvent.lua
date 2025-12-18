@@ -56,6 +56,7 @@ local _QuestieEvent = QuestieEvent.private
 -- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
 QuestieEvent.eventQuests = {}
 QuestieEvent.activeQuests = {}
+QuestieEvent.calendarDataCached = false
 _QuestieEvent.eventNamesForQuests = {}
 
 ---@type QuestieDB
@@ -64,6 +65,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type l10n
@@ -76,6 +79,30 @@ local DMF_LOCATIONS = {
     MULGORE = 1,
     ELWYNN_FOREST = 2,
 }
+
+-- The ingame calender adds a texture to the DMF event.
+-- We use this to identify the event without relying on dates or localized event titles.
+local DMF_CALENDER_ICON_TEXTURES = {
+    [235446] = true, -- End Texture
+    [235447] = true, -- Ongoing Texture
+    [235448] = true, -- Start Texture
+}
+
+function QuestieEvent.Initialize()
+    if (not Questie.db.profile.showEventQuests) then
+        return
+    end
+
+    Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
+        QuestieEvent:Load()
+        Questie:UnregisterEvent("CALENDAR_UPDATE_EVENT_LIST")
+    end)
+
+    -- According to the docs, OpenCalendar queries the server to force a CALENDAR_UPDATE_EVENT_LIST update.
+    -- In reality SetMonth is the reliable one. So we simply call both.
+    C_Calendar.OpenCalendar()
+    C_Calendar.SetMonth(0)
+end
 
 function QuestieEvent:Load()
     local year = date("%y")
@@ -93,7 +120,7 @@ function QuestieEvent:Load()
         eventCorrections = {}
     end
 
-    for eventName,dates in pairs(eventCorrections) do
+    for eventName, dates in pairs(eventCorrections) do
         if dates then
             QuestieEvent.eventDates[eventName] = dates
         end
@@ -114,9 +141,28 @@ function QuestieEvent:Load()
         end
     end
 
+    -- Store the current setting to restore later
+    local shouldShowDmfEvents = GetCVarBool("calendarShowDarkmoon")
+    SetCVar("calendarShowDarkmoon", "1")
+
+    local dmfIsActive = false
+    if Expansions.Current >= Expansions.MoP then
+        local currentDate = QuestieCompat.GetCurrentCalendarTime()
+        local numDayEvents = C_Calendar.GetNumDayEvents(0, currentDate.monthDay)
+
+        for i = 1, numDayEvents do
+            local event = C_Calendar.GetHolidayInfo(0, currentDate.monthDay, i)
+            if event and DMF_CALENDER_ICON_TEXTURES[event.texture] then
+                dmfIsActive = true
+                break
+            end
+        end
+    end
+
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
+        local hideQuest = questData[5]
         local startDay, startMonth = nil, nil
         local endDay, endMonth = nil, nil
 
@@ -129,16 +175,21 @@ function QuestieEvent:Load()
             endMonth = tonumber(endMonth)
         end
 
-        _QuestieEvent.eventNamesForQuests[questId] = eventName
+        if (not hideQuest) then
+            _QuestieEvent.eventNamesForQuests[questId] = eventName
 
-        if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
-            local hideQuest = questData[5]
-            if (not hideQuest) then
+            if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth)) or (dmfIsActive and eventName == "Darkmoon Faire") then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
         end
     end
+
+    if dmfIsActive then
+        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+    end
+
+    SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
     if Questie.IsClassic and (((not Questie.IsAnniversary) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then
@@ -157,7 +208,7 @@ _GetDarkmoonFaireLocation = function()
         return false
     end
 
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+    local currentDate = QuestieCompat.GetCurrentCalendarTime()
 
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
@@ -217,9 +268,9 @@ end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
 _GetDarkmoonFaireLocationSoD = function(currentDate)
-    local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
-    local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
-    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1 })
+    local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
+    currentDate = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
 
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDate - initialStartDate
@@ -288,8 +339,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
-    local day = date.monthDay or date.day
+    local date = QuestieCompat.GetCurrentCalendarTime()
+    local day = date.monthDay
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
         and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
@@ -339,9 +390,9 @@ QuestieEvent.eventDates = {
         startDate = "2/10",
         endDate = "8/10"
     },
-    ["Pilgrim's Bounty"] = {startDate = "26/11", endDate = "2/12"},
+    ["Pilgrim's Bounty"] = {startDate = "25/11", endDate = "1/12"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"},
+    ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"},
     ["Day of the Dead"] = {startDate = "1/11", endDate = "2/11"},
 }
 

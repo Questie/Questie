@@ -991,8 +991,8 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {2929,80180,80324},
         },
         [7944] = { -- Tinkmaster Overspark
-            [npcKeys.questStarts] = {2922,3640,3641,3645,80137},
-            [npcKeys.questEnds] = {2922,2923,3630,3632,3634,3640,3641,3645,80137,80138},
+            [npcKeys.questStarts] = {2922,3640,3641,3647,80137},
+            [npcKeys.questEnds] = {2922,2923,3630,3632,3634,3640,3641,3647,80137,80138},
         },
         [7950] = { -- Master Mechanic Castpipe
             [npcKeys.questStarts] = {2930,80143},

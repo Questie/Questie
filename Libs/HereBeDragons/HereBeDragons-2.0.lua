@@ -16,8 +16,9 @@ HereBeDragons.worldMapData     = HereBeDragons.worldMapData or {}
 HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
-local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+-- TODO: Revert once WOW_PROJECT_ID is fixed for TBC
+local WoWBC = math.floor(select(4, GetBuildInfo())/10000) == 2
+local WoWClassic = (not WoWBC) and (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
@@ -127,7 +128,8 @@ if not oldversion or oldversion < 30 then
             { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
             { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2662.8 },
             { 1014, 870, 3200, 5333.3, 1066.7, 2666.7, 0, 0 },
-            { 1064, 870, 5391, 8148, 3518, 7655, -2134.2, -2286.6 },
+            { 1064, 870, 5391, 8148, 3518, 7655, -970, -420 },
+            -- { 1064, 870, 5391, 8148, 3518, 7655, -2134.2, -2286.6 }, -- end of MoP values when Timeless Isle is out
         }
     else
         transformData = {

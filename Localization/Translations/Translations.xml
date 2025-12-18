@@ -8,6 +8,7 @@
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
+    <Script file="Journey\QuestsByFaction.lua"/>
     <Script file="Journey\Search.lua"/>
 
     <Script file="MinimapIcon\MinimapIcon.lua"/>
@@ -37,6 +38,7 @@
     <Script file="Zones\Pandaria.lua"/>
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
+    <Script file="Zones\Scenarios.lua"/>
 
     <Script file="AutoQuesting.lua"/>
     <Script file="Classes.lua"/>
@@ -46,6 +48,7 @@
     <Script file="Generics.lua"/>
     <Script file="KeyboardShortcuts.lua"/>
     <Script file="Map.lua"/>
+    <Script file="Moonwell.lua"/>
     <Script file="Professions.lua"/>
     <Script file="QuestStates.lua"/>
     <Script file="Races.lua"/>

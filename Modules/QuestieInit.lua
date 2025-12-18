@@ -9,6 +9,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type QuestieAPI
+local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ZoneDB
@@ -75,6 +77,8 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
@@ -93,6 +97,8 @@ local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 local coYield = coroutine.yield
 
@@ -190,6 +196,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         Townsfolk:BuildCharacterTownsfolk()
     end
 
+    QuestieEvent.Initialize()
+
     coYield()
     QuestieDB:Initialize()
 
@@ -284,7 +292,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     coYield()
-    ChatFilter:RegisterEvents()
+    -- TODO: Re-enable for every expansion once Blizzard fixes their issues on TBC
+    if (not Questie.IsTBC) then
+        ChatFilter:RegisterEvents()
+    end
 
     local dateToday = date("%y-%m-%d")
 
@@ -297,7 +308,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
-    if Questie.IsTBC and (not Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled) then
+    if Questie.IsTBC and ContentPhases.activePhases.TBC == 5 and (not Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled) then
         C_Timer.After(2, function()
             Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
         end)
@@ -316,6 +327,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.started = true
 
+    -- We only update this if Questie fully loads to make sure we don't update it on crashes/fast reloads
+    QuestieLib.UpdateLastKnownDailyReset()
+
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 
@@ -332,6 +346,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     AvailableQuests.CalculateAndDrawAll()
+
+    -- Let other addons know that Questie is ready
+    Questie.API.isReady = true
+    QuestieAPI.PropagateOnReady()
 
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage3] Questie init done.")
 end
@@ -351,7 +369,7 @@ function QuestieInit:LoadDatabase(key)
         end
         QuestieDB[key] = func
         coYield()
-        QuestieDB[key] = QuestieDB[key]()           -- execute the function (returns the table)
+        QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
     end
@@ -382,7 +400,7 @@ function QuestieInit.OnAddonLoaded()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
         QuestieOptions.Initialize()
-    end, 0,"Error during AddonLoaded initialization!")
+    end, 0, "Error during AddonLoaded initialization!")
 
     MinimapIcon:Init()
 
@@ -423,7 +441,6 @@ function QuestieInit:Init()
         end
     end
 end
-
 
 --- We really want to wait for the cache to be filled before we continue.
 --- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.

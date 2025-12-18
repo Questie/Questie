@@ -1,0 +1,42 @@
+{
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "workspace.library": [
+        ".types",
+        "Libs"
+    ],
+    "runtime.version": "Lua 5.1",
+    "hint.enable": false,
+    "workspace.ignoreDir": [
+        ".dockerfiles",
+        ".github",
+        ".idea",
+        ".types",
+        "ExternalScripts(DONOTINCLUDEINRELEASE)",
+        "Libs",
+        "releases"
+    ],
+    "diagnostics.globals": [
+        "QuestChoiceFrame",
+        "CallErrorHandler"
+    ],
+    "format": {
+        "defaultConfig": {
+            "indent_style": "space",
+            "indent_size": "4",
+            "continuation_indent": "4",
+            "quote_style": "double",
+            "end_of_line": "lf",
+            "max_line_length": "160",
+            "align_array_table": "false",
+            "align_function_params": "false",
+            "align_continuous_assign_statement": "false",
+            "align_continuous_inline_comment": "false",
+            "align_continuous_rect_table_field": "false",
+            "space_around_table_field_list": "false",
+            "space_before_open_square_bracket": "false",
+            "space_inside_function_call_parentheses": "false",
+            "space_inside_function_param_list_parentheses": "false",
+            "space_inside_square_brackets": "false"
+        }
+    }
+}

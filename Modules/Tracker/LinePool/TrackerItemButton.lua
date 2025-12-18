@@ -172,7 +172,14 @@ function TrackerItemButton.New(buttonName)
         self:UnregisterEvent("PLAYER_TARGET_CHANGED")
     end
     btn.OnEnter = function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        local centerX = select(1, self:GetCenter()) or 0
+        local screenCenter = (GetScreenWidth() or UIParent:GetWidth()) / 2
+        if centerX < screenCenter then
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8, -25)
+        else
+            GameTooltip:SetOwner(self, "ANCHOR_LEFT", -8, -25)
+        end
+
         GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
         GameTooltip:Show()
 

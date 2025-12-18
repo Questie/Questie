@@ -302,6 +302,12 @@ function CataObjectFixes.Load()
         [176545] = { -- Remains of Lucien Sarkhoff
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{92.02,52.02}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [177272] = { -- Moonwell
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{55.71,54.14}},
+                [zoneIDs.ZANGARMARSH]={{80.33,65.06}},
+            },
+        },
         [177287] = { -- Unfinished Painting
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{27.38,76.13},{-1,-1}}},
         },
@@ -1411,6 +1417,9 @@ function CataObjectFixes.Load()
         },
         [209448] = { -- Portal Energy Focus
             [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{16.03,34.54},{-1,-1}}},
+        },
+        [209620] = { -- Darkmoon Treasure Chest
+            [objectKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{44.66,78.77},{-1,-1}}},
         },
         [209927] = { -- Convenient Rope
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},

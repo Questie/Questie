@@ -27,8 +27,8 @@ tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11356}) -- Costumed Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
-tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, Questie.IsTBC}) -- The Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, Questie.IsTBC}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
 tinsert(eventQuests, {"Hallow's End", 11219}) -- Stop the Fires!
 tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
@@ -119,8 +119,8 @@ tinsert(eventQuests, {"Hallow's End", 12407}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12408}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12409}) -- Candy Bucket
 --tinsert(eventQuests, {"Hallow's End", 12410}) -- Candy Bucket -- doesn't exist
-tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Questie.IsTBC}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, Questie.IsTBC}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
 tinsert(eventQuests, {"Hallow's End", 11403}) -- Free at Last!
 tinsert(eventQuests, {"Hallow's End", 11242}) -- Free at Last!
 --tinsert(eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman

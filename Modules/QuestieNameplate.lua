@@ -15,11 +15,6 @@ local npFramesCount = 0
 local activeTargetFrame
 
 
--- Not used
-function QuestieNameplate:Initialize()
-    -- Nothing to initialize
-end
-
 ---@param token string
 function QuestieNameplate:NameplateCreated(token)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
@@ -40,13 +35,13 @@ function QuestieNameplate:NameplateCreated(token)
         return
     end
 
-    local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local unitType, _, _, _, _, _, _ = strsplit("-", unitGUID)
     if unitType ~= "Creature" and unitType ~= "Vehicle" then
         -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
-    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = QuestieNameplate.GetIcon(unitGUID)
 
     if icon then
         activeGUIDs[unitGUID] = token
@@ -78,29 +73,62 @@ function QuestieNameplate:UpdateNameplate()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
-
         local unitName, _ = UnitName(token)
-        local _, _, _, _, _, npcId, _ = strsplit("-", guid)
+        if unitName then
+            local icon = QuestieNameplate.GetIcon(guid)
 
-        if (not unitName) or (not npcId) then
-            return
-        end
-
-        local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
-
-        if icon then
-            local frame = _QuestieNameplate.GetFrame(guid)
-            -- check if the texture needs to be changed
-            if frame.lastIcon ~= icon then
-                frame.lastIcon = icon
-                frame.Icon:SetTexture(icon)
+            if icon then
+                local frame = _QuestieNameplate.GetFrame(guid)
+                -- check if the texture needs to be changed
+                if frame.lastIcon ~= icon then
+                    frame.lastIcon = icon
+                    frame.Icon:SetTexture(icon)
+                end
+            else
+                -- tooltip removed but we still have the frame active, remove it
+                activeGUIDs[guid] = nil
+                _QuestieNameplate.RemoveFrame(guid)
             end
-        else
-            -- tooltip removed but we still have the frame active, remove it
-            activeGUIDs[guid] = nil
-            _QuestieNameplate.RemoveFrame(guid)
         end
     end
+end
+
+---@param xPos number
+---@param yPos number
+---@param scale number
+function QuestieNameplate.SetIconPosition(xPos, yPos, scale)
+    QuestieNameplate.SetIconXPosition(xPos)
+    QuestieNameplate.SetIconYPosition(yPos)
+    QuestieNameplate.SetIconScale(scale)
+
+    QuestieNameplate:RedrawIcons()
+end
+
+---@param xPos number
+function QuestieNameplate.SetIconXPosition(xPos)
+    if (type(xPos) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateX = xPos
+end
+
+---@param yPos number
+function QuestieNameplate.SetIconYPosition(yPos)
+    if (type(yPos) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateY = yPos
+end
+
+---@param scale number
+function QuestieNameplate.SetIconScale(scale)
+    if (type(scale) ~= "number") then
+        return
+    end
+
+    Questie.db.profile.nameplateScale = scale
 end
 
 function QuestieNameplate:RedrawIcons()
@@ -118,6 +146,21 @@ function QuestieNameplate:HideCurrentFrames()
         activeGUIDs[guid] = nil
         _QuestieNameplate.RemoveFrame(guid)
     end
+end
+
+---@param guid string
+---@return string | nil
+function QuestieNameplate.GetIcon(guid)
+    if (not guid) then
+        return nil
+    end
+
+    local _, _, _, _, _, npcId, _ = strsplit("-", guid)
+    if (not npcId) then
+        return nil
+    end
+
+    return _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 end
 
 function QuestieNameplate:DrawTargetFrame()
@@ -141,13 +184,13 @@ function QuestieNameplate:DrawTargetFrame()
         return
     end
 
-    local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local unitType, _, _, _, _, _, _ = strsplit("-", unitGUID)
     if unitType ~= "Creature" and unitType ~= "Vehicle" then
         -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
-    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = QuestieNameplate.GetIcon(unitGUID)
     if (not icon) then
         return
     end
@@ -180,7 +223,6 @@ function QuestieNameplate:RedrawFrameIcon()
     activeTargetFrame:SetHeight(16 * iconScale)
     activeTargetFrame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 end
-
 
 ---@param guid string
 function _QuestieNameplate.GetFrame(guid)

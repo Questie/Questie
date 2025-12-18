@@ -11,10 +11,14 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -132,11 +136,15 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local unobtainableQuestIds = {}
     local temp = {}
 
+    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    local playerlevel = UnitLevel("player")
+
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type number
         local questId = levelAndQuest[2]
         -- Only show quests which are not hidden
-        if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[questId]) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
+        if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
@@ -155,7 +163,9 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "preQuestGroup",
                         "requiredMinRep",
                         "requiredMaxRep",
-                        "requiredSpell"
+                        "requiredSpell",
+                        "requiredSpecialization",
+                        "requiredMaxLevel"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -166,6 +176,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local requiredMinRep = queryResult[6]
                 local requiredMaxRep = queryResult[7]
                 local requiredSpell = queryResult[8]
+                local requiredSpecialization = queryResult[9]
+                local requiredMaxLevel = queryResult[10]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -180,6 +192,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[questId] = true
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Profession specialization
+                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
@@ -209,14 +225,22 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         tinsert(zoneTree[2].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                -- Quests which you have outleveled
+                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[3].children, temp)
-                    completedCounter = completedCounter + 1
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Quests which require you to HAVE learned a spell
+                elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(zoneTree[5].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Available quests
                 else
                     tinsert(zoneTree[1].children, temp)

@@ -255,6 +255,30 @@ local pandariaLocales = {
         ["zhCN"] = "迷踪岛",
         ["zhTW"] = "漂流島",
     },
+    ["Niuzao Catacombs"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Niuzaokatakomben",
+        ["esES"] = "Catacumbas de Niuzao",
+        ["esMX"] = "Catacumbas de Niuzao",
+        ["frFR"] = "Catacombes de Niuzao",
+        ["koKR"] = "니우짜오 지하묘지",
+        ["ptBR"] = "Catacumbas Niuzao",
+        ["ruRU"] = "Катакомбы Нюцзао",
+        ["zhCN"] = "砮皂陵",
+        ["zhTW"] = "怒兆地下墓穴",
+    },
+    ["The Thunder Forges"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(pandariaLocales) do
