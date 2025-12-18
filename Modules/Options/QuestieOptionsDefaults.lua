@@ -86,6 +86,7 @@ function QuestieOptionsDefaults:Load()
             hideTrackerInPetBattles = true,
             trackerFadeMinMaxButtons = false,
             trackerFadeQuestItemButtons = false,
+            trackerDisableHoverFade = false,
             trackerBackdropEnabled = false,
             currentBackdropEnabled = false,
             trackerBorderEnabled = false,

@@ -42,7 +42,7 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC
 
 function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
@@ -221,7 +221,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         end
 
         for questId in pairs(availableQuestsByNpc[npcId]) do
-            if (questId ~= availableQuestId) then
+            if questId ~= availableQuestId then
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
 
@@ -304,6 +304,7 @@ _CalculateAndDrawAvailableQuests = function()
             if availableQuests[questId] then
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
+                _MarkQuestAsUnavailableFromNPC(questId)
             end
             availableQuests[questId] = nil
             return
@@ -316,6 +317,7 @@ _CalculateAndDrawAvailableQuests = function()
             if availableQuests[questId] then
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
+                _MarkQuestAsUnavailableFromNPC(questId)
             end
             availableQuests[questId] = nil
             return
@@ -530,6 +532,15 @@ end
 
 _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
+end
+
+_MarkQuestAsUnavailableFromNPC = function(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if quest then
+        for _, npcId in pairs(quest.Starts.NPC or {}) do
+            availableQuestsByNpc[npcId][questId] = nil
+        end
+    end
 end
 
 return AvailableQuests

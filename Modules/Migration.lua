@@ -125,6 +125,9 @@ local migrationFunctions = {
         Questie.db.global.lastKnownDailyReset = {}
     end,
     [18] = function()
+        Questie.db.profile.trackerDisableHoverFade = false
+    end,
+    [19] = function()
         -- Only migrate if the user has a previous migration
         local previousVersion = Questie.db.profile.migrationVersion or 0
         if previousVersion == 0 then
