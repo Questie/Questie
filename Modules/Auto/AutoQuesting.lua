@@ -48,6 +48,7 @@ function AutoQuesting.OnQuestDetail()
                     )
                     Questie:Print(message)
                 end
+                return
             end
         end
     end
