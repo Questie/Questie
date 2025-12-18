@@ -170,6 +170,7 @@ function QuestieJourneyUtils.GetItemIcon(itemId)
     end)
     itemIcon:SetCallback("OnClick", function()
         if (not itemLink) then
+            ---@type string
             itemLink = select(2, GetItemInfo(itemId))
         end
         if IsShiftKeyDown() then

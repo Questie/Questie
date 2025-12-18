@@ -17,12 +17,15 @@ local AceGUI = LibStub("AceGUI-3.0");
 local journeyTreeFrame
 
 -- manage the journey tree
+
 function _QuestieJourney.myJourney:ManageTree(container)
     if not journeyTreeFrame then
+        ---@type AceGUITreeGroup
         journeyTreeFrame = AceGUI:Create("TreeGroup");
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
 
+        ---@diagnostic disable-next-line: invisible
         journeyTreeFrame.treeframe:SetWidth(415);
 
         local journeyTree = _QuestieJourney:GetHistory();
@@ -43,16 +46,19 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 master:SetFullWidth(true);
                 master:SetFullHeight(true);
 
+                ---@type AceGUIScrollFrame
                 local f = AceGUI:Create("ScrollFrame");
                 f:SetLayout("flow");
                 master:AddChild(f);
 
+                ---@type AceGUIHeading
                 local header = AceGUI:Create("Heading");
                 header:SetFullWidth(true);
                 f:AddChild(header);
 
                 QuestieJourneyUtils:Spacer(f);
 
+                ---@type AceGUILabel
                 local created = AceGUI:Create("Label");
                 created:SetFullWidth(true);
 
@@ -64,6 +70,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 if entry.Event == "Note" then
                     header:SetText(l10n('Note: %s', entry.Title));
 
+                    ---@type AceGUILabel
                     local note = AceGUI:Create("Label");
                     note:SetFullWidth(true);
                     note:SetText(Questie:Colorize( entry.Note , 'yellow'));
@@ -75,6 +82,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                     QuestieJourneyUtils:Spacer(f);
 
+                    ---@type AceGUIButton
                     local deleteButton = AceGUI:Create("Button");
                     deleteButton:SetText(l10n('Delete Note'));
                     deleteButton:SetWidth(150);
@@ -89,6 +97,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 elseif entry.Event == "Level" then
                     header:SetText(l10n('You Reached Level %s', entry.NewLevel));
 
+                    ---@type AceGUILabel
                     local congrats = AceGUI:Create("Label");
                     congrats:SetText(l10n('Congratulations! You reached %s !', entry.NewLevel));
                     congrats:SetFullWidth(true);
@@ -115,6 +124,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                         header:SetText(l10n('Quest %s: %s', state, qName));
 
 
+                        ---@type AceGUILabel
                         local obj = AceGUI:Create("Label");
                         obj:SetFullWidth(true);
                         obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description));
@@ -126,6 +136,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     created:SetText(l10n('Quest %s: %s', state, timestamp));
                     f:AddChild(created);
 
+                    ---@type AceGUILabel
                     local questIdLabel = AceGUI:Create("Label");
                     questIdLabel:SetFullWidth(true);
                     questIdLabel:SetText(l10n("Quest ID") .. ": " .. entry.Quest);

@@ -36,7 +36,7 @@ end
 
 
 -- TODO remove again once the call in manageZoneTree was removed
----@param container ScrollFrame
+---@param container AceGUIScrollFrame
 ---@param quest Quest
 function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     local questNameHeader = _QuestieJourney:CreateHeading(quest.name, true)
@@ -44,6 +44,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
+    ---@type AceGUILabel
     local obj = AceGUI:Create("Label")
     obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description))
     obj:SetFullWidth(true)
@@ -86,6 +87,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
+        ---@type AceGUIInlineGroup
         local startNPCGroup = AceGUI:Create("InlineGroup")
         startNPCGroup:SetLayout("List")
         startNPCGroup:SetTitle(l10n('Quest Start NPC Information'))
@@ -96,11 +98,16 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local startNpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
 
+        if not startNpc then
+            return
+        end
+
         local startNPCNameLabel = _QuestieJourney:CreateLabel(startNpc.name, true)
         startNPCNameLabel:SetFontObject(GameFontHighlight)
         startNPCNameLabel:SetColor(255, 165, 0)
         startNPCGroup:AddChild(startNPCNameLabel)
 
+        ---@type AceGUILabel
         local startNPCZoneLabel = AceGUI:Create("Label")
         local startindex = 0
         if (not startNpc.spawns) then
@@ -123,12 +130,14 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         local startx = startNpc.spawns[startindex][1][1]
         local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
+            ---@type AceGUILabel
             local startNPCLocLabel = AceGUI:Create("Label")
             startNPCLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
         end
 
+        ---@type AceGUILabel
         local startNPCIdLabel = AceGUI:Create("Label")
         startNPCIdLabel:SetText("NPC ID: ".. startNpc.id)
         startNPCIdLabel:SetFullWidth(true)
@@ -138,7 +147,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         -- Also Starts
         if startNpc.questStarts then
-
+            ---@type AceGUILabel
             local alsoStartsLabel = AceGUI:Create("Label")
             alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
             alsoStartsLabel:SetColor(255, 165, 0)
@@ -161,6 +170,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             end
 
             if #startQuests == 0 then
+                ---@type AceGUILabel
                 local noQuestLabel = AceGUI:Create("Label")
                 noQuestLabel:SetText(l10n('No Quests to List'))
                 noQuestLabel:SetFullWidth(true)
@@ -174,6 +184,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     -- Get Quest Start GameObject
     if quest.Starts and quest.Starts.GameObject then
+        ---@type AceGUIInlineGroup
         local startObjectGroup = AceGUI:Create("InlineGroup")
         startObjectGroup:SetLayout("List")
         startObjectGroup:SetTitle(l10n('Quest Start Object Information'))
@@ -185,16 +196,19 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         for _, oid in pairs(quest.Starts.GameObject) do
             local startObj = QuestieDB:GetObject(oid)
 
+
+            ---@type AceGUILabel
             local startObjectNameLabel = AceGUI:Create("Label")
-            startObjectNameLabel:SetText(startObj.name)
+            startObjectNameLabel:SetText(startObj and startObj.name or "Unknown Object")
             startObjectNameLabel:SetFontObject(GameFontHighlight)
             startObjectNameLabel:SetColor(255, 165, 0)
             startObjectNameLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectNameLabel)
 
+            ---@type AceGUILabel
             local startObjectZoneLabel = AceGUI:Create("Label")
             local startindex = 0
-            for i in pairs(startObj.spawns) do
+            for i in pairs(startObj and startObj.spawns or {}) do
                 startindex = i
             end
 
@@ -204,25 +218,27 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectZoneLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectZoneLabel)
 
-            local startx = startObj.spawns[startindex][1][1]
-            local starty = startObj.spawns[startindex][1][2]
+            local startx = startObj and startObj.spawns[startindex][1][1] or -1
+            local starty = startObj and startObj.spawns[startindex][1][2] or -1
             if (startx ~= -1 or starty ~= -1) then
+                ---@type AceGUILabel
                 local startObjectLocLabel = AceGUI:Create("Label")
                 startObjectLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
                 startObjectLocLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(startObjectLocLabel)
             end
 
+            ---@type AceGUILabel
             local startObjectIdLabel = AceGUI:Create("Label")
-            startObjectIdLabel:SetText("Object ID: ".. startObj.id)
+            startObjectIdLabel:SetText("Object ID: ".. oid)
             startObjectIdLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectIdLabel)
 
             QuestieJourneyUtils:Spacer(startObjectGroup)
 
             -- Also Starts
-            if startObj.questStarts then
-
+            if startObj and startObj.questStarts then
+                ---@type AceGUILabel
                 local alsoStartsLabel = AceGUI:Create("Label")
                 alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
                 alsoStartsLabel:SetColor(255, 165, 0)
@@ -245,6 +261,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 end
 
                 if #startQuests == 0 then
+                    ---@type AceGUILabel
                     local noQuestLabel = AceGUI:Create("Label")
                     noQuestLabel:SetText(l10n('No Quests to List'))
                     noQuestLabel:SetFullWidth(true)
@@ -261,6 +278,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     -- TODO: There can be multiple finishers
     -- TODO: There can be object finishers
     if quest.Finisher.NPC then
+        ---@type AceGUIInlineGroup
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
@@ -268,21 +286,24 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(endNPCGroup)
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
-        local endNPC = QuestieDB:GetNPC(quest.Finisher.NPC[1])
+        local npcId = quest.Finisher.NPC[1]
+        local endNPC = QuestieDB:GetNPC(npcId)
 
+        ---@type AceGUILabel
         local endNPCNameLabel = AceGUI:Create("Label")
-        endNPCNameLabel:SetText(endNPC.name)
+        endNPCNameLabel:SetText(endNPC and endNPC.name or "Unknown NPC")
         endNPCNameLabel:SetFontObject(GameFontHighlight)
         endNPCNameLabel:SetColor(255, 165, 0)
         endNPCNameLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCNameLabel)
 
+        ---@type AceGUILabel
         local endNPCZoneLabel = AceGUI:Create("Label")
         local endindex = 0
-        if (not endNPC.spawns) then
+        if (endNPC and not endNPC.spawns) then
             return
         end
-        for i in pairs(endNPC.spawns) do
+        for i in pairs(endNPC and endNPC.spawns or {}) do
             endindex = i
         end
 
@@ -292,10 +313,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)
 
-        if (next(endNPC.spawns)) then
+        if (endNPC and next(endNPC.spawns)) then
             local endx = endNPC.spawns[endindex][1][1]
             local endy = endNPC.spawns[endindex][1][2]
             if (endx ~= -1 or endy ~= -1) then
+                ---@type AceGUILabel
                 local endNPCLocLabel = AceGUI:Create("Label")
                 endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
                 endNPCLocLabel:SetFullWidth(true)
@@ -303,15 +325,17 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             end
         end
 
+        ---@type AceGUILabel
         local endNPCIdLabel = AceGUI:Create("Label")
-        endNPCIdLabel:SetText("NPC ID: ".. endNPC.id)
+        endNPCIdLabel:SetText("NPC ID: ".. npcId)
         endNPCIdLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCIdLabel)
 
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Also ends
-        if endNPC.endQuests then
+        if endNPC and endNPC.questEnds then
+            ---@type AceGUILabel
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -321,10 +345,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local endQuests = {}
             local counter = 1
-            for _, v in ipairs(endNPC.endQuests) do
-                if v ~= quest.Id then
+            for _, id in ipairs(endNPC.questEnds) do
+                if id ~= quest.Id then
                     endQuests[counter] = {}
-                    local endQuest = QuestieDB.GetQuest(v)
+                    local endQuest = QuestieDB.GetQuest(id)
                     local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
                     endQuests[counter].frame = label
                     endQuests[counter].quest = endQuest
@@ -334,6 +358,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             end
 
             if #endQuests == 0 then
+                ---@type AceGUILabel
                 local noQuestLabel = AceGUI:Create("Label")
                 noQuestLabel:SetText(l10n('No Quests to List'))
                 noQuestLabel:SetFullWidth(true)
@@ -350,9 +375,9 @@ end
 
 ---@param text string
 ---@param fullWidth boolean
----@return AceHeader
+---@return AceGUIHeading
 function _QuestieJourney:CreateHeading(text, fullWidth)
-    ---@class AceHeader
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(fullWidth)
     header:SetText(text)
@@ -362,9 +387,9 @@ end
 
 ---@param text string
 ---@param fullWidth boolean
----@return AceLabel
+---@return AceGUILabel
 function _QuestieJourney:CreateLabel(text, fullWidth)
-    ---@class AceLabel
+    ---@type AceGUILabel
     local header = AceGUI:Create("Label")
     header:SetFullWidth(fullWidth)
     header:SetText(text)
@@ -396,9 +421,9 @@ end
 
 ---@param quest Quest
 ---@return number @The number of pre quests added to the group
----@return AceInlineGroup @The created Ace InlineGroup
+---@return AceGUIInlineGroup @The created Ace InlineGroup
 function _QuestieJourney:CreatePreQuestGroup(quest)
-    ---@class AceInlineGroup
+    ---@type AceGUIInlineGroup
     local preQuestInlineGroup = AceGUI:Create("InlineGroup")
     local preQuestCounter = 1
 

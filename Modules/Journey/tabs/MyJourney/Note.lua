@@ -38,8 +38,11 @@ _CreateNoteWindow = function ()
     notePopup:SetWidth(400)
     notePopup:SetHeight(400)
     notePopup:EnableResize(false)
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:SetFrameStrata(_QuestieJourney.containerCache.frame:GetFrameStrata())
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:SetFrameLevel(_QuestieJourney.containerCache.frame:GetFrameLevel())
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:Raise()
     notePopup:SetCallback("OnClose", function()
         notePopup:Hide()

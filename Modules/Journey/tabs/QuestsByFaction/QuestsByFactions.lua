@@ -329,7 +329,7 @@ function _EnsureFactionQuestData()
 end
 
 ---Manage the faction tree itself and the contents of the per-quest window
----@param container AceSimpleGroup
+---@param container AceGUISimpleGroup
 ---@param factionTree table
 function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     if factionTreeFrame then
@@ -339,11 +339,12 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         return
     end
 
+    ---@type AceGUITreeGroup
     factionTreeFrame = AceGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:SetTree(factionTree)
-
+    ---@diagnostic disable-next-line: invisible
     factionTreeFrame.treeframe:SetWidth(415)
     factionTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
@@ -364,14 +365,18 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         master:SetFullWidth(true)
         master:SetFullHeight(true)
 
-        ---@class ScrollFrame
+        ---@type AceGUIScrollFrame
         local scrollFrame = AceGUI:Create("ScrollFrame")
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
 
-        questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = QuestieDB.GetQuest(tonumber(questId))
+
+        if not quest then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] Quest not found in DB:", questId)
+            return
+        end
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             if Questie.db.profile.trackerShowQuestLevel then

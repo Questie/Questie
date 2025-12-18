@@ -607,6 +607,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetItem(itemId), QuestieDB.itemKeys))
     end
     -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+    ---@diagnostic disable-next-line: invisible
     f.content:SetHeight(10000);
 end
 
@@ -662,6 +663,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     local resultTree = AceGUI:Create("TreeGroup");
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
+    ---@diagnostic disable-next-line: invisible
     resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
     resultTree:SetCallback("OnGroupSelected", _HandleOnGroupSelected)

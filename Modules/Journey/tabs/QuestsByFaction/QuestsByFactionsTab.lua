@@ -48,9 +48,10 @@ end
 function _QuestieJourney.questsByFaction:DrawTab(container)
     _QuestieJourney.questsByFaction:InitializeFactionData()
 
-    ---@class AceSimpleGroup
+    ---@type AceGUISimpleGroup
     treegroup = AceGUI:Create("SimpleGroup")
 
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading")
     header:SetText(l10n('Select Expansion and Faction'))
     header:SetFullWidth(true)
@@ -66,6 +67,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container)
 
+    ---@type AceGUIHeading
     header = AceGUI:Create("Heading")
     header:SetText(l10n('Faction Quests'))
     header:SetFullWidth(true)
@@ -99,6 +101,7 @@ _GetWatchedFactionId = function()
 end
 
 _CreateExpansionDropdown = function()
+    ---@type AceGUIDropdown
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.availableFactionExpansions, QuestieJourney.availableFactionExpansionOrder)
     dropdown:SetCallback("OnValueChanged", _HandleExpansionSelection)
@@ -119,6 +122,7 @@ _CreateExpansionDropdown = function()
 end
 
 _CreateFactionDropdown = function()
+    ---@type AceGUIDropdown
     local dropdown = AceGUI:Create("Dropdown")
 
     if not selectedExpansionKey then
