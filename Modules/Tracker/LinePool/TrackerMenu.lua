@@ -256,7 +256,7 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
             SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
             SetAbandonQuest()
 
-            local items = GetAbandonQuestItems()
+            local items = GetAbandonQuestItems and GetAbandonQuestItems() or C_QuestLog.GetAbandonQuestItems()
             if items then
                 StaticPopup_Hide("ABANDON_QUEST")
                 StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", GetAbandonQuestName(), items)
