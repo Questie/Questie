@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local, cast-local-type, need-check-nil
 ---@class QuestieSerializer
 local QuestieSerializer = QuestieLoader:CreateModule("QuestieSerializer");
 -------------------------
@@ -191,23 +192,23 @@ QuestieSerializer.WriterTable = {
                 sign = 1
             end
             if value > 2147483646 then
-                self.stream:WriteByte(4 + sign) 
+                self.stream:WriteByte(4 + sign)
                 self.stream:WriteLong(value)
             elseif value < 222 and sign == 0 then
                 self.stream:WriteByte(32 + value) -- encoded in type byte
             elseif value < 255 then
-                self.stream:WriteByte(12 + sign) 
+                self.stream:WriteByte(12 + sign)
                 self.stream:WriteByte(value)
             elseif value < 65530 then
                 self.stream:WriteByte(14 + sign)
                 self.stream:WriteShort(value)
             else
-                self.stream:WriteByte(2 + sign) 
+                self.stream:WriteByte(2 + sign)
                 self.stream:WriteInt(value)
             end
         end
     end,
-    ["float"] = function(self, value) 
+    ["float"] = function(self, value)
         self.stream:WriteByte(6)
         self.stream:WriteInt(floatBitsToInt(value))
     end,

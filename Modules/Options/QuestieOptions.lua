@@ -45,13 +45,16 @@ function QuestieOptions:Initialize()
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
     configFrame:EnableResize(false)
+    ---@diagnostic disable-next-line: invisible
     QuestieCompat.SetResizeBounds(configFrame.frame, 550, 400)
 
     configFrame:Hide()
     coroutine.yield()
 
+    ---@diagnostic disable-next-line: invisible
     local journeyButton = CreateFrame("Button", nil, configFrame.frame, "UIPanelButtonTemplate")
     journeyButton:SetWidth(140)
+    ---@diagnostic disable-next-line: invisible
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n("My Journey"))
     journeyButton:SetScript("OnClick", function()

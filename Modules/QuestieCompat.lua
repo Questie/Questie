@@ -234,6 +234,7 @@ function QuestieCompat.GetCurrentCalendarTime()
         return C_DateAndTime.GetCurrentCalendarTime()
     elseif C_DateAndTime and C_DateAndTime.GetTodaysDate then
         local today = C_DateAndTime.GetTodaysDate()
+        ---@type CalendarTime
         return {
             monthDay = today.day,
             month = today.month,

@@ -147,6 +147,9 @@ end
 -- What a shame that the greeting API hasn't been touched in two decades.
 if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
+    -- We override the Setup function to change the icon based on our own logic
+    ---@param self unknown
+    ---@diagnostic disable-next-line: duplicate-set-field
     function GossipAvailableQuestButtonMixin:Setup(...)
         oldAvailableSetup(self, ...)
         if (not Questie.started) then
@@ -167,6 +170,9 @@ if GossipAvailableQuestButtonMixin then
     end
 
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
+    -- We override the Setup function to change the icon based on our own logic
+    ---@param self unknown
+    ---@diagnostic disable-next-line: duplicate-set-field
     function GossipActiveQuestButtonMixin:Setup(...)
         oldActiveSetup(self, ...)
         if (not Questie.started) then

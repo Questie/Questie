@@ -93,6 +93,7 @@ function QuestieProfiler:HookTable(table, name)
                     for _, script in pairs(QuestieProfiler.scriptsToWatch) do
                         local res, ret = pcall(val, table, script)
                         if res then
+                            ---@diagnostic disable-next-line: undefined-field
                             QuestieProfiler:HookScript(script, ret, table, name)
                         end
                     end
@@ -150,6 +151,7 @@ function QuestieProfiler:CreateUI()
         scrollFrameTemplete = "UIPanelScrollFrameTemplate"
     end
 
+    ---@class QuestieProfilerScrollFrame: ScrollFrame, { ScrollBar: Frame }
     base.scrollFrame = CreateFrame("ScrollFrame", "QuestieProfilerScrollFrame", base, scrollFrameTemplete)
     base.scrollFrame:SetFrameStrata("TOOLTIP")
     base.scrollFrame:SetPoint("TOPLEFT", base, 0, -40)
