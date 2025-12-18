@@ -1,6 +1,13 @@
 {
     "Lua.format.enable": true,
     "Lua.diagnostics.globals": [
+        // REAL GLOBALS ADDED BY LOGON IN THE LUALS FIXES
+        "ChatFrameUtil",
+        "ChatFrameMixin",
+        "DEFAULT_CHAT_FRAME", // The main chat frame
+        "WEEKLY", // String constant - There are DAILY and so on
+        "SELF_HIGHLIGHT_MODE_OUTLINE", // String constant
+
         "----> GlobalAPI",
         "AbandonQuest",
         "AbandonSkill",
@@ -6153,33 +6160,52 @@
         "C_Item",
     ],
     "Lua.workspace.ignoreDir": [
+        // Generics
+        ".vscode",
+
+        // Database ignores
         "Database/Cata/**",
-        "Database/Corrections/Automatic/**",
         "Database/TBC/**",
         "Database/Wotlk/**",
-        "Database/QuestXP/**",
+        "Database/MoP/**",
+        "Database/QuestXP/DB/**",
+        "Database/Corrections/Automatic/**", // We should move the sodBase files into their own folder.
         "Localization/lookups/**",
-        ".types",
-        ".vscode",
-        "!wow-ui-source-classic",
-        "Libs",
+
+        // Helper script ignores.
+        "ExternalScripts(DONOTINCLUDEINRELEASE)/MapIdExporter/**",
+        "ExternalScripts(DONOTINCLUDEINRELEASE)/merger/**",
+        "ExternalScripts(DONOTINCLUDEINRELEASE)",
+
+        // Questie
+        "./.types",
         "setupTests.lua",
         "*test.lua",
+        // "**/*.test.lua",
+        "./cli",
+
+        // "old" Database
+        // "./Modules/Libs/QuestieSerializer.lua",
+        // "./Database/compiler.lua",
+
+        // Logons WoW-API Reference.
+        "WoW-API",
+        // "**/extensions/sumneko.lua*", // I don't want problems to show up for the sumneko extension
     ],
 
     "Lua.workspace.library": [
-        ".types/blizzardFunctions",
-        ".types/Ace3",
-        ".types/data"
+        ".types",
+        "WoW-API",
     ],
 
     "Lua.workspace.preloadFileSize": 3000,
-    "Lua.workspace.maxPreload": 2000,
+    "Lua.workspace.maxPreload": 5000,
 
     "search.exclude": {
         ".github/**": true,
         ".vscode/**": true,
-        "README.md": true
+        "README.md": true,
+        "WoW-API": true,
     },
     "files.exclude": {
         ".types/.SubModules/BlizzardInterfaceCode": true,
@@ -6188,7 +6214,10 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true,
-        "releases": true
+        "releases": true,
+        "**/.git": true,
+        "**/.cache": true,
+        "WoW-API": true,
     },
 
     // Removes trailing whitespaces
@@ -6210,21 +6239,9 @@
     // Default end of line
     "files.eol": "\n",
     "Lua.diagnostics.disable": [
-        "undefined-field",
-        "need-check-nil",
-        "deprecated",
-        "missing-parameter",
-        "invisible",
-        "redundant-parameter",
-        "missing-return-value",
         "assign-type-mismatch",
-        "duplicate-doc-param",
         "param-type-mismatch",
         "return-type-mismatch",
-        "undefined-doc-class",
-        "undefined-doc-name",
-        "unused-local",
-        "cast-local-type"
     ],
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"
@@ -6235,8 +6252,17 @@
     "Lua.runtime.version": "Lua 5.1",
     "explorer.fileNesting.enabled": true,
     "Lua.format.defaultConfig": {
+        "indent_style": "space",
+        "indent_size": "4",
+        "end_of_line": "lf",
         "max_line_length": "800",
-        "align_continuous_assign_statement": "false"
-    }
+        "align_continuous_assign_statement": "false",
+    },
 
+    // Copilot settings
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+      {
+        "file": ".vscode/.copilot-commit-message-instruction.md"
+      },
+    ],
 }

@@ -1,4 +1,4 @@
----@type Townsfolk
+---@class Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 local meetingStones

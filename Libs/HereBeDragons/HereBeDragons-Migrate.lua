@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 2
 assert(LibStub, MAJOR .. " requires LibStub")
 

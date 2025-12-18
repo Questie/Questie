@@ -1,4 +1,4 @@
----@type DailyQuests
+---@class DailyQuests
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 
 ---@alias HubId string

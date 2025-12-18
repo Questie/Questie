@@ -2,7 +2,10 @@
 ---@field numberOfGroupMembers number @The number of players currently in the group
 ---@field faction number @"Horde" or "Alliance"
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
-local _QuestiePlayer = QuestiePlayer.private
+
+---@class QuestiePlayerPrivate
+local _QuestiePlayer = {}
+QuestiePlayer.private = _QuestiePlayer
 -------------------------
 --Import modules.
 -------------------------

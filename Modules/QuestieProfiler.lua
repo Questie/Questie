@@ -1,3 +1,4 @@
+---@class Profiler
 local QuestieProfiler = QuestieLoader:CreateModule("Profiler")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
@@ -92,6 +93,7 @@ function QuestieProfiler:HookTable(table, name)
                     for _, script in pairs(QuestieProfiler.scriptsToWatch) do
                         local res, ret = pcall(val, table, script)
                         if res then
+                            ---@diagnostic disable-next-line: undefined-field
                             QuestieProfiler:HookScript(script, ret, table, name)
                         end
                     end
@@ -149,6 +151,7 @@ function QuestieProfiler:CreateUI()
         scrollFrameTemplete = "UIPanelScrollFrameTemplate"
     end
 
+    ---@class QuestieProfilerScrollFrame: ScrollFrame, { ScrollBar: Frame }
     base.scrollFrame = CreateFrame("ScrollFrame", "QuestieProfilerScrollFrame", base, scrollFrameTemplete)
     base.scrollFrame:SetFrameStrata("TOOLTIP")
     base.scrollFrame:SetPoint("TOPLEFT", base, 0, -40)
@@ -455,6 +458,7 @@ function QuestieProfiler:CreateUI()
     search:HookScript("OnKeyUp", function()
         local txt = string.lower(search:GetText())
         if string.len(txt) == 0 then
+            ---@diagnostic disable-next-line: cast-local-type
             txt = nil
         end
         QuestieProfiler.searchFilter = txt
@@ -493,7 +497,9 @@ function QuestieProfiler:DoHooks(after)
             if toHook then
                 QuestieProfiler:HookTable(toHook[1], toHook[2])
             else
-                timer:Cancel()
+                if timer then
+                    timer:Cancel()
+                end
                 if after then after() end
                 return
             end

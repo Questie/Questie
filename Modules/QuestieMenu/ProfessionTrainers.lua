@@ -1,4 +1,4 @@
----@type Townsfolk
+---@class Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 -- mangos: SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2

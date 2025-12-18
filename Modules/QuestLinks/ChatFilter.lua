@@ -36,6 +36,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
     end
 
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
+        ---@diagnostic disable-next-line: undefined-field
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local sqid, questId, questLevel, questName

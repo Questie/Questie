@@ -209,6 +209,8 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 
     -- Timed quests do not need a full Quest Log Update.
     -- TODO: Add achievement timers later.
+    -- According to the Documentation this does not have a param, but from experiance that might not always be true
+    ---@diagnostic disable-next-line: redundant-parameter
     local questTimers = GetQuestTimers(questId)
     if type(questTimers) == "number" then
         skipNextUQLCEvent = false
@@ -318,7 +320,14 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
-    if itemID ~= nil and quality == Enum.ItemQuality.Standard then
+    --- Enum.ItemQuality.Standard = 1
+    --- Enum.ItemQuality.Common = 1
+    --- For some reason all documentation says "Common" instead of "Standard"
+    --- But ingame Enum.ItemQuality.Standard is used...
+    --- https://wowpedia.fandom.com/wiki/Enum.ItemQuality
+    --- Documentation:  Patch 9.0.1 (2020-10-13): Renamed Standard, Good, Superior fields to Common, Uncommon, Rare
+    ---@diagnostic disable-next-line: undefined-field
+    if itemID ~= nil and quality == (Enum.ItemQuality.Standard or Enum.ItemQuality.Common) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
         skipNextUQLCEvent = false

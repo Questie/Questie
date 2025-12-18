@@ -12,7 +12,6 @@ if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 local pairs = pairs
 
 -- WoW APIs
-local _G = _G
 local CreateFrame, UIParent = CreateFrame, UIParent -- Removed PlaySound
 
 --[[-----------------------------------------------------------------------------

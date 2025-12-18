@@ -5,8 +5,6 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieLib
@@ -61,7 +59,7 @@ function QuestieFramePool:GetFrame()
     if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
-        returnFrame = nil
+        returnFrame = nil --[[@type IconFrame]]
     end
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
@@ -96,12 +94,6 @@ function QuestieFramePool:GetFrame()
 
     if returnFrame.BaseOnShow then
         returnFrame:SetScript("OnShow", returnFrame.BaseOnShow)
-    end
-
-    if returnFrame.BaseOnUpdate then
-        returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
-    else
-        returnFrame:SetScript("OnUpdate", nil)
     end
 
     if returnFrame.BaseOnHide then
@@ -199,7 +191,6 @@ local lineFrameCount = 1
 ---@param lineWidth number @Width of the line.
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
----@class LineFrame @A frame that contains the line used in waypoints.
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
 
     --Create the framepool for lines if it does not already exist.
@@ -210,6 +201,8 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local frameName = "questieLineFrame".. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    ---@class LineFrame : Button @A frame that contains the line used in waypoints.
+    ---@field FakeHide function @A function to fake hide the frame.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrameCount;
@@ -255,6 +248,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
+    ---@class SimpleLine
     local line = lineFrame.line or lineFrame:CreateLine();
     lineFrame.line = line;
 

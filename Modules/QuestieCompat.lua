@@ -44,18 +44,18 @@ end
 ---@param frame frame
 ---@param minWidth number The minimum width the object can be resized to.
 ---@param minHeight number The minimum height the object can be resized to.
----@param maxWidth number The maximum width the object can be resized to.
----@param maxHeight number The maximum height the object can be resized to.
+---@param maxWidth number? The maximum width the object can be resized to.
+---@param maxHeight number? The maximum height the object can be resized to.
 function QuestieCompat.SetResizeBounds(frame, minWidth, minHeight, maxWidth, maxHeight)
     if frame.SetResizeBounds then
         frame:SetResizeBounds(minWidth, minHeight, maxWidth, maxHeight)
         return
     else
         if frame.SetMinResize and frame.SetMaxResize then
-            if minWidth and minWidth ~= 0 then
+            if minWidth and minWidth ~= 0 and minHeight and minHeight ~= 0 then
                 frame:SetMinResize(minWidth, minHeight)
             end
-            if maxWidth and maxWidth ~= 0 then
+            if maxWidth and maxWidth ~= 0 and maxHeight and maxHeight ~= 0 then
                 frame:SetMaxResize(maxWidth, maxHeight)
             end
             return
@@ -198,9 +198,9 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
                 containerInfo.hasNoValue,
                 containerInfo.itemID,
                 containerInfo.isBound
-        else
-            return nil
-        end
+       else
+            return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+       end
     elseif GetContainerItemInfo then
         return GetContainerItemInfo(bagID, slot)
     end
@@ -231,14 +231,6 @@ function QuestieCompat.GetMouseFocus()
     end
 end
 
----@class CalendarTime
----@field monthDay number
----@field month number
----@field year number
----@field weekday number
----@field hour number
----@field minute number
-
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_C_DateAndTime.GetCurrentCalendarTime)
 ---Returns the current date and time information.
 ---@return CalendarTime
@@ -247,6 +239,7 @@ function QuestieCompat.GetCurrentCalendarTime()
         return C_DateAndTime.GetCurrentCalendarTime()
     elseif C_DateAndTime and C_DateAndTime.GetTodaysDate then
         local today = C_DateAndTime.GetTodaysDate()
+        ---@class CalendarTime
         return {
             monthDay = today.day,
             month = today.month,

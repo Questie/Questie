@@ -1,4 +1,4 @@
----@type QuestieDBPrivate
+---@class QuestieDBPrivate
 local _QuestieDB = QuestieLoader:ImportModule("QuestieDB").private
 
 ---@type Expansions

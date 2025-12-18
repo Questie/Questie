@@ -322,14 +322,15 @@ function TrackerUtils:FlashFinisher(quest)
     end)
 end
 
----@param bind string
----@param button string
----@return string bind The input keybind string
----@return string button The input button string
----@return string bindTruthTable.bind Returns matched bind string
----@return function|boolean bindTruthTable.bind.button Returns button function or false if there is no keybind set
+--- Checks if the given key bind is true for the button.
+---@param bind string The keybind, e.g. "left", "shiftleft"
+---@param button string The mouse button, e.g. "LeftButton", "RightButton"
+---@return boolean
 function TrackerUtils:IsBindTrue(bind, button)
-    return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
+    if bind and button and bindTruthTable[bind] then
+        return bindTruthTable[bind](button)
+    end
+    return false
 end
 
 ---@param itemId number
@@ -348,6 +349,8 @@ function TrackerUtils:GetCompletionText(quest)
     local completionText
     if GetQuestLogCompletionText then
         local questIndex = GetQuestLogIndexByID(quest.Id)
+        -- I know that some functions can accept questLogIndex directly, so ignore warning.
+        ---@diagnostic disable-next-line: redundant-parameter
         completionText = GetQuestLogCompletionText(questIndex)
     end
 
@@ -536,7 +539,7 @@ local function _GetWorldPlayerPosition()
 end
 
 ---@param uiMapId number Continent ID number
----@return string Continent Returns Continent Name or "UNKNOW"
+---@return string? Continent Returns Continent Name or "UNKNOW"
 local function _GetContinent(uiMapId)
     if (not uiMapId) then
         return
@@ -591,8 +594,8 @@ local function _GetZoneName(zoneOrSort, questId)
     return zoneName
 end
 
----@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
----@return table questDetails Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
+---@return QuestId[] sortedQuestIds @Table with sorted Quest ID's by Sort Type
+---@return table<QuestId, {quest: Quest, zoneName: string, questCompletePercent: number}> questDetails @Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneNamewith raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
     local questDetails = {}
@@ -1151,8 +1154,12 @@ end
 function TrackerUtils.HasQuest()
     local hasQuest
 
+    -- I know that some functions can accept undocumented parameters, so ignore warning.
+    ---@diagnostic disable-next-line: redundant-parameter
     if (GetNumQuestWatches(true) == 0) then
         if Expansions.Current >= Expansions.Wotlk then
+            -- I know that some functions can accept undocumented parameters, so ignore warning.
+            ---@diagnostic disable-next-line: redundant-parameter
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
             else

@@ -34,6 +34,7 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame:SetScript("OnEnter", TrackerFadeTicker.Unfade)
     questFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
+    ---@class TrackedQuestsScrollFrame: ScrollFrame, { ScrollBar: Frame }
     questFrame.ScrollFrame = CreateFrame("ScrollFrame", "TrackedQuestsScrollFrame", questFrame, "ScrollFrameTemplate")
     questFrame.ScrollFrame:SetAllPoints(questFrame)
     questFrame.ScrollFrame.ScrollBar:Hide()

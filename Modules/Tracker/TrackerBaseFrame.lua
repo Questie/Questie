@@ -18,7 +18,9 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local WatchFrame = QuestWatchFrame or WatchFrame
-local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
+---@type Questie_BaseFrame
+local baseFrame
+local sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local updateTimer
 
 TrackerBaseFrame.IsInitialized = false
@@ -28,7 +30,10 @@ TrackerBaseFrame.isMoving = false
 local _OnEnter, _SetSizerTooltip
 
 function TrackerBaseFrame.Initialize()
+    ---@class Questie_BaseFrame : Frame, BackdropTemplateMixin
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+    baseFrame.isSizing = false
+    baseFrame.isMoving = false
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
     baseFrame:SetFrameStrata("MEDIUM")
     baseFrame:SetFrameLevel(0)
@@ -75,13 +80,13 @@ function TrackerBaseFrame.Initialize()
 
     sizer:SetScript("OnEnter", _OnEnter)
 
-    sizer:SetScript("OnLeave", function(self)
+    sizer:SetScript("OnLeave", function()
         if GameTooltip:IsShown() then
             GameTooltip:Hide()
             GameTooltip._SizerToolTip = nil
         end
 
-        TrackerFadeTicker.Fade(self)
+        TrackerFadeTicker.Fade()
     end)
 
     baseFrame.sizer = sizer
@@ -266,7 +271,7 @@ function TrackerBaseFrame:Update()
 end
 
 function TrackerBaseFrame:SetSafePoint()
-    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
+    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isSizing ~= true then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint]")
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint] - Frame is moving or resizing! --> Exiting.")
@@ -291,7 +296,7 @@ function TrackerBaseFrame.ShrinkToMinSize(minSize)
 end
 
 ---@param button string @The mouse button that is pressed when dragging starts
-function TrackerBaseFrame.OnDragStart(frame, button)
+function TrackerBaseFrame.OnDragStart(_ --[[frame]], button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
         GameTooltip._SizerToolTip = nil
@@ -331,7 +336,7 @@ function TrackerBaseFrame.OnDragStart(frame, button)
 end
 
 local function _UpdateTrackerPosition()
-    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
+    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isSizing ~= true then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition]")
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition] - Frame is moving or resizing! --> Exiting.")
@@ -363,7 +368,7 @@ local function _UpdateTrackerPosition()
     end)
 end
 
-function TrackerBaseFrame.OnDragStop(frame, button)
+function TrackerBaseFrame.OnDragStop(_ --[[frame]], _ --[[button]])
     if IsShiftKeyDown() or IsAltKeyDown() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
         return
@@ -386,7 +391,7 @@ function TrackerBaseFrame.OnDragStop(frame, button)
 end
 
 ---@param button string @The mouse button that is pressed when resize starts
-function TrackerBaseFrame.OnResizeStart(frame, button)
+function TrackerBaseFrame.OnResizeStart(_ --[[frame]], button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
         GameTooltip._SizerToolTip = nil
@@ -465,7 +470,7 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
-function TrackerBaseFrame.OnResizeStop(frame, button)
+function TrackerBaseFrame.OnResizeStop(_ --[[frame]], button)
     if IsAltKeyDown() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
@@ -549,7 +554,7 @@ _OnEnter = function(self)
         GameTooltip._SizerToolTip = _SetSizerTooltip
     end
 
-    TrackerFadeTicker.Unfade(self)
+    TrackerFadeTicker.Unfade()
 end
 
 _SetSizerTooltip = function()

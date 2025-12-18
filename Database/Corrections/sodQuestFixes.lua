@@ -1,4 +1,4 @@
----@type SeasonOfDiscovery
+---@class SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
@@ -927,7 +927,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79624] = { -- Anyone Can Cook
             [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
-            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [79626] = { -- The Salvagematic 9000!
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
@@ -938,11 +938,11 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79677] = { -- A Quick Grocery Run
             [questKeys.preQuestSingle] = {79624},
-            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [79678] = { -- Taste Testing
             [questKeys.preQuestSingle] = {79677},
-            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [79704] = { -- The Salvagematic 9000!
             [questKeys.startedBy] = {nil,{422483}},
@@ -1026,7 +1026,7 @@ function SeasonOfDiscovery:LoadQuests()
         [79970] = { -- Aeonas the Vindicated
             [questKeys.objectives] = {{{218160,"Meet Aeonas at the Cathedral of Light in Stormwind"}}},
             [questKeys.preQuestSingle] = {79963},
-            [questKeys.zoneOrSort] = zoneIDs.PALADIN,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [79974] = { -- Wet Job
             [questKeys.preQuestSingle] = {79980},
@@ -8690,7 +8690,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Deadwood Furbolgs till you receive a Myserious Darnassian Scroll. Decipher and bring it to Calyx Greenglow in Felwood."},
             [questKeys.requiredSpell] = -440858,
             [questKeys.exclusiveTo] = {84369},
-            [questKeys.zoneOrSort] = zoneIDs.MAGE,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [90312] = {
             [questKeys.name] = "Vampiric Touch",

@@ -56,12 +56,12 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieJourney.ToggleJourneyWindow).was_not_called()
-        assert.spy(QuestieMenu.Show).was_not_called()
-        assert.spy(QuestieQuest.SmoothReset).was_not_called()
-        assert.spy(QuestieQuest.ToggleNotes).was_not_called()
-        assert.spy(QuestieOptions.HideFrame).was_not_called()
-        assert.spy(QuestieOptions.ToggleConfigWindow).was_not_called()
+        assert.spy(QuestieJourney.ToggleJourneyWindow).was.not_called()
+        assert.spy(QuestieMenu.Show).was.not_called()
+        assert.spy(QuestieQuest.SmoothReset).was.not_called()
+        assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+        assert.spy(QuestieOptions.HideFrame).was.not_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.not_called()
     end)
 
     it("should open My Journey on left click", function()
@@ -69,7 +69,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieJourney.ToggleJourneyWindow).was_called()
+        assert.spy(QuestieJourney.ToggleJourneyWindow).was.called()
     end)
 
     it("should open Questie on left click with Shift key down", function()
@@ -78,7 +78,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.ToggleConfigWindow).was_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.called()
     end)
 
     it("should open Questie on left click with Shift key down after combat", function()
@@ -88,7 +88,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.ToggleConfigWindow).was_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.called()
     end)
 
     it("should reset Questie on left click with CTRL key down", function()
@@ -97,7 +97,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieQuest.SmoothReset).was_called()
+        assert.spy(QuestieQuest.SmoothReset).was.called()
     end)
 
     it("should toggle notes on left click with CTRL and Shift key down", function()
@@ -108,8 +108,8 @@ describe("MinimapIcon", function()
         MinimapIcon.private:OnClick(button)
 
         assert.is_false(Questie.db.profile.enabled)
-        assert.spy(QuestieQuest.ToggleNotes).was_called_with(_, false)
-        assert.spy(QuestieOptions.HideFrame).was_called()
+        assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, false)
+        assert.spy(QuestieOptions.HideFrame).was.called()
     end)
 
     it("should open drop down menu on right click", function()
@@ -118,8 +118,8 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieMenu.Show).was_called()
-        assert.spy(QuestieMenu.Hide).was_not_called()
+        assert.spy(QuestieMenu.Show).was.called()
+        assert.spy(QuestieMenu.Hide).was.not_called()
     end)
 
     it("should hide drop down menu on right click when it is already shown", function()
@@ -128,8 +128,8 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieMenu.Hide).was_called()
-        assert.spy(QuestieMenu.Show).was_not_called()
+        assert.spy(QuestieMenu.Hide).was.called()
+        assert.spy(QuestieMenu.Show).was.not_called()
     end)
 
     it("should hide minimap icon on right click with CTRL key down", function()
@@ -139,6 +139,6 @@ describe("MinimapIcon", function()
         MinimapIcon.private:OnClick(button)
 
         assert.is_true(Questie.db.profile.minimap.hide)
-        assert.spy(LibDBIconMock.Hide).was_called_with(_, "Questie")
+        assert.spy(LibDBIconMock.Hide).was.called_with(_, "Questie")
     end)
 end)

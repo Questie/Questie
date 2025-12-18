@@ -81,27 +81,27 @@ do
 
     local function CleanupPoints(keepInstance)
         if keepInstance ~= 0 then
-            for tableString, points in pairs(EKPoints) do
+            for tableString, _ --[[points]] in pairs(EKPoints) do
                 RemoveHudQuestIcon(tableString)
             end
         end
         if keepInstance ~= 1 then
-            for tableString, points in pairs(KalimdorPoints) do
+            for tableString, _ --[[points]] in pairs(KalimdorPoints) do
                 RemoveHudQuestIcon(tableString)
             end
         end
         if keepInstance ~= 530 then
-            for tableString, points in pairs(OutlandPoints) do
+            for tableString, _ --[[points]] in pairs(OutlandPoints) do
                 RemoveHudQuestIcon(tableString)
             end
         end
        if keepInstance ~= 571 then
-            for tableString, points in pairs(NorthrendPoints) do
+            for tableString, _ --[[points]] in pairs(NorthrendPoints) do
                 RemoveHudQuestIcon(tableString)
             end
         end
         if keepInstance ~= 860 and keepInstance ~= 870 then--Turtle island and main pandaria continent
-            for tableString, points in pairs(PandariaPoints) do
+            for tableString, _ --[[points]] in pairs(PandariaPoints) do
                 RemoveHudQuestIcon(tableString)
             end
         end
@@ -174,7 +174,7 @@ do
         --Needed for QuestieQuest:SmoothReset(), which should call QuestieDBMIntegration:ClearAll() to also wipe hud markers. Do not call disable arg
         --Hud Markers will be regenerated when questie regenerates it's own icons
         if DBM and DBM.HudMap and QuestieHUDEnabled then
-            for tableString, points in pairs(AddedHudIds) do
+            for tableString, _ --[[points]] in pairs(AddedHudIds) do
                 DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
                 AddedHudIds[tableString] = nil
             end
@@ -194,7 +194,7 @@ do
         end
     end
 
-    eventFrame:SetScript("OnEvent", function(self, event, ...)
+    eventFrame:SetScript("OnEvent", function(_, event, ...)
         if event == "LOADING_SCREEN_DISABLED"  then
             DelayedMapCheck()
             --In rare cases, the incorrect Id is given when checked immediately, for users who have very slow popin after loading screen, this checks again for good measure

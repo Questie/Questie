@@ -2,20 +2,27 @@
 local AchievementCriteriaCheckmark = QuestieLoader:CreateModule("AchievementCriteriaCheckmark")
 
 ---@param index number
----@param parent LineFrame
----@return LineFrame
+---@param parent TrackerLine
+---@return AchievementCriteriaCheckmark
 function AchievementCriteriaCheckmark.New(index, parent)
+    ---@class AchievementCriteriaCheckmark : Button
     local criteriaMark = CreateFrame("Button", "linePool.criteriaMark" .. index, parent)
     criteriaMark.texture = criteriaMark:CreateTexture(nil, "OVERLAY", nil, 0)
     criteriaMark.texture:SetWidth(Questie.db.profile.trackerFontSizeObjective)
     criteriaMark.texture:SetHeight(Questie.db.profile.trackerFontSizeObjective)
     criteriaMark.texture:SetAllPoints(criteriaMark)
 
+    --- Initialize variables
+    ---@type boolean?
+    criteriaMark.mode = nil
+
+
     criteriaMark:SetWidth(1)
     criteriaMark:SetHeight(1)
     criteriaMark:SetPoint("RIGHT", parent.label, "LEFT", -4, 0)
     criteriaMark:SetFrameLevel(100)
 
+    ---@param criteria boolean
     function criteriaMark:SetCriteria(criteria)
         if criteria ~= self.mode then
             self.mode = criteria

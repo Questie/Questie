@@ -12,7 +12,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-QuestieOptions.tabs = { ... }
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
@@ -22,7 +23,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local _CreateOptionsTable
 
 ---Initializes the frames for the options menu
-function QuestieOptions:Initialize()
+function QuestieOptions.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
@@ -44,13 +45,16 @@ function QuestieOptions:Initialize()
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
     configFrame:EnableResize(false)
+    ---@diagnostic disable-next-line: invisible
     QuestieCompat.SetResizeBounds(configFrame.frame, 550, 400)
 
     configFrame:Hide()
     coroutine.yield()
 
+    ---@diagnostic disable-next-line: invisible
     local journeyButton = CreateFrame("Button", nil, configFrame.frame, "UIPanelButtonTemplate")
     journeyButton:SetWidth(140)
+    ---@diagnostic disable-next-line: invisible
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n("My Journey"))
     journeyButton:SetScript("OnClick", function()
@@ -94,7 +98,7 @@ end
 
 -- set option value
 function QuestieOptions:SetProfileValue(info, value)
-    if debug and Questie.db.profile[info[#info]] ~= value then
+    if Questie.db.profile[info[#info]] ~= value then
         Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
     Questie.db.profile[info[#info]] = value
