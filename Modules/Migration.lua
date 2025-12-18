@@ -126,7 +126,7 @@ local migrationFunctions = {
     end,
     [18] = function()
         Questie.db.profile.trackerDisableHoverFade = false
-    end,
+    end
 }
 
 function Migration:Migrate()

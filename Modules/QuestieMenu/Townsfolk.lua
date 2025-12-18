@@ -84,7 +84,7 @@ function Townsfolk.Initialize()
         },
         ["Innkeeper"] = {
             mask = QuestieDB.npcFlags.INNKEEPER,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Stable Master"] = { -- Used further down by hunters.

@@ -261,3 +261,5 @@ tinsert(eventQuests, {"Midsummer", 32500}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 32501}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 32502}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 32503}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 32509}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 32510}) -- Honor the Flame

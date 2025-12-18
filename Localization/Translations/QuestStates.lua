@@ -244,6 +244,18 @@ local questStateLocales = {
         ["zhCN"] = "精英",
         ["zhTW"] = (Expansions.Current == Expansions.Era and "精英") or "團體",
     },
+    ["Escort"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Eskorte",
+        ["esES"] = "Escolta",
+        ["esMX"] = "Escolta",
+        ["frFR"] = "Escorte",
+        ["koKR"] = "호위",
+        ["ptBR"] = "Escolta",
+        ["ruRU"] = "Сопровождение",
+        ["zhCN"] = "护送",
+        ["zhTW"] = "護送",
+    },
 }
 
 for k, v in pairs(questStateLocales) do

@@ -1,7 +1,6 @@
 dofile("setupTests.lua")
 
 describe("QuestFinisher", function()
-
     ---@type QuestieDB
     local QuestieDB
     ---@type ZoneDB
@@ -51,16 +50,16 @@ describe("QuestFinisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function(_, id)
             if id == 123 then
-                return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} }
+                return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
             else
-                return { id = 456, name = "Test Finisher 2", spawns = {[2]={{60,60}}} }
+                return {id = 456, name = "Test Finisher 2", spawns = {[2] = {{60, 60}}}}
             end
         end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
-                NPC = {123,456},
+                NPC = {123, 456},
             },
             IsComplete = function()
                 return 1
@@ -81,16 +80,16 @@ describe("QuestFinisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetObject = spy.new(function(_, id)
             if id == 123 then
-                return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} }
+                return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
             else
-                return { id = 456, name = "Test Finisher 2", spawns = {[2]={{60,60}}} }
+                return {id = 456, name = "Test Finisher 2", spawns = {[2] = {{60, 60}}}}
             end
         end)
         QuestieDB.GetNPC = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
-                GameObject = {123,456},
+                GameObject = {123, 456},
             },
             IsComplete = function()
                 return 1
@@ -111,23 +110,23 @@ describe("QuestFinisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function(_, id)
             if id == 123 then
-                return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} }
+                return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
             else
-                return { id = 456, name = "Test Finisher 2", spawns = {[2]={{60,60}}} }
+                return {id = 456, name = "Test Finisher 2", spawns = {[2] = {{60, 60}}}}
             end
         end)
         QuestieDB.GetObject = spy.new(function(_, id)
             if id == 789 then
-                return { id = 789, name = "Test Finisher 3", spawns = {[3]={{70,70}}} }
+                return {id = 789, name = "Test Finisher 3", spawns = {[3] = {{70, 70}}}}
             else
-                return { id = 987, name = "Test Finisher 4", spawns = {[4]={{80,80}}} }
+                return {id = 987, name = "Test Finisher 4", spawns = {[4] = {{80, 80}}}}
             end
         end)
         local quest = {
             Id = 1,
             Finisher = {
-                NPC = {123,456},
-                GameObject = {789,987}
+                NPC = {123, 456},
+                GameObject = {789, 987}
             },
             IsComplete = function()
                 return 1
@@ -149,12 +148,14 @@ describe("QuestFinisher", function()
 
     it("should add finisher with waypoints", function()
         QuestiePlayer.currentQuestlog[1] = true
-        QuestieDB.GetNPC = spy.new(function() return {
-            id = 123,
-            name = "Test Finisher",
-            spawns = {[1]={{50,50}}},
-            waypoints = {[1] = {{{10,10},{20,20}}}}
-        } end)
+        QuestieDB.GetNPC = spy.new(function()
+            return {
+                id = 123,
+                name = "Test Finisher",
+                spawns = {[1] = {{50, 50}}},
+                waypoints = {[1] = {{{10, 10}, {20, 20}}}}
+            }
+        end)
         local quest = {
             Id = 1,
             Finisher = {
@@ -171,13 +172,13 @@ describe("QuestFinisher", function()
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was_called_with(QuestieMap, _, {{{10,10},{20,20}}}, 1)
+        assert.spy(QuestieMap.DrawWaypoints).was_called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()
         QuestiePlayer.currentQuestlog[1] = true
-        QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{-1,-1}}}} end)
-        ZoneDB.GetDungeonLocation = spy.new(function() return {{2,60,60}} end)
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{-1, -1}}}} end)
+        ZoneDB.GetDungeonLocation = spy.new(function() return {{2, 60, 60}} end)
         local quest = {
             Id = 1,
             Finisher = {
@@ -284,5 +285,31 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was_not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
         assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
+    it("should not add finisher when finisher NPC is missing in DB", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        local errorMock = spy.new(function() end)
+        _G.Questie.Error = errorMock
+        QuestieDB.GetNPC = spy.new(function() return nil end)
+        QuestieDB.GetObject = spy.new(function() end)
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieDB.GetNPC).was.called_with(QuestieDB, 123)
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
+        assert.spy(errorMock).was.called_with(_G.Questie, "Finisher NPC", 123, "for quest:", 1, "is not in the DB")
     end)
 end)

@@ -6854,7 +6854,16 @@ function QuestieQuestBlacklist:Load()
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
         [32175] = true, -- Darkmoon Pet Battle!
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
+        [32457] = true, -- The Thunder King -- only available before Phase 3
+        [32467] = true, -- Sacrificial Prevention [PH]
+        [32468] = true, -- Disarming Axe Throwers [PH]
+        [32469] = true, -- Urging on Hatchlings [PH]
+        [32470] = true, -- Plundering Profferings [PH]
+        [32471] = true, -- Apple Crushing [PH]
+        [32472] = true, -- Frighten Pterodactyls [PH]
         [32482] = true, -- Test Your Chicken Guardian [PH]
+        -- [32683] = true, -- So You Want to Be a Blacksmith...
+        -- [32726] = true, -- So You Want to Be a Blacksmith...
         [33121] = true, -- DEPRECATED The Celestial Tournament
         [33122] = true, -- DEPRECATED Great Job, You Won
         [33354] = true, -- Den Mother's Demise
@@ -6888,6 +6897,18 @@ function QuestieQuestBlacklist:Load()
         [32050] = true,
         [32051] = true,
         [32052] = true,
+
+        -- Midsummer
+        [32496] = true, -- Desecrate this Fire!
+        [32497] = true, -- Honor the Flame
+        [32498] = true, -- Honor the Flame
+        [32499] = true, -- Honor the Flame
+        [32500] = true, -- Honor the Flame
+        [32501] = true, -- Honor the Flame
+        [32502] = true, -- Honor the Flame
+        [32503] = true, -- Desecrate this Fire!
+        [32509] = true, -- Honor the Flame
+        [32510] = true, -- Honor the Flame
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
