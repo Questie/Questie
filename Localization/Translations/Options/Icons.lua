@@ -347,8 +347,8 @@ local iconOptionsLocales = {
         ["koKR"] = "던전 퀘스트 활성화",
         ["ptBR"] = "Ativar ícones de missões de masmorra",
         ["ruRU"] = "Значки заданий подземелий",
-        ["zhCN"] = "启用副本任务图标",
-        ["zhTW"] = "啟用地城任務圖示",
+        ["zhCN"] = "启用地下城任务图标",
+        ["zhTW"] = "啟用地下城任務圖示",
     },
     ["When this is enabled, the locations of dungeon quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
@@ -359,8 +359,8 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, 던전 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões de masmorra será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий подземелий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，副本任务的位置将显示在 世界地图/小地图上。",
-        ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示地城任務。",
+        ["zhCN"] = "启用此功能后，地下城任务的位置将显示在 世界地图/小地图上。",
+        ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示地下城任務。",
     },
     ["Enable Completed Quest Icons"] = {
         ["enUS"] = true,
@@ -971,8 +971,8 @@ local iconOptionsLocales = {
         ["koKR"] = "실행 가능한 던전 퀘스트",
         ["ptBR"] = "Missões de masmorra disponíveis",
         ["ruRU"] = "Задания подземелий",
-        ["zhCN"] = "可接受的5人本任务",
-        ["zhTW"] = "可接的地城任務",
+        ["zhCN"] = "可接的地下城任务",
+        ["zhTW"] = "可接的地下城任務",
     },
     ["Available Raid Quests"] = {
         ["enUS"] = true,

@@ -338,7 +338,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Minimizar em masmorras",
         ["ruRU"] = "Свернуть в подземельях",
         ["zhCN"] = "地下城时最小化",
-        ["zhTW"] = "地城中最小化",
+        ["zhTW"] = "地下城中最小化",
     },
     ["When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon."] = {
         ["enUS"] = true,
@@ -350,7 +350,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o rastreador será minimizado automaticamente ao entrar em uma masmorra.",
         ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически свернут",
         ["zhCN"] = "选中此项后，进入地下城时跟踪器将自动最小化。",
-        ["zhTW"] = "啟用時，進入地城後會自動將任務清單最小化。",
+        ["zhTW"] = "啟用時，進入地下城後會自動將任務清單最小化。",
     },
     ---------------------------------------------------------
     -- Mists of Pandaria onwards --
