@@ -1,5 +1,6 @@
 dofile("setupTests.lua")
 
+---@type QuestieCompat
 _G.QuestieCompat = {}
 
 ---@param override GossipQuestUIInfo
