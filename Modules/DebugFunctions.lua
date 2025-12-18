@@ -43,12 +43,16 @@ function DebugFunctions.ShowQuestObjectives(questId)
             Coordinates = quest.ObjectiveData[i].Coordinates, -- Only for type "event"
             RequiredRepValue = quest.ObjectiveData[i].RequiredRepValue,
             Icon = quest.ObjectiveData[i].Icon,
-            -- Values below where never set
+            -- Values below where never set on init but will exist later
             QuestData = nil,
             Color = nil,
             Type = nil,
             isUpdated = nil,
             Completed = nil,
+            fulfilled = nil,
+            required = nil,
+            Needed = nil,
+            Collected = nil,
         }
         questCacheObjectives[i] = {
             raw_text = objective.text,

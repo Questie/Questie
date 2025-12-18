@@ -41,6 +41,8 @@ QuestieMap.questIdFrames = {}
 -- id < 0: object
 -- E.g. {[-objectId] = {[frameName] = frame, ...}, ...}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
+---@alias manualType "any"|"npc"|"object"|"moonwell"|"Mailbox"|"Meeting Stones"
+---@type table<manualType, table<ObjectId|NpcId, table<string, IconFrame>>>
 QuestieMap.manualFrames = {}
 
 
@@ -117,6 +119,7 @@ function QuestieMap:GetManualFrames(id, typ)
 end
 
 ---@param id number @The ID of the NPC (>0) or object (<0)
+---@param typ manualType? @The type of the manual frame
 function QuestieMap:UnloadManualFrames(id, typ)
     typ = typ or "any"
     if QuestieMap.manualFrames[typ] and (QuestieMap.manualFrames[typ][id]) then

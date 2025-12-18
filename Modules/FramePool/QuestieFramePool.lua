@@ -191,8 +191,6 @@ local lineFrameCount = 1
 ---@param lineWidth number @Width of the line.
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
----@class LineFrame @A frame that contains the line used in waypoints.
----@field FakeHide function @A function to fake hide the frame.
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
 
     --Create the framepool for lines if it does not already exist.
@@ -203,6 +201,8 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local frameName = "questieLineFrame".. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    ---@class LineFrame : Button @A frame that contains the line used in waypoints.
+    ---@field FakeHide function @A function to fake hide the frame.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrameCount;
@@ -248,6 +248,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
+    ---@class SimpleLine
     local line = lineFrame.line or lineFrame:CreateLine();
     lineFrame.line = line;
 

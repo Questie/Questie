@@ -38,6 +38,13 @@ local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
 
+---@class ManualTooltipData
+---@field Title string
+---@field Body { [1]: string, [2]: string}[] @ Array of string pairs
+---@field disableShiftToRemove boolean
+
+---@class CustomTooltipData : ManualTooltipData
+
 -- helper function to format a label with a colon, respecting localization rules
 ---@param label string
 ---@return string
@@ -117,6 +124,7 @@ function MapIconTooltip:Show()
     self.data.touchedPins = {}
     ---@param icon IconFrame
     local function handleMapIcon(icon)
+        ---@type IconData|ManualIconData
         local iconData = icon.data
 
         if not iconData then
@@ -126,6 +134,7 @@ function MapIconTooltip:Show()
 
         -- Do not recolor MiniMap, Available and Completed Quest Icons.
         if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
+            ---@class TouchedPinEntry
             local entry = {}
             entry.color = { icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a };
             entry.icon = icon;
@@ -311,7 +320,7 @@ function MapIconTooltip:Show()
 
                 if shift and next(reputationReward) then
                     local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
-                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1)
                 end
             end
         end
@@ -346,8 +355,8 @@ function MapIconTooltip:Show()
                 end
             end
 
-            -- Used to get the white color for the quests which don't have anything to collect
-            local defaultQuestColor = QuestieLib:GetRGBForObjective({})
+            -- Used to get the default objective color for the quests which don't have anything to collect
+            local defaultQuestColor = QuestieLib:GetRGBForObjective()
 
             -- Add what dungeon this is in if this is a dungeon quest
             if shift and quest then
@@ -448,7 +457,7 @@ function _MapIconTooltip:IsMinimapInside()
 end
 
 --- Get the quest tag to display in the tooltip
----@param quest Quest
+---@param quest IconData
 ---@return string tag
 local function _GetQuestTag(quest)
     if quest.Type == "complete" then
@@ -495,6 +504,7 @@ local function _GetQuestTag(quest)
     end
 end
 
+---@param icon IconFrame
 function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
     tip.type = _GetQuestTag(icon.data)

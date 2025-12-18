@@ -97,7 +97,15 @@ end
 
 local function FloatRGBToHex(r, g, b) return RGBToHex(r * 254, g * 254, b * 254) end
 
+--- Get the RGB color for a quest objective
+---@param objective { fulfilled: number, required: number, Collected: number, Needed: number }? @ The objective to get the color for, if not all fields are present it will default to gray
+---@return string
 function QuestieLib:GetRGBForObjective(objective)
+    -- Default gray color if no objective data is present
+    if not objective then
+        return FloatRGBToHex(0.8, 0.8, 0.8)
+    end
+
     if objective.fulfilled ~= nil and (not objective.Collected) then
         objective.Collected = objective.fulfilled
         objective.Needed = objective.required
@@ -124,11 +132,14 @@ function QuestieLib:GetRGBForObjective(objective)
         if float == .50 then return FloatRGBToHex(1, 1, 0) end
         if float > .50 then return FloatRGBToHex(1 - float / 2, 1, 0) end
     end
+    -- This should never happen but just in case
+    return FloatRGBToHex(0.8, 0.8, 0.8)
 end
 
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
+---@return string
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
     local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);

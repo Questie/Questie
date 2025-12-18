@@ -23,27 +23,56 @@ local _Qframe = {}
 ---@class IconData
 ---@field Id QuestId
 ---@field Type string
----@field Icon number
+---@field Icon string
 ---@field GetIconScale fun(): number
 ---@field IconScale number
+---@field IconColor Color
 ---@field QuestData Quest
+---@field ObjectiveData QuestObjective|nil
 ---@field Name string
----@field IsObjectiveNote boolean
+----@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field ObjectiveIndex number?
+---@field lineFrames LineFrame[]?
+---@field touchedPins TouchedPinEntry[]
+---@field CustomTooltipData CustomTooltipData?
+
+---@class IconPositionData
+---@field AlreadySpawnedId ItemId|NpcId|ObjectId
+---@field data IconData
+---@field x number
+---@field y number
+---@field AreaID AreaId This is a duplicate of zone (Both are probably not needed but require refactor)
+---@field zone AreaId This is a duplicate of AreaID (Both are probably not needed but require refactor)
+---@field UiMapID UiMapId
+---@field worldX number? @The world X coordinate of the icon. Cached from HBDPins:GetWorldCoordinatesFromZone.
+---@field worldY number? @The world Y coordinate of the icon. Cached from HBDPins:GetWorldCoordinatesFromZone.
+---@field distance number? @The distance package used to draw this icon. Used to avoid recalculating distances multiple times.
+---@field touched boolean? @Internal flag: If true, the icon has been touched during distance calculations. Used to avoid recalculating distances multiple times.
+
+---@class ManualIconData
+---@field ManualTooltipData ManualTooltipData?
+---@field id NpcId|ObjectId @
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
-    ---@class IconFrame : Button
+    ---@class IconFrame : Button, IconPositionData
     ---@field isManualIcon boolean
-    ---@field x number
-    ---@field y number
-    ---@field AreaID AreaId
-    ---@field UiMapID UiMapId
     ---@field miniMapIcon number|boolean
     ---@field hidden boolean @Whether the frame is hidden
-    ---@field data IconData
+    ---@field _needsUnload boolean? @Internal flag: If true, the frame is queued to be unloaded once it finishes loading. Managed by QuestieFramePool.
+    ---@field _loaded boolean? @Internal flag: Indicates if the frame has finished its initial setup/loading process. Managed by QuestieMap.
+    ---@field _show function? @Internal storage for the original Show function when FakeHide is active. Set in FakeHide.
+    ---@field _hide function? @Internal storage for the original Hide function when FakeHide is active. Set in FakeHide.
+    ---@field lastGlowFade number? @Internal The last alpha value set for the glow texture. Set by _MinimapIconSetFade in QuestieMap.
+    ---@field shouldBeShowing boolean? @Internal flag: If true, the frame should be shown when FakeShow is called. Set in FakeHide.
+    ---@field faded boolean? @Internal flag: If true, the frame is currently faded. Set in FadeOut.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
+
+    ---@type IconData
+    newFrame.data = nil
+
 
     -- Add the frames to the ignore list of the Minimap Button Bag (MBB) addon
     -- This is quite ugly but the only thing we can do currently from our side
@@ -205,6 +234,7 @@ function _Qframe.OnClick(self, button)
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
         if uiMapId and button == "LeftButton" then
+            ---@type IconData|ManualIconData
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
                 if Questie.db.profile.trackerShowQuestLevel then
@@ -234,7 +264,7 @@ function _Qframe.OnClick(self, button)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
             local waypoint = Questie.db.char._tom_waypoint
             TomTom:RemoveWaypoint(waypoint)
-            add = (waypoint[1] ~= uiMapId) or (waypoint[2] ~= x) or (waypoint[3] ~= y) or (waypoint.title ~= title) or (waypoint.from ~= "Questie")
+            add = waypoint and ((waypoint[1] ~= uiMapId) or (waypoint[2] ~= x) or (waypoint[3] ~= y) or (waypoint.title ~= title) or (waypoint.from ~= "Questie"))
         end
 
         -- Add waypoint

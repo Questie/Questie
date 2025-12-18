@@ -1186,6 +1186,17 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public breacrumbForQuestId number
     ---@field public breacrumbs QuestId[]
     ---@field public tagInfoWasCached boolean @Whether the tag info was cached
+    --- Strange fields added with the LuaLS fixing
+    ---@field public WasComplete boolean? Gets added/set in UpdateQuest
+    --- Localization Fields
+    ---@field public LocalizedName string? Gets added/set in GetAllQuestIds and GetAllQuestIdsNoObjectives functions
+    --- Icon related fields
+    ---@field public HideIcons boolean? Tracker related with Hiding Gets added/set in TrackerUtils/Menu etc
+    ---@field public FadeIcons boolean? Tracker related with Fading Gets added/set in TrackerUtils/Menu etc
+    --- Tracker related fields
+    -- ? It seems like these two "flip-flip" if one is true the other is false
+    ---@field trackTimedQuest boolean? Gets added/set in TrackerQuestTimers
+    ---@field timedBlizzardQuest boolean? Gets added/set in TrackerQuestTimers
     local QO = {
         Id = questId
     }
@@ -1365,6 +1376,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@type table<ObjectiveIndex, QuestObjective>
     QO.Objectives = {}
 
+    ---@type any|GeneralObjective
     QO.SpecialObjectives = {}
 
     ---@type ItemId[]

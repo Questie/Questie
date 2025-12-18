@@ -369,11 +369,14 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
+                        IconColor = nil, -- maybe this should be = quest.Color?
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
                         -- IsObjectiveNote = false,
                         StarterType = starterType,
+                        IconData = nil,
+                        touchedPins = nil,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -414,11 +417,14 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Icon =  QuestieLib.GetQuestIcon(quest),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
+                        IconColor = nil, -- Maybe this should be = quest.Color?
                         Type = "available",
                         QuestData = quest,
                         Name = starter.name,
                         -- IsObjectiveNote = false,
                         StarterType = starterType,
+                        IconData = nil,
+                        touchedPins = nil,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
