@@ -4,6 +4,8 @@
 ---@alias Category string --- Used a lot in the tracker and questlog
 ---@alias ObjectiveIndex number --- The index of the objective in the quest
 ---@alias SpellId number
+---@alias CriteriaId number -- The ID of a criteria
+---@alias CriteriaIndex number -- The total index of all criterias
 
 --------------------------------------------------------------------------------
 -- Starters
@@ -41,7 +43,12 @@
 
 --------------------------------------------------------------------------------
 -- Objectives
----@alias Objective NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective|TriggerEndObjective|SpellObjective
+---@alias Objective GeneralObjective|NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective|TriggerEndObjective|SpellObjective
+
+---@class GeneralObjective
+--- Tooltip stuff?
+---@field hasRegisteredTooltips boolean?
+---@field registeredItemTooltips boolean?
 
 ---@class NpcObjective
 ---@field Type "monster"
@@ -85,6 +92,11 @@
 ---@field Text string
 ---@field Coordinates table<AreaId, CoordPair[]>
 
+---@class AlreadySpawned
+---@field data IconData
+---@field minimapRefs IconFrame[]
+---@field mapRefs IconFrame[]
+
 
 ---@class QuestObjective
 ---@field Id FactionId|ItemId|NpcId|ObjectId|SpellId The relevant ID for the objective
@@ -94,7 +106,7 @@
 ---@field _lastUpdate number UNKNOWN
 ---@field Description string Objective description
 ---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN
----@field AlreadySpawned table UNKNOWN
+---@field AlreadySpawned table<NpcId|ObjectId|ItemId, AlreadySpawned>
 ---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
 ---@field Coordinates table<AreaId, CoordPair[]> @ Only used for type "event"
 ---@field RequiredRepValue number @ Only used for type "reputation"
@@ -102,6 +114,18 @@
 ---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective
+--- fulfilled and required are from wows api while Needed and Collected are from questie, they are however the same thing...
+---@field fulfilled number From WoW API
+---@field required number From WoW API
+---@field Needed number Set from the value fulfilled in the code
+---@field Collected number Set from the value required in the code
+--- Tooltip stuff
+---@field hasRegisteredTooltips boolean?
+---@field registeredItemTooltips boolean?
+--- Icon Variables
+---@field Icon string? The icon texture path
+---@field public HideIcons boolean? Tracker related with Hiding Gets added/set in TrackerUtils/Menu etc
+---@field public FadeIcons boolean? Tracker related with Fading Gets added/set in TrackerUtils/Menu etc
 
 --------------------------------------------------------------------------------
 -- DB Quest Type
