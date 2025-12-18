@@ -566,7 +566,7 @@ DailyQuests.hubs = {
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
-    SUNREAVER_ONSLAUGHT_2_FINAL_BOSS = {
+    SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = {
         quests = {32293,32520,32521,32522},
         limit = 1,
         exclusiveHubs = {
