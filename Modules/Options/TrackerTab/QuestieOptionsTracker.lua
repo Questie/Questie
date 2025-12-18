@@ -467,17 +467,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.hideTrackerInPetBattles end,
                         set = function(_, value)
                             Questie.db.profile.hideTrackerInPetBattles = value
-                            if C_PetBattles and C_PetBattles.IsInBattle() then
-                                local baseFrame = TrackerBaseFrame.baseFrame
-                                if baseFrame then
-                                    if value then
-                                        baseFrame:Hide()
-                                    else
-                                        baseFrame:Show()
-                                        QuestieTracker:Update()
-                                    end
-                                end
-                            end
+                            toggleTrackerVisibility(value, function()
+                                return (C_PetBattles and C_PetBattles.IsInBattle and C_PetBattles.IsInBattle()) or false
+                            end)
                         end
                     },
                     fadeMinMaxButtons = {
