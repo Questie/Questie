@@ -1,8 +1,7 @@
 ---@class ChallengeModeTimer
 local ChallengeModeTimer = QuestieLoader:CreateModule("ChallengeModeTimer")
 
----@class Label
----@field SetText fun(self: Label, text: string)
+---@type SimpleFontString?
 local timerLabel
 
 function ChallengeModeTimer.Initialize()
@@ -16,7 +15,7 @@ function ChallengeModeTimer.Initialize()
     end)
 end
 
----@param label Label|nil
+---@param label SimpleFontString?
 function ChallengeModeTimer.SetTimerLabel(label)
     timerLabel = label
 end

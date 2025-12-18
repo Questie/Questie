@@ -1578,8 +1578,11 @@ function QuestieTracker:Update()
             local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(i)
 
             -- We re-shape the criteriaInfo to match quest objectives used by the tracker.
+            ---@class ScenarioObjective
             local objective = {
+                ---@type CriteriaId
                 Id = criteriaInfo.criteriaID,
+                ---@type CriteriaIndex
                 Index = i,
                 Description = criteriaInfo.description,
                 Collected = criteriaInfo.quantity,
@@ -2358,9 +2361,6 @@ function QuestieTracker.UpdateQuestLines(questId)
     TrackerLinePool.UpdateQuestLines(questId)
 end
 
----@param criteriaIndex number
-function QuestieTracker.UpdateScenarioLines(criteriaIndex)
-    TrackerLinePool.UpdateScenarioLines(criteriaIndex)
-end
+QuestieTracker.UpdateScenarioLines = TrackerLinePool.UpdateScenarioLines
 
 return QuestieTracker

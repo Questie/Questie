@@ -9,16 +9,23 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 ---@param index number
----@param parent LineFrame
+---@param parent TrackerLine
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
----@return LineFrame
+---@return ExpandZoneButton
 function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
+    ---@class ExpandZoneButton : Button
     local expandZone = CreateFrame("Button", "linePool.expandZone" .. index, parent)
     expandZone:SetWidth(1)
     expandZone:SetHeight(1)
     expandZone:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
 
+    --- Initialize variables
+    ---@type AreaId? @ I think this is a AreaId
+    expandZone.zoneId = nil
+
+    ---1 maximized, 0 (Not maximized?)
+    ---@param mode 0|1|number
     function expandZone:SetMode(mode)
         if mode ~= self.mode then
             self.mode = mode
@@ -30,7 +37,10 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
     expandZone:RegisterForDrag("LeftButton")
     expandZone:RegisterForClicks("LeftButtonUp", "LeftButtonDown", "RightButtonUp", "RightButtonDown")
 
-    expandZone:SetScript("OnMouseDown", function(self, button)
+    expandZone:SetScript("OnMouseDown",
+    ---@param self ExpandZoneButton
+    ---@param button MouseButton
+    function(self, button)
         if button == "LeftButton" then
             if IsShiftKeyDown() then
                 -- This sets up the minAllQuestsInZone table upon first click
@@ -49,7 +59,10 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
         end
     end)
 
-    expandZone:SetScript("OnMouseUp", function(self, button)
+    expandZone:SetScript("OnMouseUp",
+    ---@param self ExpandZoneButton
+    ---@param button MouseButton
+    function(self, button)
         if button == "LeftButton" then
             if IsShiftKeyDown() then
                 if not Questie.db.char.collapsedZones[self.zoneId] then
@@ -103,12 +116,16 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
         end
     end)
 
-    expandZone:SetScript("OnEnter", function(self)
+    expandZone:SetScript("OnEnter",
+    ---@param self ExpandZoneButton
+    function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
     end)
 
-    expandZone:SetScript("OnLeave", function(self)
+    expandZone:SetScript("OnLeave",
+    ---@param self ExpandZoneButton
+    function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
     end)

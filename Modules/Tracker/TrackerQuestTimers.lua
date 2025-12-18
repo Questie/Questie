@@ -96,6 +96,8 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil, nil
     end
 
+    --- I know that some functions can accept QuestId directly, so ignore warning.
+    ---@diagnostic disable-next-line: redundant-parameter
     local questTimers = GetQuestTimers(questId)
     if (not questTimers) then
         return nil, nil
@@ -105,6 +107,8 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     SelectQuestLogEntry(questLogIndex)
     -- We can't use GetQuestTimers because we don't know for which quest the timer is.
     -- GetQuestLogTimeLeft returns the correct value though.
+    -- I know that some functions can accept questLogIndex directly, so ignore warning.
+    ---@diagnostic disable-next-line: redundant-parameter
     local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
     SelectQuestLogEntry(currentQuestLogSelection)
 
