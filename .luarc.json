@@ -30,50 +30,6 @@
     "runtime.version": "Lua 5.1",
     "hint.enable": false,
 
-    "diagnostics.globalsRegex": [
-        // Addons
-        // ElvUI
-        "^ElvUF_.*$", // ElvUI UnitFrames
-        // PitBull4
-        "^PitBull4_.*$", // PitBull4 UnitFrames
-        // Shadowed Unit Frames
-        "^SUF.*$", // Shadowed Unit Frames
-        // X-Perl UnitFrames
-        "^XPerl_.*$", // X-Perl UnitFrames
-        // Inven(?) ADdon
-        "^InvenUnitFrames_.*$", // Inven UnitFrames
-        // AzeriteUI
-        "^Azerite.*$", // AzeriteUI UnitFrames
-        // GW2_UI
-        "^GwTarget.*$", // GW2_UI UnitFrames
-
-        // String globals
-        "^[A-Z_]+$",  // Match all WoW globals
-
-        // ? Blizzard frames
-        /// Gossip
-        "^Gossip[A-Za-z]*Frame$",
-        "^Gossip[A-Za-z]*Panel$",
-        /// Quest
-        "^QuestFrame[A-Za-z]*Panel$",
-        /// QuestLog
-        "^QuestLogListScrollFrame.*$",
-        /// Immersion
-        "^Immersion[A-Za-z]*Frame$",
-        "^ImmersionFrame$",
-        /// Achivements
-        "^AchievementFrame.*$",
-        /// Worldmap
-        "^WorldMap[A-Za-z]*DropDown$",
-
-        // ? Blizzard Tooltips
-        "^.*RefTooltip.*$",
-
-        // ? Blizzard Chat
-        "^ChatFrame[0-9]+EditBox$"
-    ],
-
-
     "workspace.ignoreDir": [
         ".dockerfiles",
         ".github",
@@ -101,7 +57,7 @@
         "./.types",
         "setupTests.lua",
         "*test.lua",
-        // "**/*.test.lua",
+        "./Modules/**/*.test.lua",
         "./cli",
 
         // "old" Database
@@ -182,16 +138,58 @@
         "DressUpItemLink", // Function
 
         // Deprecated / Removed Blizzard globals
-        // Quest
-        "IsQuestFlaggedCompleted", // Function  (replaced by C_QuestLog.IsQuestFlaggedCompleted in later versions)
-        "GetAbandonQuestItems", // Function (replaced by C_QuestLog.GetAbandonQuestItems in later versions)
         // Gossip
-        "GetNumGossipAvailableQuests", // Function (replaced by C_GossipInfo.GetNumAvailableQuests in later versions)
-        "GetNumGossipActiveQuests", // Function (replaced by C_GossipInfo.GetNumActiveQuests in later versions)
+        // ! These should be deprecated, but they work a bit differently in different versions of WoW.
+        // ! So we let them throw warnings for now.
+        // "GetNumGossipAvailableQuests", // Function (replaced by C_GossipInfo.GetNumAvailableQuests in later versions)
+        // "GetNumGossipActiveQuests", // Function (replaced by C_GossipInfo.GetNumActiveQuests in later versions)
 
 
         // ! Problematic
         "StaticPopup_Resize" // Does this actually exist in all versions?
 
+    ],
+
+    "diagnostics.globalsRegex": [
+        // Addons
+        // ElvUI
+        "^ElvUF_.*$", // ElvUI UnitFrames
+        // PitBull4
+        "^PitBull4_.*$", // PitBull4 UnitFrames
+        // Shadowed Unit Frames
+        "^SUF.*$", // Shadowed Unit Frames
+        // X-Perl UnitFrames
+        "^XPerl_.*$", // X-Perl UnitFrames
+        // Inven(?) ADdon
+        "^InvenUnitFrames_.*$", // Inven UnitFrames
+        // AzeriteUI
+        "^Azerite.*$", // AzeriteUI UnitFrames
+        // GW2_UI
+        "^GwTarget.*$", // GW2_UI UnitFrames
+
+        // String globals
+        "^[A-Z_]+$",  // Match all WoW globals
+
+        // ? Blizzard frames
+        /// Gossip
+        "^Gossip[A-Za-z]*Frame$",
+        "^Gossip[A-Za-z]*Panel$",
+        /// Quest
+        "^QuestFrame[A-Za-z]*Panel$",
+        /// QuestLog
+        "^QuestLogListScrollFrame.*$",
+        /// Immersion
+        "^Immersion[A-Za-z]*Frame$",
+        "^ImmersionFrame$",
+        /// Achivements
+        "^AchievementFrame.*$",
+        /// Worldmap
+        "^WorldMap[A-Za-z]*DropDown$",
+
+        // ? Blizzard Tooltips
+        "^.*RefTooltip.*$",
+
+        // ? Blizzard Chat
+        "^ChatFrame[0-9]+EditBox$"
     ]
 }
