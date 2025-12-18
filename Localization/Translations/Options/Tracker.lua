@@ -504,6 +504,31 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和 (如果有啟用) 邊框會變成透明。",
     },
     ---------------------------------------------------------
+    ["Disable Quest Hover Fade"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Verblassen bei Quest-Hover deaktivieren",
+        ["esES"] = "Desactivar desvanecimiento al pasar el cursor",
+        ["esMX"] = "Desactivar desvanecimiento al pasar el cursor",
+        ["frFR"] = "Désactiver l’estompage au survol des quêtes",
+        ["koKR"] = false,
+        ["ptBR"] = "Desativar desvanecimento ao passar o cursor",
+        ["ruRU"] = "Отключить затухание по курсору",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, wird der Hover-Effekt von anderen Quests deaktiviert und sie verblassen nicht.",
+        ["esES"] = "Si está activado, las demás misiones del rastreador permanecerán totalmente opacas al pasar el cursor sobre una misión.",
+        ["esMX"] = "Si está activado, las demás misiones del rastreador permanecerán totalmente opacas al pasar el cursor sobre una misión.",
+        ["frFR"] = "Si cette option est activée, les autres quêtes du suivi resteront entièrement opaques lors du survol d’une quête.",
+        ["koKR"] = false,
+        ["ptBR"] = "Se ativado, as outras missões do rastreador permanecerão totalmente opacas ao passar o cursor sobre uma missão.",
+        ["ruRU"] = "Когда включено, другие задания в трекере останутся полностью непрозрачными при наведении курсора на задание",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ---------------------------------------------------------
     ["Hide Tracker Sizer"] = {
         ["enUS"] = true,
         ["deDE"] = "Tracker-Sizer ausblenden",
