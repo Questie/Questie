@@ -8213,6 +8213,7 @@ function MopQuestFixes.Load()
         [32275] = { -- Surgical Death
             [questKeys.preQuestSingle] = {32680},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
         [32284] = { -- Someone You Should See
             [questKeys.preQuestSingle] = {32257},
@@ -8931,6 +8932,7 @@ function MopQuestFixes.Load()
         [32542] = { -- Surgical Strike
             [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
         [32543] = { -- Dangers of Za'Tual
             [questKeys.preQuestSingle] = {32681},
