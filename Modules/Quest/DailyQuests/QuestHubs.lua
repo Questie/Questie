@@ -451,7 +451,7 @@ DailyQuests.hubs = {
             32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
             32538,32539,32540,32541,32542,32543,32544, -- za'tual
             32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
-        }
+        },
         limit = 11,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
@@ -472,7 +472,7 @@ DailyQuests.hubs = {
             32538,32539,32540,32541,32542,32543,32544, -- za'tual
             32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
             32571,32572,32573,32574,32575, -- diremoor
-        }
+        },
         limit = 11,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
@@ -494,7 +494,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     KIRIN_TOR_OFFENSIVE_PVP = {
-        quests = {32485,32634,32636,32627,32639,32635,32632,32638,32301,32637,32633,32628}
+        quests = {32485,32634,32636,32627,32639,32635,32632,32638,32301,32637,32633,32628},
         limit = 7,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
@@ -512,7 +512,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     KIRIN_TOR_OFFENSIVE_PVP_FINAL = {
-        quests = {32631}
+        quests = {32631},
         limit = 1,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
@@ -536,7 +536,7 @@ DailyQuests.hubs = {
             32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
             32200,32215,32216,32217,32227,32252,32275, -- za'tual
             32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
-        }
+        },
         limit = 11,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
@@ -557,7 +557,7 @@ DailyQuests.hubs = {
             32200,32215,32216,32217,32227,32252,32275, -- za'tual
             32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
             32228,32230,32285,32287,32506, -- diremoor
-        }
+        },
         limit = 11,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_PVP = true,
@@ -579,7 +579,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     SUNREAVER_ONSLAUGHT_PVP = {
-        quests = {32288,32269,32262,32265,32302,32300,32303,32266,32213,32305,32264,32268}
+        quests = {32288,32269,32262,32265,32302,32300,32303,32266,32213,32305,32264,32268},
         limit = 7,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
@@ -597,7 +597,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     SUNREAVER_ONSLAUGHT_PVP_FINAL = {
-        quests = {32304}
+        quests = {32304},
         limit = 1,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
