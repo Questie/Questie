@@ -5903,7 +5903,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
-                    {63.31,72.01,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.15,66.44,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5912,7 +5912,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.66,83.21,phases.IOT_ALLIANCE_BOAT},
-                    {63.41,72.06,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.3,66.3,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -6263,7 +6263,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
-                    {63.37,72.29,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.22,66.33,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
