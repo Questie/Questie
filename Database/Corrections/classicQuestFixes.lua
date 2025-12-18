@@ -43,7 +43,6 @@ function QuestieQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
     local specialFlags = QuestieDB.specialFlags
-    local factionIDs = QuestieDB.factionIDs
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -395,6 +394,9 @@ function QuestieQuestFixes:Load()
         [660] = {
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS]={{60.1,53.83}}}},
         },
+        [664] = {
+            [questKeys.preQuestSingle] = {663}, -- #7258
+        },
         [665] = {
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.87,80.6}}}},
             [questKeys.preQuestSingle] = {663}, -- #6972
@@ -738,6 +740,9 @@ function QuestieQuestFixes:Load()
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43}}}},
         },
+        [1177] = {
+            [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 12 Mirefin Heads."},
+        },
         [1190] = {
             [questKeys.childQuests] = {1191},
         },
@@ -804,7 +809,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1273}, -- #1574
         },
         [1282] = {
-            [questKeys.exclusiveTo] = {1301}, -- #917
+            [questKeys.exclusiveTo] = {1301,1302}, -- #917
         },
         [1284] = {
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
@@ -947,6 +952,10 @@ function QuestieQuestFixes:Load()
         [1485] = {
             [questKeys.exclusiveTo] = {1470}, -- #999
         },
+       [1498] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1505},
+        },
         [1501] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1473},
@@ -955,6 +964,9 @@ function QuestieQuestFixes:Load()
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
             [questKeys.requiredSourceItems] = {},
+        },
+        [1505] = {
+            [questKeys.breadcrumbForQuestId] = 1498,
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
@@ -1183,6 +1195,13 @@ function QuestieQuestFixes:Load()
         [1801] = {
             [questKeys.breadcrumbs] = {2996,3001},
         },
+        [1818] = {
+            [questKeys.breadcrumbForQuestId] = 1819,
+        },
+        [1819] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1818},
+        },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
             [questKeys.breadcrumbForQuestId] = 1824,
@@ -1192,25 +1211,31 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1823},
         },
         [1839] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
         },
         [1840] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1844,
         },
         [1841] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1846,
         },
         [1842] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1839},
         },
         [1844] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1840},
         },
         [1846] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1841},
+        },
+        [1859] = {
+            [questKeys.breadcrumbForQuestId] = 1963,
         },
         [1860] = { -- #1192
             [questKeys.breadcrumbForQuestId] = 1861,
@@ -1247,6 +1272,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1882},
             [questKeys.breadcrumbs] = {1883},
+        },
+        [1885] = {
+            [questKeys.breadcrumbForQuestId] = 1886,
+        },
+        [1886] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1885},
         },
         [1919] = { -- Report to Jennea
             [questKeys.startedBy] = {{328,1228,7312}},
@@ -1292,6 +1324,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
+        },
+        [1963] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1859},
         },
         [2038] = {
             [questKeys.breadcrumbs] = {2039},
@@ -1669,8 +1705,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
             [questKeys.finishedBy] = {nil,{152097}},
         },
-        [3526] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3526] = { -- Goblin Engineering (Undercity)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3633,3642},
         },
         [3625] = {
             [questKeys.objectives] = {{{7802,"Weaponry Creation"}}},
@@ -1680,36 +1717,63 @@ function QuestieQuestFixes:Load()
                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ward of the Defiler to summon Razelikh."), 0, {{"object", 153205}}},
 			},
         },
-        [3629] = {
+        [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3633,3640,4181},
         },
-        [3630] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3630] = { -- Gnome Engineering (Stormwind)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3632,3634,3638},
         },
-        [3632] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3632] = { -- Gnome Engineering (Ironforge)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3630,3634,3638},
         },
-        [3633] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3633] = { -- Goblin Engineering (Ratchet Neutral)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3526,3629,3640,3642,4181},
         },
-        [3634] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3634] = { -- Gnome Engineering (Ratchet Alliance)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3630,3632,3638}
         },
-        [3635] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3635] = { -- Gnome Engineering (Undercity)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3637,3638},
         },
-        [3637] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [3637] = { -- Gnome Engineering (Ratchet Horde)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3635,3638},
         },
         [3639] = {
-            [questKeys.exclusiveTo] = {3643,3641},
+            [questKeys.exclusiveTo] = {3641,3643},
         },
         [3641] = {
             [questKeys.exclusiveTo] = {3639},
         },
         [3643] = {
             [questKeys.exclusiveTo] = {3639},
+        },
+        [3644] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
+        },
+        [3645] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.startedBy] = {{7406},nil,nil},
+            [questKeys.finishedBy] = {{7406},nil},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
+        },
+        [3646] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
+        },
+        [3647] = {
+            [questKeys.preQuestSingle] = {3639,3641,3643},
+            [questKeys.startedBy] = {{7944},nil,nil},
+            [questKeys.finishedBy] = {{7944},nil},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
         },
         [3681] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
@@ -1737,10 +1801,10 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 3761,
         },
         [3785] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
         },
         [3786] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
         },
         [3787] = {
             [questKeys.preQuestSingle] = {3781},
@@ -1757,7 +1821,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 3764,
         },
         [3791] = {
-            [questKeys.requiredSourceItems] = {11022,11018},
+            [questKeys.requiredSourceItems] = {11018,11022},
+            [questKeys.preQuestSingle] = {3781}, -- #7241
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
         },
         [3903] = {
@@ -1882,8 +1947,9 @@ function QuestieQuestFixes:Load()
         [4146] = { -- Zapper Fuel
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
-        [4181] = {
-            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        [4181] = { -- Goblin Engineering (Ironforge)
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.exclusiveTo] = {3629,3633,3640},
         },
         [4185] = {
             [questKeys.objectives] = {{{1749,"Advice from Lady Prestor"}}},
@@ -2369,7 +2435,6 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {5622},
         },
         [5622] = {
-            [questKeys.questLevel] = 5, -- #2306
             [questKeys.breadcrumbForQuestId] = 5621,
         },
         [5623] = {
@@ -2595,23 +2660,35 @@ function QuestieQuestFixes:Load()
         [5893] = {
             [questKeys.questLevel] = 55,
         },
+        [5921] = {
+            [questKeys.breadcrumbs] = {5923,5924,5925},
+        },
+        [5922] = {
+            [questKeys.breadcrumbs] = {5926,5927,5928},
+        },
         [5923] = {
             [questKeys.startedBy] = {{4218},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5924] = {
             [questKeys.startedBy] = {{5505},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5925] = {
             [questKeys.startedBy] = {{3602},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5921,
         },
         [5926] = {
             [questKeys.startedBy] = {{6746},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5927] = {
             [questKeys.startedBy] = {{6929},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5928] = {
             [questKeys.startedBy] = {{3064},nil,nil},
+            [questKeys.breadcrumbForQuestId] = 5922,
         },
         [5929] = {
             [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
@@ -2653,64 +2730,79 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{2956, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6065,6066,6067},
         },
         [6062] = {
             [questKeys.objectives] = {{{3099, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6068,6069,6070},
         },
         [6063] = {
             [questKeys.objectives] = {{{1998, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6071,6072,6073,6721,6722},
         },
         [6064] = {
             [questKeys.objectives] = {{{1126, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+            [questKeys.breadcrumbs] = {6074,6075,6076},
         },
         [6065] = {
-            [questKeys.exclusiveTo] = {6066,6067,6061},
+            [questKeys.exclusiveTo] = {6066,6067},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6066] = {
-            [questKeys.exclusiveTo] = {6065,6067,6061},
+            [questKeys.exclusiveTo] = {6065,6067},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6067] = {
-            [questKeys.exclusiveTo] = {6065,6066,6061},
+            [questKeys.exclusiveTo] = {6065,6066},
+            [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6068] = {
             [questKeys.startedBy] = {{3407},nil,nil}, -- #2167
-            [questKeys.exclusiveTo] = {6069,6070,6062}, -- #1795
+            [questKeys.exclusiveTo] = {6069,6070}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
         [6069] = {
             [questKeys.startedBy] = {{11814},nil,nil}, -- #1523
-            [questKeys.exclusiveTo] = {6068,6070,6062}, -- #1795
+            [questKeys.exclusiveTo] = {6068,6070}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
-        -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
         [6070] = {
-            [questKeys.startedBy] = {{3038},nil,nil},
-            [questKeys.exclusiveTo] = {6068,6069,6062}, -- #1795
+            [questKeys.startedBy] = {{3038},nil,nil}, -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
+            [questKeys.exclusiveTo] = {6068,6069}, -- #1795
+            [questKeys.breadcrumbForQuestId] = 6062,
         },
         [6071] = {
-            [questKeys.exclusiveTo] = {6072,6073,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6072,6073,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6072] = {
-            [questKeys.exclusiveTo] = {6071,6073,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6073,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6073] = {
             [questKeys.startedBy] = {{5515},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6721,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6721,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6074] = {
             [questKeys.startedBy] = {{5516},nil,nil},
-            [questKeys.exclusiveTo] = {6075,6076,6064},
+            [questKeys.exclusiveTo] = {6075,6076},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6075] = {
             [questKeys.startedBy] = {{11807},nil,nil},
-            [questKeys.exclusiveTo] = {6074,6076,6064},
+            [questKeys.exclusiveTo] = {6074,6076},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6076] = {
-            [questKeys.exclusiveTo] = {6074,6075,6064},
+            [questKeys.exclusiveTo] = {6074,6075},
+            [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6082] = {
             [questKeys.objectives] = {{{3126, nil}}},
@@ -2758,18 +2850,22 @@ function QuestieQuestFixes:Load()
         [6134] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{63.71,91.9}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Crate of Ghost Magnets"),}},
         },
+        [6135] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {6022,6042,6133}, -- #1572
+        },
         [6136] = {
-            [questKeys.preQuestSingle] = {6133}, -- #1572
+            [questKeys.preQuestGroup] = {6022,6042,6133}, -- #1572
         },
         [6141] = {
             [questKeys.breadcrumbForQuestId] = 261, -- #1744
         },
         [6144] = {
-            [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
+            [questKeys.preQuestGroup] = {6135,6136}, -- #1950
         },
         [6163] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
+            [questKeys.preQuestGroup] = {6135,6136}, -- #1950
         },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
@@ -2874,13 +2970,18 @@ function QuestieQuestFixes:Load()
         [6661] = {
             [questKeys.objectives] = {{{13016,"Rats Captured",Questie.ICON_TYPE_INTERACT}}},
         },
+        [6681] = {
+            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
+        },
         [6721] = {
             [questKeys.startedBy] = {{5116},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6073,6722,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6073,6722},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6722] = {
             [questKeys.startedBy] = {{1231},nil,nil},
-            [questKeys.exclusiveTo] = {6071,6072,6073,6721,6063},
+            [questKeys.exclusiveTo] = {6071,6072,6073,6721},
+            [questKeys.breadcrumbForQuestId] = 6063,
         },
         [6762] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,6761},
@@ -2899,10 +3000,12 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [6962] = {
             [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
+            [questKeys.breadcrumbs] = {6961,7021,7024},
         },
         [6981] = {
             [questKeys.objectives] = {{{3442,"Speak with someone in Ratchet about the Glowing Shard"}},nil,nil,nil},
@@ -2917,9 +3020,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 55,
         },
         [7001] = {
-            [questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78}}},
-            },
+            [questKeys.objectives] = {{{14282,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7002] = {
             [questKeys.objectivesText] = {},
@@ -2927,6 +3028,7 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
@@ -2938,15 +3040,14 @@ function QuestieQuestFixes:Load()
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},
         },
         [7027] = {
-            [questKeys.triggerEnd] = {"Ram Collared and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}}},
-            },
+            [questKeys.objectives] = {{{10990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7042] = {
             [questKeys.finishedBy] = {{13636}},
@@ -3134,7 +3235,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{18880,nil}},nil},
             [questKeys.sourceItemId] = 18746,
-            [questKeys.zoneOrSort] = -82,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
             [questKeys.preQuestSingle] = {7667},
         },
@@ -3146,7 +3247,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.SHAMAN,
-            [questKeys.zoneOrSort] = -82,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {7668,8258},
         },
@@ -3161,7 +3262,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
             [questKeys.nextQuestInChain] = 7637,
             [questKeys.exclusiveTo] = {7638},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [7736] = {
             [questKeys.objectivesText] = {},
@@ -3364,11 +3465,11 @@ function QuestieQuestFixes:Load()
         },
         [8149] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Uther's Tomb"),0,{{"object", 1323},}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Uther's Tomb"),0,{{"object", 2082},}}},
         },
         [8150] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Grom's Monument"),0,{{"object", 1324},}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Grom's Monument"),0,{{"object", 21004},}}},
         },
         [8151] = {
             [questKeys.startedBy] = {{3039,3352,4205,5116,5516}},
@@ -3439,6 +3540,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {},
         },
+        [8193] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8194] = {
+            [questKeys.questLevel] = 60,
+        },
         [8195] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3448,8 +3555,25 @@ function QuestieQuestFixes:Load()
         [8201] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [8221] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8224] = {
+            [questKeys.questLevel] = 60,
+        },
+        [8225] = {
+            [questKeys.questLevel] = 60,
+        },
         [8227] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8228] = {
+            [questKeys.startedBy] = {{15116},nil,nil},
+            [questKeys.finishedBy] = {{15116},nil},
+        },
+        [8229] = {
+            [questKeys.startedBy] = {{15119},nil,nil},
+            [questKeys.finishedBy] = {{15119},nil},
         },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
@@ -3468,6 +3592,9 @@ function QuestieQuestFixes:Load()
         },
         [8246] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [8249] = {
+            [questKeys.requiredClasses] = classIDs.NONE,
         },
         [8250] = {
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
@@ -3619,6 +3746,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
         },
         [8374] = { -- Claiming Arathi Basin
+            [questKeys.exclusiveTo] = {8393,8394,8395,8396}, -- #6068
             [questKeys.requiredMaxLevel] = 29,
         },
         [8375] = { -- Remember Alterac Valley!
@@ -3652,6 +3780,7 @@ function QuestieQuestFixes:Load()
         },
         [8390] = { -- Conquering Arathi Basin
             [questKeys.requiredMaxLevel] = 29,
+            [questKeys.objectivesText] = {},
         },
         [8391] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393},
@@ -3680,6 +3809,7 @@ function QuestieQuestFixes:Load()
         },
         [8397] = { -- Claiming Arathi Basin
             [questKeys.preQuestSingle] = {8374,8393,8394,8395},
+            [questKeys.requiredMaxLevel] = 59,
             [questKeys.objectivesText] = {},
         },
         [8398] = { -- Claiming Arathi Basin
@@ -3812,9 +3942,13 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8370,8436,8437,8439},
             [questKeys.requiredMaxLevel] = 59,
         },
+        [8439] = { -- Conquering Arathi Basin
+            [questKeys.exclusiveTo] = {8370,8436,8437,8438},
+        },
         [8440] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436},
             [questKeys.requiredMaxLevel] = 39,
+            [questKeys.objectivesText] = {},
         },
         [8441] = { -- Conquering Arathi Basin
             [questKeys.preQuestSingle] = {8370,8436,8437},
@@ -4398,8 +4532,60 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
+        [8966] = {
+            [questKeys.exclusiveTo] = {8967,8968,8969},
+            [questKeys.preQuestSingle] = {8962,8963,8964,8965},
+        },
+        [8967] = {
+            [questKeys.exclusiveTo] = {8966,8968,8969},
+            [questKeys.preQuestSingle] = {8962,8963,8964,8965},
+        },
+        [8968] = {
+            [questKeys.exclusiveTo] = {8966,8967,8969},
+            [questKeys.preQuestSingle] = {8962,8963,8964,8965},
+        },
+        [8969] = {
+            [questKeys.exclusiveTo] = {8966,8967,8968},
+            [questKeys.preQuestSingle] = {8962,8963,8964,8965},
+        },
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [8985] = {
+            [questKeys.preQuestSingle] = {8970},
+            [questKeys.exclusiveTo] = {8986,8987,8988},
+            [questKeys.nextQuestInChain] = 8989,
+        },
+        [8986] = {
+            [questKeys.preQuestSingle] = {8970},
+            [questKeys.exclusiveTo] = {8985,8987,8988},
+            [questKeys.nextQuestInChain] = 8990,
+        },
+        [8987] = {
+            [questKeys.preQuestSingle] = {8970},
+            [questKeys.exclusiveTo] = {8986,8988,8989},
+            [questKeys.nextQuestInChain] = 8991,
+        },
+        [8988] = {
+            [questKeys.preQuestSingle] = {8970},
+            [questKeys.exclusiveTo] = {8986,8987,8989},
+            [questKeys.nextQuestInChain] = 8992,
+        },
+        [8989] = {
+            [questKeys.preQuestSingle] = {8985,8986,8987,8988},
+            [questKeys.exclusiveTo] = {8990,8991,8992},
+        },
+        [8990] = {
+            [questKeys.preQuestSingle] = {8985,8986,8987,8988},
+            [questKeys.exclusiveTo] = {8989,8991,8992},
+        },
+        [8991] = {
+            [questKeys.preQuestSingle] = {8985,8986,8987,8988},
+            [questKeys.exclusiveTo] = {8989,8990,8992},
+        },
+        [8992] = {
+            [questKeys.preQuestSingle] = {8985,8986,8987,8988},
+            [questKeys.exclusiveTo] = {8989,8990,8991},
         },
         [9015] = {
             [questKeys.objectives] = {{{16059,"Theldren's Team Defeated"}},nil,{{22047,nil}},nil}, -- #2408
@@ -4690,6 +4876,10 @@ function QuestieQuestFixes:Load()
         },
         [9236] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.requiredMinRep] = {nil,nil},
+        },
+        [9237] = {
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9238] = {
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
@@ -4699,6 +4889,7 @@ function QuestieQuestFixes:Load()
         },
         [9240] = {
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9241] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
@@ -4708,6 +4899,7 @@ function QuestieQuestFixes:Load()
         },
         [9243] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9244] = {
             [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
@@ -4717,6 +4909,7 @@ function QuestieQuestFixes:Load()
         },
         [9246] = {
             [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
+            [questKeys.requiredMinRep] = {nil,nil},
         },
         [9247] = {
             [questKeys.requiredLevel] = 1,
@@ -4724,6 +4917,12 @@ function QuestieQuestFixes:Load()
         [9248] = {
             [questKeys.requiredMinRep] = {609,0},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."),0,{{"object", 180466},{"object", 180539},{"object", 180559},}}},
+        },
+        [9250] = {
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.PRIEST + classIDs.DRUID + classIDs.WARLOCK,
+        },
+        [9251] = {
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.PRIEST + classIDs.DRUID + classIDs.WARLOCK,
         },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
@@ -4970,11 +5169,14 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{8403},nil,nil}
         },
         [6681] = {
-            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283},nil,{17126}}
+            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}} -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815},nil,nil},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8254] = {
+            [questKeys.startedBy] = {{6018},nil,nil},
         },
         [8904] = {
             [questKeys.exclusiveTo] = {8900,8901,8902,8979}
@@ -5010,11 +5212,14 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{3520},nil,nil}
         },
         [6681] = {
-            [questKeys.startedBy] = {{918,4163,5165},nil,{17126}}
+            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}} -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8254] = {
+            [questKeys.startedBy] = {{5489,11406},nil,nil},
         },
         [9388] = {
             [questKeys.startedBy] = {{16817},nil,nil},
@@ -5030,4 +5235,5 @@ function QuestieQuestFixes:LoadFactionFixes()
         return questFixesAlliance
     end
 end
+
 

@@ -31,18 +31,14 @@ local allFrames = {}
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
-    button1 = l10n("Yes"),
-    button2 = l10n("No"),
+    button1 = YES,
+    button2 = NO,
     OnAccept = function()
         QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].questID)
     end,
     SetQuest = function(self, id)
         self.questID = id
         self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false))
-
-        -- locale might not be loaded when this is first created (this does happen almost always)
-        self.button1 = l10n("Yes")
-        self.button2 = l10n("No")
     end,
     OnShow = function(self)
         self:SetFrameStrata("TOOLTIP")

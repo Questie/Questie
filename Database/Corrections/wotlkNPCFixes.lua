@@ -1147,6 +1147,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
+        [27483] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP]={{64.88,84.47},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.DRAKTHARON_KEEP]={{{57.97,85.65},{59.06,88.41},{60.44,90.08},{61.79,89.68},{62.72,87.8},{64.88,84.47}}}},
+        },
         [27495] = { -- Barblefink
             [npcKeys.questStarts] = {12443,12446},
             [npcKeys.questEnds] = {12443,12446},
@@ -1510,6 +1514,10 @@ function QuestieWotlkNpcFixes:Load()
         [29216] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{63.2,48.1}},[zoneIDs.AZJOL_NERUB]={{-1,-1}}},
         },
+        [29250] = { -- Tim Street
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS] = {{13.82,84.71}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [29301] = { --"Camp Winterhoof Wayfarer"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -1621,23 +1629,26 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{31.19,61.86}}},
             [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
-        [29968] = { --"Hapanu Coldwind", "Poisons & Reagents"
+        [29967] = { -- Udoho Icerunner
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [29968] = { -- "Hapanu Coldwind", "Poisons & Reagents"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
-        [29969] = { --"Ontak", "Blacksmithing Supplies"
+        [29969] = { -- "Ontak", "Blacksmithing Supplies"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
-        [29970] = { --"Danho Farcloud", "General Goods"
+        [29970] = { -- "Danho Farcloud", "General Goods"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
-        [29971] = { --"Wabada Whiteflower", "Innkeeper"
+        [29971] = { -- "Wabada Whiteflower", "Innkeeper"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
-        [29973] = { --"Tunka'lo Brave"
+        [29973] = { -- "Tunka'lo Brave"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },

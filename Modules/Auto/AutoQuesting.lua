@@ -81,13 +81,13 @@ function AutoQuesting.OnGossipShow()
     end
 
     if Questie.db.profile.autocomplete then
-        local completeQuests = { QuestieCompat.GetActiveQuests() }
+        local completeQuests = QuestieCompat.GetActiveQuests()
         if #completeQuests > 0 then
             local firstCompleteQuestIndex = 0
-            for i = 1, #completeQuests, INDIZES_COMPLETE do
-                local isComplete = completeQuests[i + 3]
+            for i = 1, #completeQuests do
+                local isComplete = completeQuests[i].isComplete
                 if isComplete then
-                    firstCompleteQuestIndex = math.floor(i / INDIZES_COMPLETE) + 1
+                    firstCompleteQuestIndex = i
                     break
                 end
             end
@@ -189,16 +189,16 @@ _StartStoppedTalkingTimer = function()
 end
 
 local bindTruthTable = {
-    ['shift'] = function()
+    ["shift"] = function()
         return IsShiftKeyDown()
     end,
-    ['ctrl'] = function()
+    ["ctrl"] = function()
         return IsControlKeyDown()
     end,
-    ['alt'] = function()
+    ["alt"] = function()
         return IsAltKeyDown()
     end,
-    ['disabled'] = function() return false; end,
+    ["disabled"] = function() return false; end,
 }
 
 ---@return boolean @True if the modifier key is held down, false otherwise

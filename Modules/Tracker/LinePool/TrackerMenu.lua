@@ -455,7 +455,7 @@ function TrackerMenu:GetMenuForQuest(quest)
     TrackerMenu.addLockUnlockOption(menu)
 
     tinsert(menu, {
-        text = l10n('Cancel'),
+        text = CANCEL,
         func = function()
         end
     })
@@ -588,7 +588,7 @@ function TrackerMenu:GetMenuForAchievement(achieve)
     TrackerMenu.addLockUnlockOption(menu)
 
     tinsert(menu, {
-        text = l10n('Cancel'),
+        text = CANCEL,
         func = function()
         end
     })

@@ -359,14 +359,14 @@ function TrackerUtils:GetCompletionText(quest)
 end
 
 ---@param zoneId number Zone ID number
----@return string @Zone Name (Localized) or "Unknown Zone"
+---@return string @Zone Name (Localized) or l10n("Unknown Zone")
 local function GetZoneNameByIDFallback(zoneId)
     if zoneCache[zoneId] then
         return zoneCache[zoneId]
     end
 
     if zoneId <= 0 or type(zoneId) ~= "number" then
-        return "Unknown Zone"
+        return l10n("Unknown Zone")
     end
 
     for _, zone in pairs(l10n.zoneLookup) do
@@ -378,7 +378,7 @@ local function GetZoneNameByIDFallback(zoneId)
 
     Questie:Debug(Questie.DEBUG_CRITICAL, "[GetZoneNameByIDFallback]: Unable to find a zone name for zoneId", zoneId)
 
-    return "Unknown Zone"
+    return l10n("Unknown Zone")
 end
 
 ---@param zoneId number Zone ID number
@@ -388,8 +388,10 @@ function TrackerUtils:GetZoneNameByID(zoneId)
         return zoneCache[zoneId]
     end
 
-    if C_Map and C_Map.GetAreaInfo(zoneId) then
+    if C_Map.GetAreaInfo(zoneId) then
         zoneCache[zoneId] = C_Map.GetAreaInfo(zoneId)
+    elseif ZoneDB:GetLocalizedDungeonName(zoneId) then
+        zoneCache[zoneId] = ZoneDB:GetLocalizedDungeonName(zoneId)
     else
         zoneCache[zoneId] = GetZoneNameByIDFallback(zoneId)
     end
@@ -796,6 +798,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped zone proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)
@@ -906,6 +913,11 @@ function TrackerUtils:GetSortedQuestIds()
                             end
 
                             QuestieCombatQueue:Queue(function()
+                                -- Don't update tracker if we're in a pet battle
+                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped proximity timer tracker update - in pet battle")
+                                    return
+                                end
                                 TrackerUtils.FilterProximityTimer = true
                                 QuestieTracker:Update()
                             end)

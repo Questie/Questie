@@ -8,6 +8,7 @@ function MopItemFixes.Load()
     local itemKeys = QuestieDB.itemKeys
     local itemClasses = QuestieDB.itemClasses
 
+    ---@format disable
     return {
         [10641] = { -- Moonpetal Lily
             [itemKeys.objectDrops] = {207346},
@@ -572,6 +573,10 @@ function MopItemFixes.Load()
         [80808] = { -- Battle Spear of the Thunder King
             [itemKeys.objectDrops] = {211395},
         },
+        [80809] = { -- Bag of Green Cabbage Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [80827] = { -- Confusing Treasure Map
             [itemKeys.npcDrops] = {60299,60357},
             [itemKeys.startQuest] = 30675;
@@ -703,6 +708,10 @@ function MopItemFixes.Load()
         [83135] = { -- Amber Blade
             [itemKeys.npcDrops] = {62563,62749,65995},
         },
+        [83767] = { -- Krosh's Back
+            [itemKeys.npcDrops] = {56833},
+            [itemKeys.startQuest] = 29758,
+        },
         [83769] = { -- Between a Saurok and a Hard Place
             [itemKeys.startQuest] = 31055,
         },
@@ -772,11 +781,35 @@ function MopItemFixes.Load()
         [84779] = { -- Chunk of Solidified Amber
             [itemKeys.objectDrops] = {212902},
         },
+        [84782] = { -- Bag of Juicycrunch Carrot Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [84783] = { -- Bag of Scallion Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85153] = { -- Bag of Mogu Pumpkin Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85158] = { -- Bag of Red Blossom Leek Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [85159] = { -- Amber-Filled Jar
             [itemKeys.objectDrops] = {212923},
         },
         [85161] = { -- Soul-Gatherer's Beads
             [itemKeys.npcDrops] = {246246},
+        },
+        [85162] = { -- Bag of Pink Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [85163] = { -- Bag of White Turnip Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [85204] = { -- Ancient Mogu Artifact
             [itemKeys.npcDrops] = {63273},
@@ -1062,6 +1095,18 @@ function MopItemFixes.Load()
             [itemKeys.startQuest] = 31938,
             [itemKeys.npcDrops] = {58706}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
+        [89847] = { -- Bag of Witchberry Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89848] = { -- Bag of Jade Squash Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [89849] = { -- Bag of Striped Melon Seeds
+            [itemKeys.vendors] = {58718},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [89903] = { -- Thousand-Year Water
             [itemKeys.objectDrops] = {440008},
         },
@@ -1095,27 +1140,66 @@ function MopItemFixes.Load()
         },
         [91854] = { -- Sturdy Crane Snare
             [itemKeys.startQuest] = 32164,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91855] = { -- Sturdy Tiger Trap
             [itemKeys.startQuest] = 32165,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
         },
         [91856] = { -- Sturdy Crab Crate
             [itemKeys.startQuest] = 32166,
-            [itemKeys.npcDrops] = {67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+            [itemKeys.npcDrops] = {67558,67881}, -- it's a vendor, but we are using npcDrops so it shows the quest in tooltips
+        },
+        [91874] = { -- Chunk of Mystery Meat
+            [itemKeys.npcDrops] = {67895,67896,68584},
         },
         [91907] = { -- Lion's Landing Lumber
             [itemKeys.objectDrops] = {216229},
         },
+        [92072] = { -- Korune Codex
+            [itemKeys.npcDrops] = {67752},
+        },
         [92425] = { -- Ancient Korune Tablet
             [itemKeys.npcDrops] = {67833},
+        },
+        [92441] = { -- The Codex of Xerrath
+            [itemKeys.startQuest] = 32295,
         },
         [92474] = { -- Extra-Waxy Alliance Ears
             [itemKeys.npcDrops] = {67296,67297,67304,67317,67441},
         },
         [92493] = { -- Bilgewater Blasting Cap
             [itemKeys.npcDrops] = {67929},
+        },
+        [92494] = { -- Hellfire Fragment
+            [itemKeys.objectDrops] = {216327},
+        },
+        [92495] = { -- Netherstorm Fragment
+            [itemKeys.objectDrops] = {216328},
+        },
+        [92496] = { -- Blade's Edge Fragment
+            [itemKeys.objectDrops] = {216326},
+        },
+        [92497] = { -- Shadowmoon Fragment
+            [itemKeys.objectDrops] = {216325},
+        },
+        [92499] = { -- Sturdy Needle
+            [itemKeys.npcDrops] = {68026,68027},
+        },
+        [92539] = { -- Untamed Amber
+            [itemKeys.npcDrops] = {68117},
+        },
+        [92557] = { -- The Metal Brew
+            [itemKeys.objectDrops] = {216362},
+        },
+        [92560] = { -- Mallet Head
+            [itemKeys.objectDrops] = {216421},
+        },
+        [92561] = { -- Mallet Handle
+            [itemKeys.npcDrops] = {68545},
+        },
+        [92562] = { -- Harmonic Ointment
+            [itemKeys.npcDrops] = {61010},
         },
         [92704] = { -- Ancient Mogu Essence
             [itemKeys.npcDrops] = {68070,68073},
@@ -1129,24 +1213,62 @@ function MopItemFixes.Load()
         [92736] = { -- Gen-Li's Essence
             [itemKeys.npcDrops] = {68169},
         },
+        [92763] = { -- Kor'kron Helmet
+            [itemKeys.npcDrops] = {68367},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [92764] = { -- Kor'kron Armor
+            [itemKeys.npcDrops] = {68369},
+        },
+        [92765] = { -- Kor'kron Boots
+            [itemKeys.npcDrops] = {68368},
+        },
+        [92801] = { -- Korune Orders
+            [itemKeys.npcDrops] = {68401},
+        },
+        [92802] = { -- Legacy of the Korune
+            [itemKeys.npcDrops] = {68473},
+        },
+        [92803] = { -- Sealed Korune Artifact
+            [itemKeys.npcDrops] = {68410},
+        },
         [92804] = { -- Weathered Journal
             [itemKeys.objectDrops] = {216664},
         },
         [93009] = { -- Shieldwall Soldier Dog Tag
             [itemKeys.npcDrops] = {68700},
         },
-        [93179] = { -- Scrap Metal
-            [itemKeys.npcDrops] = {67285},
-        },
         [93022] = { -- Animatable Stone
             [itemKeys.npcDrops] = {67929},
             [itemKeys.objectDrops] = {216160},
+        },
+        [93179] = { -- Scrap Metal
+            [itemKeys.npcDrops] = {67285},
         },
         [93189] = { -- Korune Artifact
             [itemKeys.npcDrops] = {67804,67805,67806},
         },
         [93190] = { -- Sha-Touched Claw
             [itemKeys.npcDrops] = {68815},
+        },
+        [93212] = { -- Spirit Essence of Varatus
+            [itemKeys.npcDrops] = {68907},
+        },
+        [94197] = { -- The Zandalari Prophecy
+            [itemKeys.startQuest] = 32600,
+        },
+        [94198] = { -- Rumbles of Thunder
+            [itemKeys.startQuest] = 32601,
+        },
+        [94199] = { -- Gods and Monsters
+            [itemKeys.startQuest] = 32602,
+        },
+        [94221] = { -- Shan'ze Ritual Stone
+            [itemKeys.npcDrops] = {50358,69664,69996,69997,69998,69999,70000,70001,70002,70003,70530},
+            [itemKeys.objectDrops] = {218593},
+        },
+        [94605] = { -- Wild Pterrorwing Hatchling
+            [itemKeys.npcDrops] = {69428},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,
@@ -1171,6 +1293,9 @@ function MopItemFixes.Load()
         },
         [95390] = { -- Pristine Kypari Sap Container
             [itemKeys.startQuest] = 32693,
+        },
+        [97985] = { -- Dusty Old Robot
+            [itemKeys.startQuest] = 32850,
         },
         [105891] = { -- Moonfang's Pelt
             [itemKeys.startQuest] = 33354,

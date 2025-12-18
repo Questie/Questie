@@ -1,7 +1,6 @@
 dofile("setupTests.lua")
 
 describe("QuestieLib", function()
-
     ---@type QuestieDB
     local QuestieDB
     ---@type l10n
@@ -277,6 +276,39 @@ describe("QuestieLib", function()
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60)
 
             assert.are_same("[60U] ", levelString)
+        end)
+    end)
+
+    describe("DidDailyResetHappenSinceLastLogin", function()
+        it("should return true when last login is not set", function()
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.lastKnownDailyReset = {}
+
+            local result = QuestieLib.DidDailyResetHappenSinceLastLogin()
+
+            assert.is_true(result)
+        end)
+
+        it("should return true when the server time exceeds the last know daily reset", function()
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.lastKnownDailyReset = {["Ook Ook"] = 1765833265}
+
+            _G.GetServerTime = function() return 2000000000 end
+
+            local result = QuestieLib.DidDailyResetHappenSinceLastLogin()
+
+            assert.is_true(result)
+        end)
+
+        it("should return false when the server time did not exceed the last know daily reset", function()
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.lastKnownDailyReset = {["Ook Ook"] = 1765833265}
+
+            _G.GetServerTime = function() return 1500000000 end
+
+            local result = QuestieLib.DidDailyResetHappenSinceLastLogin()
+
+            assert.is_false(result)
         end)
     end)
 end)

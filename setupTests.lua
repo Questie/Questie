@@ -1,3 +1,7 @@
+-- TODO: Remove me!
+Questie = {
+    TBC = false
+}
 dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/Expansions.lua")
 
@@ -235,6 +239,9 @@ setmetatable(_G.LibStub, {
 
 local registeredEvents = {}
 _G["Questie"] = {
+    API = {
+        isReady = false,
+    },
     db = {
         char = {},
         profile = {},

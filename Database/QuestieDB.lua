@@ -697,7 +697,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
-        local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
+        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession specialization requirements for quest " .. questId) end
             return false
@@ -987,7 +987,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
-        local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
+        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
             local msg = "Player does not meet profession specialization requirements for quest " .. questId
             if returnText and returnBrief then
@@ -1629,6 +1629,10 @@ local questsRequiringFriendsOnTheFarmAchievement = {
     [31312] = true, -- The Old Map
 }
 
+local questsRequiringAllGrownsUpAchievement = {
+    [32863] = true, -- What We've Been Training For
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
@@ -1683,6 +1687,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
 
     if questsRequiringFriendsOnTheFarmAchievement[questId] then
         return select(13, GetAchievementInfo(6552)) -- Friends On The Farm
+    end
+
+    if questsRequiringAllGrownsUpAchievement[questId] then
+        return select(13, GetAchievementInfo(6570)) -- All Growns Up!
     end
 end
 

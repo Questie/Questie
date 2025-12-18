@@ -82,9 +82,9 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         step = 1,
                         disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
+                        set = function (_, value)
+                            QuestieNameplate.SetIconXPosition(value)
                             QuestieNameplate:RedrawIcons()
-                            QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
                     nameplateSpacerY = {
@@ -108,9 +108,9 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         step = 1,
                         disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
+                        set = function (_, value)
+                            QuestieNameplate.SetIconYPosition(value)
                             QuestieNameplate:RedrawIcons()
-                            QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
                     Spacer_C = QuestieOptionsUtils:Spacer(1.45),
@@ -135,11 +135,10 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         step = 0.01,
                         disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
+                        set = function (_, value)
+                            QuestieNameplate.SetIconScale(value)
                             QuestieNameplate:RedrawIcons()
                         end,
-
                     },
                 },
             },
@@ -284,11 +283,12 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 desc = function() return l10n("Reset to default nameplate position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateEnabled; end,
-                func = function (info, value)
-                    Questie.db.profile.nameplateX = optionsDefaults.profile.nameplateX;
-                    Questie.db.profile.nameplateY = optionsDefaults.profile.nameplateY;
-                    Questie.db.profile.nameplateScale = optionsDefaults.profile.nameplateScale;
-                    QuestieNameplate:RedrawIcons();
+                func = function()
+                    QuestieNameplate.SetIconPosition(
+                        optionsDefaults.profile.nameplateX,
+                        optionsDefaults.profile.nameplateY,
+                        optionsDefaults.profile.nameplateScale
+                    )
                 end,
             },
             resetSpacerMid = {

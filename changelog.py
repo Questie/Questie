@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import os
 import subprocess
 import sys
 
@@ -12,15 +12,22 @@ commit_keys_and_header = (
     ('locale', '## Localization Fixes\n\n'),
 )
 
+
 def is_python_36():
     return sys.version_info.major == 3 and sys.version_info.minor >= 6
 
-def get_commit_changelog():
+
+def is_running_in_github_actions():
+    """Return True if running inside GitHub Actions pipeline."""
+    return os.getenv('GITHUB_ACTIONS', '').lower() == 'true'
+
+
+def get_commit_changelog(include_contributors):
     last_tag = get_last_git_tag()
     git_log = get_chronological_git_log(last_tag)
     categories = get_sorted_categories(git_log)
 
-    contributors = get_contributors(last_tag)
+    contributors = get_contributors(last_tag) if include_contributors else []
 
     return get_changelog_string(categories, contributors)
 
@@ -80,6 +87,7 @@ def get_sorted_categories(git_log):
 
     return categories
 
+
 def get_contributors(last_tag):
     log_output = subprocess.run(
         ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an <%ae>"],
@@ -106,6 +114,7 @@ def replace_start(line, a, b):
     else:
         return line
 
+
 def transform_lines_into_past_tense(line):
     line = replace_start(line, 'Add ', 'Added ')
     line = replace_start(line, 'Fix ', 'Fixed ')
@@ -130,13 +139,15 @@ def get_changelog_string(categories, contributors):
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
 
-    changelog += '## Contributors\n\n'
-    for contributor in contributors:
-        changelog += f'@{contributor}, '
-    changelog = changelog[:-2] + '\n\n'
+    if contributors:
+        changelog += '## Contributors\n\n'
+        for contributor in contributors:
+            changelog += f'@{contributor}, '
+        changelog = changelog[:-2] + '\n\n'
 
     return changelog
 
 
 if __name__ == "__main__":
-    print(get_commit_changelog())
+    show_contributors_section = not is_running_in_github_actions()
+    print(get_commit_changelog(show_contributors_section))

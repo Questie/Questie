@@ -11,7 +11,13 @@ local expansionOrderLookup = {
     [19] = 5,
     -- [1] = 100000000, -- Retail is in the far future
 }
-Expansions.Current = expansionOrderLookup[WOW_PROJECT_ID or 2] -- If not found, default to classic(era)
+-- TODO: Revert once WOW_PROJECT_ID is fixed for TBC
+if Questie.IsTBC then
+    Expansions.Current = expansionOrderLookup[5]
+else
+    Expansions.Current = expansionOrderLookup[WOW_PROJECT_ID or 2] -- If not found, default to classic(era)
+end
+
 -- Expansions.Retail = expansionOrderLookup[WOW_PROJECT_MAINLINE or 1]
 Expansions.Era = expansionOrderLookup[WOW_PROJECT_CLASSIC or 2]
 Expansions.Tbc = expansionOrderLookup[WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5]

@@ -20,6 +20,8 @@ local Sounds = QuestieLoader:ImportModule("Sounds")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -253,13 +255,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.55,
                         get = function() return not Questie.db.profile.minimap.hide; end,
                         set = function(_, value)
-                            Questie.db.profile.minimap.hide = not value;
-
-                            if value then
-                                Questie.minimapConfigIcon:Show("Questie");
-                            else
-                                Questie.minimapConfigIcon:Hide("Questie");
-                            end
+                            MinimapIcon.Toggle(value)
                         end,
                     },
                     mapCoordinatesEnabled = {

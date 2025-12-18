@@ -33,6 +33,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type AutoQuesting
 local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
@@ -58,6 +60,7 @@ local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 local trackerMinimizedByDungeon = false
+
 
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
@@ -123,6 +126,7 @@ function EventHandler:RegisterLateEvents()
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
+        AvailableQuests.HideNotAvailableQuestsFromNPC(false)
         AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
@@ -130,6 +134,7 @@ function EventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
     Questie:RegisterEvent("GOSSIP_SHOW", function()
+        AvailableQuests.HideNotAvailableQuestsFromNPC(true)
         AutoQuesting.OnGossipShow()
         QuestgiverFrame.GossipMark()
     end)
@@ -138,8 +143,10 @@ function EventHandler:RegisterLateEvents()
         QuestgiverFrame.GreetingMark()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", AutoQuesting.OnQuestAcceptConfirm) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", AutoQuesting.OnGossipClosed)              -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", function()                               -- When complete window shows
+    Questie:RegisterEvent("GOSSIP_CLOSED", function() -- Called twice when the stopping to talk to an NPC
+        AutoQuesting.OnGossipClosed()
+    end)
+    Questie:RegisterEvent("QUEST_COMPLETE", function() -- When complete window shows
         AutoQuesting.OnQuestComplete()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
@@ -187,6 +194,61 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
+
+    -- Pet Battle Events (MoP onwards)
+    if Expansions.Current >= Expansions.MoP then
+        Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
+                QuestieCombatQueue:Queue(function()
+                    local baseFrame = TrackerBaseFrame.baseFrame
+                    if baseFrame and not baseFrame:IsShown() then
+                        baseFrame:Show()
+                        QuestieTracker:Update()
+                    end
+                end)
+            end
+        end)
+
+        -- Additional pet battle events to handle edge cases
+        Questie:RegisterEvent("PET_BATTLE_PET_CHANGED", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
+            -- Ensure tracker stays hidden during pet changes/deaths
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+
+        Questie:RegisterEvent("PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
+            -- Ensure tracker stays hidden during battle round transitions
+            if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                local baseFrame = TrackerBaseFrame.baseFrame
+                if baseFrame and baseFrame:IsShown() then
+                    QuestieCombatQueue:Queue(function()
+                        baseFrame:Hide()
+                    end)
+                end
+            end
+        end)
+    end
 
     -- UI Achievement Events
     if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
@@ -252,7 +314,7 @@ function EventHandler:RegisterLateEvents()
     end
 
     if Expansions.Current >= Expansions.Cata and Questie.db.profile.trackerEnabled then
-       -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
+        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
         end)

@@ -21,6 +21,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
 local stringtrim, stringgmatch, stringmatch = string.trim, string.gmatch, string.match
 
@@ -98,13 +100,7 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "minimap" then
-        Questie.db.profile.minimap.hide = not Questie.db.profile.minimap.hide;
-
-        if Questie.db.profile.minimap.hide then
-            Questie.minimapConfigIcon:Hide("Questie");
-        else
-            Questie.minimapConfigIcon:Show("Questie");
-        end
+        MinimapIcon.Toggle(Questie.db.profile.minimap.hide)
         return;
     end
 

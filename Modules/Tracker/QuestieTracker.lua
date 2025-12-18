@@ -269,6 +269,16 @@ function QuestieTracker.Initialize()
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)
+
+    -- Check if we're already in a pet battle during initialization
+    if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+        C_Timer.After(0.1, function()
+            if trackerBaseFrame and trackerBaseFrame:IsShown() then
+                trackerBaseFrame:Hide()
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:Initialize] Hidden tracker - already in pet battle")
+            end
+        end)
+    end
 end
 
 function QuestieTracker:ResetLocation()
@@ -543,6 +553,16 @@ function QuestieTracker:Update()
     end
 
     lastTrackerUpdate = now
+
+    -- Check if we're in a pet battle and should hide the tracker
+    if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+        if trackerBaseFrame and trackerBaseFrame:IsShown() then
+            QuestieCombatQueue:Queue(function()
+                trackerBaseFrame:Hide()
+            end)
+        end
+        return
+    end
 
     -- Tracker has started but not enabled, hide the frames
     if (not Questie.db.profile.trackerEnabled or QuestieTracker.disableHooks == true) then
@@ -1859,14 +1879,20 @@ function QuestieTracker:UpdateHeight()
 
     if Questie.db.char.isTrackerExpanded then
         -- Removes any padding from the last line in the tracker
-        TrackerLinePool.GetCurrentLine():SetHeight(TrackerLinePool.GetCurrentLine().label:GetStringHeight())
+        local currentLine = TrackerLinePool.GetCurrentLine()
+        local firstLine = TrackerLinePool.GetFirstLine()
 
-        if TrackerLinePool.GetCurrentLine().mode == "zone" then
+        currentLine:SetHeight(currentLine.label:GetStringHeight())
+
+        local firstLineTop = firstLine:GetTop()
+        local currentLineBottom = currentLine:GetBottom()
+
+        if currentLine.mode == "zone" then
             -- If a single zone is the only line in the tracker then don't add pixel padding
-            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
+            trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom))
         else
             -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
-            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
+            trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom + 3))
         end
 
         -- Set the baseFrame to full height so we can measure it

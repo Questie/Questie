@@ -1,5 +1,7 @@
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
@@ -14,11 +16,11 @@ tinsert(eventQuests, {"Love is in the Air", 8903}) -- Dangerous Love
 tinsert(eventQuests, {"Love is in the Air", 8904}) -- Dangerous Love
 tinsert(eventQuests, {"Love is in the Air", 8979}) -- Fenstad's Hunch
 tinsert(eventQuests, {"Love is in the Air", 8980}) -- Zinge's Assessment
-tinsert(eventQuests, {"Love is in the Air", 8981, nil, nil, Questie.IsClassic}) -- Gift Giving
+tinsert(eventQuests, {"Love is in the Air", 8981, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Gift Giving
 tinsert(eventQuests, {"Love is in the Air", 8982}) -- Tracing the Source
 tinsert(eventQuests, {"Love is in the Air", 8983}) -- Tracing the Source
 tinsert(eventQuests, {"Love is in the Air", 8984}) -- The Source Revealed
-tinsert(eventQuests, {"Love is in the Air", 8993, nil, nil, Questie.IsClassic}) -- Gift Giving
+tinsert(eventQuests, {"Love is in the Air", 8993, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Gift Giving
 tinsert(eventQuests, {"Love is in the Air", 9024}) -- Aristan's Hunch
 tinsert(eventQuests, {"Love is in the Air", 9025}) -- Morgan's Discovery
 tinsert(eventQuests, {"Love is in the Air", 9026}) -- Tracing the Source
@@ -28,7 +30,7 @@ tinsert(eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
 
 -- WotLK quests
 tinsert(eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)
-tinsert(eventQuests, {"Love is in the Air", 14488}) -- You've Been Served
+tinsert(eventQuests, {"Love is in the Air", 14488, nil, nil, Expansions.Current >= Expansions.Cata}) -- You've Been Served
 tinsert(eventQuests, {"Love is in the Air", 24597}) -- A Gift for the King of Stormwind
 tinsert(eventQuests, {"Love is in the Air", 24609}) -- A Gift for the Lord of Ironforge
 tinsert(eventQuests, {"Love is in the Air", 24610}) -- A Gift for the High Priestess of Elune
@@ -64,10 +66,7 @@ tinsert(eventQuests, {"Love is in the Air", 24851}) -- Hot On The Trail
 -- These "Crushing the Crown" quests are dailies, handed out based on the player's current level.
 -- The Durotar + Elwynn quests are available at level 5, with each successive quest being available
 -- at 14, 23, 32, 41, 51, 61, and 71, respectively. They are exclusive to each other; once you hit 14,
--- you can no longer pick up the level 5 quest. However, since we have no way of filtering quests based
--- on a "maximum" level, we simply hide all of the higher level ones, which will be picked up automatically
--- instead of the level 5 one. Users can only tell the difference if they're watching quest IDs.
--- TODO: If we implement maxLevel, these hacky workarounds should be implemented properly.
+-- you can no longer pick up the level 5 quest.
 tinsert(eventQuests, {"Love is in the Air", 24638}) -- Crushing the Crown (Durotar)
 tinsert(eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
 tinsert(eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)

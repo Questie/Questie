@@ -1096,6 +1096,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [180619] = "Cristal de Ossirian",
 [180633] = "Lágrima Cristalina",
 [180642] = "Caixote Inconspícuo",
+[180652] = "Terra Recentemente Revirada",
 [180654] = "Monte de Neve Compactado",
 [180655] = "Destroços Flutuantes",
 [180656] = "Cardume Pequeno de Sabichões",

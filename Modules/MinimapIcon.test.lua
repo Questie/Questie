@@ -15,6 +15,8 @@ describe("MinimapIcon", function()
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
 
+    local LibDBIconMock = {Hide = spy.new(function() end)}
+
     local match = require("luassert.match")
     local _ = match._ -- any match
 
@@ -42,6 +44,8 @@ describe("MinimapIcon", function()
         QuestieOptions.ToggleConfigWindow = spy.new(function() end)
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
+
+        _G.LibStub = function() return LibDBIconMock end
 
         MinimapIcon = require("Modules.MinimapIcon")
     end)
@@ -131,13 +135,10 @@ describe("MinimapIcon", function()
     it("should hide minimap icon on right click with CTRL key down", function()
         local button = "RightButton"
         _G.IsControlKeyDown = function() return true end
-        Questie.minimapConfigIcon = {
-            Hide = spy.new(function() end)
-        }
 
         MinimapIcon.private:OnClick(button)
 
         assert.is_true(Questie.db.profile.minimap.hide)
-        assert.spy(Questie.minimapConfigIcon.Hide).was_called_with(_, "Questie")
+        assert.spy(LibDBIconMock.Hide).was_called_with(_, "Questie")
     end)
 end)

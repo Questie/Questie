@@ -230,7 +230,7 @@ local questStateLocales = {
         ["ptBR"] = "Masmorra",
         ["ruRU"] = "Подземелье",
         ["zhCN"] = "地下城",
-        ["zhTW"] = "地城",
+        ["zhTW"] = "地下城",
     },
     ["Elite"] = {
         ["enUS"] = (Expansions.Current == Expansions.Era and true) or "Group",
@@ -243,6 +243,18 @@ local questStateLocales = {
         ["ruRU"] = (Expansions.Current == Expansions.Era and "Элитный") or "Группа",
         ["zhCN"] = "精英",
         ["zhTW"] = (Expansions.Current == Expansions.Era and "精英") or "團體",
+    },
+    ["Escort"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Eskorte",
+        ["esES"] = "Escolta",
+        ["esMX"] = "Escolta",
+        ["frFR"] = "Escorte",
+        ["koKR"] = "호위",
+        ["ptBR"] = "Escolta",
+        ["ruRU"] = "Сопровождение",
+        ["zhCN"] = "护送",
+        ["zhTW"] = "護送",
     },
 }
 

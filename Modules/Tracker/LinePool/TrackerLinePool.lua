@@ -313,6 +313,10 @@ function TrackerLinePool.SetAllItemButtonAlpha(alpha)
 end
 
 TrackerLinePool.OnHighlightEnter = function(self)
+    if Questie.db.profile.trackerDisableHoverFade then
+        return
+    end
+
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
         local line = linePool[i]
@@ -386,6 +390,9 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         ---@type QuestObjective
         local objective = line.Objective
         local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
+        if (not criteriaInfo) then
+            return
+        end
 
         local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)

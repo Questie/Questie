@@ -1034,18 +1034,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Use Stardust No. 2 on ten Humanoids"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Benutze Sternenstaub Nr. 2 an zehn Humanoiden",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
     ["Place Ricket's Tickers next to the one of the white rocks"] = {
         ["enUS"] = true,
         ["deDE"] = "Platziere Rickets Ticker neben einem der weißen Felsen",

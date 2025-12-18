@@ -9,6 +9,7 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [113] = 0, -- Northrend
     [1414] = 10073, -- Kalimdor - the continent map
     [1415] = 10074, -- Eastern Kingdoms - the continent map
+    [947] = 10089, -- Azeroth - the world map
     [1945] = 0, -- Outland
     [246] = 3713, -- The Blood Furnace
     [174] = 4720, -- The Lost Isles

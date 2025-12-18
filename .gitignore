@@ -33,3 +33,5 @@ releases/
 *.bak
 
 cli/output
+
+WoW-API

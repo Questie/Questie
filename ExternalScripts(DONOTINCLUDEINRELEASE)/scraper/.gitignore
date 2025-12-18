@@ -5,6 +5,7 @@
 
 quest_data.lua
 npc_data.lua
+npc_data_db.lua
 item_data.lua
 object_data.lua
 object_names_*.lua

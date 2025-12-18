@@ -8,10 +8,29 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
+
+---@param questId QuestId
+---@return string|nil
+function _QuestieJourney:GetReputationRewardString(questId)
+    if not questId then
+        return nil
+    end
+
+    local reputationRewards = QuestieReputation.GetReputationReward(questId)
+    if not reputationRewards or not next(reputationRewards) then
+        return nil
+    end
+
+    return QuestieReputation.GetReputationRewardString(reputationRewards)
+end
 
 
 -- TODO remove again once the call in manageZoneTree was removed
@@ -47,6 +66,13 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n('Quest ID: '), 'yellow') .. quest.Id, true)
     container:AddChild(questIdLabel)
+
+    local reputationRewardString = _QuestieJourney:GetReputationRewardString(quest.Id)
+    if reputationRewardString then
+        local labelText = Questie:Colorize(l10n('Reputation Reward: '), 'yellow') .. Questie:Colorize(reputationRewardString, "reputationBlue")
+        local reputationRewardLabel = _QuestieJourney:CreateLabel(labelText, true)
+        container:AddChild(reputationRewardLabel)
+    end
 
     QuestieJourneyUtils:Spacer(container)
 
@@ -85,7 +111,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         if startindex == 0 then
             return
         end
-        
+
         local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
         startNPCZoneLabel:SetText(l10n(continent))
@@ -259,7 +285,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         end
 
         local continent = QuestieJourneyUtils:GetZoneName(endindex)
-        
+
         endNPCZoneLabel:SetText(l10n(continent))
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)

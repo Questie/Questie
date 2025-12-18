@@ -183,6 +183,9 @@ function CataItemFixes.Load()
         [16976] = { -- Murgut's Totem
             [itemKeys.npcDrops] = {},
         },
+        [17662] = { -- Stolen Treats
+            [itemKeys.npcDrops] = {},
+        },
         [18240] = { -- Ogre Tannin
             [itemKeys.objectDrops] = {179499},
             [itemKeys.npcDrops] = {},
@@ -1255,6 +1258,9 @@ function CataItemFixes.Load()
         },
         [72160] = { -- Hellfire Supplies
             [itemKeys.objectDrops] = {209347},
+        },
+        [72663] = { -- Blinding Fury
+            [itemKeys.npcDrops] = {19218,19710},
         },
         [73269] = { -- Great Sea Herring
             [itemKeys.npcDrops] = {},

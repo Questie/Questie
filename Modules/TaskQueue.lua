@@ -26,3 +26,5 @@ end
 local taskQueueEventFrame = CreateFrame("Frame", "QuestieTaskQueueEventFrame", UIParent)
 taskQueueEventFrame:SetScript("OnUpdate", TaskQueue.OnUpdate)
 taskQueueEventFrame:Show()
+
+return TaskQueue

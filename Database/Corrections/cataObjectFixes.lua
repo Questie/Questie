@@ -302,6 +302,12 @@ function CataObjectFixes.Load()
         [176545] = { -- Remains of Lucien Sarkhoff
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{92.02,52.02}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [177272] = { -- Moonwell
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{55.71,54.14}},
+                [zoneIDs.ZANGARMARSH]={{80.33,65.06}},
+            },
+        },
         [177287] = { -- Unfinished Painting
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{27.38,76.13},{-1,-1}}},
         },
@@ -441,6 +447,10 @@ function CataObjectFixes.Load()
         },
         [183441] = { -- Soul Mirror
             [objectKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS_BRIDGE_OF_SOULS] = {{74.99,49.99}},[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+        }, 
+        [184465] = { -- Cache of the Legion
+            [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{38.99,28.26},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
         }, 
         [185471] = { -- Mailbox
             [objectKeys.factionID] = 1604,
@@ -1408,6 +1418,9 @@ function CataObjectFixes.Load()
         [209448] = { -- Portal Energy Focus
             [objectKeys.spawns] = {[zoneIDs.WELL_OF_ETERNITY] = {{16.03,34.54},{-1,-1}}},
         },
+        [209620] = { -- Darkmoon Treasure Chest
+            [objectKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{44.66,78.77},{-1,-1}}},
+        },
         [209927] = { -- Convenient Rope
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.86,45.31}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
@@ -1415,6 +1428,9 @@ function CataObjectFixes.Load()
         [209928] = { -- Unsecured Vent
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{71.35,45.38}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
+        [216484] = { -- Intensifier Disc
+            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.59}}},
         },
         [259806] = { -- Love Potion Recipe
             [objectKeys.questStarts] = {},

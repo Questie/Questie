@@ -455,6 +455,38 @@ local phases = {
     GENERAL_NAZGRIM_OUTSIDE_TENT = 1383,
     GENERAL_NAZGRIM_NEAR_SPEARS = 1384,
     GENERAL_NAZGRIM_NEAR_ANDUINN = 1385,
+    THRALL_VALLEY_OF_TRIALS = 1386,
+    THRALL_ECHO_ISLES_1 = 1387,
+    THRALL_ECHO_ISLES_2 = 1388,
+    SARANNHA_AT_MOGUJIA = 1389,
+    SARANNHA_AT_RUINS_OF_KORUNE = 1390,
+    JAINA_IN_DARNASSUS = 1391,
+    JAINA_IN_TELDRASSIL = 1392,
+    ANDUIN_ENTRANCE_OF_TOMB = 1393,
+    ANDUIN_AT_LIONS_LANDING = 1394,
+    GARROSH_TOP_FLOOR_WEST = 1395,
+    GARROSH_TOP_FLOOR_EAST = 1396,
+    BAINE_IN_SHRINE = 1397,
+    BAINE_AT_GARROSHAR_ADVANCE = 1398,
+    ISHI_AT_RUINS_OF_KORUNE = 1399,
+    ISHI_IN_CRYPT = 1400,
+    ROMMATH_NEAR_BANK = 1401,
+    ROMMATH_IN_TUNNEL_1 = 1402,
+    ROMMATH_IN_TUNNEL_2 = 1403,
+    ROMMATH_AT_TUNNEL_RAMP = 1404,
+    ROMMATH_AT_RUNEWEAVER_SQUARE = 1405,
+    THERON_SILVERMOON_CITY_LANDFALL = 1406,
+    ET_ALURMI_ENTRANCE = 1407,
+    ET_ALURMI_MUROZOND_DEAD = 1408,
+    WOT_MUROZOND_DEAD = 1409,
+    WOT_MANNOROTH_DEAD = 1410,
+    HOT_THRALL_START = 1411,
+    HOT_THRALL_TEMPLE = 1412,
+    BLACK_PRINCE_PHASE_3 = 1413,
+    IOT_ALLIANCE_BOAT = 1414,
+    IOT_ALLIANCE_VIOLET_RISE = 1415,
+    IOT_HORDE_BOAT = 1416,
+    IOT_HORDE_DAWNSEEKER_PROMONTORY = 1417,
 }
 Phasing.phases = phases
 
@@ -1111,8 +1143,24 @@ function Phasing.IsSpawnVisible(phase)
         return (complete[28345] or (questLog[28345] and questLog[28345].isComplete == 1)) or false
     end
 
+    if phase == phases.ET_ALURMI_ENTRANCE then
+        return not complete[30096] or false
+    end
+
+    if phase == phases.ET_ALURMI_MUROZOND_DEAD then
+        return (not complete[30096]) and (questLog[30096] and questLog[30096].isComplete == 1) or false
+    end
+
+    if phase == phases.WOT_MUROZOND_DEAD then
+        return complete[30096] and not (complete[30101] or (questLog[30101] and questLog[30101].isComplete == 1)) or false
+    end
+
+    if phase == phases.WOT_MANNOROTH_DEAD then
+        return (complete[30101] or (questLog[30101] and questLog[30101].isComplete == 1)) or false
+    end
+
     if phase == phases.ET_MUROZOND_DEAD then
-        return complete[30096] or (questLog[30096] and questLog[30096].isComplete == 1) or false
+        return (complete[30096] or (questLog[30096] and questLog[30096].isComplete == 1)) or false
     end
 
     if phase == phases.WILLIX_IN_TENT then
@@ -1124,15 +1172,15 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.WOT_NOZDORMU_1 then
-        return false
+        return complete[30096] and not (complete[30099] or (questLog[30099] and questLog[30099].isComplete == 1)) or false
     end
 
     if phase == phases.WOT_NOZDORMU_2 then
-        return false
+        return (complete[30099] or (questLog[30099] and questLog[30099].isComplete == 1)) and not (complete[30100] or (questLog[30100] and questLog[30100].isComplete == 1)) or false
     end
 
     if phase == phases.WOT_NOZDORMU_3 then
-        return false
+        return (complete[30100] or (questLog[30100] and questLog[30100].isComplete == 1)) and not (complete[30101] or (questLog[30101] and questLog[30101].isComplete == 1)) or false
     end
 
     if phase == phases.KAMMAH_STONE then
@@ -2088,6 +2136,118 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ADMIRAL_TAYLOR_OUTSIDE_TENT then
         return complete[30650] or (questLog[30650] and questLog[30650].isComplete == 1) or false
+    end
+
+    if phase == phases.THRALL_VALLEY_OF_TRIALS then
+        return not (complete[32320] or (questLog[32320] and questLog[32320].isComplete == 1)) or false
+    end
+
+    if phase == phases.THRALL_ECHO_ISLES_1 then
+        return (complete[32320] or (questLog[32320] and questLog[32320].isComplete == 1)) and not (complete[32372] or (questLog[32372] and questLog[32372].isComplete == 1)) or false
+    end
+
+    if phase == phases.THRALL_ECHO_ISLES_2 then
+        return complete[32372] or (questLog[32372] and questLog[32372].isComplete == 1) or false
+    end
+
+    if phase == phases.SARANNHA_AT_MOGUJIA then
+        return not complete[32371] or false
+    end
+
+    if phase == phases.SARANNHA_AT_RUINS_OF_KORUNE then
+        return complete[32371] or false
+    end
+
+    if phase == phases.JAINA_IN_DARNASSUS then
+        return not (complete[32460] or (questLog[32460] and questLog[32460].isComplete == 1)) or false
+    end
+
+    if phase == phases.JAINA_IN_TELDRASSIL then
+        return complete[32460] or (questLog[32460] and questLog[32460].isComplete == 1) or false
+    end
+
+    if phase == phases.ANDUIN_ENTRANCE_OF_TOMB then
+        return not complete[32321] or false
+    end
+
+    if phase == phases.ANDUIN_AT_LIONS_LANDING then
+        return complete[32321] or false
+    end
+
+    if phase == phases.GARROSH_TOP_FLOOR_WEST then
+        return not complete[32384] or false
+    end
+
+    if phase == phases.GARROSH_TOP_FLOOR_EAST then
+        return complete[32384] or false
+    end
+
+    if phase == phases.BAINE_IN_SHRINE then
+        return not complete[32330] or false
+    end
+
+    if phase == phases.BAINE_AT_GARROSHAR_ADVANCE then
+        return complete[32330] or false
+    end
+
+    if phase == phases.ISHI_AT_RUINS_OF_KORUNE then
+        return not (complete[32392] or (questLog[32392] and questLog[32392].isComplete == 1)) or false
+    end
+
+    if phase == phases.ISHI_IN_CRYPT then
+        return complete[32392] or (questLog[32392] and questLog[32392].isComplete == 1) or false
+    end
+
+    if phase == phases.ROMMATH_NEAR_BANK then
+        return not (complete[32403] or (questLog[32403] and questLog[32403].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_IN_TUNNEL_1 then
+        return (complete[32403] or (questLog[32403] and questLog[32403].isComplete == 1)) and not (complete[32404] or (questLog[32404] and questLog[32404].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_IN_TUNNEL_2 then
+        return (complete[32404] or (questLog[32404] and questLog[32404].isComplete == 1)) and not (complete[32405] or (questLog[32405] and questLog[32405].isComplete == 1)) or false
+    end
+
+    if phase == phases.ROMMATH_AT_TUNNEL_RAMP then
+        return (complete[32405] or (questLog[32405] and questLog[32405].isComplete == 1)) and not (complete[32406] or questLog[32406]) or false
+    end
+
+    if phase == phases.ROMMATH_AT_RUNEWEAVER_SQUARE then
+        return (complete[32406] or questLog[32406]) or false
+    end
+
+    if phase == phases.THERON_SILVERMOON_CITY_LANDFALL then
+        return (complete[32412] or questLog[32412]) and not (complete[32398] or questLog[32398]) or false
+    end
+
+    if phase == phases.HOT_THRALL_START then
+        return not (complete[30103] or (questLog[30103] and questLog[30103].isComplete == 1)) or false
+    end
+
+    if phase == phases.HOT_THRALL_TEMPLE then
+        return (complete[30103] or (questLog[30103] and questLog[30103].isComplete == 1)) or false
+    end
+
+    if phase == phases.BLACK_PRINCE_PHASE_3 then
+        return complete[32457] or complete[32590] or (questLog[32457] and questLog[32457].isComplete == 1) or (questLog[32590] and questLog[32590].isComplete == 1) or false
+    end
+
+    if phase == phases.IOT_ALLIANCE_BOAT then
+        return not (complete[32644] or (questLog[32644] and questLog[32644].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_ALLIANCE_VIOLET_RISE then
+        return (complete[32644] or (questLog[32644] and questLog[32644].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_HORDE_BOAT then
+        return not (complete[32212] or (questLog[32212] and questLog[32212].isComplete == 1)) or false
+    end
+
+    if phase == phases.IOT_HORDE_DAWNSEEKER_PROMONTORY then
+        return (complete[32212] or (questLog[32212] and questLog[32212].isComplete == 1)) or false
     end
 
     return false

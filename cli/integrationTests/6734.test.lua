@@ -6,7 +6,6 @@ dofile("setupTests.lua")
 
 
 describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
-
     ---@type QuestEventHandler
     local QuestEventHandler
     ---@type QuestLogCache
@@ -17,6 +16,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieQuest
     ---@type QuestiePlayer
     local QuestiePlayer
+    ---@type TaskQueue
+    local TaskQueue
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieLib
@@ -31,8 +32,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieAnnounce
     ---@type QuestieDB
     local QuestieDB
-    ---@type Expansions
-    local Expansions
 
     _G.HaveQuestData = function()
         return true
@@ -40,9 +39,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     _G.GetQuestTimers = function()
         return nil
     end
-    _G.C_Timer = {NewTicker = function() return {
-        Cancel = function() end
-    } end}
+    _G.C_Timer = {
+        NewTicker = function()
+            return {
+                Cancel = function() end
+            }
+        end
+    }
     _G.GetNumQuestLogRewards = function()
         return 0
     end
@@ -77,7 +80,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
                 return mockedQuestObjectives[questId] or {}
             end
         }
-        Expansions = require("Modules.Expansions")
+        require("Modules.Expansions")
         QuestLogCache = require("Modules.Quest.QuestLogCache")
         QuestieNameplate = require("Modules.QuestieNameplate")
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
@@ -89,6 +92,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         end)
         QuestieQuest.CompleteQuest = spy.new(function() end)
         QuestiePlayer = require("Modules.QuestiePlayer")
+        TaskQueue = require("Modules.TaskQueue")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
         QuestieLib = require("Modules.Libs.QuestieLib")
@@ -107,10 +111,15 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
+        dofile("Public/Enums.lua")
+        require("Public.RegisterForQuestUpdates")
 
         QuestEventHandler.InitQuestLogStates({})
 
         QuestEventHandler.QuestAccepted(2, 2822)
+        for _ = 1, 8 do
+            TaskQueue:OnUpdate()
+        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
@@ -157,6 +166,9 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
 
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
+        for _ = 1, 3 do
+            TaskQueue:OnUpdate()
+        end
         QuestEventHandler.QuestLogUpdate()
         QuestEventHandler.QuestRemoved(2822)
         QuestEventHandler.UnitQuestLogChanged("player")
@@ -175,6 +187,9 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             }}
         }
         QuestEventHandler.QuestAccepted(2, 7734)
+        for _ = 1, 8 do
+            TaskQueue:OnUpdate()
+        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
@@ -202,6 +217,9 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numFulfilled = 0,
         }}
         QuestEventHandler.QuestAccepted(2, 2863)
+        for _ = 1, 8 do
+            TaskQueue:OnUpdate()
+        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 

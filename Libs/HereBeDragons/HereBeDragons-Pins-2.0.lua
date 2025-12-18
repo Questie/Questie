@@ -436,8 +436,14 @@ function worldmapProvider:HandlePin(icon, data)
         -- should this pin show on the world map?
         if uiMapID ~= data.uiMapID and data.worldMapShowFlag ~= HBD_PINS_WORLDMAP_SHOW_WORLD then return end
 
-        -- translate to the world map
-        x, y = HBD:GetAzerothWorldMapCoordinatesFromWorld(data.x, data.y, data.instanceID)
+        -- Questie modification
+        -- Icons which already have world map coordinates are not handled correctly by GetAzerothWorldMapCoordinatesFromWorld, so we use them directly.
+        if icon.UiMapID == WORLD_MAP_ID then
+            x, y = icon.x / 100, icon.y / 100
+        else
+            -- translate to the world map
+            x, y = HBD:GetAzerothWorldMapCoordinatesFromWorld(data.x, data.y, data.instanceID)
+        end
     else
         -- check that it matches the instance
         if not HBD.mapData[uiMapID] or HBD.mapData[uiMapID].instance ~= data.instanceID then return end
