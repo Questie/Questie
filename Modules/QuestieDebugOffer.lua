@@ -405,8 +405,8 @@ local function _AppendUniversalText(input)
 
     if mapID then
         local pos = GetPlayerMapPosition(mapID, player);
-        PosX = pos.x * 100
-        PosY = pos.y * 100
+        PosX = (pos and pos.x or 0) * 100
+        PosY = (pos and pos.y or 0) * 100
         text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
     else
         local instanceId = select(8, GetInstanceInfo())
@@ -568,7 +568,7 @@ function QuestieDebugOffer.NPCTarget()
     end
     local targetGUID = UnitGUID(target)
     local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
-    if unit_type == "Creature" then -- if target is an NPC
+    if unit_type == "Creature" and targetGUID then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
         if targetTimeout[npcID] == true then -- if target was already targeted recently
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Targeted NPC was targeted recently, ignoring")

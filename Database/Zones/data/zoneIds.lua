@@ -80,6 +80,7 @@ ZoneDB.zoneIDs = {
     STORMWIND_CITY = 1519,
     IRONFORGE = 1537,
     THE_DEADMINES = 1581, -- this is also The Deadmines map for The Deadmines
+    BLACKROCK_SPIRE = 1583, -- this was missing but referenced by instanceIdToUiMapId
     LOWER_BLACKROCK_SPIRE = 1583, -- this is also Hall of Blackhand map for Blackrock Spire
     BLACKROCK_DEPTHS = 1584, -- this is also Detention Block map for Blackrock Depths
     ORGRIMMAR = 1637,

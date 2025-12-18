@@ -62,7 +62,7 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                             local item = Item:CreateFromItemID(objective.id)
                             item:ContinueOnItemLoad(function()
                                 local name = item:GetItemName();
-                                oName = name;
+                                oName = name or oName;
                                 tooltipData[questId][playerName][objectiveIndex].text = name;
                             end)
                         end

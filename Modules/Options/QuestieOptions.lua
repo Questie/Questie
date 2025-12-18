@@ -98,7 +98,7 @@ end
 
 -- set option value
 function QuestieOptions:SetProfileValue(info, value)
-    if debug and Questie.db.profile[info[#info]] ~= value then
+    if Questie.db.profile[info[#info]] ~= value then
         Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
     Questie.db.profile[info[#info]] = value
