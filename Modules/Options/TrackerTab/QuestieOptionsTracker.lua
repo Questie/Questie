@@ -379,7 +379,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         width = 1.5,
                         name = function() return l10n("Minimize In Combat") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized while entering combat.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.hideTrackerInCombat end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.minimizeTrackerInCombat end,
                         set = function(_, value)
                             Questie.db.profile.minimizeTrackerInCombat = value
@@ -395,7 +395,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         width = 1.5,
                         name = function() return l10n("Minimize In Dungeons") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.hideTrackerInDungeons end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.minimizeTrackerInDungeons end,
                         set = function(_, value)
                             Questie.db.profile.minimizeTrackerInDungeons = value
@@ -416,7 +416,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         width = 1.5,
                         name = function() return l10n("Hide In Combat") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering combat.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.minimizeTrackerInCombat end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.hideTrackerInCombat end,
                         set = function(_, value)
                             Questie.db.profile.hideTrackerInCombat = value
@@ -443,7 +443,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         width = 1.5,
                         name = function() return l10n("Hide In Dungeons") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.minimizeTrackerInDungeons end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.hideTrackerInDungeons end,
                         set = function(_, value)
                             Questie.db.profile.hideTrackerInDungeons = value
