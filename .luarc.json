@@ -68,8 +68,6 @@
 
         // ? Blizzard Tooltips
         "^.*RefTooltip.*$",
-        "^GameTooltipTextLeft[0-9]+$",
-        "^GameTooltipTextRight[0-9]+$",
 
         // ? Blizzard Chat
         "^ChatFrame[0-9]+EditBox$"
