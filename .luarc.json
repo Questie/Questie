@@ -16,6 +16,7 @@
         "releases"
     ],
     "diagnostics.globals": [
+        "QuestChoiceFrame",
         "CallErrorHandler"
     ],
     "format": {
