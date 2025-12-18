@@ -118,7 +118,15 @@ local migrationFunctions = {
                 Questie.db.global.isleOfQuelDanasPhase = 1
             end
         end
-    end
+    end,
+    [17] = function()
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        ---@type table<string, number>
+        Questie.db.global.lastKnownDailyReset = {}
+    end,
+    [18] = function()
+        Questie.db.profile.trackerDisableHoverFade = false
+    end,
 }
 
 function Migration:Migrate()

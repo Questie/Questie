@@ -508,7 +508,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.trackerDisableHoverFade end,
                         set = function(_, value)
                             Questie.db.profile.trackerDisableHoverFade = value
-                            TrackerLinePool.OnHighlightLeave()
                         end
                     },
                     hideSizer = {
