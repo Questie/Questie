@@ -506,7 +506,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Disable Quest Hover Fade"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Verblassen bei Quest-Hover deaktivieren",
         ["esES"] = "Desactivar desvanecimiento al pasar el cursor",
         ["esMX"] = "Desactivar desvanecimiento al pasar el cursor",
         ["frFR"] = "Désactiver l’estompage au survol des quêtes",
@@ -518,7 +518,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wenn diese Option aktiviert ist, wird der Hover-Effekt von anderen Quests deaktiviert und sie verblassen nicht.",
         ["esES"] = "Si está activado, las demás misiones del rastreador permanecerán totalmente opacas al pasar el cursor sobre una misión.",
         ["esMX"] = "Si está activado, las demás misiones del rastreador permanecerán totalmente opacas al pasar el cursor sobre una misión.",
         ["frFR"] = "Si cette option est activée, les autres quêtes du suivi resteront entièrement opaques lors du survol d’une quête.",
