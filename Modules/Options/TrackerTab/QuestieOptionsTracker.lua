@@ -27,6 +27,17 @@ local trackerOptions = {}
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
+local function toggleTrackerVisibility(shouldHide, conditionFn)
+    local baseFrame = TrackerBaseFrame.baseFrame
+    if baseFrame and conditionFn() then
+        if shouldHide then
+            QuestieTracker:Hide()
+        else
+            QuestieTracker:Show()
+        end
+    end
+end
+
 function QuestieOptions.tabs.tracker:Initialize()
     trackerOptions = {
         name = function() return l10n("Tracker") end,
@@ -420,21 +431,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.hideTrackerInCombat end,
                         set = function(_, value)
                             Questie.db.profile.hideTrackerInCombat = value
-                            -- Disable the minimize option when hide is enabled
                             if value then
                                 Questie.db.profile.minimizeTrackerInCombat = false
                             end
-                            if InCombatLockdown() then
-                                local baseFrame = TrackerBaseFrame.baseFrame
-                                if baseFrame then
-                                    if value then
-                                        baseFrame:Hide()
-                                    else
-                                        baseFrame:Show()
-                                        QuestieTracker:Update()
-                                    end
-                                end
-                            end
+                            toggleTrackerVisibility(value, InCombatLockdown)
                         end
                     },
                     hideInDungeons = {
@@ -447,22 +447,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.hideTrackerInDungeons end,
                         set = function(_, value)
                             Questie.db.profile.hideTrackerInDungeons = value
-                            -- Disable the minimize option when hide is enabled
                             if value then
                                 Questie.db.profile.minimizeTrackerInDungeons = false
                             end
-                            if value and IsInInstance() then
-                                local baseFrame = TrackerBaseFrame.baseFrame
-                                if baseFrame then
-                                    baseFrame:Hide()
-                                end
-                            else
-                                local baseFrame = TrackerBaseFrame.baseFrame
-                                if baseFrame then
-                                    baseFrame:Show()
-                                    QuestieTracker:Update()
-                                end
-                            end
+                            toggleTrackerVisibility(value, IsInInstance)
                         end
                     },
                     hideInPetBattles = {
