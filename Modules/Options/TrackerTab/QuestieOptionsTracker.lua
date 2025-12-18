@@ -401,6 +401,11 @@ function QuestieOptions.tabs.tracker:Initialize()
                             if value then
                                 Questie.db.profile.hideTrackerInCombat = false
                             end
+                            if value and InCombatLockdown() then
+                                QuestieTracker:Collapse()
+                            else
+                                QuestieTracker:Expand()
+                            end
                         end
                     },
                     minimizeInDungeons = {
