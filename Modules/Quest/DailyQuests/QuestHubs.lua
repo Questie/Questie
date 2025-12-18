@@ -7,27 +7,32 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@field quests QuestId[]
 ---@field limit number
 ---@field exclusiveHubs table<HubId, boolean> A list of other hubs that are exclusive to this hub. If the player has quests from any of these hubs, they cannot have quests from this hub.
----@field preQuestHubs table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. Only the limit of a single hub needs to be reached to unlock this hub.
+---@field preQuestHubsSingle table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. Only a single hub needs to be complete to unlock this hub.
+---@field preQuestHubsGroup table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. All these hubs need to be complete to unlock this hub.
 
+---@format disable
 ---@type table<HubId, Hub>
 DailyQuests.hubs = {
     TOL_BARAD_ALLIANCE = {
         quests = {27944,27948,27949,27966,27967,27970,27971,27972,27973,27975,27978,27987,27991,27992,28046,28050,28059,28063,28130,28137,28275},
         limit = 6,
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     TOL_BARAD_HORDE = {
         quests = {28678,28679,28680,28681,28682,28683,28684,28685,28686,28687,28689,28690,28691,28692,28693,28694,28695,28696,28697,28698,28700},
         limit = 6,
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     THE_ANGLERS = {
         quests = {30584,30585,30586,30588,30598,30613,30658,30678,30698,30700,30701,30753,30754,30763},
         limit = 3,
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     AUGUST_CELESTIALS_RED_CRANE = {
         quests = {30716,30717,30718,30725,30726,30727,30728,30729,30730,30731,30732,30733,30734,30735,30736,30737,30738,30739,30740},
@@ -37,7 +42,8 @@ DailyQuests.hubs = {
             AUGUST_CELESTIALS_WHITE_TIGER = true,
             AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     AUGUST_CELESTIALS_JADE_SERPENT = {
         quests = {30006,30063,30064,30065,30066},
@@ -47,13 +53,15 @@ DailyQuests.hubs = {
             AUGUST_CELESTIALS_WHITE_TIGER = true,
             AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     AUGUST_CELESTIALS_JADE_SERPENT_ELITES = {
         quests = {30067,30068},
         limit = 1, -- 1 (random of 2)
         exclusiveHubs = {},
-        preQuestHubs = {AUGUST_CELESTIALS_JADE_SERPENT = true},
+        preQuestHubsSingle = {AUGUST_CELESTIALS_JADE_SERPENT = true},
+        preQuestHubsGroup = {},
     },
     AUGUST_CELESTIALS_WHITE_TIGER = {
         quests = {31492,31517,30879,30880},
@@ -63,7 +71,8 @@ DailyQuests.hubs = {
             AUGUST_CELESTIALS_JADE_SERPENT = true,
             AUGUST_CELESTIALS_NIUZAO_TEMPLE = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     AUGUST_CELESTIALS_NIUZAO_TEMPLE = {
         quests = {30952,30953,30954,30955,30956,30957,30958,30959},
@@ -73,7 +82,8 @@ DailyQuests.hubs = {
             AUGUST_CELESTIALS_JADE_SERPENT = true,
             AUGUST_CELESTIALS_WHITE_TIGER = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = {
         quests = {30150,30151,31704},
@@ -85,13 +95,15 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM_FINAL = {
         quests = {31705},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true},
+        preQuestHubsSingle = {ORDER_OF_THE_CLOUD_SERPENT_ARBORETUM = true},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_SAUROK_TURTLES = { -- not good
         quests = {30155,30156,30157,30158,31194},
@@ -103,7 +115,8 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_TIGERS = {
         quests = {30154,31698,31699,31700,31701,31702,31703},
@@ -115,7 +128,8 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = {
         quests = {30152,31716,31717,31718,31719,31720,31721}, -- 31716 uncertain
@@ -127,7 +141,8 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = {
         quests = {31706,31707,31708,31709,31710,31711},
@@ -139,7 +154,8 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
             ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     ORDER_OF_THE_CLOUD_SERPENT_OONA_KAGU = { -- good
         quests = {30159,31712,31713,31714,31715},
@@ -151,7 +167,8 @@ DailyQuests.hubs = {
             ORDER_OF_THE_CLOUD_SERPENT_RACE_DAY = true,
             ORDER_OF_THE_CLOUD_SERPENT_WIDOWS_WALL = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     THE_KLAXXI_LAKE = {
         quests = {31024,31267,31268,31269,31270,31271,31272},
@@ -161,7 +178,8 @@ DailyQuests.hubs = {
             THE_KLAXXI_CLUTCHES = true,
             THE_KLAXXI_ZANVESS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     THE_KLAXXI_TERRACE = {
         quests = {31231,31232,31233,31234,31235,31237,31238,31677},
@@ -171,7 +189,8 @@ DailyQuests.hubs = {
             THE_KLAXXI_CLUTCHES = true,
             THE_KLAXXI_ZANVESS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     THE_KLAXXI_CLUTCHES = {
         quests = {31109,31487,31494,31496,31502,31503,31504,31599},
@@ -181,7 +200,8 @@ DailyQuests.hubs = {
             THE_KLAXXI_TERRACE = true,
             THE_KLAXXI_ZANVESS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     THE_KLAXXI_ZANVESS = {
         quests = {31111,31505,31506,31507,31508,31509,31510,31598},
@@ -191,7 +211,8 @@ DailyQuests.hubs = {
             THE_KLAXXI_TERRACE = true,
             THE_KLAXXI_CLUTCHES = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_OMNIA_MYSTICS_1 = {
         quests = {31039,31040,31041,31046},
@@ -202,7 +223,8 @@ DailyQuests.hubs = {
             SHADO_PAN_WU_KAO_ASSASSINS = true,
             SHADO_PAN_BLACKGUARD_DEFENDERS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_OMNIA_MYSTICS_2 = {
         quests = {31042,31043,31047,31105},
@@ -213,7 +235,8 @@ DailyQuests.hubs = {
             SHADO_PAN_WU_KAO_ASSASSINS = true,
             SHADO_PAN_BLACKGUARD_DEFENDERS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_OMNIA_MYSTICS_3 = {
         quests = {31044,31045,31048,31106},
@@ -224,7 +247,8 @@ DailyQuests.hubs = {
             SHADO_PAN_WU_KAO_ASSASSINS = true,
             SHADO_PAN_BLACKGUARD_DEFENDERS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_WU_KAO_ASSASSINS = {
         quests = {31196,31197,31198,31199,31200,31201},
@@ -235,13 +259,15 @@ DailyQuests.hubs = {
             SHADO_PAN_OMNIA_MYSTICS_3 = true,
             SHADO_PAN_BLACKGUARD_DEFENDERS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_WU_KAO_ASSASSINS_ELITES = {
         quests = {31203,31204},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {SHADO_PAN_WU_KAO_ASSASSINS = true},
+        preQuestHubsSingle = {SHADO_PAN_WU_KAO_ASSASSINS = true},
+        preQuestHubsGroup = {},
     },
     SHADO_PAN_BLACKGUARD_DEFENDERS = {
         quests = {31113,31114,31116,31118,31119},
@@ -252,73 +278,85 @@ DailyQuests.hubs = {
             SHADO_PAN_OMNIA_MYSTICS_3 = true,
             SHADO_PAN_WU_KAO_ASSASSINS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_PEACE = {
         quests = {30190,30191,30192,30193,30194,30195,30196,30231,30232,30237,30238,30263},
         limit = 4, -- 2 random sets of 2
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_PEACE_LEADOUTS = {
         quests = {30385,31294,31295},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_PEACE_ELITES = {
         quests = {30235,30236,30239},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_MISTFALL_PEACE = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_ATTACK = {
         quests = {30285,30286,30287,30288,30289,30290,31293},
         limit = 4, -- 2 random sets of 2
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_ATTACK_LEADOUTS = {
         quests = {31296,31297},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_MISTFALL_ATTACK_ELITES = {
         quests = {30296,30297},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_MISTFALL_ATTACK = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_RUINS_PEACE = {
         quests = {30200,30204,30205,30206,30226,30228,30304},
         limit = 4,
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_RUINS_PEACE_ELITES = {
         quests = {30225,30227},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_RUINS_PEACE = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_RUINS_PEACE = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_RUINS_ATTACK = {
         quests = {30298,30299,30300,30301,30305,30481},
         limit = 4,
         exclusiveHubs = {},
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_RUINS_ATTACK_ELITES = {
         quests = {30302},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_RUINS_ATTACK = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_RUINS_ATTACK = true},
+        preQuestHubsGroup = {},
     },
     GOLDEN_LOTUS_RUINS_EXTRA = {
         quests = {30277,30280},
         limit = 1,
         exclusiveHubs = {},
-        preQuestHubs = {GOLDEN_LOTUS_RUINS_PEACE = true, GOLDEN_LOTUS_RUINS_ATTACK = true},
+        preQuestHubsSingle = {GOLDEN_LOTUS_RUINS_PEACE = true, GOLDEN_LOTUS_RUINS_ATTACK = true},
+        preQuestHubsGroup = {},
     },
     OPERATION_SHIELDWALL_LIONS_LANDING = {
         quests = {32148,32149,32150,32151,32152,32153},
@@ -328,7 +366,8 @@ DailyQuests.hubs = {
             OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
             OPERATION_SHIELDWALL_DOMINATION_POINT = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = {
         quests = {32116,32121,32115,32119,32346,32347,32122},
@@ -338,7 +377,8 @@ DailyQuests.hubs = {
             OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
             OPERATION_SHIELDWALL_DOMINATION_POINT = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = {
         quests = {32452,32154,32155,32156,32157,32158,32159,32433,32446},
@@ -348,7 +388,8 @@ DailyQuests.hubs = {
             OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = true,
             OPERATION_SHIELDWALL_DOMINATION_POINT = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     OPERATION_SHIELDWALL_DOMINATION_POINT = {
         quests = {32451,32142,32143,32144,32145,32146},
@@ -358,7 +399,8 @@ DailyQuests.hubs = {
             OPERATION_SHIELDWALL_RUINS_OF_OGUDEI = true,
             OPERATION_SHIELDWALL_BILGEWATER_OPERATIONS = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     DOMINANCE_OFFENSIVE_DOMINATION_POINT = {
         quests = {32123,32126,32127,32128,32235},
@@ -368,7 +410,8 @@ DailyQuests.hubs = {
             DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
             DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     DOMINANCE_OFFENSIVE_LIONS_LANDING = {
         quests = {32450,32130,32131,32132,32133,32134,32135},
@@ -378,7 +421,8 @@ DailyQuests.hubs = {
             DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
             DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = {
         quests = {32118,32120,32342,32343,32344,32345,32348,32449},
@@ -388,7 +432,8 @@ DailyQuests.hubs = {
             DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
             DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
     },
     DOMINANCE_OFFENSIVE_BILGEWATER_BEACH = {
         quests = {32136,32137,32138,32139,32140,32141,32197,32199,32214,32221,32222,32223,32236,32237,32238},
@@ -398,6 +443,177 @@ DailyQuests.hubs = {
             DOMINANCE_OFFENSIVE_LIONS_LANDING = true,
             DOMINANCE_OFFENSIVE_RUINS_OF_OGUDEI = true,
         },
-        preQuestHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_1 = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+        },
+        limit = 11,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_1_FINAL_BOSS = {
+        quests = {32576,32577,32578},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_1 = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+            32571,32572,32573,32574,32575, -- diremoor
+        },
+        limit = 11,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = {
+        quests = {32578,32579,32580,32581},
+        limit = 1,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_PVP = {
+        quests = {32485,32634,32636,32627,32639,32635,32632,32638,32301,32637,32633,32628},
+        limit = 7,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    KIRIN_TOR_OFFENSIVE_PVP_FINAL = {
+        quests = {32631},
+        limit = 1,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
+            -- KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_1 = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+        },
+        limit = 11,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_1_FINAL_BOSS = {
+        quests = {32293,32561,32562},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_1 = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_2_PVE = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+            32228,32230,32285,32287,32506, -- diremoor
+        },
+        limit = 11,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = {
+        quests = {32293,32520,32521,32522},
+        limit = 1,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+        },
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_PVP = {
+        quests = {32288,32269,32262,32265,32302,32300,32303,32266,32213,32305,32264,32268},
+        limit = 7,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_PVP_FINAL = {
+        quests = {32304},
+        limit = 1,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
+            -- SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+        },
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+        },
+        preQuestHubsGroup = {},
     },
 }

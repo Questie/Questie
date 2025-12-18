@@ -14,6 +14,7 @@ function MopNpcFixes.Load()
     local phases = Phasing.phases
     local npcFlags = QuestieDB.npcFlags
 
+    ---@format disable
     return {
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.COLDSHIRE_VALLEY] = {{65.5,43.12}}},
@@ -198,12 +199,12 @@ function MopNpcFixes.Load()
                 [zoneIDs.DREAD_WASTES] = {{99.85,74.91},{93.3,82.39},{77.78,77.37},{85.63,8.06},{60.13,26.21},{46.21,22.18},{39.54,36.74},{42.09,52.97},{30.37,75.94},{59.94,55.0},{78.88,44.99},{90.04,55.92},{96.22,1.4},{84.82,6.37},{82.82,20.16},{74.52,10.4},{35.34,3.8},{90.05,23.7},{92.87,34.72},{87.25,36.71},{85.87,30.0},{34.59,23.1},{25.05,83.66},{37.36,74.84},{29.35,30.82}},
                 [zoneIDs.THE_VEILED_STAIR] = {{5.44,63.66},{6.82,44.1},{79.94,97.15},{54.12,53.47},{57.13,5.88}},
                 [zoneIDs.KUN_LAI_SUMMIT] = {{37.39,94.96},{67.84,64.97},{0.29,76.37},{45.15,89.49},{42.49,71.15},{34.12,50.13},{32.2,56.78},{51.14,49.73},{55.77,49.13},{68.54,59.47},{71.48,90.36},{85.47,71.31},{29.0,95.57},{20.15,93.7},{11.86,77.47},{95.91,74.16},{85.1,93.27},{60.08,84.19},{56.5,62.08},{48.95,38.45},{29.15,62.11},{37.63,84.4},{75.0,24.11},{67.13,33.58},{59.39,38.13},{43.79,51.05},{23.78,76.72},{80.72,95.84},{87.91,63.69}},
-                -- [zoneIDs.ISLE_OF_GIANTS] = {{47.52,62.74}}, -- to enable with correct patch
-                -- [zoneIDs.ISLE_OF_THUNDER] = {{63.37,71.13},{58.19,59.26}}, -- to enable with correct patch
                 -- verified ingame spawns
                 [zoneIDs.GILNEAS_CITY] = {{38.33,43.65},{31.07,77.52},{58.71,77.29},{63.28,13.66}},
                 [zoneIDs.GILNEAS] = {{50.37,56.1},{78.6,67.66},{62.58,93.65},{56.04,77.21},{50.63,80.69}},
-                [zoneIDs.THE_LOST_ISLES] = {{28.12,74.61},{37.11,78.37},{35.51,66.89},{23.76,62.47},},
+                [zoneIDs.THE_LOST_ISLES] = {{28.12,74.61},{37.11,78.37},{35.51,66.89},{23.76,62.47}},
+                [zoneIDs.ISLE_OF_GIANTS] = {{47.52,62.7}},
+                [zoneIDs.ISLE_OF_THUNDER] = {{58.19,59.26},{48.94,68.75},{40.26,58.02},{31.39,33.84},{45.09,46.33},{63.37,71.13}}, -- TODO add 3 spirit healers
             },
         },
         [10181] = { -- Lady Sylvanas Windrunner
@@ -422,6 +423,8 @@ function MopNpcFixes.Load()
         },
         [43929] = { -- Blingtron 4000
             [npcKeys.name] = "Blingtron 4000",
+            [npcKeys.questStarts] = {31752},
+            [npcKeys.questEnds] = {31752},
         },
         [45847] = { -- S.A.F.E. Operative
             [npcKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN_OLD] = {{55.32,73.84},{48.16,44.14},{48.44,44.2},{48.69,44.23},{58.77,23.21},{59.04,23.28},{59.31,23.34},{55.83,85.03},{55.38,85.46},{55.33,79.45},{54.59,75.91},{53.36,75.82},{49.12,62.94},{49.13,61.97},{51.02,32.35},{50.47,31.5},{40.88,34.77},{41.13,29.76},{36.62,29.92},{36.34,30.46},{36.34,32.24},{33.21,31.64},{34.43,35.26},{35.07,33.52},{36.55,33.61},{38.13,33.66},{39.89,33.6},{39.96,32.61},{40.09,31.64},{40.17,30.71}}},
@@ -1733,6 +1736,10 @@ function MopNpcFixes.Load()
         },
         [59574] = { -- Dusty Spot
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{45.8,52.84},{43.15,50.27},{39.71,51.11},{32.35,57.1},{33.11,50.09},{34.61,43.2},{35.16,38},{37.35,33.19},{40.29,39.54},{43.24,34.72},{47.32,33.06},{46.99,38.41},{45.87,42.88},{47.93,45.63},{48.27,48.73}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [59582] = { -- Innkeeper Lei Lan
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{55.25,50.67}}},
             [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [59608] = { -- Anduin Wrynn
@@ -4541,6 +4548,16 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{57.06,79.01}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [67586] = { -- Elynara
+            [npcKeys.name] = "Elynara",
+            [npcKeys.subName] = "Archaeology Trainer",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33.87,33.61,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.npcFlags] = npcFlags.TRAINER,
+        },
         [67603] = { -- Fanlyr Silverthorn
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -4570,6 +4587,62 @@ function MopNpcFixes.Load()
         [67639] = { -- Alliance Supply Drop
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{10.91,67.77},{11.66,67.98},{13.64,69.31},{14.02,68.93},{8.46,64.98},{8.08,61.21},{7.8,61.6},{7.75,60.28},{8.59,59.76},{8.11,59.77},{7.37,59.43},{7.28,60.71},{8.15,63.88},{7.61,62.51},{8.23,62.13},{8.71,63.2},{8.36,63.17},{8.54,64.39},{9.73,64.75},{9.4,65.02}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67660] = { -- Archmage Aethas Sunreaver
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.63,32.88,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67662] = { -- High Arcanist Savor
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {28.4,53.36,phases.IOT_HORDE_BOAT},
+                    {33.52,35.15,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67663] = { -- Magister Hathorel
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {28.6,52.46,phases.IOT_HORDE_BOAT},
+                    {32.46,35.24,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67668] = { -- Uda the Beast
+            [npcKeys.name] = "Uda the Beast",
+            [npcKeys.subName] = "Innkeeper",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{33.59,32.66,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [67672] = { -- Vasarin Redmorn
+            [npcKeys.name] = "Vasarin Redmorn",
+            [npcKeys.subName] = "Sunreaver Onslaught Quartermaster",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {28.16,51.7,phases.IOT_HORDE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {33.34,32.37,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [67673] = { -- Girana the Blooded
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {28.42,52.45,phases.IOT_HORDE_BOAT},
+                    {32.42,35.22,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67682] = { -- Brann Bronzebeard
             [npcKeys.name] = "Brann Bronzebeard",
@@ -4768,6 +4841,116 @@ function MopNpcFixes.Load()
         [67976] = { -- Tinkmaster Overspark
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{16.48,79.28}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [67983] = { -- Captain Aerthas Firehawk
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {38.54,51.12,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67984] = { -- Kethiel Sunlance
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {36.72,64.78,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67985] = { -- Scout Captain Elsia
+            [npcKeys.spawns] = {},
+            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67986] = { -- Magister Edien Sunhollow
+            [npcKeys.spawns] = {},
+            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67989] = { -- Grand Magister Rommath
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {38.47,51.33,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67990] = { -- Lor'themar Theron
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {28.36,52.41,phases.IOT_HORDE_BOAT},
+                    {32.51,35.58,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67992] = { -- Lady Jaina Proudmoore
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.6,89.44,phases.IOT_ALLIANCE_BOAT},
+                    {63.24,72.22,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67993] = { -- Vereesa Windrunner
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.74,89.18,phases.IOT_ALLIANCE_BOAT},
+                    {63.24,72.12,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67994] = { -- Warmage Yurias
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {63.48,73.61,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67995] = { -- Captain Elleane Wavecrest
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {34.55,89.45,phases.IOT_ALLIANCE_BOAT},
+                    {62.7,73.56,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67996] = { -- Archmage Modera
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.39,74.96,phases.IOT_ALLIANCE_BOAT},
+                    {55.74,74.41,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67997] = { -- Narasi Snowdawn
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.19,59.56}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67998] = { -- Scout Captain Daelin
+            [npcKeys.spawns] = {},
+            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [68000] = { -- Hiren Loresong
+            [npcKeys.subName] = "Kirin Tor Offensive Quartermaster",
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {34.9,89.9,phases.IOT_ALLIANCE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {64.69,74.54,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [68003] = { -- The Monkey King
             [npcKeys.minLevel] = 93,
@@ -5571,6 +5754,11 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "A",
             [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
+        [69075] = { -- Zandalari Sacrifice
+            [npcKeys.name] = "Zandalari Sacrifice",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+        },
         [69088] = { -- Keeper Jaril
             [npcKeys.name] = "Keeper Jaril",
             [npcKeys.subName] = "Innkeeper",
@@ -5592,15 +5780,99 @@ function MopNpcFixes.Load()
         },
         [69161] = { -- Oondasta
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
+        },
+        [69234] = { -- Ihgaluk Roach
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{52.67,77.57},{54.02,81.59},{50.29,83.01},{47.5,80.7},{45.31,77.34}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69241] = { -- Gura the Reclaimed
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{36.79,56.55}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69252] = { -- Ranger Shalan
+            [npcKeys.subName] = "Stable Master",
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {28.11,51.54,phases.IOT_HORDE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {32.86,32.49,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [69259] = { -- Lanesh the Steelweaver
+            [npcKeys.subName] = "Blacksmithing Supplies",
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {28.14,51.63,phases.IOT_HORDE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {32.29,33.69,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [69263] = { -- Tormented Skyscreamer
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.21,69.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69290] = { -- Distressed Sunreaver Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{55.59,87.06},{55.61,86.55},{55.63,86.05},{55.60,85.53},{55.56,85.03},{55.51,84.53},{55.44,84.03},{55.35,83.54},{55.21,83.08},{55.07,82.62},{54.93,82.16},{54.79,81.69},{54.66,81.22},{54.53,80.75},{54.40,80.28},{54.27,79.81},{54.13,79.33},{54.00,78.86},{53.87,78.40},{53.73,77.91},{53.60,77.44},{53.39,77.05},{53.13,76.72},{52.89,76.37},{52.66,76.00},{52.44,75.60},{52.25,75.19},{52.05,74.78},{51.80,74.44},{51.47,74.38},{51.14,74.46},{50.93,74.83},{50.81,75.31},{50.69,75.79},{50.57,76.26},{50.46,76.74},{50.36,77.22},{50.31,77.73},{50.14,78.16},{49.93,78.56},{49.70,78.94},{49.48,79.32},{49.25,79.70},{49.08,80.13},{49.10,80.63},{49.20,81.12},{49.32,81.59},{49.45,82.06},{49.58,82.53},{49.71,83.01},{49.82,83.49},{49.79,83.99},{49.72,84.49},{49.64,84.98},{49.57,85.48},{49.47,85.96},{49.36,86.44},{49.23,86.92},{49.09,87.38},{48.95,87.84},{48.93,88.35},{49.04,88.83},{49.21,89.27},{49.40,89.68},{49.63,90.06},{49.89,90.39},{50.16,90.69},{50.44,90.98},{50.72,91.26},{51.01,91.53},{51.33,91.64},{51.67,91.55},{52.00,91.44},{52.33,91.37},{52.67,91.37},{53.01,91.37},{53.34,91.34},{53.67,91.20},{53.89,90.83},{53.93,90.33},{53.92,89.82},{53.91,89.32},{53.96,88.82},{54.13,88.38},{54.37,88.02},{54.63,87.69},{54.93,87.45},{55.26,87.36},{55.43,87.37}}}},
+        },
+        [69341] = { -- Echo of Kros
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.06,88.2}}},
         },
         [69359] = { -- Beeble Sockwrench
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{41.76,79.31}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [69360] = { -- Bozzle Blastinfuse
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{52.03,75.5}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
+        },
+        [69369] = { -- Lightning Ritual Bunny
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{32.97,56.01}}},
+        },
+        [69371] = { -- Amalia Penshire
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {32.54,33.02,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69389] = { -- Ryshelle Brightlock
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {38.47,51.17,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69413] = { -- Taoshi
+            [npcKeys.spawns] = {},
+            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69418] = { -- Elina Zaralae
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {36.63,64.68,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69425] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.68,32.79,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69433] = { -- Magistrix Saia
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.78,32.67,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69617] = { -- Lor'themar Theron
             [npcKeys.name] = "Lor'themar Theron",
@@ -5613,9 +5885,97 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "H",
         },
+        [69665] = { -- Arcweaver Jor'guva
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.01,68.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69668] = { -- Danara Silverglass
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69670] = { -- Vylene Amaranth
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.11,59.12}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69673] = { -- Ako
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
+                    {42.15,66.44,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69674] = { -- Dalvin Jaacor
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.66,83.21,phases.IOT_ALLIANCE_BOAT},
+                    {42.3,66.3,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69675] = { -- Lyalia
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.31,75.19,phases.IOT_ALLIANCE_BOAT},
+                    {55.9,74.42,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69677] = { -- Sanitation Sorcerer Stephen Litmatch
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.45,74.81,phases.IOT_ALLIANCE_BOAT},
+                    {55.55,74.44,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69678] = { -- Image of Archmage Vargoth
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {42.23,74.97,phases.IOT_ALLIANCE_BOAT},
+                    {55.62,74.53,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69682] = { -- Magister Yalis
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.16,83.38}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{44.47,83.22},{44.50,83.21},{44.58,83.29},{44.76,83.50},{44.91,83.74},{45.02,83.91},{45.09,84.03},{45.01,84.00},{44.84,83.91},{44.66,83.75},{44.50,83.60},{44.38,83.48},{44.20,83.39},{44.16,83.38},{44.47,83.22}}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69686] = { -- Magistrix Sanal
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.83,73.4}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{51.80,73.55},{51.84,73.83},{51.98,73.95},{52.03,73.95},{51.87,74.03},{51.69,74.11},{51.50,74.06},{51.35,74.02},{51.16,73.95},{51.02,73.85},{50.86,73.68},{50.82,73.47},{50.82,73.42},{50.81,73.40},{50.91,73.74},{51.06,73.84},{51.25,73.88},{51.44,73.86},{51.59,73.82},{51.72,73.60},{51.84,73.38},{51.83,73.40}}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69688] = { -- Buried Silver Covenant Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{53.55,91.27}}},
+        },
+        [69695] = { -- Distressed Silver Covenant Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{55.59,87.06},{55.61,86.55},{55.63,86.05},{55.60,85.53},{55.56,85.03},{55.51,84.53},{55.44,84.03},{55.35,83.54},{55.21,83.08},{55.07,82.62},{54.93,82.16},{54.79,81.69},{54.66,81.22},{54.53,80.75},{54.40,80.28},{54.27,79.81},{54.13,79.33},{54.00,78.86},{53.87,78.40},{53.73,77.91},{53.60,77.44},{53.39,77.05},{53.13,76.72},{52.89,76.37},{52.66,76.00},{52.44,75.60},{52.25,75.19},{52.05,74.78},{51.80,74.44},{51.47,74.38},{51.14,74.46},{50.93,74.83},{50.81,75.31},{50.69,75.79},{50.57,76.26},{50.46,76.74},{50.36,77.22},{50.31,77.73},{50.14,78.16},{49.93,78.56},{49.70,78.94},{49.48,79.32},{49.25,79.70},{49.08,80.13},{49.10,80.63},{49.20,81.12},{49.32,81.59},{49.45,82.06},{49.58,82.53},{49.71,83.01},{49.82,83.49},{49.79,83.99},{49.72,84.49},{49.64,84.98},{49.57,85.48},{49.47,85.96},{49.36,86.44},{49.23,86.92},{49.09,87.38},{48.95,87.84},{48.93,88.35},{49.04,88.83},{49.21,89.27},{49.40,89.68},{49.63,90.06},{49.89,90.39},{50.16,90.69},{50.44,90.98},{50.72,91.26},{51.01,91.53},{51.33,91.64},{51.67,91.55},{52.00,91.44},{52.33,91.37},{52.67,91.37},{53.01,91.37},{53.34,91.34},{53.67,91.20},{53.89,90.83},{53.93,90.33},{53.92,89.82},{53.91,89.32},{53.96,88.82},{54.13,88.38},{54.37,88.02},{54.63,87.69},{54.93,87.45},{55.26,87.36},{55.43,87.37}}}},
+        },
+        [69697] = { -- Malfunctioning Silver Covenant Construct
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{46.58,71.98}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [69741] = { -- Lady Jaina Proudmoore
+            [npcKeys.name] = "Lady Jaina Proudmoore",
+            [npcKeys.subName] = "Leader of the Kirin Tor",
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
-            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.43,72.58}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.59,71.75,phases.BLACK_PRINCE_PHASE_3}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
             [npcKeys.friendlyToFaction] = "AH",
         },
@@ -5713,19 +6073,33 @@ function MopNpcFixes.Load()
         },
         [70022] = { -- Ku'ma
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{32.6,54.83}}},
         },
         [70030] = { -- Agrant Sharpshot
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{35.43,53.32}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70031] = { -- Nellie Sattler
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{36.29,52.71}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+        },
+        [70032] = { -- Dr. Ion Goldbloom
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.77,44.46}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
+        },
+        [70033] = { -- Nedris Smuggler
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.63,44.64}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
         },
         [70034] = { -- Arnold Raygun
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{60.66,44.24}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
         },
         [70035] = { -- Atten Hamlock
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{36.94,51.15}}},
         },
         [70059] = { -- Stunted Direhorn
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
@@ -5743,6 +6117,10 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [70160] = { -- Taran Zhu
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.42,46.09}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [70166] = { -- Jubeka Shadowbreaker
             [npcKeys.name] = "Jubeka Shadowbreaker",
             [npcKeys.minLevel] = 35,
@@ -5754,6 +6132,40 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questEnds] = {32325},
         },
+        [70176] = { -- Horgak the Enslaver
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{45.66,59.28}}},
+        },
+        [70182] = { -- Isirami Fairwind
+            [npcKeys.subName] = "Innkeeper",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{64.95,72.99,phases.IOT_ALLIANCE_VIOLET_RISE}}},
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
+        },
+        [70183] = { -- Valaden Silverblade
+            [npcKeys.subName] = "Repairs",
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {35.43,90.43,phases.IOT_ALLIANCE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {64.69,74.05,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70184] = { -- Tassia Whisperglen
+            [npcKeys.subName] = "Stable Master",
+            [npcKeys.spawns] = { -- NB spawn possible in Isle of Thunder SCENARIO mapid 6677
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    -- {35.29,90.64,phases.IOT_ALLIANCE_BOAT}, -- commenting out so it doesn't show in later stage townsfolk. Don't remove
+                    {63.26,73.97,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
+        },
+        [70203] = { -- Spirit Ritual Stone
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.18,87.71}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [70270] = { -- Jubeka Shadowbreaker
             [npcKeys.name] = "Jubeka Shadowbreaker",
             [npcKeys.minLevel] = 35,
@@ -5764,18 +6176,59 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [70297] = { -- Taoshi
+            [npcKeys.spawns] = {},
+            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
         [70315] = { -- Yalia Sagewhisper
             [npcKeys.name] = "Yalia Sagewhisper",
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
-            [npcKeys.zoneID] = 6507,
-            [npcKeys.spawns] = {
-                [6507] = {{51.4,46}},
-            },
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{51.36,46.06}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [70316] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.43,46.17}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [70318] = { -- Supplier Bao
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.36,45.67}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70319] = { -- Supplier Bao
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{36.13,80.39}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70320] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{35.73,79.8}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
+        },
+        [70321] = { -- Tenwu of the Red Smoke
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_KINGS_CITADEL] = {{37.35,79.07}}},
+            [npcKeys.zoneID] = zoneIDs.THUNDER_KINGS_CITADEL,
+        },
         [70346] = { -- Ao Pye
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.subName] = "Shado-Pan Assault Quartermaster",
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{38.01,64.56}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70360] = { -- Vereesa Windrunner
+            [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.93,69.04}}},
+            [npcKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [70363] = { -- Lady Jaina Proudmoore
+            [npcKeys.name] = "Lady Jaina Proudmoore",
+            [npcKeys.subName] = "Leader of the Kirin Tor",
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [70398] = { -- Ben of the Booming Voice
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{58.92,46.91}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [70414] = { -- Skumblade Pillager
             [npcKeys.name] = "Skumblade Pillager",
@@ -5784,7 +6237,7 @@ function MopNpcFixes.Load()
         },
         [70434] = { -- Talak
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_GIANTS] = {{29.17,68.1}}},
         },
         [70438] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -5805,6 +6258,65 @@ function MopNpcFixes.Load()
                 [6006] = {{75.2,76.4}},
             },
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70517] = { -- Archmage Lan'dalock
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
+                    {42.22,66.33,phases.IOT_ALLIANCE_VIOLET_RISE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [70520] = { -- Halduron Brightwing
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {36.72,64.78,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [70535] = { -- Teng of the Flying Daggers
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.72,46.53}}},
+            [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70551] = { -- Scout Captain Elsia
+            [npcKeys.name] = "Scout Captain Elsia",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [70552] = { -- Scout Captain Daelin
+            [npcKeys.name] = "Scout Captain Daelin",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [70561] = { -- Assignment Map
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.19,72.19,phases.IOT_ALLIANCE_VIOLET_RISE}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [70567] = { -- Assignment Map
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.44,35.31,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [70585] = { -- Farmer's Journal
+            [npcKeys.name] = "Farmer's Journal",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.65,47.89}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
         },
         [70980] = { -- Seer Hao Pham Roo
             [npcKeys.name] = "Seer Hao Pham Roo",
@@ -5865,10 +6377,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38,90.8},{38.4,93.2},{39,93.2},{39.2,91.4},{39.2,91.6},{39.8,93.6},{40,93}}},
         },
         [71939] = { -- Chi-Ro the Skytamer
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [71940] = { -- Michi Windblossom
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [71986] = { -- Cove Shark
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -5983,10 +6495,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{75,44.8}}},
         },
         [73401] = { -- Sentry Yinli
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73403] = { -- Sentry Dondao
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73531] = { -- Highwind Albatross
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6017,13 +6529,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65,50.6},{65.2,49.4},{65.4,50.4},{65.6,49.4},{65.6,49.6}}},
         },
         [73622] = { -- Graceful Swan
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73656] = { -- Crafter Kwon
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73674] = { -- Blizzix Sparkshiv
-            [npcKeys.spawns] = {}, -- added with a later phase 
+            [npcKeys.spawns] = {}, -- added with a later phase
         },
         [73718] = { -- Southsea Lookout
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6244,6 +6756,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{70.39,70.38}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.questStarts] = {30587},
+        },
+        [110018] = { -- Skin of the Saurok
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{45.35,73.19}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.questEnds] = {32507},
         },
     }
 end

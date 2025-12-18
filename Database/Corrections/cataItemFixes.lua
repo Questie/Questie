@@ -183,6 +183,9 @@ function CataItemFixes.Load()
         [16976] = { -- Murgut's Totem
             [itemKeys.npcDrops] = {},
         },
+        [17662] = { -- Stolen Treats
+            [itemKeys.npcDrops] = {},
+        },
         [18240] = { -- Ogre Tannin
             [itemKeys.objectDrops] = {179499},
             [itemKeys.npcDrops] = {},

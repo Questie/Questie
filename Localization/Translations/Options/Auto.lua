@@ -108,7 +108,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceita automaticamente missões de masmorras e raides de NPCs.",
         ["ruRU"] = "Автопринятие заданий подземелий и рейдов от NPC.",
         ["zhCN"] = "自动接受 NPC 提供的地下城和团队副本任务。",
-        ["zhTW"] = "自動接受 NPC 提供的地城與團隊任務。",
+        ["zhTW"] = "自動接受 NPC 提供的地下城與團隊任務。",
     },
     ["Automatically accept PvP quests from NPCs."] = {
         ["enUS"] = true,
@@ -179,8 +179,8 @@ local autoOptionsLocales = {
         ["koKR"] = "플레이어로부터 던전 및 레이드 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões de masmorra e raide dos jogadores.",
         ["ruRU"] = "Автопринятие заданий подземелий и рейдов от игроков",
-        ["zhCN"] = "自动接受来自玩家的副本任务",
-        ["zhTW"] = "自動接受來自玩家的地城和團隊任務。",
+        ["zhCN"] = "自动接受来自玩家的地下城和团队任务",
+        ["zhTW"] = "自動接受來自玩家的地下城和團隊任務。",
     },
     ["Automatically accept PvP quests from players."] = {
         ["enUS"] = true,
@@ -228,7 +228,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Missões de masmorra/raide",
         ["ruRU"] = "Подземелья/рейды",
         ["zhCN"] = "副本任务",
-        ["zhTW"] = "地城/團隊任務",
+        ["zhTW"] = "地下城/團隊任務",
     },
     ["Trivial Quests"] = {
         ["enUS"] = true,

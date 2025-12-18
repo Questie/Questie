@@ -482,7 +482,6 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [6665] = 519, -- Deepwind Gorge
     [6677] = 516, -- Isle of Thunder
     [6678] = 523, -- Dun Morogh
-    [6707] = 518, -- Thunder King's Citadel - (Dungeon/Raid)
     [6716] = 518, -- Thunder King's Citadel - (Dungeon/Raid)
     [6731] = 522, -- The Secrets of Ragefire - (Dungeon/Raid)
     [6733] = 520, -- Vale of Eternal Blossoms

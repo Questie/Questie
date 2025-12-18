@@ -1211,24 +1211,27 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1823},
         },
         [1839] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
         },
         [1840] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1844,
         },
         [1841] = {
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1846,
         },
         [1842] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1839},
         },
         [1844] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1840},
         },
         [1846] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1841},
         },
         [1859] = {
@@ -2997,10 +3000,12 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [6962] = {
             [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
+            [questKeys.breadcrumbs] = {6961,7021,7024},
         },
         [6981] = {
             [questKeys.objectives] = {{{3442,"Speak with someone in Ratchet about the Glowing Shard"}},nil,nil,nil},
@@ -3015,9 +3020,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 55,
         },
         [7001] = {
-            [questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78}}},
-            },
+            [questKeys.objectives] = {{{14282,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7002] = {
             [questKeys.objectivesText] = {},
@@ -3025,6 +3028,7 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
@@ -3036,15 +3040,14 @@ function QuestieQuestFixes:Load()
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
+            [questKeys.breadcrumbForQuestId] = 6962,
             [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},
         },
         [7027] = {
-            [questKeys.triggerEnd] = {"Ram Collared and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}}},
-            },
+            [questKeys.objectives] = {{{10990,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [7042] = {
             [questKeys.finishedBy] = {{13636}},

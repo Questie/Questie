@@ -667,6 +667,10 @@ function CataQuestFixes.Load()
         },
         [7022] = { -- Greatfather Winter is Here!
             [questKeys.startedBy] = {{13433}},
+            [questKeys.exclusiveTo] = {7023},
+        },
+        [7023] = { -- Greatfather Winter is Here!
+            [questKeys.exclusiveTo] = {7022},
         },
         [7024] = { -- Great-father Winter is Here!
             [questKeys.startedBy] = {{13429}},
@@ -1506,6 +1510,7 @@ function CataQuestFixes.Load()
         },
         [10279] = { -- To The Master's Lair
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [10282] = { -- Old Hillsbrad
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,

@@ -15,7 +15,10 @@
         "Libs",
         "releases"
     ],
-    "diagnostics.globals": [],
+    "diagnostics.globals": [
+        "QuestChoiceFrame",
+        "CallErrorHandler"
+    ],
     "format": {
         "defaultConfig": {
             "indent_style": "space",

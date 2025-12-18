@@ -273,8 +273,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.char.hidden = nil
                     Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
 
-                    ReloadUI()
+                    Questie.db.global.unavailableQuestsDeterminedByTalking = {}
 
+                    ReloadUI()
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
