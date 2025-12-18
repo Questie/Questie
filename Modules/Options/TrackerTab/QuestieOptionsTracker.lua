@@ -27,6 +27,9 @@ local trackerOptions = {}
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
+---Toggle tracker visibility based on a condition
+---@param shouldHide boolean Whether to hide (true) or show (false) the tracker
+---@param conditionFn fun(): boolean Function that returns true if the condition is met
 local function toggleTrackerVisibility(shouldHide, conditionFn)
     local baseFrame = TrackerBaseFrame.baseFrame
     if baseFrame and conditionFn() then
