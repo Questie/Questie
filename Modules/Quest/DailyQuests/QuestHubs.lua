@@ -489,6 +489,10 @@ DailyQuests.hubs = {
         },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32654])
+        end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = {
         quests = {32578,32579,32580,32581},
@@ -501,6 +505,47 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
         },
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32654])
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+            32571,32572,32573,32574,32575, -- diremoor
+            32550,32551,32552,32553,32554, -- beast pens
+            32555,32556,32557,32558,32559,32560, -- conqueror's terrace
+        },
+        limit = 11,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32652])
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = {
+        quests = {32578,32579,32580,32581,32582,32583},
+        limit = 1,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32652])
+        end,
     },
     KIRIN_TOR_OFFENSIVE_PVP = {
         quests = {32301,32485,32627,32628,32632,32633,32634,32635,32636,32637,32638,32639},
@@ -508,8 +553,8 @@ DailyQuests.hubs = {
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
@@ -526,8 +571,8 @@ DailyQuests.hubs = {
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
@@ -544,7 +589,7 @@ DailyQuests.hubs = {
         quests = {
             32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
             32200,32215,32216,32217,32227,32252,32275, -- za'tual
-            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+            32204,32254,32255,32274,32299,32489,32491,32605, -- ihgaluk crag
         },
         limit = 11,
         exclusiveHubs = {},
@@ -572,7 +617,7 @@ DailyQuests.hubs = {
         quests = {
             32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
             32200,32215,32216,32217,32227,32252,32275, -- za'tual
-            32204,32254,32255,32274,32299,32489,32491,32805, -- ihgaluk crag
+            32204,32254,32255,32274,32299,32489,32491,32605, -- ihgaluk crag
             32228,32230,32285,32287,32506, -- diremoor
         },
         limit = 11,
@@ -582,6 +627,10 @@ DailyQuests.hubs = {
         },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32276])
+        end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = {
         quests = {32293,32520,32521,32522},
@@ -594,6 +643,47 @@ DailyQuests.hubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
         },
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32276])
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_3_PVE = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32605, -- ihgaluk crag
+            32228,32230,32285,32287,32506, -- diremoor
+            32207,32282,32283,32297,32298, -- beast pens
+            32206,32232,32233,32234,32493,32494, -- conqueror's terrace
+        },
+        limit = 11,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32277])
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = {
+        quests = {32293,32294,32520,32521,32522,32564},
+        limit = 1,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32277])
+        end,
     },
     SUNREAVER_ONSLAUGHT_PVP = {
         quests = {32213,32262,32264,32265,32266,32268,32269,32288,32300,32302,32303,32305},
@@ -601,8 +691,8 @@ DailyQuests.hubs = {
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
@@ -619,8 +709,8 @@ DailyQuests.hubs = {
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,

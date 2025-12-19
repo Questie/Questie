@@ -8030,6 +8030,12 @@ function MopQuestFixes.Load()
             [questKeys.breadcrumbs] = {32730},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
+        [32206] = { -- This Just Won't Do
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32207] = { -- Saur Loser
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32209] = { -- Save Our Scouts!
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -8117,9 +8123,22 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
         },
-        [32230] = { -- The Zandalari Colossus
-            [questKeys.preQuestSingle] = {32212},
+        [32228] = { -- The Shuddering Moor
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
+        [32230] = { -- The Zandalari Colossus
+            [questKeys.preQuestSingle] = {32259},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
+        [32232] = { -- What's Inside Counts
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32233] = { -- Very Disarming
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32234] = { -- Knowledge Is Power
+            [questKeys.preQuestSingle] = {32259},
         },
         [32235] = { -- Flash! Aaaaaahhhh!
             [questKeys.preQuestSingle] = {32108},
@@ -8269,6 +8288,12 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
+        [32282] = { -- Compy Stomp
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32283] = { -- Loa-saur
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32284] = { -- Someone You Should See
             [questKeys.preQuestSingle] = {32257},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,7900},
@@ -8276,15 +8301,15 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{67866,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32285] = { -- The Sleepless Legion
-            [questKeys.preQuestSingle] = {32212},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32287] = { -- Enemies Beneath the Tower
-            [questKeys.preQuestSingle] = {32212},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32288] = { -- Bolstering the Defenses
-            [questKeys.preQuestSingle] = {32212},
+            [questKeys.preQuestSingle] = {32258},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32293] = { -- Among the Bones
@@ -8292,12 +8317,19 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32561,32562},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
+        [32294] = { -- Raining Bones
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32296] = { -- Treasures of the Thunder King
             [questKeys.finishedBy] = {{70316,70320}},
             [questKeys.preQuestSingle] = {32680,32681},
             [questKeys.objectives] = {{{70316,nil,Questie.ICON_TYPE_TALK},{70321,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [32297] = { -- Direhorn or Devilsaur
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32298] = { -- Dino Might
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32300] = { -- Disarming Irony
@@ -8906,9 +8938,11 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32493] = { -- They All Fall Down
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32494] = { -- Power Play
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32495] = { -- The Bloodletter
@@ -8916,8 +8950,8 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32506] = { -- A Wing to Fly On
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32212},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32507] = { -- Skin of the Saurok
@@ -8929,6 +8963,14 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{69238,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Disrupt the Ancient Stone Conqueror ritual"),0,{{"monster",69903}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+        },
+        [32523] = { -- The Beast Pens
+            [questKeys.preQuestSingle] = {32259},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32524] = { -- The Beating of Troll Drums
+            [questKeys.preQuestSingle] = {32259},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32525] = { -- Ashes of the Enemy
             [questKeys.preQuestSingle] = {32681},
@@ -9050,24 +9092,43 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32681},
         },
         [32550] = { -- Saur Loser
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
         },
         [32551] = { -- Compy Stomp
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
+        },
+        [32552] = { -- Loa-saur
+            [questKeys.preQuestSingle] = {32260},
+        },
+        [32553] = { -- Direhorn vs Devilsaur
+            [questKeys.preQuestSingle] = {32260},
         },
         [32554] = { -- Dino Might
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
+        },
+        [32555] = { -- Centuries in Sentries
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
+        [32556] = { -- The More You Know
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32557] = { -- Out of Enemy Hands
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
+        },
+        [32558] = { -- All In the Family
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32559] = { -- Even Giants Fall
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
         },
         [32560] = { -- Keep It Secret
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32561] = { -- Competing Magic
@@ -9082,30 +9143,35 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32293,32561},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
+        [32564] = { -- Zandalari on the Rise
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32567] = { -- The Beast Pens
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32568] = { -- No Time To Rest
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32571] = { -- A Wing to Fly On
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32572] = { -- The Sleepless Legion
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32573] = { -- Enemies Beneath the Tower
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32574] = { -- The Shuddering Moor
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32575] = { -- The Zandalari Colossus
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32576] = { -- Competing Magic
@@ -9135,10 +9201,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32644},
         },
         [32582] = { -- Raining Bones
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
         },
         [32583] = { -- Zandalari on the Rise
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32260},
         },
         [32584] = { -- Encroaching Force
             [questKeys.preQuestSingle] = {32681},
@@ -9201,8 +9267,8 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32261},
         },
         [32628] = { -- Tactical Mana Bombs
-            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestSingle] = {32261},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32631] = { -- High Recognition
             [questKeys.preQuestSingle] = {32261},
