@@ -8036,6 +8036,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32680},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
+        [32213] = { -- Old Enemies
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
             [questKeys.exclusiveTo] = {32221},
@@ -8203,8 +8206,52 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,3950},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
+        [32258] = { -- Horde Quest Choice: PvP
+            [questKeys.startedBy] = {{70567}},
+            [questKeys.finishedBy] = {{70567}},
+            [questKeys.reputationReward] = {},
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.exclusiveTo] = {32259},
+        },
+        [32259] = { -- Horde Quest Choice: PvE
+            [questKeys.startedBy] = {{70567}},
+            [questKeys.finishedBy] = {{70567}},
+            [questKeys.reputationReward] = {},
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.exclusiveTo] = {32258},
+        },
+        [32260] = { -- Alliance Quest Choice: PvE
+            [questKeys.startedBy] = {{70561}},
+            [questKeys.finishedBy] = {{70561}},
+            [questKeys.reputationReward] = {},
+            [questKeys.preQuestSingle] = {32644},
+            [questKeys.exclusiveTo] = {32261},
+        },
+        [32261] = { -- Alliance Quest Choice: PvP
+            [questKeys.startedBy] = {{70561}},
+            [questKeys.finishedBy] = {{70561}},
+            [questKeys.reputationReward] = {},
+            [questKeys.preQuestSingle] = {32644},
+            [questKeys.exclusiveTo] = {32260},
+        },
+        [32262] = { -- Captive Audience
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32264] = { -- Spellbound
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32265] = { -- Charged Moganite
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32266] = { -- Mana Manifestations
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32268] = { -- Tactical Mana Bombs
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32269] = { -- Breaking Down the Defenses
+            [questKeys.preQuestSingle] = {32259},
         },
         [32274] = { -- The Residents of Ihgaluk
             [questKeys.preQuestSingle] = {32680},
@@ -8221,6 +8268,9 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Binan Village"),0,{{"monster",68681}}}},
             [questKeys.objectives] = {{{67866,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [32288] = { -- Bolstering the Defenses
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32293] = { -- Among the Bones
             [questKeys.preQuestSingle] = {32680}, -- further handled in questHubs
             [questKeys.exclusiveTo] = {32561,32562},
@@ -8234,8 +8284,23 @@ function MopQuestFixes.Load()
         [32298] = { -- Dino Might
             [questKeys.questFlags] = questFlags.DAILY,
         },
+        [32300] = { -- Disarming Irony
+            [questKeys.preQuestSingle] = {32259},
+        },
         [32301] = { -- Old Enemies
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
+        },
+        [32302] = { -- Desconstruction
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32303] = { -- Made for War
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32304] = { -- High Recognition
+            [questKeys.preQuestSingle] = {32259},
+        },
+        [32305] = { -- Overpowered
+            [questKeys.preQuestSingle] = {32259},
         },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
@@ -8814,7 +8879,7 @@ function MopQuestFixes.Load()
             [questKeys.objectivesText] = {"Gain the \"A Test of Valor\" Achievement by earning a total of 1600 Valor Points."},
         },
         [32485] = { -- Bolstering the Defenses
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32489] = { -- The Creeping Carpet of Ihgaluk
             [questKeys.preQuestSingle] = {32680},
@@ -9109,30 +9174,39 @@ function MopQuestFixes.Load()
             [questKeys.requiredLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
+        [32627] = { -- Charged Moganite
+            [questKeys.preQuestSingle] = {32261},
+        },
         [32628] = { -- Tactical Mana Bombs
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32631] = { -- High Recognition
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
+        },
+        [32632] = { -- Made for War
+            [questKeys.preQuestSingle] = {32261},
+        },
+        [32633] = { -- Spellbound
+            [questKeys.preQuestSingle] = {32261},
         },
         [32634] = { -- Breaking Down the Defenses
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32635] = { -- Enough with the Bombs!
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32636] = { -- Captive Audience
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32637] = { -- Overpowered
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32638] = { -- Mana Scavengers
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32639] = { -- Deconstruction
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestSingle] = {32261},
         },
         [32640] = { -- Champions of the Thunder King
             [questKeys.questFlags] = questFlags.WEEKLY,
