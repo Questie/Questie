@@ -544,7 +544,7 @@ local iconOptionsLocales = {
     },
     ["Event objectives"] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisziele",
+        ["deDE"] = "Event-Ziel",
         ["esES"] = "Objetivos de evento",
         ["esMX"] = "Objetivos de evento",
         ["frFR"] = "Objectifs d'événement",
