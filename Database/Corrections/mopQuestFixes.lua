@@ -8114,6 +8114,10 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
         },
+        [32230] = { -- The Zandalari Colossus
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
         [32235] = { -- Flash! Aaaaaahhhh!
             [questKeys.preQuestSingle] = {32108},
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
@@ -8268,8 +8272,17 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to Binan Village"),0,{{"monster",68681}}}},
             [questKeys.objectives] = {{{67866,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [32285] = { -- The Sleepless Legion
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
+        [32287] = { -- Enemies Beneath the Tower
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
+        },
         [32288] = { -- Bolstering the Defenses
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32293] = { -- Among the Bones
             [questKeys.preQuestSingle] = {32680}, -- further handled in questHubs
@@ -8901,6 +8914,8 @@ function MopQuestFixes.Load()
         },
         [32506] = { -- A Wing to Fly On
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.preQuestSingle] = {32212},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32507] = { -- Skin of the Saurok
             [questKeys.finishedBy] = {{110018}},
@@ -9072,18 +9087,23 @@ function MopQuestFixes.Load()
         },
         [32571] = { -- A Wing to Fly On
             [questKeys.preQuestSingle] = {32644},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32572] = { -- The Sleepless Legion
             [questKeys.preQuestSingle] = {32644},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32573] = { -- Enemies Beneath the Tower
             [questKeys.preQuestSingle] = {32644},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32574] = { -- The Shuddering Moor
             [questKeys.preQuestSingle] = {32644},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32575] = { -- The Zandalari Colossus
             [questKeys.preQuestSingle] = {32644},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32576] = { -- Competing Magic
             [questKeys.startedBy] = {{67992,67996,67997,70517}},

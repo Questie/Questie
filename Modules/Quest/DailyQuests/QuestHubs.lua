@@ -494,7 +494,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     KIRIN_TOR_OFFENSIVE_PVP = {
-        quests = {32485,32634,32636,32627,32639,32635,32632,32638,32301,32637,32633,32628},
+        quests = {32301,32485,32627,32628,32632,32633,32634,32635,32636,32637,32638,32639},
         limit = 7,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
@@ -579,7 +579,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     SUNREAVER_ONSLAUGHT_PVP = {
-        quests = {32288,32269,32262,32265,32302,32300,32303,32266,32213,32305,32264,32268},
+        quests = {32213,32262,32264,32265,32266,32268,32269,32288,32300,32302,32303,32305},
         limit = 7,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
