@@ -1,3 +1,6 @@
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+
 local f = CreateFrame("Frame")
 local function onEvent(_, event, addOnName)
     if addOnName == "Blizzard_QuestChoice" then
@@ -12,11 +15,19 @@ local function onEvent(_, event, addOnName)
             end)
         end
     elseif event == "QUEST_LOG_UPDATE" then
-        Questie.db.char.complete[32259] = C_QuestLog.IsQuestFlaggedCompleted(32259) and true or nil
-        Questie.db.char.complete[32260] = C_QuestLog.IsQuestFlaggedCompleted(32260) and true or nil
-
+        -- Horde
         Questie.db.char.complete[32258] = C_QuestLog.IsQuestFlaggedCompleted(32258) and true or nil
+        Questie.db.char.complete[32259] = C_QuestLog.IsQuestFlaggedCompleted(32259) and true or nil
+
+        -- Alliance
+        Questie.db.char.complete[32260] = C_QuestLog.IsQuestFlaggedCompleted(32260) and true or nil
         Questie.db.char.complete[32261] = C_QuestLog.IsQuestFlaggedCompleted(32261) and true or nil
+
+        if Questie.db.char.complete[32258] or Questie.db.char.complete[32259] or Questie.db.char.complete[32260] or Questie.db.char.complete[32261] then
+            -- One of the Isle of Thunder choice quests was completed, we need to manually trigger this because of the lack of proper events.
+            AvailableQuests.CalculateAndDrawAll()
+        end
+
         f:UnregisterEvent("QUEST_LOG_UPDATE")
     end
 end
