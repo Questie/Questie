@@ -143,15 +143,7 @@ local migrationFunctions = {
         Questie.db.profile.hideTrackerInDungeons = false
     end,
     [20] = function()
-        if Questie.db.global.alwaysGlowMinimap == nil then
-            Questie.db.global.alwaysGlowMinimap = true
-        end
-        if Questie.db.global.questObjectiveColors == nil then
-            Questie.db.global.questObjectiveColors = true
-        end
-        if Questie.db.global.questMinimapObjectiveColors == nil then
-            Questie.db.global.questMinimapObjectiveColors = true
-        end
+        Questie.db.global.alwaysGlowMinimap = true
     end,
 }
 
