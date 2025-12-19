@@ -683,6 +683,8 @@ _GetQuestSoundChoices = function()
         ["Worgen Female"]    = "Worgen Female",
         ["Gilnean Male"]     = "Gilnean Male",
         ["Gilnean Female"]   = "Gilnean Female",
+        ["Pandaren Male"]    = "Pandaren Male",
+        ["Pandaren Female"]  = "Pandaren Female",
         ["Zug Zug"]          = "Zug Zug",
     }
     if Questie.db.profile.loadCustomSounds then
