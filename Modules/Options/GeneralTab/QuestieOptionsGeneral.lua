@@ -683,8 +683,6 @@ _GetQuestSoundChoices = function()
         ["Worgen Female"]    = "Worgen Female",
         ["Gilnean Male"]     = "Gilnean Male",
         ["Gilnean Female"]   = "Gilnean Female",
-        ["Pandaren Male"]    = "Pandaren Male",
-        ["Pandaren Female"]  = "Pandaren Female",
         ["Zug Zug"]          = "Zug Zug",
     }
     if Questie.db.profile.loadCustomSounds then
@@ -692,27 +690,28 @@ _GetQuestSoundChoices = function()
             options[sound] = sound
         end
     end
+
     return options
 end
 
 _GetObjectiveSoundChoices = function()
     local options = {
-        ["ObjectiveDefault"]   = "Default",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["ObjectiveDefault"]   = DEFAULT,
+        ["Map Ping"]           = l10n("Map Ping"),
+        ["Window Close"]       = l10n("Window Close"),
+        ["Window Open"]        = l10n("Window Open"),
+        ["Boat Docked"]        = l10n("Boat Docked"),
+        ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
+        ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
     if Expansions.Current >= Expansions.Wotlk then
-        options["Explosion"] = "Explosion"
-        options["Shing!"] = "Shing!"
-        options["Wham!"] = "Wham!"
-        options["Simon Chime"] = "Simon Chime"
-        options["War Drums"] = "War Drums"
-        options["Humm"] = "Humm"
-        options["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = l10n("Explosion")
+        options["Shing!"] = l10n("Shing!")
+        options["Wham!"] = l10n("Wham!")
+        options["Simon Chime"] = l10n("Simon Chime")
+        options["War Drums"] = l10n("War Drums")
+        options["Humm"] = l10n("Humm")
+        options["Short Circuit"] = l10n("Short Circuit")
     end
 
     if Questie.db.profile.loadCustomSounds then
@@ -726,23 +725,23 @@ end
 
 _GetObjectiveProgressSoundChoices = function()
     local options = {
-        ["ObjectiveProgress"]  = "Default",
-        ["ObjectiveDefault"]   = "Objective Complete",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["ObjectiveProgress"]  = DEFAULT,
+        ["ObjectiveDefault"]   = l10n("Objective Complete"),
+        ["Map Ping"]           = l10n("Map Ping"),
+        ["Window Close"]       = l10n("Window Close"),
+        ["Window Open"]        = l10n("Window Open"),
+        ["Boat Docked"]        = l10n("Boat Docked"),
+        ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
+        ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
     if Expansions.Current >= Expansions.Wotlk then
-        options["Explosion"] = "Explosion"
-        options["Shing!"] = "Shing!"
-        options["Wham!"] = "Wham!"
-        options["Simon Chime"] = "Simon Chime"
-        options["War Drums"] = "War Drums"
-        options["Humm"] = "Humm"
-        options["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = l10n("Explosion")
+        options["Shing!"] = l10n("Shing!")
+        options["Wham!"] = l10n("Wham!")
+        options["Simon Chime"] = l10n("Simon Chime")
+        options["War Drums"] = l10n("War Drums")
+        options["Humm"] = l10n("Humm")
+        options["Short Circuit"] = l10n("Short Circuit")
     end
 
     if Questie.db.profile.loadCustomSounds then
