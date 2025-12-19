@@ -530,12 +530,8 @@ function QuestieQuest:CompleteQuest(questId)
             QuestiePlayer:Initialize() -- Reinitialize to update player race flags
         end
     end
+
     QuestieMap:UnloadQuestFrames(questId)
-
-    if (QuestieMap.questIdFrames[questId]) then
-        Questie:Error("Just removed all frames but the framelist seems to still be there!", questId)
-    end
-
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
@@ -577,8 +573,7 @@ function QuestieQuest:AbandonedQuest(questId)
             end
         end
 
-        AvailableQuests.UnloadUndoable()
-
+        QuestieMap:UnloadQuestFrames(questId)
         QuestieTracker:RemoveQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
