@@ -388,19 +388,19 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Ocultar em masmorras",
         ["ruRU"] = "Скрывать в подземельях",
         ["zhCN"] = "在地下城中隐藏",
-        ["zhTW"] = "在地城中隱藏",
+        ["zhTW"] = "在地下城中隱藏",
     },
     ["When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar a una mazmorra.",
         ["esMX"] = "Si está activado, el rastreador se ocultará automáticamente al entrar a un calabozo.",
-        ["frFR"] = "Si cette option est activée, le suivi sera automatiquement caché lors de l’entrée dans un donjon",
+        ["frFR"] = "Si cette option est activée, le suivi sera automatiquement caché lors de l’entrée dans un donjon.",
         ["koKR"] = "이 옵션을 선택하면 던전에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se ativado, o rastreador será automaticamente ocultado ao entrar em uma masmorra.",
         ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически скрыт",
         ["zhCN"] = "选中此项后，进入地下城时跟踪器将自动隐藏。",
-        ["zhTW"] = "啟用時，進入地城後會自動將任務清單隱藏。",
+        ["zhTW"] = "啟用時，進入地下城後會自動將任務清單隱藏。",
     },
     ---------------------------------------------------------
     ["Hide In Pet Battles"] = {
