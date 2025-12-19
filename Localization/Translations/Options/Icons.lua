@@ -1454,18 +1454,6 @@ local iconOptionsLocales = {
         ["zhCN"] = "pfQuest/Codex 节点中",
         ["zhTW"] = "pfQuest/Codex 節點中",
     },
-    ["Object mono"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Objekt mono",
-        ["esES"] = "Objeto mono",
-        ["esMX"] = "Objeto mono",
-        ["frFR"] = "Objet mono",
-        ["koKR"] = "오브젝트 단색",
-        ["ptBR"] = "Objeto mono",
-        ["ruRU"] = "Объект моно",
-        ["zhCN"] = "物体单色",
-        ["zhTW"] = "物件單色",
-    },
     ["Route waypoint"] = {
         ["enUS"] = true,
         ["deDE"] = "Routenpunkt",
