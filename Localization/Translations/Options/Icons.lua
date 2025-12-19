@@ -1346,18 +1346,6 @@ local iconOptionsLocales = {
         ["zhCN"] = "未完成",
         ["zhTW"] = "未完成",
     },
-    ["Repeatable"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Wiederholbar",
-        ["esES"] = "Repetible",
-        ["esMX"] = "Repetible",
-        ["frFR"] = "Répétable",
-        ["koKR"] = "반복 가능",
-        ["ptBR"] = "Repetível",
-        ["ruRU"] = "Повторяемое",
-        ["zhCN"] = "可重复",
-        ["zhTW"] = "可重複",
-    },
     ["Repeatable Complete"] = {
         ["enUS"] = true,
         ["deDE"] = "Wiederholbar abgeschlossen",
