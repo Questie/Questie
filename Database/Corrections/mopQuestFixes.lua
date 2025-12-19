@@ -8046,7 +8046,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
         [32213] = { -- Old Enemies
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32302},
         },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
@@ -8261,23 +8261,23 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {32260},
         },
         [32262] = { -- Captive Audience
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32264] = { -- Spellbound
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32265] = { -- Charged Moganite
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32266] = { -- Mana Manifestations
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32268] = { -- Tactical Mana Bombs
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32269] = { -- Breaking Down the Defenses
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32274] = { -- The Residents of Ihgaluk
             [questKeys.preQuestSingle] = {32680},
@@ -8333,22 +8333,22 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32300] = { -- Disarming Irony
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32301] = { -- Old Enemies
             [questKeys.preQuestSingle] = {32261},
         },
         [32302] = { -- Desconstruction
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32303] = { -- Made for War
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32304] = { -- High Recognition
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32305] = { -- Overpowered
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32315] = { -- Anduin's Plea
             [questKeys.preQuestGroup] = {32194,32243},
