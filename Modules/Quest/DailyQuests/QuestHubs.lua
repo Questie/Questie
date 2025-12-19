@@ -9,6 +9,7 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@field exclusiveHubs table<HubId, boolean> A list of other hubs that are exclusive to this hub. If the player has quests from any of these hubs, they cannot have quests from this hub.
 ---@field preQuestHubsSingle table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. Only a single hub needs to be complete to unlock this hub.
 ---@field preQuestHubsGroup table<HubId, boolean> A list of other hubs that must be completed before this hub can be accessed. All these hubs need to be complete to unlock this hub.
+---@field IsActive? function(completedQuests: table<QuestId, boolean>, questLog: table<QuestId, Quest>): boolean A function that returns true if the hub is active, false otherwise.
 
 ---@format disable
 ---@type table<HubId, Hub>

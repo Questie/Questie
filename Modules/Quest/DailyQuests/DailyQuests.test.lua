@@ -38,6 +38,16 @@ describe("DailyQuests", function()
                 preQuestHubsSingle = {},
                 preQuestHubsGroup = {TEST_HUB_2 = true, TEST_HUB_3 = true},
             },
+            TEST_HUB_INACTIVE = {
+                quests = {11},
+                limit = 1,
+                exclusiveHubs = {},
+                preQuestHubsSingle = {},
+                preQuestHubsGroup = {},
+                IsActive = function()
+                    return false
+                end,
+            },
         }
         DailyQuests.Initialize()
     end)
@@ -235,6 +245,15 @@ describe("DailyQuests", function()
             local shouldBeHidden = DailyQuests.ShouldBeHidden(10, completedQuests, questLog)
 
             assert.is_false(shouldBeHidden)
+        end)
+
+        it("should return true when quest hub is inactive", function()
+            local completedQuests = {}
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(11, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
         end)
     end)
 end)

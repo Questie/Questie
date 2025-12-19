@@ -225,6 +225,10 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
 
     local hub = hubQuestLookup[questId]
 
+    if hub.IsActive and (not hub.IsActive(completedQuests, questLog)) then
+        return true
+    end
+
     local completedCount = 0
     for _, hubQuestId in pairs(hub.quests) do
         if completedQuests[hubQuestId] or questLog[hubQuestId] then
