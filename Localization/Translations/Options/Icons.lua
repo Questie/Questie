@@ -244,7 +244,7 @@ local iconOptionsLocales = {
     },
     ["Enable Event Quest Icons"] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisquest anzeigen",
+        ["deDE"] = "Event-Quest anzeigen",
         ["esES"] = "Activar iconos de misiones de evento",
         ["esMX"] = "Activar iconos de misiones de evento",
         ["frFR"] = "Icônes des quêtes d'évènement",
@@ -256,7 +256,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of active event quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
-        ["deDE"] = "Aktiviert/Deaktiviert die Icons von Ereignisquests auf der Karte/Minimap.",
+        ["deDE"] = "Aktiviert/Deaktiviert die Icons von Event-Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones de evento se mostrará en el mapa y minimapa.",
         ["esMX"] = "Si está activado, la ubicación de misiones de evento se mostrará en el mapa y minimapa.",
         ["frFR"] = "Active l'affichage des quêtes des évènements mondiaux sur la carte et la minicarte.",
@@ -736,7 +736,7 @@ local iconOptionsLocales = {
     },
     ["Event Quests"] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisquests",
+        ["deDE"] = "Event-Quests",
         ["esES"] = "Misiones de evento",
         ["esMX"] = "Misiones de evento",
         ["frFR"] = "Quêtes d'événement",
@@ -748,7 +748,7 @@ local iconOptionsLocales = {
     },
     ["Available event quests"] = {
         ["enUS"] = true,
-        ["deDE"] = "Verfügbare Ereignisquests",
+        ["deDE"] = "Verfügbare Event-Quests",
         ["esES"] = "Misiones de evento disponibles",
         ["esMX"] = "Misiones de evento disponibles",
         ["frFR"] = "Quêtes d'événement disponibles",
@@ -760,7 +760,7 @@ local iconOptionsLocales = {
     },
     ["The icon that is displayed for available event quests during holidays"] = {
         ["enUS"] = true,
-        ["deDE"] = "Das Icon welches für verfügbare Ereignisquests angezeigt wird",
+        ["deDE"] = "Das Icon welches für verfügbare Event-Quests angezeigt wird",
         ["esES"] = "El icono que se muestra para las misiones de evento disponibles durante las fiestas.",
         ["esMX"] = "El icono que se muestra para las misiones de evento disponibles durante las fiestas.",
         ["frFR"] = "L'icône affichée pour les quêtes d'événement disponibles pendant les fêtes.",
@@ -772,7 +772,7 @@ local iconOptionsLocales = {
     },
     ["Complete event quests"] = {
         ["enUS"] = true,
-        ["deDE"] = "Abgeschlossene Ereignisquests",
+        ["deDE"] = "Abgeschlossene Event-Quests",
         ["esES"] = "Misiones de evento completadas",
         ["esMX"] = "Misiones de evento completadas",
         ["frFR"] = "Quêtes d'événement terminées",
@@ -928,7 +928,7 @@ local iconOptionsLocales = {
     },
     ["Available Event Quests"] = {
         ["enUS"] = true,
-        ["deDE"] = "Verfügbare Ereignisquests",
+        ["deDE"] = "Verfügbare Event-Quests",
         ["esES"] = "Misiones de evento disponibles",
         ["esMX"] = "Misiones de evento disponibles",
         ["frFR"] = "Quêtes d'événement disponibles",
@@ -1360,7 +1360,7 @@ local iconOptionsLocales = {
     },
     ["Event Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisquest",
+        ["deDE"] = "Event-Quest",
         ["esES"] = "Misión de evento",
         ["esMX"] = "Misión de evento",
         ["frFR"] = "Quête d'événement",
@@ -1372,7 +1372,7 @@ local iconOptionsLocales = {
     },
     ["Event Quest Complete"] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisquest abgeschlossen",
+        ["deDE"] = "Event-Quest abgeschlossen",
         ["esES"] = "Misión de evento completada",
         ["esMX"] = "Misión de evento completada",
         ["frFR"] = "Quête d'événement terminée",

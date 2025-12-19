@@ -196,7 +196,7 @@ local autoOptionsLocales = {
     },
     ["Automatically accept event quests (including event dailies) from players."] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignisquests (inkl. Event-Dailies) automatisch von Spielern annehmen.",
+        ["deDE"] = "Event-Quests (inkl. Event-Dailies) automatisch von Spielern annehmen.",
         ["esES"] = "Acepta automáticamente misiones de evento (incluidos los diarios de eventos) de los jugadores.",
         ["esMX"] = "Acepta automáticamente misiones de evento (incluidos los diarios de eventos) de los jugadores.",
         ["frFR"] = "Accepte automatiquement les quêtes d'événement (y compris les quotidiennes d'événement) des joueurs.",
