@@ -5891,6 +5891,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.01,68.91}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [69666] = { -- Zur'chaka the Bonecrafter
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.93,79.47}}},
+        },
         [69668] = { -- Danara Silverglass
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
