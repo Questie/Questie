@@ -457,6 +457,10 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Shaol'mara
+            return (not completedQuests[32644]) and (not completedQuests[32212])
+        end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_1_FINAL_BOSS = {
         quests = {32576,32577,32578},
@@ -466,6 +470,10 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_1 = true,
         },
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Shaol'mara
+            return (not completedQuests[32644])
+        end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = {
         quests = {
@@ -542,6 +550,10 @@ DailyQuests.hubs = {
         exclusiveHubs = {},
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Zeb'tula
+            return (not completedQuests[32212])
+        end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_1_FINAL_BOSS = {
         quests = {32293,32561,32562},
@@ -551,6 +563,10 @@ DailyQuests.hubs = {
             SUNREAVER_ONSLAUGHT_STAGE_1 = true,
         },
         preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Zeb'tula
+            return (not completedQuests[32212])
+        end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_PVE = {
         quests = {
