@@ -6338,6 +6338,8 @@ function QuestieQuestBlacklist:Load()
         [32013] = true, -- Not in the game
         [32014] = true, -- Not in the game
         [32015] = true, -- Not in the game
+        [32016] = true, -- Elder Charms of Good Fortune -- Removed with ToT
+        [32017] = true, -- Elder Charms of Good Fortune -- Removed with ToT
         [32112] = true, -- Hidden quest
         [32113] = true, -- Hidden quest
         [32114] = true, -- Hidden quest
