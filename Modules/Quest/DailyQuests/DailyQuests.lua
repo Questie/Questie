@@ -8,8 +8,8 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type QuestieTooltips
-local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
@@ -109,18 +109,11 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
         else
             -- If the quest is not in the questlog remove all frames
             if (GetQuestLogIndexByID(questId) == 0) then
-                _DailyQuests:HideDailyQuest(questId);
+                AvailableQuests.RemoveQuest(questId)
             end
             Questie.db.char.hiddenDailies[type][questId] = true;
         end
     end
-end
-
----@param questId number
----@return nil
-function _DailyQuests:HideDailyQuest(questId)
-    QuestieMap:UnloadQuestFrames(questId);
-    QuestieTooltips:RemoveQuest(questId);
 end
 
 ---@param questId number
