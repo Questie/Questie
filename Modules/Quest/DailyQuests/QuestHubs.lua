@@ -459,7 +459,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Shaol'mara
-            return (not completedQuests[32644]) and (not completedQuests[32212])
+            return (not completedQuests[32644])
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_1_FINAL_BOSS = {
