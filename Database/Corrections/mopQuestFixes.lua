@@ -6759,6 +6759,9 @@ function MopQuestFixes.Load()
         [31745] = { -- Onward and Inward
             [questKeys.objectives] = {{{67067,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [31752] = { -- Blingtron 4000
+            [questKeys.requiredSkill] = {},
+        },
         [31754] = { -- Cannonfire
             [questKeys.startedBy] = {{58471}},
             [questKeys.objectives] = {{{65762,nil,Questie.ICON_TYPE_INTERACT}}},
