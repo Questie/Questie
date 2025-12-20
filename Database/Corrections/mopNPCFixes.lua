@@ -4589,7 +4589,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67660] = { -- Archmage Aethas Sunreaver
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.63,32.88,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.87,66.91,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67662] = { -- High Arcanist Savor
@@ -5838,7 +5841,8 @@ function MopNpcFixes.Load()
         [69371] = { -- Amalia Penshire
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
-                    {32.54,33.02,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {47.01,66.73,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5867,11 +5871,17 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69425] = { -- Sunwalker Dezco
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.68,32.79,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.72,66.75,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69433] = { -- Magistrix Saia
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.78,32.67,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.92,66.89,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69617] = { -- Lor'themar Theron
