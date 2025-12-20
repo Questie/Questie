@@ -9220,10 +9220,15 @@ function MopQuestFixes.Load()
         [32591] = { -- Secrets of the First Empire
             [questKeys.startedBy] = {{69782}},
             [questKeys.preQuestSingle] = {32457,32590},
+            [questKeys.reputationReward] = {{factionIDs.THE_BLACK_PRINCE,5}},
         },
         [32592] = { -- I Need a Champion
             [questKeys.startedBy] = {{69782}},
             [questKeys.preQuestSingle] = {32457,32590},
+        },
+        [32593] = { -- The Thunder Forge
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.preQuestGroup] = {32591,32592},
         },
         [32599] = { -- Securing A Future
             [questKeys.preQuestSingle] = {32681},
