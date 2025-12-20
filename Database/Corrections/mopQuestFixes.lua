@@ -8046,7 +8046,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
         [32213] = { -- Old Enemies
-            [questKeys.preQuestSingle] = {32259},
+            [questKeys.preQuestSingle] = {32258},
         },
         [32214] = { -- Bilgewater Infiltrators
             [questKeys.preQuestSingle] = {32108},
