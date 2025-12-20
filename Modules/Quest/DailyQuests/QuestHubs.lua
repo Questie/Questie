@@ -447,6 +447,19 @@ DailyQuests.hubs = {
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
     },
+    KIRIN_TOR_OFFENSIVE_STAGE_1_BREADCRUMBS = {
+        quests = {
+            32731,32732,32733,
+        },
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Shaol'mara
+            return (not completedQuests[32644])
+        end,
+    },
     KIRIN_TOR_OFFENSIVE_STAGE_1 = {
         quests = {
             32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
@@ -473,6 +486,22 @@ DailyQuests.hubs = {
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Shaol'mara
             return (not completedQuests[32644])
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_2_PVE_BREADCRUMBS = {
+        quests = {
+            32731,32732,32733,
+        },
+        limit = 3,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32654])
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = {
@@ -508,6 +537,22 @@ DailyQuests.hubs = {
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
             return (not completedQuests[32654])
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = {
+        quests = {
+            32731,32732,32733,32567,32568,
+        },
+        limit = 3,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32652])
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = {
@@ -551,8 +596,10 @@ DailyQuests.hubs = {
         quests = {32301,32485,32627,32628,32632,32633,32634,32635,32636,32637,32638,32639},
         limit = 7,
         exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
@@ -569,8 +616,10 @@ DailyQuests.hubs = {
         quests = {32631},
         limit = 1,
         exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_STAGE_2_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
             -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
@@ -584,6 +633,19 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
         },
         preQuestHubsGroup = {},
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_1_BREADCRUMBS = {
+        quests = {
+            32728,32729,32730,
+        },
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed The Assault on Zeb'tula
+            return (not completedQuests[32212])
+        end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_1 = {
         quests = {
@@ -611,6 +673,22 @@ DailyQuests.hubs = {
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Zeb'tula
             return (not completedQuests[32212])
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_2_PVE_BREADCRUMBS = {
+        quests = {
+            32728,32729,32730,
+        },
+        limit = 3,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed Tear Down This Wall!
+            return (not completedQuests[32276])
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_PVE = {
@@ -646,6 +724,22 @@ DailyQuests.hubs = {
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
             return (not completedQuests[32276])
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = {
+        quests = {
+            32728,32729,32730,32523,32524,
+        },
+        limit = 3,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has not completed To the Skies!
+            return (not completedQuests[32277])
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_3_PVE = {
@@ -689,8 +783,10 @@ DailyQuests.hubs = {
         quests = {32213,32262,32264,32265,32266,32268,32269,32288,32300,32302,32303,32305},
         limit = 7,
         exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
@@ -707,8 +803,10 @@ DailyQuests.hubs = {
         quests = {32304},
         limit = 1,
         exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_STAGE_2_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
             -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
