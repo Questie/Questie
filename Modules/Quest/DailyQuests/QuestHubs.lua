@@ -457,6 +457,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Shaol'mara
+            -- if (not completedQuests[32644]) then print("alliance stage1 breadcrumb active") end
             return (not completedQuests[32644])
         end,
     },
@@ -472,6 +473,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Shaol'mara
+            -- if (not completedQuests[32644]) then print("alliance stage1 active") end
             return (not completedQuests[32644])
         end,
     },
@@ -485,6 +487,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Shaol'mara
+            -- if (not completedQuests[32644]) then print("alliance stage1 final boss active") end
             return (not completedQuests[32644])
         end,
     },
@@ -501,7 +504,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32654])
+            -- if (completedQuests[32644] and (not completedQuests[32654])) then print("alliance stage2 breadcrumb active") end
+            return (completedQuests[32644] and (not completedQuests[32654]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_PVE = {
@@ -520,7 +524,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32654])
+            -- if (completedQuests[32644] and (not completedQuests[32654])) then print("alliance stage2 active") end
+            return (completedQuests[32644] and (not completedQuests[32654]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_FINAL_BOSS = {
@@ -536,7 +541,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32654])
+            -- if (completedQuests[32644] and (not completedQuests[32654])) then print("alliance stage2 final boss active") end
+            return (completedQuests[32644] and (not completedQuests[32654]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = {
@@ -552,7 +558,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32652])
+            -- if (completedQuests[32654] and (not completedQuests[32652])) then print("alliance stage3 breadcrumb active") end
+            return (completedQuests[32654] and (not completedQuests[32652]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = {
@@ -573,7 +580,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32652])
+            -- if (completedQuests[32654] and (not completedQuests[32652])) then print("alliance stage3 active") end
+            return (completedQuests[32654] and (not completedQuests[32652]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = {
@@ -589,7 +597,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32652])
+            -- if (completedQuests[32654] and (not completedQuests[32652])) then print("alliance stage3 final boss active") end
+            return (completedQuests[32654] and (not completedQuests[32652]))
         end,
     },
     KIRIN_TOR_OFFENSIVE_PVP = {
@@ -644,6 +653,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Zeb'tula
+            -- if (not completedQuests[32212]) then print("horde stage1 breadcrumb active") end
             return (not completedQuests[32212])
         end,
     },
@@ -659,6 +669,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Zeb'tula
+            -- if (not completedQuests[32212]) then print("horde stage1 active") end
             return (not completedQuests[32212])
         end,
     },
@@ -672,6 +683,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed The Assault on Zeb'tula
+            -- if (not completedQuests[32212]) then print("horde stage1 final boss active") end
             return (not completedQuests[32212])
         end,
     },
@@ -688,7 +700,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32276])
+            -- if (completedQuests[32212] and (not completedQuests[32276])) then print("horde stage2 breadcrumb active") end
+            return (completedQuests[32212] and (not completedQuests[32276]))
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_PVE = {
@@ -707,7 +720,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32276])
+            -- if (completedQuests[32212] and (not completedQuests[32276])) then print("horde stage2 active") end
+            return (completedQuests[32212] and (not completedQuests[32276]))
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_FINAL_BOSS = {
@@ -723,7 +737,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed Tear Down This Wall!
-            return (not completedQuests[32276])
+            -- if (completedQuests[32212] and (not completedQuests[32276])) then print("horde stage2 final boss active") end
+            return (completedQuests[32212] and (not completedQuests[32276]))
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = {
@@ -739,7 +754,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32277])
+            -- if (completedQuests[32276] and (not completedQuests[32277])) then print("horde stage3 breadcrumb active") end
+            return (completedQuests[32276] and (not completedQuests[32277]))
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_3_PVE = {
@@ -760,7 +776,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32277])
+            -- if (completedQuests[32276] and (not completedQuests[32277])) then print("horde stage3 active") end
+            return (completedQuests[32276] and (not completedQuests[32277]))
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = {
@@ -776,7 +793,8 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
-            return (not completedQuests[32277])
+            -- if (completedQuests[32276] and (not completedQuests[32277])) then print("horde stage3 final boss active") end
+            return (completedQuests[32276] and (not completedQuests[32277]))
         end,
     },
     SUNREAVER_ONSLAUGHT_PVP = {

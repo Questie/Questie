@@ -8288,6 +8288,18 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
+        [32276] = { -- Tear Down This Wall!
+            [questKeys.preQuestSingle] = {32212},
+        },
+        [32277] = { -- To the Skies!
+            [questKeys.preQuestSingle] = {32276},
+        },
+        [32278] = { -- Decisive Action
+            [questKeys.preQuestSingle] = {32277},
+        },
+        [32279] = { -- The Fall of Shan Bu
+            [questKeys.preQuestSingle] = {32278},
+        },
         [32282] = { -- Compy Stomp
             [questKeys.preQuestSingle] = {32259},
         },
@@ -8973,7 +8985,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32525] = { -- Ashes of the Enemy
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69331,69337},69337,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
@@ -8981,86 +8994,103 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
         },
         [32527] = { -- Grave Circumstances
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             [questKeys.breadcrumbs] = {32731},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
         },
         [32528] = { -- Into the Crypts
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon Gura"),0,{{"object",218081}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32529] = { -- The Call of Thunder
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {{{69369,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Shan'ze Thundercallers"),0,{{"monster",71511}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32530] = { -- The Bloodletter
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32531] = { -- The Conquest of Stone
             [questKeys.objectives] = {{{69238,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Disrupt the Ancient Stone Conqueror ritual"),0,{{"monster",69903}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
         },
         [32532] = { -- Rise No More!
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32533] = { -- Stone Cold
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32535] = { -- The Skumblade Threat
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbs] = {32732},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32536] = { -- Manipulating the Saurok
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {{{69682,nil,Questie.ICON_TYPE_TALK},{69684,nil,Questie.ICON_TYPE_TALK},{69686,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32537] = { -- De-Constructed
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {{{69693,nil,Questie.ICON_TYPE_OBJECT},{69688,nil,Questie.ICON_TYPE_OBJECT},{69695,nil,Questie.ICON_TYPE_OBJECT},{69697,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32538] = { -- Heinous Sacrifice
             [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
         [32539] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
         [32540] = { -- Harbingers of the Loa
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32541] = { -- Preventing a Future Threat
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {{{69128,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
         },
         [32542] = { -- Surgical Strike
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
         [32543] = { -- Dangers of Za'Tual
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbs] = {32733},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
@@ -9068,28 +9098,34 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Arcweaver"),0,{{"monster",69224}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             [questKeys.objectives] = {{{69263,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
         },
         [32545] = { -- The Residents of Ihgaluk
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
         },
         [32546] = { -- Just Some Light Clean-Up Work
             [questKeys.objectives] = {{{69251}}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32547] = { -- The Creeping Carpet of Ihgaluk
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32548] = { -- Left To Rot
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32549] = { -- Skin of the Saurok
             [questKeys.finishedBy] = {{110018}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
         },
         [32550] = { -- Saur Loser
             [questKeys.preQuestSingle] = {32260},
@@ -9212,6 +9248,11 @@ function MopQuestFixes.Load()
         [32585] = { -- Encroaching Force
             [questKeys.preQuestSingle] = {32681},
         },
+        [32589] = { -- Life Blood
+            [questKeys.preQuestSingle] = {32680}, -- wowhead comments say available without progressing IoT
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,8}},
+            [questKeys.requiredMinRep] = {factionIDs.SUNREAVER_ONSLAUGHT,42000},
+        },
         [32590] = { -- Meet Me Upstairs
             [questKeys.startedBy] = {{64616}},
             [questKeys.preQuestSingle] = {32390,32432},
@@ -9231,8 +9272,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {32591,32592},
         },
         [32599] = { -- Securing A Future
-            [questKeys.preQuestSingle] = {32681},
-            [questKeys.reputationReward] = {},
+            [questKeys.preQuestSingle] = {32681}, -- wowhead comments say available without progressing IoT
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,8}},
+            [questKeys.requiredMinRep] = {factionIDs.KIRIN_TOR_OFFENSIVE,42000},
         },
         [32603] = { -- Beasts of Fable
             [questKeys.requiredSpell] = 119467,
@@ -9248,8 +9290,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32680},
         },
         [32606] = { -- Subtle Encouragement
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67760,69210,69226,69227,69228,69229,69338,69348,69387,69403,70347,70348,},67760,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {32681},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32607] = { -- Extended Shore Leave
@@ -9355,7 +9398,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,{{74850}},nil,{{{63260,63264,63265},63260,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32649] = { -- Work Order: Shado-Pan I
-            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.preQuestGroup] = {32682}, -- TODO - double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -9366,16 +9409,25 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,{{74840}},nil,{{{58567,60113,63157},58567,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [32652] = { -- To the Skies!
+            [questKeys.preQuestSingle] = {32654}, -- TODO - double check
+        },
         [32653] = { -- Work Order: The August Celestials I
-            [questKeys.preQuestGroup] = {32682}, -- double check on the other quest
+            [questKeys.preQuestGroup] = {32682}, -- TODO - double check on the other quest
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {{{58563,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {89329,89849},
             [questKeys.nextQuestInChain] = 0,
         },
+        [32654] = { -- Tear Down This Wall!
+            [questKeys.preQuestSingle] = {32644}, -- TODO - double check
+        },
         [32655] = { -- A Bold Idea
-            [questKeys.preQuestSingle] = {32652},
+            [questKeys.preQuestSingle] = {32652}, -- TODO - double check
+        },
+        [32656] = { -- The Fall of Shan Bu
+            [questKeys.preQuestSingle] = {32655}, -- TODO - double check
         },
         [32657] = { -- Work Order: The August Celestials II
             [questKeys.questFlags] = questFlags.DAILY,
@@ -9512,34 +9564,40 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = -110396, -- BANDAID FIX. This is actually available up to 499 skill included. At 500 it's not. Can't do that so we do this.
         },
         [32728] = { -- The Court of Bones
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbForQuestId] = 32201,
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32729] = { -- Za'Tual
             [questKeys.startedBy] = {{67990}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbForQuestId] = 32200,
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32730] = { -- Ihgaluk Crag
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbForQuestId] = 32204,
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32731] = { -- The Court of Bones
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbForQuestId] = 32527,
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32732] = { -- Ihgaluk Crag
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbForQuestId] = 32535,
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32733] = { -- Za'Tual
             [questKeys.startedBy] = {{67992}},
-            [questKeys.preQuestSingle] = {32681},
+            -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbForQuestId] = 32543,
             [questKeys.questFlags] = questFlags.DAILY,
         },
