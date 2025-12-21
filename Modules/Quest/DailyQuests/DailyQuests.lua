@@ -203,28 +203,25 @@ pvpDailyIds = {
     [11342] = true,
 }
 
----@type table<QuestId, Hub>
+---@type table<QuestId, Hub[]>
 local hubQuestLookup = {}
 
 function DailyQuests.Initialize()
     for _, hub in pairs(DailyQuests.hubs) do
         for _, hubQuestId in pairs(hub.quests) do
-            hubQuestLookup[hubQuestId] = hub
+            if (not hubQuestLookup[hubQuestId]) then
+                hubQuestLookup[hubQuestId] = {}
+            end
+            table.insert(hubQuestLookup[hubQuestId], hub)
         end
     end
 end
 
----@param questId QuestId
+---@param hub Hub
 ---@param completedQuests table<QuestId, boolean> A table of completed quests
 ---@param questLog table<QuestId, Quest> A table of quests in the quest log
 ---@return boolean true if the quest should be hidden, false otherwise
-function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
-    if (not hubQuestLookup[questId]) then
-        return false
-    end
-
-    local hub = hubQuestLookup[questId]
-
+local function _ShouldBeHidden(hub, completedQuests, questLog)
     if hub.IsActive and (not hub.IsActive(completedQuests, questLog)) then
         return true
     end
@@ -289,6 +286,26 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
     end
 
     return false
+end
+
+---@param questId QuestId
+---@param completedQuests table<QuestId, boolean> A table of completed quests
+---@param questLog table<QuestId, Quest> A table of quests in the quest log
+---@return boolean true if the quest should be hidden, false otherwise
+function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
+    if (not hubQuestLookup[questId]) then
+        return false
+    end
+
+    local hubs = hubQuestLookup[questId]
+    for _, hub in pairs(hubs) do
+        local shouldBeHidden = _ShouldBeHidden(hub, completedQuests, questLog)
+        if (not shouldBeHidden) then
+            return false
+        end
+    end
+
+    return true
 end
 
 return DailyQuests
