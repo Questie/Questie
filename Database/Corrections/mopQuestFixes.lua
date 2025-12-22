@@ -8017,19 +8017,19 @@ function MopQuestFixes.Load()
         },
         [32200] = { -- Dangers of Za'Tual
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbs] = {32733},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32201] = { -- Grave Circumstances
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbs] = {32728},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32204] = { -- The Skumblade Threat
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.breadcrumbs] = {32730},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
@@ -9195,14 +9195,14 @@ function MopQuestFixes.Load()
         [32561] = { -- Competing Magic
             [questKeys.startedBy] = {{67660,67989,67990,70520}},
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, changed in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.exclusiveTo] = {32293,32562},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
         [32562] = { -- Imposing Threat
             [questKeys.startedBy] = {{67660,67989,67990,70520}},
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, changed in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.exclusiveTo] = {32293,32561},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
@@ -9315,7 +9315,7 @@ function MopQuestFixes.Load()
         [32605] = { -- Subtle Encouragement
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67760,69210,69226,69227,69228,69229,69338,69348,69387,69403,70347,70348,},67760,nil,Questie.ICON_TYPE_INTERACT}}},
             -- [questKeys.preQuestSingle] = {32680}, stage 1, replaced in stage 2
-            [questKeys.preQuestSingle] = {32260},
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32606] = { -- Subtle Encouragement
