@@ -2084,7 +2084,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{20130}},
         },
         [10297] = {
-            [questKeys.objectives] = {{{15608,"The Dark Portal Opened"}}},
+            [questKeys.objectives] = {{{15608,"The Dark Portal Opened",Questie.ICON_TYPE_EVENT}}},
         },
         [10299] = {
             [questKeys.objectives] = {nil,{{183770}},{{29366}}},

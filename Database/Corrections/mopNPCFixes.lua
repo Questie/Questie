@@ -236,6 +236,18 @@ function MopNpcFixes.Load()
         [17087] = { -- Spirit of the Vale
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{32.36,20.7}}},
         },
+        [15192] = { -- Anachronos
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME] = {{41.77,49.87}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [20130] = { -- Andormu
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME] = {{41.55,38.5}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [20142] = { -- Steward of Time
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL] = {{55.26,27.93}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL,
+        },
         [29259] = { -- Spirit Healer
             [npcKeys.spawns] = {
                 -- NOT verified ingame spawns, these are the CataDB spawns

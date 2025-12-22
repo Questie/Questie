@@ -370,6 +370,7 @@ ZoneDB.zoneIDs = {
     DALARAN_LANDFALL_UNDERBELLY = 10088, -- Dalaran - Underbelly (Landfall version) -- 502
     KAJA_MINE_SE = 10090, -- Kaja'mine SE - cave in Kezan -- 196
     KAJA_MINE_SW = 10091, -- Kaja'mine SW - cave in Kezan -- 197
+    CAVERNS_OF_TIME_TIMELESS_TUNNEL = 10092, -- Caverns of Time -- 74
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map
