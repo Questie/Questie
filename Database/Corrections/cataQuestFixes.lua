@@ -5084,6 +5084,10 @@ function CataQuestFixes.Load()
         [25046] = { -- A Daughter's Embrace
             [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25047] = { -- Broken Panther Figurine
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.ROGUE + classIDs.SHAMAN + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
         [25050] = { -- Rocket Rescue
             [questKeys.objectives] = {{{38571,nil,Questie.ICON_TYPE_EVENT},{40583}}},
             [questKeys.preQuestGroup] = {25048,25049},
@@ -13668,6 +13672,22 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             --[questKeys.nextQuestInChain] = 3100, -- removing this key because some chars did these class quests before the prepatch
+        },
+        [28775] = { -- Broken Serpent Figurine
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28776] = { -- Broken Earthen Figurine
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.DEATH_KNIGHT + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28777] = { -- Broken Owl Figurine
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28778] = { -- Broken Boar Figurine
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [28780] = { -- Join the Battle! -- Human Hunter
             [questKeys.requiredRaces] = raceIDs.HUMAN,
