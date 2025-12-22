@@ -15,18 +15,21 @@ local function onEvent(_, event, addOnName)
             end)
         end
     elseif event == "QUEST_LOG_UPDATE" then
-        -- Horde
-        Questie.db.char.complete[32258] = C_QuestLog.IsQuestFlaggedCompleted(32258) and true or nil
-        Questie.db.char.complete[32259] = C_QuestLog.IsQuestFlaggedCompleted(32259) and true or nil
+        -- Delay the check a bit to ensure the quest log is fully updated
+        C_Timer.After(0.5, function()
+            -- Horde
+            Questie.db.char.complete[32258] = C_QuestLog.IsQuestFlaggedCompleted(32258) and true or nil
+            Questie.db.char.complete[32259] = C_QuestLog.IsQuestFlaggedCompleted(32259) and true or nil
 
-        -- Alliance
-        Questie.db.char.complete[32260] = C_QuestLog.IsQuestFlaggedCompleted(32260) and true or nil
-        Questie.db.char.complete[32261] = C_QuestLog.IsQuestFlaggedCompleted(32261) and true or nil
+            -- Alliance
+            Questie.db.char.complete[32260] = C_QuestLog.IsQuestFlaggedCompleted(32260) and true or nil
+            Questie.db.char.complete[32261] = C_QuestLog.IsQuestFlaggedCompleted(32261) and true or nil
 
-        if Questie.db.char.complete[32258] or Questie.db.char.complete[32259] or Questie.db.char.complete[32260] or Questie.db.char.complete[32261] then
-            -- One of the Isle of Thunder choice quests was completed, we need to manually trigger this because of the lack of proper events.
-            AvailableQuests.CalculateAndDrawAll()
-        end
+            if Questie.db.char.complete[32258] or Questie.db.char.complete[32259] or Questie.db.char.complete[32260] or Questie.db.char.complete[32261] then
+                -- One of the Isle of Thunder choice quests was completed, we need to manually trigger this because of the lack of proper events.
+                AvailableQuests.CalculateAndDrawAll()
+            end
+        end)
 
         f:UnregisterEvent("QUEST_LOG_UPDATE")
     end
