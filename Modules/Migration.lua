@@ -143,7 +143,7 @@ local migrationFunctions = {
         Questie.db.profile.hideTrackerInDungeons = false
     end,
     [20] = function()
-        Questie.db.global.alwaysGlowMinimap = true
+        Questie.db.profile.alwaysGlowMinimap = true
     end,
 }
 
