@@ -654,6 +654,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredMinRep] = {},
         },
         [6983] = { -- You're a Mean One...
+            [questKeys.startedBy] = {{13418,13636}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,
@@ -676,6 +677,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{13429}},
         },
         [7043] = { -- You're a Mean One...
+            [questKeys.startedBy] = {{13433,13636}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,
