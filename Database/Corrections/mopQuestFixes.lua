@@ -8016,17 +8016,20 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32200] = { -- Dangers of Za'Tual
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbs] = {32733},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32201] = { -- Grave Circumstances
-            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbs] = {32728},
-            [questKeys.preQuestSingle] = {32680},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32204] = { -- The Skumblade Threat
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.breadcrumbs] = {32730},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
@@ -8055,36 +8058,42 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32215] = { -- Heinous Sacrifice
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {nil,{{218797},{218798},{218801}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32216] = { -- Pterrible Ptorment
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Arcweaver"),0,{{"monster",69224}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectives] = {{{69263,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [32217] = { -- Dark Offerings
             [questKeys.objectives] = {nil,{{216991}}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32218] = { -- Ashes of the Enemy
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69331,69337},69337,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32219] = { -- Stone Cold
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32220] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
         },
         [32221] = { -- Storming the Beach
             [questKeys.preQuestSingle] = {32108},
@@ -8103,22 +8112,26 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12}},
         },
         [32224] = { -- Rise No More!
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32225] = { -- The Call of Thunder
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {{{69369,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Shan'ze Thundercallers"),0,{{"monster",71511}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32226] = { -- Into the Crypts
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon Gura"),0,{{"object",218081}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32227] = { -- Preventing a Future Threat
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {{{69128,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectivesText] = {"Frighten 12 Hatchling Skyscreamers by running near them."},
@@ -8164,7 +8177,8 @@ function MopQuestFixes.Load()
         },
         [32299] = { -- Just Some Light Clean-Up Work
             [questKeys.objectives] = {{{69251}}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32242] = { -- Buried Secrets
@@ -8206,16 +8220,19 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32252] = { -- Harbingers of the Loa
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32254] = { -- Manipulating the Saurok
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {{{69293,nil,Questie.ICON_TYPE_TALK},{69309,nil,Questie.ICON_TYPE_TALK},{69310,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32255] = { -- De-Constructed
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {{{69287,nil,Questie.ICON_TYPE_OBJECT},{69288,nil,Questie.ICON_TYPE_OBJECT},{69290,nil,Questie.ICON_TYPE_OBJECT},{69289,nil,Questie.ICON_TYPE_OBJECT}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
@@ -8280,11 +8297,13 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32258},
         },
         [32274] = { -- The Residents of Ihgaluk
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32275] = { -- Surgical Death
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69379,69397,69412,69780,70377,70509,69065},69065},{{69171},69171},{{69254,69255,69256,69225},69225}}},
         },
@@ -8325,7 +8344,8 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32293] = { -- Among the Bones
-            [questKeys.preQuestSingle] = {32680}, -- further handled in questHubs
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259}, -- further handled in questHubs
             [questKeys.exclusiveTo] = {32561,32562},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
@@ -8942,11 +8962,13 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32261},
         },
         [32489] = { -- The Creeping Carpet of Ihgaluk
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32491] = { -- Left To Rot
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32493] = { -- They All Fall Down
@@ -8958,7 +8980,8 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32495] = { -- The Bloodletter
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32506] = { -- A Wing to Fly On
@@ -8968,10 +8991,12 @@ function MopQuestFixes.Load()
         },
         [32507] = { -- Skin of the Saurok
             [questKeys.finishedBy] = {{110018}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
         },
         [32517] = { -- The Conquest of Stone
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32259},
             [questKeys.objectives] = {{{69238,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Disrupt the Ancient Stone Conqueror ritual"),0,{{"monster",69903}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
@@ -9169,13 +9194,15 @@ function MopQuestFixes.Load()
         },
         [32561] = { -- Competing Magic
             [questKeys.startedBy] = {{67660,67989,67990,70520}},
-            [questKeys.preQuestSingle] = {32680}, -- further handled in questHubs
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, changed in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.exclusiveTo] = {32293,32562},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
         [32562] = { -- Imposing Threat
             [questKeys.startedBy] = {{67660,67989,67990,70520}},
-            [questKeys.preQuestSingle] = {32680}, -- further handled in questHubs
+            -- [questKeys.preQuestSingle] = {32680}, -- stage 1, changed in stage 2
+            [questKeys.preQuestSingle] = {32260},
             [questKeys.exclusiveTo] = {32293,32561},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,31}},
         },
@@ -9287,7 +9314,9 @@ function MopQuestFixes.Load()
         },
         [32605] = { -- Subtle Encouragement
             [questKeys.objectives] = {nil,nil,nil,nil,{{{67760,69210,69226,69227,69228,69229,69338,69348,69387,69403,70347,70348,},67760,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {32680},
+            -- [questKeys.preQuestSingle] = {32680}, stage 1, replaced in stage 2
+            [questKeys.preQuestSingle] = {32260},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32606] = { -- Subtle Encouragement
             -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
@@ -9602,9 +9631,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32805] = { -- Celestial Blessings
-            [questKeys.preQuestSingle] = {32680},
             [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32863] = { -- What We've Been Training For
             [questKeys.requiredSpell] = 119467,
