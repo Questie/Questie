@@ -532,7 +532,9 @@ _MarkQuestAsUnavailableFromNPC = function(questId)
     local quest = QuestieDB.GetQuest(questId)
     if quest then
         for _, npcId in pairs(quest.Starts.NPC or {}) do
-            availableQuestsByNpc[npcId][questId] = nil
+            if availableQuestsByNpc[npcId] then
+                availableQuestsByNpc[npcId][questId] = nil
+            end
         end
     end
 end
