@@ -145,6 +145,11 @@ local migrationFunctions = {
     [20] = function()
         Questie.db.profile.alwaysGlowMinimap = true
     end,
+    [21] = function()
+        if Questie.db.profile.clusterLevelHotzone == 50 then
+            Questie.db.profile.clusterLevelHotzone = 180
+        end
+    end,
 }
 
 function Migration:Migrate()
