@@ -141,7 +141,10 @@ local migrationFunctions = {
         Questie.db.profile.minimizeTrackerInDungeons = previousHideInDungeons
         Questie.db.profile.hideTrackerInCombat = false
         Questie.db.profile.hideTrackerInDungeons = false
-    end
+    end,
+    [20] = function()
+        Questie.db.profile.alwaysGlowMinimap = true
+    end,
 }
 
 function Migration:Migrate()

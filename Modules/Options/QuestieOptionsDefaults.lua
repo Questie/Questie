@@ -46,7 +46,7 @@ function QuestieOptionsDefaults:Load()
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
             alwaysGlowMap = true,
-            alwaysGlowMinimap = false,
+            alwaysGlowMinimap = true,
             questObjectiveColors = false,
             questMinimapObjectiveColors = false,
             enableObjectives = true,
