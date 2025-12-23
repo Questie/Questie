@@ -1,7 +1,6 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-_QuestieJourney.questsByZone = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -42,6 +41,58 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:SetTree(zoneTree)
 
     zoneTreeFrame.treeframe:SetWidth(415)
+
+    if _QuestieJourney.lastZoneSelection[3] then
+        local savedSelection = _QuestieJourney.lastZoneSelection[3]
+        local sel, questId = strsplit("\001", savedSelection)
+
+        if questId then
+            questId = tonumber(questId)
+            local questExists = false
+
+            for _, category in pairs(zoneTree) do
+                if category.children then
+                    for _, quest in pairs(category.children) do
+                        if quest.value and quest.value == questId then
+                            questExists = true
+                            break
+                        end
+                    end
+                end
+                if questExists then break end
+            end
+
+            if questExists then
+                zoneTreeFrame:SetSelected(sel, savedSelection)
+
+                C_Timer.After(0.1, function()
+                    local questIdNum = tonumber(questId)
+                    if questIdNum then
+                        local quest = QuestieDB.GetQuest(questIdNum)
+                        if quest then
+
+                            local master = zoneTreeFrame.frame.obj
+                            master:ReleaseChildren()
+                            master:SetLayout("fill")
+                            master:SetFullWidth(true)
+                            master:SetFullHeight(true)
+
+                            ---@class ScrollFrame
+                            local scrollFrame = AceGUI:Create("ScrollFrame")
+                            scrollFrame:SetLayout("flow")
+                            scrollFrame:SetFullHeight(true)
+                            master:AddChild(scrollFrame)
+
+                            _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+                        end
+                    end
+                end)
+            else
+                _QuestieJourney.lastZoneSelection[3] = nil
+            end
+        end
+    end
+
     zoneTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
 
@@ -54,6 +105,9 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u") and (not questId) then
             return
         end
+
+        -- save the selected quest for persistence
+        _QuestieJourney.lastZoneSelection[3] = treePath[2]
 
         -- get master frame and create scroll frame inside
         local master = group.frame.obj
