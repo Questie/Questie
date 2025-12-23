@@ -116,7 +116,7 @@ function _QuestieQuest:ShowQuestIcons()
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
         if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
-            for _, frameName in pairs(frameList) do                             -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
                 local icon = _G[frameName];
                 if not icon.data then
@@ -160,7 +160,7 @@ end
 
 function _QuestieQuest:HideQuestIcons()
     for _, frameList in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 -- Hides Objective Icons
@@ -282,7 +282,10 @@ local function _UpdateSpecials(questId)
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] " ..
+                    l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id",
+                        0 or "No objective",
+                        err or "No error"));
             end
         end
     end
@@ -423,8 +426,30 @@ function QuestieQuest:UnhideQuest(questId)
     end
 end
 
-local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
-local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
+local allianceTournamentMarkerQuests = {
+    [13684] = true,
+    [13685] = true,
+    [13688] = true,
+    [13689] = true,
+    [13690] = true,
+    [13593] = true,
+    [13703] = true,
+    [13704] = true,
+    [13705] = true,
+    [13706] = true
+}
+local hordeTournamentMarkerQuests = {
+    [13691] = true,
+    [13693] = true,
+    [13694] = true,
+    [13695] = true,
+    [13696] = true,
+    [13707] = true,
+    [13708] = true,
+    [13709] = true,
+    [13710] = true,
+    [13711] = true
+}
 local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
 ---@param questId number
@@ -602,7 +627,8 @@ function QuestieQuest:UpdateQuest(questId)
             -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
-            AvailableQuests.RemoveQuest(questId)
+            -- Only remove the map icons, but keep the tooltips
+            QuestieMap:UnloadQuestFrames(questId)
             QuestFinisher.AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
@@ -656,13 +682,18 @@ function QuestieQuest:UpdateQuest(questId)
                     end
 
                     if numCompleteObjectives == #quest.Objectives then
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
-                        AvailableQuests.RemoveQuest(questId)
+                        Questie:Debug(Questie.DEBUG_DEVELOP,
+                            "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
+
+                        -- Only remove the map icons, but keep the tooltips
+                        QuestieMap:UnloadQuestFrames(questId)
                         QuestFinisher.AddFinisher(quest)
                         quest.WasComplete = true
                         quest.isComplete = true
                     else
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest Objective Status is: " .. numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
+                        Questie:Debug(Questie.DEBUG_DEVELOP,
+                            "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
+                            numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
                     end
                 end
             end
@@ -692,7 +723,10 @@ function QuestieQuest:GetAllQuestIds()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
+                if not Questie.IsSoD then
+                    Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        tostring(questId)))
+                end
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -846,7 +880,10 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
+                if not Questie.IsSoD then
+                    Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        tostring(questId)))
+                end
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -881,7 +918,10 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] " ..
+                    l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id",
+                        0 or "No objective",
+                        err or "No error"));
             end
         end
     end
@@ -947,7 +987,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     objective:Update()
     local completed = objective.Completed
-    local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
+    local objectiveData = quest.ObjectiveData[objective.Index] or
+        objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
     if (not objective.spawnList or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
         objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
@@ -987,7 +1028,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         local objectiveCenter
         if zoneCount == 1 then -- this objective happens in 1 zone, clustering should be relative to that zone
             local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
-            objectiveCenter = { x = x, y = y }
+            objectiveCenter = {x = x, y = y}
         else
             objectiveCenter = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
         end
@@ -996,7 +1037,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             -- When an NPC doesn't have any spawns objectiveCenter will be nil.
             -- Also for some areas HBD will return nil for the world coordinates.
             -- This will create a distance of 0 but it doesn't matter.
-            objectiveCenter = { x = 0, y = 0 }
+            objectiveCenter = {x = 0, y = 0}
         end
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
@@ -1019,7 +1060,9 @@ _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
             objective.hasRegisteredTooltips = true
         end
     else
-        Questie:Error("[QuestieQuest]: [Tooltips] " .. l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id", 0 or "No objective", "No error"));
+        Questie:Error("[QuestieQuest]: [Tooltips] " ..
+            l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id",
+                0 or "No objective", "No error"));
     end
 
     if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
@@ -1125,7 +1168,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         if iconList then
                             iconList[#iconList + 1] = drawIcon
                         else
-                            iconsToDraw[distance] = { drawIcon }
+                            iconsToDraw[distance] = {drawIcon}
                         end
                     end
                 end
@@ -1148,7 +1191,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
     if orderedList[1] and orderedList[1].Icon == Questie.ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-        range = range * 0.2;                                                   -- Only use 20% of the default range.
+        range = range * 0.2; -- Only use 20% of the default range.
     end
 
     local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
@@ -1182,7 +1225,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
                 if iconMap and iconMini then
-                    iconPerZone[icon.zone] = { iconMap, centerX, centerY }
+                    iconPerZone[icon.zone] = {iconMap, centerX, centerY}
                     spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
                     spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
                 end
@@ -1200,7 +1243,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
         if iconMap and iconMini then
-            iconPerZone[icon.zone] = { iconMap, centerX, centerY }
+            iconPerZone[icon.zone] = {iconMap, centerX, centerY}
             spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
             spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
         end
@@ -1246,12 +1289,12 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
             for zone, waypoints in pairs(spawnData.Waypoints) do
                 local firstWaypoint = waypoints[1][1]
 
-                if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then              -- spawn an icon in this zone for the mob
+                if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then -- spawn an icon in this zone for the mob
                     -- Phase is already checked in _DetermineIconsToDraw
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
                     if iconMap and iconMini then
-                        iconPerZone[zone] = { iconMap, firstWaypoint[1], firstWaypoint[2] }
+                        iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
                         tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
                         tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                     end
@@ -1260,7 +1303,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 local ipz = iconPerZone[zone]
 
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and { 1, 0.2, 0, 0.7 } or nil)
+                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
                 end
             end
 
@@ -1344,7 +1387,8 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
 
         if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateQuestLogInfo] Error finding entry ID for objective", objectiveIndex, objective.type, objective.text, "of questId:", quest.Id)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateQuestLogInfo] Error finding entry ID for objective", objectiveIndex, objective.type,
+                objective.text, "of questId:", quest.Id)
         end
     end
 
@@ -1402,7 +1446,8 @@ function _QuestieQuest.ObjectiveUpdate(self)
             self.Description = obj.text
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or
+                (finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
             -- Mark objective updated
             self.isUpdated = true
         end
