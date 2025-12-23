@@ -145,6 +145,11 @@ local migrationFunctions = {
     [20] = function()
         Questie.db.profile.alwaysGlowMinimap = true
     end,
+    [21] = function()
+        if Questie.IsTBC then
+            Questie.db.profile.showAQWarEffortQuests = false
+        end
+    end,
 }
 
 function Migration:Migrate()
