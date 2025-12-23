@@ -9246,6 +9246,7 @@ function MopQuestFixes.Load()
         [32571] = { -- A Wing to Fly On
             [questKeys.preQuestSingle] = {32260},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [32572] = { -- The Sleepless Legion
             [questKeys.preQuestSingle] = {32260},
