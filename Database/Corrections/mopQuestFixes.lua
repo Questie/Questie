@@ -9012,6 +9012,14 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
+        [32505] = { -- The Crumbled Chamberlain
+            [questKeys.preQuestSingle] = {32276,32654}, -- might be available before you do the quest, need check
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectives] = {nil,nil,{{93795},{93793},{93794},{93796}}},
+        },
         [32506] = { -- A Wing to Fly On
             [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
