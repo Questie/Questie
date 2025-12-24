@@ -4554,6 +4554,14 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
+        [67576] = { -- Adolescent Direhorn
+            [npcKeys.name] = "Adolescent Direhorn",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.18,34.51},{50.87,32.89},{50.08,34.24},{50.46,35.96},{51.42,37.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.rank] = 1,
+        },
         [67581] = { -- Lor'themar Theron
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
