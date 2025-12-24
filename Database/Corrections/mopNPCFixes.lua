@@ -5998,6 +5998,10 @@ function MopNpcFixes.Load()
             [npcKeys.rank] = 1,
             [npcKeys.friendlyToFaction] = "A",
         },
+        [69755] = { -- War-God Al'chukla
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_SCENARIO] = {{54.7,45.78}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_SCENARIO,
+        },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.59,71.75,phases.BLACK_PRINCE_PHASE_3}}},

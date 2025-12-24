@@ -8335,6 +8335,8 @@ function MopQuestFixes.Load()
         },
         [32276] = { -- Tear Down This Wall!
             [questKeys.preQuestSingle] = {32212},
+            [questKeys.objectives] = {{{67990,nil,Questie.ICON_TYPE_TALK},{69755}}},
+            [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
         [32277] = { -- To the Skies!
             [questKeys.preQuestSingle] = {32276},
@@ -9477,7 +9479,9 @@ function MopQuestFixes.Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [32654] = { -- Tear Down This Wall!
-            [questKeys.preQuestSingle] = {32644}, -- TODO - double check
+            [questKeys.preQuestSingle] = {32644},
+            [questKeys.objectives] = {{{67992,nil,Questie.ICON_TYPE_TALK},{69755}}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,12}},
         },
         [32655] = { -- A Bold Idea
             [questKeys.preQuestSingle] = {32652}, -- TODO - double check
