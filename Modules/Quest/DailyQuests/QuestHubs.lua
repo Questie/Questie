@@ -554,7 +554,7 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
             KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
         },
-        preQuestHubsSingle = {},
+        preQuestHubsSingle = {KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true},
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
             -- Active only if the player has not completed To the Skies!
@@ -571,7 +571,7 @@ DailyQuests.hubs = {
             32550,32551,32552,32553,32554, -- beast pens
             32555,32556,32557,32558,32559,32560, -- conqueror's terrace
         },
-        limit = 11,
+        limit = 8,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
             KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,

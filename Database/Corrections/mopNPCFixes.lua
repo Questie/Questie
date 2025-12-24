@@ -4876,14 +4876,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67985] = { -- Scout Captain Elsia
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{47.17,40.64}}},
         },
         [67986] = { -- Magister Edien Sunhollow
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{47.23,40.75}}},
         },
         [67989] = { -- Grand Magister Rommath
             [npcKeys.spawns] = {
@@ -4952,8 +4948,11 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67998] = { -- Scout Captain Daelin
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{61.89,52}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67999] = { -- Miura Brightweaver
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{61.9,52.1}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [68000] = { -- Hiren Loresong
@@ -5832,6 +5831,12 @@ function MopNpcFixes.Load()
         [69290] = { -- Distressed Sunreaver Construct
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
             [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{55.59,87.06},{55.61,86.55},{55.63,86.05},{55.60,85.53},{55.56,85.03},{55.51,84.53},{55.44,84.03},{55.35,83.54},{55.21,83.08},{55.07,82.62},{54.93,82.16},{54.79,81.69},{54.66,81.22},{54.53,80.75},{54.40,80.28},{54.27,79.81},{54.13,79.33},{54.00,78.86},{53.87,78.40},{53.73,77.91},{53.60,77.44},{53.39,77.05},{53.13,76.72},{52.89,76.37},{52.66,76.00},{52.44,75.60},{52.25,75.19},{52.05,74.78},{51.80,74.44},{51.47,74.38},{51.14,74.46},{50.93,74.83},{50.81,75.31},{50.69,75.79},{50.57,76.26},{50.46,76.74},{50.36,77.22},{50.31,77.73},{50.14,78.16},{49.93,78.56},{49.70,78.94},{49.48,79.32},{49.25,79.70},{49.08,80.13},{49.10,80.63},{49.20,81.12},{49.32,81.59},{49.45,82.06},{49.58,82.53},{49.71,83.01},{49.82,83.49},{49.79,83.99},{49.72,84.49},{49.64,84.98},{49.57,85.48},{49.47,85.96},{49.36,86.44},{49.23,86.92},{49.09,87.38},{48.95,87.84},{48.93,88.35},{49.04,88.83},{49.21,89.27},{49.40,89.68},{49.63,90.06},{49.89,90.39},{50.16,90.69},{50.44,90.98},{50.72,91.26},{51.01,91.53},{51.33,91.64},{51.67,91.55},{52.00,91.44},{52.33,91.37},{52.67,91.37},{53.01,91.37},{53.34,91.34},{53.67,91.20},{53.89,90.83},{53.93,90.33},{53.92,89.82},{53.91,89.32},{53.96,88.82},{54.13,88.38},{54.37,88.02},{54.63,87.69},{54.93,87.45},{55.26,87.36},{55.43,87.37}}}},
+        },
+        [69300] = { -- Arcanital Ra'kul
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{56.72,46.36}}},
+        },
+        [69301] = { -- Spiritbinder Tu'chek
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{59.39,56.67}}},
         },
         [69341] = { -- Echo of Kros
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.06,88.2}}},

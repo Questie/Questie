@@ -1254,6 +1254,15 @@ function MopItemFixes.Load()
         [93212] = { -- Spirit Essence of Varatus
             [itemKeys.npcDrops] = {68907},
         },
+        [93668] = { -- Saur Fetish
+            [itemKeys.npcDrops] = {69154,69155,69286},
+        },
+        [93733] = { -- Mask of the Spirit-Caller
+            [itemKeys.npcDrops] = {69301},
+        },
+        [93734] = { -- Mask of the Dark Mystic
+            [itemKeys.npcDrops] = {69300},
+        },
         [94197] = { -- The Zandalari Prophecy
             [itemKeys.startQuest] = 32600,
         },

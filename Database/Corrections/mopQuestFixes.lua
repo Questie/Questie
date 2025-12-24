@@ -8391,6 +8391,8 @@ function MopQuestFixes.Load()
         [32298] = { -- Dino Might
             [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {93668},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58071,67576,69183,69207},67576,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32300] = { -- Disarming Irony
             [questKeys.preQuestSingle] = {32258},
@@ -9013,7 +9015,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
         [32505] = { -- The Crumbled Chamberlain
-            [questKeys.preQuestSingle] = {32276,32654}, -- might be available before you do the quest, need check
+            [questKeys.preQuestSingle] = {32680,32681},
             [questKeys.requiredLevel] = 90,
             [questKeys.questLevel] = 90,
             [questKeys.questFlags] = questFlags.WEEKLY,
