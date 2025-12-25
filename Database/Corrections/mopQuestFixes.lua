@@ -267,6 +267,9 @@ function MopQuestFixes.Load()
         [8564] = { -- Priest Training
             [questKeys.requiredLevel] = 2,
         },
+        [8788] = {
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID + classIDs.MONK,
+        },
         [9392] = { -- Rogue Training
             [questKeys.requiredLevel] = 2,
         },
@@ -9721,6 +9724,9 @@ function MopQuestFixes.Load()
         [33222] = { -- Little Tommy Newcomer
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{73626,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [33252] = { -- A Winter Veil Gift
+            [questKeys.startedBy] = {nil,{187236}},
         },
         [33336] = { -- The Essence of Time
             [questKeys.preQuestSingle] = {33161},
