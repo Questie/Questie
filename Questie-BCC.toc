@@ -16,7 +16,9 @@
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## IconTexture: Interface\AddOns\Questie\Icons\questie.png
 ## X-Curse-Project-ID: 334372
+## Category-enUS: Quests & Leveling
 ## X-Wago-ID: qv634BKb
+
 
 Modules\QuestieCompat.lua
 Modules\WorldMapTaintWorkaround.lua
