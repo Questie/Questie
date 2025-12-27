@@ -5791,6 +5791,9 @@ function CataQuestFixes.Load()
         [25451] = { -- Pristine Yeti Hide
             [questKeys.preQuestSingle] = {25449},
         },
+        [25454] = { -- Pristine Yeti Hide
+            [questKeys.preQuestSingle] = {25452},
+        },
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
         },
