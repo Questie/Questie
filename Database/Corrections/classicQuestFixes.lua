@@ -3270,7 +3270,7 @@ function QuestieQuestFixes:Load()
         [7736] = {
             [questKeys.objectivesText] = {},
         },
-        [7738] = { -- Pristine Yeti Hide H
+        [7738] = { -- Perfect Yeti Hide H
             [questKeys.preQuestSingle] = {2822},
         },
         [7782] = { -- The Lord of Blackrock
