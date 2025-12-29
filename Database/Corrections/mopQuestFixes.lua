@@ -9319,6 +9319,9 @@ function MopQuestFixes.Load()
         [32585] = { -- Encroaching Force
             [questKeys.preQuestSingle] = {32681},
         },
+        [32588] = { -- On Her Magic-ey Secret Service
+            [questKeys.questFlags] = questFlags.DAILY,
+        },
         [32589] = { -- Life Blood
             [questKeys.preQuestSingle] = {32680}, -- wowhead comments say available without progressing IoT
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,8}},
