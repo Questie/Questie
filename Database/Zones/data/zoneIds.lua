@@ -281,6 +281,7 @@ ZoneDB.zoneIDs = {
     DALARAN_LANDFALL = 6611,
     A_LITTLE_PATIENCE = 6616, -- Scenario
     BIZMOS_BRAWLPUB = 6618,
+    THRONE_OF_THUNDER = 6622, -- this is also Overgrown Statuary map for Throne of Thunder
     ISLE_OF_GIANTS = 6661,
     ISLE_OF_THUNDER_SCENARIO = 6677,
     THUNDER_KINGS_CITADEL = 6716, -- Scenario
@@ -372,6 +373,13 @@ ZoneDB.zoneIDs = {
     KAJA_MINE_SE = 10090, -- Kaja'mine SE - cave in Kezan -- 196
     KAJA_MINE_SW = 10091, -- Kaja'mine SW - cave in Kezan -- 197
     CAVERNS_OF_TIME_TIMELESS_TUNNEL = 10092, -- Caverns of Time -- 74
+    THRONE_OF_THUNDER_ROYAL_AMPHITHEATER = 10093, -- Throne of Thunder - Royal Amphitheater 509
+    THRONE_OF_THUNDER_FORGOTTEN_DEPTHS = 10094, -- Throne of Thunder - Forgotten Depths 510
+    THRONE_OF_THUNDER_ROOST_OF_JI_KUN = 10095, -- Throne of Thunder - Roost of Ji-Kun 511
+    THRONE_OF_THUNDER_HALLS_OF_FLESH_SHAPING = 10096, -- Throne of Thunder - Halls of Flesh-Shaping 512
+    THRONE_OF_THUNDER_HALL_OF_KINGS = 10097, -- Throne of Thunder - Hall of Kings 513
+    THRONE_OF_THUNDER_PINNACLE_OF_STORMS = 10098, -- Throne of Thunder - Pinnacle of Storms 514
+    THRONE_OF_THUNDER_HIDDEN_CELL = 10099, -- Throne of Thunder - Hidden Cell 515
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map
