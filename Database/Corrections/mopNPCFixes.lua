@@ -6291,6 +6291,13 @@ function MopNpcFixes.Load()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [70440] = { -- Monara
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.THRONE_OF_THUNDER] = {{59.52,79.43},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THRONE_OF_THUNDER,
+        },
         [70476] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.minLevel] = 0,
