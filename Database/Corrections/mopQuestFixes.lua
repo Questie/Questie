@@ -9208,6 +9208,8 @@ function MopQuestFixes.Load()
         [32554] = { -- Dino Might
             [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredSourceItems] = {93668},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{58071,67576,69180,69183,69207},67576,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32555] = { -- Centuries in Sentries
             [questKeys.preQuestSingle] = {32260},
