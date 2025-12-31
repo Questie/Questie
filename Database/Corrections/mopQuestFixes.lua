@@ -8070,6 +8070,9 @@ function MopQuestFixes.Load()
         [32207] = { -- Saur Loser
             [questKeys.preQuestSingle] = {32259},
         },
+        [32208] = { -- Maximum Capacitor
+            [questKeys.objectives] = {{{69316,nil,Questie.ICON_TYPE_OBJECT},{69319,nil,Questie.ICON_TYPE_OBJECT},{69320,nil,Questie.ICON_TYPE_OBJECT},{69326}}},
+        },
         [32209] = { -- Save Our Scouts!
             [questKeys.questFlags] = questFlags.DAILY,
         },

@@ -5874,6 +5874,22 @@ function MopNpcFixes.Load()
         [69301] = { -- Spiritbinder Tu'chek
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{59.39,56.67}}},
         },
+        [69316] = { -- Lightning Drill (Weste)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{20.77,69.38}}},
+        },
+        [69319] = { -- Lightning Drill (Central)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{32.04,37.62}}},
+        },
+        [69320] = { -- Lightning Drill (East)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{61.79,14.28}}},
+        },
+        [69326] = { -- Metal Lord Mono-Han
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{54.46,32.04}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{54.42,32.00},{54.60,31.75},{54.86,31.36},{55.14,30.97},{55.41,30.58},{55.67,30.20}}}},
+        },
         [69341] = { -- Echo of Kros
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.06,88.2}}},
         },
