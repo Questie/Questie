@@ -8344,6 +8344,8 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,12}},
         },
         [32277] = { -- To the Skies!
+            [questKeys.finishedBy] = {{67990}},
+            [questKeys.objectives] = {{{67990,nil,Questie.ICON_TYPE_TALK},{69923}}},
             [questKeys.preQuestSingle] = {32276},
         },
         [32278] = { -- Decisive Action
@@ -9488,6 +9490,8 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,{{74840}},nil,{{{58567,60113,63157},58567,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [32652] = { -- To the Skies!
+            [questKeys.finishedBy] = {{67992}},
+            [questKeys.objectives] = {{{67992,nil,Questie.ICON_TYPE_TALK},{69923}}},
             [questKeys.preQuestSingle] = {32654}, -- TODO - double check
         },
         [32653] = { -- Work Order: The August Celestials I
