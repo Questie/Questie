@@ -9347,6 +9347,7 @@ function MopQuestFixes.Load()
         },
         [32593] = { -- The Thunder Forge
             [questKeys.startedBy] = {{69782}},
+            [questKeys.objectives] = {{{70093},{70438,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {32591,32592},
         },
         [32599] = { -- Securing A Future

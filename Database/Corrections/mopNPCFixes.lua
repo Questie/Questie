@@ -6311,11 +6311,11 @@ function MopNpcFixes.Load()
         },
         [70438] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 6507,
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [npcKeys.spawns] = {
-                [6507] = {{56,30}},
+                [zoneIDs.ISLE_OF_THUNDER] = {{55.95,30.16}},
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
@@ -6849,13 +6849,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesHorde = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56, 25.46}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02, 24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64, 62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
@@ -6863,13 +6863,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2, 30.8}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93, 59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
         },
