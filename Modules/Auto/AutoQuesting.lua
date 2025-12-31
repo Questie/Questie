@@ -9,8 +9,6 @@ local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuest
 
 local shouldRunAuto = true
 
-local INDIZES_COMPLETE = 6
-
 function AutoQuesting.OnQuestDetail()
     if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
