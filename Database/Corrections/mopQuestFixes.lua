@@ -9331,6 +9331,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{69316,nil,Questie.ICON_TYPE_OBJECT},{69319,nil,Questie.ICON_TYPE_OBJECT},{69320,nil,Questie.ICON_TYPE_OBJECT},{69326}}},
         },
         [32588] = { -- On Her Magic-ey Secret Service
+            [questKeys.objectives] = {{{69751,nil,Questie.ICON_TYPE_INTERACT},{69752,nil,Questie.ICON_TYPE_INTERACT},{69754,nil,Questie.ICON_TYPE_INTERACT},{69326}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32589] = { -- Life Blood
