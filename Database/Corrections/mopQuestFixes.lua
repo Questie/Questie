@@ -9326,6 +9326,9 @@ function MopQuestFixes.Load()
         [32585] = { -- Encroaching Force
             [questKeys.preQuestSingle] = {32681},
         },
+        [32586] = { -- Maximum Capacitor
+            [questKeys.objectives] = {{{69316,nil,Questie.ICON_TYPE_OBJECT},{69319,nil,Questie.ICON_TYPE_OBJECT},{69320,nil,Questie.ICON_TYPE_OBJECT},{69326}}},
+        },
         [32588] = { -- On Her Magic-ey Secret Service
             [questKeys.questFlags] = questFlags.DAILY,
         },
