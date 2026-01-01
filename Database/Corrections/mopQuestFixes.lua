@@ -8074,6 +8074,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{69316,nil,Questie.ICON_TYPE_OBJECT},{69319,nil,Questie.ICON_TYPE_OBJECT},{69320,nil,Questie.ICON_TYPE_OBJECT},{69326}}},
         },
         [32209] = { -- Save Our Scouts!
+            [questKeys.objectives] = {{{69357,nil,Questie.ICON_TYPE_INTERACT},{69356,nil,Questie.ICON_TYPE_INTERACT},{69355,nil,Questie.ICON_TYPE_INTERACT},{69326}}},
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32212] = { -- The Assault on Zeb'tula
