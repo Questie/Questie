@@ -8382,6 +8382,9 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32258},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
+        [32292] = { -- Forge Ahead!
+            [questKeys.preQuestSingle] = {32208,32209},
+        },
         [32293] = { -- Among the Bones
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
             [questKeys.preQuestSingle] = {32259}, -- further handled in questHubs
@@ -9330,6 +9333,9 @@ function MopQuestFixes.Load()
         [32586] = { -- Maximum Capacitor
             [questKeys.objectives] = {{{69316,nil,Questie.ICON_TYPE_OBJECT},{69319,nil,Questie.ICON_TYPE_OBJECT},{69320,nil,Questie.ICON_TYPE_OBJECT},{69326}}},
         },
+        [32587] = { -- Forge Ahead!
+            [questKeys.preQuestSingle] = {32586,32588},
+        },
         [32588] = { -- On Her Magic-ey Secret Service
             [questKeys.objectives] = {{{69751,nil,Questie.ICON_TYPE_INTERACT},{69752,nil,Questie.ICON_TYPE_INTERACT},{69754,nil,Questie.ICON_TYPE_INTERACT},{69326}}},
             [questKeys.questFlags] = questFlags.DAILY,
@@ -9385,10 +9391,10 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,4}},
         },
         [32607] = { -- Extended Shore Leave
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestGroup] = {32655,32587},
         },
         [32608] = { -- Raiding the Vault
-            [questKeys.preQuestSingle] = {32681},
+            [questKeys.preQuestGroup] = {32655,32587},
         },
         [32616] = { -- A Large Pile of Giant Dinosaur Bones
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -9591,6 +9597,12 @@ function MopQuestFixes.Load()
         },
         [32675] = { -- I Believe You Can Fly
             [questKeys.requiredLevel] = 60,
+        },
+        [32676] = { -- Extended Shore Leave
+            [questKeys.preQuestGroup] = {32278,32292},
+        },
+        [32677] = { -- Raiding the Vault
+            [questKeys.preQuestGroup] = {32278,32292},
         },
         [32678] = { -- Thunder Calls
             [questKeys.nextQuestInChain] = 0,

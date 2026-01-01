@@ -448,9 +448,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     KIRIN_TOR_OFFENSIVE_STAGE_1_BREADCRUMBS = {
-        quests = {
-            32731,32732,32733,
-        },
+        quests = {32731,32732,32733},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
@@ -492,9 +490,7 @@ DailyQuests.hubs = {
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_2_PVE_BREADCRUMBS = {
-        quests = {
-            32731,32732,32733,
-        },
+        quests = {32731,32732,32733},
         limit = 3,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
@@ -546,9 +542,7 @@ DailyQuests.hubs = {
         end,
     },
     KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = {
-        quests = {
-            32731,32732,32733,32567,32568,
-        },
+        quests = {32731,32732,32733,32567,32568},
         limit = 3,
         exclusiveHubs = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
@@ -593,12 +587,93 @@ DailyQuests.hubs = {
         },
         preQuestHubsSingle = {
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
-            -- Active only if the player has not completed To the Skies!
-            -- if (completedQuests[32654] and (not completedQuests[32652])) then print("alliance stage3 final boss active") end
-            return (completedQuests[32654] and (not completedQuests[32652]))
+            -- Active only if the player has completed Tear Down This Wall!
+            -- if (completedQuests[32654]) then print("alliance stage3 final boss active") end
+            return completedQuests[32654]
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE_BREADCRUMBS = {
+        quests = {32731,32732,32733},
+        limit = 3,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32652] then print("alliance stage4 step1 breadcrumb active") end
+            return completedQuests[32652]
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = {
+        quests = {
+            32525,32526,32527,32528,32529,32530,32531,32532,32533, -- court of bones
+            32538,32539,32540,32541,32542,32543,32544, -- za'tual
+            32535,32536,32537,32545,32546,32547,32548,32606, -- ihgaluk crag
+            32571,32572,32573,32574,32575, -- diremoor
+        },
+        limit = 6,
+        exclusiveHubs = {
+            KIRIN_TOR_OFFENSIVE_PVP = true,
+            KIRIN_TOR_OFFENSIVE_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32652] then print("alliance stage4 step1 active") end
+            return completedQuests[32652]
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_2_PVE_BREADCRUMBS = {
+        quests = {32567,32568},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32652] then print("alliance stage4 step2 breadcrumb active") end
+            return completedQuests[32652]
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_2_PVE = {
+        quests = {
+            32550,32551,32552,32553,32554, -- beast pens
+            32555,32556,32557,32558,32559,32560, -- conqueror's terrace
+        },
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32652] then print("alliance stage4 step2 active") end
+            return completedQuests[32652]
+        end,
+    },
+    KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_3_PVE = {
+        quests = {32586,32588},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_2_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32652] then print("alliance stage4 step3 active") end
+            return completedQuests[32652]
         end,
     },
     KIRIN_TOR_OFFENSIVE_PVP = {
@@ -611,12 +686,8 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE_BREADCRUMBS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
@@ -631,12 +702,8 @@ DailyQuests.hubs = {
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE_BREADCRUMBS = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_PVE = true,
             KIRIN_TOR_OFFENSIVE_STAGE_3_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_4_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_4_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_5_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_5_FINAL_BOSS = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_6_PVE = true,
-            -- KIRIN_TOR_OFFENSIVE_STAGE_6_FINAL_BOSS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE_BREADCRUMBS = true,
+            KIRIN_TOR_OFFENSIVE_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsSingle = {
             KIRIN_TOR_OFFENSIVE_PVP = true,
@@ -644,9 +711,7 @@ DailyQuests.hubs = {
         preQuestHubsGroup = {},
     },
     SUNREAVER_ONSLAUGHT_STAGE_1_BREADCRUMBS = {
-        quests = {
-            32728,32729,32730,
-        },
+        quests = {32728,32729,32730},
         limit = 3,
         exclusiveHubs = {},
         preQuestHubsSingle = {},
@@ -688,9 +753,7 @@ DailyQuests.hubs = {
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_2_PVE_BREADCRUMBS = {
-        quests = {
-            32728,32729,32730,
-        },
+        quests = {32728,32729,32730},
         limit = 3,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_PVP = true,
@@ -742,9 +805,7 @@ DailyQuests.hubs = {
         end,
     },
     SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = {
-        quests = {
-            32728,32729,32730,32523,32524,
-        },
+        quests = {32728,32729,32730,32523,32524},
         limit = 3,
         exclusiveHubs = {
             SUNREAVER_ONSLAUGHT_PVP = true,
@@ -789,12 +850,93 @@ DailyQuests.hubs = {
         },
         preQuestHubsSingle = {
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsGroup = {},
         IsActive = function(completedQuests)
-            -- Active only if the player has not completed To the Skies!
-            -- if (completedQuests[32276] and (not completedQuests[32277])) then print("horde stage3 final boss active") end
-            return (completedQuests[32276] and (not completedQuests[32277]))
+            -- Active only if the player has completed Tear Down This Wall!
+            -- if completedQuests[32276] then print("horde stage3 final boss active") end
+            return completedQuests[32276]
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE_BREADCRUMBS = {
+        quests = {32728,32729,32730},
+        limit = 3,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32277] then print("horde stage4 step1 breadcrumb active") end
+            return completedQuests[32277]
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = {
+        quests = {
+            32201,32218,32219,32220,32224,32225,32226,32495,32517, -- court of bones
+            32200,32215,32216,32217,32227,32252,32275, -- za'tual
+            32204,32254,32255,32274,32299,32489,32491,32605, -- ihgaluk crag
+            32228,32230,32285,32287,32506, -- diremoor
+        },
+        limit = 6,
+        exclusiveHubs = {
+            SUNREAVER_ONSLAUGHT_PVP = true,
+            SUNREAVER_ONSLAUGHT_PVP_FINAL = true,
+        },
+        preQuestHubsSingle = {},
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32277] then print("horde stage4 step1 active") end
+            return completedQuests[32277]
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_4_STEP_2_PVE_BREADCRUMBS = {
+        quests = {32523,32524},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32277] then print("horde stage4 step2 breadcrumb active") end
+            return completedQuests[32277]
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_4_STEP_2_PVE = {
+        quests = {
+            32207,32282,32283,32297,32298, -- beast pens
+            32206,32232,32233,32234,32493,32494, -- conqueror's terrace
+        },
+        limit = 3,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32277] then print("horde stage4 step2 active") end
+            return completedQuests[32277]
+        end,
+    },
+    SUNREAVER_ONSLAUGHT_STAGE_4_STEP_3_PVE = {
+        quests = {32208,32209},
+        limit = 1,
+        exclusiveHubs = {},
+        preQuestHubsSingle = {
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_2_PVE = true
+        },
+        preQuestHubsGroup = {},
+        IsActive = function(completedQuests)
+            -- Active only if the player has completed To the Skies!
+            -- if completedQuests[32277] then print("horde stage4 step3 active") end
+            return completedQuests[32277]
         end,
     },
     SUNREAVER_ONSLAUGHT_PVP = {
@@ -807,12 +949,8 @@ DailyQuests.hubs = {
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE_BREADCRUMBS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsSingle = {},
         preQuestHubsGroup = {},
@@ -827,12 +965,8 @@ DailyQuests.hubs = {
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE_BREADCRUMBS = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_PVE = true,
             SUNREAVER_ONSLAUGHT_STAGE_3_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_4_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_4_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_5_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_5_FINAL_BOSS = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_6_PVE = true,
-            -- SUNREAVER_ONSLAUGHT_STAGE_6_FINAL_BOSS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE_BREADCRUMBS = true,
+            SUNREAVER_ONSLAUGHT_STAGE_4_STEP_1_PVE = true,
         },
         preQuestHubsSingle = {
             SUNREAVER_ONSLAUGHT_PVP = true,
