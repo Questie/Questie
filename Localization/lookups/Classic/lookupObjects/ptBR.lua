@@ -941,6 +941,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [178186] = "Safira de Aku'Mai",
 [178195] = "Óleo dos Brado Guerreiro",
 [178204] = "Carregamento de Machados dos Brado Guerreiro",
+[178224] = "Fonte Maculada",
 [178227] = "Cesto do Totem de Murgut",
 [178229] = "Livro da Aurora",
 [178244] = "Baú de Exercício",

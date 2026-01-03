@@ -236,6 +236,18 @@ function MopNpcFixes.Load()
         [17087] = { -- Spirit of the Vale
             [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{32.36,20.7}}},
         },
+        [15192] = { -- Anachronos
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME] = {{41.77,49.87}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [20130] = { -- Andormu
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME] = {{41.55,38.5}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME,
+        },
+        [20142] = { -- Steward of Time
+            [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL] = {{55.26,27.93}}},
+            [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL,
+        },
         [29259] = { -- Spirit Healer
             [npcKeys.spawns] = {
                 -- NOT verified ingame spawns, these are the CataDB spawns
@@ -4542,6 +4554,14 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 0,
         },
+        [67576] = { -- Adolescent Direhorn
+            [npcKeys.name] = "Adolescent Direhorn",
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.18,34.51},{50.87,32.89},{50.08,34.24},{50.46,35.96},{51.42,37.91}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.rank] = 1,
+        },
         [67581] = { -- Lor'themar Theron
             [npcKeys.minLevel] = 93,
             [npcKeys.maxLevel] = 93,
@@ -4589,7 +4609,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67660] = { -- Archmage Aethas Sunreaver
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.63,32.88,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.87,66.91,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67662] = { -- High Arcanist Savor
@@ -4861,14 +4884,20 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67985] = { -- Scout Captain Elsia
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {53.92,49.77,phases.SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE},
+                    {47.17,40.64,phases.SUNREAVER_ONSLAUGHT_THE_BEAST_PENS},
+                },
+            },
         },
         [67986] = { -- Magister Edien Sunhollow
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {53.94,49.87,phases.SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE},
+                    {47.23,40.75,phases.SUNREAVER_ONSLAUGHT_THE_BEAST_PENS},
+                },
+            },
         },
         [67989] = { -- Grand Magister Rommath
             [npcKeys.spawns] = {
@@ -4937,8 +4966,21 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67998] = { -- Scout Captain Daelin
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {51.78,47.15,phases.KIRIN_TOR_OFFENSIVE_CONQUERORS_TERRACE},
+                    {61.89,52,phases.KIRIN_TOR_OFFENSIVE_THE_BEAST_PENS},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [67999] = { -- Miura Brightweaver
+            [npcKeys.spawns] = {
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {51.86,47.17,phases.KIRIN_TOR_OFFENSIVE_CONQUERORS_TERRACE},
+                    {61.9,52.1,phases.KIRIN_TOR_OFFENSIVE_THE_BEAST_PENS},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [68000] = { -- Hiren Loresong
@@ -5818,6 +5860,36 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,85.4}}},
             [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{55.59,87.06},{55.61,86.55},{55.63,86.05},{55.60,85.53},{55.56,85.03},{55.51,84.53},{55.44,84.03},{55.35,83.54},{55.21,83.08},{55.07,82.62},{54.93,82.16},{54.79,81.69},{54.66,81.22},{54.53,80.75},{54.40,80.28},{54.27,79.81},{54.13,79.33},{54.00,78.86},{53.87,78.40},{53.73,77.91},{53.60,77.44},{53.39,77.05},{53.13,76.72},{52.89,76.37},{52.66,76.00},{52.44,75.60},{52.25,75.19},{52.05,74.78},{51.80,74.44},{51.47,74.38},{51.14,74.46},{50.93,74.83},{50.81,75.31},{50.69,75.79},{50.57,76.26},{50.46,76.74},{50.36,77.22},{50.31,77.73},{50.14,78.16},{49.93,78.56},{49.70,78.94},{49.48,79.32},{49.25,79.70},{49.08,80.13},{49.10,80.63},{49.20,81.12},{49.32,81.59},{49.45,82.06},{49.58,82.53},{49.71,83.01},{49.82,83.49},{49.79,83.99},{49.72,84.49},{49.64,84.98},{49.57,85.48},{49.47,85.96},{49.36,86.44},{49.23,86.92},{49.09,87.38},{48.95,87.84},{48.93,88.35},{49.04,88.83},{49.21,89.27},{49.40,89.68},{49.63,90.06},{49.89,90.39},{50.16,90.69},{50.44,90.98},{50.72,91.26},{51.01,91.53},{51.33,91.64},{51.67,91.55},{52.00,91.44},{52.33,91.37},{52.67,91.37},{53.01,91.37},{53.34,91.34},{53.67,91.20},{53.89,90.83},{53.93,90.33},{53.92,89.82},{53.91,89.32},{53.96,88.82},{54.13,88.38},{54.37,88.02},{54.63,87.69},{54.93,87.45},{55.26,87.36},{55.43,87.37}}}},
         },
+        [69293] = { -- Magister Arlan
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.51,83.21}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{44.19,83.36},{44.44,83.24},{44.52,83.21},{44.51,83.21},{44.82,83.60},{44.93,83.77},{45.06,83.98},{45.08,84.02},{44.75,83.83},{44.60,83.69},{44.45,83.55},{44.31,83.42},{44.19,83.36}}}},
+        },
+        [69310] = { -- Magister Arlan
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{50.86,73.58}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{50.86,73.58},{51.01,73.81},{51.18,73.88},{51.36,73.89},{51.53,73.85},{51.66,73.70},{51.78,73.50},{51.83,73.40},{51.81,73.52},{51.83,73.78},{51.98,73.93},{52.03,73.95},{52.02,73.96},{51.83,74.04},{51.65,74.09},{51.45,74.05},{51.27,73.99},{51.10,73.91},{50.97,73.81},{50.86,73.58}}}},
+        },
+        [69300] = { -- Arcanital Ra'kul
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{56.72,46.36}}},
+        },
+        [69301] = { -- Spiritbinder Tu'chek
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{59.39,56.67}}},
+        },
+        [69316] = { -- Lightning Drill (Weste)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{20.77,69.38}}},
+        },
+        [69319] = { -- Lightning Drill (Central)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{32.04,37.62}}},
+        },
+        [69320] = { -- Lightning Drill (East)
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE,
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE] = {{61.79,14.28}}},
+        },
+        [69326] = { -- Metal Lord Mono-Han
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{54.46,32.04}}},
+            [npcKeys.waypoints] = {[zoneIDs.ISLE_OF_THUNDER] = {{{54.42,32.00},{54.60,31.75},{54.86,31.36},{55.14,30.97},{55.41,30.58},{55.67,30.20}}}},
+        },
         [69341] = { -- Echo of Kros
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.06,88.2}}},
         },
@@ -5838,7 +5910,8 @@ function MopNpcFixes.Load()
         [69371] = { -- Amalia Penshire
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
-                    {32.54,33.02,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {47.01,66.73,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5867,11 +5940,17 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69425] = { -- Sunwalker Dezco
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.68,32.79,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.72,66.75,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69433] = { -- Magistrix Saia
-            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.78,32.67,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY}}},
+                [zoneIDs.ISLE_OF_THUNDER] = {
+                    {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
+                    {46.92,66.89,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
+                },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69617] = { -- Lor'themar Theron
@@ -5891,6 +5970,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{44.01,68.91}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [69666] = { -- Zur'chaka the Bonecrafter
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{41.93,79.47}}},
+        },
         [69668] = { -- Danara Silverglass
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{40.15,59.29}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5903,7 +5985,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
-                    {63.31,72.01,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.15,66.44,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5912,7 +5994,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.66,83.21,phases.IOT_ALLIANCE_BOAT},
-                    {63.41,72.06,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.3,66.3,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -5972,6 +6054,10 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 93,
             [npcKeys.rank] = 1,
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [69755] = { -- War-God Al'chukla
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_SCENARIO] = {{54.7,45.78}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_SCENARIO,
         },
         [69782] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -6241,13 +6327,20 @@ function MopNpcFixes.Load()
         },
         [70438] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 6507,
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [npcKeys.spawns] = {
-                [6507] = {{56,30}},
+                [zoneIDs.ISLE_OF_THUNDER] = {{55.95,30.16}},
             },
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [70440] = { -- Monara
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.THRONE_OF_THUNDER] = {{59.52,79.43},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THRONE_OF_THUNDER,
         },
         [70476] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
@@ -6263,7 +6356,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {31.46,83.24,phases.IOT_ALLIANCE_BOAT},
-                    {63.37,72.29,phases.IOT_ALLIANCE_VIOLET_RISE},
+                    {42.22,66.33,phases.IOT_ALLIANCE_VIOLET_RISE},
                 },
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -6772,13 +6865,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesHorde = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56,25.46}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{62.56, 25.46}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02,24.15}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{62.02, 24.15}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64,62.37}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{12.64, 62.37}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
@@ -6786,13 +6879,13 @@ function MopNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [59151] = { -- Zhu's Watch Courier
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2,30.8}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{66.2, 30.8}}},
         },
         [65716] = { -- Mishi
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93,59.95}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{84.93, 59.95}}},
         },
         [67438] = { -- Krasari Elder
-            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94,41.19}}},
+            [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
         },

@@ -648,7 +648,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Use o Coletor de Chumbo Vazio",
         ["ruRU"] = "Используйте пустую освинцованную склянку для проб.",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "使用空鉛瓶。",
     },
     ["Use the Aspect of Neptulon."] = {
         ["enUS"] = true,
@@ -660,7 +660,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Use o Aspecto de Neptulon",
         ["ruRU"] = "Используйте аспект Нептулона.",
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "使用海神之水。",
     },
 }
 

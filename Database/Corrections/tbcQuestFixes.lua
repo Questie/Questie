@@ -2084,7 +2084,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{20130}},
         },
         [10297] = {
-            [questKeys.objectives] = {{{15608,"The Dark Portal Opened"}}},
+            [questKeys.objectives] = {{{15608,"The Dark Portal Opened",Questie.ICON_TYPE_EVENT}}},
         },
         [10299] = {
             [questKeys.objectives] = {nil,{{183770}},{{29366}}},
@@ -2817,6 +2817,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10842] = {
             [questKeys.preQuestSingle] = {10915,10852},
+            [questKeys.objectives] = {{{21638}}},
         },
         [10852] = {
             [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},

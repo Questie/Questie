@@ -968,6 +968,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [178186] = "Saphir d'Aku'Mai",
 [178195] = "Huile des Warsong",
 [178204] = "Cargaison de haches Warsong",
+[178224] = "Bassin redoutable",
 [178227] = "Panier à Totems de Murgut",
 [178229] = "Livre d'Aurora",
 [178244] = "Coffret d'entraînement",

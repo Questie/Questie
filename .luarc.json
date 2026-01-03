@@ -176,6 +176,8 @@
         "^Gossip[A-Za-z]*Panel$",
         /// Quest
         "^QuestFrame[A-Za-z]*Panel$",
+        "^Quest[A-Za-z]*Frame$",
+
         /// QuestLog
         "^QuestLogListScrollFrame.*$",
         /// Immersion

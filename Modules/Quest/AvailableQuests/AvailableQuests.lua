@@ -42,7 +42,7 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC
 
 function AvailableQuests.Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
@@ -150,12 +150,14 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
-function AvailableQuests.UnloadUndoable()
-    for questId, _ in pairs(availableQuests) do
-        if (not QuestieDB.IsDoable(questId)) then
-            QuestieMap:UnloadQuestFrames(questId)
-        end
+---@param questId QuestId
+function AvailableQuests.RemoveQuest(questId)
+    if availableQuests[questId] then
+        _MarkQuestAsUnavailableFromNPC(questId)
     end
+    availableQuests[questId] = nil
+    QuestieMap:UnloadQuestFrames(questId)
+    QuestieTooltips:RemoveQuest(questId)
 end
 
 ---@type string|nil
@@ -201,11 +203,9 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
             end
 
             if (not isAvailableInGossip) then
-                QuestieMap:UnloadQuestFrames(questId)
-                QuestieTooltips:RemoveQuest(questId)
+                AvailableQuests.RemoveQuest(questId)
 
                 unavailableQuestsDeterminedByTalking[questId] = true
-                availableQuests[questId] = nil
                 availableQuestsByNpc[npcId][questId] = nil
             end
         end
@@ -221,12 +221,10 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         end
 
         for questId in pairs(availableQuestsByNpc[npcId]) do
-            if (questId ~= availableQuestId) then
-                QuestieMap:UnloadQuestFrames(questId)
-                QuestieTooltips:RemoveQuest(questId)
+            if questId ~= availableQuestId then
+                AvailableQuests.RemoveQuest(questId)
 
                 unavailableQuestsDeterminedByTalking[questId] = true
-                availableQuests[questId] = nil
                 availableQuestsByNpc[npcId][questId] = nil
             end
         end
@@ -302,8 +300,7 @@ _CalculateAndDrawAvailableQuests = function()
                 (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) -- Don't show SoD Rune quests with the option disabled
             ) then
             if availableQuests[questId] then
-                QuestieMap:UnloadQuestFrames(questId)
-                QuestieTooltips:RemoveQuest(questId)
+                AvailableQuests.RemoveQuest(questId)
             end
             availableQuests[questId] = nil
             return
@@ -314,8 +311,7 @@ _CalculateAndDrawAvailableQuests = function()
             --(This is for when people level up or change settings etc)
 
             if availableQuests[questId] then
-                QuestieMap:UnloadQuestFrames(questId)
-                QuestieTooltips:RemoveQuest(questId)
+                AvailableQuests.RemoveQuest(questId)
             end
             availableQuests[questId] = nil
             return
@@ -536,6 +532,17 @@ end
 
 _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
+end
+
+_MarkQuestAsUnavailableFromNPC = function(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if quest then
+        for _, npcId in pairs(quest.Starts.NPC or {}) do
+            if availableQuestsByNpc[npcId] then
+                availableQuestsByNpc[npcId][questId] = nil
+            end
+        end
+    end
 end
 
 return AvailableQuests
