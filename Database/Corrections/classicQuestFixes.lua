@@ -1211,7 +1211,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1823},
         },
         [1838] = {
-            [questKeys.nextQuestInChain] = {1848},
+            [questKeys.nextQuestInChain] = 1848,
         },
         [1839] = {
             [questKeys.preQuestSingle] = {1848},
