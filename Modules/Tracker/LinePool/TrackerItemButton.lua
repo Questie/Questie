@@ -64,7 +64,12 @@ function TrackerItemButton.New(buttonName)
             self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
             self:SetSize(size, size)
 
-            self:RegisterForClicks("anyUp")
+            if Questie.IsTBC then
+                -- Both is needed since the TBC retail client API merge thingy.
+                self:RegisterForClicks("AnyUp", "AnyDown")
+            else
+                self:RegisterForClicks("AnyUp")
+            end
 
             self:SetScript("OnEvent", self.OnEvent)
             self:SetScript("OnShow", self.OnShow)
@@ -203,6 +208,5 @@ function TrackerItemButton.New(buttonName)
 
     return btn
 end
-
 
 return TrackerItemButton
