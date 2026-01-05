@@ -83,7 +83,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "사용가능한 퀘스트를 거리에 따라 필터",
         ["ptBR"] = "Distância do filtro de missões disponíveis",
         ["ruRU"] = "Дистанция фильтра доступных заданий",
-        ["zhCN"] = false,
+        ["zhCN"] = "可接任务筛选距离",
         ["zhTW"] = false,
     },
     ["How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!"] = {
@@ -95,7 +95,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트를 시작하는 스폰이 같은 생물이나 오브젝트의 다른 스폰에 추가되기 전, 영역 내에서 얼마나 떨어져 있어야 하는지를 설정합니다.\n\n경고! 이 값을 너무 낮게 설정할 경우, 매우 많은 아이콘으로 인해 지도에 성능 저하가 발생할 수 있습니다.",
         ["ptBR"] = "Quão distante um inimigo ou objeto que inicia uma missão precisa estar dentro de uma zona antes que outro inimigo ou objeto do mesmo tipo seja adicionado.\n\nATENÇÃO! Definir um valor muito baixo pode resultar em muitos ícones sendo exibidos e pode afetar o desempenho do mapa.",
         ["ruRU"] = "Насколько далеко начинающий задание объект должен быть в зоне перед тем, как появится следующий такой же объект.\n\nВНИМАНИЕ! Установка пониженных значений может вызвать отображение большого числа значков, а также сильно повлиять на производительность карты!",
-        ["zhCN"] = false,
+        ["zhCN"] = "在同一地区内，用于控制触发任务的相同生物或物体之间显示刷新点的最小距离。\n\n警告！数值过低可能导致地图图标过多，影响性能。",
         ["zhTW"] = false,
     },
     ["Available quest icon limit"] = {
@@ -107,7 +107,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "사용가능한 궤스트 아이콘 제한",
         ["ptBR"] = "Limite de ícones de missões disponíveis",
         ["ruRU"] = "Лимит значков доступных заданий",
-        ["zhCN"] = false,
+        ["zhCN"] = "可接任务图标上限",
         ["zhTW"] = false,
     },
     ["This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!"] = {
@@ -119,7 +119,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 설정은 단일 퀘스트를 시작하는 아이콘 수를 제한합니다.\n\n비활성화 하려면 0으로 설정 (다른 설정 제외) 하세요.\n\n경고! 이 값을 0으로 설정할 경우, 매우 많은 아이콘으로 인해 지도에 성능 저하가 발생할 수 있습니다.",
         ["ptBR"] = "Esta configuração limita o número de ícones que iniciam uma única missão.\n\nDefinir como zero significa que não há limite (exceto por outras configurações).\n\nATENÇÃO! Definir como 0 pode resultar em muitos ícones sendo exibidos e pode afetar o desempenho do mapa.",
         ["ruRU"] = "Эта опция ограничивает количество значков, начинающих задание.\n\nНоль означает отсутствие лимита (за исключением других настроек).\n\nВНИМАНИЕ! Установка на ноль может вызвать отображение большого числа значков, а также сильно повлиять на производительность карты!",
-        ["zhCN"] = false,
+        ["zhCN"] = "此设置用于限制同一个任务所显示的起始图标数量。\n\n设置为 0 表示不作任何限制（仍可能受其他设置影响）。\n\n警告！将此值设置为 0 可能会导致地图上绘制大量图标，从而影响地图性能！",
         ["zhTW"] = false,
     },
     ["Enable bug workarounds"] = {

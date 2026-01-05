@@ -276,7 +276,7 @@ local pandariaLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "雷霆熔炉",
         ["zhTW"] = false,
     },
 }

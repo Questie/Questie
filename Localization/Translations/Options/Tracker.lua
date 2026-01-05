@@ -412,7 +412,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "펫 배틀 시 숨기기",
         ["ptBR"] = "Ocultar em batalhas de mascotes",
         ["ruRU"] = "Скрывать в битвах питомцев",
-        ["zhCN"] = false,
+        ["zhCN"] = "在宠物对战中隐藏",
         ["zhTW"] = false,
     },
     ["When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
@@ -424,7 +424,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 펫 배틀을 시작할 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se ativado, o rastreador será automaticamente ocultado ao entrar em uma batalha de mascotes.",
         ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрываться при входе в битву питомцев",
-        ["zhCN"] = false,
+        ["zhCN"] = "勾选此项后，进入宠物对战时 Questie 追踪器会自动隐藏。",
         ["zhTW"] = false,
     },
     ---------------------------------------------------------

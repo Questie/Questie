@@ -228,7 +228,7 @@ local socialOptionsLocales = {
         ["koKR"] = "완료되지 않은 길잡이",
         ["ptBR"] = "Missão de encaminhamento incompleta",
         ["ruRU"] = "Предзадание не завершено",
-        ["zhCN"] = false,
+        ["zhCN"] = "未完成的任务线索",
         ["zhTW"] = false,
     },
     ["Announce that you just picked up a quest for which you have an incomplete breadcrumb quest"] = {
@@ -240,7 +240,7 @@ local socialOptionsLocales = {
         ["koKR"] = "완료되지 않은 길잡이 퀘스트 아이템을 획득했습니다.",
         ["ptBR"] = "Anuncia que você acabou de aceitar uma missão sem ter concluído sua missão de encaminhamento.",
         ["ruRU"] = "Объявляет, что вы только что приняли задание, для которого у вас имеется незавершенное предыдущее задание",
-        ["zhCN"] = false,
+        ["zhCN"] = "当你接取了一个存在未完成任务线索的任务时进行通告",
         ["zhTW"] = false,
     },
     ["You have accepted %s without completing its breadcrumb quest %s"] = {
@@ -252,7 +252,7 @@ local socialOptionsLocales = {
         ["koKR"] = "%s 퀘스트를 길잡이 퀘스트 %s 이(가) 완료되기 전에 수락했습니다.",
         ["ptBR"] = "Você aceitou a missão %s antes de concluir sua missão de encaminhamento %s",
         ["ruRU"] = "Вы приняли %s, не выполнив его предзадание %s",
-        ["zhCN"] = false,
+        ["zhCN"] = "你已接取 %s，但尚未完成其任务线索 %s",
         ["zhTW"] = false,
     },
     ["Share quest progress with nearby players"] = {
