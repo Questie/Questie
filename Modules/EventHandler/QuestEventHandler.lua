@@ -26,8 +26,6 @@ local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type TaskQueue
-local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type Expansions
@@ -326,12 +324,10 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
         skipNextUQLCEvent = true
     end
 
-    TaskQueue:Queue(
-        function() QuestLogCache.RemoveQuest(questId) end,
-        function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
-        function() QuestieQuest:CompleteQuest(questId) end,
-        function() QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_TURNED_IN) end
-    )
+    QuestLogCache.RemoveQuest(questId)
+    QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+    QuestieQuest:CompleteQuest(questId)
+    QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_TURNED_IN)
 
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
@@ -376,13 +372,12 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
-        TaskQueue:Queue(
-            function() QuestLogCache.RemoveQuest(questId) end,
-            function() QuestieQuest:SetObjectivesDirty(questId) end, -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
-            function() QuestieQuest:AbandonedQuest(questId) end,
-            function() questLog[questId] = nil end,
-            function() QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ABANDONED) end
-        )
+        QuestLogCache.RemoveQuest(questId)
+        QuestieQuest:SetObjectivesDirty(questId)
+        QuestieQuest:AbandonedQuest(questId)
+        questLog[questId] = nil
+
+        QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ABANDONED)
 
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
