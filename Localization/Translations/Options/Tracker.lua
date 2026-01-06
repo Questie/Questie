@@ -249,7 +249,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 활성화하면 활성화된 퀘스트 수와 Questie 아이콘이 추적기 헤더에 지속적으로 표시됩니다.\n\n이 옵션을 비활성화하면 마우스가 추적기 위에 있을 때만 Questie 아이콘이 나타납니다.",
         ["ptBR"] = "Se ativado, o cabeçalho do rastreador com o número de missões ativas e o ícone de Questie ficará permanentemente visível.\n\nSe desativado, o ícone de Questie desaparecerá enquanto o cursor do mouse estiver sobre o rastreador.",
         ["ruRU"] = "Когда включено, заголовок трекера с числом активных заданий и значком Questie будет всегда виден.\n\nКогда выключено, значок Questie будет появляться при наведении мышью на трекер",
-        ["zhCN"] = "开启后，会一直显示任务数量和 Questie 图标。 \n\n停用时，指标指向清单时才会显示 Questie 图标。",
+        ["zhCN"] = "启用时，会一直显示任务数量和 Questie 图标。 \n\n停用时，指标指向清单时才会显示 Questie 图标。",
         ["zhTW"] = "啟用時，會一直顯示任務數量和 Questie 圖示。\n\n停用時，滑鼠指向清單時才會顯示 Questie 圖示。",
     },
     ---------------------------------------------------------
@@ -274,7 +274,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 활성화하면 추적기 헤더와 Questie 아이콘이 Questie 추적기 하단으로 이동하고 크기 조정기가 상단으로 이동합니다.",
         ["ptBR"] = "Se ativado, o cabeçalho do rastreador e/ou o ícone de Questie serão movidos para a parte inferior do rastreador de Questie e o medidor para o topo.",
         ["ruRU"] = "Когда включено, заголовок трекера и/или значок Questie будут перемещены в низ трекера, а сайзер будет перемещен наверх",
-        ["zhCN"] = "启用后，任务清单标题列和/或 Questie 图标会移动到清单的最下方，缩放大小的拖曳点会在最上方。",
+        ["zhCN"] = "启用时，任务清单标题列和/或 Questie 图标会移动到清单的最下方，缩放大小的拖曳点会在最上方。",
         ["zhTW"] = "啟用時，任務清單標題列和 Questie 圖示會移動到清單的最下方，縮放大小的拖曳點會在最上方。",
     },
     ---------------------------------------------------------

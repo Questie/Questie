@@ -47,7 +47,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
         ["ptBR"] = "Se ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros do grupo.",
         ["ruRU"] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
-        ["zhCN"] = "启用后，仅当共享任务信息来自队伍其他成员时才会显示。",
+        ["zhCN"] = "启用时，仅当共享任务信息来自队伍其他成员时才会显示。",
         ["zhTW"] = "啟用時，只會分享隊伍中玩家的任務資訊。",
     },
     ["Show quests in NPC tooltips"] = {
