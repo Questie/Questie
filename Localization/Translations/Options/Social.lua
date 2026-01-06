@@ -229,7 +229,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Missão de encaminhamento incompleta",
         ["ruRU"] = "Предзадание не завершено",
         ["zhCN"] = "未完成的任务线索",
-        ["zhTW"] = false,
+        ["zhTW"] = "未完成的任務線索",
     },
     ["Announce that you just picked up a quest for which you have an incomplete breadcrumb quest"] = {
         ["enUS"] = true,
@@ -241,7 +241,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Anuncia que você acabou de aceitar uma missão sem ter concluído sua missão de encaminhamento.",
         ["ruRU"] = "Объявляет, что вы только что приняли задание, для которого у вас имеется незавершенное предыдущее задание",
         ["zhCN"] = "当你接取了一个存在未完成任务线索的任务时进行通告",
-        ["zhTW"] = false,
+        ["zhTW"] = "當你接取了存在未完成任務線索的任務時進行通告",
     },
     ["You have accepted %s without completing its breadcrumb quest %s"] = {
         ["enUS"] = true,
@@ -253,7 +253,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Você aceitou a missão %s antes de concluir sua missão de encaminhamento %s",
         ["ruRU"] = "Вы приняли %s, не выполнив его предзадание %s",
         ["zhCN"] = "你已接取 %s，但尚未完成其任务线索 %s",
-        ["zhTW"] = false,
+        ["zhTW"] = "你已接取 %s，但尚未完成其任務線索 %s",
     },
     ["Share quest progress with nearby players"] = {
         ["enUS"] = true,

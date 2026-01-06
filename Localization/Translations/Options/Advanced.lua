@@ -84,7 +84,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Distância do filtro de missões disponíveis",
         ["ruRU"] = "Дистанция фильтра доступных заданий",
         ["zhCN"] = "可接任务筛选距离",
-        ["zhTW"] = false,
+        ["zhTW"] = "依距離篩選可接任務",
     },
     ["How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!"] = {
         ["enUS"] = true,
@@ -96,7 +96,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Quão distante um inimigo ou objeto que inicia uma missão precisa estar dentro de uma zona antes que outro inimigo ou objeto do mesmo tipo seja adicionado.\n\nATENÇÃO! Definir um valor muito baixo pode resultar em muitos ícones sendo exibidos e pode afetar o desempenho do mapa.",
         ["ruRU"] = "Насколько далеко начинающий задание объект должен быть в зоне перед тем, как появится следующий такой же объект.\n\nВНИМАНИЕ! Установка пониженных значений может вызвать отображение большого числа значков, а также сильно повлиять на производительность карты!",
         ["zhCN"] = "在同一地区内，用于控制触发任务的相同生物或物体之间显示刷新点的最小距离。\n\n警告！数值过低可能导致地图图标过多，影响性能。",
-        ["zhTW"] = false,
+        ["zhTW"] = "在同一地區內，用於控制觸發任務的相同生物或物體之間顯示刷新點的最小距離。\n\n警告！數值過低可能導致地圖圖標過多，影響效能。",
     },
     ["Available quest icon limit"] = {
         ["enUS"] = true,
@@ -108,7 +108,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Limite de ícones de missões disponíveis",
         ["ruRU"] = "Лимит значков доступных заданий",
         ["zhCN"] = "可接任务图标上限",
-        ["zhTW"] = false,
+        ["zhTW"] = "可接任務圖示上限",
     },
     ["This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!"] = {
         ["enUS"] = true,
@@ -120,7 +120,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Esta configuração limita o número de ícones que iniciam uma única missão.\n\nDefinir como zero significa que não há limite (exceto por outras configurações).\n\nATENÇÃO! Definir como 0 pode resultar em muitos ícones sendo exibidos e pode afetar o desempenho do mapa.",
         ["ruRU"] = "Эта опция ограничивает количество значков, начинающих задание.\n\nНоль означает отсутствие лимита (за исключением других настроек).\n\nВНИМАНИЕ! Установка на ноль может вызвать отображение большого числа значков, а также сильно повлиять на производительность карты!",
         ["zhCN"] = "此设置用于限制同一个任务所显示的起始图标数量。\n\n设置为 0 表示不作任何限制（仍可能受其他设置影响）。\n\n警告！将此值设置为 0 可能会导致地图上绘制大量图标，从而影响地图性能！",
-        ["zhTW"] = false,
+        ["zhTW"] = "此設定用於限制同一個任務所顯示的初始圖示數量。\n\n設定為 0 表示不作任何限制（仍可能受其他設定影響）。\n\n警告！將此值設定為 0 可能會導致地圖上繪製大量圖示，從而影響地圖效能表現！",
     },
     ["Enable bug workarounds"] = {
         ["enUS"] = true,
@@ -179,7 +179,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
         ["ptBR"] = "Se ativado, a ID de missões será mostrada nas dicas de ferramentas e no rastreador.",
         ["ruRU"] = "Когда включено, ID заданий будут отображаться во всплывающих подсказках и в трекере",
-        ["zhCN"] = "勾选此选项后，任务ID将显示在鼠标提示和跟踪器中",
+        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中",
         ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID。",
     },
     ["Enable Debug"] = {
@@ -431,7 +431,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 아이템 ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, a ID dos itens será mostrada nas dicas de ferramentas.",
         ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID предметов",
-        ["zhCN"] = "启用后，物品ID会在悬浮窗中显示",
+        ["zhCN"] = "启用时，物品ID会在悬浮窗中显示",
         ["zhTW"] = "啟用時，會在浮動提示資訊中顯示物品 ID。",
     },
     ["Show Object IDs"] = {
@@ -455,8 +455,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 오브젝트 ID가 툴팁에 표시됩니다. 이는 예측값이며 QuestieDB에서 첫 번째로 일치하는 ID만 표시됩니다.",
         ["ptBR"] = "Se ativado, a ID dos objetos será mostrada nas dicas de ferramentas. Esses são palpites e mostram apenas a primeira ID correspondente no QuestieDB.",
         ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID объектов. Эти данные являются предполагаемыми, отображается только первый совпадающий ID в БД Questie",
-        ["zhCN"] = "当勾选此项时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID。",
-        ["zhTW"] = "當勾選此項時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID。",
+        ["zhCN"] = "启用时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID。",
+        ["zhTW"] = "啟用時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID。",
     },
     ["Show NPC IDs"] = {
         ["enUS"] = true,
@@ -479,7 +479,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 NPC ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, a ID dos NPCs será mostrada nas dicas de ferramentas.",
         ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID NPC",
-        ["zhCN"] = "启用后，NPC ID会在悬浮窗中显示",
+        ["zhCN"] = "启用时，NPC ID会在悬浮窗中显示",
         ["zhTW"] = "啟用時，會在浮動提示資訊中顯示 NPC ID。",
     },
     ["Hide Startup Warnings"] = {

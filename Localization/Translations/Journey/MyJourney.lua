@@ -348,7 +348,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Recriação de personagem detectada, redefinindo os dados da jornada",
         ["ruRU"] = "Обнаружено пересоздание персонажа, сброс данных Путешествия.",
         ["zhCN"] = "检测到角色重建，正在重置旅途数据",
-        ["zhTW"] = false,
+        ["zhTW"] = "已偵測到角色重建，旅途資料重置中",
     }
 }
 

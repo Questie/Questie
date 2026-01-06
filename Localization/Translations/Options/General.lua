@@ -599,7 +599,7 @@ local generalOptionsLocales = {
         ["koKR"] = "툴팁에 퀘스트의 레벨을 표시합니다.",
         ["ptBR"] = "Se ativado, o nível das missões será mostrado nas dicas de ferramentas.",
         ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
-        ["zhCN"] = "启用后，任务等级将显示在悬浮窗提示中",
+        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中",
         ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級。",
     },
     ["Enable World Tooltips"] = {
