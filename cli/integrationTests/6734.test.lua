@@ -16,8 +16,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieQuest
     ---@type QuestiePlayer
     local QuestiePlayer
-    ---@type TaskQueue
-    local TaskQueue
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieLib
@@ -92,7 +90,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         end)
         QuestieQuest.CompleteQuest = spy.new(function() end)
         QuestiePlayer = require("Modules.QuestiePlayer")
-        TaskQueue = require("Modules.TaskQueue")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
         QuestieLib = require("Modules.Libs.QuestieLib")
@@ -117,9 +114,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.InitQuestLogStates({})
 
         QuestEventHandler.QuestAccepted(2, 2822)
-        for _ = 1, 8 do
-            TaskQueue:OnUpdate()
-        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
@@ -166,9 +160,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
 
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
-        for _ = 1, 3 do
-            TaskQueue:OnUpdate()
-        end
         QuestEventHandler.QuestLogUpdate()
         QuestEventHandler.QuestRemoved(2822)
         QuestEventHandler.UnitQuestLogChanged("player")
@@ -187,9 +178,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             }}
         }
         QuestEventHandler.QuestAccepted(2, 7734)
-        for _ = 1, 8 do
-            TaskQueue:OnUpdate()
-        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
@@ -217,9 +205,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numFulfilled = 0,
         }}
         QuestEventHandler.QuestAccepted(2, 2863)
-        for _ = 1, 8 do
-            TaskQueue:OnUpdate()
-        end
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
