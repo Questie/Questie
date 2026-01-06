@@ -405,7 +405,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Hide In Pet Battles"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Im Haustierkampf ausblenden",
         ["esES"] = "Ocultar en duelos de mascotas",
         ["esMX"] = "Ocultar en duelos de mascotas",
         ["frFR"] = "Cacher pendant les combats de mascottes",
@@ -417,7 +417,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["esMX"] = "Si está activado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["frFR"] = "Si cette option est activée, le suivi sera automatiquement caché lors d’un combat de mascottes.",
