@@ -431,7 +431,7 @@ local iconOptionsLocales = {
         ["koKR"] = "안퀴라즈 반납 퀘스트가 표시됩니다. 만약 당신의 서버가 해당 퀘스트를 완료했다면, Questie 아이콘 설정에서 이를 숨길 수 있습니다.",
         ["ptBR"] = "As missões do Esforço de Guerra de Ahn'Qiraj estão sendo exibidas para você. Se o seu servidor já concluiu, você pode ocultá-las nas configurações de ícones de Questie.",
         ["ruRU"] = "Задания войны в Ан'Кираже отображаются для вас. Если на вашем сервере это завершено, то вы можете скрыть эти задания в настройках значков Questie!",
-        ["zhCN"] = false,
+        ["zhCN"] = "安其拉战争物资任务会为你显示。如果你的服务器已经完成该事件，你可以在 Questie 的图标设置中隐藏这些任务！",
         ["zhTW"] = "已經為你顯示『安其拉戰線』任務。如果你的伺服器已經完成這些任務，可以在 Questie 的圖示設定中隱藏這些任務！",
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {

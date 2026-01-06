@@ -83,7 +83,7 @@ local townsfolkLocales = {
         ["koKR"] = "음료 상인",
         ["ptBR"] = "Bebidas",
         ["ruRU"] = "Напитки",
-        ["zhCN"] = "水商",
+        ["zhCN"] = "饮料商人",
         ["zhTW"] = "飲料商人",
     },
     ["Flight Master"] = {
@@ -107,7 +107,7 @@ local townsfolkLocales = {
         ["koKR"] = "음식 상인",
         ["ptBR"] = "Comida",
         ["ruRU"] = "Еда",
-        ["zhCN"] = "面包商人",
+        ["zhCN"] = "食物商人",
         ["zhTW"] = "麵包商人",
     },
     ["Innkeeper"] = {

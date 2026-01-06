@@ -107,7 +107,7 @@ local debugMessagesLocales = {
         ["koKR"] = "검색에 따라 NPC 또는 오브젝트를 지도에 마킹합니다. 만약, \"tomap\" 명령이 하위 명령 없이 입력되었다면, 현재 선택된 대상을 마킹하려고 시도합니다. ID로 검색의 경우 완전히 일치하는 결과를 반환하며 이름으로 검색 시 부분적으로 일치한 결과만 반환합니다. \"reset\" 하위 명령은 추가 인수를 받지 않으며 항상 모든 마커를 제거합니다.",
         ["ptBR"] = "Tente adicionar marcadores de NPCs ou objetos ao mapa por meio de uma procura. Se o comando \"tomap\" for inserido sem subcomando, ele tentará marcar o alvo atualmente selecionado. Procuras por ID retornam correspondências exatas; procuras por nome retornam correspondências parciais. O subcomando \"reset\" não aceita parâmetros adicionais e apenas remove todos os marcadores.",
         ["ruRU"] = "Попробуйте добавить на карту метки для NPC или объектов с помощью поиска. Если команда \"tomap\" введена без подкоманды, она попытается отметить выбранную в данный момент цель. Поиск по ID возвращает точные совпадения, поиск по имени - частичные совпадения. Подкоманда \"reset\" не принимает дополнительных параметров и просто удаляет все маркеры.",
-        ["zhCN"] = false,
+        ["zhCN"] = "尝试通过搜索为 NPC 或物体在地图上添加标记。如果输入 \"tomap\" 命令而不带子命令，它会尝试标记当前选中的目标。通过 ID 搜索会返回精确匹配，通过名称搜索会返回部分匹配。\"reset\" 子命令不接受额外参数，仅会移除所有标记。",
         ["zhTW"] = "嘗試透過搜尋將 NPC 或物件圖示加到地圖上。若輸入 tomap 指令但未附加子指令，則會嘗試標記當前選取目標。依 ID 搜尋會得到完全符合的結果，依名稱搜尋則會得到部分符合的結果。reset 子指令不接受其他參數，只會移除所有標記。",
     },
     ["Invalid command. For a list of options please type:"] = {
@@ -131,7 +131,7 @@ local debugMessagesLocales = {
         ["koKR"] = "활성화된 대상 또는 검색 인수가 필요합니다.",
         ["ptBR"] = "É necessário um alvo ativo ou parâmetros de procura.",
         ["ruRU"] = "Требуется активная цель или параметры поиска.",
-        ["zhCN"] = false,
+        ["zhCN"] = "需要一个有效的目标或搜索参数。",
         ["zhTW"] = "需要有選取的目標或是搜尋參數。",
     },
     ["All map markers cleared."] = {
@@ -143,7 +143,7 @@ local debugMessagesLocales = {
         ["koKR"] = "모든 지도 마커가 제거 되었습니다.",
         ["ptBR"] = "Todos os marcadores do mapa foram removidos.",
         ["ruRU"] = "Все метки на карте удалены.",
-        ["zhCN"] = false,
+        ["zhCN"] = "已清除所有地图标记。",
         ["zhTW"] = "所有地圖標記都已清除。",
     },
     ["Search term required."] = {
@@ -155,7 +155,7 @@ local debugMessagesLocales = {
         ["koKR"] = "검색어가 필요합니다.",
         ["ptBR"] = "É necessário um termo de procura.",
         ["ruRU"] = "Требуется поисковый запрос.",
-        ["zhCN"] = false,
+        ["zhCN"] = "需要输入搜索词。",
         ["zhTW"] = "必須提供搜尋詞。",
     },
     ["Exact match found, added %s to map."] = {
@@ -167,7 +167,7 @@ local debugMessagesLocales = {
         ["koKR"] = "정확히 일치하는 결과가 발견되어, %s 를 지도에 추가했습니다.",
         ["ptBR"] = "Correspondência exata encontrada, %s adicionado ao mapa.",
         ["ruRU"] = "Точное соответствие найдено, добавлено на карту - %s.",
-        ["zhCN"] = false,
+        ["zhCN"] = "找到精确匹配，已将 %s 添加到地图。",
         ["zhTW"] = "找到完全符合的項目，已將 %s 加到地圖上。",
     },
     ["No exact matches, %d partial matches found and added to map."] = {
@@ -179,7 +179,7 @@ local debugMessagesLocales = {
         ["koKR"] = "정확히 일치하는 결과가 없었으나, 대신 %d 개의 부분일치 결과를 지도에 추가했습니다.",
         ["ptBR"] = "Nenhuma correspondência exata, %d correspondências parciais encontradas e adicionadas ao mapa.",
         ["ruRU"] = "Точных соответствий не найдено, найдено и добавлено на карту частичных соответствий - %d.",
-        ["zhCN"] = false,
+        ["zhCN"] = "未找到精确匹配，发现 %d 个部分匹配并已添加到地图。",
         ["zhTW"] = "沒有完全符合的項目，已找到 %d 個部分符合的項目並加入地圖。",
     },
     ["%d matches found and added to map."] = {
@@ -191,7 +191,7 @@ local debugMessagesLocales = {
         ["koKR"] = "%d 개의 결과가 발견되어 지도에 추가했습니다.",
         ["ptBR"] = "%d correspondências encontradas e adicionadas ao mapa.",
         ["ruRU"] = "Соответствий найдено и добавлено на карту - %d.",
-        ["zhCN"] = false,
+        ["zhCN"] = "找到 %d 个匹配并已添加到地图。",
         ["zhTW"] = "已找到 %d 個符合的項目並加入地圖。",
     },
     ["No match found, nothing added to map."] = {
@@ -203,7 +203,7 @@ local debugMessagesLocales = {
         ["koKR"] = "일치하는 결과가 없어 지도에 아무것도 추가되지 않았습니다.",
         ["ptBR"] = "Nenhuma correspondência encontrada, nada foi adicionado ao mapa.",
         ["ruRU"] = "Соответствие не найдено, ничего не добавлено на карту.",
-        ["zhCN"] = false,
+        ["zhCN"] = "未找到匹配项，未向地图添加任何内容。",
         ["zhTW"] = "沒有找到符合的項目，沒有東西加到地圖。",
     },
     ["Please wait a moment for Questie to finish loading"] = {
@@ -215,7 +215,7 @@ local debugMessagesLocales = {
         ["koKR"] = "Questie 로드가 완료될 때까지 잠시 기다려 주세요.",
         ["ptBR"] = "Por favor, aguarde um momento enquanto o Questie termina de carregar.",
         ["ruRU"] = "Пожалуйста, подождите, пока Questie завершит загрузку.",
-        ["zhCN"] = false,
+        ["zhCN"] = "请稍等，等待 Questie 加载完成",
         ["zhTW"] = "請稍候，讓 Questie 完成載入。",
     },
     ["There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."] = {

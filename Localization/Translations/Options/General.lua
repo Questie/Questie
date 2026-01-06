@@ -11,7 +11,7 @@ local generalOptionsLocales = {
         ["koKR"] = "일반",
         ["ptBR"] = "Geral",
         ["ruRU"] = "Общее",
-        ["zhCN"] = "选项",
+        ["zhCN"] = "一般",
         ["zhTW"] = "一般",
     },
     ["General Options"] = {
