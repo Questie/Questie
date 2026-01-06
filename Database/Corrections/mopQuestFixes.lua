@@ -9217,6 +9217,7 @@ function MopQuestFixes.Load()
         },
         [32553] = { -- Direhorn vs Devilsaur
             [questKeys.preQuestSingle] = {32260},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Master Caller to disrupt the ritual"),0,{{"monster",69286}}}},
         },
         [32554] = { -- Dino Might
             [questKeys.preQuestSingle] = {32260},
