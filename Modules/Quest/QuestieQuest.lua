@@ -22,8 +22,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type TaskQueue
-local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
@@ -489,31 +487,27 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
             end
 
-            TaskQueue:Queue(
-                function() AvailableQuests.RemoveQuest(questId) end,
-                function()
-                    -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
-                    if Questie.db.char.collapsedQuests then
-                        Questie.db.char.collapsedQuests[questId] = nil
-                    end
-                    -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
-                    if Questie.db.char.AutoUntrackedQuests[questId] then
-                        Questie.db.char.AutoUntrackedQuests[questId] = nil
-                    end
-                end,
-                function() QuestieQuest:PopulateQuestLogInfo(quest) end,
-                function()
-                    -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-                    Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-                end,
-                function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-                function() AvailableQuests.CalculateAndDrawAll() end,
-                function()
-                    QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Update()
-                    end)
-                end
-            )
+            AvailableQuests.RemoveQuest(questId)
+
+            -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
+            if Questie.db.char.collapsedQuests then
+                Questie.db.char.collapsedQuests[questId] = nil
+            end
+            -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
+            if Questie.db.char.AutoUntrackedQuests[questId] then
+                Questie.db.char.AutoUntrackedQuests[questId] = nil
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+            QuestieQuest:PopulateObjectiveNotes(quest)
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+
+            AvailableQuests.CalculateAndDrawAll()
         else
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already exists, not adding")
         end

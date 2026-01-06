@@ -21,8 +21,6 @@ describe("QuestEventHandler", function()
     local QuestieAnnounce
     ---@type QuestiePlayer
     local QuestiePlayer
-    ---@type TaskQueue
-    local TaskQueue
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieDB
@@ -50,12 +48,6 @@ describe("QuestEventHandler", function()
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
-        TaskQueue = require("Modules.TaskQueue")
-        TaskQueue.Queue = function(_, ...)
-            for _, val in pairs({...}) do
-                val()
-            end
-        end
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieDB = require("Database.QuestieDB")
         QuestieNameplate = require("Modules.QuestieNameplate")
