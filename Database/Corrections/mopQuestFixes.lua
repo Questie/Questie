@@ -9054,6 +9054,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32523] = { -- The Beast Pens
+            [questKeys.objectives] = {{{67985,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -9264,6 +9265,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32259},
         },
         [32567] = { -- The Beast Pens
+            [questKeys.objectives] = {{{67998,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
         },
