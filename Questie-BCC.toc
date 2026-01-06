@@ -159,7 +159,6 @@ Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
 Modules\Sounds.lua
-Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 Modules\QuestieDebugOffer.lua
 Modules\WatchFrameHook.lua
