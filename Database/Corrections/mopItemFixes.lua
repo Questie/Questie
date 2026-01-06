@@ -1257,6 +1257,9 @@ function MopItemFixes.Load()
         [93668] = { -- Saur Fetish
             [itemKeys.npcDrops] = {69154,69155,69286},
         },
+        [93731] = { -- Mogu Codex Fragment
+            [itemKeys.npcDrops] = {69435},
+        },
         [93733] = { -- Mask of the Spirit-Caller
             [itemKeys.npcDrops] = {69301},
         },
