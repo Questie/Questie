@@ -159,32 +159,15 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
 end
 
 local colors = {
-    { 0.3125,     0.44140625, 1 },          --Blizzard Polygon-blue --Alpha of 128
-    --{123,         146,        255},         --Blizzard Polygon-blue-2 --Alpha of 61
-    { 0.5,        0.46875,    0.84765625 }, --Medium Purple
-    { 0.58203125, 0.89453125, 0.0546875 },  --Inch Worm
-    { 0.45703125, 0.8515625,  0.78125 },    --Downy
-    { 1,          0.5625,     0.625 },      --Salmon Pink
-    --{149,         159,        112},         --Avocado, Bad? Fix it
-    { 0,          0.6484375,  0.59375 },    --Persian Green
-    { 0.70703125, 0.109375,   0.4765625 },  --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
-    { 0.58203125, 0.2148375,  1 },          --Light Slate Blue
-    { 0.72265625, 0.3671875,  0 },          --Alloy Orange
-    { 0,          0.9765625,  0.546875 },   --Spring Green
-    { 0.8515625,  0.2148375,  0.57421875 }, --Deep Cerise
-    { 1,          0.65234375, 0 },          --Orange
-    { 0.8125,     0.7109375,  1 },          --Mauve
-    { 0,          0.25390625, 0.58984375 }, --Smalt
-    { 1,          0.25,       1 },          --Pink Flamingo
-    { 1,          1,          0 },          --Yellow
-    { 0.16015625, 0.65234375, 0 },          --Slimy Green
-    { 0,          0.66015625, 1 },          --Deep Sky Blue
-    { 0.87109375, 0.87109375, 0.56640625 }, --Primrose
-    { 0,          0.5859375,  0 },          --Vine Green --G67 default
-    { 0,          0.3,        1 },          --Navy Blue
-    { 0,          0.97265625, 0 },          --Lime
-    { 0,          1,          1 },          --Aqua
-    { 1,          0.1484375,  0 },          --Scarlet
+    -- Light (200)         Standard (500)         -- Family
+    {0.99, 0.73, 0.73},    {0.94, 0.19, 0.19},    -- Red
+    {0.99, 0.81, 0.59},    {0.98, 0.46, 0.05},    -- Orange
+    {0.99, 0.93, 0.54},    {0.92, 0.68, 0.05},    -- Yellow
+    {0.73, 0.96, 0.80},    {0.13, 0.77, 0.36},    -- Green
+    {0.75, 0.87, 0.99},    {0.23, 0.55, 0.94},    -- Blue
+    {0.78, 0.82, 0.99},    {0.39, 0.45, 0.94},    -- Indigo
+    {0.87, 0.82, 1.00},    {0.55, 0.35, 0.96},    -- Violet
+    {0.99, 0.76, 0.89},    {0.93, 0.16, 0.55},    -- Pink
 }
 
 local numColors = #colors
