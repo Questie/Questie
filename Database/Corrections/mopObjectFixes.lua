@@ -1190,6 +1190,11 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{38.63,78.67}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [218853] = { -- Stormy Chest
+            [objectKeys.name] = 'Stormy Chest',
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_SWOLLEN_VAULT] = {{38.76,27.78}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_SWOLLEN_VAULT,
+        },
         [219216] = { -- Meeting Stone (Throne of Thunder)
             [objectKeys.name] = 'Meeting Stone',
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.27,33.73}}},

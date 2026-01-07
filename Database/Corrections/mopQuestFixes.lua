@@ -9400,6 +9400,7 @@ function MopQuestFixes.Load()
         },
         [32608] = { -- Raiding the Vault
             [questKeys.preQuestGroup] = {32655,32587},
+            [questKeys.requiredSourceItems] = {95374},
         },
         [32616] = { -- A Large Pile of Giant Dinosaur Bones
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -9532,7 +9533,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32652},
         },
         [32656] = { -- The Fall of Shan Bu
-            [questKeys.preQuestSingle] = {32655}, -- TODO - double check
+            [questKeys.preQuestSingle] = {32655},
         },
         [32657] = { -- Work Order: The August Celestials II
             [questKeys.questFlags] = questFlags.DAILY,
@@ -9609,6 +9610,7 @@ function MopQuestFixes.Load()
         },
         [32677] = { -- Raiding the Vault
             [questKeys.preQuestGroup] = {32278,32292},
+            [questKeys.requiredSourceItems] = {95374},
         },
         [32678] = { -- Thunder Calls
             [questKeys.nextQuestInChain] = 0,

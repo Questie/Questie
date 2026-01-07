@@ -381,6 +381,7 @@ ZoneDB.zoneIDs = {
     THRONE_OF_THUNDER_PINNACLE_OF_STORMS = 10098, -- Throne of Thunder - Pinnacle of Storms 514
     THRONE_OF_THUNDER_HIDDEN_CELL = 10099, -- Throne of Thunder - Hidden Cell 515
     ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE = 10100, -- Isle of Thunder - Lightning Vein Mine 505
+    ISLE_OF_THUNDER_SWOLLEN_VAULT = 10101, -- Isle of Thunder - The Swollen Vault 506
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map
