@@ -5925,11 +5925,6 @@ function MopNpcFixes.Load()
             },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
-        [69413] = { -- Taoshi
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
-        },
         [69418] = { -- Elina Zaralae
             [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
@@ -6261,11 +6256,6 @@ function MopNpcFixes.Load()
                 [3520] = {{42.6,43.8}},
             },
             [npcKeys.friendlyToFaction] = "AH",
-        },
-        [70297] = { -- Taoshi
-            [npcKeys.spawns] = {},
-            -- [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{28.6,52.46}}}, -- hiding until correct stage
-            [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [70315] = { -- Yalia Sagewhisper
             [npcKeys.name] = "Yalia Sagewhisper",
@@ -6875,6 +6865,9 @@ function MopNpcFixes:LoadFactionFixes()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32168},
         },
+        [70297] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.8, 32.6}}},
+        },
     }
 
     local npcFixesAlliance = {
@@ -6888,6 +6881,9 @@ function MopNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{13.94, 41.19}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
             [npcKeys.questStarts] = {32185},
+        },
+        [70297] = { -- Taoshi
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.2, 73.8}}},
         },
     }
 
