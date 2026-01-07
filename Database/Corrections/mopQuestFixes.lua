@@ -8353,6 +8353,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32276},
         },
         [32278] = { -- Decisive Action
+            [questKeys.objectives] = {{{70297,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {32277},
         },
         [32279] = { -- The Fall of Shan Bu
