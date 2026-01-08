@@ -178,7 +178,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
     end
 
     local npcId = tonumber(npcIDStr)
-    if (not availableQuestsByNpc[npcId]) then
+    if (not availableQuestsByNpc[npcId]) or lastNpcGuid == npcGuid then
         return
     end
 
@@ -209,9 +209,6 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
                 availableQuestsByNpc[npcId][questId] = nil
             end
         end
-    elseif lastNpcGuid == npcGuid then
-        -- We already processed this NPC on GOSSIP_SHOW, so we don't do anything here
-        return
     else
         -- Hide all quests but the current one
         local availableQuestId = GetQuestID()
