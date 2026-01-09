@@ -186,6 +186,9 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         lastNpcGuid = npcGuid
 
         local availableQuestsInGossip = QuestieCompat.GetAvailableQuests() -- empty list when not from gossip
+
+        -- Active quests are relevant, because the API can fire GOSSIP_SHOW before QUEST_ACCEPTED.
+        -- So we need to check active quests to not hide them incorrectly for the day.
         local activeQuests = QuestieCompat.GetActiveQuests()
         for questId in pairs(availableQuestsByNpc[npcId]) do
             local isAvailableInGossip = false
@@ -251,8 +254,15 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
     local availableQuestsInGreeting = {}
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
-        if titleLine and titleLine:IsVisible() and titleLine.isActive == 0 then
-            local title = GetAvailableTitle(titleLine:GetID())
+        if titleLine and titleLine:IsVisible() then
+            local title
+            if titleLine.isActive == 1 then
+                -- Active quests are relevant, because the API can fire QUEST_GREETING before QUEST_ACCEPTED.
+                -- So we need to check active quests to not hide them incorrectly for the day.
+                title = GetActiveTitle(titleLine:GetID())
+            else
+                title = GetAvailableTitle(titleLine:GetID())
+            end
             local questId = QuestieDB.GetQuestIDFromName(title, npcGuid, true)
             if questId and questId > 0 then
                 availableQuestsInGreeting[questId] = true
