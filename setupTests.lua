@@ -45,6 +45,7 @@ _G.GetCurrentRegion = function() return 3 end
 
 _G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
 
+_G.MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""

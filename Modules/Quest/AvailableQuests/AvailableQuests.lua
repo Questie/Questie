@@ -228,6 +228,48 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
     end
 end
 
+--- Called on QUEST_GREETING to hide all quests that are not available from the NPC.
+--- This is relevant on NPCs which offer random quests each day and especially a different number of quests.
+function AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+    local npcGuid = UnitGUID("target")
+    if (not npcGuid) then
+        return
+    end
+
+    local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+    if (not npcIDStr) then
+        return
+    end
+
+    local npcId = tonumber(npcIDStr)
+    if (not availableQuestsByNpc[npcId]) or lastNpcGuid == npcGuid then
+        return
+    end
+
+    lastNpcGuid = npcGuid
+
+    local availableQuestsInGreeting = {}
+    for i = 1, MAX_NUM_QUESTS do
+        local titleLine = _G["QuestTitleButton" .. i]
+        if titleLine and titleLine:IsVisible() and titleLine.isActive == 0 then
+            local title = GetAvailableTitle(titleLine:GetID())
+            local questId = QuestieDB.GetQuestIDFromName(title, npcGuid, true)
+            if questId and questId > 0 then
+                availableQuestsInGreeting[questId] = true
+            end
+        end
+    end
+
+    for questId in pairs(availableQuestsByNpc[npcId]) do
+        if (not availableQuestsInGreeting[questId]) and QuestieDB.IsDailyQuest(questId) then
+            AvailableQuests.RemoveQuest(questId)
+
+            unavailableQuestsDeterminedByTalking[questId] = true
+            availableQuestsByNpc[npcId][questId] = nil
+        end
+    end
+end
+
 _CalculateAndDrawAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
