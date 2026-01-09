@@ -160,21 +160,22 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide active quests", function()
-            local questId = 123
+            local availableQuestId = 123
+            local activeQuestId = 789
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
                 GetAvailableQuests = spy.new(function() return {} end),
-                GetActiveQuests = spy.new(function() return {{questID = 789}} end),
+                GetActiveQuests = spy.new(function() return {{questID = activeQuestId}} end),
             }
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = availableQuestId,
                 Starts = {NPC = {NPC_ID}}
             }
 
@@ -183,8 +184,10 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, availableQuestId)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, availableQuestId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, activeQuestId)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, activeQuestId)
         end)
 
         it("should not hide any quest when re-talking to the same NPC", function()
