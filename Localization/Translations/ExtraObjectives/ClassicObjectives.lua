@@ -208,7 +208,7 @@ local classicObjectiveLocales = {
     },
     ["Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."] = { -- 4021
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wehre die Kolkar-Invasoren ab, bis Kriegsherr Krom'zar erscheint. Plündere dann das Banner, das auf seinem Leichnam erscheint",
         ["esES"] = "Mata a los invasores Kolkar hasta que aparezca el Señor de la Guerra Krom'zar, y luego recoge el estandarte que aparece en su cadáver",
         ["esMX"] = "Mata a los invasores Kolkar hasta que aparezca el Señor de la Guerra Krom'zar, y luego recoge el estandarte que aparece en su cadáver",
         ["frFR"] = "Tuez les envahisseurs Kolkar jusqu'à ce que le Chef de guerre Krom'zar apparaisse, puis récupérez la bannière qui apparaît sur son cadavre",
