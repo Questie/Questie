@@ -202,7 +202,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
                 end
             end
 
-            if (not isAvailableInGossip) then
+            if (not isAvailableInGossip) and QuestieDB.IsDailyQuest(questId) then
                 AvailableQuests.RemoveQuest(questId)
 
                 unavailableQuestsDeterminedByTalking[questId] = true
@@ -218,7 +218,7 @@ function AvailableQuests.HideNotAvailableQuestsFromNPC(fromGossip)
         end
 
         for questId in pairs(availableQuestsByNpc[npcId]) do
-            if questId ~= availableQuestId then
+            if questId ~= availableQuestId and QuestieDB.IsDailyQuest(questId) then
                 AvailableQuests.RemoveQuest(questId)
 
                 unavailableQuestsDeterminedByTalking[questId] = true
