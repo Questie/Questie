@@ -106,7 +106,7 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromNPC", function()
+    describe("HideNotAvailableQuestsFromGossipShow", function()
         it("should hide quests that are not available", function()
             local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
@@ -127,7 +127,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -155,7 +155,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -184,7 +184,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -215,7 +215,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -244,7 +244,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -255,14 +255,16 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
         end)
+    end)
 
+    describe("HideNotAvailableQuestsFromQuestDetail", function()
         it("should not hide unavailable one-time quests", function()
             local oneTimeQuestId = 123
             local dailyQuestId = 789
@@ -286,7 +288,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = dailyQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(false)
+            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
@@ -311,7 +313,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromNPC(false)
+            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
