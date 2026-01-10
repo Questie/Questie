@@ -173,18 +173,29 @@ function AvailableQuests.HideNotAvailableQuestsFromGossipShow()
     end
 
     local npcId = tonumber(npcIDStr)
-    if (not availableQuestsByNpc[npcId]) or lastNpcGuid == npcGuid then
+    if lastNpcGuid == npcGuid then
         return
     end
 
     lastNpcGuid = npcGuid
 
-    local availableQuestsInGossip = QuestieCompat.GetAvailableQuests() -- empty list when not from gossip
+    local availableQuestsInGossip = QuestieCompat.GetAvailableQuests()
+    -- validate no quest is incorrectly hidden
+    for _, gossipQuest in pairs(availableQuestsInGossip) do
+        local questId = gossipQuest.questID
+        if unavailableQuestsDeterminedByTalking[questId] then
+            unavailableQuestsDeterminedByTalking[questId] = nil
+            local quest = QuestieDB.GetQuest(questId)
+            if quest then
+                AvailableQuests.DrawAvailableQuest(quest)
+            end
+        end
+    end
 
     -- Active quests are relevant, because the API can fire GOSSIP_SHOW before QUEST_ACCEPTED.
     -- So we need to check active quests to not hide them incorrectly for the day.
     local activeQuests = QuestieCompat.GetActiveQuests()
-    for questId in pairs(availableQuestsByNpc[npcId]) do
+    for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         local isAvailableInGossip = false
         for _, gossipQuest in pairs(availableQuestsInGossip) do
             if gossipQuest.questID == questId then
