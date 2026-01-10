@@ -96,7 +96,11 @@ describe("AutoQuesting", function()
 
     describe("OnQuestDetail", function()
         it("should accept quest", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             _G.GetQuestID = function() return 123 end
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -124,7 +128,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when NPC is not allowed to accept quests from", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestDetail()
@@ -325,7 +333,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when NPC not allowed", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
             Questie.db.profile.autoAccept.enabled = true
@@ -377,7 +389,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not turn in quest when NPC not allowed", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
             Questie.db.profile.autoAccept.enabled = false
@@ -391,7 +407,11 @@ describe("AutoQuesting", function()
 
     describe("OnGossipShow", function()
         it("should accept available quest", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
@@ -402,7 +422,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept available quest when active quests are not complete", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
@@ -440,7 +464,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept available quest when NPC is not allowed to accept quests from", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
@@ -620,7 +648,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestProgress()
@@ -669,7 +701,11 @@ describe("AutoQuesting", function()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function(unit)
+                if unit == "target" then
+                    return "0-0-0-0-0-123"
+                end
+            end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestComplete()
