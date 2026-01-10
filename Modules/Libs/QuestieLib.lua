@@ -271,7 +271,7 @@ end
 ---@param level Level @The quest level
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level)
-    local levelString = tostring(level)
+    local levelString = tostring(level or "?")
     local suffix = QuestieLib:GetQuestTypeSuffix(questId)
     return "[" .. levelString .. suffix .. "] "
 end

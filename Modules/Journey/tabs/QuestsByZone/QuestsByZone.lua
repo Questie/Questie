@@ -155,6 +155,16 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         return nil
     end
 
+    return _QuestieJourney.questsByZone:CategorizeQuests(quests)
+end
+
+---Categorize quests into available/completed/repeatable/unavailable categories
+---@param quests table @A table of quest IDs (keys are quest IDs, values are truthy)
+---@return table @The zoneTree table which represents the list of all the different quests
+function _QuestieJourney.questsByZone:CategorizeQuests(quests)
+    if not quests then
+        return nil
+    end
 
     local zoneTree = {
         [1] = {
