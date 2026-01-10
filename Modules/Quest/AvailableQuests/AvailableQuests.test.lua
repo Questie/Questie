@@ -15,12 +15,16 @@ describe("AvailableQuests", function()
     ---@type AvailableQuests
     local AvailableQuests
 
+    local QUEST_ID = 123
     local NPC_ID = 456
 
     before_each(function()
         ZoneDB = require("Database.Zones.zoneDB")
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieDB = require("Database.QuestieDB")
+        QuestieDB.GetNPC = function() return nil end
+        QuestieDB.GetQuest = function() return nil end
+        QuestieDB.IsDailyQuest = function() return false end
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
 
@@ -28,6 +32,7 @@ describe("AvailableQuests", function()
 
         AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
 
+        QUEST_ID = QUEST_ID + 1 -- We want to make sure each test uses a different quest ID
         NPC_ID = NPC_ID + 1 -- We want to make sure `lastNpcGuid` is different between tests
         for i = 1, MAX_NUM_QUESTS do
             _G["QuestTitleButton" .. i] = nil
@@ -39,7 +44,6 @@ describe("AvailableQuests", function()
             ZoneDB.GetDungeons = spy.new(function() return {} end)
             _G.UnitFactionGroup = spy.new(function() return "Horde" end)
             _G.GetRealmName = spy.new(function() return "Ook Ook" end)
-            QuestieDB.IsDailyQuest = function() return true end
             Questie.db.global.unavailableQuestsDeterminedByTalking = {}
 
             AvailableQuests.Initialize()
@@ -87,7 +91,6 @@ describe("AvailableQuests", function()
 
     describe("DrawAvailableQuest", function()
         it("should add a quest started by an NPC", function()
-            local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = spy.new(function() return {id = NPC_ID, name = "Test NPC"} end)
             QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
@@ -95,22 +98,22 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = QUEST_ID,
                 Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
 
             assert.spy(QuestieDB.GetNPC).was.called_with(QuestieDB, NPC_ID)
-            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, questId, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromGossipShow", function()
+    describe("ValidateAvailableQuestsFromGossipShow", function()
         it("should hide quests that are not available", function()
-            local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -122,23 +125,23 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = QUEST_ID,
                 Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
         end)
 
         it("should not hide available quests", function()
-            local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -150,24 +153,26 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = QUEST_ID,
                 Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
         end)
 
         it("should not hide active quests", function()
-            local availableQuestId = 123
-            local activeQuestId = 789
+            local availableQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local activeQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -184,7 +189,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -195,7 +200,6 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide unavailable one-time quests", function()
-            local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function() return false end
@@ -210,28 +214,27 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = QUEST_ID,
                 Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
         end)
 
         it("should not hide any quest when re-talking to the same NPC", function()
-            local questId = 123
-            local npcId = 111
-            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. npcId .. "-0" end
-            QuestieDB.GetNPC = function() return {id = npcId, name = "Test NPC"} end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
-                GetAvailableQuests = spy.new(function() return {{questID = questId}} end),
+                GetAvailableQuests = spy.new(function() return {{questID = QUEST_ID}} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
@@ -239,35 +242,88 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
-                Starts = {NPC = {npcId}}
+                Id = QUEST_ID,
+                Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
 
             _G.QuestieCompat = {
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
+        end)
+
+        it("should re-show quests that are incorrectly marked as unavailable", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {
+                ["Ook Ook"] = {[QUEST_ID] = true},
+            }
+
+            AvailableQuests.Initialize()
+
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+            _G.QuestieCompat = {
+                GetAvailableQuests = spy.new(function() return {{questID = QUEST_ID}} end),
+                GetActiveQuests = spy.new(function() return {} end),
+            }
+
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
+        end)
+
+        it("should handle talking to an NPC without available quests", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+
+            AvailableQuests.Initialize()
+
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            _G.QuestieCompat = {
+                GetAvailableQuests = spy.new(function() return {} end),
+                GetActiveQuests = spy.new(function() return {} end),
+            }
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromQuestDetail", function()
+    describe("ValidateAvailableQuestsFromQuestDetail", function()
         it("should hide quests that are not available", function()
-            local availableQuest = 123
-            local unavailableQuest = 789
+            local availableQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local unavailableQuest = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function() return true end
@@ -286,7 +342,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = unavailableQuest
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
@@ -296,8 +352,9 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide unavailable one-time quests", function()
-            local oneTimeQuestId = 123
-            local dailyQuestId = 789
+            local oneTimeQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local dailyQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function(questId)
@@ -318,7 +375,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = dailyQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
@@ -328,9 +385,9 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide any quest when dialog was closed", function()
-            local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             _G.GetQuestID = spy.new(function() return 0 end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
@@ -339,38 +396,68 @@ describe("AvailableQuests", function()
             ---@type Quest
             ---@diagnostic disable-next-line: missing-fields
             local quest = {
-                Id = questId,
+                Id = QUEST_ID,
                 Starts = {NPC = {NPC_ID}}
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, questId)
-            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, questId)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
         end)
-    end)
 
-    describe("HideNotAvailableQuestsFromQuestGreeting", function()
-        it("should not hide any quest when npc has no available quest", function()
+        it("should re-show quests that are incorrectly marked as unavailable", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {
+                ["Ook Ook"] = {[QUEST_ID] = true},
+            }
+
+            AvailableQuests.Initialize()
+
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
-            _G.GetAvailableTitle = spy.new(function() end)
-            QuestieDB.GetQuestIDFromName = spy.new(function() end)
+            _G.GetQuestID = function() return QUEST_ID end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
+        end)
+
+        it("should handle talking to an NPC without available quests", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+
+            AvailableQuests.Initialize()
+
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            _G.GetQuestID = function() return QUEST_ID end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(_G.GetAvailableTitle).was.not_called()
-            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
         end)
+    end)
 
+    describe("ValidateAvailableQuestsFromQuestGreeting", function()
         it("should hide quests that are not available", function()
-            local availableQuestId = 123
-            local unavailableQuestId = 789
+            local availableQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local unavailableQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.GetQuestIDFromName = spy.new(function()
                 return availableQuestId
             end)
@@ -394,7 +481,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = unavailableQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(_G.GetAvailableTitle).was.called_with(1)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Available Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
@@ -406,9 +493,11 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide one-time quests that are not available", function()
-            local dailyQuestId = 123
-            local oneTimeQuestId = 789
+            local dailyQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local oneTimeQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function(questId)
                 return questId == dailyQuestId
             end
@@ -425,7 +514,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = oneTimeQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
@@ -435,9 +524,11 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide active quests", function()
-            local nonAvailableQuest = 123
-            local activeQuest = 789
+            local nonAvailableQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local activeQuest = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.GetQuestIDFromName = spy.new(function()
                 return activeQuest
             end)
@@ -461,13 +552,56 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = activeQuest
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, activeQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, activeQuest)
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, nonAvailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, nonAvailableQuest)
+        end)
+
+        it("should re-show quests that are incorrectly marked as unavailable", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {
+                ["Ook Ook"] = {[QUEST_ID] = true},
+            }
+
+            AvailableQuests.Initialize()
+
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.GetQuestIDFromName = function() return QUEST_ID end
+            _G.QuestTitleButton1 = {
+                IsVisible = function() return true end,
+                isActive = 0,
+                GetID = function() return 1 end,
+            }
+            _G.GetAvailableTitle = function() return "Available Quest" end
+            QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
+        end)
+
+        it("should handle talking to an NPC without available quests", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            _G.GetAvailableTitle = spy.new(function() end)
+            QuestieDB.GetQuestIDFromName = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(_G.GetAvailableTitle).was.not_called()
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
         end)
     end)
 end)
