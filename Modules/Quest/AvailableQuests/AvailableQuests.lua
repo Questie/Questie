@@ -231,7 +231,7 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
     end
 
     local npcId = tonumber(npcIDStr)
-    if (not availableQuestsByNpc[npcId]) or lastNpcGuid == npcGuid then
+    if lastNpcGuid == npcGuid then
         return
     end
 
@@ -244,7 +244,15 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
         return
     end
 
-    for questId in pairs(availableQuestsByNpc[npcId]) do
+    if unavailableQuestsDeterminedByTalking[availableQuestId] then
+        unavailableQuestsDeterminedByTalking[availableQuestId] = nil
+        local quest = QuestieDB.GetQuest(availableQuestId)
+        if quest then
+            AvailableQuests.DrawAvailableQuest(quest)
+        end
+    end
+
+    for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         if questId ~= availableQuestId and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
