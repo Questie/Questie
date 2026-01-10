@@ -22,6 +22,9 @@ describe("AvailableQuests", function()
         ZoneDB = require("Database.Zones.zoneDB")
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieDB = require("Database.QuestieDB")
+        QuestieDB.GetNPC = function() return nil end
+        QuestieDB.GetQuest = function() return nil end
+        QuestieDB.IsDailyQuest = function() return false end
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
 
@@ -427,6 +430,7 @@ describe("AvailableQuests", function()
             QUEST_ID = QUEST_ID + 1
             local unavailableQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.GetQuestIDFromName = spy.new(function()
                 return availableQuestId
             end)
@@ -466,6 +470,7 @@ describe("AvailableQuests", function()
             QUEST_ID = QUEST_ID + 1
             local oneTimeQuestId = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function(questId)
                 return questId == dailyQuestId
             end
@@ -496,6 +501,7 @@ describe("AvailableQuests", function()
             QUEST_ID = QUEST_ID + 1
             local activeQuest = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.GetQuestIDFromName = spy.new(function()
                 return activeQuest
             end)
