@@ -161,7 +161,7 @@ end
 local lastNpcGuid
 
 --- Called on GOSSIP_SHOW to hide all quests that are not available from the NPC.
-function AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     local npcGuid = UnitGUID("target")
     if (not npcGuid) then
         return
@@ -220,7 +220,7 @@ end
 
 --- Called on QUEST_DETAIL to hide all quests that are not available from the NPC.
 --- This is relevant on NPCs which offer random quests each day and especially a different number of quests.
-function AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     local npcGuid = UnitGUID("target")
     if (not npcGuid) then
         return
@@ -264,7 +264,7 @@ end
 
 --- Called on QUEST_GREETING to hide all quests that are not available from the NPC.
 --- This is relevant on NPCs which offer random quests each day and especially a different number of quests.
-function AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     local npcGuid = UnitGUID("target")
     if (not npcGuid) then
         return

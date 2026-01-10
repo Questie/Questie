@@ -109,7 +109,7 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromGossipShow", function()
+    describe("ValidateAvailableQuestsFromGossipShow", function()
         it("should hide quests that are not available", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
@@ -130,7 +130,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -158,7 +158,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -189,7 +189,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -219,7 +219,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -247,7 +247,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -258,7 +258,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
@@ -286,7 +286,7 @@ describe("AvailableQuests", function()
                 GetActiveQuests = spy.new(function() return {} end),
             }
 
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
             assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
@@ -309,7 +309,7 @@ describe("AvailableQuests", function()
             }
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
@@ -319,7 +319,7 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromQuestDetail", function()
+    describe("ValidateAvailableQuestsFromQuestDetail", function()
         it("should hide quests that are not available", function()
             local availableQuest = QUEST_ID
             QUEST_ID = QUEST_ID + 1
@@ -342,7 +342,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = unavailableQuest
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
@@ -375,7 +375,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = dailyQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
@@ -401,7 +401,7 @@ describe("AvailableQuests", function()
             }
 
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
@@ -423,7 +423,7 @@ describe("AvailableQuests", function()
             QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
             QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
             assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
@@ -443,7 +443,7 @@ describe("AvailableQuests", function()
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
@@ -451,7 +451,7 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("HideNotAvailableQuestsFromQuestGreeting", function()
+    describe("ValidateAvailableQuestsFromQuestGreeting", function()
         it("should hide quests that are not available", function()
             local availableQuestId = QUEST_ID
             QUEST_ID = QUEST_ID + 1
@@ -481,7 +481,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = unavailableQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(_G.GetAvailableTitle).was.called_with(1)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Available Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
@@ -514,7 +514,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = oneTimeQuestId
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
@@ -552,7 +552,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             quest.Id = activeQuest
             AvailableQuests.DrawAvailableQuest(quest)
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, activeQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, activeQuest)
@@ -583,7 +583,7 @@ describe("AvailableQuests", function()
             QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
             QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
             assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
@@ -596,7 +596,7 @@ describe("AvailableQuests", function()
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(_G.GetAvailableTitle).was.not_called()
             assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
