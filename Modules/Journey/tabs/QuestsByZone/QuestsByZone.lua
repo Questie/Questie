@@ -37,9 +37,9 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
     questId = tonumber(questId)
     local questExists = false
 
-    for _, category in pairs(zoneTree) do
+    for _, category in ipairs(zoneTree) do
         if category.children then
-            for _, quest in pairs(category.children) do
+            for _, quest in ipairs(category.children) do
                 if quest.value and quest.value == questId then
                     questExists = true
                     break

@@ -184,7 +184,20 @@ local questsByZoneLocales = {
         ["zhTW"] = "任務線索",
 =======
     ["All Zones"] = {
+        ["enUS"] = "All Zones",
+        ["deDE"] = "Alle Zonen",
+        ["esES"] = "Todas las zonas",
+        ["esMX"] = "Todas las zonas",
+        ["frFR"] = "Toutes les zones",
+        ["koKR"] = "모든 지역",
+        ["ptBR"] = "Todas as zonas",
+        ["ruRU"] = "Все зоны",
+        ["zhCN"] = "所有区域",
+        ["zhTW"] = "所有區域",
+    },
+    ["Breadcrumb Quests"] = {
         ["enUS"] = true,
+<<<<<<< HEAD
         ["deDE"] = false,
         ["esES"] = false,
         ["esMX"] = false,
@@ -195,19 +208,7 @@ local questsByZoneLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["By Continent"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["Zone Scope"] = {
+    ["Select Zone Option"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
@@ -219,6 +220,17 @@ local questsByZoneLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
 >>>>>>> 0b9c41c07 ([feature] Add new dropdown to see all quests in all zones)
+=======
+        ["deDE"] = "Brotkrumen-Quests",
+        ["esES"] = "Misiones de rastro",
+        ["esMX"] = "Misiones de migajas",
+        ["frFR"] = "Quêtes préliminaires",
+        ["koKR"] = "길잡이 퀘스트",
+        ["ptBR"] = "Missões de encaminhamento",
+        ["ruRU"] = "Предзадания",
+        ["zhCN"] = "线索任务",
+        ["zhTW"] = "任務線索",
+>>>>>>> 03f988fe8 (Fix dropdown menus and remove zone scoping)
     },
 }
 
