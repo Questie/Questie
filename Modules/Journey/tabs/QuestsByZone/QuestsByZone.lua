@@ -36,12 +36,14 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
 
     questId = tonumber(questId)
     local questExists = false
+    local currentSelection
 
-    for _, category in pairs(zoneTree) do
+    for _, category in ipairs(zoneTree) do
         if category.children then
-            for _, quest in pairs(category.children) do
+            for _, quest in ipairs(category.children) do
                 if quest.value and quest.value == questId then
                     questExists = true
+                    currentSelection = category.value .. "\001" .. questId
                     break
                 end
             end
@@ -49,8 +51,9 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
         if questExists then break end
     end
 
-    if questExists then
-        treeFrame:SelectByValue(savedSelection)
+    if questExists and currentSelection then
+        _QuestieJourney.lastZoneSelection[3] = currentSelection
+        treeFrame:SelectByValue(currentSelection)
 
         C_Timer.After(0.1, function()
             if not treeFrame.frame or not treeFrame.frame.obj then return end
@@ -251,7 +254,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         "requiredMaxRep",
                         "requiredSpell",
                         "requiredSpecialization",
-                        "requiredMaxLevel"
+                        "requiredMaxLevel",
+                        "requiredSkill"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -264,6 +268,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 local requiredSpell = queryResult[8]
                 local requiredSpecialization = queryResult[9]
                 local requiredMaxLevel = queryResult[10]
+                local requiredSkill = queryResult[11]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -282,6 +287,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 -- Profession specialization
                 elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
                     tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Required profession not learned
+                elseif (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then

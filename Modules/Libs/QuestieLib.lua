@@ -149,7 +149,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
         elseif isComplete == 1 then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
 
-        -- Quests treated as complete - zero objectives or synthetic objectives
+            -- Quests treated as complete - zero objectives or synthetic objectives
         elseif isComplete == 0 and QuestieDB.GetQuest(questId).isComplete == true then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
@@ -254,6 +254,8 @@ function QuestieLib:GetQuestTypeSuffix(questId)
             return ""
         end
     else
+        -- Fallback: use first character of quest tag name for unknown tags
+        -- This preserves backward compatibility with existing UI/tests
         return stringSub(questTagName, 1, 1)
     end
 end
@@ -280,18 +282,18 @@ function QuestieLib:GetRaceString(raceMask)
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
         local stringTable = {
-            l10n('Human'),
-            l10n('Orc'),
-            l10n('Dwarf'),
-            l10n('Nightelf'),
-            l10n('Undead'),
-            l10n('Tauren'),
-            l10n('Gnome'),
-            l10n('Troll'),
-            l10n('Goblin'),
-            l10n('Blood Elf'),
-            l10n('Draenei'),
-            l10n('Worgen'),
+            l10n("Human"),
+            l10n("Orc"),
+            l10n("Dwarf"),
+            l10n("Nightelf"),
+            l10n("Undead"),
+            l10n("Tauren"),
+            l10n("Gnome"),
+            l10n("Troll"),
+            l10n("Goblin"),
+            l10n("Blood Elf"),
+            l10n("Draenei"),
+            l10n("Worgen"),
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -320,7 +322,7 @@ function QuestieLib:CacheItemNames(questId)
                         function()
                             local itemName = item:GetItemName()
                             if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
-                                QuestieDB.itemDataOverrides[objectiveDB.Id] = { itemName, { questId }, {}, {} }
+                                QuestieDB.itemDataOverrides[objectiveDB.Id] = {itemName, {questId}, {}, {}}
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
@@ -399,13 +401,15 @@ end
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
     local suffixPriority = {
-        [""] = 1,    -- No suffix (normal quests) - should come first
-        ["+"] = 2,   -- Elite
-        ["S"] = 3,   -- Scenario
-        ["D"] = 4,   -- Dungeon
-        ["H"] = 5,   -- Heroic
-        ["R"] = 6,   -- Raid
-        ["++"] = 7,  -- Legendary
+        [""] = 1, -- No suffix (normal quests) - should come first
+        ["+"] = 2, -- Elite
+        ["S"] = 3, -- Scenario
+        ["D"] = 4, -- Dungeon
+        ["H"] = 5, -- Heroic
+        ["R"] = 6, -- Raid
+        ["++"] = 7, -- Legendary
+        ["A"] = 8, -- Account
+        ["C"] = 9, -- Celestial
     }
 
     local function compareQuestsByLevelAndType(a, b)
@@ -419,13 +423,17 @@ function QuestieLib:SortQuestIDsByLevel(quests)
         local priorityA = suffixPriority[suffixA] or 999
         local priorityB = suffixPriority[suffixB] or 999
 
-        return priorityA < priorityB
+        if priorityA ~= priorityB then
+            return priorityA < priorityB
+        end
+
+        return a[2] < b[2]
     end
 
     for q in pairs(quests) do
         local questLevel, _ = QuestieLib.GetTbcLevel(q)
         local suffix = QuestieLib:GetQuestTypeSuffix(q)
-        tinsert(sortedQuestsByLevel, { questLevel or 0, q, suffix })
+        tinsert(sortedQuestsByLevel, {questLevel or 0, q, suffix})
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 
@@ -525,7 +533,7 @@ end
 
 ---@return table A table of the handed parameters plus the 'n' field with the size of the table
 function QuestieLib.tpack(...)
-    return { n = select("#", ...), ... }
+    return {n = select("#", ...), ...}
 end
 
 --- Wow's own unpack stops at first nil. this version is not speed optimized.
@@ -662,7 +670,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
         useLine = prefix .. line
-        return { useLine }
+        return {useLine}
     end
 end
 
