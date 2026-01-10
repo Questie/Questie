@@ -452,21 +452,6 @@ describe("AvailableQuests", function()
     end)
 
     describe("HideNotAvailableQuestsFromQuestGreeting", function()
-        it("should not hide any quest when npc has no available quest", function()
-            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
-            _G.GetAvailableTitle = spy.new(function() end)
-            QuestieDB.GetQuestIDFromName = spy.new(function() end)
-            QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
-
-            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
-
-            assert.spy(_G.GetAvailableTitle).was.not_called()
-            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
-            assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
-        end)
-
         it("should hide quests that are not available", function()
             local availableQuestId = QUEST_ID
             QUEST_ID = QUEST_ID + 1
@@ -574,6 +559,49 @@ describe("AvailableQuests", function()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, nonAvailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, nonAvailableQuest)
+        end)
+
+        it("should re-show quests that are incorrectly marked as unavailable", function()
+            ZoneDB.GetDungeons = function() return {} end
+            _G.UnitFactionGroup = function() return "Horde" end
+            _G.GetRealmName = function() return "Ook Ook" end
+            Questie.db.global.unavailableQuestsDeterminedByTalking = {
+                ["Ook Ook"] = {[QUEST_ID] = true},
+            }
+
+            AvailableQuests.Initialize()
+
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.GetQuestIDFromName = function() return QUEST_ID end
+            _G.QuestTitleButton1 = {
+                IsVisible = function() return true end,
+                isActive = 0,
+                GetID = function() return 1 end,
+            }
+            _G.GetAvailableTitle = function() return "Available Quest" end
+            QuestieDB.GetQuest = function() return {Id = QUEST_ID, Starts = {NPC = {NPC_ID}}} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.is_nil(Questie.db.global.unavailableQuestsDeterminedByTalking["Ook Ook"][QUEST_ID])
+        end)
+
+        it("should handle talking to an NPC without available quests", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            _G.GetAvailableTitle = spy.new(function() end)
+            QuestieDB.GetQuestIDFromName = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
+
+            assert.spy(_G.GetAvailableTitle).was.not_called()
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
         end)
     end)
 end)
