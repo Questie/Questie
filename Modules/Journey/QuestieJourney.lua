@@ -288,49 +288,4 @@ function QuestieJourney:CompleteQuest(questId)
     tinsert(Questie.db.char.journey, entry)
 end
 
-function _QuestieJourney:RestoreQuestSelection(treeGroup, zoneTree)
-    local savedValue = _QuestieJourney.lastZoneSelection[3]
-    if not savedValue then return end
-
-    local sel, questId = strsplit("\001", savedValue)
-    if not questId then return end
-    questId = tonumber(questId)
-
-    -- Check if quest still exists in current tree
-    local questExists = false
-    for _, category in pairs(zoneTree) do
-        if category.children then
-            for _, quest in pairs(category.children) do
-                if quest.value and quest.value == questId then
-                    questExists = true
-                    break
-                end
-            end
-        end
-        if questExists then break end
-    end
-
-    if questExists then
-        treeGroup:SelectByValue(savedValue)
-
-        local quest = QuestieDB.GetQuest(questId)
-        if quest then
-            local master = treeGroup.frame.obj
-            master:ReleaseChildren()
-            master:SetLayout("fill")
-            master:SetFullWidth(true)
-            master:SetFullHeight(true)
-
-            local scrollFrame = AceGUI:Create("ScrollFrame")
-            scrollFrame:SetLayout("flow")
-            scrollFrame:SetFullHeight(true)
-            master:AddChild(scrollFrame)
-
-            _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
-        end
-    else
-        _QuestieJourney.lastZoneSelection[3] = nil
-    end
-end
-
 return QuestieJourney

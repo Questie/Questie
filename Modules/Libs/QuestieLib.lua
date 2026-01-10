@@ -226,49 +226,54 @@ function QuestieLib.GetTbcLevel(questId, playerLevel)
     return questLevel, requiredLevel, QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel");
 end
 
+---Returns the quest type suffix character (e.g., "+" for Elite, "D" for Dungeon)
+---@param questId QuestId
+---@return string suffix @The suffix character for the quest type
+function QuestieLib:GetQuestTypeSuffix(questId)
+    local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
+
+    if not questTagId or not questTagName then
+        return ""
+    end
+
+    local questTagIds = QuestieDB.questTagIds
+    local langCode = l10n:GetUILocale()
+    local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
+
+    if questTagId == questTagIds.ELITE then
+        return "+"
+    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
+        return ""
+    elseif questTagId == questTagIds.LEGENDARY then
+        return "++"
+    elseif isMultiByteLocale then
+        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
+            return "R"
+        elseif questTagId == questTagIds.DUNGEON then
+            return "D"
+        elseif questTagId == questTagIds.HEROIC then
+            return "H"
+        elseif questTagId == questTagIds.SCENARIO then
+            return "S"
+        elseif questTagId == questTagIds.ACCOUNT then
+            return "A"
+        elseif questTagId == questTagIds.CELESTIAL then
+            return "C"
+        else
+            return ""
+        end
+    else
+        return stringSub(questTagName, 1, 1)
+    end
+end
+
 ---@param questId QuestId
 ---@param level Level @The quest level
 ---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, level)
-    local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
     local levelString = tostring(level)
-
-    if (not questTagId) or (not questTagName) then
-        return "[" .. levelString .. "] "
-    end
-
-    local questTagIds = QuestieDB.questTagIds
-
-    local char = stringSub(questTagName, 1, 1)
-    local langCode = l10n:GetUILocale()
-    -- the string.sub above doesn't work for multi byte characters
-    local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
-
-    if questTagId == questTagIds.ELITE then
-        char = "+"
-    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
-        char = ""
-    elseif questTagId == questTagIds.LEGENDARY then
-        char = "++"
-    elseif isMultiByteLocale then
-        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
-            char = "R"
-        elseif questTagId == questTagIds.DUNGEON then
-            char = "D"
-        elseif questTagId == questTagIds.HEROIC then
-            char = "H"
-        elseif questTagId == questTagIds.SCENARIO then
-            char = "S"
-        elseif questTagId == questTagIds.ACCOUNT then
-            char = "A"
-        elseif questTagId == questTagIds.CELESTIAL then
-            char = "C"
-        else
-            char = ""
-        end
-    end
-
-    return "[" .. levelString .. char .. "] "
+    local suffix = QuestieLib:GetQuestTypeSuffix(questId)
+    return "[" .. levelString .. suffix .. "] "
 end
 
 function QuestieLib:GetRaceString(raceMask)
@@ -412,41 +417,6 @@ function QuestieLib:SortQuestIDsByLevel(quests)
         ["++"] = 7,  -- Legendary
     }
 
-    local function getSuffixFromQuestId(questId)
-        local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
-
-        if not questTagId or not questTagName then
-            return ""
-        end
-
-        local questTagIds = QuestieDB.questTagIds
-        local langCode = l10n:GetUILocale()
-        local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
-
-        if questTagId == questTagIds.ELITE then
-            return "+"
-        elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
-            return ""
-        elseif questTagId == questTagIds.LEGENDARY then
-            return "++"
-        elseif isMultiByteLocale then
-            if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
-                return "R"
-            elseif questTagId == questTagIds.DUNGEON then
-                return "D"
-            elseif questTagId == questTagIds.HEROIC then
-                return "H"
-            elseif questTagId == questTagIds.SCENARIO then
-                return "S"
-            else
-                return ""
-            end
-        else
-            local char = stringSub(questTagName, 1, 1)
-            return char
-        end
-    end
-
     local function compareQuestsByLevelAndType(a, b)
         if a[1] ~= b[1] then
             return a[1] < b[1]
@@ -463,7 +433,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
 
     for q in pairs(quests) do
         local questLevel, _ = QuestieLib.GetTbcLevel(q)
-        local suffix = getSuffixFromQuestId(q)
+        local suffix = QuestieLib:GetQuestTypeSuffix(q)
         tinsert(sortedQuestsByLevel, { questLevel or 0, q, suffix })
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)

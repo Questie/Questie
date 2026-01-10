@@ -334,8 +334,6 @@ _HandleByContinentSelection = function()
 end
 
 _HandleContinentSelection = function(key, _)
-    local text
-
     if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
         local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
