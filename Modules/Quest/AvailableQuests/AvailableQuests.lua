@@ -152,9 +152,6 @@ end
 
 ---@param questId QuestId
 function AvailableQuests.RemoveQuest(questId)
-    if availableQuests[questId] then
-        _MarkQuestAsUnavailableFromNPC(questId)
-    end
     availableQuests[questId] = nil
     QuestieMap:UnloadQuestFrames(questId)
     QuestieTooltips:RemoveQuest(questId)
@@ -204,9 +201,7 @@ function AvailableQuests.HideNotAvailableQuestsFromGossipShow()
 
         if (not isAvailableInGossip) and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
-
-            unavailableQuestsDeterminedByTalking[questId] = true
-            availableQuestsByNpc[npcId][questId] = nil
+            _MarkQuestAsUnavailableFromNPC(questId, npcId)
         end
     end
 end
@@ -241,9 +236,7 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
     for questId in pairs(availableQuestsByNpc[npcId]) do
         if questId ~= availableQuestId and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
-
-            unavailableQuestsDeterminedByTalking[questId] = true
-            availableQuestsByNpc[npcId][questId] = nil
+            _MarkQuestAsUnavailableFromNPC(questId, npcId)
         end
     end
 end
@@ -271,7 +264,9 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
     local availableQuestsInGreeting = {}
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
-        if titleLine and titleLine:IsVisible() then
+        if (not titleLine) then
+            break
+        elseif titleLine:IsVisible() then
             local title
             if titleLine.isActive == 1 then
                 -- Active quests are relevant, because the API can fire QUEST_GREETING before QUEST_ACCEPTED.
@@ -290,9 +285,7 @@ function AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
     for questId in pairs(availableQuestsByNpc[npcId]) do
         if (not availableQuestsInGreeting[questId]) and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
-
-            unavailableQuestsDeterminedByTalking[questId] = true
-            availableQuestsByNpc[npcId][questId] = nil
+            _MarkQuestAsUnavailableFromNPC(questId, npcId)
         end
     end
 end
@@ -594,15 +587,13 @@ _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
 end
 
-_MarkQuestAsUnavailableFromNPC = function(questId)
-    local quest = QuestieDB.GetQuest(questId)
-    if quest then
-        for _, npcId in pairs(quest.Starts.NPC or {}) do
-            if availableQuestsByNpc[npcId] then
-                availableQuestsByNpc[npcId][questId] = nil
-            end
-        end
-    end
+---@param questId QuestId
+---@param npcId NpcId
+_MarkQuestAsUnavailableFromNPC = function(questId, npcId)
+    unavailableQuestsDeterminedByTalking[questId] = true
+    availableQuestsByNpc[npcId][questId] = nil
+
+    -- TODO: Add Comms call to inform other players about this unavailable quest
 end
 
 return AvailableQuests

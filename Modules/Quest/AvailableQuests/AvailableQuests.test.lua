@@ -265,6 +265,36 @@ describe("AvailableQuests", function()
     end)
 
     describe("HideNotAvailableQuestsFromQuestDetail", function()
+        it("should hide quests that are not available", function()
+            local availableQuest = 123
+            local unavailableQuest = 789
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RegisterQuestStartTooltip = function() end
+            _G.GetQuestID = function() return availableQuest end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            ---@type Quest
+            ---@diagnostic disable-next-line: missing-fields
+            local quest = {
+                Id = availableQuest,
+                Starts = {NPC = {NPC_ID}}
+            }
+
+            AvailableQuests.DrawAvailableQuest(quest)
+            quest.Id = unavailableQuest
+            AvailableQuests.DrawAvailableQuest(quest)
+            AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuest)
+        end)
+
         it("should not hide unavailable one-time quests", function()
             local oneTimeQuestId = 123
             local dailyQuestId = 789
@@ -292,6 +322,7 @@ describe("AvailableQuests", function()
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, oneTimeQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, oneTimeQuestId)
+
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, dailyQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, dailyQuestId)
         end)
