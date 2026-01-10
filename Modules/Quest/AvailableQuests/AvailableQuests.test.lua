@@ -39,7 +39,6 @@ describe("AvailableQuests", function()
             ZoneDB.GetDungeons = spy.new(function() return {} end)
             _G.UnitFactionGroup = spy.new(function() return "Horde" end)
             _G.GetRealmName = spy.new(function() return "Ook Ook" end)
-            QuestieDB.IsDailyQuest = function() return true end
             Questie.db.global.unavailableQuestsDeterminedByTalking = {}
 
             AvailableQuests.Initialize()
@@ -111,6 +110,7 @@ describe("AvailableQuests", function()
             local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -139,6 +139,7 @@ describe("AvailableQuests", function()
             local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -168,6 +169,7 @@ describe("AvailableQuests", function()
             local activeQuestId = 789
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -228,6 +230,7 @@ describe("AvailableQuests", function()
             local npcId = 111
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. npcId .. "-0" end
             QuestieDB.GetNPC = function() return {id = npcId, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
@@ -331,6 +334,7 @@ describe("AvailableQuests", function()
             local questId = 123
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             _G.GetQuestID = spy.new(function() return 0 end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
