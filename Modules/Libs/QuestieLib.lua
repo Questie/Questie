@@ -246,25 +246,24 @@ function QuestieLib:GetQuestTypeSuffix(questId)
         return ""
     elseif questTagId == questTagIds.LEGENDARY then
         return "++"
-    elseif isMultiByteLocale then
-        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
-            return "R"
-        elseif questTagId == questTagIds.DUNGEON then
-            return "D"
-        elseif questTagId == questTagIds.HEROIC then
-            return "H"
-        elseif questTagId == questTagIds.SCENARIO then
-            return "S"
-        elseif questTagId == questTagIds.ACCOUNT then
-            return "A"
-        elseif questTagId == questTagIds.CELESTIAL then
-            return "C"
-        else
-            return ""
-        end
-    else
-        return stringSub(questTagName, 1, 1)
+    elseif questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
+        return "R"
+    elseif questTagId == questTagIds.DUNGEON then
+        return "D"
+    elseif questTagId == questTagIds.HEROIC then
+        return "H"
+    elseif questTagId == questTagIds.SCENARIO then
+        return "S"
+    elseif questTagId == questTagIds.ACCOUNT then
+        return "A"
+    elseif questTagId == questTagIds.CELESTIAL then
+        return "C"
     end
+
+    if isMultiByteLocale then
+        return ""
+    end
+    return stringSub(questTagName, 1, 1)
 end
 
 ---@param questId QuestId
@@ -430,7 +429,11 @@ function QuestieLib:SortQuestIDsByLevel(quests)
         local priorityA = suffixPriority[suffixA] or 999
         local priorityB = suffixPriority[suffixB] or 999
 
-        return priorityA < priorityB
+        if priorityA ~= priorityB then
+            return priorityA < priorityB
+        end
+
+        return a[2] < b[2]
     end
 
     for q in pairs(quests) do

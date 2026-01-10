@@ -216,9 +216,14 @@ _HandleByContinentSelection = function()
 
     _QuestieJourney.lastZoneSelection[3] = nil
 
-    if selectedContinentId then
+    -- Only restore if selectedContinentId is a valid continent (not "ALL_ZONES")
+    if selectedContinentId and selectedContinentId ~= "ALL_ZONES" and QuestieJourney.zones[selectedContinentId] then
         contDropdown:SetValue(selectedContinentId)
         _HandleContinentSelection({value = selectedContinentId})
+    else
+        -- Reset to show the dropdown in initial state
+        zoneDropdown:SetDisabled(true)
+        zoneDropdown:SetText(l10n("Select Zone"))
     end
 end
 
@@ -256,11 +261,17 @@ _HandleContinentSelection = function(key, _)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
     else
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
-        zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
-        zoneDropdown:SetText(l10n("Select Zone"))
-        zoneDropdown:SetDisabled(false)
-        zoneDropdown.frame:Show()
+        local zones = QuestieJourney.zones[key.value]
+        if zones then
+            local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
+            zoneDropdown:SetList(zones, sortedZones)
+            zoneDropdown:SetText(l10n("Select Zone"))
+            zoneDropdown:SetDisabled(false)
+            zoneDropdown.frame:Show()
+        else
+            zoneDropdown:SetDisabled(true)
+            zoneDropdown.frame:Hide()
+        end
     end
 
     _QuestieJourney.lastZoneSelection[2] = RESET
