@@ -50,9 +50,11 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
     end
 
     if questExists then
-        treeFrame:SetSelected(sel, savedSelection)
+        treeFrame:SelectByValue(savedSelection)
 
         C_Timer.After(0.1, function()
+            if not treeFrame.frame or not treeFrame.frame.obj then return end
+
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 local master = treeFrame.frame.obj
