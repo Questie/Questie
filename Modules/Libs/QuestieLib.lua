@@ -415,6 +415,8 @@ function QuestieLib:SortQuestIDsByLevel(quests)
         ["H"] = 5,   -- Heroic
         ["R"] = 6,   -- Raid
         ["++"] = 7,  -- Legendary
+        ["A"] = 8, -- Account
+        ["C"] = 9, -- Celestial
     }
 
     local function compareQuestsByLevelAndType(a, b)
