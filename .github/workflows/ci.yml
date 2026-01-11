@@ -29,10 +29,18 @@ jobs:
 
       - name: Install Lua
         run: |
-          sudo apt-get install lua5.1 lua-check luarocks
+          sudo apt-get install lua5.1 luarocks
           sudo luarocks install bit32
           sudo luarocks install busted
           sudo luarocks install luafilesystem
+
+      - name: Install Lua Language Server
+        run: |
+          LUA_LS_VERSION=$(curl -s https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r .tag_name)
+          curl -L -O https://github.com/LuaLS/lua-language-server/releases/download/${LUA_LS_VERSION}/lua-language-server-${LUA_LS_VERSION}-linux-x64.tar.gz
+          mkdir -p lua-language-server
+          tar -xzf lua-language-server-${LUA_LS_VERSION}-linux-x64.tar.gz -C lua-language-server
+          echo "$PWD/lua-language-server/bin" >> $GITHUB_PATH
 
       - name: Run busted Unit Tests
         run: |
@@ -60,8 +68,8 @@ jobs:
       - name: Validate Localized database
         run: lua cli/validate-localization.lua
 
-      - name: Run Luacheck
-        run: luacheck -q -- Database Localization Modules Public Questie.lua
+      - name: Run Lua Language Server Check
+        run: lua-language-server --check=. --checklevel=Warning --configpath=.luarc.json
 
       - name: Upload correction files
         uses: actions/upload-artifact@v6
