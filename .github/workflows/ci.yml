@@ -27,6 +27,16 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v6
 
+      - name: Download WoW-API
+        run: |
+          RELEASE_URL=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/Questie/WoW-API/releases/latest | jq -r '.assets[0].url')
+          curl -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/octet-stream" \
+            -o WoW-API.zip "$RELEASE_URL"
+          unzip -q WoW-API.zip
+          rm WoW-API.zip
+
       - name: Install Lua
         run: |
           sudo apt-get install lua5.1 luarocks
