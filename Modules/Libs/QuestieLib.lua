@@ -149,7 +149,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
         elseif isComplete == 1 then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
 
-        -- Quests treated as complete - zero objectives or synthetic objectives
+            -- Quests treated as complete - zero objectives or synthetic objectives
         elseif isComplete == 0 and QuestieDB.GetQuest(questId).isComplete == true then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
@@ -159,32 +159,32 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
 end
 
 local colors = {
-    { 0.3125,     0.44140625, 1 },          --Blizzard Polygon-blue --Alpha of 128
+    {0.3125, 0.44140625, 1}, --Blizzard Polygon-blue --Alpha of 128
     --{123,         146,        255},         --Blizzard Polygon-blue-2 --Alpha of 61
-    { 0.5,        0.46875,    0.84765625 }, --Medium Purple
-    { 0.58203125, 0.89453125, 0.0546875 },  --Inch Worm
-    { 0.45703125, 0.8515625,  0.78125 },    --Downy
-    { 1,          0.5625,     0.625 },      --Salmon Pink
+    {0.5, 0.46875, 0.84765625}, --Medium Purple
+    {0.58203125, 0.89453125, 0.0546875}, --Inch Worm
+    {0.45703125, 0.8515625, 0.78125}, --Downy
+    {1, 0.5625, 0.625}, --Salmon Pink
     --{149,         159,        112},         --Avocado, Bad? Fix it
-    { 0,          0.6484375,  0.59375 },    --Persian Green
-    { 0.70703125, 0.109375,   0.4765625 },  --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
-    { 0.58203125, 0.2148375,  1 },          --Light Slate Blue
-    { 0.72265625, 0.3671875,  0 },          --Alloy Orange
-    { 0,          0.9765625,  0.546875 },   --Spring Green
-    { 0.8515625,  0.2148375,  0.57421875 }, --Deep Cerise
-    { 1,          0.65234375, 0 },          --Orange
-    { 0.8125,     0.7109375,  1 },          --Mauve
-    { 0,          0.25390625, 0.58984375 }, --Smalt
-    { 1,          0.25,       1 },          --Pink Flamingo
-    { 1,          1,          0 },          --Yellow
-    { 0.16015625, 0.65234375, 0 },          --Slimy Green
-    { 0,          0.66015625, 1 },          --Deep Sky Blue
-    { 0.87109375, 0.87109375, 0.56640625 }, --Primrose
-    { 0,          0.5859375,  0 },          --Vine Green --G67 default
-    { 0,          0.3,        1 },          --Navy Blue
-    { 0,          0.97265625, 0 },          --Lime
-    { 0,          1,          1 },          --Aqua
-    { 1,          0.1484375,  0 },          --Scarlet
+    {0, 0.6484375, 0.59375}, --Persian Green
+    {0.70703125, 0.109375, 0.4765625}, --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
+    {0.58203125, 0.2148375, 1}, --Light Slate Blue
+    {0.72265625, 0.3671875, 0}, --Alloy Orange
+    {0, 0.9765625, 0.546875}, --Spring Green
+    {0.8515625, 0.2148375, 0.57421875}, --Deep Cerise
+    {1, 0.65234375, 0}, --Orange
+    {0.8125, 0.7109375, 1}, --Mauve
+    {0, 0.25390625, 0.58984375}, --Smalt
+    {1, 0.25, 1}, --Pink Flamingo
+    {1, 1, 0}, --Yellow
+    {0.16015625, 0.65234375, 0}, --Slimy Green
+    {0, 0.66015625, 1}, --Deep Sky Blue
+    {0.87109375, 0.87109375, 0.56640625}, --Primrose
+    {0, 0.5859375, 0}, --Vine Green --G67 default
+    {0, 0.3, 1}, --Navy Blue
+    {0, 0.97265625, 0}, --Lime
+    {0, 1, 1}, --Aqua
+    {1, 0.1484375, 0}, --Scarlet
 }
 
 local numColors = #colors
@@ -255,6 +255,10 @@ function QuestieLib:GetQuestTypeSuffix(questId)
             return "H"
         elseif questTagId == questTagIds.SCENARIO then
             return "S"
+        elseif questTagId == questTagIds.ACCOUNT then
+            return "A"
+        elseif questTagId == questTagIds.CELESTIAL then
+            return "C"
         else
             return ""
         end
@@ -287,18 +291,18 @@ function QuestieLib:GetRaceString(raceMask)
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
         local stringTable = {
-            l10n('Human'),
-            l10n('Orc'),
-            l10n('Dwarf'),
-            l10n('Nightelf'),
-            l10n('Undead'),
-            l10n('Tauren'),
-            l10n('Gnome'),
-            l10n('Troll'),
-            l10n('Goblin'),
-            l10n('Blood Elf'),
-            l10n('Draenei'),
-            l10n('Worgen'),
+            l10n("Human"),
+            l10n("Orc"),
+            l10n("Dwarf"),
+            l10n("Nightelf"),
+            l10n("Undead"),
+            l10n("Tauren"),
+            l10n("Gnome"),
+            l10n("Troll"),
+            l10n("Goblin"),
+            l10n("Blood Elf"),
+            l10n("Draenei"),
+            l10n("Worgen"),
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -327,7 +331,7 @@ function QuestieLib:CacheItemNames(questId)
                         function()
                             local itemName = item:GetItemName()
                             if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
-                                QuestieDB.itemDataOverrides[objectiveDB.Id] = { itemName, { questId }, {}, {} }
+                                QuestieDB.itemDataOverrides[objectiveDB.Id] = {itemName, {questId}, {}, {}}
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
@@ -406,13 +410,13 @@ end
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
     local suffixPriority = {
-        [""] = 1,    -- No suffix (normal quests) - should come first
-        ["+"] = 2,   -- Elite
-        ["S"] = 3,   -- Scenario
-        ["D"] = 4,   -- Dungeon
-        ["H"] = 5,   -- Heroic
-        ["R"] = 6,   -- Raid
-        ["++"] = 7,  -- Legendary
+        [""] = 1, -- No suffix (normal quests) - should come first
+        ["+"] = 2, -- Elite
+        ["S"] = 3, -- Scenario
+        ["D"] = 4, -- Dungeon
+        ["H"] = 5, -- Heroic
+        ["R"] = 6, -- Raid
+        ["++"] = 7, -- Legendary
         ["A"] = 8, -- Account
         ["C"] = 9, -- Celestial
     }
@@ -438,7 +442,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     for q in pairs(quests) do
         local questLevel, _ = QuestieLib.GetTbcLevel(q)
         local suffix = QuestieLib:GetQuestTypeSuffix(q)
-        tinsert(sortedQuestsByLevel, { questLevel or 0, q, suffix })
+        tinsert(sortedQuestsByLevel, {questLevel or 0, q, suffix})
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 
@@ -538,7 +542,7 @@ end
 
 ---@return table A table of the handed parameters plus the 'n' field with the size of the table
 function QuestieLib.tpack(...)
-    return { n = select("#", ...), ... }
+    return {n = select("#", ...), ...}
 end
 
 --- Wow's own unpack stops at first nil. this version is not speed optimized.
@@ -675,7 +679,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
         useLine = prefix .. line
-        return { useLine }
+        return {useLine}
     end
 end
 
