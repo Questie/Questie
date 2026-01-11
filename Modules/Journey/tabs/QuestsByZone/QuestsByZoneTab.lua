@@ -93,8 +93,6 @@ _CreateAllZoneDropdown = function()
     dropdown:SetText(l10n("Zone Scope"))
     dropdown:SetValue("ALL_ZONES")
 
-    _HandleAllZonesSelection()
-
     dropdown:SetCallback("OnValueChanged", function(widget, event, key)
         if key == "ALL_ZONES" then
             _HandleAllZonesSelection()
@@ -168,24 +166,25 @@ end
 
 _HandleAllZonesSelection = function()
     local allQuestIds = {}
+    local zoneMap = QuestieJourney.zoneMap or {}
 
     -- add all quest IDs from regular zones
-    for zoneId, quests in pairs(QuestieJourney.zoneMap or {}) do
+    for zoneId, quests in pairs(zoneMap) do
         for questId in pairs(quests) do
             allQuestIds[questId] = true
         end
     end
     -- add all quest IDs from class quests
     local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
-    local classQuests = QuestieJourney.zoneMap[classKey]
+    local classQuests = zoneMap[classKey]
     if classQuests then
         for questId in pairs(classQuests) do
             allQuestIds[questId] = true
         end
     end
     -- add all quest IDs from profession quests
-    for profId, _ in pairs(QuestieJourney.zones[QuestieJourney.questCategoryKeys.PROFESSIONS] or {}) do
-        local profQuests = QuestieJourney.zoneMap[profId]
+    for profId, _ in pairs(zoneMap[QuestieJourney.questCategoryKeys.PROFESSIONS]) do
+        local profQuests = zoneMap[profId]
         if profQuests then
             for questId in pairs(profQuests) do
                 allQuestIds[questId] = true
@@ -193,7 +192,7 @@ _HandleAllZonesSelection = function()
         end
     end
     -- add all quest IDs from pet battle quests
-    local petQuests = QuestieJourney.zoneMap[QuestieDB.sortKeys.PET_BATTLE]
+    local petQuests = zoneMap[QuestieDB.sortKeys.PET_BATTLE]
     if petQuests then
         for questId in pairs(petQuests) do
             allQuestIds[questId] = true
