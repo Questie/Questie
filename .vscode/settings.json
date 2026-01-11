@@ -45,11 +45,4 @@
     "Lua.format.enable": true,
     "Lua.diagnostics.enable": true,
     "Lua.runtime.version": "Lua 5.1",
-
-    // Copilot settings
-    "github.copilot.chat.commitMessageGeneration.instructions": [
-      {
-        "file": ".vscode/.copilot-commit-message-instruction.md"
-      },
-    ],
 }
