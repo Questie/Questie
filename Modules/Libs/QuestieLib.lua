@@ -237,6 +237,8 @@ function QuestieLib:GetQuestTypeSuffix(questId)
     end
 
     local questTagIds = QuestieDB.questTagIds
+    local langCode = l10n:GetUILocale()
+    local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
 
     if questTagId == questTagIds.ELITE then
         return "+"
@@ -244,23 +246,23 @@ function QuestieLib:GetQuestTypeSuffix(questId)
         return ""
     elseif questTagId == questTagIds.LEGENDARY then
         return "++"
-    elseif questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
-        return "R"
-    elseif questTagId == questTagIds.DUNGEON then
-        return "D"
-    elseif questTagId == questTagIds.HEROIC then
-        return "H"
-    elseif questTagId == questTagIds.SCENARIO then
-        return "S"
-    elseif questTagId == questTagIds.ACCOUNT then
-        return "A"
-    elseif questTagId == questTagIds.CELESTIAL then
-        return "C"
+    elseif isMultiByteLocale then
+        if questTagId == questTagIds.RAID or questTagId == questTagIds.RAID_10 or questTagId == questTagIds.RAID_25 then
+            return "R"
+        elseif questTagId == questTagIds.DUNGEON then
+            return "D"
+        elseif questTagId == questTagIds.HEROIC then
+            return "H"
+        elseif questTagId == questTagIds.SCENARIO then
+            return "S"
+        else
+            return ""
+        end
+    else
+        -- Fallback: use first character of quest tag name for unknown tags
+        -- This preserves backward compatibility with existing UI/tests
+        return stringSub(questTagName, 1, 1)
     end
-
-    -- Fallback: use first character of quest tag name for unknown tags
-    -- This preserves backward compatibility with existing UI/tests
-    return stringSub(questTagName, 1, 1)
 end
 
 ---@param questId QuestId

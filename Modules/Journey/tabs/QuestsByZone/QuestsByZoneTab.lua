@@ -91,7 +91,10 @@ _CreateAllZoneDropdown = function()
         ["BY_CONTINENT"] = l10n("By Continent")
     })
     dropdown:SetText(l10n("Zone Scope"))
-    dropdown:SetValue("BY_CONTINENT")
+    dropdown:SetValue("ALL_ZONES")
+
+    _HandleAllZonesSelection()
+
     dropdown:SetCallback("OnValueChanged", function(widget, event, key)
         if key == "ALL_ZONES" then
             _HandleAllZonesSelection()
