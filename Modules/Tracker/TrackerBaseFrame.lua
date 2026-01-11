@@ -32,6 +32,10 @@ local _OnEnter, _SetSizerTooltip
 function TrackerBaseFrame.Initialize()
     ---@class Questie_BaseFrame : Frame, BackdropTemplateMixin
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+    -- This is to solve an issue with LuaLS not realizing that a global is created.
+    if not Questie_BaseFrame then
+        Questie_BaseFrame = baseFrame
+    end
     baseFrame.isSizing = false
     baseFrame.isMoving = false
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!

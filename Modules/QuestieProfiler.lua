@@ -153,6 +153,10 @@ function QuestieProfiler:CreateUI()
 
     ---@class QuestieProfilerScrollFrame: ScrollFrame, { ScrollBar: Frame }
     base.scrollFrame = CreateFrame("ScrollFrame", "QuestieProfilerScrollFrame", base, scrollFrameTemplete)
+    --- Show LuaLS that we expect this to become a global
+    if not QuestieProfilerScrollFrame then
+        QuestieProfilerScrollFrame = base.scrollFrame
+    end
     base.scrollFrame:SetFrameStrata("TOOLTIP")
     base.scrollFrame:SetPoint("TOPLEFT", base, 0, -40)
     base.scrollFrame:SetPoint("BOTTOMRIGHT", base, 0, 30)
