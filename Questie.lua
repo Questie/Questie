@@ -22,6 +22,11 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
+    --- Make LuaLS understand this is a global
+    if not QuestieConfig then
+        ---@class Frame
+        QuestieConfig = {}
+    end
 
     -- These events basically all mean the same: The active profile changed.
     Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
