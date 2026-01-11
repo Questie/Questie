@@ -1257,6 +1257,9 @@ function MopItemFixes.Load()
         [93668] = { -- Saur Fetish
             [itemKeys.npcDrops] = {69154,69155,69286},
         },
+        [93731] = { -- Mogu Codex Fragment
+            [itemKeys.npcDrops] = {69435},
+        },
         [93733] = { -- Mask of the Spirit-Caller
             [itemKeys.npcDrops] = {69301},
         },
@@ -1278,6 +1281,12 @@ function MopItemFixes.Load()
         },
         [94605] = { -- Wild Pterrorwing Hatchling
             [itemKeys.npcDrops] = {69428},
+        },
+        [95372] = { -- Choker of Storms
+            [itemKeys.objectDrops] = {218853},
+        },
+        [95374] = { -- Hoard-Keeper's Key
+            [itemKeys.npcDrops] = {69274},
         },
         [95383] = { -- Pristine Banner of the Mantid Empire
             [itemKeys.startQuest] = 32686,

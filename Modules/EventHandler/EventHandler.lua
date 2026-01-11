@@ -125,7 +125,7 @@ function EventHandler:RegisterLateEvents()
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
-        AvailableQuests.HideNotAvailableQuestsFromNPC(false)
+        AvailableQuests.HideNotAvailableQuestsFromQuestDetail()
         AutoQuesting.OnQuestDetail()
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
             QuestieDebugOffer.QuestDialog()
@@ -133,11 +133,12 @@ function EventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
     Questie:RegisterEvent("GOSSIP_SHOW", function()
-        AvailableQuests.HideNotAvailableQuestsFromNPC(true)
+        AvailableQuests.HideNotAvailableQuestsFromGossipShow()
         AutoQuesting.OnGossipShow()
         QuestgiverFrame.GossipMark()
     end)
     Questie:RegisterEvent("QUEST_GREETING", function()
+        AvailableQuests.HideNotAvailableQuestsFromQuestGreeting()
         AutoQuesting.OnQuestGreeting()
         QuestgiverFrame.GreetingMark()
     end)
@@ -152,7 +153,7 @@ function EventHandler:RegisterLateEvents()
         end
     end)
     Questie:RegisterEvent("QUEST_REMOVED", function(_, questId) QuestEventHandler.QuestRemoved(questId) end)
-    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId) QuestEventHandler.QuestTurnedIn(questId, nil, nil) end)
+    Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId, xpReward, moneyReward) QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward) end)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
@@ -185,7 +186,6 @@ function EventHandler:RegisterLateEvents()
                     QuestieTracker:Hide()
                 end
             end)
-
         else
             -- Handle exiting instances for both minimize and hide
             if trackerMinimizedByDungeon == true then
@@ -378,18 +378,18 @@ function _EventHandler:PlayerLogin()
         local replaceTypes = {
             ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
             zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
-            deDE = "%%%d$s",     --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
+            deDE = "%%%d$s", --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
-            enPlus = "%%s",      -- European languages except (deDE)
+            enPlus = "%%s", -- European languages except (deDE)
         }
 
-        if locale == "zhCN" or locale == "koKR" then                                                                                       --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+        if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
-        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
+        elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
-        elseif locale == "zhTW" then                                                                                                       --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
+        elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)
-        elseif locale == "ruRU" then                                                                                                       --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
+        elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.ruRU, replaceString)
         else
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.enPlus, replaceString)

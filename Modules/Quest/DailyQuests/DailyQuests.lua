@@ -9,7 +9,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type AvailableQuests
-local AvailableQuests = QuestieLoader:ImportModule("QuestieTooltips");
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 

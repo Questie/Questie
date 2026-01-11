@@ -95,7 +95,7 @@ local iconOptionsLocales = {
         ["koKR"] = "퀘스트 완료 아이콘을 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões concluídas será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения выполненных заданий на карте и миникарте",
-        ["zhCN"] = "若启用，在地图上标记提交任务的地点",
+        ["zhCN"] = "启用时，在地图上标记提交任务的地点",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示回任務的位置。",
     },
     ["Enable Map Icons"] = {
@@ -239,7 +239,7 @@ local iconOptionsLocales = {
         ["koKR"] = "수행 가능한 퀘스트 아이콘을 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões disponíveis será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения доступных заданий на карте и миникарте",
-        ["zhCN"] = "若启用，在地图上标记可接任务的地点",
+        ["zhCN"] = "启用时，在地图上标记可接任务的地点",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示可取得任務的位置。",
     },
     ["Enable Event Quest Icons"] = {
@@ -263,7 +263,7 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, 이벤트 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões de evento será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий игровых событий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，事件任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，事件任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示可取得事件任務的位置。",
     },
     ["Enable Objective Icons"] = {
@@ -287,8 +287,8 @@ local iconOptionsLocales = {
         ["koKR"] = "퀘스트 목표 아이콘을 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de objetivos de missão será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на карте и миникарте",
-        ["zhCN"] = "当启用此项时，任务目标图标会显示在地图/小地图上。",
-        ["zhTW"] = "當啟用此項時，任務目標圖示將會顯示在地圖/小地圖上。",
+        ["zhCN"] = "启用时，任务目标图标会显示在地图/小地图上。",
+        ["zhTW"] = "啟用時，任務目標圖示將會顯示在地圖/小地圖上。",
     },
     ["Enable Repeatable Quest Icons"] = {
         ["enUS"] = true,
@@ -311,7 +311,7 @@ local iconOptionsLocales = {
         ["koKR"] = "지도나 미니맵에 반복 퀘스트를 표시할지 말지 선택합니다.",
         ["ptBR"] = "Se ativado, a localização de missões repetíveis será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения повторяемых заданий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，重复任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，重复任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示可以重覆接取的任務。",
     },
     ["Enable Raid Quest Icons"] = {
@@ -335,7 +335,7 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, 레이드 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões de raide será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения рейдовых заданий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，团队任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，团队任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示團隊任務。",
     },
     ["Enable Dungeon Quest Icons"] = {
@@ -359,7 +359,7 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, 던전 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões de masmorra será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий подземелий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，地下城任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，地下城任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示地下城任務。",
     },
     ["Enable Completed Quest Icons"] = {
@@ -395,7 +395,7 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, PVP 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões de JxJ será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения PvP-заданий на карте и миникарте",
-        ["zhCN"] = "启用此功能后，PVP任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，PVP任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示 PvP 任務。",
     },
     ["Available AQ War Effort Quests"] = {
@@ -419,7 +419,7 @@ local iconOptionsLocales = {
         ["koKR"] = "아이콘을 활성화시, 안퀴라즈 반납 퀘스트의 위치를 맵/미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões do Esforço de Guerra de Ahn'Qiraj será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий военной кампании Ан'Киража на карте и миникарте",
-        ["zhCN"] = "启用此功能后，安其拉战备任务的位置将显示在 世界地图/小地图上。",
+        ["zhCN"] = "启用时，安其拉战备任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示安其拉之門戰火任務。",
     },
     ["The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!"] = {
@@ -431,7 +431,7 @@ local iconOptionsLocales = {
         ["koKR"] = "안퀴라즈 반납 퀘스트가 표시됩니다. 만약 당신의 서버가 해당 퀘스트를 완료했다면, Questie 아이콘 설정에서 이를 숨길 수 있습니다.",
         ["ptBR"] = "As missões do Esforço de Guerra de Ahn'Qiraj estão sendo exibidas para você. Se o seu servidor já concluiu, você pode ocultá-las nas configurações de ícones de Questie.",
         ["ruRU"] = "Задания войны в Ан'Кираже отображаются для вас. Если на вашем сервере это завершено, то вы можете скрыть эти задания в настройках значков Questie!",
-        ["zhCN"] = false,
+        ["zhCN"] = "安其拉战争物资任务会为你显示。如果你的服务器已经完成该事件，你可以在 Questie 的图标设置中隐藏这些任务！",
         ["zhTW"] = "已經為你顯示『安其拉戰線』任務。如果你的伺服器已經完成這些任務，可以在 Questie 的圖示設定中隱藏這些任務！",
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
@@ -923,7 +923,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 기능을 활성화하면 퀘스트를 시작하는 아이템 드롭 위치가 지도/미니맵에 표시됩니다.",
         ["ptBR"] = "Se ativado, as localizações dos itens que iniciam missões serão exibidas no mapa e minimapa.",
         ["ruRU"] = "Когда включено, местоположения выпадения предметов, начинающих задания, будут отображаться на карте/миникарте",
-        ["zhCN"] = "当启用时，开始任务的物品掉落位置将显示在地图/小地图上。",
+        ["zhCN"] = "启用时，开始任务的物品掉落位置将显示在地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示開始任務的物品。",
     },
     ["Available Event Quests"] = {
@@ -1163,7 +1163,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션이 활성화되면 발견의 시즌 룬과 룬 퀘스트의 위치가 지도/미니맵에 표시됩니다.",
         ["ptBR"] = "Se ativado, a localização das runas da Temporada de Descoberta e das missões de runas será exibida no mapa e minimapa.",
         ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте и миникарте",
-        ["zhCN"] = "启用后，会在大地图和小地图上显示探索符文和符文任务的图标",
+        ["zhCN"] = "启用时，会在大地图和小地图上显示探索符文和符文任务的图标",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示探索賽季符文和符文任務。",
     },
     ["Phase 1"] = {

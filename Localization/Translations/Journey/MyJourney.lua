@@ -11,7 +11,7 @@ local myJourneyLocales = {
         ["koKR"] = "Questie 설정",
         ["ptBR"] = "Opções",
         ["ruRU"] = "Настройки Questie",
-        ["zhCN"] = "打开 Questie",
+        ["zhCN"] = "Questie选项",
         ["zhTW"] = "設定選項",
     },
     ["My Journey"] = {
@@ -347,8 +347,8 @@ local myJourneyLocales = {
         ["koKR"] = "캐릭터 재생성이 감지되어 여정 데이터가 초기화됩니다",
         ["ptBR"] = "Recriação de personagem detectada, redefinindo os dados da jornada",
         ["ruRU"] = "Обнаружено пересоздание персонажа, сброс данных Путешествия.",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "检测到角色重建，正在重置旅途数据",
+        ["zhTW"] = "已偵測到角色重建，旅途資料重置中",
     }
 }
 

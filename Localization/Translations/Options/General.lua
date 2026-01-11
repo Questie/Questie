@@ -11,7 +11,7 @@ local generalOptionsLocales = {
         ["koKR"] = "일반",
         ["ptBR"] = "Geral",
         ["ruRU"] = "Общее",
-        ["zhCN"] = "选项",
+        ["zhCN"] = "一般",
         ["zhTW"] = "一般",
     },
     ["General Options"] = {
@@ -191,7 +191,7 @@ local generalOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 저레벨(회색) 퀘스트도 자동으로 수락됩니다.",
         ["ptBR"] = "Se ativado, missões triviais (cinza) também serão aceitas automaticamente.",
         ["ruRU"] = "Включить/отключить автоматическое принятие заданий низкого уровня (серых)",
-        ["zhCN"] = "启用此功能后，低级（灰色）的任务也会被自动接受。",
+        ["zhCN"] = "启用时，低级（灰色）的任务也会被自动接受。",
         ["zhTW"] = "啟用時，也會自動接受不重要的 (灰色) 任務。",
     },
     ["Quest Level Options"] = {
@@ -599,7 +599,7 @@ local generalOptionsLocales = {
         ["koKR"] = "툴팁에 퀘스트의 레벨을 표시합니다.",
         ["ptBR"] = "Se ativado, o nível das missões será mostrado nas dicas de ferramentas.",
         ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
-        ["zhCN"] = "启用后，任务等级将显示在悬浮窗提示中",
+        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中",
         ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級。",
     },
     ["Enable World Tooltips"] = {
@@ -623,8 +623,8 @@ local generalOptionsLocales = {
         ["koKR"] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
         ["ptBR"] = "Se ativado, as informações da missão serão adicionadas às dicas relevantes de mob/item.",
         ["ruRU"] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
-        ["zhCN"] = "当启用此项时，任务信息将被添加到相关的怪物/物品工具提示中。",
-        ["zhTW"] = "當啟用此項時，任務資訊將會加入到相關的怪物/物品工具提示中。",
+        ["zhCN"] = "启用时，任务信息将被添加到相关的怪物/物品工具提示中。",
+        ["zhTW"] = "啟用時，任務資訊將會加入到相關的怪物/物品工具提示中。",
     },
     ["Game Default"] = {
         ["enUS"] = true,

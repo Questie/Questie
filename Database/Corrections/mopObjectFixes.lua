@@ -1143,6 +1143,7 @@ function MopObjectFixes.Load()
         },
         [218637] = { -- Secrets of Lightning Steel
             [objectKeys.name] = "Secrets of Lightning Steel",
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{60.1,28.27}}},
         },
         [218724] = { -- Secrets of Stabilized Lightning
             [objectKeys.name] = "Secrets of Stabilized Lightning",
@@ -1188,6 +1189,11 @@ function MopObjectFixes.Load()
         [218801] = { -- Pa'chek's Sacrificial Altar
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{38.63,78.67}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
+        },
+        [218853] = { -- Stormy Chest
+            [objectKeys.name] = 'Stormy Chest',
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER_SWOLLEN_VAULT] = {{38.76,27.78}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER_SWOLLEN_VAULT,
         },
         [219216] = { -- Meeting Stone (Throne of Thunder)
             [objectKeys.name] = 'Meeting Stone',
@@ -1259,14 +1265,14 @@ function MopObjectFixes:LoadFactionFixes()
 
     local objectFixesHorde = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56,82.14}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{62.56, 82.14}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }
 
     local objectFixesAlliance = {
         [209621] = { -- Sniper Rifle
-            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59,54.42}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{28.59, 54.42}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
     }

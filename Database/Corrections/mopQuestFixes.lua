@@ -8353,6 +8353,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32276},
         },
         [32278] = { -- Decisive Action
+            [questKeys.objectives] = {{{70297,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {32277},
         },
         [32279] = { -- The Fall of Shan Bu
@@ -8401,6 +8402,7 @@ function MopQuestFixes.Load()
         },
         [32297] = { -- Direhorn or Devilsaur
             [questKeys.preQuestSingle] = {32259},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Master Caller to disrupt the ritual"),0,{{"monster",69286}}}},
         },
         [32298] = { -- Dino Might
             [questKeys.preQuestSingle] = {32259},
@@ -9054,6 +9056,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
         },
         [32523] = { -- The Beast Pens
+            [questKeys.objectives] = {{{67985,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {32259},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -9215,6 +9218,7 @@ function MopQuestFixes.Load()
         },
         [32553] = { -- Direhorn vs Devilsaur
             [questKeys.preQuestSingle] = {32260},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Master Caller to disrupt the ritual"),0,{{"monster",69286}}}},
         },
         [32554] = { -- Dino Might
             [questKeys.preQuestSingle] = {32260},
@@ -9264,6 +9268,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32259},
         },
         [32567] = { -- The Beast Pens
+            [questKeys.objectives] = {{{67998,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {32260},
             [questKeys.questFlags] = questFlags.DAILY,
         },
@@ -9395,6 +9400,7 @@ function MopQuestFixes.Load()
         },
         [32608] = { -- Raiding the Vault
             [questKeys.preQuestGroup] = {32655,32587},
+            [questKeys.requiredSourceItems] = {95374},
         },
         [32616] = { -- A Large Pile of Giant Dinosaur Bones
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -9523,10 +9529,11 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,12}},
         },
         [32655] = { -- A Bold Idea
-            [questKeys.preQuestSingle] = {32652}, -- TODO - double check
+            [questKeys.objectives] = {{{70297,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {32652},
         },
         [32656] = { -- The Fall of Shan Bu
-            [questKeys.preQuestSingle] = {32655}, -- TODO - double check
+            [questKeys.preQuestSingle] = {32655},
         },
         [32657] = { -- Work Order: The August Celestials II
             [questKeys.questFlags] = questFlags.DAILY,
@@ -9603,6 +9610,7 @@ function MopQuestFixes.Load()
         },
         [32677] = { -- Raiding the Vault
             [questKeys.preQuestGroup] = {32278,32292},
+            [questKeys.requiredSourceItems] = {95374},
         },
         [32678] = { -- Thunder Calls
             [questKeys.nextQuestInChain] = 0,
