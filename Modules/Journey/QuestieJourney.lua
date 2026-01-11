@@ -17,8 +17,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -137,19 +135,19 @@ function QuestieJourney:BuildMainFrame()
         tabGroup:SetTabs({
             {
                 text = l10n("My Journey"),
-                value="journey"
+                value = "journey"
             },
             {
                 text = l10n("Quests by Zone"),
-                value="zone"
+                value = "zone"
             },
             {
                 text = l10n("Quests by Faction"),
-                value="faction"
+                value = "faction"
             },
             {
                 text = l10n("Advanced Search"),
-                value="search"
+                value = "search"
             }
         })
         tabGroup:SetCallback("OnGroupSelected", function(widget, _, group) _QuestieJourney:HandleTabChange(widget, group) end)
@@ -249,7 +247,6 @@ function QuestieJourney:AbandonQuest(questId)
     -- first check to see if the quest has been completed already or not
     local skipAbandon = false
     for i in ipairs(Questie.db.char.journey) do
-
         local entry = Questie.db.char.journey[i]
         if entry.Event == "Quest" then
             if entry.Quest == questId then
