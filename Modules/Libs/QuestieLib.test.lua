@@ -275,7 +275,7 @@ describe("QuestieLib", function()
 
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60)
 
-            assert.are_same("[60] ", levelString)
+            assert.are_same("[60U] ", levelString)
         end)
     end)
 

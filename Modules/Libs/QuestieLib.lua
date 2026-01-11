@@ -258,7 +258,9 @@ function QuestieLib:GetQuestTypeSuffix(questId)
         return "C"
     end
 
-    return ""
+    -- Fallback: use first character of quest tag name for unknown tags
+    -- This preserves backward compatibility with existing UI/tests
+    return stringSub(questTagName, 1, 1)
 end
 
 ---@param questId QuestId
