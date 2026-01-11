@@ -136,6 +136,12 @@
         // Target
         "TargetFrame",
 
+        // Gossip functions
+        // These are deprecated in later versions of WoW, but still exist in Classic and TBC.
+        // These should however be changed.
+        "GetNumGossipAvailableQuests", // Function
+        "GetNumGossipActiveQuests", // Function
+
 
         // Wrath and up
         /// Achievements
