@@ -237,8 +237,6 @@ function QuestieLib:GetQuestTypeSuffix(questId)
     end
 
     local questTagIds = QuestieDB.questTagIds
-    local langCode = l10n:GetUILocale()
-    local isMultiByteLocale = langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU"
 
     if questTagId == questTagIds.ELITE then
         return "+"
@@ -260,10 +258,7 @@ function QuestieLib:GetQuestTypeSuffix(questId)
         return "C"
     end
 
-    if isMultiByteLocale then
-        return ""
-    end
-    return stringSub(questTagName, 1, 1)
+    return ""
 end
 
 ---@param questId QuestId
