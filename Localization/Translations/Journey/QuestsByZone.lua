@@ -194,7 +194,7 @@ local questsByZoneLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Zone Scope"] = {
+    ["Select Zone Option"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
