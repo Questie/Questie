@@ -47,7 +47,7 @@ local professionLocals = {
         ["koKR"] = "전문 대장장이",
         ["ptBR"] = "Treinamento de Ferraria",
         ["ruRU"] = "Учитель кузнечного дела",
-        ["zhCN"] = "전문 대장장이",
+        ["zhCN"] = "锻造训练师",
         ["zhTW"] = "大師級鍛造訓練師",
     },
     ["Leatherworking"] = {

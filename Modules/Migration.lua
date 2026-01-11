@@ -126,7 +126,30 @@ local migrationFunctions = {
     end,
     [18] = function()
         Questie.db.profile.trackerDisableHoverFade = false
-    end
+    end,
+    [19] = function()
+        -- Only migrate if the user has a previous migration
+        local previousVersion = Questie.db.profile.migrationVersion or 0
+        if previousVersion == 0 then
+            return
+        end
+
+        -- Preserve previous dungeon hide preference for both new flags
+        local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
+
+        Questie.db.profile.minimizeTrackerInCombat = false
+        Questie.db.profile.minimizeTrackerInDungeons = previousHideInDungeons
+        Questie.db.profile.hideTrackerInCombat = false
+        Questie.db.profile.hideTrackerInDungeons = false
+    end,
+    [20] = function()
+        Questie.db.profile.alwaysGlowMinimap = true
+    end,
+    [21] = function()
+        if Questie.IsTBC then
+            Questie.db.profile.showAQWarEffortQuests = false
+        end
+    end,
 }
 
 function Migration:Migrate()

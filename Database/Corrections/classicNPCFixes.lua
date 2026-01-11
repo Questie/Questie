@@ -1459,6 +1459,9 @@ function QuestieNPCFixes:Load()
         [9077] = {
             [npcKeys.waypoints] = {},
         },
+        [9087] = { -- Bashana Runetotem
+            [npcKeys.npcFlags] = npcFlags.NONE,
+        },
         [9136] = {
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{79.95,45.4}}},

@@ -8,22 +8,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 -- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter instead of ChatFrame_AddMessageEventFilter
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 
--- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
-local function SafeAddMessageEventFilter(event, filter)
-    local success, err = pcall(function()
-        ChatFrameAddMessageEventFilter(event, filter)
-    end)
-    if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
-        if err and string.find(err, "CreateSecureFiltersArray") then
-            C_Timer.After(0.1, function()
-                SafeAddMessageEventFilter(event, filter)
-            end)
-        else
-            Questie:Error("Failed to register chat filter for", event, ":", err)
-        end
-    end
-end
 ---------------------------------------------------------------------------------------------------
 -- These must be loaded in order together and loaded before the hook for custom quest links
 -- The Hyperlink hook is located in Link.lua
@@ -98,39 +82,37 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
 end
 
 function ChatFilter:RegisterEvents() -- todo: register immediately and cache calls until db is available
-    -- The message filter that triggers the above local function
-    -- Use SafeAddMessageEventFilter to handle ChatFrameUtil initialization timing issues
     -- Party
-    SafeAddMessageEventFilter("CHAT_MSG_PARTY", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_PARTY", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", ChatFilter.Filter)
 
     -- Raid
-    SafeAddMessageEventFilter("CHAT_MSG_RAID", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_RAID_LEADER", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_RAID_WARNING", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_RAID", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_RAID_LEADER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_RAID_WARNING", ChatFilter.Filter)
 
     -- Guild
-    SafeAddMessageEventFilter("CHAT_MSG_GUILD", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_OFFICER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_GUILD", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_OFFICER", ChatFilter.Filter)
 
     -- Battleground
-    SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", ChatFilter.Filter)
 
     -- Whisper
-    SafeAddMessageEventFilter("CHAT_MSG_WHISPER", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_WHISPER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", ChatFilter.Filter)
 
     -- Battle Net
-    SafeAddMessageEventFilter("CHAT_MSG_BN", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_BN_WHISPER", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_BN", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_BN_WHISPER", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", ChatFilter.Filter)
 
     -- Open world
-    SafeAddMessageEventFilter("CHAT_MSG_CHANNEL", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_SAY", ChatFilter.Filter)
-    SafeAddMessageEventFilter("CHAT_MSG_YELL", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_CHANNEL", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_SAY", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_YELL", ChatFilter.Filter)
 
     -- Emote
-    SafeAddMessageEventFilter("CHAT_MSG_EMOTE", ChatFilter.Filter)
+    ChatFrameAddMessageEventFilter("CHAT_MSG_EMOTE", ChatFilter.Filter)
 end

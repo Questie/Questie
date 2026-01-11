@@ -62,15 +62,13 @@ Questie.IsCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 ---@type boolean
 Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
--- TODO: Revert once WOW_PROJECT_ID is fixed for TBC
 --- Addon is running on Classic TBC client
 ---@type boolean
-Questie.IsTBC = math.floor(select(4, GetBuildInfo())/10000) == 2
+Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 
--- TODO: Revert once WOW_PROJECT_ID is fixed for TBC
 --- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
 ---@type boolean
-Questie.IsClassic = (not Questie.IsTBC) and WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 --- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean

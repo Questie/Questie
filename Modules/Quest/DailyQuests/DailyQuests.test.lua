@@ -38,6 +38,36 @@ describe("DailyQuests", function()
                 preQuestHubsSingle = {},
                 preQuestHubsGroup = {TEST_HUB_2 = true, TEST_HUB_3 = true},
             },
+            TEST_HUB_INACTIVE = {
+                quests = {11},
+                limit = 1,
+                exclusiveHubs = {},
+                preQuestHubsSingle = {},
+                preQuestHubsGroup = {},
+                IsActive = function()
+                    return false
+                end,
+            },
+            TEST_HUB_INACTIVE_2 = {
+                quests = {12},
+                limit = 1,
+                exclusiveHubs = {},
+                preQuestHubsSingle = {},
+                preQuestHubsGroup = {},
+                IsActive = function()
+                    return false
+                end,
+            },
+            TEST_HUB_ACTIVE_2 = {
+                quests = {12},
+                limit = 1,
+                exclusiveHubs = {},
+                preQuestHubsSingle = {},
+                preQuestHubsGroup = {},
+                IsActive = function()
+                    return true
+                end,
+            },
         }
         DailyQuests.Initialize()
     end)
@@ -233,6 +263,24 @@ describe("DailyQuests", function()
             local questLog = {}
 
             local shouldBeHidden = DailyQuests.ShouldBeHidden(10, completedQuests, questLog)
+
+            assert.is_false(shouldBeHidden)
+        end)
+
+        it("should return true when quest hub is inactive", function()
+            local completedQuests = {}
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(11, completedQuests, questLog)
+
+            assert.is_true(shouldBeHidden)
+        end)
+
+        it("should return false when a quest is part of multiple hubs and only one is inactive", function()
+            local completedQuests = {}
+            local questLog = {}
+
+            local shouldBeHidden = DailyQuests.ShouldBeHidden(12, completedQuests, questLog)
 
             assert.is_false(shouldBeHidden)
         end)

@@ -487,6 +487,10 @@ local phases = {
     IOT_ALLIANCE_VIOLET_RISE = 1415,
     IOT_HORDE_BOAT = 1416,
     IOT_HORDE_DAWNSEEKER_PROMONTORY = 1417,
+    KIRIN_TOR_OFFENSIVE_CONQUERORS_TERRACE = 1418,
+    KIRIN_TOR_OFFENSIVE_THE_BEAST_PENS = 1419,
+    SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE = 1420,
+    SUNREAVER_ONSLAUGHT_THE_BEAST_PENS = 1421,
 }
 Phasing.phases = phases
 
@@ -2248,6 +2252,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.IOT_HORDE_DAWNSEEKER_PROMONTORY then
         return (complete[32212] or (questLog[32212] and questLog[32212].isComplete == 1)) or false
+    end
+
+    if phase == phases.KIRIN_TOR_OFFENSIVE_CONQUERORS_TERRACE then
+        return complete[32568] or questLog[32568] or false
+    end
+
+    if phase == phases.KIRIN_TOR_OFFENSIVE_THE_BEAST_PENS then
+        return complete[32567] or questLog[32567] or false
+    end
+
+    if phase == phases.SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE then
+        return complete[32524] or questLog[32524] or false
+    end
+
+    if phase == phases.SUNREAVER_ONSLAUGHT_THE_BEAST_PENS then
+        return complete[32523] or questLog[32523] or false
     end
 
     return false

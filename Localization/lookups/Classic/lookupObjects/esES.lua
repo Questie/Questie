@@ -964,6 +964,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [178186] = "Zafiro de Aku'Mai",
 [178195] = "Aceite Grito de Guerra",
 [178204] = "Envío de hachas de los Grito de Guerra",
+[178224] = "Estanque Funesto",
 [178227] = "Cesta de tótems de Murgut",
 [178244] = "Arcón de prácticas",
 [178245] = "Arcón de prácticas",

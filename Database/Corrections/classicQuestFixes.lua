@@ -1210,6 +1210,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1823},
         },
+        [1838] = {
+            [questKeys.nextQuestInChain] = 1848,
+        },
         [1839] = {
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
@@ -3264,8 +3267,14 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7638},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [7735] = { -- Pristine Yeti Hide A
+            [questKeys.preQuestSingle] = {2821},
+        },
         [7736] = {
             [questKeys.objectivesText] = {},
+        },
+        [7738] = { -- Perfect Yeti Hide H
+            [questKeys.preQuestSingle] = {2822},
         },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},

@@ -47,7 +47,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
         ["ptBR"] = "Se ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros do grupo.",
         ["ruRU"] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
-        ["zhCN"] = "启用后，仅当共享任务信息来自队伍其他成员时才会显示。",
+        ["zhCN"] = "启用时，仅当共享任务信息来自队伍其他成员时才会显示。",
         ["zhTW"] = "啟用時，只會分享隊伍中玩家的任務資訊。",
     },
     ["Show quests in NPC tooltips"] = {
@@ -131,8 +131,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 연계 퀘스트가 확장된 지도 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, as próximas missões na série serão mostradas nas dicas de mapa expandidas.",
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
-        ["zhCN"] = "开启后，下一个任务链中的任务会在悬浮窗中显示",
-        ["zhTW"] = "勾選時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
+        ["zhCN"] = "启用时，下一个任务链中的任务会在悬浮窗中显示",
+        ["zhTW"] = "啟用時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
     },
 }
 

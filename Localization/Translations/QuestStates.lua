@@ -54,7 +54,7 @@ local questStateLocales = {
     },
     ["Event"] = {
         ["enUS"] = true,
-        ["deDE"] = "Event",
+        ["deDE"] = true,
         ["esES"] = "Evento",
         ["esMX"] = "Evento",
         ["frFR"] = "Évènement",

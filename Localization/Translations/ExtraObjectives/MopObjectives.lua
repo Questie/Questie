@@ -1358,6 +1358,18 @@ local mopObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Kill the Master Caller to disrupt the ritual"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Töte den Meisterrufer, um das Ritual zu unterbrechen",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(mopObjectiveLocales) do

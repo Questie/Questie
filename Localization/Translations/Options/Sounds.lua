@@ -35,7 +35,7 @@ local soundsOptionsLocales = {
         ["koKR"] = "이 옵션을 활성화하면 LibSharedMedia를 통해 추가된 사운드가 로드됩니다.",
         ["ptBR"] = "Se ativado, os sons adicionados através do LibSharedMedia são carregados.",
         ["ruRU"] = "Когда включено, загружаются звуки, добавленные через LibSharedMedia",
-        ["zhCN"] = "启用此选项时，通过 LibSharedMedia 添加的声音将会被加载。",
+        ["zhCN"] = "启用时，通过 LibSharedMedia 添加的声音将会被加载。",
         ["zhTW"] = "啟用時，會載入透過 LibSharedMedia 加入的音效。",
     },
     ["Play a short sound when completing a quest when it is ready to turn in."] = {

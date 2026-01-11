@@ -1905,7 +1905,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {7367},
         },
         [13636] = { -- Strange Snowman
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {6983,7043},
         },
         [14733] = { -- Sentinel Farsong
             [npcKeys.questEnds] = {7788,7871,7872,7873,7886,7887,7888,7921,8001,8266,8267,8289,8290,8291,8292,9521,26456},

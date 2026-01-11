@@ -968,6 +968,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [178186] = "Saphir von Aku’Mai",
 [178195] = "Warsongöl",
 [178204] = "Warsongaxtlieferung",
+[178224] = "Düsterteich",
 [178227] = "Murguts Totemkorb",
 [178229] = "Auroras Buch",
 [178244] = "Übungsschließkassette",

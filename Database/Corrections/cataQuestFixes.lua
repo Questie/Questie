@@ -654,6 +654,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredMinRep] = {},
         },
         [6983] = { -- You're a Mean One...
+            [questKeys.startedBy] = {{13418,13636}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,
@@ -676,13 +677,13 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{13429}},
         },
         [7043] = { -- You're a Mean One...
+            [questKeys.startedBy] = {{13433,13636}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,
             [questKeys.requiredLevel] = 80,
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
-            [questKeys.startedBy] = {{13433}},
         },
         [7045] = { -- A Smokywood Pastures' Thank You!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1506,11 +1507,13 @@ function CataQuestFixes.Load()
         [10277] = { -- The Caverns of Time
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10279},
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.56,54.14}}}},
         },
         [10279] = { -- To The Master's Lair
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.breadcrumbForQuestId] = 10277,
         },
         [10282] = { -- Old Hillsbrad
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
@@ -2346,6 +2349,7 @@ function CataQuestFixes.Load()
         },
         [12515] = { -- Nice Hat...
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF + raceIDs.GOBLIN + raceIDs.WORGEN,
         },
         [12517] = { -- Rogues Deck
             [questKeys.requiredSkill] = {},
@@ -5079,6 +5083,10 @@ function CataQuestFixes.Load()
         [25046] = { -- A Daughter's Embrace
             [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25047] = { -- Broken Panther Figurine
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.ROGUE + classIDs.SHAMAN + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
         [25050] = { -- Rocket Rescue
             [questKeys.objectives] = {{{38571,nil,Questie.ICON_TYPE_EVENT},{40583}}},
             [questKeys.preQuestGroup] = {25048,25049},
@@ -5782,6 +5790,9 @@ function CataQuestFixes.Load()
         },
         [25451] = { -- Pristine Yeti Hide
             [questKeys.preQuestSingle] = {25449},
+        },
+        [25454] = { -- Pristine Yeti Hide
+            [questKeys.preQuestSingle] = {25452},
         },
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
@@ -13663,6 +13674,22 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             --[questKeys.nextQuestInChain] = 3100, -- removing this key because some chars did these class quests before the prepatch
+        },
+        [28775] = { -- Broken Serpent Figurine
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28776] = { -- Broken Earthen Figurine
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.DEATH_KNIGHT + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28777] = { -- Broken Owl Figurine
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.DRUID,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+        },
+        [28778] = { -- Broken Boar Figurine
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [28780] = { -- Join the Battle! -- Human Hunter
             [questKeys.requiredRaces] = raceIDs.HUMAN,

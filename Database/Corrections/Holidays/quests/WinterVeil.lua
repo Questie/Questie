@@ -57,11 +57,11 @@ tinsert(eventQuests, {"Winter Veil", 13203, "25/12", "2/1", Expansions.Current >
 tinsert(eventQuests, {"Winter Veil", 13966, "25/12", "2/1", Expansions.Current >= Expansions.Cata}) -- A Winter Veil Gift
 
 -- Cata quests
-tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- Thanks, But No Thanks
-tinsert(eventQuests, {"Winter Veil", 29383, "25/12", "2/1"}) -- Thanks, But No Thanks
-tinsert(eventQuests, {"Winter Veil", 29385, "25/12", "2/1"}) -- A Winter Veil Gift
---tinsert(eventQuests, {"Winter Veil", 28878, "25/12", "2/1"}) -- A Winter Veil Gift
+-- tinsert(eventQuests, {"Winter Veil", 28878, "25/12", "2/1"}) -- A Winter Veil Gift -- not offered in classic servers, bad timing?
+-- tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- Thanks, But No Thanks
+-- tinsert(eventQuests, {"Winter Veil", 29383, "25/12", "2/1"}) -- Thanks, But No Thanks
+tinsert(eventQuests, {"Winter Veil", 29385, "25/12", "2/1", Expansions.Current >= Expansions.MoP}) -- A Winter Veil Gift -- only offered in cata
 
 -- MoP quests
-tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- A Winter Veil Gift
+-- tinsert(eventQuests, {"Winter Veil", 32106, "25/12", "2/1", Expansions.Current >= Expansions.MoP}) -- A Winter Veil Gift -- not offered in classic servers, bad timing?
 tinsert(eventQuests, {"Winter Veil", 33252, "25/12", "2/1"}) -- A Winter Veil Gift

@@ -11,7 +11,7 @@ local searchLocales = {
         ["koKR"] = "고급 검색",
         ["ptBR"] = "Procura avançada",
         ["ruRU"] = "Расширенный поиск",
-        ["zhCN"] = "进阶搜询",
+        ["zhCN"] = "进阶搜索",
         ["zhTW"] = "進階搜尋",
     },
     ["Search"] = {
@@ -467,7 +467,7 @@ local searchLocales = {
         ["koKR"] = "어떠한 오브젝트도 해당 아이템을 드롭하지 않습니다",
         ["ptBR"] = "Nenhum objeto contém este item",
         ["ruRU"] = "Ни с одного объекта не добывается этот предмет",
-        ["zhCN"] = "没有物体掉落这个物品",
+        ["zhCN"] = "没有对象掉落这个物品",
         ["zhTW"] = "沒有物體掉落這個物品",
     },
     ["No Vendor sells this item"] = {
@@ -551,7 +551,7 @@ local searchLocales = {
         ["koKR"] = "오브젝트",
         ["ptBR"] = "Objeto",
         ["ruRU"] = "Объект",
-        ["zhCN"] = false,
+        ["zhCN"] = "对象",
         ["zhTW"] = "物件",
     },
     ["Friendly to"] = {
@@ -563,7 +563,7 @@ local searchLocales = {
         ["koKR"] = "우호적",
         ["ptBR"] = "Amigável com",
         ["ruRU"] = "Дружественный к",
-        ["zhCN"] = false,
+        ["zhCN"] = "友善于",
         ["zhTW"] = "友好於",
     },
     ["both factions"] = {
@@ -575,7 +575,7 @@ local searchLocales = {
         ["koKR"] = "모든 진영",
         ["ptBR"] = "ambas as facções",
         ["ruRU"] = "обеим фракциям",
-        ["zhCN"] = false,
+        ["zhCN"] = "双方阵营",
         ["zhTW"] = "雙方陣營",
     },
     ["no faction"] = {
@@ -587,7 +587,7 @@ local searchLocales = {
         ["koKR"] = "중립",
         ["ptBR"] = "nenhuma facção",
         ["ruRU"] = "ни к одной фракции",
-        ["zhCN"] = false,
+        ["zhCN"] = "无阵营",
         ["zhTW"] = "沒有陣營",
     },
     ["Level"] = {
@@ -599,7 +599,7 @@ local searchLocales = {
         ["koKR"] = "레벨",
         ["ptBR"] = "Nível",
         ["ruRU"] = "Уровень",
-        ["zhCN"] = false,
+        ["zhCN"] = "等级",
         ["zhTW"] = "等級",
     },
     ["Health"] = {
@@ -611,7 +611,7 @@ local searchLocales = {
         ["koKR"] = "생명력",
         ["ptBR"] = "Vida",
         ["ruRU"] = "Здоровье",
-        ["zhCN"] = false,
+        ["zhCN"] = "血量",
         ["zhTW"] = "血量",
     },
     ["Click to show"] = {
@@ -623,7 +623,7 @@ local searchLocales = {
         ["koKR"] = "클릭해서 보기",
         ["ptBR"] = "Clique para exibir",
         ["ruRU"] = "Клик для отображения",
-        ["zhCN"] = false,
+        ["zhCN"] = "点击以显示",
         ["zhTW"] = "點一下顯示",
     },
     ["NPCs dropping this item:"] = {
@@ -635,7 +635,7 @@ local searchLocales = {
         ["koKR"] = "NPC가 다음의 아이템을 드랍합니다:",
         ["ptBR"] = "NPCs que derrubam este item:",
         ["ruRU"] = "Предмет добывается с:",
-        ["zhCN"] = false,
+        ["zhCN"] = "掉落该物品的 NPC:",
         ["zhTW"] = "掉落此物品的 NPC:",
     },
 }

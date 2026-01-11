@@ -655,62 +655,75 @@ end
 
 _GetQuestSoundChoices = function()
     local options = {
-        ["QuestDefault"]     = "Default",
-        ["GameDefault"]      = "Game Default",
-        ["Troll Male"]       = "Troll Male",
-        ["Troll Female"]     = "Troll Female",
-        ["Tauren Male"]      = "Tauren Male",
-        ["Tauren Female"]    = "Tauren Female",
-        ["Undead Male"]      = "Undead Male",
-        ["Undead Female"]    = "Undead Female",
-        ["Orc Male"]         = "Orc Male",
-        ["Orc Female"]       = "Orc Female",
-        ["Night Elf Male"]   = "Night Elf Male",
-        ["Night Elf Female"] = "Night Elf Female",
-        ["Human Male"]       = "Human Male",
-        ["Human Female"]     = "Human Female",
-        ["Gnome Male"]       = "Gnome Male",
-        ["Gnome Female"]     = "Gnome Female",
-        ["Dwarf Male"]       = "Dwarf Male",
-        ["Dwarf Female"]     = "Dwarf Female",
-        ["Draenei Male"]     = "Draenei Male",
-        ["Draenei Female"]   = "Draenei Female",
-        ["Blood Elf Male"]   = "Blood Elf Male",
-        ["Blood Elf Female"] = "Blood Elf Female",
-        ["Goblin Male"]      = "Goblin Male",
-        ["Goblin Female"]    = "Goblin Female",
-        ["Worgen Male"]      = "Worgen Male",
-        ["Worgen Female"]    = "Worgen Female",
-        ["Gilnean Male"]     = "Gilnean Male",
-        ["Gilnean Female"]   = "Gilnean Female",
-        ["Zug Zug"]          = "Zug Zug",
+        ["QuestDefault"]     = DEFAULT,
+        ["GameDefault"]      = l10n("Game Default"),
+        ["Troll Male"]       = l10n("Troll Male"),
+        ["Troll Female"]     = l10n("Troll Female"),
+        ["Tauren Male"]      = l10n("Tauren Male"),
+        ["Tauren Female"]    = l10n("Tauren Female"),
+        ["Undead Male"]      = l10n("Undead Male"),
+        ["Undead Female"]    = l10n("Undead Female"),
+        ["Orc Male"]         = l10n("Orc Male"),
+        ["Orc Female"]       = l10n("Orc Female"),
+        ["Night Elf Male"]   = l10n("Night Elf Male"),
+        ["Night Elf Female"] = l10n("Night Elf Female"),
+        ["Human Male"]       = l10n("Human Male"),
+        ["Human Female"]     = l10n("Human Female"),
+        ["Gnome Male"]       = l10n("Gnome Male"),
+        ["Gnome Female"]     = l10n("Gnome Female"),
+        ["Dwarf Male"]       = l10n("Dwarf Male"),
+        ["Dwarf Female"]     = l10n("Dwarf Female"),
+        ["Zug Zug"]          = l10n("Zug Zug"),
     }
+
+    if Expansions.Current >= Expansions.Tbc then
+        options["Draenei Male"]     = l10n("Draenei Male")
+        options["Draenei Female"]   = l10n("Draenei Female")
+        options["Blood Elf Male"]   = l10n("Blood Elf Male")
+        options["Blood Elf Female"] = l10n("Blood Elf Female")
+    end
+
+    if Expansions.Current >= Expansions.Cata then
+        options["Goblin Male"]    = l10n("Goblin Male")
+        options["Goblin Female"]  = l10n("Goblin Female")
+        options["Worgen Male"]    = l10n("Worgen Male")
+        options["Worgen Female"]  = l10n("Worgen Female")
+        options["Gilnean Male"]   = l10n("Gilnean Male")
+        options["Gilnean Female"] = l10n("Gilnean Female")
+    end
+
+    if Expansions.Current >= Expansions.MoP then
+        options["Pandaren Male"]    = l10n("Pandaren Male")
+        options["Pandaren Female"]  = l10n("Pandaren Female")
+    end
+
     if Questie.db.profile.loadCustomSounds then
         for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
             options[sound] = sound
         end
     end
+
     return options
 end
 
 _GetObjectiveSoundChoices = function()
     local options = {
-        ["ObjectiveDefault"]   = "Default",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["ObjectiveDefault"]   = DEFAULT,
+        ["Map Ping"]           = l10n("Map Ping"),
+        ["Window Close"]       = l10n("Window Close"),
+        ["Window Open"]        = l10n("Window Open"),
+        ["Boat Docked"]        = l10n("Boat Docked"),
+        ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
+        ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
     if Expansions.Current >= Expansions.Wotlk then
-        options["Explosion"] = "Explosion"
-        options["Shing!"] = "Shing!"
-        options["Wham!"] = "Wham!"
-        options["Simon Chime"] = "Simon Chime"
-        options["War Drums"] = "War Drums"
-        options["Humm"] = "Humm"
-        options["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = l10n("Explosion")
+        options["Shing!"] = l10n("Shing!")
+        options["Wham!"] = l10n("Wham!")
+        options["Simon Chime"] = l10n("Simon Chime")
+        options["War Drums"] = l10n("War Drums")
+        options["Humm"] = l10n("Humm")
+        options["Short Circuit"] = l10n("Short Circuit")
     end
 
     if Questie.db.profile.loadCustomSounds then
@@ -724,23 +737,23 @@ end
 
 _GetObjectiveProgressSoundChoices = function()
     local options = {
-        ["ObjectiveProgress"]  = "Default",
-        ["ObjectiveDefault"]   = "Objective Complete",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["ObjectiveProgress"]  = DEFAULT,
+        ["ObjectiveDefault"]   = l10n("Objective Complete"),
+        ["Map Ping"]           = l10n("Map Ping"),
+        ["Window Close"]       = l10n("Window Close"),
+        ["Window Open"]        = l10n("Window Open"),
+        ["Boat Docked"]        = l10n("Boat Docked"),
+        ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
+        ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
     if Expansions.Current >= Expansions.Wotlk then
-        options["Explosion"] = "Explosion"
-        options["Shing!"] = "Shing!"
-        options["Wham!"] = "Wham!"
-        options["Simon Chime"] = "Simon Chime"
-        options["War Drums"] = "War Drums"
-        options["Humm"] = "Humm"
-        options["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = l10n("Explosion")
+        options["Shing!"] = l10n("Shing!")
+        options["Wham!"] = l10n("Wham!")
+        options["Simon Chime"] = l10n("Simon Chime")
+        options["War Drums"] = l10n("War Drums")
+        options["Humm"] = l10n("Humm")
+        options["Short Circuit"] = l10n("Short Circuit")
     end
 
     if Questie.db.profile.loadCustomSounds then
