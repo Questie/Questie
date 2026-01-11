@@ -6,6 +6,7 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 -- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter instead of ChatFrame_AddMessageEventFilter
+---@diagnostic disable-next-line: undefined-field
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 
 ---------------------------------------------------------------------------------------------------
