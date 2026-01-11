@@ -124,6 +124,7 @@ QuestieDB.raceKeys = {
 
 -- Combining these with "and" makes the order matter
 -- 1 and 2 ~= 2 and 1
+---@class ClassKeys
 QuestieDB.classKeys = {
     NONE = 0,
 
@@ -690,7 +691,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+    if (not DailyQuests:IsActiveDailyQuest()) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is a daily quest which isn't active today!") end
         return false
     end
@@ -765,6 +766,7 @@ end
 ---@param returnText boolean? -- if true, IsDoable will return plaintext explanation instead of true/false
 ---@param returnBrief boolean? -- if true and returnText is true, IsDoable will return a very brief explanation instead of a verbose one
 ---@return string
+---@diagnostic disable-next-line: unused-local -- Due to debugPrint not being used in the function
 function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     --!  Before changing any logic in QuestieDB.IsDoable, make sure
@@ -976,7 +978,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+    if (not DailyQuests:IsActiveDailyQuest()) then
         local msg = "Quest " .. questId .. " is a daily quest which isn't active today!"
         if returnText and returnBrief then
             return "Ineligible: Inactive daily"
@@ -1183,6 +1185,18 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public Color Color
     ---@field public breacrumbForQuestId number
     ---@field public breacrumbs QuestId[]
+    ---@field public tagInfoWasCached boolean @Whether the tag info was cached
+    --- Strange fields added with the LuaLS fixing
+    ---@field public WasComplete boolean? Gets added/set in UpdateQuest
+    --- Localization Fields
+    ---@field public LocalizedName string? Gets added/set in GetAllQuestIds and GetAllQuestIdsNoObjectives functions
+    --- Icon related fields
+    ---@field public HideIcons boolean? Tracker related with Hiding Gets added/set in TrackerUtils/Menu etc
+    ---@field public FadeIcons boolean? Tracker related with Fading Gets added/set in TrackerUtils/Menu etc
+    --- Tracker related fields
+    -- ? It seems like these two "flip-flip" if one is true the other is false
+    ---@field trackTimedQuest boolean? Gets added/set in TrackerQuestTimers
+    ---@field timedBlizzardQuest boolean? Gets added/set in TrackerQuestTimers
     local QO = {
         Id = questId
     }
@@ -1291,7 +1305,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             QO.ObjectiveData[#QO.ObjectiveData+1] = {
                 Type = "reputation",
                 Id = objectives[4][1],
-                RequiredRepValue = objectives[4][2]
+                RequiredRepValue = objectives[4][2],
+                Icon = objectives[4][3]
             }
         end
         if objectives[5] and type(objectives[5]) == "table" and #objectives[5] > 0 then
@@ -1318,7 +1333,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             end
         end
         if objectives[6] then
-            for index, spellObjective in pairs(objectives[6]) do
+            for _, spellObjective in pairs(objectives[6]) do
                 if spellObjective then
                     ---@type SpellObjective
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {
@@ -1361,6 +1376,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@type table<ObjectiveIndex, QuestObjective>
     QO.Objectives = {}
 
+    ---@type any|GeneralObjective
     QO.SpecialObjectives = {}
 
     ---@type ItemId[]

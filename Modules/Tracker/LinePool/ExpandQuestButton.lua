@@ -11,11 +11,12 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@param index number
----@param parent LineFrame
----@return LineFrame
+---@param parent TrackerLine
+---@return ExpandQuestButton
 function ExpandQuestButton.New(index, parent)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
 
+    ---@class ExpandQuestButton : Button
     local expandQuest = CreateFrame("Button", "linePool.expandQuest" .. index, parent)
     expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
     expandQuest.texture:SetWidth(trackerFontSizeQuest)
@@ -27,6 +28,17 @@ function ExpandQuestButton.New(index, parent)
     expandQuest:SetPoint("RIGHT", parent, "LEFT", 0, 0)
     expandQuest:SetFrameLevel(100)
 
+
+    --- Initialize variables
+    ---@type QuestId?
+    expandQuest.questId = nil
+    ---@type AreaId? @ I think this is a AreaId
+    expandQuest.zoneId = nil
+    ---@type number?
+    expandQuest.mode = nil
+
+    ---1 maximized, 0 (Not maximized?)
+    ---@param mode 0|1
     function expandQuest:SetMode(mode)
         if mode ~= self.mode then
             self.mode = mode
@@ -44,7 +56,9 @@ function ExpandQuestButton.New(index, parent)
     expandQuest:EnableMouse(true)
     expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-    expandQuest:SetScript("OnClick", function(self)
+    expandQuest:SetScript("OnClick",
+    ---@param self ExpandQuestButton
+    function(self)
         if self.mode == 1 then
             self:SetMode(0)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Minimize")

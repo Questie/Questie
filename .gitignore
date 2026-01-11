@@ -32,6 +32,8 @@ releases/
 *.log
 *.bak
 
+WoW-API
 cli/output
 
-WoW-API
+.shit
+.lua-data

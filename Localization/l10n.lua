@@ -3,6 +3,7 @@
 ---@field zoneLookup table
 ---@field zoneCategoryLookup table
 ---@field questCategoryLookup table
+---@field questLookupOverrides function
 local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}

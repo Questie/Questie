@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, unused-local
 --[[
 	Krowi's World Map Buttons License
 		Copyright ©2020 The contents of this library, excluding third-party resources, are
@@ -86,6 +86,7 @@ local function HookDefaultButtons()
 	end
 
 	for _, f in next, WorldMapFrame.overlayFrames do
+        ---@diagnostic disable-next-line: undefined-field
         if WorldMapTrackingOptionsButtonMixin and f.OnLoad == WorldMapTrackingOptionsButtonMixin.OnLoad then
 			f.KrowiWorldMapButtonsIndex = #lib.Buttons;
 			tinsert(lib.Buttons, f);

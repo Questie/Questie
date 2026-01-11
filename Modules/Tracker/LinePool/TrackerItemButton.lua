@@ -16,16 +16,36 @@ local IsItemInRange = C_Item.IsItemInRange or IsItemInRange
 
 ---@param buttonName string
 function TrackerItemButton.New(buttonName)
+    ---@class TrackerItemButton : Button
     local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
     local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
     btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
     btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
     btn:Hide()
 
+    -- Initialize variables
+    ---@type ItemId?
+    btn.itemId = nil
+    ---@type QuestId?
+    btn.questID = nil
+    ---@type number?
+    btn.charges = nil
+    ---@type number
+    btn.rangeTimer = -1
+    ---@type nil
+    btn.lineID = nil
+    ---@type nil
+    btn.fontSize = nil
+
     if Questie.db.profile.trackerFadeQuestItemButtons then
         btn:SetAlpha(0)
     end
 
+    ---@param self TrackerItemButton
+    ---@param questItemId ItemId
+    ---@param questId QuestId
+    ---@param size number
+    ---@return boolean
     btn.SetItem = function(self, questItemId, questId, size)
         local validTexture
 
@@ -108,12 +128,17 @@ function TrackerItemButton.New(buttonName)
 
         return false
     end
+    ---@param self TrackerItemButton
+    ---@param event Event
+    ---@param ... unknown
     btn.OnEvent = function(self, event, ...)
         if (event == "PLAYER_TARGET_CHANGED") then
             self.rangeTimer = -1
             self.range:Hide()
         end
     end
+    ---@param self TrackerItemButton
+    ---@param elapsed number
     btn.OnUpdate = function(self, elapsed)
         if not self.itemId or not self:IsVisible() then
             return
@@ -188,12 +213,12 @@ function TrackerItemButton.New(buttonName)
         GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
         GameTooltip:Show()
 
-        TrackerFadeTicker.Unfade(self)
+        TrackerFadeTicker.Unfade()
     end
-    btn.OnLeave = function(self)
+    btn.OnLeave = function(_)
         GameTooltip:Hide()
 
-        TrackerFadeTicker.Fade(self)
+        TrackerFadeTicker.Fade()
     end
 
     btn.FakeHide = function(self)

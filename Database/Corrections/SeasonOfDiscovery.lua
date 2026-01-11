@@ -3,7 +3,7 @@ local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")

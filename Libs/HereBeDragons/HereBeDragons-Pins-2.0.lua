@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local, redundant-parameter, unused-function
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 15

@@ -1,6 +1,8 @@
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+---@class QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
+---@class QuestieJourneyQuestsByFaction
 _QuestieJourney.questsByFaction = {}
 
 ---@type QuestieDB
@@ -50,7 +52,7 @@ for _, expansion in ipairs(expansionDefinitions) do
     expansionOrderByKey[expansion.key] = expansion.order
 end
 
-local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates
+-- local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates -- Unused
 local factionIntroductionOrder = QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKey)
 
 QuestieJourney.availableFactionExpansions = QuestieJourney.availableFactionExpansions or {}
@@ -313,7 +315,7 @@ function _EnsureFactionQuestData()
     QuestieJourney.factionMap = factionQuestMap
 
     if QuestieJourney.factionsByExpansion then
-        for expansionKey, bucket in pairs(QuestieJourney.factionsByExpansion) do
+        for _ --[[expansionKey]], bucket in pairs(QuestieJourney.factionsByExpansion) do
             if bucket then
                 for factionId in pairs(bucket) do
                     local questsForFaction = factionQuestMap[factionId]
@@ -327,7 +329,7 @@ function _EnsureFactionQuestData()
 end
 
 ---Manage the faction tree itself and the contents of the per-quest window
----@param container AceSimpleGroup
+---@param container AceGUISimpleGroup
 ---@param factionTree table
 function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     if factionTreeFrame then
@@ -337,11 +339,12 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         return
     end
 
+    ---@type AceGUITreeGroup
     factionTreeFrame = AceGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:SetTree(factionTree)
-
+    ---@diagnostic disable-next-line: invisible
     factionTreeFrame.treeframe:SetWidth(415)
     factionTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
@@ -362,14 +365,18 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         master:SetFullWidth(true)
         master:SetFullHeight(true)
 
-        ---@class ScrollFrame
+        ---@type AceGUIScrollFrame
         local scrollFrame = AceGUI:Create("ScrollFrame")
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
 
-        questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = QuestieDB.GetQuest(tonumber(questId))
+
+        if not quest then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] Quest not found in DB:", questId)
+            return
+        end
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             if Questie.db.profile.trackerShowQuestLevel then

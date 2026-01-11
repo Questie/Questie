@@ -31,7 +31,7 @@ local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all
     local count = 0
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
-        for name, folkType in pairs(folkTypes) do
+        for _ --[[name]], folkType in pairs(folkTypes) do
             if flags and folkType.mask and bitband(flags, folkType.mask) == folkType.mask then
                 local npcName = npcData[QuestieDB.npcKeys.name]
                 local subName = npcData[QuestieDB.npcKeys.subName]

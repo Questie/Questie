@@ -27,12 +27,31 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v6
 
+      - name: Download WoW-API
+        run: |
+          WOW_API_VERSION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/Questie/WoW-API/releases/latest | jq -r '.tag_name')
+          curl -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -o WoW-API.zip \
+            "https://github.com/Questie/WoW-API/releases/download/${WOW_API_VERSION}/WoW-API.zip"
+          unzip -q WoW-API.zip
+          rm WoW-API.zip
+
       - name: Install Lua
         run: |
-          sudo apt-get install lua5.1 lua-check luarocks
+          sudo apt-get install lua5.1 luarocks
           sudo luarocks install bit32
           sudo luarocks install busted
           sudo luarocks install luafilesystem
+
+      - name: Install Lua Language Server
+        run: |
+          LUA_LS_VERSION=$(curl -s https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r .tag_name)
+          curl -L -O https://github.com/LuaLS/lua-language-server/releases/download/${LUA_LS_VERSION}/lua-language-server-${LUA_LS_VERSION}-linux-x64.tar.gz
+          mkdir -p /tmp/lua-language-server
+          tar -xzf lua-language-server-${LUA_LS_VERSION}-linux-x64.tar.gz -C /tmp/lua-language-server
+          echo "/tmp/lua-language-server/bin" >> $GITHUB_PATH
+          rm lua-language-server-${LUA_LS_VERSION}-linux-x64.tar.gz
 
       - name: Run busted Unit Tests
         run: |
@@ -60,8 +79,8 @@ jobs:
       - name: Validate Localized database
         run: lua cli/validate-localization.lua
 
-      - name: Run Luacheck
-        run: luacheck -q -- Database Localization Modules Public Questie.lua
+      - name: Run Lua Language Server Check
+        run: lua-language-server --check=. --checklevel=Warning --configpath=.luarc.json --metapath=/tmp/luals-meta --logpath=/tmp/luals-log
 
       - name: Upload correction files
         uses: actions/upload-artifact@v6

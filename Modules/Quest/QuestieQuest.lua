@@ -271,7 +271,7 @@ function QuestieQuest:ClearAllToolTips()
     end
 
     QuestieTooltips.lookupByKey = {}
-    QuestieTooltips.lookupKeyByQuestId = {}
+    QuestieTooltips.lookupKeysByQuestId = {}
 end
 
 -- This is only needed for SmoothReset(), normally special objectives don't need to update
@@ -383,11 +383,15 @@ function QuestieQuest:SmoothReset()
         if stepTable[step]() then
             step = step + 1
             if not stepTable[step] then
-                ticker:Cancel()
+                if ticker then
+                    ticker:Cancel()
+                end
             end
         end
         if QuestieQuest._resetAgain and not QuestieQuest._resetNeedsAvailables then -- we can stop the current reset
-            ticker:Cancel()
+            if ticker then
+                ticker:Cancel()
+            end
             QuestieQuest._resetAgain = nil
             QuestieQuest._isResetting = nil
             QuestieQuest:SmoothReset()
@@ -962,7 +966,21 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
                     Collected = 0,
                     Completed = false,
                     Id = quest.sourceItemId,
-                    questId = quest.Id
+                    questId = quest.Id,
+                    -- We have to fill out the entire objective table otherwise other LuaLS has a fit
+                    QuestObjective = nil,
+                    Index = nil,
+                    QuestData = nil,
+                    _lastUpdate = nil,
+                    spawnList = nil,
+                    AlreadySpawned = nil,
+                    Update = nil,
+                    Coordinates = nil,
+                    RequiredRepValue = nil,
+                    isUpdated = nil,
+                    Color = nil,
+                    fulfilled = nil,
+                    required = nil,
                 }
             }
         end
@@ -1099,10 +1117,13 @@ end
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex
 ---@param objectiveCenter {x:X, y:Y}
+---@return IconPositionData[][], ItemId?
 _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DetermineIconsToDraw]")
 
+    ---@type IconPositionData[][]
     local iconsToDraw = {}
+    ---@type ItemId?
     local spawnItemId
 
     for id, spawnData in pairs(objective.spawnList) do
@@ -1115,6 +1136,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
         end
 
         if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.profile.enableObjectives then
+            ---@type IconData
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
@@ -1126,9 +1148,11 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                 IconScale = spawnData.GetIconScale(),
                 Name = spawnData.Name,
                 Type = objective.Type,
-                ObjectiveTargetId = spawnData.Id
+                ObjectiveTargetId = spawnData.Id,
+                touchedPins = nil, -- This is created elsewhere
             }
 
+            ---@type AlreadySpawned
             objective.AlreadySpawned[id] = {
                 data = data,
                 minimapRefs = {},
@@ -1139,6 +1163,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
                 for _, spawn in pairs(spawns) do
                     if spawn[1] and spawn[2] and Phasing.IsSpawnVisible(spawn[3]) then
+                        ---@type IconPositionData
                         local drawIcon = {
                             AlreadySpawnedId = id,
                             data = data,
@@ -1179,6 +1204,15 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
     return iconsToDraw, spawnItemId
 end
 
+---Draws the objective icons for a quest, clustering them if necessary.
+---@param questId QuestId
+---@param iconsToDraw IconPositionData[][]
+---@param objective QuestObjective
+---@param maxPerType number @maximum icons to draw for this objective (1500 default)
+---@return Point|{ [1]: number, [2]: number }
+---@return table
+----@return IconPositionData? Icon The first icon drawn (used for waypoints)
+----@return table<AreaId, { [1]: IconFrame, [2]: number, [3]: number }> IconPerZone
 _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
 
@@ -1190,9 +1224,15 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
 
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
-    if orderedList[1] and orderedList[1].Icon == Questie.ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-        range = range * 0.2; -- Only use 20% of the default range.
-    end
+    -- For review: TheCrux
+    -- The following code block appears to be inactive because the `.Icon` property
+    -- is located at `.data.Icon` within the `orderedList` elements, not directly on the element itself.
+    -- Consequently, the condition `orderedList[1].Icon == Questie.ICON_TYPE_OBJECT` is never met.
+    -- This logic was intended to reduce the clustering range for object notes.
+    -- orderedList[1].data.Icon -- CORRECT CODE
+    ---- if orderedList[1] and orderedList[1].Icon == Questie.ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+    ----     range = range * 0.2;                                                   -- Only use 20% of the default range.
+    ---- end
 
     local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
@@ -1214,6 +1254,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
 
         if dungeonLocation and centerX == -1 and centerY == -1 then
+            -- TODO: Support more than 2 entrances
             if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
                 local secondDungeonLocation = dungeonLocation[2]
 
@@ -1254,6 +1295,11 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     return icon, iconPerZone
 end
 
+---Sorts the icons by distance and returns a flattened list of icons.
+---This is used to determine which icons are closest to the player/objective center.
+---@param icons IconPositionData[][]
+---@return number IconCount The number of icons in the list.
+---@return IconPositionData[] OrderedIconList
 _GetIconsSortedByDistance = function(icons)
     local iconCount = 0;
     local orderedList = {}
@@ -1261,14 +1307,16 @@ _GetIconsSortedByDistance = function(icons)
 
     local i = 0
 
+    -- extract the distances
     for distance in pairs(icons) do
         i = i + 1
         distances[i] = distance
     end
 
+    -- sort the distances
     table.sort(distances)
 
-    -- use the keys to retrieve the values in the sorted order
+    -- flatten the icons into a single ordered list by distance
     for distIndex = 1, #distances do
         local iconsAtDistance = icons[distances[distIndex]]
 
@@ -1378,7 +1426,18 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         Update = _QuestieQuest.ObjectiveUpdate,
                         Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
                         RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue,
-                        Icon = quest.ObjectiveData[objectiveIndex].Icon
+                        Icon = quest.ObjectiveData[objectiveIndex].Icon,
+                        -- We have to fill out the entire objective table otherwise other LuaLS has a fit
+                        QuestObjective = nil,
+                        QuestData = nil,
+                        Type = nil,
+                        isUpdated = nil,
+                        Completed = nil,
+                        Color = nil,
+                        fulfilled = nil,
+                        required = nil,
+                        Needed = nil,
+                        Collected = nil,
                     }
                 end
 

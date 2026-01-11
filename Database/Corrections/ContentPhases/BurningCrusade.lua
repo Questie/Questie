@@ -1,4 +1,4 @@
----@type ContentPhases
+---@class ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 -- This function blacklists any quests in phases LATER than the currentPhase value

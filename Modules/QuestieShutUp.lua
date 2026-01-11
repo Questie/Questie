@@ -4,7 +4,9 @@ local QuestieShutUp = QuestieLoader:CreateModule("QuestieShutUp")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
+---@diagnostic disable-next-line: undefined-field
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+---@diagnostic disable-next-line: undefined-field
 local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
 
 -- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
@@ -44,7 +46,7 @@ end
 local stringFind = string.find
 local pattern
 
-function QuestieShutUp.FilterFunc(self, event, msg, author, ...)
+function QuestieShutUp.FilterFunc(_ --[[self]], _ --[[event]], msg, _ --[[author]], ...)
     if stringFind(msg, pattern) then
         return true
     end

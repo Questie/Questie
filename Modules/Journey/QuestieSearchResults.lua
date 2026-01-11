@@ -36,44 +36,46 @@ local BY_NAME = 1
 local BY_ID = 2
 
 
-local function AddParagraph(frame, lookupObject, secondKey, header, query)
-    if lookupObject[secondKey] then
-        QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header))
-        for _,id in pairs(lookupObject[secondKey]) do
-            local name = query(id, "name")
-            if name then
-                QuestieJourneyUtils:AddLine(frame, name.." ("..id..")")
-            end
-        end
-    end
-end
+-- local function AddParagraph(frame, lookupObject, secondKey, header, query)
+--     if lookupObject[secondKey] then
+--         QuestieJourneyUtils:AddLine(frame, Questie:Colorize(header))
+--         for _, id in pairs(lookupObject[secondKey]) do
+--             local name = query(id, "name")
+--             if name then
+--                 QuestieJourneyUtils:AddLine(frame, name .. " (" .. id .. ")")
+--             end
+--         end
+--     end
+-- end
 
 ---Takes a frame and adds a paragraph with a header text and a list of links to other search results
----@param frame AceGUIWidget The frame to work on
+---@param frame AceGUIScrollFrame The frame to work on
 ---@param linkType string The type of result to link to (npc|object|quest|item)
 ---@param lookupObject table Table of IDs (npc|object|quest|item)
 ---@param header string The text header to show above the links
 ---@param query function The function used to get link name from
 local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
     if lookupObject and #lookupObject > 0 then
+        ---@type AceGUIInlineGroup
         local group = AceGUI:Create("InlineGroup");
         group:SetFullWidth(true);
         group:SetLayout("flow");
         group:SetTitle(header);
         frame:AddChild(group);
 
-        for _,id in pairs(lookupObject) do
+        for _, id in pairs(lookupObject) do
             id = abs(id)
+            ---@type AceGUIInteractiveLabel
             local link = AceGUI:Create("InteractiveLabel")
             local name = query(id, "name")
             local text
             if linkType == 'quest' then
-                text = QuestieLib:GetColoredQuestName(id,  true, true)
+                text = QuestieLib:GetColoredQuestName(id, true, true)
             elseif linkType == 'npc' then
                 local lvl = query(id, 'maxLevel')
-                text = QuestieLib:PrintDifficultyColor(lvl, '['..lvl..'] '..name..' ('..id..')')
+                text = QuestieLib:PrintDifficultyColor(lvl, '[' .. lvl .. '] ' .. name .. ' (' .. id .. ')')
             else
-                text = name.." ("..id..")"
+                text = name .. " (" .. id .. ")"
             end
             link:SetText(text);
             link:SetUserData("id", id)
@@ -88,8 +90,12 @@ local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
 end
 
 -- Create a button for showing/hiding manual notes of NPCs/objects
+---@param id number
+---@return AceGUIButton
 local function CreateShowHideButton(id)
     -- Initialise button
+    ---@class AceGUIButton
+    ---@field idsToShow number[]
     local button = AceGUI:Create("Button")
     button.id = id
     if (not QuestieMap.manualFrames["any"]) or (not QuestieMap.manualFrames["any"][id]) then
@@ -100,6 +106,7 @@ local function CreateShowHideButton(id)
         button:SetCallback("OnClick", function(self) self:RemoveFromMap(self) end)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
+    ---@param self AceGUIButton
     button.RemoveFromMap = function(self)
         if self.idsToShow then
             for _, spawnId in pairs(self.idsToShow) do
@@ -109,8 +116,9 @@ local function CreateShowHideButton(id)
             QuestieMap:UnloadManualFrames(self.id)
         end
         self:SetText(l10n("Show on Map"))
-        self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
+        self:SetCallback("OnClick", function() self:ShowOnMap() end)
     end
+    ---@param self AceGUIButton
     button.ShowOnMap = function(self)
         if self.idsToShow then
             for _, spawnId in pairs(self.idsToShow) do
@@ -128,58 +136,62 @@ local function CreateShowHideButton(id)
             end
         end
         self:SetText(l10n("Remove from Map"))
-        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
+        self:SetCallback("OnClick", function() self:RemoveFromMap() end)
     end
     return button
 end
 
 local function rec(theTable, ret, indent)
-    ret = ret..stringrep('    ', indent)..'{\n'
+    ret = ret .. stringrep('    ', indent) .. '{\n'
     indent = indent + 1
     for k, v in pairs(theTable) do
         local t = type(v)
         if t == 'nil' then
-            ret = ret..stringrep('    ', indent)..'['..k..']=nil'
+            ret = ret .. stringrep('    ', indent) .. '[' .. k .. ']=nil'
         elseif t == 'table' then
-            ret = rec(v, ret..stringrep('    ', indent)..'['..k..']=\n', indent)
+            ret = rec(v, ret .. stringrep('    ', indent) .. '[' .. k .. ']=\n', indent)
         else
-            ret = ret..stringrep('    ', indent)..'['..k..']='..v
+            ret = ret .. stringrep('    ', indent) .. '[' .. k .. ']=' .. v
         end
-        ret = ret..'\n'
+        ret = ret .. '\n'
     end
-    return ret..stringrep('    ', indent-1)..'},'
+    return ret .. stringrep('    ', indent - 1) .. '},'
 end
 
 local function recurseTable(theTable, theKeys)
     local ret = Questie:Colorize('Raw data (shown because debug is enabled):\n\n', 'red')
     for key, _ in pairs(theKeys) do
-        ret = ret..Questie:Colorize(key, 'yellow')..': '
+        ret = ret .. Questie:Colorize(key, 'yellow') .. ': '
         local t = type(theTable[key])
         if t == 'nil' then
-            ret = ret..'nil'
+            ret = ret .. 'nil'
         elseif t == 'table' then
             ret = rec(theTable[key], ret, 0)
         else
-            ret = ret..theTable[key]
+            ret = ret .. theTable[key]
         end
-        ret = ret..'\n'
+        ret = ret .. '\n'
     end
     return ret
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
-    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8]
+    local ret = QuestieDB.QueryQuest(id,
+        { "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle" }) or {}
+    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5],
+        ret[6], ret[7], ret[8]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
     -- header
+    ---@type AceGUIHeading
     local title = AceGUI:Create("Heading")
     title:SetFullWidth(true);
     title:SetText(name)
     details:AddChild(title)
 
     -- is quest finished by player
+    ---@type AceGUICheckBox
     local finished = AceGUI:Create("CheckBox")
     finished:SetValue(Questie.db.char.complete[id])
     finished:SetLabel(l10n("Complete"))
@@ -190,6 +202,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     details:AddChild(finished)
 
     -- hidden by Questie
+    ---@type AceGUICheckBox
     local hiddenQuests = AceGUI:Create("CheckBox")
     hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
     hiddenQuests:SetLabel(l10n("Hidden by Questie"))
@@ -200,6 +213,8 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     details:AddChild(hiddenQuests)
 
     -- hidden by user
+    ----@class QuestieAceGUICheckBox : AceGUICheckBox
+    ---@class AceGUICheckBox
     local hiddenByUser = AceGUI:Create("CheckBox")
     hiddenByUser.id = id
     hiddenByUser:SetLabel(l10n("Hidden"))
@@ -221,9 +236,12 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         if GameTooltip:IsShown() then
             return;
         end
+        ---@diagnostic disable-next-line: invisible
         GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR");
         GameTooltip:AddLine(l10n("Quest is hidden"))
-        GameTooltip:AddLine(l10n("\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true);
+        GameTooltip:AddLine(
+        l10n("\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1,
+            true);
         GameTooltip:SetFrameStrata("TOOLTIP");
         GameTooltip:Show();
     end)
@@ -239,8 +257,8 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
 
     -- general info
     QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. ": " .. id)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level")) .. ": " .. questLevel)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level")) .. ": " .. requiredLevel)
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest Level")) .. ": " .. questLevel)
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Level")) .. ": " .. requiredLevel)
     local reqRaces = QuestieLib:GetRaceString(requiredRaces)
     if (reqRaces ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. ": " .. reqRaces)
@@ -250,7 +268,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     -- objectives text
     if objectivesText then
         QuestieJourneyUtils:AddLine(details, "")
-        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives")) .. ":")
+        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Objectives")) .. ":")
         for _, v in pairs(objectivesText) do
             QuestieJourneyUtils:AddLine(details, v)
         end
@@ -288,12 +306,11 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
 end
 
 function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
 
-    local id = 0
     local typeLabel = ""
-    local query
     local spawnObject
     if spawnType == "npc" then
         typeLabel = "NPC"
@@ -303,51 +320,52 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         spawnObject = QuestieDB:GetObject(spawn)
     end
 
-    header:SetText(spawnObject.name);
+    header:SetText(spawnObject and spawnObject.name or "Unknown");
     f:AddChild(header);
 
     QuestieJourneyUtils:Spacer(f);
 
-    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel).." ID")..": "..spawn)
+    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel) .. " ID") .. ": " .. spawn)
     if spawnType == "npc" then
-        if spawnObject.subName then
-            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"))..": "..spawnObject.subName)
+        if spawnObject and spawnObject.subName then
+            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title")) .. ": " .. spawnObject.subName)
         end
-        local minLevel = spawnObject.minLevel
-        local maxLevel = spawnObject.maxLevel
+        local minLevel = spawnObject and spawnObject.minLevel
+        local maxLevel = spawnObject and spawnObject.maxLevel
         local level
-        if minLevel == maxLevel then level = minLevel else level = minLevel.." - "..maxLevel end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"))..": "..level)
-        local minLevelHealth = spawnObject.minLevelHealth
-        local maxLevelHealth = spawnObject.maxLevelHealth
+        if minLevel == maxLevel then level = minLevel else level = minLevel .. " - " .. maxLevel end
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level")) .. ": " .. level)
+        local minLevelHealth = spawnObject and spawnObject.minLevelHealth
+        local maxLevelHealth = spawnObject and spawnObject.maxLevelHealth
         local health
-        if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth.." - "..maxLevelHealth end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"))..": "..health)
+        if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth .. " - " .. maxLevelHealth end
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health")) .. ": " .. health)
         local friendlyTo = l10n("no faction")
-        if spawnObject.friendlyToFaction == "AH" then
+        if spawnObject and spawnObject.friendlyToFaction == "AH" then
             friendlyTo = l10n("both factions")
-        elseif spawnObject.friendlyToFaction == "A" then
+        elseif spawnObject and spawnObject.friendlyToFaction == "A" then
             friendlyTo = l10n("Alliance")
-        elseif spawnObject.friendlyToFaction == "H" then
+        elseif spawnObject and spawnObject.friendlyToFaction == "H" then
             friendlyTo = l10n("Horde")
         end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"))..": "..friendlyTo)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to")) .. ": " .. friendlyTo)
     end
 
     QuestieJourneyUtils:Spacer(f);
 
     -- Also Starts
-    if spawnObject.questStarts then
+    if spawnObject and spawnObject.questStarts then
         AddLinkedParagraph(f, "quest", spawnObject.questStarts, l10n("Starts the following quests:"), QuestieDB.QueryQuestSingle)
     end
 
     -- Also ends
-    if spawnObject.questEnds then
+    if spawnObject and spawnObject.questEnds then
         AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests:"), QuestieDB.QueryQuestSingle)
     end
 
+    ---@type AceGUILabel
     local spawnZone = AceGUI:Create("Label");
-    local spawns = spawnObject.spawns
+    local spawns = spawnObject and spawnObject.spawns
 
     if spawns then
         f:AddChild(CreateShowHideButton(spawnType == "npc" and spawn or -spawn))
@@ -365,13 +383,14 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
 
-        if spawns[startindex] and spawns[startindex][1] then
+        if spawns and spawns[startindex] and spawns[startindex][1] then
             local startx = spawns[startindex][1][1];
             local starty = spawns[startindex][1][2];
 
             if (startx ~= -1 or starty ~= -1) then
+                ---@type AceGUILabel
                 local spawnLoc = AceGUI:Create("Label");
-                spawnLoc:SetText("X: ".. startx .." || Y: ".. starty);
+                spawnLoc:SetText("X: " .. startx .. " || Y: " .. starty);
                 spawnLoc:SetFullWidth(true);
                 f:AddChild(spawnLoc);
             end
@@ -402,10 +421,10 @@ local QuestieScanningTooltip = CreateFrame("GameTooltip", "QuestieScanningToolti
 QuestieScanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
 --- This function queries an item tooltip from the server, waits for the result, then calls the following function to draw an item info frame to a given parent frame.
----@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
+---@param f AceGUIScrollFrame The frame to attach the created item details frame to
+---@param itemId ItemId The ID for the item to show details about
 ---@return nil
- function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     -- Caching an item creates visible lag of 2 or 3 seconds at times (e.g. 13490, 13492 on Era)
     -- So we need to make sure the item data is *sufficiently* cached before we draw the frame
     -- We can't use the following because it creates a delay in the tooltip being drawn:
@@ -419,18 +438,21 @@ QuestieScanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
     ticker = C_Timer.NewTicker(0.05, function()
         -- When it does...
         if C_Item.IsItemDataCachedByID(itemId) then
-            ticker:Cancel()
-            -- We still need another tiny delay because the following content might still clip the last few lines otherwise
-            C_Timer.After(0.05, function() QuestieSearchResults:ItemsFrameAfterTicker(f, itemId) end)
+            if ticker then
+                ticker:Cancel()
+                -- We still need another tiny delay because the following content might still clip the last few lines otherwise
+                C_Timer.After(0.05, function() QuestieSearchResults:ItemsFrameAfterTicker(f, itemId) end)
+            end
         end
     end)
 end
 
 --- This function draws an item info frame to a given parent frame after the previous function made sure its data is cached.
----@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
+---@param f AceGUIScrollFrame The frame to attach the created item details frame to
+---@param itemId ItemId The ID for the item to show details about
 ---@return nil
 function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(true)
 
@@ -439,6 +461,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     header:SetText(query(itemId, "name"))
     f:AddChild(header)
 
+    ---@type AceGUISimpleGroup
     local grp = AceGUI:Create("SimpleGroup")
     grp:SetFullWidth(true)
     grp:SetLayout("Flow")
@@ -446,13 +469,16 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     local itemIcon = QuestieJourneyUtils.GetItemIcon(itemId)
     grp:AddChild(itemIcon)
 
+    ---@type AceGUILabel
     local spawnIdLabel = AceGUI:Create("Label")
     spawnIdLabel:SetText("  Item ID: " .. itemId)
     grp:AddChild(spawnIdLabel)
 
     f:AddChild(grp)
 
-    local tooltip = AceGUI:Create("GameTooltipWidget", itemId)
+    ---@type AceGUIGameTooltipWidget
+    local tooltip = AceGUI:Create("GameTooltipWidget")
+    ---@diagnostic disable-next-line: invisible
     tooltip:SetOwner(itemIcon.frame, "ANCHOR_BOTTOMRIGHT")
     tooltip:SetItemByID(itemId)
     tooltip:ShowTooltip()
@@ -461,6 +487,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
         QuestieJourneyUtils:Spacer(f)
+        ---@type AceGUILabel
         local itemBlacklistedLabel = AceGUI:Create("Label")
         itemBlacklistedLabel:SetText(l10n("This item is blacklisted because it has too many sources"))
         itemBlacklistedLabel:SetFullWidth(true)
@@ -468,22 +495,25 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         return
     end
 
-    local sources = QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"})
-    local npcDrops = sources[1]
-    local objectDrops = sources[2]
-    local vendors = sources[3]
+    local sources = QuestieDB.QueryItem(itemId, { "npcDrops", "objectDrops", "vendors" })
+    local npcDrops = sources and sources[1]
+    local objectDrops = sources and sources[2]
+    local vendors = sources and sources[3]
 
+    ---@type AceGUIHeading
     local npcSpawnsHeading = AceGUI:Create("Heading")
     npcSpawnsHeading:SetText(l10n("NPCs"))
     npcSpawnsHeading:SetFullWidth(true)
     f:AddChild(npcSpawnsHeading)
 
     if (not npcDrops or not next(npcDrops)) then
+        ---@type AceGUILabel
         local noNPCSourcesLabel = AceGUI:Create("Label")
         noNPCSourcesLabel:SetText(l10n("No NPC drops this item"))
         noNPCSourcesLabel:SetFullWidth(true)
         f:AddChild(noNPCSourcesLabel)
     else
+        ---@type AceGUILabel
         local npcLabel = AceGUI:Create("Label")
 
         local npcIdsWithSpawns = {}
@@ -504,17 +534,20 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         AddLinkedParagraph(f, "npc", npcIdsWithSpawns, "", QuestieDB.QueryNPCSingle)
     end
 
+    ---@type AceGUIHeading
     local objectSpawnsHeading = AceGUI:Create("Heading")
     objectSpawnsHeading:SetText(l10n("Objects"))
     objectSpawnsHeading:SetFullWidth(true)
     f:AddChild(objectSpawnsHeading)
 
     if (not objectDrops or not next(objectDrops)) then
+        ---@type AceGUILabel
         local noObjectSourcesLabel = AceGUI:Create("Label")
         noObjectSourcesLabel:SetText(l10n("No Object drops this item"))
         noObjectSourcesLabel:SetFullWidth(true)
         f:AddChild(noObjectSourcesLabel)
     else
+        ---@type AceGUILabel
         local objectLabel = AceGUI:Create("Label")
 
         local objectIdsWithSpawns = {}
@@ -535,17 +568,20 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         AddLinkedParagraph(f, "object", objectIdsWithSpawns, "", QuestieDB.QueryObjectSingle)
     end
 
+    ---@type AceGUIHeading
     local vendorSpawnsHeading = AceGUI:Create("Heading")
     vendorSpawnsHeading:SetText(l10n("Vendors"))
     vendorSpawnsHeading:SetFullWidth(true)
     f:AddChild(vendorSpawnsHeading)
 
     if (not vendors or not next(vendors)) then
+        ---@type AceGUILabel
         local noVendorSourcesLabel = AceGUI:Create("Label")
         noVendorSourcesLabel:SetText(l10n("No Vendor sells this item"))
         noVendorSourcesLabel:SetFullWidth(true)
         f:AddChild(noVendorSourcesLabel)
     else
+        ---@type AceGUILabel
         local vendorLabel = AceGUI:Create("Label")
 
         local vendorIdsWithSpawns = {}
@@ -571,6 +607,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetItem(itemId), QuestieDB.itemKeys))
     end
     -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+    ---@diagnostic disable-next-line: invisible
     f.content:SetHeight(10000);
 end
 
@@ -592,17 +629,17 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     else
         return
     end
-    local max=0
-    for k,_ in pairs(QuestieSearch.LastResult[resultType]) do
+    local max = 0
+    for k, _ in pairs(QuestieSearch.LastResult[resultType]) do
         if k > max then max = k end
     end
-    for k=1, max do
+    for k = 1, max do
         if QuestieSearch.LastResult[resultType][k] then
             local name = database(k, "name")
             if name then
                 local complete = ''
                 if Questie.db.char.complete[k] and resultType == "quest" then
-                    complete = Questie:Colorize("(" .. l10n("Complete") .. ")" , "green")
+                    complete = Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
                 end
                 -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
                 local id = ''
@@ -616,14 +653,17 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
             end
         end
     end
+    ---@type AceGUISimpleGroup
     local resultFrame = AceGUI:Create("SimpleGroup");
     resultFrame:SetLayout("Fill");
     resultFrame:SetFullWidth(true);
     resultFrame:SetFullHeight(true);
 
+    ---@type AceGUITreeGroup
     local resultTree = AceGUI:Create("TreeGroup");
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
+    ---@diagnostic disable-next-line: invisible
     resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
     resultTree:SetCallback("OnGroupSelected", _HandleOnGroupSelected)
@@ -636,7 +676,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     end
 end
 
-_HandleOnGroupSelected = function (resultType)
+_HandleOnGroupSelected = function(resultType)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
@@ -657,6 +697,7 @@ _HandleOnGroupSelected = function (resultType)
     master:SetFullWidth(true);
     master:SetFullHeight(true);
 
+    ---@type AceGUIScrollFrame
     local details = AceGUI:Create("ScrollFrame");
     details:SetLayout("Flow");
     master:AddChild(details);
@@ -726,41 +767,43 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             object = 0,
             item = 0
         }
-        for type,_ in pairs(resultTypes) do
-            for _,_ in pairs(results[type]) do
+        for type, _ in pairs(resultTypes) do
+            for _, _ in pairs(results[type]) do
                 resultCountTotal = resultCountTotal + 1
                 resultCounts[type] = resultCounts[type] + 1
             end
         end
         if (resultCountTotal == 0) then
+            ---@type AceGUILabel
             local noresults = AceGUI:Create("Label");
             noresults:SetText(Questie:Colorize(l10n('No Match for Search Results: %s', query), 'yellow'));
             noresults:SetFullWidth(true);
             searchGroup:AddChild(noresults);
             return;
         end
+        ---@type AceGUITabGroup
         searchResultTabs = AceGUI:Create("TabGroup");
         searchResultTabs:SetFullWidth(true);
         searchResultTabs:SetFullHeight(true);
         searchResultTabs:SetLayout("Flow");
         searchResultTabs:SetTabs({
             {
-                text = l10n('Quests') .. " ("..resultCounts.quest..")",
+                text = l10n('Quests') .. " (" .. resultCounts.quest .. ")",
                 value = "quest",
                 disabled = resultCounts.quest == 0,
             },
             {
-                text = l10n('NPCs') .. " ("..resultCounts.npc..")",
+                text = l10n('NPCs') .. " (" .. resultCounts.npc .. ")",
                 value = "npc",
                 disabled = resultCounts.npc == 0,
             },
             {
-                text = l10n('Objects') .. " ("..resultCounts.object..")",
+                text = l10n('Objects') .. " (" .. resultCounts.object .. ")",
                 value = "object",
                 disabled = resultCounts.object == 0,
             },
             {
-                text = l10n('Items') .. " ("..resultCounts.item..")",
+                text = l10n('Items') .. " (" .. resultCounts.item .. ")",
                 value = "item",
                 disabled = resultCounts.item == 0,
             },
@@ -776,20 +819,26 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
 end
 
 -- The "Advanced Search" tab
-local typeDropdown
+---@type AceGUIEditBox
 local searchBox
+---@type AceGUISimpleGroup
 local searchGroup
+---@type AceGUIButton
 local searchButton
 function QuestieSearchResults:DrawSearchTab(container)
     -- Header
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading");
     header:SetText(l10n("Enter in your Search"));
     header:SetFullWidth(true);
     container:AddChild(header);
     QuestieJourneyUtils:Spacer(container);
 
+    ---@type AceGUIEditBox
     searchBox = AceGUI:Create("EditBox");
+    ---@type AceGUISimpleGroup
     searchGroup = AceGUI:Create("SimpleGroup");
+    ---@type AceGUIButton
     searchButton = AceGUI:Create("Button");
 
     searchButton:SetText(l10n("Search"));
@@ -799,7 +848,7 @@ function QuestieSearchResults:DrawSearchTab(container)
 
     searchBox:SetFocus();
     searchBox:SetRelativeWidth(0.6);
-    searchBox:SetLabel(l10n("Advanced Search") .. " (".. l10n("Quests") .. ", ".. l10n("NPCs") .. ", ".. l10n("Objects") .. ", ".. l10n("Items") .. ")");
+    searchBox:SetLabel(l10n("Advanced Search") .. " (" .. l10n("Quests") .. ", " .. l10n("NPCs") .. ", " .. l10n("Objects") .. ", " .. l10n("Items") .. ")");
     searchBox:DisableButton(true);
     searchBox:SetCallback("OnTextChanged", function()
         if searchBox:GetText() ~= "" then
@@ -828,10 +877,12 @@ function QuestieSearchResults:DrawSearchTab(container)
 end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)
+    ---@type AceGUIFrame
     local frame = AceGUI:Create("Frame")
     frame:SetHeight(500)
     frame:SetWidth(300)
     frame:SetLayout("Fill");
+    ---@type AceGUIScrollFrame
     local details = AceGUI:Create("ScrollFrame")
     details:SetFullWidth(true);
     details:SetFullHeight(true);

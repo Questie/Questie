@@ -1,4 +1,4 @@
----@type ZoneDB
+---@class ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

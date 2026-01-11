@@ -57,12 +57,12 @@ local killcredit, monster, object, event, item, spell
 
 ---@type table<"killcredit"|"monster"|"object"|"event"|"item", function>
 _QuestieQuest.objectiveSpawnListCallTable = {}
----comment
----@param npcId NpcId
+
+---@param _ NpcId
 ---@param objective any
 ---@param objectiveData KillObjective
 ---@return table<NpcId, SpawnListNPC>[]
-killcredit = function(npcId, objective, objectiveData)
+killcredit = function(_, objective, objectiveData)
     ---@type SpawnListNPC[]
     local ret = {}
     for npcIdIndex = 1, #objectiveData.IdList do

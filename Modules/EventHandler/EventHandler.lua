@@ -33,8 +33,6 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type AutoQuesting
 local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
@@ -168,7 +166,7 @@ function EventHandler:RegisterLateEvents()
         -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
         -- backend Questie updates that occur when a player zones in/out of an instance. This
         -- is necessary to get everything back into it's "normal" state after all the updates.
-        local isInInstance, instanceType = IsInInstance()
+        local isInInstance = IsInInstance()
 
         if isInInstance then
             C_Timer.After(8, function()
@@ -292,9 +290,9 @@ function EventHandler:RegisterLateEvents()
             end)
         end)
 
-        Questie:RegisterEvent("SCENARIO_CRITERIA_UPDATE", function(_, criteriaIndex)
+        Questie:RegisterEvent("SCENARIO_CRITERIA_UPDATE", function(_, criteriaId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_CRITERIA_UPDATE")
-            QuestieTracker.UpdateScenarioLines(criteriaIndex)
+            QuestieTracker.UpdateScenarioLines(criteriaId)
             QuestieTracker.UpdateScenarioLines(0) -- Always update 0 index, because that is the trash count
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
