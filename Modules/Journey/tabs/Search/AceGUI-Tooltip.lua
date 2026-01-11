@@ -17,6 +17,8 @@ local CreateFrame, UIParent = CreateFrame, UIParent -- Removed PlaySound
 --[[-----------------------------------------------------------------------------
 Methods
 -------------------------------------------------------------------------------]]
+
+---@class AceGUIGameTooltipWidget : AceGUIWidget
 local methods = {
     ["OnAcquire"] = function(self)
         Questie:Debug(Questie.DEBUG_INFO, "GameTooltipWidget OnAcquire called")
@@ -39,30 +41,51 @@ local methods = {
         self.frame:SetOwner(UIParent, "ANCHOR_NONE") -- Reset owner to avoid issues
     end,
 
+    ---@param ownerFrame Frame
+    ---@param anchorPoint string
+    ---@param offsetX? number
+    ---@param offsetY? number
     ["SetOwner"] = function(self, ownerFrame, anchorPoint, offsetX, offsetY)
         self.frame:SetOwner(ownerFrame, anchorPoint, offsetX, offsetY)
     end,
 
+    ---@param hyperlink string
     ["SetHyperlink"] = function(self, hyperlink)
         self.frame:SetHyperlink(hyperlink)
     end,
 
+    ---@param itemID number
     ["SetItemByID"] = function(self, itemID)
         self.frame:SetItemByID(itemID)
     end,
 
+    ---@param unitToken string
     ["SetUnit"] = function(self, unitToken)
         self.frame:SetUnit(unitToken)
     end,
 
+    ---@param spellID number
     ["SetSpellByID"] = function(self, spellID)
         self.frame:SetSpellByID(spellID)
     end,
 
+    ---@param text string
+    ---@param r? number
+    ---@param g? number
+    ---@param b? number
+    ---@param wrapText? boolean
     ["AddLine"] = function(self, text, r, g, b, wrapText)
         self.frame:AddLine(text, r, g, b, wrapText)
     end,
 
+    ---@param textLeft string
+    ---@param textRight string
+    ---@param rL? number
+    ---@param gL? number
+    ---@param bL? number
+    ---@param rR? number
+    ---@param gR? number
+    ---@param bR? number
     ["AddDoubleLine"] = function(self, textLeft, textRight, rL, gL, bL, rR, gR, bR)
         self.frame:AddDoubleLine(textLeft, textRight, rL, gL, bL, rR, gR, bR)
     end,
@@ -79,14 +102,23 @@ local methods = {
         self.frame:Hide()
     end,
 
+    ---@param scale number
     ["SetTooltipScale"] = function(self, scale) -- Renamed to avoid conflict with AceGUI's base SetScale
         self.frame:SetScale(scale)
     end,
 
+    ---@param ownerFrame Frame
+    ---@param anchorPoint string
+    ---@param offsetX? number
+    ---@param offsetY? number
     ["SetTooltipOwner"] = function(self, ownerFrame, anchorPoint, offsetX, offsetY)
         self.frame:SetOwner(ownerFrame, anchorPoint, offsetX, offsetY)
     end,
 
+    ---@param right number
+    ---@param bottom number
+    ---@param left number
+    ---@param top number
     ["SetPadding"] = function(self, right, bottom, left, top)
         self.frame:SetPadding(right, bottom, left, top)
     end,
