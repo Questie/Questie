@@ -79,7 +79,7 @@ jobs:
         run: lua cli/validate-localization.lua
 
       - name: Run Lua Language Server Check
-        run: lua-language-server --check=. --checklevel=Warning --configpath=.luarc.json
+        run: lua-language-server --check=. --checklevel=Warning --configpath=.luarc.json --metapath=/tmp/luals-meta --logpath=/tmp/luals-log
 
       - name: Upload correction files
         uses: actions/upload-artifact@v6
