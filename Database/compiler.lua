@@ -980,7 +980,15 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
     while true do
         coYield()
-        for _=0,Questie.db.profile.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
+
+        local ticks = TICKS_PER_YIELD
+        if Questie.db.profile.debugEnabled then
+            ticks = TICKS_PER_YIELD_DEBUG
+        elseif entriesPerTick then
+            ticks = entriesPerTick
+        end
+
+        for _ = 0, ticks do
             index = index + 1
             if index == count then
                 if Questie.IsSoD then
