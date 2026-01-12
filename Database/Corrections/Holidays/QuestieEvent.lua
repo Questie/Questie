@@ -127,13 +127,13 @@ function QuestieEvent:Load()
     end
 
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
-        local startDay, startMonth = strsplit("/", eventData.startDate)
-        local endDay, endMonth = strsplit("/", eventData.endDate)
+        local startDayString, startMonthString = strsplit("/", eventData.startDate)
+        local endDayString, endMonthString = strsplit("/", eventData.endDate)
 
-        startDay = tonumber(startDay)
-        startMonth = tonumber(startMonth)
-        endDay = tonumber(endDay)
-        endMonth = tonumber(endMonth)
+        local startDay = tonumber(startDayString)
+        local startMonth = tonumber(startMonthString)
+        local endDay = tonumber(endDayString)
+        local endMonth = tonumber(endMonthString)
 
         if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
             print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
@@ -267,13 +267,15 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
+---@param currentDate CalendarTime
+---@return integer
 _GetDarkmoonFaireLocationSoD = function(currentDate)
-    local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
-    local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
-    currentDate = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
+    local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
+    local currentDateNew = time({ year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1 })
 
     local eventDuration = initialEndDate - initialStartDate
-    local timeSinceStart = currentDate - initialStartDate
+    local timeSinceStart = currentDateNew - initialStartDate
 
     local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
 

@@ -22,6 +22,11 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
+    --- Make LuaLS understand this is a global
+    if not QuestieConfig then
+        ---@class Frame
+        QuestieConfig = {}
+    end
 
     -- These events basically all mean the same: The active profile changed.
     Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
@@ -49,7 +54,7 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(_, db, profileName)
+function Questie:RefreshConfig(_, _, _) -- _, db, profileName
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
@@ -59,7 +64,7 @@ end
 --- Colorize a string with a color code
 ---@param str string @The string colorize
 --Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"repeatableBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|"pvpRed"|string
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"repeatableBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|"pvpRed"|string|nil
 ---@return string
 function Questie:Colorize(str, color)
     if not color then color = "yellow" end

@@ -1,23 +1,78 @@
 {
     "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+
+    "diagnostics.libraryFiles": "Disable",
+    "diagnostics.ignoredFiles": "Disable",
+
+    "workspace.preloadFileSize": 3000,
+    "workspace.maxPreload": 5000,
+
+    "runtime.builtin": {
+        "basic": "enable"
+    },
+
+    "diagnostics.severity": {
+        "unused-local": "Warning!",
+        "deprecated": "Information!"
+    },
+
+    "diagnostics.disable": [
+        "assign-type-mismatch",
+        "param-type-mismatch",
+        "return-type-mismatch"
+    ],
+
     "workspace.library": [
         ".types",
-        "Libs"
+        "WoW-API"
+        // "Libs" // Should this be here?
     ],
+
     "runtime.version": "Lua 5.1",
     "hint.enable": false,
+
     "workspace.ignoreDir": [
         ".dockerfiles",
         ".github",
         ".idea",
-        ".types",
+        "releases",
+
+        // Generics
+        ".vscode",
+
+        // Database ignores
+        "Database/Cata/**",
+        "Database/TBC/**",
+        "Database/Wotlk/**",
+        "Database/MoP/**",
+        "Database/QuestXP/DB/**",
+        "Database/Corrections/Automatic/**", // We should move the sodBase files into their own folder.
+        "Localization/lookups/**",
+
+        // Helper script ignores.
+        "ExternalScripts(DONOTINCLUDEINRELEASE)/MapIdExporter/**",
+        "ExternalScripts(DONOTINCLUDEINRELEASE)/merger/**",
         "ExternalScripts(DONOTINCLUDEINRELEASE)",
-        "Libs",
-        "releases"
-    ],
-    "diagnostics.globals": [
-        "QuestChoiceFrame",
-        "CallErrorHandler"
+
+        // Questie
+        "./.types",
+        "setupTests.lua",
+        "*test.lua",
+        "./Modules/**/*.test.lua",
+        "./cli",
+
+        // Lets ignore libraries so our check tool doesn't get confused.
+        "./Libs/Ace*/**",
+        "./Libs/CallbackHandler*/**",
+        "./Libs/Lib*/**",
+
+        // "old" Database
+        // "./Modules/Libs/QuestieSerializer.lua",
+        // "./Database/compiler.lua",
+
+        // Logons WoW-API Reference.
+        "WoW-API"
+        // "**/extensions/sumneko.lua*", // I don't want problems to show up for the sumneko extension
     ],
     "format": {
         "defaultConfig": {
@@ -38,5 +93,117 @@
             "space_inside_function_param_list_parentheses": "false",
             "space_inside_square_brackets": "false"
         }
-    }
+    },
+    "diagnostics.globals": [
+        // External Addons
+        "QuestLogEx", // From another AddOn (Some kind of questlog extended addon)
+        "QuestLogExFrame",
+        "ClassicQuestLog",
+        // VoiceOver Addon
+        "VoiceOver",
+        "VoiceOverFrame",
+        // Tomtom
+        "TomTom",
+        // MBB (Minimap Button Bag Addon)
+        "MBB_Ignore",
+        // DBM (Deadly Boss Mods Addon)
+        "hudDuration", // Seems like local... but is global?
+        // DugisGuideViewer
+        "DugisGuideViewer",
+
+        // ? Blizzard
+        /// Error
+        "UIErrorsFrame",
+        /// Worldmap
+        "WorldMapFrame",
+        "WorldMapTooltip",
+        "WorldMapQuestShowObjectives",
+        /// WorldFrame
+        "WorldFrame",
+        /// Chatframe
+        "ChatFrameMixin",
+        /// Durability
+        "DurabilityFrame",
+        /// Minimap
+        "MinimapZoneText",
+        /// Timer Frames
+        "WatchFrame",
+        "QuestWatchFrame",
+        "QuestTimerFrame",
+        "WatchFrame_Update", // Function
+        // Questlog
+        "QuestLogFrame",
+        // Target
+        "TargetFrame",
+
+        // Gossip functions
+        // These are deprecated in later versions of WoW, but still exist in Classic and TBC.
+        // These should however be changed.
+        "GetNumGossipAvailableQuests", // Function
+        "GetNumGossipActiveQuests", // Function
+
+
+        // Wrath and up
+        /// Achievements
+        "AchievementFrame_LoadUI", // Function
+        /// Dressup
+        "DressUpItemLink", // Function
+
+        // Deprecated / Removed Blizzard globals
+        // Gossip
+        // ! These should be deprecated, but they work a bit differently in different versions of WoW.
+        // ! So we let them throw warnings for now.
+        // "GetNumGossipAvailableQuests", // Function (replaced by C_GossipInfo.GetNumAvailableQuests in later versions)
+        // "GetNumGossipActiveQuests", // Function (replaced by C_GossipInfo.GetNumActiveQuests in later versions)
+
+
+        // ! Problematic
+        "StaticPopup_Resize" // Does this actually exist in all versions?
+
+    ],
+
+    "diagnostics.globalsRegex": [
+        // Addons
+        // ElvUI
+        "^ElvUF_.*$", // ElvUI UnitFrames
+        // PitBull4
+        "^PitBull4_.*$", // PitBull4 UnitFrames
+        // Shadowed Unit Frames
+        "^SUF.*$", // Shadowed Unit Frames
+        // X-Perl UnitFrames
+        "^XPerl_.*$", // X-Perl UnitFrames
+        // Inven(?) ADdon
+        "^InvenUnitFrames_.*$", // Inven UnitFrames
+        // AzeriteUI
+        "^Azerite.*$", // AzeriteUI UnitFrames
+        // GW2_UI
+        "^GwTarget.*$", // GW2_UI UnitFrames
+
+        // String globals
+        "^[A-Z_]+$",  // Match all WoW globals
+
+        // ? Blizzard frames
+        /// Gossip
+        "^Gossip[A-Za-z]*Frame$",
+        "^Gossip[A-Za-z]*Panel$",
+        /// Quest
+        "^QuestFrame[A-Za-z]*Panel$",
+        "^Quest[A-Za-z]*Frame$",
+
+        /// QuestLog
+        "^QuestLogListScrollFrame.*$",
+        /// Immersion
+        "^Immersion[A-Za-z]*Frame$",
+        "^ImmersionFrame$",
+        /// Achivements
+        "^AchievementFrame.*$",
+        /// Worldmap
+        "^WorldMap[A-Za-z]*DropDown$",
+
+        // ? Blizzard Tooltips
+        "^.*RefTooltip.*$",
+
+        // ? Blizzard Chat
+        "^ChatFrame[0-9]+EditBox$"
+    ]
 }

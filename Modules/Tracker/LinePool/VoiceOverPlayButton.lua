@@ -7,9 +7,10 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Rem
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
 ---@param index number
----@param parent LineFrame
----@return LineFrame
+---@param parent TrackerLine
+---@return VoiceOverPlayButton
 function VoiceOverPlayButton.New(index, parent)
+    ---@class VoiceOverPlayButton : Button
     local playButton = CreateFrame("Button", "linePool.playButton" .. index, parent)
     playButton:SetWidth(20)
     playButton:SetHeight(20)

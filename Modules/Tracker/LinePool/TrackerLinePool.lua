@@ -19,16 +19,20 @@ local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
 local buttonIndex = 0
+---@type TrackerLine[]
 local linePool = {}
+---@type TrackerItemButton[]
 local buttonPool = {}
 
----@type table<QuestId, table<Frame>>
+---@type table<QuestId, TrackerLine[]> -- questId -> lines
 local linesByQuest = {}
 
----@type table<number, table<Frame>>
-local linesByScenarioIndex = {}
 
----@param questFrame Frame
+---@type table<CriteriaId, TrackerLine> -- criteriaId -> line
+local linesByScenarioId = {}
+-----@type table<number, TrackerLine[]> -- criteriaId -> lines (If we ever want multiple lines per criteria)
+
+---@param questFrame Frame|{ScrollChildFrame: Frame}
 function TrackerLinePool.Initialize(questFrame)
     local trackerQuestFrame = questFrame
 
@@ -133,7 +137,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     end
 end
 
----@return table|nil lineIndex linePool[lineIndex + 1]
+---@return TrackerLine? trackerLine [lineIndex + 1]
 function TrackerLinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -143,7 +147,7 @@ function TrackerLinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
----@return table|nil buttonIndex buttonPool[buttonIndex]
+---@return TrackerItemButton? buttonIndex buttonPool[buttonIndex + 1]
 function TrackerLinePool.GetNextItemButton()
     buttonIndex = buttonIndex + 1
     if not buttonPool[buttonIndex] then
@@ -312,6 +316,7 @@ function TrackerLinePool.SetAllItemButtonAlpha(alpha)
     end
 end
 
+---@param self TrackerLine
 TrackerLinePool.OnHighlightEnter = function(self)
     if Questie.db.profile.trackerDisableHoverFade then
         return
@@ -321,13 +326,16 @@ TrackerLinePool.OnHighlightEnter = function(self)
     for i = 1, highestIndex do
         local line = linePool[i]
         line:SetAlpha(0.5)
+        ---@type TrackerLine
+        local parent = self:GetParent()
 
-        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
+        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.expandZone ~= nil and parent.expandZone ~= nil and line.expandZone.zoneId == parent.expandZone.zoneId) then
             line:SetAlpha(1)
         end
     end
 end
 
+----@param self TrackerLine
 TrackerLinePool.OnHighlightLeave = function()
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
@@ -336,7 +344,7 @@ TrackerLinePool.OnHighlightLeave = function()
 end
 
 ---@param questId QuestId
----@param line LineFrame
+---@param line TrackerLine
 function TrackerLinePool.AddQuestLine(questId, line)
     if (not linesByQuest[questId]) then
         linesByQuest[questId] = {}
@@ -367,27 +375,33 @@ function TrackerLinePool.UpdateQuestLines(questId)
     end
 end
 
----@param criteriaIndex number
----@param line LineFrame
-function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
-    if (not linesByScenarioIndex[criteriaIndex]) then
-        linesByScenarioIndex[criteriaIndex] = {}
-    end
+---@param criteriaId CriteriaId @ This one is strange, it should be objective.Id here...
+---@param line TrackerLine
+function TrackerLinePool.AddScenarioLine(criteriaId, line)
+    -- ? Multiple lines per criteriaId
+    -- if (not linesByScenarioId[criteriaId]) then
+    --     linesByScenarioId[criteriaId] = {}
+    -- end
+    -- if (not tContains(linesByScenarioId[criteriaId], line)) then
+    --     table.insert(linesByScenarioId[criteriaId], line)
+    -- end
 
-    if (not tContains(linesByScenarioIndex[criteriaIndex], line)) then
-        linesByScenarioIndex[criteriaIndex] = line
-    end
+    -- ? Single line per criteriaId
+    linesByScenarioId[criteriaId] = line
 end
 
----@param criteriaIndex number
-function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
-    if not linesByScenarioIndex[criteriaIndex] then
+---@param criteriaId CriteriaId @ The criteriaId of the scenario objective
+function TrackerLinePool.UpdateScenarioLines(criteriaId)
+    if not linesByScenarioId[criteriaId] then
         return
     end
 
-    local line = linesByScenarioIndex[criteriaIndex]
+    --- ? If we ever want to do multiple lines per criteriaId
+    --- ? just change this to itterate over the table subtable
+    --- i.e for _, line in pairs(linesByScenarioId[criteriaId] or {}) do
+    local line = linesByScenarioId[criteriaId]
     if line.Objective then
-        ---@type QuestObjective
+        ---@type ScenarioObjective
         local objective = line.Objective
         local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
         if (not criteriaInfo) then

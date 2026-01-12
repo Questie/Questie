@@ -1,5 +1,6 @@
 ---@class QuestieInit
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
+QuestieInit.private = QuestieInit.private or {}
 local _QuestieInit = QuestieInit.private
 
 ---@type ThreadLib
@@ -454,7 +455,9 @@ function QuestieInit.WaitForValidGameCache()
                 Questie:Debug(Questie.DEBUG_CRITICAL, "QuestieInit: Game Cache did not become valid in 3 seconds, continuing with initialization.")
             end
             doWait = false
-            timer:Cancel()
+            if timer then
+                timer:Cancel()
+            end
         end
         questIdsChecked = newQuestIdsChecked
         retries = retries + 1

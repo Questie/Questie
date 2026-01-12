@@ -1,5 +1,7 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 
 ---@type QuestieDB
@@ -10,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 function _QuestieJourney:GetHistory()
     local journeyEntries = _QuestieJourney:GetJourneyEntries()
+    ---@type number[]
     local years = {}
     for k in pairs(journeyEntries) do
         table.insert(years, k)
@@ -36,7 +39,7 @@ function _QuestieJourney:GetHistory()
 
                 for entryIndex=#journeyEntries[year][month], 1, -1 do -- Iterate backwards to show newest first
 
-                    ---@type JourneyEntry
+                    ---@type SortedJourneyEntry
                     local entry = journeyEntries[year][month][entryIndex]
                     local entryIdx = entry.idx
                     local entryText = _QuestieJourney:GetEntryText(entry.value)
@@ -67,13 +70,13 @@ function _QuestieJourney:GetJourneyEntries()
     -- ---@param v JourneyEntry
     for i, v in ipairs(Questie.db.char.journey) do
         local year = tonumber(date('%Y', v.Timestamp))
-        if (not dateTable[year]) then
+        if (year and not dateTable[year]) then
             dateTable[year] = {}
         end
 
         local month = tonumber(date('%m', v.Timestamp))
 
-        if (not dateTable[year][month]) then
+        if (month and not dateTable[year][month]) then
             dateTable[year][month] = {}
         end
 

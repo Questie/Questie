@@ -163,7 +163,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             text = "Thick Yeti Hide",
             type = "item"
         }, cachedQuest.objectives[1])
-        assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
+        assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
 
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
         for _ = 1, 3 do

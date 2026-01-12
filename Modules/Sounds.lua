@@ -52,7 +52,7 @@ end
 function Sounds.GetSelectedSoundFile(typeSelected)
     local soundFile = soundTable[typeSelected]
     if (not soundFile) then
-        soundFile = LSM30:Fetch("sound", typeSelected)
+        soundFile = LSM30:Fetch("sound", typeSelected) or soundTable["QuestDefault"]
     end
     return soundFile
 end

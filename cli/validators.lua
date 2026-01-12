@@ -447,22 +447,24 @@ function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
 
     if count > 0 then
         local correctionFile = io.open(outputDir .. "/npcQuestStartsCorrections.lua", "w")
-        correctionFile:write("return {\n")
+        if correctionFile then
+            correctionFile:write("return {\n")
 
-        print("\27[31mFound " .. count .. " NPCs with invalid questStarts:\27[0m")
-        for npcId, reasons in pairsByKeys(invalidQuestStarts) do
-            print("\27[31m- NPC " .. npcId .. ":")
-            for _, reason in ipairs(reasons) do
-                print("  - " .. reason)
+            print("\27[31mFound " .. count .. " NPCs with invalid questStarts:\27[0m")
+            for npcId, reasons in pairsByKeys(invalidQuestStarts) do
+                print("\27[31m- NPC " .. npcId .. ":")
+                for _, reason in ipairs(reasons) do
+                    print("  - " .. reason)
+                end
+                print("\27[0m")
+
+                table.sort(targetQuestStarts[npcId] or {})
+                local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(targetQuestStarts[npcId] or {}, ",") .. "},\n        },"
+                correctionFile:write("        " .. correctionString .. "\n")
             end
-            print("\27[0m")
-
-            table.sort(targetQuestStarts[npcId] or {})
-            local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questStarts] = {" .. table.concat(targetQuestStarts[npcId] or {}, ",") .. "},\n        },"
-            correctionFile:write("        " .. correctionString .. "\n")
+            correctionFile:write("}\n")
+            correctionFile:close()
         end
-        correctionFile:write("}\n")
-        correctionFile:close()
 
         os.exit(1)
         return invalidQuestStarts, targetQuestStarts
@@ -476,7 +478,7 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>, table<NpcId, QuestId[]>
 function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
 
@@ -564,22 +566,26 @@ function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
 
     if count > 0 then
         local correctionFile = io.open(outputDir .. "/npcQuestEndsCorrections.lua", "w")
-        correctionFile:write("return {\n")
+        if correctionFile then
+            correctionFile:write("return {\n")
 
-        print("\27[31mFound " .. count .. " NPCs with invalid questEnds:\27[0m")
-        for npcId, reasons in pairsByKeys(invalidQuestEnds) do
-            print("\27[31m- NPC " .. npcId .. ":")
-            for _, reason in ipairs(reasons) do
-                print("  - " .. reason)
+            print("\27[31mFound " .. count .. " NPCs with invalid questEnds:\27[0m")
+            for npcId, reasons in pairsByKeys(invalidQuestEnds) do
+                print("\27[31m- NPC " .. npcId .. ":")
+                for _, reason in ipairs(reasons) do
+                    print("  - " .. reason)
+                end
+                print("\27[0m")
+
+                table.sort(targetQuestEnds[npcId] or {})
+                local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(targetQuestEnds[npcId] or {}, ",") .. "},\n        },"
+                correctionFile:write("        " .. correctionString .. "\n")
             end
-            print("\27[0m")
-
-            table.sort(targetQuestEnds[npcId] or {})
-            local correctionString = "[" .. npcId .. "] = { -- " .. npcs[npcId][npcKeys.name] .. "\n            [npcKeys.questEnds] = {" .. table.concat(targetQuestEnds[npcId] or {}, ",") .. "},\n        },"
-            correctionFile:write("        " .. correctionString .. "\n")
+            correctionFile:write("}\n")
+            correctionFile:close()
+        else
+            print("\27[31mFailed to open correction file for NPC quest ends\27[0m")
         end
-        correctionFile:write("}\n")
-        correctionFile:close()
 
         os.exit(1)
         return invalidQuestEnds, targetQuestEnds
@@ -678,22 +684,26 @@ function Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKey
 
     if count > 0 then
         local correctionFile = io.open(outputDir .. "/objectQuestStartsCorrections.lua", "w")
-        correctionFile:write("return {\n")
+        if correctionFile then
+            correctionFile:write("return {\n")
 
-        print("\27[31mFound " .. count .. " objects with invalid questStarts:\27[0m")
-        for objectId, reasons in pairsByKeys(invalidQuestStarts) do
-            print("\27[31m- object " .. objectId .. ":")
-            for _, reason in ipairs(reasons) do
-                print("  - " .. reason)
+            print("\27[31mFound " .. count .. " objects with invalid questStarts:\27[0m")
+            for objectId, reasons in pairsByKeys(invalidQuestStarts) do
+                print("\27[31m- object " .. objectId .. ":")
+                for _, reason in ipairs(reasons) do
+                    print("  - " .. reason)
+                end
+                print("\27[0m")
+
+                table.sort(targetQuestStarts[objectId] or {})
+                local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questStarts] = {" .. table.concat(targetQuestStarts[objectId] or {}, ",") .. "},\n        },"
+                correctionFile:write("        " .. correctionString .. "\n")
             end
-            print("\27[0m")
-
-            table.sort(targetQuestStarts[objectId] or {})
-            local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questStarts] = {" .. table.concat(targetQuestStarts[objectId] or {}, ",") .. "},\n        },"
-            correctionFile:write("        " .. correctionString .. "\n")
+                correctionFile:write("}\n")
+                correctionFile:close()
+            else
+            print("\27[31mFailed to open correction file for object quest starts\27[0m")
         end
-        correctionFile:write("}\n")
-        correctionFile:close()
 
         os.exit(1)
         return invalidQuestStarts, targetQuestStarts
@@ -707,7 +717,7 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>, table<NpcId, QuestId[]>
 function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
 
@@ -795,27 +805,31 @@ function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
 
     if count > 0 then
         local correctionFile = io.open(outputDir .. "/objectQuestEndsCorrections.lua", "w")
-        correctionFile:write("return {\n")
+        if correctionFile then
+            correctionFile:write("return {\n")
 
-        print("\27[31mFound " .. count .. " objects with invalid questEnds:\27[0m")
-        for objectId, reasons in pairsByKeys(invalidQuestEnds) do
-            print("\27[31m- object " .. objectId .. ":")
-            for _, reason in ipairs(reasons) do
-                print("  - " .. reason)
+            print("\27[31mFound " .. count .. " objects with invalid questEnds:\27[0m")
+            for objectId, reasons in pairsByKeys(invalidQuestEnds) do
+                print("\27[31m- object " .. objectId .. ":")
+                for _, reason in ipairs(reasons) do
+                    print("  - " .. reason)
+                end
+                print("\27[0m")
+
+                table.sort(targetQuestEnds[objectId] or {})
+                local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questEnds] = {" .. table.concat(targetQuestEnds[objectId] or {}, ",") .. "},\n        },"
+                correctionFile:write("        " .. correctionString .. "\n")
             end
-            print("\27[0m")
-
-            table.sort(targetQuestEnds[objectId] or {})
-            local correctionString = "[" .. objectId .. "] = { -- " .. objects[objectId][objectKeys.name] .. "\n            [objectKeys.questEnds] = {" .. table.concat(targetQuestEnds[objectId] or {}, ",") .. "},\n        },"
-            correctionFile:write("        " .. correctionString .. "\n")
+            correctionFile:write("}\n")
+            correctionFile:close()
+        else
+            print("\27[31mFailed to open correction file for object quest ends\27[0m")
         end
-        correctionFile:write("}\n")
-        correctionFile:close()
 
         os.exit(1)
         return invalidQuestEnds, targetQuestEnds
     else
-        print("\27[32mNo NPCs found with invalid questEnds\27[0m")
+        print("\27[32mNo objects found with invalid questEnds\27[0m")
         return nil, nil
     end
 end

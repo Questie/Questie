@@ -41,22 +41,37 @@ local lineMarginLeft = 10
 
 ---@param index number
 ---@param parent ScrollFrame
----@param previousLine LineFrame?
----@param OnEnter function @Callback function for OnEnter
----@param OnLeave function @Callback function for OnLeave
----@param OnQuestAdded function @Callback function for SetQuest
----@param OnScenarioCriteriaAdded function @Callback function for SetScenarioCriteria
----@return LineFrame
+---@param previousLine TrackerLine?
+---@param OnEnter fun(self: TrackerLine) @Callback function for OnEnter
+---@param OnLeave fun(self: TrackerLine) @Callback function for OnLeave
+---@param OnQuestAdded fun(questId: number, line: TrackerLine) @Callback function for SetQuest
+---@param OnScenarioCriteriaAdded fun(criteriaIndex: number, line: TrackerLine) @Callback function for SetScenarioCriteria
+---@return TrackerLine
 function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded, OnScenarioCriteriaAdded)
     local timeElapsed = 0
+    ---@class TrackerLine : Button
     local line = CreateFrame("Button", "linePool" .. index, parent)
     line:SetWidth(1)
     line:SetHeight(1)
+    ---@type SimpleFontString|{ activeTimer: TimerCallback? }
     line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     line.label:SetJustifyH("LEFT")
     line.label:SetJustifyV("TOP")
     line.label:SetPoint("TOPLEFT", line)
     line.label:Hide()
+
+    --- Initialize variables
+    line.label.activeTimer = nil
+
+    ---@type "zone"|"quest"|"achieve"|nil
+    line.mode = nil
+
+    --- Extra SubFrames?
+    ---@type TrackerItemButton?
+    line.altButton = nil
+    ---@type nil -- I don't think this is in use at all?
+    line.Button = nil
+
 
     if previousLine then
         line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, 0)
@@ -66,6 +81,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     line.SetMode = _SetMode
 
+    ---@param zoneId AreaId @ I think this is a AreaId
     function line:SetZone(zoneId)
         if type(zoneId) == "string" then
             self.expandZone.zoneId = zoneId
@@ -75,10 +91,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         end
     end
 
+    ---@param quest Quest @ I think this is actually correct...
     function line:SetQuest(quest)
         if type(quest) == "number" then
+            -- ? If this is an actual Quest - Object it is missing a fuckton of fields
+            ---@diagnostic disable-next-line: missing-fields
             quest = {
-                Id = quest
+                Id = quest,
             }
             self.Quest = quest
             self.expandQuest.questId = quest.Id
@@ -95,15 +114,19 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         end
     end
 
+    ---@param objective ScenarioObjective
     function line:SetObjective(objective)
         self.Objective = objective
     end
 
+    ---@param objective ScenarioObjective
     function line:SetScenarioCriteria(objective)
         self.Objective = objective
+        ---@see TrackerLinePool.AddScenarioLine
         OnScenarioCriteriaAdded(objective.Id, self)
     end
 
+    ---@param elapsed number
     function line:OnUpdate(elapsed)
         if Expansions.Current >= Expansions.Wotlk then
             timeElapsed = timeElapsed + elapsed
@@ -130,11 +153,11 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
             return
         end
     end
-
+    ---@param amount number
     function line:SetVerticalPadding(amount)
         if self.mode == "zone" then
             self:SetHeight(Questie.db.profile.trackerFontSizeZone + amount)
-        elseif self.mode == "quest" or "achieve" then
+        elseif self.mode == "quest" or self.mode == "achieve" then
             self:SetHeight(Questie.db.profile.trackerFontSizeQuest + amount)
         else
             self:SetHeight(Questie.db.profile.trackerFontSizeObjective + amount)
@@ -156,12 +179,18 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
     line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
 
-    line:SetScript("OnEnter", function(self)
+    ---@see TrackerLinePool.OnHighlightEnter
+    line:SetScript("OnEnter",
+    ---@param self TrackerLine
+    function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
     end)
 
-    line:SetScript("OnLeave", function(self)
+    ---@see TrackerLinePool.OnHighlightLeave
+    line:SetScript("OnLeave",
+    ---@param self TrackerLine
+    function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
     end)
@@ -195,7 +224,7 @@ _SetMode = function(self, mode)
     end
 end
 
-
+---@param self TrackerLine
 ---@param button string
 _OnClickQuest = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickQuest]")
@@ -234,6 +263,7 @@ _OnClickQuest = function(self, button)
     end
 end
 
+---@param self TrackerLine
 ---@param button string
 _OnClickAchieve = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickAchieve]")

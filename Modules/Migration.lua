@@ -1,7 +1,5 @@
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -158,7 +156,7 @@ function Migration:Migrate()
     end
 
     local currentVersion = Questie.db.profile.migrationVersion
-    local targetVersion = table.getn(migrationFunctions)
+    local targetVersion = #migrationFunctions
 
     if currentVersion == targetVersion then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Nothing to migrate. Already on latest version:", targetVersion)

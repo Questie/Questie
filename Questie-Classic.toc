@@ -68,6 +68,7 @@ Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
 Database\FactionTemplates\factionTemplateClassic.lua
+Database\FactionTemplates\_factionTemplateFixes.lua
 
 # Corrections
 Database\Corrections\AutoTableUpdates.lua

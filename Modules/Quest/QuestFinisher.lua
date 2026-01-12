@@ -59,7 +59,11 @@ function QuestFinisher.AddFinisher(quest)
         local playerZone = QuestiePlayer:GetCurrentZoneId()
         for i = 1, #quest.Finisher.GameObject do
             local finisher = QuestieDB:GetObject(quest.Finisher.GameObject[i])
-            _AddFinisherToMap(finisher, quest, "o_" .. finisher.id, playerZone)
+            if finisher then
+                _AddFinisherToMap(finisher, quest, "o_" .. finisher.id, playerZone)
+            else
+                Questie:Error("Finisher Object", quest.Finisher.GameObject[i], "for quest:", questId, "is not in the DB")
+            end
         end
     end
 end
@@ -136,7 +140,7 @@ _GetIconData = function(quest, finisherName)
         Type = "complete",
         QuestData = quest,
         Name = finisherName,
-        IsObjectiveNote = false,
+        -- IsObjectiveNote = false,
     }
 end
 

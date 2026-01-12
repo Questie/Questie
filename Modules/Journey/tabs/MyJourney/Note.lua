@@ -1,6 +1,9 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
+
 _QuestieJourney.notePopup = nil
 -------------------------
 --Import modules
@@ -28,14 +31,18 @@ function _QuestieJourney:ShowNotePopup()
 end
 
 _CreateNoteWindow = function ()
+    ---@type AceGUIWindow
     local notePopup = AceGUI:Create("Window")
     notePopup:Show()
     notePopup:SetTitle(l10n('Add New Adventure Note'))
     notePopup:SetWidth(400)
     notePopup:SetHeight(400)
     notePopup:EnableResize(false)
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:SetFrameStrata(_QuestieJourney.containerCache.frame:GetFrameStrata())
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:SetFrameLevel(_QuestieJourney.containerCache.frame:GetFrameLevel())
+    ---@diagnostic disable-next-line: invisible
     notePopup.frame:Raise()
     notePopup:SetCallback("OnClose", function()
         notePopup:Hide()
@@ -66,6 +73,7 @@ _CreateContainer = function ()
     local day = CALENDAR_WEEKDAY_NAMES[tonumber(date('%w', time())) + 1]
     local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date('%m', time()))]
     local today = date(day ..', '.. month ..' %d', time())
+    ---@type AceGUIInlineGroup
     local container = AceGUI:Create("InlineGroup")
     container:SetFullHeight(true)
     container:SetFullWidth(true)
@@ -75,6 +83,7 @@ _CreateContainer = function ()
 end
 
 _CreateDescription  =function ()
+    ---@type AceGUILabel
     local desc = AceGUI:Create("Label")
     desc:SetText(Questie:Colorize(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
     desc:SetFullWidth(true)
@@ -82,6 +91,7 @@ _CreateDescription  =function ()
 end
 
 _CreateTitleBox = function ()
+    ---@type AceGUIEditBox
     local box = AceGUI:Create("EditBox")
     box:SetFullWidth(true)
     box:SetLabel(l10n('Entry Title'))
@@ -91,6 +101,7 @@ _CreateTitleBox = function ()
 end
 
 _CreateMessageBox = function ()
+    ---@type AceGUIMultiLineEditBox
     local box = AceGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
     box:SetNumLines(12)
@@ -100,6 +111,7 @@ _CreateMessageBox = function ()
 end
 
 _CreateNoteAddButton = function ()
+    ---@type AceGUIButton
     local addEntryBtn = AceGUI:Create("Button")
     addEntryBtn:SetText(l10n('Add Entry'))
     addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)

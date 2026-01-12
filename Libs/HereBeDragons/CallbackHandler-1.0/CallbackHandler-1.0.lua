@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local, cast-local-type
 --[[ $Id: CallbackHandler-1.0.lua 26 2022-12-12 15:09:39Z nevcairiel $ ]]
 local MAJOR, MINOR = "CallbackHandler-1.0", 8
 local CallbackHandler = LibStub:NewLibrary(MAJOR, MINOR)

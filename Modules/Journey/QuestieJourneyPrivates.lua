@@ -1,13 +1,12 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeCache = nil

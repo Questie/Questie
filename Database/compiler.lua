@@ -1108,7 +1108,7 @@ function QuestieDBCompiler:ValidateNPCs()
         local compiledData = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
 
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
-            local a = compiledData[id]
+            local a = compiledData and compiledData[id]
             local b = nonCompiledData[QuestieDB.npcKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
@@ -1156,7 +1156,7 @@ function QuestieDBCompiler:ValidateObjects()
         local compiledData = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
 
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
-            local a = compiledData[id]
+            local a = compiledData and compiledData[id]
             local b = nonCompiledData[QuestieDB.objectKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
@@ -1273,7 +1273,7 @@ function QuestieDBCompiler:ValidateItems()
         local compiledData = validator.QueryValidator(itemId, QuestieDB.itemCompilerOrder)
 
         for id, key in pairs(QuestieDB.itemCompilerOrder) do
-            local a = compiledData[id]
+            local a = compiledData and compiledData[id]
             local b = nonCompiledData[QuestieDB.itemKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
@@ -1341,11 +1341,11 @@ function QuestieDBCompiler:ValidateQuests()
         local compiledData = validator.QueryValidator(questId, QuestieDB.questCompilerOrder)
 
         for id,key in pairs(QuestieDB.questCompilerOrder) do
-            local a = compiledData[id]
+            local a = compiledData and compiledData[id]
             local b = nonCompiledData[QuestieDB.questKeys[key]]
 
             --Special case for questLevel
-            if (Expansions.Current >= Expansions.Tbc) and (key == "questLevel" or key == "requiredLevel") then
+            if compiledData and (Expansions.Current >= Expansions.Tbc) and (key == "questLevel" or key == "requiredLevel") then
                 local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
                 if (key == "questLevel") then
                     a = questLevel

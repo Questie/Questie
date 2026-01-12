@@ -11,6 +11,13 @@ local expansionOrderLookup = {
     [19] = 5,
     -- [1] = 100000000, -- Retail is in the far future
 }
+-- Fallbacks in case the global variables are not defined
+EXPANSION_NAME0 = EXPANSION_NAME0 or "Classic"
+EXPANSION_NAME1 = EXPANSION_NAME1 or "The Burning Crusade"
+EXPANSION_NAME2 = EXPANSION_NAME2 or "Wrath of the Lich King"
+EXPANSION_NAME3 = EXPANSION_NAME3 or "Cataclysm"
+EXPANSION_NAME4 = EXPANSION_NAME4 or "Mists of Pandaria"
+
 Expansions.Current = expansionOrderLookup[WOW_PROJECT_ID or 2] -- If not found, default to classic(era)
 -- Expansions.Retail = expansionOrderLookup[WOW_PROJECT_MAINLINE or 1]
 Expansions.Era = expansionOrderLookup[WOW_PROJECT_CLASSIC or 2]

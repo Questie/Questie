@@ -1,5 +1,6 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.questsByZone = {}
 
@@ -23,10 +24,11 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
+---@type AceGUITreeGroup?
 local zoneTreeFrame
 
 ---Manage the zone tree itself and the contents of the per-quest window
----@param container AceSimpleGroup @The container for the zone tree
+---@param container AceGUIContainer @The container for the zone tree
 ---@param zoneTree table @The zone tree table
 function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     if zoneTreeFrame then
@@ -36,11 +38,13 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         return
     end
 
+    ---@type AceGUITreeGroup
     zoneTreeFrame = AceGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
     zoneTreeFrame:SetTree(zoneTree)
 
+    ---@diagnostic disable-next-line: invisible
     zoneTreeFrame.treeframe:SetWidth(415)
     zoneTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
@@ -62,15 +66,18 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         master:SetFullWidth(true)
         master:SetFullHeight(true)
 
-        ---@class ScrollFrame
+        ---@type AceGUIScrollFrame
         local scrollFrame = AceGUI:Create("ScrollFrame")
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
 
-        ---@type number
-        questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = QuestieDB.GetQuest(tonumber(questId))
+
+        if not quest then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] Quest not found in DB:", questId)
+            return
+        end
 
         -- Add the quest to the open chat window if it was a shift click
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then

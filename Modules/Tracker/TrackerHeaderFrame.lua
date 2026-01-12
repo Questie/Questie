@@ -106,15 +106,15 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
 
         GameTooltip:Show()
 
-        TrackerFadeTicker.Unfade(self)
+        TrackerFadeTicker.Unfade()
     end)
 
-    questieIcon:SetScript("OnLeave", function(self)
+    questieIcon:SetScript("OnLeave", function()
         if GameTooltip:IsShown() then
             GameTooltip:Hide()
         end
 
-        TrackerFadeTicker.Fade(self)
+        TrackerFadeTicker.Fade()
     end)
 
     questieIcon:Hide()
@@ -227,7 +227,7 @@ function TrackerHeaderFrame:Update()
         headerFrame:SetHeight(trackerFontSizeHeader + 5)
         headerFrame:Show()
 
-        TrackerHeaderFrame.PositionTrackerHeaderFrame(headerFrame, trackerBaseFrame)
+        TrackerHeaderFrame.PositionTrackerHeaderFrame()
 
         QuestieCompat.SetResizeBounds(trackerBaseFrame, headerFrame.trackedQuests.label:GetUnboundedStringWidth(), trackerFontSizeHeader)
     else

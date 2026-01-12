@@ -14,9 +14,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local AceGUI = LibStub("AceGUI-3.0");
 
 --- Draw the "My Journey" tab
----@param container Frame
----@return SimpleGroup
+---@param container AceGUIFrame
+---@return AceGUISimpleGroup
 function _QuestieJourney.myJourney:DrawTab(container)
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading");
     header:SetText(l10n('Your Recent History'));
     header:SetFullWidth(true);
@@ -66,6 +67,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     end
 
     if counter == 0 then
+        ---@type AceGUILabel
         local justdoit = AceGUI:Create("Label");
         justdoit:SetFullWidth(true);
         justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
@@ -74,11 +76,13 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container);
 
+    ---@type AceGUIHeading
     local treeHeader = AceGUI:Create("Heading");
     treeHeader:SetText(l10n("%s's Journey", UnitName("player")));
     treeHeader:SetFullWidth(true);
     container:AddChild(treeHeader);
 
+    ---@type AceGUIButton
     local noteButton = AceGUI:Create("Button");
     noteButton:SetText(l10n('Add New Adventure Note'));
     noteButton:SetPoint("RIGHT");
@@ -87,7 +91,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container);
 
-    ---@class SimpleGroup
+    ---@type AceGUISimpleGroup
     local treeGroup = AceGUI:Create("SimpleGroup");
     treeGroup:SetLayout("fill");
     treeGroup:SetFullHeight(true);

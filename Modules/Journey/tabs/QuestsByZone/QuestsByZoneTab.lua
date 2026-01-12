@@ -28,10 +28,11 @@ local contDropdown, zoneDropdown, treegroup
 
 -- function that draws the Tab for Zone Quests
 function _QuestieJourney.questsByZone:DrawTab(container)
-    ---@class AceSimpleGroup
+    ---@type AceGUISimpleGroup
     treegroup = AceGUI:Create("SimpleGroup")
 
     -- Header
+    ---@type AceGUIHeading
     local header = AceGUI:Create("Heading")
     header:SetText(l10n('Select Continent and Zone'))
     header:SetFullWidth(true)
@@ -47,6 +48,8 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container)
 
+    -- Sub Header
+    ---@type AceGUIHeading
     header = AceGUI:Create("Heading")
     header:SetText(l10n('Zone Quests'))
     header:SetFullWidth(true)
@@ -64,11 +67,13 @@ function _QuestieJourney.questsByZone:DrawTab(container)
         local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        ---@diagnostic disable-next-line: invisible
         zoneDropdown.frame:Hide()
     end
 end
 
 _CreateContinentDropdown = function()
+    ---@type AceGUIDropdown
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.continents)
     dropdown:SetText(l10n('Select Continent'))
@@ -101,6 +106,7 @@ _CreateContinentDropdown = function()
 end
 
 _CreateZoneDropdown = function()
+    ---@type AceGUIDropdown
     local dropdown = AceGUI:Create("Dropdown")
 
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()

@@ -63,8 +63,8 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(456)
 
-            assert.spy(line.Objective.Update).was_not_called()
-            assert.spy(line.label.SetText).was_not_called()
+            assert.spy(line.Objective.Update).was.not_called()
+            assert.spy(line.label.SetText).was.not_called()
         end)
     end)
 end)

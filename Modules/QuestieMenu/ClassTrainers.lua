@@ -1,4 +1,4 @@
----@type Townsfolk
+---@class Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=X

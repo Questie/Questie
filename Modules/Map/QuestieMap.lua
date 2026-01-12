@@ -41,6 +41,8 @@ QuestieMap.questIdFrames = {}
 -- id < 0: object
 -- E.g. {[-objectId] = {[frameName] = frame, ...}, ...}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
+---@alias manualType "any"|"npc"|"object"|"moonwell"|"Mailbox"|"Meeting Stones"
+---@type table<manualType, table<ObjectId|NpcId, table<string, IconFrame>>>
 QuestieMap.manualFrames = {}
 
 
@@ -117,6 +119,7 @@ function QuestieMap:GetManualFrames(id, typ)
 end
 
 ---@param id number @The ID of the NPC (>0) or object (<0)
+---@param typ manualType? @The type of the manual frame
 function QuestieMap:UnloadManualFrames(id, typ)
     typ = typ or "any"
     if QuestieMap.manualFrames[typ] and (QuestieMap.manualFrames[typ][id]) then
@@ -238,7 +241,7 @@ function QuestieMap:ProcessShownMinimapIcons()
     while true do
         count = 0
 
-        playerX, playerY = getWorldPos()
+        playerX, playerY = getWorldPos(nil) -- Nil is set because it expects "self"
 
         --Calculate squared distance
         -- No need for absolute values as these are used only as squared
@@ -367,7 +370,8 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.spawnType = "monster"
     data.npcData = npc
     data.Name = npc.name
-    data.IsObjectiveNote = false
+    -- data.IsObjectiveNote = false
+
     data.ManualTooltipData = {}
     local baseTitle = title or (npc.name .. " (" .. l10n("NPC") .. ")")
     data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(baseTitle, data.id)
@@ -441,7 +445,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     data.spawnType = "object"
     data.objectData = object
     data.Name = object.name
-    data.IsObjectiveNote = false
+    -- data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (object.name .. " (object)")
     data.ManualTooltipData.Body = body or {
@@ -749,6 +753,10 @@ end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
+    if not profile then
+        Questie:Error("Profile is nil in _MinimapIconFadeLogic function ", debugstack(1, 1, 1):match('(%w+%.lua)%"*%]:(%d+)'))
+        return
+    end
     if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y

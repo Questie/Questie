@@ -63,7 +63,7 @@ function QuestieMap.utils:SetDrawOrder(frame)
     end
 end
 
----@param points table<number, Point> @{{x=0, y=0}, ...}
+---@param points table<number, IconPositionData> @New uses PositionDataObject - Old "Point": {{x=0, y=0}, ...}
 ---@return number x, number y @Center coordinates
 function QuestieMap.utils.CenterPoint(points)
     local x, y = 0, 0
@@ -78,10 +78,10 @@ function QuestieMap.utils.CenterPoint(points)
     return x, y
 end
 
----@param points table<number, Point> @A pointlist with {worldX=0, worldY=0, UiMapID=0, distance=0}
+---@param points IconPositionData[] table<number, Point> @A pointlist with {worldX=0, worldY=0, UiMapID=0, distance=0}
 ---@param rangeR number @Range of the hotzones.
 ---@param count number @Optional, used to allow more notes if far away from the quest giver.
----@return table<number, table<number, Point>> @A table of hotzones
+---@return IconPositionData[][] hotzones table<number, table<number, Point>> @A table of hotzones
 function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 --    if(points == nil) then return nil; end
 

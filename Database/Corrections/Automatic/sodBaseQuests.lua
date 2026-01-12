@@ -1,4 +1,4 @@
----@type SeasonOfDiscovery
+---@class SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")

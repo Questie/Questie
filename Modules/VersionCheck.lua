@@ -45,6 +45,7 @@ Questie.API = {
 }
 
 -- preinit placeholder to stop tukui crashing from literally force-removing one of our features no matter what users select in the config ui
+---@diagnostic disable-next-line: missing-fields
 Questie.db = {profile={minimap={hide=false}}}
 
 -- prevent multiple warnings for the same ID, not sure the best place to put this

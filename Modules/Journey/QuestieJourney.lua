@@ -1,5 +1,9 @@
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@class QuestieJourneyPrivate
+QuestieJourney.private = QuestieJourney.private or {}
+
+---@class QuestieJourneyPrivate
 local _QuestieJourney = QuestieJourney.private
 QuestieJourneyFrame = nil
 -------------------------
@@ -112,7 +116,8 @@ function QuestieJourney:Initialize()
 end
 
 function QuestieJourney:BuildMainFrame()
-    if (not QuestieJourneyFrame) then
+    if not QuestieJourneyFrame then
+        ---@type AceGUIFrame
         local journeyFrame = AceGUI:Create("Frame")
         journeyFrame:SetCallback("OnClose", function()
             isWindowShown = false
@@ -127,8 +132,11 @@ function QuestieJourney:BuildMainFrame()
         journeyFrame:EnableResize(true)
         journeyFrame:SetWidth(1000)
         journeyFrame:SetHeight(650)
+
+        ---@diagnostic disable-next-line: invisible
         QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400, 0, 0)
 
+        ---@type AceGUITabGroup
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")
         tabGroup:SetTabs({
@@ -155,9 +163,13 @@ function QuestieJourney:BuildMainFrame()
         QuestieJourney.tabGroup = tabGroup
         journeyFrame:AddChild(QuestieJourney.tabGroup)
 
+        ---@type AceGUIButton
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
+
+        ---@diagnostic disable-next-line: invisible
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
+
         settingsButton:SetText(l10n("Questie Options"))
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()

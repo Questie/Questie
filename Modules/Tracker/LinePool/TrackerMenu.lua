@@ -256,7 +256,7 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
             SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
             SetAbandonQuest()
 
-            local items = GetAbandonQuestItems()
+            local items = GetAbandonQuestItems and GetAbandonQuestItems() or C_QuestLog.GetAbandonQuestItems()
             if items then
                 StaticPopup_Hide("ABANDON_QUEST")
                 StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", GetAbandonQuestName(), items)
@@ -377,7 +377,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
 
         local questID = textFrame.text_arg1
         local quest_wow = QuestieDB.GetQuest(questID)
-        local name = quest_wow.name
+        local name = quest_wow and quest_wow.name
 
         textFrame:SetFont("GameFontNormal", 12)
         textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
@@ -436,7 +436,7 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
     TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
+    TrackerMenu.addTomTomOptionForQuest(menu, quest)
     TrackerMenu.minMaxQuestOption(menu, quest)
     TrackerMenu.addShowHideQuestsOption(menu, quest)
     TrackerMenu.addShowFinisherOnMapOption(menu, quest)

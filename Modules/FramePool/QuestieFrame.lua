@@ -23,21 +23,56 @@ local _Qframe = {}
 ---@class IconData
 ---@field Id QuestId
 ---@field Type string
----@field Icon number
+---@field Icon string
 ---@field GetIconScale fun(): number
 ---@field IconScale number
+---@field IconColor Color
 ---@field QuestData Quest
+---@field ObjectiveData QuestObjective|nil
 ---@field Name string
----@field IsObjectiveNote boolean
+----@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field ObjectiveIndex number?
+---@field lineFrames LineFrame[]?
+---@field touchedPins TouchedPinEntry[]
+---@field CustomTooltipData CustomTooltipData?
+
+---@class IconPositionData
+---@field AlreadySpawnedId ItemId|NpcId|ObjectId
+---@field data IconData
+---@field x number
+---@field y number
+---@field AreaID AreaId This is a duplicate of zone (Both are probably not needed but require refactor)
+---@field zone AreaId This is a duplicate of AreaID (Both are probably not needed but require refactor)
+---@field UiMapID UiMapId
+---@field worldX number? @The world X coordinate of the icon. Cached from HBDPins:GetWorldCoordinatesFromZone.
+---@field worldY number? @The world Y coordinate of the icon. Cached from HBDPins:GetWorldCoordinatesFromZone.
+---@field distance number? @The distance package used to draw this icon. Used to avoid recalculating distances multiple times.
+---@field touched boolean? @Internal flag: If true, the icon has been touched during distance calculations. Used to avoid recalculating distances multiple times.
+
+---@class ManualIconData
+---@field ManualTooltipData ManualTooltipData?
+---@field id NpcId|ObjectId @
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
-    ---@class IconFrame : Button
+    ---@class IconFrame : Button, IconPositionData
     ---@field isManualIcon boolean
-    ---@field data IconData
+    ---@field miniMapIcon number|boolean
+    ---@field hidden boolean @Whether the frame is hidden
+    ---@field _needsUnload boolean? @Internal flag: If true, the frame is queued to be unloaded once it finishes loading. Managed by QuestieFramePool.
+    ---@field _loaded boolean? @Internal flag: Indicates if the frame has finished its initial setup/loading process. Managed by QuestieMap.
+    ---@field _show function? @Internal storage for the original Show function when FakeHide is active. Set in FakeHide.
+    ---@field _hide function? @Internal storage for the original Hide function when FakeHide is active. Set in FakeHide.
+    ---@field lastGlowFade number? @Internal The last alpha value set for the glow texture. Set by _MinimapIconSetFade in QuestieMap.
+    ---@field shouldBeShowing boolean? @Internal flag: If true, the frame should be shown when FakeShow is called. Set in FakeHide.
+    ---@field faded boolean? @Internal flag: If true, the frame is currently faded. Set in FadeOut.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
+
+    ---@type IconData
+    newFrame.data = nil
+
 
     -- Add the frames to the ignore list of the Minimap Button Bag (MBB) addon
     -- This is quite ugly but the only thing we can do currently from our side
@@ -97,6 +132,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
     newFrame.texture:SetVertexColor(1, 1, 1, 1);
 
+    ---@type IconTexture
     newFrame.glowTexture = glowt
     newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
     function newFrame.glowTexture:SetVertexColor(r, g, b, a)
@@ -122,7 +158,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame:SetScript("OnClick", _Qframe.OnClick);
 
     newFrame.GlowUpdate = _Qframe.GlowUpdate
-    newFrame.BaseOnUpdate = _Qframe.BaseOnUpdate
     newFrame.BaseOnShow = _Qframe.BaseOnShow
     newFrame.BaseOnHide = _Qframe.BaseOnHide
 
@@ -134,9 +169,13 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.FadeIn = _Qframe.FadeIn
     newFrame.FakeHide = _Qframe.FakeHide
     newFrame.FakeShow = _Qframe.FakeShow
-    newFrame.OnShow = _Qframe.OnShow
-    newFrame.OnHide = _Qframe.OnHide
     newFrame.ShouldBeHidden = _Qframe.ShouldBeHidden
+
+    -- Fadelogic
+    ---@type function
+    newFrame.FadeLogic = nil
+    ---@type function
+    newFrame.SetFade = nil
 
     newFrame.data = nil
     newFrame:Hide()
@@ -195,6 +234,7 @@ function _Qframe.OnClick(self, button)
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
         if uiMapId and button == "LeftButton" then
+            ---@type IconData|ManualIconData
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
                 if Questie.db.profile.trackerShowQuestLevel then
@@ -224,7 +264,7 @@ function _Qframe.OnClick(self, button)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
             local waypoint = Questie.db.char._tom_waypoint
             TomTom:RemoveWaypoint(waypoint)
-            add = (waypoint[1] ~= uiMapId or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
+            add = waypoint and ((waypoint[1] ~= uiMapId) or (waypoint[2] ~= x) or (waypoint[3] ~= y) or (waypoint.title ~= title) or (waypoint.from ~= "Questie"))
         end
 
         -- Add waypoint
@@ -380,12 +420,6 @@ function _Qframe.Unload(self)
     self.miniMapIcon = nil;
     self:SetScript("OnUpdate", nil)
 
-    if self.fadeLogicTimer then
-        self.fadeLogicTimer:Cancel();
-    end
-    if self.glowLogicTimer then
-        self.glowLogicTimer:Cancel();
-    end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
         for _, lineFrame in pairs(self.data.lineFrames) do
@@ -393,7 +427,6 @@ function _Qframe.Unload(self)
         end
     end
 
-    if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
     self.glow:Hide()
     self.data = nil -- Just to be safe
@@ -507,6 +540,11 @@ function _Qframe.ShouldBeHidden(self)
 
     local IsSoD = Questie.IsSoD
 
+    if not profile then
+        Questie:Error("Profile is nil in ShouldBeHidden function ", debugstack(1, 1, 1):match('(%w+%.lua)%"*%]:(%d+)'))
+        return false
+    end
+
     --investigate quest and cache results to minimize DB lookups
     local repeatable = QuestieDB.IsRepeatable(questId)
     local event = QuestieDB.IsActiveEventQuest(questId)
@@ -529,7 +567,7 @@ function _Qframe.ShouldBeHidden(self)
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and (
-                    (not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+                    (not DailyQuests:IsActiveDailyQuest()) -- hide not-today-dailies
                 or ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)

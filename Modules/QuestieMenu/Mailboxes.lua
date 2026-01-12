@@ -1,4 +1,4 @@
----@type Townsfolk
+---@class Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 --- SELECT entry from gameobject_template WHERE name = 'Mailbox'

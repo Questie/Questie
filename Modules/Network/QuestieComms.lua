@@ -487,6 +487,7 @@ function QuestieComms:YellProgress(questId)
     end
 end
 
+---@diagnostic disable-next-line: unused-local
 _DoYell = function(questId)
     --[[local data = {}
     local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)

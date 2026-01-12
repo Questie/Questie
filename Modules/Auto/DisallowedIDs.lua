@@ -1,5 +1,7 @@
 ---@type AutoQuesting
 local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
+
+---@class AutoQuestingPrivate
 local _AutoQuesting = AutoQuesting.private
 
 _AutoQuesting.disallowedNPCs = {

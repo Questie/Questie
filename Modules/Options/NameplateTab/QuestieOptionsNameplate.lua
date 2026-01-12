@@ -12,7 +12,12 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptions.tabs.nameplate = {...}
+---@class QuestieOptionsTabs
+QuestieOptions.tabs = QuestieOptions.tabs or {}
+
+---@class QuestieOptionsNameplateTab
+QuestieOptions.tabs.nameplate = QuestieOptions.tabs.nameplate or {}
+
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
@@ -308,7 +313,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 desc = function() return l10n("Reset to default target frame position and scale."); end,
                 width = 1,
                 disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
-                func = function (info, value)
+                func = function (_, _)
                     Questie.db.profile.nameplateTargetFrameX = optionsDefaults.profile.nameplateTargetFrameX;
                     Questie.db.profile.nameplateTargetFrameY = optionsDefaults.profile.nameplateTargetFrameY;
                     Questie.db.profile.nameplateTargetFrameScale = optionsDefaults.profile.nameplateTargetFrameScale;

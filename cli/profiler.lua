@@ -216,6 +216,7 @@ function module.start()
   allReports = {}
   reportCount = 0
   startTime = getTime()
+  ---@diagnostic disable-next-line: cast-local-type
   stopTime = nil
   debug.sethook(onDebugHook, "cr", 0)
 end
@@ -240,6 +241,7 @@ function module.report(filename)
   local divide = false
   local totalTime = stopTime - startTime
   local totalTimeOutput = "> "..string.format(formatTotalTime, totalTime)
+  assert(fileWriter, "error: cannot open file '"..filename.."' for writing")
   fileWriter:write(totalTimeOutput)
   if printFun ~= nil then
     printFun(totalTimeOutput)

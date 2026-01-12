@@ -301,9 +301,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
         if itemInfo.questId then
             questID = itemInfo.questId
         end
-        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
-        itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
-        expacID, setID, isCraftingReagent = GetItemInfo(itemID)
+        local _, _, itemQuality, _, _, _, _, _, _, _, _, classID = GetItemInfo(itemID)
         local containerID = tonumber(containerGUID:match("-(%d+)-%x+$"), 10)
         local containerType = strsplit("-", containerGUID)
 
@@ -407,8 +405,8 @@ local function _AppendUniversalText(input)
 
     if mapID then
         local pos = GetPlayerMapPosition(mapID, player);
-        PosX = pos.x * 100
-        PosY = pos.y * 100
+        PosX = (pos and pos.x or 0) * 100
+        PosY = (pos and pos.y or 0) * 100
         text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
     else
         local instanceId = select(8, GetInstanceInfo())
@@ -533,7 +531,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         for i=1, GetNumQuestLogEntries() do
-            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
+            local questTitle, _, _, _, _, _, _, questLogId = GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
             if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
@@ -570,7 +568,7 @@ function QuestieDebugOffer.NPCTarget()
     end
     local targetGUID = UnitGUID(target)
     local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
-    if unit_type == "Creature" then -- if target is an NPC
+    if unit_type == "Creature" and targetGUID then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
         if targetTimeout[npcID] == true then -- if target was already targeted recently
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Targeted NPC was targeted recently, ignoring")
@@ -620,7 +618,7 @@ end
 ---- Link handling code
 
 local LINK_CODE = "addon:questie:offer";
-local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
+-- local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
 local LINK_LENGTHS = LINK_CODE:len();
 
 -- handles clicking on link

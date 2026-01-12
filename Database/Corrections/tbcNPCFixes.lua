@@ -12,7 +12,7 @@ function QuestieTBCNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
-    local waypointPresets = QuestieDB.waypointPresets
+    -- local waypointPresets = QuestieDB.waypointPresets
     local phases = Phasing.phases
 
     return {
