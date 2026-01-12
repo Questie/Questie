@@ -16,7 +16,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local pcall, type, next = pcall, type, next
 local coYield = coroutine.yield
 local abs, min, floor = math.abs, math.min, math.floor
-
+local InCombatLockdown = InCombatLockdown
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD = 48
@@ -989,6 +989,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
         end
 
         for _ = 0, ticks do
+            -- Pause compilation while in combat
+            while InCombatLockdown() do
+                coYield()
+            end
+
             index = index + 1
             if index == count then
                 if Questie.IsSoD then
@@ -1008,6 +1013,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
             pointerMap[id] = stream._pointer--pointerStart
             for i=1, #order do
+                -- If combat starts mid-entry, pause before processing next field
+                while InCombatLockdown() do
+                    coYield()
+                end
+
                 local key = order[i]
                 local v = entry[lookup[key]]
                 local t = types[key]
