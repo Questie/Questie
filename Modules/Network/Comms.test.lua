@@ -33,5 +33,23 @@ describe("Comms", function()
 
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
         end)
+
+        it("should reject own HideDailyQuests events", function()
+            Questie.Deserialize = spy.new(function() end)
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", UnitName("player"))
+
+            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject own HideDailyQuests events when sender is in realm format", function()
+            Questie.Deserialize = spy.new(function() end)
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", UnitName("player") .. "-" .. GetRealmName())
+
+            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
     end)
 end)
