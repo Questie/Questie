@@ -8,10 +8,12 @@ describe("Comms", function()
     local Comms
 
     before_each(function()
+        Questie.RegisterComm = function() end
         AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
 
         Comms = require("Modules.Network.Comms")
+        Comms.Initialize()
     end)
 
     describe("OnCommReceived", function()
