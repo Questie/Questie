@@ -34,6 +34,15 @@ describe("Comms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
         end)
 
+        it("should reject unknown prefixes", function()
+            Questie.Deserialize = spy.new(function() end)
+
+            Comms.OnCommReceived("Unknown", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
         it("should reject own HideDailyQuests events", function()
             Questie.Deserialize = spy.new(function() end)
 
