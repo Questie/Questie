@@ -5,6 +5,8 @@ local Comms = QuestieLoader:CreateModule("Comms")
 ---@field eventName "HideDailyQuests"
 ---@field data { npcId: NpcId, questIds: QuestId[] }
 
+local playerName = UnitName("player")
+local realmName = GetRealmName()
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
@@ -18,6 +20,10 @@ end
 ---@param distribution string @The distribution method of the message.
 ---@param sender string @The sender of the message.
 function Comms.OnCommReceived(prefix, message, distribution, sender)
+    if sender == playerName or sender == (playerName .. "-" .. realmName) then
+        return
+    end
+
     local event = Questie:Deserialize(message)
 
     if event.eventName == "HideDailyQuests" then
