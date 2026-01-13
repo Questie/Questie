@@ -7,14 +7,17 @@ local Comms = QuestieLoader:CreateModule("Comms")
 
 local COMM_PREFIX = "Questie"
 
-local playerName = UnitName("player")
-local realmName = GetRealmName()
+local playerName
+local realmName
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 function Comms.Initialize()
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
+
+    playerName = UnitName("player")
+    realmName = GetRealmName()
 end
 
 ---@param prefix string @The prefix of the received message.
