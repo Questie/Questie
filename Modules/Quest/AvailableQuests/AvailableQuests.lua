@@ -170,9 +170,11 @@ end
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
 function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
     for _, questId in pairs(questIds) do
-        AvailableQuests.RemoveQuest(questId)
+        if availableQuestsByNpc[npcId] then
+            AvailableQuests.RemoveQuest(questId)
+            availableQuestsByNpc[npcId][questId] = nil
+        end
         unavailableQuestsDeterminedByTalking[questId] = true
-        availableQuestsByNpc[npcId][questId] = nil
     end
 end
 
