@@ -14,12 +14,22 @@ describe("Comms", function()
         Comms = require("Modules.Network.Comms")
     end)
 
-    describe("OnHideDailyQuests", function()
-        it("should hide daily quests", function()
+    describe("OnCommReceived", function()
+        it("should handle HideDailyQuests event", function()
             local npcId = 1234
             local questIds = {5678, 91011}
 
-            Comms.OnHideDailyQuests(npcId, questIds)
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = questIds
+                }
+            }
+            Questie.Deserialize = function() return event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
         end)
