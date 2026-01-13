@@ -85,7 +85,7 @@ describe("AutoQuesting", function()
         QuestieDB = require("Database.QuestieDB")
         require("Localization.l10n") -- We don't need the return value
 
-        AutoQuesting = require("Modules/Auto/AutoQuesting")
+        AutoQuesting = require("Modules.Auto.AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
         AutoQuesting.private.disallowedQuests = {
             accept = {},

@@ -8,10 +8,10 @@ describe("Comms", function()
     local Comms
 
     before_each(function()
-        AvailableQuests = require("Modules/Quest/AvailableQuests/AvailableQuests")
+        AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
 
-        Comms = require("Modules/Network/Comms")
+        Comms = require("Modules.Network.Comms")
     end)
 
     describe("OnHideDailyQuests", function()
