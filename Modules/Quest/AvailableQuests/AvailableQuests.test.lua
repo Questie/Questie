@@ -510,5 +510,20 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[firstQuest])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[secondQuest])
         end)
+
+        it("should mark quests as unavailable even when they are not yet available", function()
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = function() end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            AvailableQuests.RemoveQuestsForToday(NPC_ID, {QUEST_ID})
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
+            assert.are_same(AvailableQuests.__availableQuests, {})
+            assert.are_same(AvailableQuests.__availableQuestsByNpc, {})
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+        end)
     end)
 end)
