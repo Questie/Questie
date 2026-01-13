@@ -38,14 +38,9 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
     if event.eventName == "HideDailyQuests" then
         local npcId = event.data.npcId
         local questIds = event.data.questIds
-        Comms.OnHideDailyQuests(npcId, questIds)
-    end
-end
 
----@param npcId NpcId @The ID of the NPC associated with the daily quests.
----@param questIds QuestId[] @An array of quest IDs that need to be hidden.
-function Comms.OnHideDailyQuests(npcId, questIds)
-    AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+        AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+    end
 end
 
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
