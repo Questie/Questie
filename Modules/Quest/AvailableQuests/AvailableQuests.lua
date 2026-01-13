@@ -34,9 +34,17 @@ local QUESTS_PER_YIELD = 24
 local timer
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
+---@type table<QuestId, boolean>
 local availableQuests = {}
+AvailableQuests.__availableQuests = availableQuests
+
+---@type table<NpcId, table<QuestId, boolean>>
 local availableQuestsByNpc = {}
-local unavailableQuestsDeterminedByTalking -- quests that were hidden after talking to an NPC
+AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
+
+--- Quests that were hidden after talking to an NPC
+---@type table<QuestId, boolean>
+local unavailableQuestsDeterminedByTalking
 
 local dungeons
 local playerFaction
@@ -54,6 +62,7 @@ function AvailableQuests.Initialize()
         Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
     end
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
+    AvailableQuests.__unavailableQuestsDeterminedByTalking = unavailableQuestsDeterminedByTalking
 end
 
 ---@param callback function | nil
@@ -198,6 +207,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             unavailableQuestsDeterminedByTalking[questId] = nil
             local quest = QuestieDB.GetQuest(questId)
             if quest then
+                availableQuests[questId] = true
                 AvailableQuests.DrawAvailableQuest(quest)
             end
         end
@@ -260,6 +270,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
         unavailableQuestsDeterminedByTalking[availableQuestId] = nil
         local quest = QuestieDB.GetQuest(availableQuestId)
         if quest then
+            availableQuests[availableQuestId] = true
             AvailableQuests.DrawAvailableQuest(quest)
         end
     end
@@ -320,6 +331,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
             unavailableQuestsDeterminedByTalking[questId] = nil
             local quest = QuestieDB.GetQuest(questId)
             if quest then
+                availableQuests[questId] = true
                 AvailableQuests.DrawAvailableQuest(quest)
             end
         end
