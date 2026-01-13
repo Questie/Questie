@@ -21,6 +21,6 @@ function C_GossipInfo.GetAvailableQuests() end
 ---@field isImportant boolean
 ---@field isMeta boolean
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetGossipAvailableQuests)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetGossipAvailableQuests)
 ---@return string, number, boolean, number, boolean, boolean, boolean
 function GetGossipAvailableQuests() end

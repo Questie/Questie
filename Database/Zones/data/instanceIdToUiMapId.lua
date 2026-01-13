@@ -1,7 +1,7 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
--- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
+-- https://warcraft.wiki.gg/wiki/InstanceID --> Classic
 ZoneDB.instanceIdToUiMapId = {
     [33] = ZoneDB.zoneIDs.SHADOWFANG_KEEP,
     [36] = ZoneDB.zoneIDs.THE_DEADMINES,

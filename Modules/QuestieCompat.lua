@@ -15,12 +15,12 @@ local tinsert = table.insert
 -- Add missing Seasons object, if not available (e.g. 1.14.0 and below is missing it)
 if not C_Seasons then
     C_Seasons = {
-        ---[C_Seasons.HasActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.HasActiveSeason)
+        ---[C_Seasons.HasActiveSeason Documentation](https://warcraft.wiki.gg/wiki/API_C_Seasons.HasActiveSeason)
         ---Returns true if the player is on a seasonal realm.
         HasActiveSeason = function()
             return false
         end,
-        ---[C_Seasons.GetActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason)
+        ---[C_Seasons.GetActiveSeason Documentation](https://warcraft.wiki.gg/wiki/API_C_Seasons.GetActiveSeason)
         ---Returns the ID of the season that is active on the current realm.
         GetActiveSeason = function()
             return 0
@@ -37,9 +37,9 @@ end
 -- API difference compatibility (Era/Wotlk)
 -------------------------------------------
 
----[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
----[SetMaxResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMaxResize)
----[SetResizeBounds Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
+---[SetMinResize Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetMinResize)
+---[SetMaxResize Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetMaxResize)
+---[SetResizeBounds Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetMinResize)
 ---Specifies the minimum [and maximum] width and height that the object can be resized to.
 ---@param frame frame
 ---@param minWidth number The minimum width the object can be resized to.
@@ -129,7 +129,7 @@ function QuestieCompat.GetActiveQuests()
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.SelectAvailableQuest)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.SelectAvailableQuest)
 ---Selects an available quest from the gossip window.
 ---@param index number Index of the quest to select (I think questId might work here too...)
 function QuestieCompat.SelectAvailableQuest(index)
@@ -142,7 +142,7 @@ function QuestieCompat.SelectAvailableQuest(index)
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_GossipInfo.SelectActiveQuest)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.SelectActiveQuest)
 ---Selects an active quest from the gossip window.
 ---@param index number|QuestId Index of the active quest to select, from 1 to GetNumGossipActiveQuests(); order corresponds to the order of return values from GetGossipActiveQuests().
 function QuestieCompat.SelectActiveQuest(index)
@@ -155,7 +155,7 @@ function QuestieCompat.SelectActiveQuest(index)
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetContainerNumSlots)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetContainerNumSlots)
 ---Returns the total number of slots in the bag specified by the index.
 ---@param bagID number the slot containing the bag, e.g. 0 for backpack, etc.
 ---@return number numberOfSlots the number of slots in the specified bag, or 0 if there is no bag in the given slot.
@@ -168,7 +168,7 @@ function QuestieCompat.GetContainerNumSlots(bagID)
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetContainerItemInfo)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetContainerItemInfo)
 ---Returns info for an item in a container slot.
 ---@param bagID number BagID of the bag the item is in, e.g. 0 for your backpack.
 ---@param slot number index of the slot inside the bag to look up.
@@ -207,7 +207,7 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
     error(errorMsg, 2)
 end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetItemCooldown)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCooldown)
 ---Returns info about the cooldown state and time of an item.
 ---@param itemID number The item ID.
 ---@return number startTime The time when the cooldown started (as returned by GetTime()) or zero if no cooldown.
@@ -239,7 +239,7 @@ end
 ---@field hour number
 ---@field minute number
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_C_DateAndTime.GetCurrentCalendarTime)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_DateAndTime.GetCurrentCalendarTime)
 ---Returns the current date and time information.
 ---@return CalendarTime
 function QuestieCompat.GetCurrentCalendarTime()

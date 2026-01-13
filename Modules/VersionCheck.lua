@@ -74,7 +74,7 @@ Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 ---@type boolean
 Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
 
--- See https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason
+-- See https://warcraft.wiki.gg/wiki/API_C_Seasons.GetActiveSeason
 
 --- Addon is running on Classic "Vanilla" client and on Season of Mastery realm specifically
 ---@type boolean

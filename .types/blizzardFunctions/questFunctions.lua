@@ -18,22 +18,22 @@
 ---@return boolean isStory
 ---@return boolean isHidden         @true if the quest is not visible inside the player's quest log.
 ---@return boolean isScaling
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestLogTitle)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogTitle)
 function GetQuestLogTitle(questLogIndex) end
 
 ---@return number numEntries @Number of entries in the Quest Log, including collapsable zone headers.
 ---@return number numQuests  @Number of actual quests in the Quest Log, not counting zone headers.
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetNumQuestLogEntries)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestLogEntries)
 function GetNumQuestLogEntries() end
 
 ---@param questID QuestId       @Unique identifier for each quest.
 ---@return number questLogIndex @The index of the queried quest in the quest log. Returns "0" if a quest with this questID does not exist in the quest log.
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestLogIndexByID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogIndexByID)
 function GetQuestLogIndexByID(questID) end
 
 ---@param questID QuestId       @The ID of the quest.
 ---@return boolean isComplete   @true if the quest is both in the quest log and is complete, false otherwise.
----[Documentation](https://wowpedia.fandom.com/wiki/API_IsQuestComplete)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestComplete)
 function IsQuestComplete(questID) end
 
 ---@param questID QuestId               @The ID of the quest to retrieve the tag info for.
@@ -44,17 +44,17 @@ function IsQuestComplete(questID) end
 ---@return boolean isElite              @is this an elite quest? (used for world quests)
 ---@return number tradeSkillLineIndex   @tradeSkillID if this is a profession quest (used to determine which profession icon to display for world quests)
 ---@return number displayTimeLeft       @ ?
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestTagInfo)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestTagInfo)
 function GetQuestTagInfo(questID) end
 
 ---@param table? table              @OPTIONAL - If supplied, fills this table with quests. Any other keys will be unchanged.
 ---@return table<QuestId, boolean>  @The list of completed quests, keyed by quest IDs.
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestsCompleted)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestsCompleted)
 function GetQuestsCompleted(table) end
 
 ---@param unit string|"player"
 ---@return number range @an integer value, currently up to 12 (at level 60)
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestGreenRange)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
 function GetQuestGreenRange(unit) end
 
 ---@param questLogIndex? number      @OPTIONAL: Index of quest in quest log
@@ -64,5 +64,5 @@ function GetQuestGreenRange(unit) end
 function GetQuestLogQuestText(questLogIndex) end
 
 ---@param questID integer            @The index of the header you wish to expand. - 0 to expand all quest headers
----[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ExpandQuestHeader)
 function ExpandQuestHeader(questID) end

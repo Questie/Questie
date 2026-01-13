@@ -1,10 +1,10 @@
 ------ SKILL FUNCTIONS
 ---@param index number
----[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandSkillHeader)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ExpandSkillHeader)
 function ExpandSkillHeader(index) end
 
 ---@return number numSkills @Total number of skills
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetNumSkillLines)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumSkillLines)
 function GetNumSkillLines() end
 
 
@@ -22,5 +22,5 @@ function GetNumSkillLines() end
 ---@return number minLevel          @Minimum level required to learn this skill.
 ---@return number skillCostType
 ---@return string skillDescription  @Localized skill description text
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetSkillLineInfo)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetSkillLineInfo)
 function GetSkillLineInfo(index) end

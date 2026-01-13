@@ -1,9 +1,9 @@
 ---@meta
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetNumFactions)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumFactions)
 function GetNumFactions() end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetFactionInfo)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfo)
 ---@param index number
 ---@return string name @Name of the faction
 ---@return string description @Description as shown in the detail pane that appears when you click on the faction row
@@ -23,7 +23,7 @@ function GetNumFactions() end
 ---@return boolean canSetInactive
 function GetFactionInfo(index) end
 
----[Documentation](https://wowpedia.fandom.com/wiki/API_GetFactionInfoByID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfoByID)
 ---@param factionID FactionId
 ---@return string name @Name of the faction
 ---@return string description @Description as shown in the detail pane that appears when you click on the faction row
