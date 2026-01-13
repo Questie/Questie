@@ -157,6 +157,16 @@ function AvailableQuests.RemoveQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
 end
 
+---@param npcId NpcId @The ID of the NPC associated with the daily quests.
+---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
+function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+    for _, questId in pairs(questIds) do
+        AvailableQuests.RemoveQuest(questId)
+        unavailableQuestsDeterminedByTalking[questId] = true
+        availableQuestsByNpc[npcId][questId] = nil
+    end
+end
+
 ---@type string|nil
 local lastNpcGuid
 
