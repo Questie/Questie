@@ -5,6 +5,8 @@ local Comms = QuestieLoader:CreateModule("Comms")
 ---@field eventName "HideDailyQuests"
 ---@field data { npcId: NpcId, questIds: QuestId[] }
 
+local COMM_PREFIX = "Questie"
+
 local playerName = UnitName("player")
 local realmName = GetRealmName()
 
@@ -12,7 +14,7 @@ local realmName = GetRealmName()
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 function Comms.Initialize()
-    Questie:RegisterComm("Questie", Comms.OnCommReceived)
+    Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
 end
 
 ---@param prefix string @The prefix of the received message.
@@ -20,6 +22,10 @@ end
 ---@param distribution string @The distribution method of the message.
 ---@param sender string @The sender of the message.
 function Comms.OnCommReceived(prefix, message, distribution, sender)
+    if prefix ~= COMM_PREFIX then
+        return
+    end
+
     if sender == playerName or sender == (playerName .. "-" .. realmName) then
         return
     end
