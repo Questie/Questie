@@ -605,4 +605,31 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
         end)
     end)
+
+    describe("RemoveQuestsForToday", function()
+        it("should remove quests", function()
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = function() end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            ---@type Quest
+            ---@diagnostic disable-next-line: missing-fields
+            local quest = {
+                Id = 123,
+                Starts = {NPC = {NPC_ID}}
+            }
+
+            AvailableQuests.DrawAvailableQuest(quest)
+            quest.Id = 456
+            AvailableQuests.DrawAvailableQuest(quest)
+
+            AvailableQuests.RemoveQuestsForToday(NPC_ID, {123, 456})
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, 123)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, 123)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, 456)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, 456)
+        end)
+    end)
 end)
