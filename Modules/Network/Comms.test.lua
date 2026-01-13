@@ -68,6 +68,69 @@ describe("Comms", function()
 
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
+
+        it("should reject HideDailyQuests events without data", function()
+            local event = {
+                eventName = "HideDailyQuests"
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject HideDailyQuests events without npcId", function()
+            local questIds = {5678, 91011}
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    questIds = questIds
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject HideDailyQuests events without questIds", function()
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject HideDailyQuests events when questIds is not a table", function()
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = "notATable"
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
     end)
 
     describe("BroadcastUnavailableDailyQuests", function()
