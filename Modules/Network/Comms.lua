@@ -35,9 +35,16 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    if event.eventName == "HideDailyQuests" then
+    if event.eventName == "HideDailyQuests" and event.data then
         local npcId = event.data.npcId
+        if (not npcId) then
+            return
+        end
+
         local questIds = event.data.questIds
+        if (not questIds) or type(questIds) ~= "table" then
+            return
+        end
 
         AvailableQuests.RemoveQuestsForToday(npcId, questIds)
     end
