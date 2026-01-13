@@ -30,7 +30,10 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    local event = Questie:Deserialize(message)
+    local success, event = Questie:Deserialize(message)
+    if (not success) then
+        return
+    end
 
     if event.eventName == "HideDailyQuests" then
         local npcId = event.data.npcId
@@ -48,7 +51,25 @@ end
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
 function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
+    ---@type CommEvent
+    local event = {
+        eventName = "HideDailyQuests",
+        data = {
+            npcId = npcId,
+            questIds = questIds
+        }
+    }
 
+    local serializedEvent = Questie:Serialize(event)
+    if IsInGuild() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
+    end
+
+    if IsInRaid() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "RAID")
+    elseif IsInGroup() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "PARTY")
+    end
 end
 
 return Comms
