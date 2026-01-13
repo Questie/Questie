@@ -27,7 +27,7 @@ describe("Comms", function()
                     questIds = questIds
                 }
             }
-            Questie.Deserialize = function() return event end
+            Questie.Deserialize = function() return true, event end
 
             Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -59,6 +59,90 @@ describe("Comms", function()
 
             assert.spy(Questie.Deserialize).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject malformed HideDailyQuests events", function()
+            Questie.Deserialize = function() return false, nil end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+    end)
+
+    describe("BroadcastUnavailableDailyQuests", function()
+        it("should broadcast to guild", function()
+            _G.IsInGuild = function() return true end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return false end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "GUILD")
+        end)
+
+        it("should broadcast only to party when in a party and not in a guild", function()
+            _G.IsInGuild = function() return false end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "PARTY")
+        end)
+
+        it("should broadcast only to raid when in a raid and not in a guild", function()
+            _G.IsInGuild = function() return false end
+            _G.IsInRaid = function() return true end
+            _G.IsInGroup = function() return false end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "RAID")
+        end)
+
+        it("should broadcast to guild and raid when in a raid", function()
+            _G.IsInGuild = function() return true end
+            _G.IsInRaid = function() return true end
+            _G.IsInGroup = function() return false end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "GUILD")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "RAID")
+        end)
+
+        it("should broadcast to guild and party when in a party", function()
+            _G.IsInGuild = function() return true end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "GUILD")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "PARTY")
+        end)
+
+        it("should not broadcast when not in a guild, raid or party", function()
+            _G.IsInGuild = function() return false end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return false end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
         end)
     end)
 end)
