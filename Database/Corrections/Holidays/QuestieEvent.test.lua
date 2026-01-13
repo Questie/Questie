@@ -18,7 +18,7 @@ describe("QuestieEvent", function()
 
     before_each(function()
         Questie.IsClassic = false
-        Questie.IsAnniversary = false
+        Questie.IsAnniversaryEra = false
         _G.Questie.Colorize = function(_, str) return str end
         printMock = spy.new(function() end)
         _G.print = printMock
@@ -53,7 +53,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 1
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = true
+            Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
 
@@ -78,7 +78,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 1
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = false
+            Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
             QuestieEvent:Load()
@@ -104,7 +104,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 2
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = true
+            Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
 
@@ -129,7 +129,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 2
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = false
+            Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
             QuestieEvent:Load()
@@ -155,7 +155,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 3
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = true
+            Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
 
@@ -180,7 +180,7 @@ describe("QuestieEvent", function()
             ContentPhases.activePhases.Anniversary = 3
 
             Questie.IsClassic = true
-            Questie.IsAnniversary = false
+            Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
             QuestieEvent:Load()

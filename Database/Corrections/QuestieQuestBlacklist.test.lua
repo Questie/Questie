@@ -27,7 +27,7 @@ describe("QuestieQuestBlacklist", function()
     it("should blacklist Classic Anniversary quests", function()
         Questie.IsSoM = false
         Questie.IsSoD = false
-        Questie.IsAnniversary = true
+        Questie.IsAnniversaryEra = true
         ContentPhases.activePhases.Anniversary = 3
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
@@ -42,7 +42,7 @@ describe("QuestieQuestBlacklist", function()
     it("should blacklist Classic Anniversary quests", function()
         Questie.IsSoM = false
         Questie.IsSoD = false
-        Questie.IsAnniversary = false
+        Questie.IsAnniversaryEra = false
         Questie.IsAnniversaryHardcore = true
         ContentPhases.activePhases.Anniversary = 3
 
@@ -58,7 +58,7 @@ describe("QuestieQuestBlacklist", function()
     it("should blacklist SoM quests", function()
         Questie.IsSoM = true
         Questie.IsSoD = false
-        Questie.IsAnniversary = false
+        Questie.IsAnniversaryEra = false
         ContentPhases.activePhases.SoM = 3
 
         local questToBlacklist = QuestieQuestBlacklist:Load()

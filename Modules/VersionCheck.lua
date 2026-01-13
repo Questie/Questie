@@ -86,11 +86,15 @@ Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons
 
 --- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
 ---@type boolean
-Questie.IsAnniversary = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 11) -- TODO: Use Enum or new API if there will be one
+Questie.IsAnniversaryEra = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
+
+--- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
+---@type boolean
+Questie.IsAnniversaryTBC = Questie.IsTBC and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
 
 --- Addon is running on Classic "Vanilla" client and on Classic Anniversary Hardcore realm
 ---@type boolean
-Questie.IsAnniversaryHardcore = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 12) -- TODO: Use Enum or new API if there will be one
+Questie.IsAnniversaryHardcore = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.FreshHardcore)
 
 --- Addon is running on a HardCore realm specifically
 ---@type boolean
