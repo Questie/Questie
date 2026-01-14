@@ -150,6 +150,11 @@ local migrationFunctions = {
             Questie.db.profile.showAQWarEffortQuests = false
         end
     end,
+    [22] = function()
+        local alpha = Questie.db.profile.trackerBackdropAlpha or 1
+        Questie.db.profile.trackerBackdropColor = {r = 0, g = 0, b = 0, a = alpha}
+        Questie.db.profile.trackerBackdropAlpha = nil
+    end,
 }
 
 function Migration:Migrate()

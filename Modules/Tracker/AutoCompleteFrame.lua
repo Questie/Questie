@@ -22,8 +22,9 @@ function AutoCompleteFrame.Initialize(baseFrame)
         edgeSize = 16,
         insets = { left = 4, right = 4, top = 4, bottom = 4 },
     })
-    -- TODO: Make this configurable
-    autoCompleteFrame:SetBackdropColor(0, 0, 0, 1)
+
+    local c = Questie.db.profile.trackerBackdropColor
+    autoCompleteFrame:SetBackdropColor(c.r, c.g, c.b, c.a)
     autoCompleteFrame:SetBackdropBorderColor(1, 1, 1, 0)
 
     local icon = CreateFrame("Button", nil, autoCompleteFrame)
