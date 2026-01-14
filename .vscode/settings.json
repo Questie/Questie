@@ -6151,6 +6151,9 @@
         "ImmersionFrame",
         "ImmersionContentFrame",
         "C_Item",
+        "StaticPopup_ForEachShownDialog",
+        "StaticPopup_ResizeShownDialogs",
+        "WEEKLY"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/Cata/**",
