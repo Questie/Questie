@@ -6335,6 +6335,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THRONE_OF_THUNDER] = {{59.52,79.43},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THRONE_OF_THUNDER,
         },
+        [70466] = { -- Mason's Folly Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{75.3,76.27}}},
+            [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
+        },
         [70476] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.minLevel] = 0,

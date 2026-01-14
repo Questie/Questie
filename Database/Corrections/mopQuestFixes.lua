@@ -9373,6 +9373,10 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{69782}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Hurl the Lightning Lance into Nalak"),0,{{"monster",69099}}}},
         },
+        [32595] = { -- The Crown of Heaven
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.objectives] = {{{70466,nil,Questie.ICON_TYPE_EVENT},{64822,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [32599] = { -- Securing A Future
             [questKeys.preQuestSingle] = {32681}, -- wowhead comments say available without progressing IoT
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,8}},
