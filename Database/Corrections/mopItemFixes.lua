@@ -1312,6 +1312,9 @@ function MopItemFixes.Load()
         [95390] = { -- Pristine Kypari Sap Container
             [itemKeys.startQuest] = 32693,
         },
+        [95433] = { -- Tempered Lightning Lance
+            [itemKeys.npcDrops] = {69739},
+        },
         [97978] = { -- Knockoff Grumplefloot
             [itemKeys.startQuest] = 32836,
         },

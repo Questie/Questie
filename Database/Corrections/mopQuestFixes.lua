@@ -9369,6 +9369,10 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{70093},{70438,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestGroup] = {32591,32592},
         },
+        [32594] = { -- Spirit of the Storm Lord
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Hurl the Lightning Lance into Nalak"),0,{{"monster",69099}}}},
+        },
         [32599] = { -- Securing A Future
             [questKeys.preQuestSingle] = {32681}, -- wowhead comments say available without progressing IoT
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,8}},

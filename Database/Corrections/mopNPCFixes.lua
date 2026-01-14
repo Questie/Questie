@@ -6042,6 +6042,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{46.58,71.98}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
+        [69739] = { -- Essence of Storms
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{60.5,37.3}}},
+        },
         [69741] = { -- Lady Jaina Proudmoore
             [npcKeys.name] = "Lady Jaina Proudmoore",
             [npcKeys.subName] = "Leader of the Kirin Tor",
