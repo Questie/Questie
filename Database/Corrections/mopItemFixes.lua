@@ -1279,6 +1279,9 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {50358,69664,69996,69997,69998,69999,70000,70001,70002,70003,70530},
             [itemKeys.objectDrops] = {218593},
         },
+        [94594] = { -- Titan Runestone
+            [itemKeys.npcDrops] = {68036,69427,69017,68078,68904,68397,69473}, -- TODO: Add SOO Bosses, once that is live
+        },
         [94605] = { -- Wild Pterrorwing Hatchling
             [itemKeys.npcDrops] = {69428},
         },
