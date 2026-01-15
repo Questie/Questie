@@ -41,6 +41,43 @@ local function toggleTrackerVisibility(shouldHide, conditionFn)
     end
 end
 
+local function startFadeTicker()
+    local fadeTicker
+    local fadeTickerValue = 1
+
+    fadeTicker = C_Timer.NewTicker(0.02, function()
+        if fadeTickerValue <= 1 then
+            fadeTickerValue = fadeTickerValue - 0.05
+
+            if fadeTickerValue < 0 then
+                fadeTickerValue = 0
+                fadeTicker:Cancel()
+            end
+
+            if Questie.db.char.isTrackerExpanded then
+                local c = Questie.db.profile.trackerBackdropColor
+                TrackerBaseFrame.baseFrame:SetBackdropColor(c.r, c.g, c.b, fadeTickerValue)
+
+                if Questie.db.profile.trackerBorderEnabled then
+                    TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, fadeTickerValue)
+                end
+            end
+        end
+    end)
+end
+
+local debounceTimer
+
+local function debounceFadeTicker()
+    if debounceTimer then
+        debounceTimer:Cancel()
+    end
+
+    debounceTimer = C_Timer.NewTimer(1, function()
+        startFadeTicker()
+    end)
+end
+
 function QuestieOptions.tabs.tracker:Initialize()
     trackerOptions = {
         name = function() return l10n("Tracker") end,
@@ -789,7 +826,7 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                                     if value == true and not Questie.db.profile.trackerBackdropFader then
                                         local c = Questie.db.profile.trackerBackdropColor
-                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(c.r, c.g, c.b, c.a)
+                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, c.a)
                                     else
                                         TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                                     end
@@ -809,29 +846,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                     Questie.db.profile.currentBackdropFader = value
 
                                     if value == true then
-                                        local fadeTicker
-                                        local fadeTickerValue = 1
-                                        fadeTicker = C_Timer.NewTicker(0.02, function()
-                                            if fadeTickerValue <= 1 then
-                                                fadeTickerValue = fadeTickerValue - 0.05
-
-                                                if fadeTickerValue < 0 then
-                                                    fadeTickerValue = 0
-                                                    fadeTicker:Cancel()
-                                                end
-
-                                                if Questie.db.char.isTrackerExpanded then
-                                                    local c = Questie.db.profile.trackerBackdropColor
-                                                    TrackerBaseFrame.baseFrame:SetBackdropColor(c.r, c.g, c.b, fadeTickerValue)
-
-                                                    if Questie.db.profile.trackerBorderEnabled then
-                                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, fadeTickerValue)
-                                                    end
-                                                end
-                                            else
-                                                fadeTicker:Cancel()
-                                            end
-                                        end)
+                                        startFadeTicker()
                                     end
                                     QuestieTracker:UpdateFormatting()
                                 end
@@ -852,6 +867,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                                     Questie.db.profile.trackerBackdropColor = {r = r, g = g, b = b, a = a}
                                     if Questie.db.profile.trackerBackdropEnabled then
                                         TrackerBaseFrame.baseFrame:SetBackdropColor(r, g, b, a)
+                                    end
+
+                                    if Questie.db.profile.trackerBorderEnabled then
+                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, a)
+                                    end
+
+                                    if Questie.db.profile.trackerBackdropFader then
+                                        debounceFadeTicker()
                                     end
                                 end
                             },
