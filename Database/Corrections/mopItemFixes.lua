@@ -1285,6 +1285,9 @@ function MopItemFixes.Load()
         [94605] = { -- Wild Pterrorwing Hatchling
             [itemKeys.npcDrops] = {69428},
         },
+        [94721] = { -- Strange Metal Ingot
+            [itemKeys.startQuest] = 32621,
+        },
         [95372] = { -- Choker of Storms
             [itemKeys.objectDrops] = {218853},
         },
