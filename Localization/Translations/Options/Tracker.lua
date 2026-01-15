@@ -1480,8 +1480,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기 배경의 색상을 선택하세요.",
         ["ptBR"] = "Escolha a cor do fundo do rastreador.",
         ["ruRU"] = "Выберите цвет фона трекера Questie",
-        ["zhCN"] = "选择Questie追踪器的背景颜色",
-        ["zhTW"] = "選擇Questie追蹤器的背景顏色",
+        ["zhCN"] = "选择Questie追踪器的背景颜色。",
+        ["zhTW"] = "選擇Questie追蹤器的背景顏色。",
     },
     ---------------------------------------------------------
     ["Tracker Height Ratio"] = {
