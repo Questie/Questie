@@ -432,6 +432,9 @@ function CataObjectFixes.Load()
         [182198] = { -- Arcane Container
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ_STASIS_BLOCK_MAXIMUS] = {{59.05,24.12}},[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
         },
+        [182199] = { -- Keanna's Log
+            [objectKeys.spawns] = {[zoneIDs.KARAZHAN_THE_GUEST_CHAMBERS] = {{69.3,19.13}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
         [182589] = { -- Barrel
             [objectKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{76.60,68.80},{77.14,66.30},{74.68,68.79},{69.09,62.61},{68.03,59.82},{-1,-1}}},
         },
@@ -789,6 +792,9 @@ function CataObjectFixes.Load()
         },
         [194080] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{67.65,50.69}}},
+        },
+        [194092] = { -- Blackened Urn
+            [objectKeys.spawns] = {[zoneIDs.KARAZHAN_MASTERS_TERRACE]={{43,83.56}},[zoneIDs.KARAZHAN]={{-1,-1}}},
         },
         [194102] = { -- Shatterspear Armaments
             [objectKeys.spawns] = {

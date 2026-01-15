@@ -543,6 +543,11 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{49.77,10.61}}}, -- Bor'gorok Outpost
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [194092] = { -- Blackened Urn
+            [objectKeys.name] = "Blackened Urn",
+            [objectKeys.spawns] = {[zoneIDs.KARAZHAN]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.KARAZHAN,
+        },
         [194119] = { -- Candy Bucket
             [objectKeys.questStarts] = {13548},
             [objectKeys.questEnds] = {13548},

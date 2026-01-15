@@ -1144,6 +1144,7 @@ function MopObjectFixes.Load()
         [218637] = { -- Secrets of Lightning Steel
             [objectKeys.name] = "Secrets of Lightning Steel",
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{60.1,28.27}}},
+            [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [218724] = { -- Secrets of Stabilized Lightning
             [objectKeys.name] = "Secrets of Stabilized Lightning",

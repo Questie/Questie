@@ -517,6 +517,12 @@ function QuestieWotlkQuestFixes:Load()
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
+        [9644] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Nightbane"), 0, {{"object", 194092}}}},
+        },
+        [9645] = {
+            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN]={{-1,-1}}}},
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
             [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},

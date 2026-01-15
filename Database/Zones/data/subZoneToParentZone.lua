@@ -109,6 +109,23 @@ ZoneDB.private.subZoneToParentZoneOverride = [[return {
     [10084] = 5841, -- The Deeper - Lower Deep (fake ID cave in Kun-Lai Summit)
     [10085] = 6134, -- Ruins of Ogudei (fake ID cave in Krasarang Wilds)
     [10086] = 6134, -- Ruins of Ogudei - Reliquary Incursion (fake ID cave in Krasarang Wilds)
+    [10102] = 3457, -- Karazhan - Servant's Quarters (Dungeon/Raid)
+    [10103] = 3457, -- Karazhan - Upper Livery Stables (Dungeon/Raid)
+    [10104] = 3457, -- Karazhan - The Banquet Hall (Dungeon/Raid)
+    [10105] = 3457, -- Karazhan - The Guest Chambers (Dungeon/Raid)
+    [10106] = 3457, -- Karazhan - Opera Hall Balcony (Dungeon/Raid)
+    [10107] = 3457, -- Karazhan - Master's Terrace (Dungeon/Raid)
+    [10108] = 3457, -- Karazhan - Lower Broken Stair (Dungeon/Raid)
+    [10109] = 3457, -- Karazhan - Upper Broken Stair (Dungeon/Raid)
+    [10110] = 3457, -- Karazhan - The Menagerie (Dungeon/Raid)
+    [10111] = 3457, -- Karazhan - Guardian's Library (Dungeon/Raid)
+    [10112] = 3457, -- Karazhan - The Repository (Dungeon/Raid)
+    [10113] = 3457, -- Karazhan - Upper Library (Dungeon/Raid)
+    [10114] = 3457, -- Karazhan - The Celestial Watch (Dungeon/Raid)
+    [10115] = 3457, -- Karazhan - Gamesman's Hall (Dungeon/Raid)
+    [10116] = 3457, -- Karazhan - Medivh's Chambers (Dungeon/Raid)
+    [10117] = 3457, -- Karazhan - The Power Station (Dungeon/Raid)
+    [10118] = 3457, -- Karazhan - Netherspace (Dungeon/Raid)
 }]]
 
 --! Generated table, add something manually here and i'll kill you //Logon
@@ -304,7 +321,7 @@ ZoneDB.private.subZoneToParentZone = [[return {
   [275] = 267, -- Durnholde Keep -> Hillsbrad Foothills
   [277] = 36, -- The Foothill Caverns -> Alterac Mountains
   [278] = 36, -- Lordamere Internment Camp -> Alterac Mountains
-  [279] = 36, -- Dalaran Crater -> Alterac Mountains
+  [279] = 3457, -- Dalaran Crater -> Karazhan
   [280] = 36, -- Strahnbrad -> Alterac Mountains
   [281] = 36, -- Ruins of Alterac -> Alterac Mountains
   [282] = 36, -- Crushridge Hold -> Alterac Mountains

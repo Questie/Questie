@@ -1271,6 +1271,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9625,28559},
         },
+        [9645] = {
+            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN_MASTERS_TERRACE]={{45.92,90.39}},[zoneIDs.KARAZHAN]={{-1,-1}}}},
+        },
         [9672] = { -- The Bloodcurse Legacy
             [questKeys.exclusiveTo] = {9751},
         },

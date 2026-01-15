@@ -382,6 +382,23 @@ ZoneDB.zoneIDs = {
     THRONE_OF_THUNDER_HIDDEN_CELL = 10099, -- Throne of Thunder - Hidden Cell 515
     ISLE_OF_THUNDER_LIGHTNING_VEIN_MINE = 10100, -- Isle of Thunder - Lightning Vein Mine 505
     ISLE_OF_THUNDER_SWOLLEN_VAULT = 10101, -- Isle of Thunder - The Swollen Vault 506
+    KARAZHAN_SERVANTS_QUARTERS = 10102, -- Karazhan - Servant's Quarters 350
+    KARAZHAN_UPPER_LIVERY_STABLES = 10103, -- Karazhan - Upper Livery Stables 351
+    KARAZHAN_THE_BANQUET_HALL = 10104, -- Karazhan - The Banquet Hall 352
+    KARAZHAN_THE_GUEST_CHAMBERS = 10105, -- Karazhan - The Guest Chambers 353
+    KARAZHAN_OPERA_HALL_BALCONY = 10106, -- Karazhan - Opera Hall Balcony 354
+    KARAZHAN_MASTERS_TERRACE = 10107, -- Karazhan - Master's Terrace 355
+    KARAZHAN_LOWER_BROKEN_STAIR = 10108, -- Karazhan - Lower Broken Stair 356
+    KARAZHAN_UPPER_BROKEN_STAIR = 10109, -- Karazhan - Upper Broken Stair 357
+    KARAZHAN_THE_MENAGERIE = 10110, -- Karazhan - The Menagerie 358
+    KARAZHAN_GUARDIANS_LIBRARY = 10111, -- Karazhan - Guardian's Library 359
+    KARAZHAN_THE_REPOSITORY = 10112, -- Karazhan - The Repository 360
+    KARAZHAN_UPPER_LIBRARY = 10113, -- Karazhan - Upper Library 361
+    KARAZHAN_THE_CELESTIAL_WATCH = 10114, -- Karazhan - The Celestial Watch 362
+    KARAZHAN_GAMESMANS_HALL = 10115, -- Karazhan - Gamesman's Hall 363
+    KARAZHAN_MEDIVHS_CHAMBERS = 10116, -- Karazhan - Medivh's Chambers 364
+    KARAZHAN_THE_POWER_STATION = 10117, -- Karazhan - The Power Station 365
+    KARAZHAN_NETHERSPACE = 10118, -- Karazhan - Netherspace 366
 
     -- Fake IDs for continents
     KALIMDOR = 10073, -- continent map

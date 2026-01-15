@@ -2441,6 +2441,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{44.12,38.58}}},
             [npcKeys.waypoints] = {},
         },
+        [15690] = { -- Prince Malchezaar
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_NETHERSPACE] = {{51.54,30.97}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
         [15700] = { -- Warlord Gorchuk
             [npcKeys.questStarts] = {8851,8852,8853,8854,8855},
         },
@@ -2545,6 +2548,10 @@ function CataNpcFixes.Load()
         [16352] = { -- Greater Spindleweb
             [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{60.24,77.58},{58.93,74.98},{57.87,75.05},{58.65,71.83},{56.19,59.16},{56.34,60.42},{54.58,59.99},{47.85,63.95},{49.07,63.93},{48.55,65.8},{47.85,63.95},{49.07,63.93},{48.55,65.8},{46.27,77.73},{44.44,75.36},{44.77,75.42},{52.46,60.12},{52.45,63.08},{51.54,61.64},{51.58,58.39},{48.71,59.36},{46.9,60.26},{47.32,67.69},{47.42,68.41},{47.44,71.19},{41.79,63.85},{42.97,62.39},{42.24,62.87},{40.87,62.69},{43.11,55.61},{34.76,58.58},{20.4,62.19},{18.29,60.95},{16.37,61.2},{16.45,62.77},{18.55,65.24},{16.06,64.54},{16.53,67.64},{21.84,63.83},{22.4,62.2},{25.32,61.78},{24.31,61.39},{25.24,59.89},{24.19,64.86},{28.03,62.18},{27.66,63.68},{27.88,61.09},{27.13,59.86},{30.37,60.73},{29.67,63.78},{26.95,57.08},{29.38,56.92},{34.48,55.07},{43.34,55.39},{42.5,56.65},{43.05,59.11},{41.3,61.15},{33.36,61.38},{33.11,60.91}}},
         },
+        [16388] = { -- Koren
+            [npcKeys.questEnds] = {9840},
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_SERVANTS_QUARTERS] = {{42.4,72.94}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
         [16402] = { -- Zombified Grimscale
             [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{22.08,33.44},{20.4,32.3},{21.37,31.4},{18.37,7.8},{18.62,5.58},{18.12,6.57},{18.26,10.52},{18.93,9.79},{17.78,9.87},{18.32,8.97},{18.02,12.31},{18.39,14.41},{19.17,14.19},{20.34,19.03},{19.09,19.96},{19.13,19.08},{20.05,20.46},{19.61,21.02},{18.96,21.54},{18.21,20.57},{19.91,23.94},{19.06,23.75},{19.01,24.91},{18.03,24.87},{18.14,29.39},{17.38,28.27},{17.15,31.16},{16.23,31.1},{16.52,31.98},{15.16,31.27},{12.98,31.26},{15.95,32.29},{13.03,37.28},{14.24,39.77},{14.95,40.03},{12.84,40.09},{12.11,38.57},{13.01,43.11},{18.38,33.99},{19.25,34.29},{18.57,32.82},{20.5,34.48}}},
         },
@@ -2570,6 +2577,9 @@ function CataNpcFixes.Load()
         },
         [16503] = { -- Kore
             [npcKeys.questStarts] = {9289,26958},
+        },
+        [16524] = { -- Shade of Aran
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_GUARDIANS_LIBRARY] = {{71.61,26.32}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
         },
         [16534] = { -- Inoculated Nestlewood Owlkin
             [npcKeys.questStarts] = {},
@@ -2629,6 +2639,15 @@ function CataNpcFixes.Load()
         [16809] = { -- Warbringer O'mrogg
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{53.89,34.1},{-1,-1}}},
         },
+        [16813] = { -- Wravien
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_THE_MENAGERIE] = {{38.2,45.19}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
+        [16814] = { -- Gradav
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_THE_MENAGERIE] = {{28.89,46.28}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
+        [16815] = { -- Kamsis
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_THE_MENAGERIE] = {{27.8,60.13}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
         [16817] = { -- Festival Loremaster
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS] = {{62.17,48.67}},
@@ -2672,6 +2691,9 @@ function CataNpcFixes.Load()
         },
         [17120] = { -- Behomat
             [npcKeys.questStarts] = {27225,28258},
+        },
+        [17225] = { -- Nightbane
+            [npcKeys.spawns] = {[zoneIDs.KARAZHAN_MASTERS_TERRACE] = {{45.66,87.32}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
         },
         [17240] = { -- Admiral Odesyus
             [npcKeys.questStarts] = {9506,9530,9531,9537,9602,9751},
