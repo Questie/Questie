@@ -590,6 +590,18 @@ local searchLocales = {
         ["zhCN"] = "无阵营",
         ["zhTW"] = "沒有陣營",
     },
+    ["Title"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Titel",
+        ["esES"] = "Título",
+        ["esMX"] = "Título",
+        ["frFR"] = "Titre",
+        ["koKR"] = "제목",
+        ["ptBR"] = "Título",
+        ["ruRU"] = "Заголовок",
+        ["zhCN"] = "标题",
+        ["zhTW"] = "標題",
+    },
     ["Level"] = {
         ["enUS"] = true,
         ["deDE"] = true,
