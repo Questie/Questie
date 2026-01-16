@@ -1824,7 +1824,12 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
         },
         [3903] = {
-            [questKeys.preQuestSingle] = {18},
+            [questKeys.preQuestGroup] = {18,33},
+            [questKeys.breadcrumbForQuestId] = 3904,
+        },
+        [3904] = {
+            [questKeys.preQuestGroup] = {18,33},
+            [questKeys.breadcrumbs] = {3903},
         },
         [3909] = {
             [questKeys.requiredSourceItems] = {11141,11242},
