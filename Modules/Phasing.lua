@@ -491,6 +491,7 @@ local phases = {
     KIRIN_TOR_OFFENSIVE_THE_BEAST_PENS = 1419,
     SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE = 1420,
     SUNREAVER_ONSLAUGHT_THE_BEAST_PENS = 1421,
+    LORD_TIRION_FORDRING_AT_TOWER = 1422,
 }
 Phasing.phases = phases
 
@@ -2268,6 +2269,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SUNREAVER_ONSLAUGHT_THE_BEAST_PENS then
         return complete[32523] or questLog[32523] or false
+    end
+
+    if phase == phases.LORD_TIRION_FORDRING_AT_TOWER then
+        return (questLog[5944] and questLog[5944].isComplete == 1) or false
     end
 
     return false

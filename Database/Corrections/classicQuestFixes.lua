@@ -2430,6 +2430,15 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
             [questKeys.requiredSourceItems] = {18501},
         },
+        [5542] = { -- Demon Dogs
+            [questKeys.startedBy] = {{1855,12126}},
+        },
+        [5543] = { -- Blood Tinged Skies
+            [questKeys.startedBy] = {{1855,12126}},
+        },
+        [5544] = { -- Carrion Grubbage
+            [questKeys.startedBy] = {{1855,12126}},
+        },
         [5561] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4701,4702},4700,"Kodos Tamed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{60.58,62}}}, Questie.ICON_TYPE_EVENT, l10n("Lure the Kodos to Smeed Scrabblescrew.")}},
