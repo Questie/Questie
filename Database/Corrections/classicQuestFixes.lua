@@ -182,7 +182,6 @@ function QuestieQuestFixes:Load()
         },
         [287] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {420},
         },
         [297] = {
              [questKeys.breadcrumbs] = {436}, -- #2492
@@ -245,10 +244,6 @@ function QuestieQuestFixes:Load()
         },
         [415] = {
             [questKeys.breadcrumbForQuestId] = 413, -- #567
-        },
-        [420] = {
-            [questKeys.nextQuestInChain] = 287,
-            [questKeys.breadcrumbForQuestId] = 287,
         },
         [427] = {
             [questKeys.preQuestSingle] = {},

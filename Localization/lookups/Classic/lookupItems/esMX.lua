@@ -183,6 +183,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [2939] = "Sangre frenética",
 [2997] = "Madeja de paño de lana",
 [2998] = "Una sencilla brújula",
+[2999] = "Herramientas de Brasacerada",
 [3014] = "Hacha desgastada por la batalla",
 [3016] = "Libro de hechizos de Gunther",
 [3017] = "Órdenes de Sevren",
