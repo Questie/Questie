@@ -7,6 +7,8 @@ local QuestieNPCFixes = QuestieLoader:CreateModule("QuestieNPCFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/Questie/Questie/wiki/Corrections
@@ -16,6 +18,7 @@ function QuestieNPCFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
     local waypointPresets = QuestieDB.waypointPresets
+    local phases = Phasing.phases
 
     return {
         [294] = { -- Marshal Haggard
