@@ -9,6 +9,8 @@ local AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
 describe("AutoCompleteFrame", function()
     before_each(function()
         CreateFrame.resetMockedFrames()
+
+        Questie.db.profile.trackerBackdropColor = {r = 0, g = 0, b = 0, a = 1}
     end)
 
     describe("ShowAutoComplete", function()

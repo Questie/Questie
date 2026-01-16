@@ -45,14 +45,15 @@ function TrackerBaseFrame.Initialize()
     baseFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     baseFrame:SetBackdrop({
-        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        bgFile = "Interface\\Buttons\\WHITE8X8",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
         tile = true,
         edgeSize = 16,
         insets = { left = 4, right = 4, top = 4, bottom = 4 },
     })
 
-    baseFrame:SetBackdropColor(0, 0, 0, 0)
+    local c = Questie.db.profile.trackerBackdropColor
+    baseFrame:SetBackdropColor(c.r, c.g, c.b, c.a)
     baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
 
     local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
@@ -175,17 +176,18 @@ end
 function TrackerBaseFrame:Update()
     if Questie.db.char.isTrackerExpanded and TrackerUtils.HasQuest() then
         if Questie.db.profile.trackerBackdropEnabled then
+            local c = Questie.db.profile.trackerBackdropColor
             if Questie.db.profile.trackerBorderEnabled then
                 if not Questie.db.profile.trackerBackdropFader then
-                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.profile.trackerBackdropAlpha)
-                    baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.profile.trackerBackdropAlpha)
+                    baseFrame:SetBackdropColor(c.r, c.g, c.b, c.a)
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, c.a)
                 else
                     baseFrame:SetBackdropColor(0, 0, 0, 0)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                 end
             else
                 if not Questie.db.profile.trackerBackdropFader then
-                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.profile.trackerBackdropAlpha)
+                    baseFrame:SetBackdropColor(c.r, c.g, c.b, c.a)
                 else
                     baseFrame:SetBackdropColor(0, 0, 0, 0)
                 end

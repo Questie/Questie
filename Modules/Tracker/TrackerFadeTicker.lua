@@ -31,9 +31,10 @@ function TrackerFadeTicker.Start()
 
                     -- Un-fade the background and border(if enabled)
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerBackdropEnabled and Questie.db.profile.trackerBackdropFader) then
-                        trackerBaseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.profile.trackerBackdropAlpha, fadeTickerValue * 3.3))
+                        local c = Questie.db.profile.trackerBackdropColor
+                        trackerBaseFrame:SetBackdropColor(c.r, c.g, c.b, math.min(c.a, fadeTickerValue * 3.3))
                         if Questie.db.profile.trackerBorderEnabled then
-                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.profile.trackerBackdropAlpha, fadeTickerValue * 3.3))
+                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(c.a, fadeTickerValue * 3.3))
                         end
                     end
 
@@ -73,9 +74,10 @@ function TrackerFadeTicker.Start()
 
                     -- Fade the background and border(if enabled)
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerBackdropEnabled and Questie.db.profile.trackerBackdropFader) then
-                        trackerBaseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.profile.trackerBackdropAlpha, fadeTickerValue * 3.3))
+                        local c = Questie.db.profile.trackerBackdropColor
+                        trackerBaseFrame:SetBackdropColor(c.r, c.g, c.b, math.min(c.a, fadeTickerValue * 3.3))
                         if Questie.db.profile.trackerBorderEnabled then
-                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.profile.trackerBackdropAlpha, fadeTickerValue * 3.3))
+                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(c.a, fadeTickerValue * 3.3))
                         end
                     end
 
