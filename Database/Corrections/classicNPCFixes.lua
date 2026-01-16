@@ -1960,7 +1960,6 @@ function QuestieNPCFixes:Load()
         },
         [12126] = {
             [npcKeys.questStarts] = {5542,5543,5544},
-            [npcKeys.questEnds] = {5542,5543,5544,5944},
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{53.93,24.61,phases.LORD_TIRION_FORDRING_AT_TOWER}}},
         },
