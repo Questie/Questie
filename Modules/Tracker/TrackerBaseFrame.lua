@@ -45,7 +45,7 @@ function TrackerBaseFrame.Initialize()
     baseFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     baseFrame:SetBackdrop({
-        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        bgFile = "Interface\\Buttons\\WHITE8X8",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
         tile = true,
         edgeSize = 16,
