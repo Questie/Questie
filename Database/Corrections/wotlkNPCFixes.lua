@@ -110,9 +110,6 @@ function QuestieWotlkNpcFixes:Load()
         [4606] = { -- Aelthalyste
             [npcKeys.questStarts] = {},
         },
-        [5111] = {
-            [npcKeys.questStarts] = {3790,8353},
-        },
         [5113] = { -- Kelv Sternhammer
             [npcKeys.questStarts] = {1718,8417},
         },
@@ -151,9 +148,6 @@ function QuestieWotlkNpcFixes:Load()
         },
         [6467] = { -- Mennet Carkad
             [npcKeys.questStarts] = {1998,1999,2019,2378,6681,14418,14419,14420},
-        },
-        [6740] = {
-            [npcKeys.questStarts] = {3789,8356},
         },
         [6826] = { -- Talvash del Kissel
             [npcKeys.questStarts] = {2199,2200,2361,2948,3375,8355},
