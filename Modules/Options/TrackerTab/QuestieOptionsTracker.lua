@@ -838,7 +838,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 3,
                                 width = 1.5,
                                 name = function() return l10n("Fade Background") end,
-                                desc = function() return l10n("When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use.") end,
+                                desc = function() return l10n("When this is checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
                                 get = function() return Questie.db.profile.trackerBackdropFader end,
                                 set = function(_, value)

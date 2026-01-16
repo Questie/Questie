@@ -540,7 +540,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "淡化背景",
         ["zhTW"] = "淡出背景",
     },
-    ["When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use."] = {
+    ["When this is checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden der Hintergrund des Questie-Trackers und der Rahmen (falls aktiviert) ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está activado, el fondo y el borde del rastreador (si está activado) se desvanecerán y se volverán transparentes cuando no estén en uso.",
