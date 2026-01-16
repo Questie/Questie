@@ -1215,6 +1215,8 @@ function QuestieQuestBlacklist:Load()
         [10932] = true, -- Level 0 Priest quest
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
+        [63448] = true, -- Boosted character quest
+        [63767] = true, -- Boosted character quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
         [64031] = true, -- Boosted character quest
         [64034] = true, -- Boosted character quest
@@ -1241,6 +1243,8 @@ function QuestieQuestBlacklist:Load()
         [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
+        [65284] = true, -- Boosted character quest
+        [65561] = true, -- Boosted character quest
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
@@ -1276,6 +1280,7 @@ function QuestieQuestBlacklist:Load()
         [78223] = true, -- Boosted character quest
         [78224] = true, -- Boosted character quest
         [78225] = true, -- Boosted character quest
+        [93823] = true, -- Boosted character quest
 
         -- Paladin class quests with SWP patch
         [64319] = true, -- removed in wotlk
