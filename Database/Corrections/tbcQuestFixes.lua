@@ -1110,11 +1110,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [9289] = {
             [questKeys.preQuestSingle] = {9280},
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9290] = {
             [questKeys.startedBy] = {{16500},nil,nil},
             [questKeys.finishedBy] = {{16500},nil,nil},
             [questKeys.preQuestSingle] = {9280},
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9291] = {
             [questKeys.startedBy] = {{16502},nil,nil},
