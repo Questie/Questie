@@ -1101,6 +1101,9 @@ function QuestieTBCQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9283] = { -- Rescue the Survivors!
+            [questKeys.objectives] = {{{16483,"Draenei Survivors Saved",Questie.ICON_TYPE_INTERACT}}},
+        },
         [9287] = {
             [questKeys.preQuestSingle] = {9280},
         },
