@@ -155,6 +155,10 @@ function QuestieTBCNpcFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8}}}, -- New position in TBC
         },
+        [5111] = { -- Innkeeper Firebrew
+            [npcKeys.questStarts] = {3790,8353,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823},
+        },
         [5113] = { -- Kelv Sternhammer
             [npcKeys.questStarts] = {1718,8417},
         },
@@ -223,6 +227,26 @@ function QuestieTBCNpcFixes:Load()
         },
         [6467] = { -- Mennet Carkad
             [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
+        },
+        [6735] = { -- Innkeeper Saelienne
+            [npcKeys.questStarts] = {3763,8357,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {8357,63448,63767,65284,65561,93823},
+        },
+        [6740] = { -- Innkeeper Allison
+            [npcKeys.questStarts] = {3789,8356,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {8356,8860,9026,63448,63767,65284,65561,93823},
+        },
+        [6741] = { -- Innkeeper Norman
+            [npcKeys.questStarts] = {3784,8354,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {8354,8982,63448,63767,65284,65561,93823},
+        },
+        [6746] = { -- Innkeeper Pala
+            [npcKeys.questStarts] = {3762,5926,8360,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {8360,8861,63448,63767,65284,65561,93823},
+        },
+        [6929] = { -- Innkeeper Gryshka
+            [npcKeys.questStarts] = {936,5927,6385,8359,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {6384,8359,63448,63767,65284,65561,93823},
         },
         [7315] = { -- Darnath Bladesinger
             [npcKeys.questStarts] = {1698,8417},
@@ -380,6 +404,10 @@ function QuestieTBCNpcFixes:Load()
         [16576] = { -- Overlord Hun Maimfist
             [npcKeys.questStarts] = {10388},
         },
+        [16618] = { -- Innkeeper Velandra
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+        },
         [16646] = { -- Alamma
             [npcKeys.questStarts] = {10605},
         },
@@ -430,7 +458,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [16739] = { -- Caregiver Breel
-            [npcKeys.questStarts] = {10520},
+            [npcKeys.questStarts] = {10520,63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
         },
         [16756] = { -- Caedmos
             [npcKeys.questStarts] = {},
@@ -608,6 +637,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [17613] = {
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{46.93,75.64}}},
+        },
+        [17630] = { -- Innkeeper Jovia
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
         },
         [17671] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -820,6 +853,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.name] = "Western Cannon",
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{54.79,53.33}}},
         },
+        [19046] = { -- Minalei
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+        },
         [19148] = { -- Dwarf Commoner
             [npcKeys.questStarts] = {11356,11441,11970},
         },
@@ -850,6 +887,10 @@ function QuestieTBCNpcFixes:Load()
         [19202] = { -- Emissary Mordin
             [npcKeys.questStarts] = {64997,64998,64999},
             [npcKeys.questEnds] = {11875,64997,64998,64999},
+        },
+        [19232] = { -- Innkeeper Haelthol
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
         },
         [19254] = { -- Warlord Dar'toon
             [npcKeys.questEnds] = {64063,64217},

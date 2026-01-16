@@ -5349,7 +5349,7 @@ function QuestieTBCQuestFixes:Load()
         -- Deluxe promotion quests
         [63448] = {
             [questKeys.name] = "A Deluxe Delivery",
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 70,
@@ -5361,7 +5361,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [63767] = {
             [questKeys.name] = "Imp in a Ball",
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 70,
@@ -5373,7 +5373,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [65284] = {
             [questKeys.name] = "Goblin Gumbo Kettle",
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 70,
@@ -5385,7 +5385,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [65561] = {
             [questKeys.name] = "Tabard of Flame",
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 70,
@@ -5397,7 +5397,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [93823] = {
             [questKeys.name] = "A Grand Delivery",
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 70,
