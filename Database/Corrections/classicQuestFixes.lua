@@ -229,6 +229,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
         },
         [403] = {
+            [questKeys.exclusiveTo] = {311}, -- #6998
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 310,
         },
