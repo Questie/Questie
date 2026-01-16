@@ -198,6 +198,9 @@ function QuestieQuestFixes:Load()
         [310] = {
             [questKeys.childQuests] = {308,403},
         },
+        [315] = {
+            [questKeys.nextQuestInChain] = 0,
+        },
         [349] = {
             [questKeys.objectivesText] = {},
         },
@@ -245,6 +248,7 @@ function QuestieQuestFixes:Load()
         },
         [415] = {
             [questKeys.breadcrumbForQuestId] = 413, -- #567
+            [questKeys.nextQuestInChain] = 0,
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
