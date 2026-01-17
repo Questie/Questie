@@ -305,11 +305,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.specialFlags] = 1,
         },
         [2881] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},
@@ -479,7 +478,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {1015,1019,1047},
         },
         [7484] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [7583] = {
             [questKeys.preQuestGroup] = {7581,7582},
@@ -687,7 +686,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {8579},
         },
         [8548] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8551] = {
             [questKeys.questLevel] = 42,
@@ -705,13 +704,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {8579},
         },
         [8572] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8573] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8574] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8592] = { -- Tiara of the Oracle
             [questKeys.preQuestSingle] = {8579},
@@ -1072,25 +1071,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9181] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9189] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF
         },
         [9190] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98}}}},
         },
         [9195] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9205] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9206] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9207] = {
             [questKeys.requiredMinRep] = {922,3000},
@@ -3265,7 +3264,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Apexis Monument. Apexis Guardian will spawn after six rounds"), 0, {{"object", 185944}}}},
         },
         [11060] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11063] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3712,7 +3711,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11531] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11532] = {
@@ -4547,7 +4546,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Costumed Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = 4224,
         },
         [12135] = {
@@ -4561,7 +4560,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.preQuestSingle] = {11360,11439,11440},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
             [questKeys.exclusiveTo] = {12133},
@@ -4577,7 +4576,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
             [questKeys.preQuestSingle] = {11361,11449,11450},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.questFlags] = 4224,
             [questKeys.exclusiveTo] = {12155},
@@ -4592,7 +4591,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Masked Orphan Matron.",},
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = 4224,
         },
         [12192] = {
@@ -4604,7 +4603,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
             [questKeys.zoneOrSort] = sortKeys.BREWFEST,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = 4096,
         },
         [12194] = {
@@ -5432,9 +5431,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ASHENVALE] = {{61.8,83.8}},
                 [zoneIDs.THE_EXODAR]={{26.6,50.1}},
             }},
-            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
             [questKeys.questFlags] = questFlags.RAID,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         -- Blood Elf Paladin Epic Mount quest
         [63866] = {
@@ -5810,7 +5809,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.HERBALISM,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{1077,250}},
         },
         [64998] = {
@@ -5828,7 +5827,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.MINING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{1077,250}},
         },
         [64999] = {
@@ -5846,8 +5845,33 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.SKINNING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{1077,250}},
+        },
+        ----- TBC Anniversary quests -----
+        [95455] = { -- Concerted Efforts
+            [questKeys.name] = "Concerted Efforts",
+            [questKeys.startedBy] = {{15351}},
+            [questKeys.finishedBy] = {{15351}},
+            [questKeys.requiredLevel] = 51,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {nil,nil,{{20560},{20559},{20558}}},
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [95457] = { -- For Great Honor
+            [questKeys.name] = "For Great Honor",
+            [questKeys.startedBy] = {{15350}},
+            [questKeys.finishedBy] = {{15350}},
+            [questKeys.requiredLevel] = 51,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {nil,nil,{{20560},{20559},{20558}}},
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
     }
 end

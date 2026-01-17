@@ -3787,6 +3787,7 @@ function QuestieQuestFixes:Load()
         },
         [8385] = { -- Concerted Efforts
             [questKeys.zoneOrSort] = sortKeys.IRONFORGE,
+            [questKeys.objectivesText] = {},
         },
         [8386] = { -- Fight for Warsong Gulch
             [questKeys.requiredMaxLevel] = 19,
