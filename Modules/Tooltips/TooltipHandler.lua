@@ -40,6 +40,12 @@ function _QuestieTooltips:AddUnitDataToTooltip()
             end
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
+    elseif (type == "Player") then
+        local type, serverid, playerid = strsplit("-", guid or "");
+        QuestieTooltips.lastGametooltipUnit = name
+        if Questie.devChars[serverid] and tContains(Questie.devChars[serverid], playerid) then
+            GameTooltip:AddLine("|T" .. "Interface\\AddOns\\Questie\\Icons\\questie.png" .. ":0|t " .. "|cnIQ5:Questie Developer|r")
+        end
     end
     lastGuid = guid;
     QuestieTooltips.lastGametooltipType = "monster";

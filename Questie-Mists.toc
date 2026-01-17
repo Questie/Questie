@@ -198,6 +198,7 @@ Modules\QuestLinks\Link.lua
 Modules\Tooltips\Tooltip.lua
 Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
+Modules\Tooltips\DeveloperList.lua
 
 # Auto
 Modules\Auto\AutoQuesting.lua
