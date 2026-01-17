@@ -563,8 +563,8 @@ local easternKingdomsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Cratera de Dalaran",
         ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "达拉然巨坑",
+        ["zhTW"] = "達拉然陷坑",
     },
 }
 
