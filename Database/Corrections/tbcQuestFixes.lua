@@ -1352,6 +1352,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9560,9562},
         },
+        [9570] = { -- The Kurken is Lurkin'
+            [questKeys.preQuestSingle] = {9565,9573},
+        },
         [9573] = {
             [questKeys.preQuestSingle] = {9560,9562},
         },
