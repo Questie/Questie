@@ -856,9 +856,6 @@ function CataQuestFixes.Load()
         [8335] = { -- Felendren the Banished
             [questKeys.startedBy] = {{15281}},
         },
-        [8347] = { -- Aiding the Outrunners
-            [questKeys.breadcrumbForQuestId] = 9704,
-        },
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Xandivious"),0,{{"monster", 15623}}}},
@@ -1285,9 +1282,6 @@ function CataQuestFixes.Load()
         },
         [9701] = { -- Observing the Sporelings
             [questKeys.breadcrumbs] = {9697},
-        },
-        [9704] = { -- Slain by the Wretched
-            [questKeys.breadcrumbs] = {8347},
         },
         [9729] = { -- Fhwoor Smash!
             [questKeys.requiredMinRep] = {970,42000},

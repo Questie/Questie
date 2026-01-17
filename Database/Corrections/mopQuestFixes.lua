@@ -248,17 +248,11 @@ function MopQuestFixes.Load()
         [7043] = { -- You're a Mean One...
             [questKeys.objectives] = {nil,nil,{{17662}},nil,{{{15664},15664,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [8327] = { -- Report to Lanthan Perilon
-            [questKeys.nextQuestInChain] = 0,
-        },
         [8328] = { -- Mage Training
             [questKeys.requiredLevel] = 2,
         },
         [8329] = { -- Warrior Training
             [questKeys.requiredLevel] = 2,
-        },
-        [8334] = { -- Aggression
-            [questKeys.preQuestSingle] = {8326},
         },
         [8345] = { -- The Shrine of Dath'Remar
             [questKeys.preQuestSingle] = {},

@@ -575,7 +575,8 @@ function QuestieTBCQuestFixes:Load()
         [8326] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [8327] = {
+        [8327] = { -- Report to Lanthan Perilon
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8328] = {
@@ -583,10 +584,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [8330] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10068,10069,10070,10071,10072,10073},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [8334] = {
+        [8334] = { -- Aggression
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.preQuestSingle] = {8326},
         },
         [8335] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -606,7 +609,8 @@ function QuestieTBCQuestFixes:Load()
         [8346] = { -- Thirst Unending
             [questKeys.objectives] = {nil,nil,nil,nil,{{{15294,15274},15274,"Mana Tap creature",Questie.ICON_TYPE_INTERACT}}},
         },
-        [8347] = {
+        [8347] = { -- Aiding the Outrunners
+            [questKeys.breadcrumbForQuestId] = 9704,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8353] = {
@@ -1027,6 +1031,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [8894] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [9035] = { -- Roadside Ambush
+            [questKeys.breadcrumbForQuestId] = 9062,
+        },
+        [9062] = { -- Soaked Pages
+            [questKeys.breadcrumbs] = {9035},
         },
         [9066] = {
             [questKeys.objectives] = {{{15945,nil,Questie.ICON_TYPE_INTERACT},{15941,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1489,7 +1499,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21}}}},
             [questKeys.requiredLevel] = 61,
         },
-        [9704] = {
+        [9704] = { -- Slain by the Wretched
+            [questKeys.breadcrumbs] = {8347},
             [questKeys.preQuestSingle] = {},
         },
         [9711] = {
@@ -1866,39 +1877,39 @@ function QuestieTBCQuestFixes:Load()
         },
         [10068] = {
             [questKeys.startedBy] = {{15279},nil,nil},
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.preQuestSingle] = {8328},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
         [10069] = {
             [questKeys.startedBy] = {{15280},nil,nil},
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.preQuestSingle] = {9676},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
         },
         [10070] = {
             [questKeys.startedBy] = {{15513},nil,nil},
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.preQuestSingle] = {9393},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.HUNTER,
         },
         [10071] = {
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.ROGUE,
         },
         [10072] = {
             [questKeys.startedBy] = {{15284},nil,nil},
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.preQuestSingle] = {8564},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PRIEST,
         },
         [10073] = {
-            [questKeys.exclusiveTo] = {8330},
+            [questKeys.breadcrumbForQuestId] = 8330,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
         },
