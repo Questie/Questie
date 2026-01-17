@@ -334,6 +334,9 @@ function CataNpcFixes.Load()
         [1959] = { -- Mountaineer Barleybrew
             [npcKeys.questStarts] = {414,26131},
         },
+        [2038] = { -- Lord Melenas
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{52.95,43.95}}},
+        },
         [2039] = { -- Ursal the Mauler
             [npcKeys.waypoints] = {},
         },
