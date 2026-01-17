@@ -1205,6 +1205,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10639] = "Champiñón jacinto",
 [10640] = "Icor Tejemadera",
 [10641] = "Lirio alunado",
+[10642] = "Antídoto de Iverron",
 [10643] = "Carta lacrada para Ag'tor",
 [10649] = "Fragmento de pesadilla",
 [10660] = "Primera tablilla Mosh'aru",

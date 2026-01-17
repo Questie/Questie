@@ -543,6 +543,9 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {},
             [questKeys.parentQuest] = 0,
         },
+        [917] = {
+            [questKeys.nextQuestInChain] = 920,
+        },
         [918] = {
             [questKeys.preQuestSingle] = {},
         },
