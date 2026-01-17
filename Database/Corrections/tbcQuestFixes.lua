@@ -603,8 +603,8 @@ function QuestieTBCQuestFixes:Load()
         [8345] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [8346] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{15294,15274},15274,"Mana Tap creature"}}},
+        [8346] = { -- Thirst Unending
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{15294,15274},15274,"Mana Tap creature",Questie.ICON_TYPE_INTERACT}}},
         },
         [8347] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
