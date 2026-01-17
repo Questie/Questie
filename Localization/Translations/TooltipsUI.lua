@@ -133,6 +133,18 @@ local tooltipsUILocales = {
         ["ruRU"] = "Выполнено:",
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
+    },
+    ["Questie Developer"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questie-Entwickler",
+        ["esES"] = "Desarrollador Questie",
+        ["esMX"] = "Desarrollador Questie",
+        ["frFR"] = "Développeur de Questie",
+        ["koKR"] = "퀘스티 개발자",
+        ["ptBR"] = "Desenvolvedor do Questie",
+        ["ruRU"] = "Разработчик Questie",
+        ["zhCN"] = "Questie 开发者",
+        ["zhTW"] = "Questie 開發者",
     }
 }
 
