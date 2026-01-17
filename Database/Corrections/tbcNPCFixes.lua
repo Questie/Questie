@@ -315,6 +315,8 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
                 [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
             },
+            [npcKeys.questStarts] = {8367,8388,11339,11340,11341,11342,95455},
+            [npcKeys.questEnds] = {8367,8388,11339,11340,11341,11342,95455},
         },
         [15351] = { -- Alliance Brigadier General
             [npcKeys.spawns] = {
@@ -324,8 +326,8 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.THE_EXODAR]={{24.55,55.42}},
                 [zoneIDs.STORMWIND_CITY]={{82.91,14.16}},
             },
-            [npcKeys.questStarts] = {8371,8385,11335,11336,11337,11338,64845},
-            [npcKeys.questEnds] = {8371,8385,11335,11336,11337,11338,64845},
+            [npcKeys.questStarts] = {8371,8385,11335,11336,11337,11338,64845,95455},
+            [npcKeys.questEnds] = {8371,8385,11335,11336,11337,11338,64845,95455},
         },
         [15493] = {
             [npcKeys.spawns] = {[3430]={{46.8,46.4}}},

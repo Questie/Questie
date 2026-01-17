@@ -28,6 +28,7 @@ function QuestieTBCQuestFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
+    local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
 
     return {

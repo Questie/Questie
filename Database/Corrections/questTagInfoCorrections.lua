@@ -409,7 +409,7 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [91786] = {294, l10n("Celestial")},
 
         -- TBC Anniversary quests
-        [95545] = {41, l10n("PvP")},
-        [95547] = {41, l10n("PvP")},
+        [95455] = {41, l10n("PvP")},
+        [95457] = {41, l10n("PvP")},
     }
 end

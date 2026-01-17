@@ -1282,6 +1282,10 @@ function QuestieQuestBlacklist:Load()
         [78225] = true, -- Boosted character quest
         [93823] = true, -- Boosted character quest
 
+        -- TBC Anniversary BG quests
+        [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+
         -- Paladin class quests with SWP patch
         [64319] = true, -- removed in wotlk
         [63866] = true, -- removed in wotlk
