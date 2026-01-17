@@ -315,8 +315,8 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
                 [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
             },
-            [npcKeys.questStarts] = {8367,8388,11339,11340,11341,11342,95455},
-            [npcKeys.questEnds] = {8367,8388,11339,11340,11341,11342,95455},
+            [npcKeys.questStarts] = {8367,8388,11339,11340,11341,11342,95457},
+            [npcKeys.questEnds] = {8367,8388,11339,11340,11341,11342,95457},
         },
         [15351] = { -- Alliance Brigadier General
             [npcKeys.spawns] = {
