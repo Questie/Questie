@@ -6,11 +6,15 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local lastRejectionMessages = {}
-local disallowedNPCs = {}
-local disallowedQuests = {
+AutoQuesting.private = AutoQuesting.private or {}
+AutoQuesting.private.disallowedNPCs = AutoQuesting.private.disallowedNPCs or {}
+AutoQuesting.private.disallowedQuests = AutoQuesting.private.disallowedQuests or {
     accept = {},
     turnIn = {}
 }
+
+local disallowedNPCs = AutoQuesting.private.disallowedNPCs
+local disallowedQuests = AutoQuesting.private.disallowedQuests
 
 local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
