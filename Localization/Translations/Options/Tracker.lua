@@ -340,7 +340,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "地下城时最小化",
         ["zhTW"] = "地下城中最小化",
     },
-    ["When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon."] = {
+    ["When this is checked, the Questie Tracker will automatically be minimized when a dungeon/raid/battleground."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
         ["esES"] = "Si está activado, el rastreador se minimizará automáticamente al entrar a una mazmorra.",
@@ -378,7 +378,7 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單隱藏。",
     },
     ---------------------------------------------------------
-    ["Hide In Dungeons"] = {
+    ["Hide In Instances"] = {
         ["enUS"] = true,
         ["deDE"] = "In Instanzen ausblenden",
         ["esES"] = "Ocultar en mazmorras",
@@ -390,7 +390,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在地下城中隐藏",
         ["zhTW"] = "在地下城中隱藏",
     },
-    ["When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon."] = {
+    ["When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon/raid/battleground."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar a una mazmorra.",

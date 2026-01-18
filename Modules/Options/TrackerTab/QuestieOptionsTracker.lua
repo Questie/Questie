@@ -450,7 +450,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 2,
                         width = 1.5,
                         name = function() return l10n("Minimize In Instances") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized when entering an dungeon/raid/battleground.") end,
+                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon/raid/battleground.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.minimizeTrackerInInstances end,
                         set = function(_, value)
