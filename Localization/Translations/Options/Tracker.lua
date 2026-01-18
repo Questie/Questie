@@ -328,7 +328,7 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單最小化。",
     },
     ---------------------------------------------------------
-    ["Minimize In Dungeons"] = {
+    ["Minimize In Instances"] = {
         ["enUS"] = true,
         ["deDE"] = "In Instanzen minimieren",
         ["esES"] = "Minimizar en mazmorras",
