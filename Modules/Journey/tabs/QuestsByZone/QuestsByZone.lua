@@ -51,7 +51,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         end
         -- if they clicked on a header, don't do anything
         local sel, questId = strsplit("\001", treePath[2]) -- treePath[2] looks like "a?1234" for an available quest with ID 1234
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u") and (not questId) then
+        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b") and (not questId) then
             return
         end
 
@@ -100,30 +100,35 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
     local zoneTree = {
         [1] = {
+            value = "b",
+            text = l10n('Breadcrumb Quests'),
+            children = {},
+        },
+        [2] = {
             value = "a",
             text = l10n('Available Quests'),
             children = {}
         },
-        [2] = {
+        [3] = {
             value = "p",
             text = l10n('Missing Pre Quest'),
             children = {}
         },
-        [3] = {
+        [4] = {
             value = "c",
             text = l10n('Completed Quests'),
             children = {}
         },
-        [4] = {
+        [5] = {
             value = "r",
             text = l10n('Repeatable Quests'),
             children = {},
         },
-        [5] = {
+        [6] = {
             value = "u",
             text = l10n('Unobtainable Quests'),
             children = {},
-        }
+        },
     }
     local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
 
@@ -132,6 +137,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local completedCounter = 0
     local unobtainableCounter = 0
     local repeatableCounter = 0
+    local breadcrumbCompleteCounter = 0
+    local breadcrumbCounter = 0
 
     local unobtainableQuestIds = {}
     local temp = {}
@@ -148,10 +155,21 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
             temp.value = questId
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
+            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+
+            -- Breadcrumb quests
+            if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                tinsert(zoneTree[1].children, temp)
+                breadcrumbCounter = breadcrumbCounter + 1
+            end
+
             -- Completed quests
             if Questie.db.char.complete[questId] then
-                tinsert(zoneTree[3].children, temp)
+                tinsert(zoneTree[4].children, temp)
                 completedCounter = completedCounter + 1
+                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                    breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
+                end
             else
                 local queryResult = QuestieDB.QueryQuest(
                         questId,
@@ -182,30 +200,30 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
                 if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
-                    tinsert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 -- The parent quest has been completed
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then
-                    tinsert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 -- Unobtainable reputation quests
                 elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[6].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- Profession specialization
                 elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
                     -- The pre Quest is unobtainable therefore this quest is it as well
                     if unobtainableQuestIds[preQuestSingle] ~= nil then
-                        tinsert(zoneTree[5].children, temp)
+                        tinsert(zoneTree[6].children, temp)
                         unobtainableQuestIds[questId] = true
                         unobtainableCounter = unobtainableCounter + 1
                     else
-                        tinsert(zoneTree[2].children, temp)
+                        tinsert(zoneTree[3].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Multiple pre Quests are missing
@@ -213,7 +231,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     local hasUnobtainablePreQuest = false
                     for _, preQuestId in pairs(preQuestGroup) do
                         if unobtainableQuestIds[preQuestId] ~= nil then
-                            tinsert(zoneTree[5].children, temp)
+                            tinsert(zoneTree[6].children, temp)
                             unobtainableQuestIds[questId] = true
                             unobtainableCounter = unobtainableCounter + 1
                             hasUnobtainablePreQuest = true
@@ -222,28 +240,28 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     end
 
                     if not hasUnobtainablePreQuest then
-                        tinsert(zoneTree[2].children, temp)
+                        tinsert(zoneTree[3].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Quests which you have outleveled
                 elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif QuestieDB.IsRepeatable(questId) then
-                    tinsert(zoneTree[4].children, temp)
+                    tinsert(zoneTree[5].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Quests which require you to HAVE learned a spell
                 elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Available quests
                 else
-                    tinsert(zoneTree[1].children, temp)
+                    tinsert(zoneTree[2].children, temp)
                     availableCounter = availableCounter + 1
                 end
             end
@@ -252,11 +270,18 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     end
 
     local totalCounter = availableCounter + completedCounter + prequestMissingCounter
-    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[2].text = zoneTree[2].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[3].text = zoneTree[3].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[4].text = zoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
-    zoneTree[5].text = zoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
+
+	if breadcrumbCounter and breadcrumbCounter >= 1 then
+       zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
+    else
+       zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCounter ..' ]'
+    end
+
+    zoneTree[2].text = zoneTree[2].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[3].text = zoneTree[3].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[5].text = zoneTree[5].text .. ' [ '..  repeatableCounter ..' ]'
+    zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
 
     zoneTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 

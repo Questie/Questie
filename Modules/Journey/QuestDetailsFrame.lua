@@ -74,6 +74,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(reputationRewardLabel)
     end
 
+    local completedStatus = Questie.db.char.complete[quest.Id] and Questie:Colorize(string.upper(YES), 'green') or Questie:Colorize(string.upper(NO), 'red')
+    local completedLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n('Completed') .. ': ', 'yellow') .. completedStatus, true)
+    container:AddChild(completedLabel)
+
     QuestieJourneyUtils:Spacer(container)
 
     local preQuestCounter, preQuestInlineGroup = _QuestieJourney:CreatePreQuestGroup(quest)

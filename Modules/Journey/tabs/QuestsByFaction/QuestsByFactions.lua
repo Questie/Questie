@@ -352,7 +352,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         end
 
         local sel, questId = strsplit("\001", treePath[2])
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u") and (not questId) then
+        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b") and (not questId) then
             return
         end
 
@@ -396,30 +396,35 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
     local factionTree = {
         [1] = {
+            value = "b",
+            text = l10n('Breadcrumb Quests'),
+            children = {},
+        },
+        [2] = {
             value = "a",
             text = l10n('Available Quests'),
             children = {}
         },
-        [2] = {
+        [3] = {
             value = "p",
             text = l10n('Missing Pre Quest'),
             children = {}
         },
-        [3] = {
+        [4] = {
             value = "c",
             text = l10n('Completed Quests'),
             children = {}
         },
-        [4] = {
+        [5] = {
             value = "r",
             text = l10n('Repeatable Quests'),
             children = {},
         },
-        [5] = {
+        [6] = {
             value = "u",
             text = l10n('Unobtainable Quests'),
             children = {},
-        }
+        },
     }
 
     local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
@@ -429,6 +434,8 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     local completedCounter = 0
     local unobtainableCounter = 0
     local repeatableCounter = 0
+    local breadcrumbCompleteCounter = 0
+    local breadcrumbCounter = 0
 
     local unobtainableQuestIds = {}
     local temp = {}
@@ -469,9 +476,20 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
             temp.text = questName
 
+            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+
+            -- Breadcrumb quests
+            if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                tinsert(factionTree[1].children, temp)
+                breadcrumbCounter = breadcrumbCounter + 1
+            end
+
             if Questie.db.char.complete[questId] then
-                tinsert(factionTree[3].children, temp)
+                tinsert(factionTree[4].children, temp)
                 completedCounter = completedCounter + 1
+                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                    breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
+                end
             else
                 local exclusiveTo = queryResult[1]
                 local nextQuestInChain = queryResult[2]
@@ -488,36 +506,36 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 if requiredSkill then
                     local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
                     if (not (hasProfession and hasSkillLevel)) then
-                        tinsert(factionTree[5].children, temp)
+                        tinsert(factionTree[6].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
                 elseif (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
-                    tinsert(factionTree[3].children, temp)
+                    tinsert(factionTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then
-                    tinsert(factionTree[3].children, temp)
+                    tinsert(factionTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
                     if unobtainableQuestIds[preQuestSingle] ~= nil then
-                        tinsert(factionTree[5].children, temp)
+                        tinsert(factionTree[6].children, temp)
                         unobtainableQuestIds[questId] = true
                         unobtainableCounter = unobtainableCounter + 1
                     else
-                        tinsert(factionTree[2].children, temp)
+                        tinsert(factionTree[3].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
                     local hasUnobtainablePreQuest = false
                     for _, preQuestId in pairs(preQuestGroup) do
                         if unobtainableQuestIds[preQuestId] ~= nil then
-                            tinsert(factionTree[5].children, temp)
+                            tinsert(factionTree[6].children, temp)
                             unobtainableQuestIds[questId] = true
                             unobtainableCounter = unobtainableCounter + 1
                             hasUnobtainablePreQuest = true
@@ -526,23 +544,23 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     end
 
                     if not hasUnobtainablePreQuest then
-                        tinsert(factionTree[2].children, temp)
+                        tinsert(factionTree[3].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif QuestieDB.IsRepeatable(questId) then
-                    tinsert(factionTree[4].children, temp)
+                    tinsert(factionTree[5].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 else
-                    tinsert(factionTree[1].children, temp)
+                    tinsert(factionTree[2].children, temp)
                     availableCounter = availableCounter + 1
                 end
             end
@@ -551,11 +569,18 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     end
 
     local totalCounter = availableCounter + completedCounter + prequestMissingCounter
-    factionTree[1].text = factionTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    factionTree[2].text = factionTree[2].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
-    factionTree[3].text = factionTree[3].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    factionTree[4].text = factionTree[4].text .. ' [ '..  repeatableCounter ..' ]'
-    factionTree[5].text = factionTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
+
+	if breadcrumbCounter and breadcrumbCounter >= 1 then
+       factionTree[1].text = factionTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
+    else
+       factionTree[1].text = factionTree[1].text .. ' [ '..  breadcrumbCounter ..' ]'
+    end
+
+    factionTree[2].text = factionTree[2].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
+    factionTree[3].text = factionTree[3].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
+    factionTree[4].text = factionTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
+    factionTree[5].text = factionTree[5].text .. ' [ '..  repeatableCounter ..' ]'
+    factionTree[6].text = factionTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
 
     factionTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 
