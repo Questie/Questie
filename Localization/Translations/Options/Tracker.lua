@@ -340,7 +340,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "地下城时最小化",
         ["zhTW"] = "地下城中最小化",
     },
-    ["If checked, the Questie Tracker will automatically be minimized when a dungeon/raid/battleground."] = {
+    ["If checked, the Questie Tracker will automatically be minimized when entering a dungeon/raid/battleground."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
         ["esES"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar a una mazmorra.",
