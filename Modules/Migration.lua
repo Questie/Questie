@@ -134,7 +134,7 @@ local migrationFunctions = {
             return
         end
 
-        -- Preserve previous dungeon hide preference for both new flags
+        -- Preserve previous dungeon hide preference for new flag
         local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
 
         Questie.db.profile.minimizeTrackerInCombat = false
@@ -221,6 +221,17 @@ local migrationFunctions = {
             Questie.db.global.dbIsCompiled = false
             Questie.db.global.titanReforged.dbIsCompiled = false
         end
+    end,
+    [38] = function()
+        -- Preserve previous dungeon hide & minimize preference for both new flags
+        local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
+        local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
+
+        Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
+        Questie.db.profile.hideTrackerInInstances = previousHideInInstances
+
+        Questie.db.profile.minimizeTrackerInDungeons = nil
+        Questie.db.profile.hideTrackerInDungeons = nil
     end,
 }
 
