@@ -668,6 +668,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [8476] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9359},
         },
         [8482] = {
             [questKeys.startedBy] = {nil,nil,{20765}},
@@ -677,6 +678,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [8487] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9254},
+            [questKeys.nextQuestInChain] = 8488,
         },
         [8488] = {
             [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1029,6 +1032,10 @@ function QuestieTBCQuestFixes:Load()
         [8887] = {
             [questKeys.startedBy] = {nil,nil,{21776}},
         },
+        [8892] = { -- Situation at Sunsail Anchorage
+            [questKeys.preQuestSingle] = {}, -- TO DO: double check
+            [questKeys.breadcrumbs] = {9256},
+        },
         [8894] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1108,6 +1115,15 @@ function QuestieTBCQuestFixes:Load()
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21}}}},
         },
+        [9252] = { -- Defending Fairbreeze Village
+            [questKeys.breadcrumbs] = {9358},
+        },
+        [9254] = { -- The Wayward Apprentice
+            [questKeys.breadcrumbForQuestId] = 8487,
+        },
+        [9256] = { -- Fairbreeze Village
+            [questKeys.breadcrumbForQuestId] = 8892,
+        },
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1174,8 +1190,11 @@ function QuestieTBCQuestFixes:Load()
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
-        [9358] = {
-            [questKeys.exclusiveTo] = {9252},
+        [9358] = { -- Ranger Sareyn
+            [questKeys.breadcrumbForQuestId] = 9252,
+        },
+        [9359] = { -- Farstrider Retreat
+            [questKeys.breadcrumbForQuestId] = 8476,
         },
         [9360] = {
             [questKeys.startedBy] = {nil,nil,{23249}},
@@ -1265,6 +1284,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17226,"Carinda's Scroll of Retribution used",Questie.ICON_TYPE_INTERACT}}},
         },
         [9484] = {
+            [questKeys.breadcrumbs] = {9617,10530}, -- check if 10529 need to be added
             [questKeys.triggerEnd] = {"Tame a Crazed Dragonhawk", {[zoneIDs.EVERSONG_WOODS]={{60.39,59.09},{61.23,65.08}}}},
         },
         [9485] = {
@@ -1406,6 +1426,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [9616] = {
             [questKeys.startedBy] = {nil,nil,{23910}},
+        },
+        [9617] = { -- Seek the Farstriders
+            [questKeys.startedBy] = {{3038,3171,3407,16673}},
+            [questKeys.breadcrumbForQuestId] = 9484,
         },
         [9618] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -2433,6 +2457,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10526] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Attempt to loot The Thunderspike"), 0, {{"object", 184729}}}},
+        },
+        [10530] = { -- The Hunter's Path
+            [questKeys.breadcrumbForQuestId] = 9484,
         },
         [10540] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, Questie.ICON_TYPE_EVENT, l10n("Walk with your Spirit Hunter")}},

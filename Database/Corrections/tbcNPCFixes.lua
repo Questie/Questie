@@ -66,6 +66,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {64049,64051,64053,64128,64217},
             [npcKeys.questEnds] = {64047,64049,64051,64053},
         },
+        [3038] = { -- Kary Thunderhorn
+            [npcKeys.questStarts] = {6065,6070,9617},
+        },
+        [3171] = { -- Thotar
+            [npcKeys.questStarts] = {6062,6067,6081,6082,6083,9617},
+            [npcKeys.questEnds] = {6062,6068,6069,6070,6082,6083},
+        },
         [3230] = { -- Nazgrel
             [npcKeys.questStarts] = {9400,9405,9438,9495,10121,10136,10390,10391,10392,10756,10876},
         },
@@ -97,6 +104,9 @@ function QuestieTBCNpcFixes:Load()
         [3406] = { -- Xor'juul
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {64046,64048,64050,64052},
+        },
+        [3407] = { -- Sian'dur
+            [npcKeys.questStarts] = {6068,9617},
         },
         [3516] = { -- Arch Druid Fandral Staghelm
             [npcKeys.questStarts] = {952,3764,3781,6761},
