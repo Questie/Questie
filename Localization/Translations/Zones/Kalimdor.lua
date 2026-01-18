@@ -398,6 +398,18 @@ local kalimdorLocales = {
         ["zhCN"] = "奥丹姆遗迹",
         ["zhTW"] = "奧丹姆廢墟",
     },
+    ["Red Cloud Mesa"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Hochwolkenebene",
+        ["esES"] = "Mesa de la Nube Roja",
+        ["esMX"] = "Mesa de la Nube Roja",
+        ["frFR"] = "Mesa de Nuage rouge",
+        ["koKR"] = "붉은구름 고원",
+        ["ptBR"] = "Chapada Nuvem Vermelha",
+        ["ruRU"] = "Плато Красного Облака",
+        ["zhCN"] = "红云台地",
+        ["zhTW"] = "紅雲台地",
+    },
 }
 
 for k, v in pairs(kalimdorLocales) do
