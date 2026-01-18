@@ -35,3 +35,4 @@ releases/
 cli/output
 
 WoW-API
+.vscode/settings.json
