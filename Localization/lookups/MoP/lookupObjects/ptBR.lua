@@ -290,6 +290,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [19534] = "Carta de Comenda de Anton",
 [19541] = "Ovos de Fundolimo",
 [19542] = "Ovos de Fundolimo",
+[19549] = "Poço Lunar de Umbravale",
 [19595] = "Guarnição do Guarda-pórtico",
 [19596] = "Esconderijo do Adormecido",
 [19597] = "Esconderijo do Druida",
