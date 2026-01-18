@@ -1,5 +1,7 @@
 dofile("setupTests.lua")
 dofile("Database/questDB.lua")
+dofile("Database/itemDB.lua")
+dofile("Database/npcDB.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -20,9 +22,11 @@ describe("QuestieDB", function()
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        QuestieCorrections.questItemBlacklist = {}
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
+        QuestieDB.private.itemCache = {}
         dofile("Localization/l10n.lua")
         dofile("Database/Corrections/questTagInfoCorrections.lua")
         QuestieDB.private.InitializeQuestTagInfoCorrections()
@@ -31,7 +35,7 @@ describe("QuestieDB", function()
         testQuest = {
             [questKeys.name] = "Test Quest",
             [questKeys.startedBy] = {{100, 200}},
-            [questKeys.finishedBy] =  {{300, 400}},
+            [questKeys.finishedBy] = {{300, 400}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE,
@@ -66,7 +70,39 @@ describe("QuestieDB", function()
             assert.are.same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
             assert.are.same("Finish him!", quest.Description)
 
-            assert.are.same({{Type="monster",Id=1000}}, quest.ObjectiveData)
+            assert.are.same({{Type = "monster", Id = 1000}}, quest.ObjectiveData)
+        end)
+    end)
+
+    describe("GetItem", function()
+        it("should add vendors when they are friendly", function()
+            QuestiePlayer.faction = "Alliance"
+            local itemKeys = QuestieDB.itemKeys
+            QuestieDB.QueryItem = spy.new(function() return {[itemKeys.name] = "Test NPC", [itemKeys.vendors] = {555}} end)
+            QuestieDB.QueryNPCSingle = spy.new(function() return "A" end)
+
+            local item = QuestieDB:GetItem(12345)
+
+            assert.are_same(12345, item.Id)
+            assert.is_nil(item.Hidden)
+            assert.are_same({555}, item.vendors)
+            assert.are_same("Test NPC", item.name)
+            assert.are_same({{Id = 555, Type = "monster"}}, item.Sources)
+        end)
+
+        it("should not add vendors when they are hostile", function()
+            QuestiePlayer.faction = "Alliance"
+            local itemKeys = QuestieDB.itemKeys
+            QuestieDB.QueryItem = spy.new(function() return {[itemKeys.name] = "Test NPC", [itemKeys.vendors] = {555}} end)
+            QuestieDB.QueryNPCSingle = spy.new(function() return "H" end)
+
+            local item = QuestieDB:GetItem(12345)
+
+            assert.are_same(12345, item.Id)
+            assert.is_nil(item.Hidden)
+            assert.are_same({555}, item.vendors)
+            assert.are_same("Test NPC", item.name)
+            assert.are_same({}, item.Sources)
         end)
     end)
 
@@ -201,29 +237,29 @@ describe("QuestieDB", function()
         end)
 
         it("should return true for fulfilled preQuestGroup", function()
-            Questie.db.char.complete = {[1]=true, [2]=true, [3]=true}
+            Questie.db.char.complete = {[1] = true, [2] = true, [3] = true}
             assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
 
         it("should return false for unfulfilled preQuestGroup without an exclusiveTo quest", function()
-            Questie.db.char.complete = {[1]=true, [2]=true}
+            Questie.db.char.complete = {[1] = true, [2] = true}
             QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
             assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
 
         it("should return true for unfulfilled preQuestGroup when an exclusiveTo quest is fulfilled", function()
-            Questie.db.char.complete = {[1]=true, [2]=true, [4]=true}
+            Questie.db.char.complete = {[1] = true, [2] = true, [4] = true}
             QuestieDB.QueryQuestSingle = spy.new(function() return {4} end)
             assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
 
         it("should return false for unfulfilled preQuestGroup when ID is negative and exclusiveTo is not checked", function()
-            Questie.db.char.complete = {[1]=true, [2]=true}
+            Questie.db.char.complete = {[1] = true, [2] = true}
             assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, -2, -3}))
         end)
 
         it("should return true for fulfilled preQuestGroup when ID is negative", function()
-            Questie.db.char.complete = {[1]=true, [2]=true}
+            Questie.db.char.complete = {[1] = true, [2] = true}
             assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, -2}))
         end)
     end)
@@ -238,12 +274,12 @@ describe("QuestieDB", function()
         end)
 
         it("should return true for fulfilled preQuestSingle", function()
-            Questie.db.char.complete = {[1]=true}
+            Questie.db.char.complete = {[1] = true}
             assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({1}))
         end)
 
         it("should return false for unfulfilled preQuestSingle", function()
-            Questie.db.char.complete = {[2]=true}
+            Questie.db.char.complete = {[2] = true}
             assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
         end)
     end)
