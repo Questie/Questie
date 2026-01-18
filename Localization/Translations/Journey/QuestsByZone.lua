@@ -171,6 +171,7 @@ local questsByZoneLocales = {
         ["zhTW"] = "前置任務",
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
     ["Breadcrumb Quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Brotkrumen-Quests",
@@ -184,16 +185,19 @@ local questsByZoneLocales = {
         ["zhTW"] = "任務線索",
 =======
     ["All Zones"] = {
-        ["enUS"] = "All Zones",
-        ["deDE"] = "Alle Zonen",
-        ["esES"] = "Todas las zonas",
-        ["esMX"] = "Todas las zonas",
-        ["frFR"] = "Toutes les zones",
-        ["koKR"] = "모든 지역",
-        ["ptBR"] = "Todas as zonas",
-        ["ruRU"] = "Все зоны",
-        ["zhCN"] = "所有区域",
-        ["zhTW"] = "所有區域",
+=======
+    ["All Quests"] = {
+>>>>>>> dc86b85c0 (Update QuestsByZone.lua)
+        ["enUS"] = true,
+        ["deDE"] = "Alle Quests",
+        ["esES"] = "Todas las misiones",
+        ["esMX"] = "Todas las misiones",
+        ["frFR"] = "Toutes les quêtes",
+        ["koKR"] = "모든 퀘스트",
+        ["ptBR"] = "Todas as missões",
+        ["ruRU"] = "Все задания",
+        ["zhCN"] = "所有任务",
+        ["zhTW"] = "所有任務",
     },
     ["Breadcrumb Quests"] = {
         ["enUS"] = true,

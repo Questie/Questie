@@ -59,8 +59,8 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     container:AddChild(treegroup)
 
     -- This needs to happen after all children are added, otherwise it will be shown again
-    if _QuestieJourney.lastZoneSelection[1] == "ALL_ZONES" then
-        contDropdown:SetValue("ALL_ZONES")
+    if _QuestieJourney.lastZoneSelection[1] == "ALL_QUESTS" then
+        contDropdown:SetValue("ALL_QUESTS")
         _HandleAllZonesSelection()
     elseif selectedContinentId == QuestieJourney.questCategoryKeys.CLASS then
         local classKey = QuestieDB:GetZoneOrSortForClass(playerClass)
@@ -73,13 +73,13 @@ end
 _CreateContinentDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
     local list = {
-        ["ALL_ZONES"] = l10n("All Zones"),
+        ["ALL_QUESTS"] = l10n("All Quests"),
         ["_SEPARATOR"] = "|cff7f7f7f----------------|r"
     }
     for id, name in pairs(QuestieJourney.continents) do
         list[id] = name
     end
-    local order = { "ALL_ZONES", "_SEPARATOR" }
+    local order = { "ALL_QUESTS", "_SEPARATOR" }
     local sortedContinents = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.continents)
     for _, key in ipairs(sortedContinents) do
         table.insert(order, key)
@@ -160,10 +160,10 @@ _HandleAllZonesSelection = function()
             allQuestIds[questId] = true
         end
     end
-    -- add all quest IDs from profession quests
-    local professionIds = zoneMap[QuestieJourney.questCategoryKeys.PROFESSIONS]
-    if professionIds then
-        for profId in pairs(professionIds) do
+    -- add all quest IDs from profession quests (all professions, not just player's)
+    local professionList = QuestieJourney.zones[QuestieJourney.questCategoryKeys.PROFESSIONS]
+    if professionList then
+        for profId, _ in pairs(professionList) do
             local profQuests = zoneMap[profId]
             if profQuests then
                 for questId in pairs(profQuests) do
@@ -187,7 +187,7 @@ _HandleAllZonesSelection = function()
 
     zoneDropdown.frame:Hide()
 
-    _QuestieJourney.lastZoneSelection[1] = "ALL_ZONES"
+    _QuestieJourney.lastZoneSelection[1] = "ALL_QUESTS"
     _QuestieJourney.lastZoneSelection[2] = RESET
     _QuestieJourney.lastZoneSelection[3] = nil
 end
@@ -197,7 +197,7 @@ _HandleContinentSelection = function(key, _)
         contDropdown:SetValue(_QuestieJourney.lastZoneSelection[1] or selectedContinentId)
         return
     end
-    if (key.value == "ALL_ZONES") then
+    if (key.value == "ALL_QUESTS") then
         _HandleAllZonesSelection()
         return
     end
