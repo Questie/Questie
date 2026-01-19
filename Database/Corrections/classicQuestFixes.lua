@@ -571,6 +571,9 @@ function QuestieQuestFixes:Load()
         [936] = {
             [questKeys.breadcrumbForQuestId] = 3761,
         },
+        [937] = {
+            [questKeys.nextQuestInChain] = 940,
+        },
         [938] = {
             [questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak", {[zoneIDs.TELDRASSIL]={{38.33,34.39}}}},
         },
