@@ -6,7 +6,8 @@ from scrapy import signals
 from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
 from quest.factions_ignore import FACTIONS_IGNORE_LIST
-from quest.retail_quest_ids import RETAIL_QUEST_IDS
+from quest.quest_ids_retail import QUEST_IDS_RETAIL
+from quest.quest_ids_tbc import QUEST_IDS_TBC
 
 
 def get_wowhead_url(expansion: str) -> str:
@@ -18,6 +19,15 @@ def get_wowhead_url(expansion: str) -> str:
         return "https://www.wowhead.com/{exp}/quest={{}}".format(exp=expansion)
 
 
+def get_quest_ids(expansion: str) -> list[int]:
+    if expansion == "retail":
+        return QUEST_IDS_RETAIL
+    elif expansion == "tbc":
+        return QUEST_IDS_TBC
+    else:
+        return QUEST_IDS
+
+
 class QuestSpider(scrapy.Spider):
     name = "quest"
 
@@ -26,7 +36,8 @@ class QuestSpider(scrapy.Spider):
     def __init__(self, expansion: str) -> None:
         super().__init__()
         self.base_url = get_wowhead_url(expansion)
-        self.start_urls = [self.base_url.format(quest_id) for quest_id in QUEST_IDS]
+        quest_ids = get_quest_ids(expansion)
+        self.start_urls = [self.base_url.format(quest_id) for quest_id in quest_ids]
 
     def parse(self, response):
         # debug the response
@@ -134,7 +145,9 @@ class QuestSpider(scrapy.Spider):
             # if we already have the same reputation reward from the same faction, ignore it
             if any(item[0] == reward[0] for item in normalized_reputations):
                 existing_reward = next(item for item in normalized_reputations if item[0] == reward[0])
-                logging.info("Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward, reward2=existing_reward))
+                logging.info(
+                    "Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward,
+                                                                                                                                               reward2=existing_reward))
             else:
                 normalized_reputations.append(reward)
 

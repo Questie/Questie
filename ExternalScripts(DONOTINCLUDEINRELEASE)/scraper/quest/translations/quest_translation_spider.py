@@ -1,7 +1,8 @@
 import logging
 import re
 from scrapy import signals, Spider
-from quest.retail_quest_ids import RETAIL_QUEST_IDS
+
+from quest.quest_ids_retail import QUEST_IDS_RETAIL
 from quest.translations.quest_translation_formatter import QuestTranslationFormatter
 from quest.translations.quest_translation_move_to_lookups import main as move_to_lookups
 from supported_locales import LOCALES
@@ -17,7 +18,7 @@ class QuestTranslationSpider(Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        self.start_urls = [url.format(quest_id) for quest_id in RETAIL_QUEST_IDS for url in self.base_urls]
+        self.start_urls = [url.format(quest_id) for quest_id in QUEST_IDS_RETAIL for url in self.base_urls]
 
     def parse(self, response):
         locale = re.search(r'/([a-z]{2})/quest', response.url).group(1)
