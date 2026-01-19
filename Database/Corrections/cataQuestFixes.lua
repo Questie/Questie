@@ -1249,13 +1249,13 @@ function CataQuestFixes.Load()
         },
         [9625] = { -- Elekks Are Serious Business
             [questKeys.exclusiveTo] = {28559},
-            [questKeys.nextQuestInChain] = 9634,
+            [questKeys.breadcrumbForQuestId] = 9634, -- TO DO: check if "fake" breadcrumb
         },
         [9626] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
         [9634] = { -- Alien Predators
-            [questKeys.breadcrumbs] = {9625,28559},
+            [questKeys.breadcrumbs] = {9625,28559}, -- TO DO: check if "fake" breadcrumb 9625
         },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN_MASTERS_TERRACE]={{45.92,90.39}},[zoneIDs.KARAZHAN]={{-1,-1}}}},

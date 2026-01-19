@@ -1503,7 +1503,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [9625] = { -- Elekks Are Serious Business
-            [questKeys.breadcrumbForQuestId] = 9634,
+            [questKeys.nextQuestInChain] = 0,
         },
         [9629] = {
             [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1513,7 +1513,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {9625},
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
