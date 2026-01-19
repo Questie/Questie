@@ -8,7 +8,7 @@ from object.object_ids_complete import OBJECT_IDS_COMPLETE
 
 class ObjectZoneIdSpider(scrapy.Spider):
     name = "object_zone_id"
-    base_url = "https://www.wowhead.com/classic/objects={}"
+    base_url = "https://www.wowhead.com/classic/object={}"
     exp = ""
 
     start_urls = []
@@ -33,7 +33,7 @@ class ObjectZoneIdSpider(scrapy.Spider):
             case _: # If number is unknown, treat it as classic
                 self.exp = "classic/"
 
-        self.base_url = "https://www.wowhead.com/" + self.exp + "objects={}"
+        self.base_url = "https://www.wowhead.com/" + self.exp + "object={}"
         self.start_urls = [self.base_url.format(object_id) for object_id in OBJECT_IDS_COMPLETE]
 
     def parse(self, response):

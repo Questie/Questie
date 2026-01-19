@@ -309,7 +309,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     elseif objective.Needed then
                         if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
                             local dropRate = ""
-                            if QuestieTBCItemDrops.data[objectiveId][npcId] then
+                            if QuestieTBCItemDrops.data and QuestieTBCItemDrops.data[objectiveId] and QuestieTBCItemDrops.data[objectiveId][npcId] then
                                 dropRate = " |cFF999999(" .. QuestieTBCItemDrops.data[objectiveId][npcId] .. "%)"
                             end
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRate;

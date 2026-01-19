@@ -29,6 +29,7 @@ class ItemDropSpider(scrapy.Spider):
             case _: # If number is unknown, treat it as classic
                 base_url = "https://www.wowhead.com/classic/item={}"
 
+        print(base_url)
         self.start_urls = [base_url.format(item_id) for item_id in ITEM_IDS]
 
     def parse(self, response):
