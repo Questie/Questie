@@ -1403,8 +1403,9 @@ function QuestieTBCQuestFixes:Load()
         [9523] = {
             [questKeys.preQuestSingle] = {9506,9512},
         },
-        [9527] = {
+        [9527] = { -- All That Remains
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10428},
         },
         [9528] = {
             [questKeys.triggerEnd] = {"Magwin Escorted to Safety", {[zoneIDs.AZUREMYST_ISLE]={{16.38,94.14}}}},
@@ -1501,11 +1502,18 @@ function QuestieTBCQuestFixes:Load()
         [9619] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [9625] = { -- Elekks Are Serious Business
+            [questKeys.breadcrumbForQuestId] = 9634,
+        },
         [9629] = {
             [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9630] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9634] = { -- Alien Predators
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9625},
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
@@ -2375,6 +2383,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10427] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [10428] = { -- The Missing Fisherman
+            [questKeys.breadcrumbForQuestId] = 9527,
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},

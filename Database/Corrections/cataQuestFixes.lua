@@ -1250,13 +1250,11 @@ function CataQuestFixes.Load()
         [9625] = { -- Elekks Are Serious Business
             [questKeys.exclusiveTo] = {28559},
             [questKeys.nextQuestInChain] = 9634,
-            [questKeys.breadcrumbForQuestId] = 9634,
         },
         [9626] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
         [9634] = { -- Alien Predators
-            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9625,28559},
         },
         [9645] = {
