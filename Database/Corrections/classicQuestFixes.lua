@@ -5178,28 +5178,31 @@ function QuestieQuestFixes:LoadFactionFixes()
 
     local questFixesHorde = {
         [687] = {
-            [questKeys.startedBy] = {{2787},nil,nil}
+            [questKeys.startedBy] = {{2787},nil,nil},
         },
         [737] = {
-            [questKeys.startedBy] = {{2934},nil,nil}
+            [questKeys.startedBy] = {{2934},nil,nil},
         },
         [1718] = {
-            [questKeys.startedBy] = {{3041,3354,4595},nil,nil}
+            [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
         },
         [1947] = {
-            [questKeys.startedBy] = {{3048,4568,5885},nil,nil}
+            [questKeys.startedBy] = {{3048,4568,5885},nil,nil},
         },
         [1953] = {
-            [questKeys.startedBy] = {{3048,4568,5885},nil,nil}
+            [questKeys.startedBy] = {{3048,4568,5885},nil,nil},
         },
         [2861] = {
-            [questKeys.startedBy] = {{4568,5885},nil,nil}
+            [questKeys.startedBy] = {{4568,5885},nil,nil},
+        },
+        [3741] = {
+            [questKeys.reputationReward] = {}, -- doable as horde, but no SW reputation for horde side
         },
         [5050] = {
-            [questKeys.startedBy] = {{8403},nil,nil}
+            [questKeys.startedBy] = {{8403},nil,nil},
         },
         [6681] = {
-            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}} -- #7244
+            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815},nil,nil},
@@ -5209,7 +5212,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{6018},nil,nil},
         },
         [8904] = {
-            [questKeys.exclusiveTo] = {8900,8901,8902,8979}
+            [questKeys.exclusiveTo] = {8900,8901,8902,8979},
         },
         [9388] = {
             [questKeys.startedBy] = {{16818},nil,nil},
@@ -5221,28 +5224,28 @@ function QuestieQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [687] = {
-            [questKeys.startedBy] = {{2786},nil,nil}
+            [questKeys.startedBy] = {{2786},nil,nil},
         },
         [737] = {
-            [questKeys.startedBy] = {{2786},nil,nil}
+            [questKeys.startedBy] = {{2786},nil,nil},
         },
         [1718] = {
-            [questKeys.startedBy] = {{5113,5479},nil,nil}
+            [questKeys.startedBy] = {{5113,5479},nil,nil},
         },
         [1947] = {
-            [questKeys.startedBy] = {{5144,5497},nil,nil}
+            [questKeys.startedBy] = {{5144,5497},nil,nil},
         },
         [1953] = {
-            [questKeys.startedBy] = {{5144,5497},nil,nil}
+            [questKeys.startedBy] = {{5144,5497},nil,nil},
         },
         [2861] = {
-            [questKeys.startedBy] = {{5144,5497},nil,nil}
+            [questKeys.startedBy] = {{5144,5497},nil,nil},
         },
         [5050] = {
-            [questKeys.startedBy] = {{3520},nil,nil}
+            [questKeys.startedBy] = {{3520},nil,nil},
         },
         [6681] = {
-            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}} -- #7244
+            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},
