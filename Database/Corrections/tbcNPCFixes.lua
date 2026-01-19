@@ -23,8 +23,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184,6681},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,5645,5676,64031,64034,64035,64037,64038},
-            [npcKeys.questEnds] = {5640,5678,64028,64031,64034,64035},
+            [npcKeys.questStarts] = {5634,5645,5673,5676,64031,64034,64035,64037,64038},
+            [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5676,5677,5678,64028,64031,64034,64035},
         },
         [461] = { -- Demisette Cloyce
             [npcKeys.questStarts] = {4488,4738,4968,8419},
@@ -68,6 +68,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [3038] = { -- Kary Thunderhorn
             [npcKeys.questStarts] = {6065,6070,9617},
+        },
+        [3066] = { -- Narm Skychaser
+            [npcKeys.questStarts] = {2984,2986},
         },
         [3171] = { -- Thotar
             [npcKeys.questStarts] = {6062,6067,6081,6082,6083,9617},
@@ -158,6 +161,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [4606] = { -- Aelthalyste
             [npcKeys.questStarts] = {5643,5657,5658,5679,10379},
+            [npcKeys.questEnds] = {5660,5661,5663,5644,5646,5662,5679,5658,10379},
         },
         [4947] = { -- Theramore Lieutenant
             [npcKeys.questStarts] = {},
@@ -224,12 +228,25 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {1944,1945,1947,2861,64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {1943,1944,64046,64048,64050,64052},
         },
+        [5901] = { -- Islen Waterseer
+            [npcKeys.questEnds] = {96,220,972,1528,1529,2985,2986,5158},
+        },
         [5994] = { -- Zayus
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
+        [6018] = { -- Ur\'kyo
+            [npcKeys.questEnds] = {5642,5643,5680,5652,5654,5656,5657},
+        },
         [6072] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.95,84.67},{78.8,82.4},{77.8,83.6},{78.6,85.6}}},
+        },
+        [6166] = { -- Yorus Barleybrew
+            [npcKeys.questEnds] = {1698,1699,10371},
+        },
+        [6176] = { -- Bath\'rah the Windwatcher
+            [npcKeys.questStarts] = {1712,1713,1792,8411,8412,8413},
+            [npcKeys.questEnds] = {1712,1713,1791,1792,8410,8411,8412,8413},
         },
         [6179] = { -- Tiza Battleforge
             [npcKeys.questStarts] = {1645,1647,1779,1789,1794},
@@ -284,6 +301,12 @@ function QuestieTBCNpcFixes:Load()
         [10540] = { -- Vol'jin
             [npcKeys.questStarts] = {1361},
         },
+        [10837] = { -- High Executor Derrington
+            [npcKeys.questEnds] = {105,5093,5094,5095,5096,5098,5238,5511,10374},
+        },
+        [10838] = { -- Commander Ashlam Valorfist
+            [npcKeys.questEnds] = {211,5066,5090,5091,5092,5097,5237,8415,8416,8418,10373},
+        },
         [10839] = { -- Argent Officer Garush
             [npcKeys.questStarts] = {5402,5403,5406,5503},
         },
@@ -292,6 +315,12 @@ function QuestieTBCNpcFixes:Load()
         },
         [11036] = { -- Leonid Barthalomew the Revered
             [npcKeys.questEnds] = {5243,5462,5464,5522,64037,64064,64128},
+        },
+        [11397] = { -- Nara Meideros
+            [npcKeys.questStarts] = {5632,5638},
+        },
+        [11401] = { -- Priestess Alathea
+            [npcKeys.questEnds] = {5630,5631,5672,5673,5628,5629,5675},
         },
         [11943] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{51,41}}},
@@ -304,12 +333,19 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {64028,64031,64034,64035},
         },
+        [13417] = { -- Sagorne Creststrider
+            [npcKeys.questStarts] = {7061,7667,7668,7669,8258,8259,8410},
+            [npcKeys.questEnds] = {6964,7667,7668,7669,8258,8259},
+        },
         [13437] = { -- Wing Commander Ichman
             [npcKeys.questStarts] = {6943},
         },
         [14725] = { -- Raedon Duskstriker
             [npcKeys.questStarts] = {7799,7800,7801,10352,10354},
             [npcKeys.questEnds] = {7799,7800,7801,10352,10354},
+        },
+        [14733] = { -- Sentinel Farsong
+            [npcKeys.questEnds] = {9521,7887,8289,7888,7921,7886},
         },
         [15279] = { -- Julia Sunstriker
             [npcKeys.questStarts] = {10068},
@@ -345,6 +381,13 @@ function QuestieTBCNpcFixes:Load()
         [15493] = {
             [npcKeys.spawns] = {[3430]={{46.8,46.4}}},
         },
+        [15502] = { -- Andorgos
+            [npcKeys.questStarts] = {8544,8561,8592,8594,8602,8623,8625,8628,8630,8632,8639,8641,8657,8659,8662,8664,8667,8669},
+        },
+        [15503] = { -- Kandrostrasz
+            [npcKeys.questStarts] = {8559,8560,8579,8593,8595,8596,8621,8624,8626,8629,8631,8634,8637,8640,8655,8658,8660,8663,8665,8668},
+            [npcKeys.questEnds] = {8559,8560,8579,8593,8595,8596,8621,8624,8626,8629,8631,8634,8637,8640,8655,8658,8660,8663,8665,8668},
+        },
         [15513] = { -- Ranger Sallina
             [npcKeys.questStarts] = {10070},
         },
@@ -374,6 +417,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [15967] = {
             [npcKeys.waypoints] = {},
+        },
+        [16108] = { -- Fenstad Argyle
+            [npcKeys.questStarts] = {8904,8979,8982,11558},
+            [npcKeys.questEnds] = {8904,8980,11558},
         },
         [16206] = {
             [npcKeys.waypoints] = {},
@@ -487,6 +534,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [16756] = { -- Caedmos
             [npcKeys.questStarts] = {},
+        },
+        [16771] = { -- Ahonan
+            [npcKeys.questStarts] = {10371},
         },
         [16807] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -1595,6 +1645,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [27489] = { -- Ray'ma
             [npcKeys.questEnds] = {12306,12421},
+        },
+        [28126] = { -- Don Carlos
+            [npcKeys.questStarts] = {12513,12515},
+            [npcKeys.questEnds] = {12513,12515},
         },
         [178420] = {
             [npcKeys.name] = "Magister Astalor Bloodsworn",
