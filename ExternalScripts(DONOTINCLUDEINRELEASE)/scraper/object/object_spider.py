@@ -5,22 +5,32 @@ from scrapy import signals
 from match_dungeon_spawns import match_dungeon_spawns
 from object.object_formatter import ObjectFormatter
 from object.object_ids import OBJECT_IDS
-from object.retail_object_ids import RETAIL_OBJECT_IDS
 
 
 class ObjectSpider(scrapy.Spider):
     name = "object"
-    base_url_classic = "https://www.wowhead.com/classic/object={}"
-    base_url_retail = "https://www.wowhead.com/object={}"
-
     start_urls = []
 
-    def __init__(self, run_for_retail: bool) -> None:
+    def __init__(self, expansion: int) -> None:
         super().__init__()
-        if run_for_retail:
-            self.start_urls = [self.base_url_retail.format(item_id) for item_id in RETAIL_OBJECT_IDS]
-        else:
-            self.start_urls = [self.base_url_classic.format(item_id) for item_id in OBJECT_IDS]
+
+        match expansion:
+            case 0:
+                base_url = "https://www.wowhead.com/object={}"
+            case 1:
+                base_url = "https://www.wowhead.com/classic/object={}"
+            case 2:
+                base_url = "https://www.wowhead.com/tbc/object={}"
+            case 3:
+                base_url = "https://www.wowhead.com/wotlk/object={}"
+            case 4:
+                base_url = "https://www.wowhead.com/cata/object={}"
+            case 5:
+                base_url = "https://www.wowhead.com/mop-classic/object={}"
+            case _: # If number is unknown, treat it as classic
+                base_url = "https://www.wowhead.com/classic/object={}"
+
+        self.start_urls = [base_url.format(item_id) for item_id in OBJECT_IDS]
 
     def parse(self, response):
         result = {}
