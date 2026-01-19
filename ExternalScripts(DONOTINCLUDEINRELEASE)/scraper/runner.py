@@ -5,6 +5,7 @@ from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 
 from item.item_spider import ItemSpider
+from item_drop.item_drop_spider import ItemDropSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
 from npc.translations.npc_translation_spider import NPCTranslationSpider
@@ -72,6 +73,13 @@ class Runner:
         process.crawl(ItemSpider)
         process.start()
 
+    def run_item_drops(self) -> None:
+        Path("item_drop/item_drop_data.json").unlink(missing_ok=True)
+        settings = {**BASE_SETTINGS, "FEED_URI": "item_drop/item_drop_data.json"}
+        process = CrawlerProcess(settings=settings)
+        process.crawl(ItemDropSpider)
+        process.start()
+
     def run_object(self, run_for_retail: bool) -> None:
         Path("object/object_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "object/object_data.json"}
@@ -120,6 +128,7 @@ if __name__ == '__main__':
     parser.add_argument("--npc", help="Run npc spider", action="store_true")
     parser.add_argument("--npc-zone", help="Run npc zone IDs spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
+    parser.add_argument("--item-drops", help="Run item drops spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
     parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
     parser.add_argument("--item-translations", help="Run item translation spider", action="store_true")
@@ -130,7 +139,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations) and (not args.quest_translations):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.item_drops) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations) and (not args.quest_translations):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -155,6 +164,9 @@ if __name__ == '__main__':
     if args.item:
         print("Running item spider")
         runner.run_item()
+    if args.item_drops:
+        print("Running item spider")
+        runner.run_item_drops()
     if args.object:
         print("Running object spider")
         runner.run_object(run_for_retail)

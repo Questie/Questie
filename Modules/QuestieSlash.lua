@@ -263,6 +263,85 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
+    if mainCommand == "itemdrop" then
+
+        local function contains(table, val)
+            for i=1,#table do
+                if table[i] == val then
+                    return true
+                end
+            end
+            return false
+        end
+
+        local data = {}
+        for i=1,13000 do
+            --print("Querying DB for Quest " .. i)
+            local obj = QuestieDB.QueryQuestSingle(i, "objectives")
+            if obj then
+                if obj[3] then
+                    for x=1,10 do
+                        if obj[3][x] then
+                            local item = obj[3][x][1]
+                            if item ~= nil then
+                                if contains(data,item) == false then
+                                    --print("Adding item " .. i .. " to the list")
+                                    table.insert(data,item)
+                                else
+                                    print("Duplicate found: " .. item)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        --DevTools_Dump(data)
+        local output = ""
+        for i, id in pairs(data) do
+            --if i < 10 then
+                output = output .. id .. ","
+            --end
+        end
+        DevTools_Dump(output)
+
+        StaticPopupDialogs["QUESTIE_ITEMDROPOUTPUT"] = {
+            text = "Questie Item Drop Output",
+            button2 = CLOSE,
+            hasEditBox = true,
+            editBoxWidth = 280,
+
+            EditBoxOnEnterPressed = function(self)
+                self:GetParent():Hide()
+            end,
+
+            EditBoxOnEscapePressed = function(self)
+                self:GetParent():Hide()
+            end,
+
+            OnShow = function(self)
+                --print("test1")
+                --DevTools_Dump(self)
+                local editBox = _G[self:GetName() .. "WideEditBox"] or _G[self:GetName() .. "EditBox"]
+                editBox:SetText(output);
+                --print("test2")
+                editBox:SetFocus();
+                editBox:HighlightText();
+            end,
+
+            whileDead = true,
+            hideOnEscape = true
+        }
+
+        StaticPopup_Show("QUESTIE_ITEMDROPOUTPUT")
+
+        --local data = QuestieDB.QueryQuestSingle(5544, "objectives")
+
+        --DevTools_Dump(data)
+
+        return
+    end
+
     -- if no condition returned so far we have received an invalid command
     print(Questie:Colorize("/questie "..input..":"), l10n("Invalid command. For a list of options please type:"), Questie:Colorize("/questie help"))
 end

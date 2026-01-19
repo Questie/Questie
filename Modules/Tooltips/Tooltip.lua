@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieTBCItemDrops
+local QuestieTBCItemDrops = QuestieLoader:ImportModule("QuestieTBCItemDrops");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -268,6 +270,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         end
 
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+            --print("test1")
+            --DevTools_Dump(tooltip)
             local questId = tooltip.questId
 
             if tooltip.name then
@@ -277,6 +281,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
+                --print("test2")
+                --DevTools_Dump(objective)
                 if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
                     -- Tooltip was registered for a real "objective" and not for a sourceItem or requiredSourceItem
                     objective:Update()
@@ -295,12 +301,18 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
-                    if objective.Type == "spell" and objective.spawnList[tonumber(key:sub(3))].ItemId then
-                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
+                    local npcId = tonumber(key:sub(3))
+                    local objectiveId = objective.Id
+                    if objective.Type == "spell" and objective.spawnList[npcId].ItemId then
+                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     elseif objective.Needed then
                         if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                            local dropRate = ""
+                            if QuestieTBCItemDrops.data[objectiveId][npcId] then
+                                dropRate = " |cFF999999(" .. QuestieTBCItemDrops.data[objectiveId][npcId] .. "%)"
+                            end
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRate;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
                     else
