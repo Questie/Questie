@@ -350,7 +350,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o rastreador será minimizado automaticamente ao entrar em uma masmorra, raide ou campo de batalha.",
         ["ruRU"] = "Когда включено, трекер будет автоматически свернут при входе в подземелье, рейд или на поле боя",
         ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动最小化。",
-        ["zhTW"] = "啟用時，進入地城、團隊副本或戰場時，任務清單將自動最小化。",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動最小化。",
     },
     ---------------------------------------------------------
     ["Hide In Combat"] = {
@@ -400,7 +400,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o rastreador será automaticamente ocultado ao entrar em uma masmorra, raide ou campo de batalha.",
         ["ruRU"] = "Когда включено, при входе в подземелье, рейд или на поле боя трекер будет автоматически скрыт",
         ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动隐藏。",
-        ["zhTW"] = "啟用時，進入地城、團隊副本或戰場時，任務清單將自動隱藏。",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動隱藏。",
     },
     ---------------------------------------------------------
     ["Hide In Pet Battles"] = {
