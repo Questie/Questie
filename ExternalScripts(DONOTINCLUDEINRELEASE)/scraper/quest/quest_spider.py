@@ -9,34 +9,34 @@ from quest.factions_ignore import FACTIONS_IGNORE_LIST
 from quest.retail_quest_ids import RETAIL_QUEST_IDS
 
 
+def get_wowhead_url(expansion: str) -> str:
+    if expansion == "retail":
+        return "https://www.wowhead.com/quest={}"
+    elif expansion == "era":
+        return "https://www.wowhead.com/classic/quest={}"
+    else:
+        return "https://www.wowhead.com/{exp}/quest={{}}".format(exp=expansion)
+
+
 class QuestSpider(scrapy.Spider):
     name = "quest"
-    base_url_classic = "https://www.wowhead.com/classic/quest={}"
-    base_url_retail = "https://www.wowhead.com/quest={}"
 
-    run_for_retail = False
     start_urls = []
 
-    def __init__(self, run_for_retail: bool) -> None:
+    def __init__(self, expansion: str) -> None:
         super().__init__()
-        self.run_for_retail = run_for_retail
-        if run_for_retail:
-            self.start_urls = [self.base_url_retail.format(quest_id) for quest_id in RETAIL_QUEST_IDS]
-        else:
-            self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
+        self.base_url = get_wowhead_url(expansion)
+        self.start_urls = [self.base_url.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
         # debug the response
         # with open('response.html', 'wb') as f:
         #     f.write(response.body)
 
-        if (not self.run_for_retail) and response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
-            questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
-            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
-            return None
-        elif self.run_for_retail and response.url.startswith('https://www.wowhead.com/quests?notFound='):
-            questID = re.search(r'https://www.wowhead.com/quests\?notFound=(\d+)', response.url).group(1)
-            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
+        not_found_prefix = self.base_url.replace('quest={}', 'quests?notFound=')
+        if response.url.startswith(not_found_prefix):
+            quest_id = re.search(r'notFound=(\d+)', response.url).group(1)
+            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=quest_id))
             return None
 
         result = {}

@@ -25,16 +25,17 @@ BASE_SETTINGS = {
     "USER_AGENT": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
 }
 
+
 class Runner:
 
     def __init__(self) -> None:
         self.logger = getLogger(__name__)
 
-    def run_quest(self, run_for_retail: bool) -> None:
+    def run_quest(self, expansion: str) -> None:
         Path("quest/quest_data.json").unlink(missing_ok=True)
         settings = {**BASE_SETTINGS, "FEED_URI": "quest/quest_data.json"}
         process = CrawlerProcess(settings=settings)
-        process.crawl(QuestSpider, run_for_retail)
+        process.crawl(QuestSpider, expansion)
         process.start()
 
     def run_classic_quest(self) -> None:
@@ -113,6 +114,7 @@ class Runner:
 
 if __name__ == '__main__':
     parser = ArgumentParser()
+    parser.add_argument("--expansion", help="The target expansion", choices=["era", "tbc", "wotlk", "cata", "mop", "retail"])
     parser.add_argument("--retail", help="Run spider against retail wowhead", action="store_true")
     parser.add_argument("--quest", help="Run quest spider", action="store_true")
     parser.add_argument("--quest-classic", help="Run quest spider for classic wow", action="store_true")
@@ -130,17 +132,22 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations) and (not args.quest_translations):
+    if not args.expansion:
+        print("The --expansion argument is required.")
+
+    if (not args.quest) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (
+            not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations) and (
+            not args.quest_translations):
         parser.error("No spider selected")
 
     runner = Runner()
 
     run_for_retail = args.retail
 
-    if args.quest:
-        print("Running quest spider")
-        runner.run_quest(run_for_retail)
-    if args.quest_classic:
+    if args.quest and not args.expansion == "classic":
+        print("Running quest spider for expansion: {}".format(args.expansion))
+        runner.run_quest(args.expansion)
+    if args.quest and args.expansion == "classic":
         print("Running quest spider for classic wow")
         runner.run_classic_quest()
     if args.quest_translations_sod:
