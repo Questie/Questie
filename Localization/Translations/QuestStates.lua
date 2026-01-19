@@ -184,6 +184,18 @@ local questStateLocales = {
         ["zhCN"] = "日常 地下城",
         ["zhTW"] = "日常 地城",
     },
+    ["Daily PvP"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Täglich PvP",
+        ["esES"] = "Diaria JcJ",
+        ["esMX"] = "Diaria JcJ",
+        ["frFR"] = "Journalière JcJ",
+        ["koKR"] = "일일 전쟁",
+        ["ptBR"] = "Diário JxJ",
+        ["ruRU"] = "Ежедневно PvP",
+        ["zhCN"] = "日常 PvP",
+        ["zhTW"] = "日常 PvP",
+    },
     ["Heroic"] = {
         ["enUS"] = true,
         ["deDE"] = "Heroisch",
