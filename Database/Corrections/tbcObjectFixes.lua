@@ -897,6 +897,20 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{40.7,11.9},{40.89,12.43},{40.63,11.5},{41.62,10.8},{41.93,13.22},{41.48,12.98},{42.39,11.76}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
+        [400021] = {
+            [objectKeys.name] = "Cenarion Thicket Moonwell",
+            [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{45.1, 23.6}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [400022] = {
+            [objectKeys.name] = "Evergrove Moonwell",
+            [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.0, 39.2}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
     }
 end
 
