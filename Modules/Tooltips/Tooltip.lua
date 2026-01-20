@@ -12,8 +12,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
----@type QuestieTBCItemDrops
-local QuestieTBCItemDrops = QuestieLoader:ImportModule("QuestieTBCItemDrops");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -308,11 +306,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     elseif objective.Needed then
                         if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
-                            local dropRate = ""
-                            if QuestieTBCItemDrops.data and QuestieTBCItemDrops.data[objectiveId] and QuestieTBCItemDrops.data[objectiveId][npcId] then
-                                dropRate = " |cFF999999(" .. QuestieTBCItemDrops.data[objectiveId][npcId] .. "%)"
+                            local dropRateText = ""
+                            local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                            if dropRate then
+                                dropRateText = " |cFF999999(" .. tostring(dropRate) .. "%)|r"
                             end
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRate;
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
                     else

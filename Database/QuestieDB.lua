@@ -24,10 +24,14 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieTBCItemDrops
+local QuestieTBCItemDrops = QuestieLoader:ImportModule("QuestieTBCItemDrops");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type DropDB
+local DropDB = QuestieLoader:ImportModule("DropDB")
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -357,6 +361,13 @@ function QuestieDB:GetItem(itemId)
     end
 
     return item
+end
+
+---@param itemId ItemId
+---@param npcId NpcId
+---@return number
+function QuestieDB.GetItemDroprate(itemId, npcId)
+    return DropDB.GetItemDroprate(itemId, npcId)
 end
 
 ---@param questId number

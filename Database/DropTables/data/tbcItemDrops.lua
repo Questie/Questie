@@ -3,8 +3,6 @@ local QuestieTBCItemDrops = QuestieLoader:CreateModule("QuestieTBCItemDrops")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
