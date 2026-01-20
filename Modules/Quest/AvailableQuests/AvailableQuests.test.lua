@@ -554,6 +554,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
+            assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Active Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", false)
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, activeQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, activeQuest)
 
