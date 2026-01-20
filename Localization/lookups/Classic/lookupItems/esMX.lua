@@ -637,6 +637,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5386] = "Pelambre de Acechalunas refinada",
 [5388] = "Calavera de Ran Sangradientes",
 [5390] = "Mensaje de Fandral",
+[5391] = "Tierra rara",
 [5411] = "Tótem de limpieza Pezuña Invernal",
 [5412] = "Ojo de trillador",
 [5413] = "Colmillo de Acechalunas",
