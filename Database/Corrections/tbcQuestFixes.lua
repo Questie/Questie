@@ -1430,8 +1430,9 @@ function QuestieTBCQuestFixes:Load()
         [9545] = {
             [questKeys.objectives] = {{{16852,"Vision Granted"}},nil,nil,nil},
         },
-        [9549] = {
+        [9549] = { -- Artifacts of the Blacksilt
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10063},
         },
         [9558] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -1482,6 +1483,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9594] = {
             [questKeys.startedBy] = {nil,nil,{23900}},
+        },
+        [9598] = { -- Redemption
+            [questKeys.breadcrumbs] = {10366},
+        },
+        [9600] = { -- Redemption
+            [questKeys.objectives] = {{{17542,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9601] = {
             [questKeys.startedBy] = {{16681,20406},nil,nil},
@@ -1555,9 +1562,6 @@ function QuestieTBCQuestFixes:Load()
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
             },
             [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [9668] = {
-            [questKeys.nextQuestInChain] = 9693,
         },
         [9669] = {
             [questKeys.requiredLevel] = 16,
@@ -1965,13 +1969,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [10063] = {
-            [questKeys.exclusiveTo] = {9549},
+            [questKeys.breadcrumbForQuestId] = 9549,
+            [questKeys.nextQuestInChain] = 9549,
         },
-        [10066] = {
-            [questKeys.startedBy] = {{17986,18020},nil,nil},
+        [10066] = { -- Oh, the Tangled Webs They Weave
+            [questKeys.startedBy] = {{17986,18020,18024}},
         },
-        [10067] = {
-            [questKeys.startedBy] = {{17986,18020},nil,nil},
+        [10067] = { -- Fouled Water Spirits
+            [questKeys.startedBy] = {{17986,18020,18024}},
         },
         [10068] = {
             [questKeys.startedBy] = {{15279},nil,nil},
@@ -2294,6 +2299,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10365] = {
             [questKeys.objectives] = {nil,{{184312}},{{29411}}},
+        },
+        [10366] = { -- Jol
+            [questKeys.breadcrumbForQuestId] = 9598,
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},

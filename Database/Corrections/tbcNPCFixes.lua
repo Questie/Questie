@@ -235,7 +235,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
-        [6018] = { -- Ur\'kyo
+        [6018] = { -- Ur'kyo
             [npcKeys.questEnds] = {5642,5643,5680,5652,5654,5656,5657},
         },
         [6072] = {
@@ -244,7 +244,7 @@ function QuestieTBCNpcFixes:Load()
         [6166] = { -- Yorus Barleybrew
             [npcKeys.questEnds] = {1698,1699,10371},
         },
-        [6176] = { -- Bath\'rah the Windwatcher
+        [6176] = { -- Bath'rah the Windwatcher
             [npcKeys.questStarts] = {1712,1713,1792,8411,8412,8413},
             [npcKeys.questEnds] = {1712,1713,1791,1792,8410,8411,8412,8413},
         },
@@ -677,6 +677,9 @@ function QuestieTBCNpcFixes:Load()
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},
         },
+        [17348] = { -- Elder Brown Bear
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{49.18,21.28},{49.17,24.86},{47.41,23.27},{42.06,25.67},{36.78,31.99},{43.09,27.37},{44.23,28.8},{46.93,33.32},{45.09,37.22},{37.77,43.63},{34.97,42.88},{31.78,44.42},{33.83,49.44},{35.04,45.77},{35.77,50.71},{38.4,49.44},{41.84,48.53},{42.46,41.46},{43.61,58.74},{40.72,56.17},{40.12,53.88},{35.02,54.81}}},
+        },
         [17350] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{43.74,24.11},{40.46,26.0},{47.68,32.78},{48.1,31.75},{35.84,43.61},{34.28,44.08},{31.29,42.66},{36.9,49.07},{36.72,50.54},{39.66,51.11},{43.58,51.24},{45.15,57.08},{42.6,58.1},{39.37,55.07},{43.64,62.19},{39.6,41.7},{43.7,39.3},{44.8,39.9}}},
         },
@@ -828,6 +831,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
         },
         [18020] = { -- Defender Adrielle
+            [npcKeys.questStarts] = {10066,10067},
+        },
+        [18024] = { -- Defender Sorli
             [npcKeys.questStarts] = {10066,10067},
         },
         [18096] = {
