@@ -520,6 +520,12 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [25911] = { -- Salvaged Wood
+            [itemKeys.objectDrops] = {182936},
+        },
+        [25912] = { -- Salvaged Metal
+            [itemKeys.objectDrops] = {182937, 182938},
+        },
         [30712] = {
             [itemKeys.npcDrops] = {21779},
         },
@@ -529,6 +535,12 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     }
 
     local itemFixesAlliance = {
+        [25911] = { -- Salvaged Wood
+            [itemKeys.objectDrops] = {182799},
+        },
+        [25912] = { -- Salvaged Metal
+            [itemKeys.objectDrops] = {182798, 182797},
+        },
         [30712] = {
             [itemKeys.npcDrops] = {21778},
         },

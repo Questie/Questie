@@ -1447,13 +1447,6 @@ function QuestieItemFixes:LoadFactionFixes()
         [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15612},
         },
-        -- TBC
-        [25911] = { -- Salvaged Wood
-            [itemKeys.objectDrops] = {182936},
-        },
-        [25912] = { -- Salvaged Metal
-            [itemKeys.objectDrops] = {182937, 182938},
-        },
     }
 
     local itemFixesAlliance = {
@@ -1471,13 +1464,6 @@ function QuestieItemFixes:LoadFactionFixes()
         },
         [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15440},
-        },
-        -- TBC
-        [25911] = { -- Salvaged Wood
-            [itemKeys.objectDrops] = {182799},
-        },
-        [25912] = { -- Salvaged Metal
-            [itemKeys.objectDrops] = {182798, 182797},
         },
     }
 
