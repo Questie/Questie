@@ -589,127 +589,127 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {2726},
             [itemKeys.objectDrops] = {},
         },
-        [7910] = {
+        [7910] = { -- Star Ruby
             [itemKeys.npcDrops] = {},
         },
-        [7923] = {
+        [7923] = { -- Defias Tower Key
             [itemKeys.npcDrops] = {7051},
         },
-        [7972] = {
+        [7972] = { -- Ichor of Undeath
             [itemKeys.npcDrops] = {1488, 1489, 1783, 1784, 1785, 1787, 1788, 1789, 1791, 1793, 1794, 1795, 1796, 1802, 1804, 1805, 3094, 4472, 4474, 4475, 6116, 6117, 7370, 7523, 7524, 7864, 8523, 8524, 8525, 8526, 8527, 8528, 8529, 8530, 8531, 8532, 8538, 8539, 8540, 8541, 8542, 8543, 8545, 10500, 10580, 10816, 11873, 12262, 12263, 12377, 12378, 12379, 12380},
         },
-        [7974] = {
+        [7974] = { -- Zesty Clam Meat
             [itemKeys.itemDrops] = {7973},
         },
-        [8072] = {
+        [8072] = { -- Silixiz's Tower Key
             [itemKeys.relatedQuests] = {},
             [itemKeys.npcDrops] = {7287},
             [itemKeys.objectDrops] = {},
         },
-        [8170] = {
+        [8170] = { -- Rugged Leather
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [8396] = {
+        [8396] = { -- Vulture Gizzard
             [itemKeys.npcDrops] = {5982, 5983},
         },
-        [8523] = {
+        [8523] = { -- Field Testing Kit
             [itemKeys.relatedQuests] = {654},
             [itemKeys.npcDrops] = {7683},
             [itemKeys.objectDrops] = {},
         },
-        [8584] = {
+        [8584] = { -- Untapped Dowsing Widget
             [itemKeys.relatedQuests] = {992},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [8585] = {
+        [8585] = { -- Tapped Dowsing Widget
             [itemKeys.relatedQuests] = {992},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {144052},
         },
-        [8831] = {
+        [8831] = { -- Purple Lotus
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {142140, 180165},
         },
-        [8836] = {
+        [8836] = { -- Arthas' Tears
             [itemKeys.npcDrops] = {},
         },
-        [8846] = {
+        [8846] = { -- Gromsblood
             [itemKeys.npcDrops] = {},
         },
-        [9254] = {
+        [9254] = { -- Cuergo's Treasure Map
             [itemKeys.relatedQuests] = {2882},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [9284] = {
+        [9284] = { -- Full Leaden Collection Phial
             [itemKeys.npcDrops] = {6213, 6329},
         },
-        [9306] = { -- #1487
+        [9306] = { -- Stave of Equinex (#1487)
             [itemKeys.relatedQuests] = {2879, 2942},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {144063},
         },
-        [9330] = {
+        [9330] = { -- Snapshot of Gammerita
             [itemKeys.relatedQuests] = {2944},
             [itemKeys.npcDrops] = {7977},
             [itemKeys.objectDrops] = {},
         },
-        [9365] = {
+        [9365] = { -- High Potency Radioactive Fallout
             [itemKeys.npcDrops] = {6218, 6219, 6220},
         },
-        [9438] = {
+        [9438] = { -- Acceptable Scorpid Sample
             [itemKeys.relatedQuests] = {654},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [9440] = {
+        [9440] = { -- Acceptable Basilisk Sample
             [itemKeys.relatedQuests] = {654},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [9441] = {
+        [9441] = { -- Acceptable Hyena Sample
             [itemKeys.relatedQuests] = {654},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [9574] = {
+        [9574] = { -- Glyphic Scroll
             [itemKeys.relatedQuests] = {3098},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [9593] = { -- #1184
+        [9593] = { -- Treant Muisek (#1184)
             [itemKeys.relatedQuests] = {3126},
             [itemKeys.npcDrops] = {7584},
             [itemKeys.objectDrops] = {},
         },
-        [9594] = { -- #1227
+        [9594] = { -- Wildkin Muisek (#1227)
             [itemKeys.relatedQuests] = {3123},
             [itemKeys.npcDrops] = {2927, 2928, 2929},
             [itemKeys.objectDrops] = {},
         },
-        [9595] = {
+        [9595] = { -- Hippogryph Muisek
             [itemKeys.relatedQuests] = {3124},
             [itemKeys.npcDrops] = {5300, 5304, 5305, 5306},
             [itemKeys.objectDrops] = {},
         },
-        [9596] = { -- #1184
+        [9596] = { -- Faerie Dragon Muisek (#1184)
             [itemKeys.relatedQuests] = {3125},
             [itemKeys.npcDrops] = {5276, 5278},
             [itemKeys.objectDrops] = {},
         },
-        [9597] = { -- #1461
+        [9597] = { -- Mountain Giant Muisek (#1461)
             [itemKeys.relatedQuests] = {3127},
             [itemKeys.npcDrops] = {5357, 5358, 14604, 14640},
             [itemKeys.objectDrops] = {},
         },
-        [10283] = {
+        [10283] = { -- Wolf Heart Samples
             [itemKeys.relatedQuests] = {1359},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [10327] = {
+        [10327] = { -- Horn of Echeyakee
             [itemKeys.relatedQuests] = {881},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
@@ -717,593 +717,593 @@ function QuestieItemFixes:Load()
         [10515] = { -- Torch of Retribution
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [10575] = {
+        [10575] = { -- Black Dragonflight Molt
             [itemKeys.npcDrops] = {9461}, -- #1216
         },
-        [10589] = {
+        [10589] = { -- Oathstone of Ysera's Dragonflight
             [itemKeys.npcDrops] = {5353},
         },
-        [10639] = {
+        [10639] = { -- Hyacinth Mushroom
             [itemKeys.npcDrops] = {1988, 1989},
         },
         [10663] = { -- Essence of Hakkar
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [10691] = { -- #1396
+        [10691] = { -- Filled Vial Labeled #1 (#1396)
             [itemKeys.relatedQuests] = {3568},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152598},
         },
-        [10692] = { -- #1396
+        [10692] = { -- Filled Vial Labeled #2 (#1396)
             [itemKeys.relatedQuests] = {3568},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152604},
         },
-        [10693] = { -- #1396
+        [10693] = { -- Filled Vial Labeled #3 (#1396)
             [itemKeys.relatedQuests] = {3568},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152605},
         },
-        [10694] = { -- #1396
+        [10694] = { -- Filled Vial Labeled #4 (#1396)
             [itemKeys.relatedQuests] = {3568},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152606},
         },
-        [10757] = {
+        [10757] = { -- Ward of the Defiler
             [itemKeys.class] = 12,
         },
-        [11018] = {
+        [11018] = { -- Un'Goro Soil
             [itemKeys.npcDrops] = {},
         },
-        [11040] = {
+        [11040] = { -- Morrowgrain
             [itemKeys.relatedQuests] = {3785, 3786, 3803, 3792, 3804, 3791},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [11078] = {
+        [11078] = { -- Relic Coffer Key
             [itemKeys.class] = 12,
         },
-        [11113] = {
+        [11113] = { -- Crate of Foodstuffs
             [itemKeys.objectDrops] = {161526},
         },
-        [11129] = {
+        [11129] = { -- Essence of the Elements
             [itemKeys.npcDrops] = {8908, 8906, 8905, 8909, 8910, 8911, 8923, 9017, 9025, 9026, 9156,},
         },
-        [11131] = {
+        [11131] = { -- Hive Wall Sample
             [itemKeys.relatedQuests] = {3883},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {174793},
         },
-        [11148] = {
+        [11148] = { -- Samophlange Manual Page
             [itemKeys.class] = 12,
         },
-        [11149] = {
+        [11149] = { -- Samophlange Manual
             [itemKeys.relatedQuests] = {3924},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [11184] = {
+        [11184] = { -- Blue Power Crystal
             [itemKeys.npcDrops] = {},
         },
-        [11185] = {
+        [11185] = { -- Green Power Crystal
             [itemKeys.npcDrops] = {},
         },
-        [11186] = {
+        [11186] = { -- Red Power Crystal
             [itemKeys.npcDrops] = {},
         },
-        [11188] = {
+        [11188] = { -- Yellow Power Crystal
             [itemKeys.npcDrops] = {},
         },
-        [11243] = {
+        [11243] = { -- Videre Elixir
             [itemKeys.npcDrops] = {7775},
         },
-        [11370] = {
+        [11370] = { -- Dark Iron Ore
             [itemKeys.npcDrops] = {},
         },
-        [11412] = { -- #1136
+        [11412] = { -- Nagmara's Vial (#1136)
             [itemKeys.relatedQuests] = {4201},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [11413] = { -- #1136
+        [11413] = { -- Nagmara's Filled Vial (#1136)
             [itemKeys.relatedQuests] = {4201},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {165678},
         },
-        [11470] = {
+        [11470] = { -- Tablet Transcript
             [itemKeys.relatedQuests] = {4296},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {169294},
         },
-        [11522] = {
+        [11522] = { -- Silver Totem of Aquementas
             [itemKeys.relatedQuests] = {4005},
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
         },
-        [11818] = {
+        [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.npcDrops] = {5840, 5844, 5846, 8504, 8566, 15692},
         },
-        [11914] = {
+        [11914] = { -- Empty Cursed Ooze Jar
             [itemKeys.npcDrops] = {},
             [itemKeys.class] = 12,
         },
-        [11947] = { -- #1315
+        [11947] = { -- Filled Cursed Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7086},
             [itemKeys.objectDrops] = {},
         },
-        [11948] = {
+        [11948] = { -- Empty Tainted Ooze Jar
             [itemKeys.npcDrops] = {},
             [itemKeys.class] = 12,
         },
-        [11949] = { -- #1315
+        [11949] = { -- Filled Tainted Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7092},
             [itemKeys.objectDrops] = {},
         },
-        [11953] = {
+        [11953] = { -- Empty Pure Sample Jar
             [itemKeys.class] = 12,
         },
-        [11954] = { -- #1070
+        [11954] = { -- Filled Pure Sample Jar (#1070)
             [itemKeys.relatedQuests] = {4513},
             [itemKeys.npcDrops] = {6556, 6557, 6559},
             [itemKeys.objectDrops] = {},
         },
-        [12234] = {
+        [12234] = { -- Corrupted Felwood Sample
             [itemKeys.relatedQuests] = {4293},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {174848},
         },
-        [12236] = {
+        [12236] = { -- Pure Un'Goro Sample
             [itemKeys.relatedQuests] = {4294},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {175265},
         },
-        [12291] = {
+        [12291] = { -- Merged Ooze Sample
             [itemKeys.npcDrops] = {6557, 9621},
         },
-        [12347] = {
+        [12347] = { -- Filled Cleansing Bowl
             [itemKeys.relatedQuests] = {4763},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {174795},
         },
-        [12349] = {
+        [12349] = { -- Cliffspring River Sample
             [itemKeys.relatedQuests] = {4762},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {175371},
         },
-        [12350] = {
+        [12350] = { -- Empty Sampling Tube
             [itemKeys.relatedQuests] = {4762},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [12364] = {
+        [12364] = { -- Huge Emerald
             [itemKeys.npcDrops] = {},
         },
-        [12366] = {
+        [12366] = { -- Thick Yeti Fur
             [itemKeys.npcDrops] = {7457, 7458},
         },
-        [12368] = {
+        [12368] = { -- Dawn's Gambit
             [itemKeys.relatedQuests] = {4771},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [12533] = {
+        [12533] = { -- Roughshod Pike
             [itemKeys.npcDrops] = {},
         },
-        [12562] = {
+        [12562] = { -- Important Blackrock Documents
             [itemKeys.npcDrops] = {},
         },
-        [12567] = {
+        [12567] = { -- Filled Flasket
             [itemKeys.relatedQuests] = {4505},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {148501},
         },
-        [12648] = {
+        [12648] = { -- Imprisoned Felhound Spirit
             [itemKeys.relatedQuests] = {4962},
             [itemKeys.npcDrops] = {4678},
             [itemKeys.objectDrops] = {},
         },
-        [12649] = {
+        [12649] = { -- Imprisoned Infernal Spirit
             [itemKeys.relatedQuests] = {4963},
             [itemKeys.npcDrops] = {4676},
             [itemKeys.objectDrops] = {},
         },
-        [12733] = {
+        [12733] = { -- Sacred Frostsaber Meat
             [itemKeys.relatedQuests] = {5056},
             [itemKeys.npcDrops] = {7434, 7433, 7430, 7432, 7431},
             [itemKeys.objectDrops] = {},
         },
-        [12765] = {
+        [12765] = { -- Secret Note #1
             [itemKeys.objectDrops] = {176344},
         },
-        [12766] = {
+        [12766] = { -- Secret Note #2
             [itemKeys.objectDrops] = {176344},
         },
-        [12768] = {
+        [12768] = { -- Secret Note #3
             [itemKeys.objectDrops] = {176344},
         },
-        [12813] = { -- #1313
+        [12813] = { -- Flask of Mystery Goo (#1313)
             [itemKeys.relatedQuests] = {5085},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [12847] = {
+        [12847] = { -- Soul Stained Pike
             [itemKeys.npcDrops] = {10899},
         },
-        [12885] = { -- #1148
+        [12885] = { -- Pamela's Doll (#1148)
             [itemKeys.relatedQuests] = {5149},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [12886] = {
+        [12886] = { -- Pamela's Doll's Head
             [itemKeys.class] = 12,
         },
-        [12907] = { -- #1083
+        [12907] = { -- Corrupt Moonwell Water (#1083)
             [itemKeys.relatedQuests] = {5157},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {176184},
         },
-        [12922] = { -- #1083
+        [12922] = { -- Empty Canteen (#1083)
             [itemKeys.relatedQuests] = {5157},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
             [itemKeys.class] = 12,
         },
-        [13156] = {
+        [13156] = { -- Mystic Crystal
             [itemKeys.class] = 12,
         },
-        [13172] = {
+        [13172] = { -- Grimm's Premium Tobacco
             [itemKeys.name] = "Grimm's Premium Tobacco",
         },
-        [13422] = {
+        [13422] = { -- Stonescale Eel
             [itemKeys.objectDrops] = {},
         },
-        [13546] = {
+        [13546] = { -- Bloodbelly Fish
             [itemKeys.relatedQuests] = {5386},
             [itemKeys.npcDrops] = {11317},
             [itemKeys.objectDrops] = {},
         },
-        [14047] = {
+        [14047] = { -- Runecloth
             [itemKeys.npcDrops] = {},
         },
-        [14048] = {
+        [14048] = { -- Bolt of Runecloth
             [itemKeys.npcDrops] = {},
         },
-        [14338] = {
+        [14338] = { -- Empty Water Tube
             [itemKeys.relatedQuests] = {4812},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [14339] = {
+        [14339] = { -- Moonwell Water Tube
             [itemKeys.relatedQuests] = {4812},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {174795},
         },
-        [14645] = {
+        [14645] = { -- Unfinished Skeleton Key
             [itemKeys.relatedQuests] = {5801, 5802},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {4004},
         },
-        [15209] = {
+        [15209] = { -- Relic Bundle
             [itemKeys.relatedQuests] = {5721},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [15843] = {
+        [15843] = { -- Filled Dreadmist Peak Sampler
             [itemKeys.relatedQuests] = {6127},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {19464},
         },
-        [15845] = {
+        [15845] = { -- Filled Cliffspring Falls Sampler
             [itemKeys.relatedQuests] = {6122},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {19463},
         },
-        [15874] = {
+        [15874] = { -- Soft-shelled Clam
             [itemKeys.npcDrops] = {12347},
         },
-        [15924] = {
+        [15924] = { -- Soft-shelled Clam Meat
             [itemKeys.objectDrops] = {177784},
             [itemKeys.npcDrops] = {12347},
         },
-        [16209] = {
+        [16209] = { -- Podrig's Order
             [itemKeys.relatedQuests] = {6321, 6323},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16210] = {
+        [16210] = { -- Gordon's Crate
             [itemKeys.relatedQuests] = {6321, 6323},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16581] = {
+        [16581] = { -- Resonite Crystal
             [itemKeys.relatedQuests] = {6421},
             [itemKeys.npcDrops] = {},
         },
-        [16642] = {
+        [16642] = { -- Shredder Operating Manual - Chapter 1
             [itemKeys.relatedQuests] = {6504},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16643] = {
+        [16643] = { -- Shredder Operating Manual - Chapter 2
             [itemKeys.relatedQuests] = {6504},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16644] = {
+        [16644] = { -- Shredder Operating Manual - Chapter 3
             [itemKeys.relatedQuests] = {6504},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16763] = {
+        [16763] = { -- Warsong Runner Update
             [itemKeys.relatedQuests] = {6543, 6545},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16764] = {
+        [16764] = { -- Warsong Scout Update
             [itemKeys.relatedQuests] = {6543, 6547},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16765] = {
+        [16765] = { -- Warsong Outrider Update
             [itemKeys.relatedQuests] = {6543, 6546},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [16882] = {
+        [16882] = { -- Battered Junkbox
             [itemKeys.itemDrops] = {},
         },
-        [16883] = {
+        [16883] = { -- Worn Junkbox
             [itemKeys.itemDrops] = {},
         },
-        [16884] = {
+        [16884] = { -- Sturdy Junkbox
             [itemKeys.itemDrops] = {},
         },
-        [16967] = {
+        [16967] = { -- Feralas Ahi
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {400006},
         },
-        [16968] = {
+        [16968] = { -- Sar'theris Striker
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {400008},
         },
-        [16969] = {
+        [16969] = { -- Savage Coast Blue Sailfin
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {400009},
         },
-        [16970] = {
+        [16970] = { -- Misty Reed Mahi Mahi
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {400007},
         },
-        [16973] = { -- #1156
+        [16973] = { -- Vial of Dire Water (#1156)
             [itemKeys.relatedQuests] = {5247},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {178224},
         },
-        [16974] = { -- #1156
+        [16974] = { -- Empty Water Vial (#1156)
             [itemKeys.relatedQuests] = {5247},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [17124] = {
+        [17124] = { -- Syndicate Emblem
             [itemKeys.relatedQuests] = {},
             [itemKeys.npcDrops] = {2246, 2590, 2240, 2586, 2589, 2587, 2588, 2242, 2241, 2319, 2261, 2244, 2260},
             [itemKeys.objectDrops] = {},
         },
-        [17309] = {
+        [17309] = { -- Discordant Bracers
             [itemKeys.npcDrops] = {8519, 8520, 8521, 8522},
         },
-        [17684] = {
+        [17684] = { -- Theradric Crystal Carving
             [itemKeys.npcDrops] = {11688, 11790, 11791, 11792, 11793, 11794, 12201, 12203, 12206, 12207, 12216, 12218, 12219, 12220, 12221, 12222, 12223, 12224, 12225, 12236, 12237, 12239, 12240, 12241, 12242, 12243, 12258, 13282, 13596, 13601, 13696, 13718},
         },
-        [17696] = {
+        [17696] = { -- Filled Cerulean Vial
             [itemKeys.relatedQuests] = {7029, 7041},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {178907},
         },
-        [17761] = {
+        [17761] = { -- Gem of the First Khan
             [itemKeys.npcDrops] = {12240},
         },
-        [17762] = {
+        [17762] = { -- Gem of the Second Khan
             [itemKeys.npcDrops] = {12239},
         },
-        [17763] = {
+        [17763] = { -- Gem of the Third Khan
             [itemKeys.npcDrops] = {12241},
         },
-        [17764] = {
+        [17764] = { -- Gem of the Fourth Khan
             [itemKeys.npcDrops] = {12242},
         },
-        [17765] = {
+        [17765] = { -- Gem of the Fifth Khan
             [itemKeys.npcDrops] = {12243},
         },
-        [18151] = {
+        [18151] = { -- Filled Amethyst Phial
             [itemKeys.relatedQuests] = {7383},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {19552},
         },
-        [18152] = {
+        [18152] = { -- Amethyst Phial
             [itemKeys.relatedQuests] = {7383},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [18240] = {
+        [18240] = { -- Ogre Tannin
             [itemKeys.npcDrops] = {},
         },
-        [18335] = {
+        [18335] = { -- Pristine Black Diamond
             [itemKeys.class] = 12,
         },
-        [18401] = {
+        [18401] = { -- Nostro's Compendium of Dragon Slaying
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
         },
-        [18605] = {
-            [itemKeys.npcDrops] = {12396}, -- #7583
+        [18605] = { -- Imprisoned Doomguard (#7583)
+            [itemKeys.npcDrops] = {12396},
         },
-        [18642] = {
+        [18642] = { -- Jaina's Autograph
             [itemKeys.npcDrops] = {4968},
         },
-        [18643] = {
+        [18643] = { -- Cairne's Hoofprint
             [itemKeys.npcDrops] = {3057},
         },
-        [18746] = { -- #1344
+        [18746] = { -- Divination Scryer (#1344)
             [itemKeys.relatedQuests] = {7666, 7669, 8258},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
-        [18947] = {
-            [itemKeys.npcDrops] = {5296, 5297, 5299}, -- #2321
+        [18947] = { -- Rage Scar Yeti Hide (#2321)
+            [itemKeys.npcDrops] = {5296, 5297, 5299},
         },
-        [18952] = {
+        [18952] = { -- Simone's Head
             [itemKeys.npcDrops] = {14527, 14533},
         },
-        [18953] = {
+        [18953] = { -- Klinfran's Head
             [itemKeys.npcDrops] = {14534, 14529},
         },
-        [18954] = {
+        [18954] = { -- Solenor's Head
             [itemKeys.npcDrops] = {14536, 14530},
         },
-        [18955] = {
+        [18955] = { -- Artorius's Head
             [itemKeys.npcDrops] = {14531, 14535},
         },
-        [18956] = {
-            [itemKeys.npcDrops] = {5357, 5358, 5359, 5360, 5361, 14603, 14604, 14638, 14639, 14640}, -- #1470
+        [18956] = { -- Miniaturization Residue (#1470)
+            [itemKeys.npcDrops] = {5357, 5358, 5359, 5360, 5361, 14603, 14604, 14638, 14639, 14640},
         },
-        [19034] = {
+        [19034] = { -- Lard's Lunch
             [itemKeys.objectDrops] = {179910},
         },
-        [19016] = {
+        [19016] = { -- Vessel of Rebirth
             [itemKeys.relatedQuests] = {7785},
             [itemKeys.npcDrops] = {14347},
             [itemKeys.objectDrops] = {},
         },
-        [19803] = {
+        [19803] = { -- Brownell's Blue Striped Racer
             [itemKeys.objectDrops] = {},
         },
-        [19805] = {
+        [19805] = { -- Keefer's Angelfish
             [itemKeys.objectDrops] = {},
         },
-        [19806] = {
+        [19806] = { -- Dezian Queenfish
             [itemKeys.objectDrops] = {},
         },
-        [19807] = {
+        [19807] = { -- Speckled Tastyfish
             [itemKeys.objectDrops] = {},
         },
-        [19808] = {
+        [19808] = { -- Rockhide Strongfish
             [itemKeys.objectDrops] = {},
         },
-        [19975] = {
+        [19975] = { -- Zulian Mudskunk
             [itemKeys.objectDrops] = {},
         },
-        [20023] = {
+        [20023] = { -- Encoded Fragment
             [itemKeys.npcDrops] = {8766},
         },
-        [20310] = {
+        [20310] = { -- Flayed Demon Skin
             [itemKeys.relatedQuests] = {1480},
         },
-        [20378] = {
+        [20378] = { -- Twilight Tablet Fragment
             [itemKeys.npcDrops] = {},
         },
-        [20454] = {
+        [20454] = { -- Hive'Zora Rubbing
             [itemKeys.relatedQuests] = {8309},
             [itemKeys.objectDrops] = {180455},
             [itemKeys.npcDrops] = {},
         },
-        [20455] = {
+        [20455] = { -- Hive'Ashi Rubbing
             [itemKeys.relatedQuests] = {8309},
             [itemKeys.objectDrops] = {180454},
             [itemKeys.npcDrops] = {},
         },
-        [20456] = {
+        [20456] = { -- Hive'Regal Rubbing
             [itemKeys.relatedQuests] = {8309},
             [itemKeys.objectDrops] = {180453},
             [itemKeys.npcDrops] = {},
         },
-        [20464] = {
+        [20464] = { -- Glyphs of Calling
             [itemKeys.class] = 12,
         },
-        [20490] = {
+        [20490] = { -- Ironforge Mint
             [itemKeys.npcDrops] = {5111},
         },
-        [20491] = {
+        [20491] = { -- Undercity Mint
             [itemKeys.npcDrops] = {6741},
         },
-        [20492] = {
+        [20492] = { -- Stormwind Nougat
             [itemKeys.npcDrops] = {6740},
         },
-        [20493] = {
+        [20493] = { -- Orgrimmar Nougat
             [itemKeys.npcDrops] = {6929},
         },
-        [20494] = {
+        [20494] = { -- Gnomeregan Gumdrop
             [itemKeys.npcDrops] = {6826},
         },
-        [20495] = {
+        [20495] = { -- Darkspear Gumdrop
             [itemKeys.npcDrops] = {11814},
         },
-        [20496] = {
+        [20496] = { -- Darnassus Marzipan
             [itemKeys.npcDrops] = {6735},
         },
-        [20497] = {
+        [20497] = { -- Thunder Bluff Marzipan
             [itemKeys.npcDrops] = {6746},
         },
-        [20708] = {
+        [20708] = { -- Tightly Sealed Trunk
             [itemKeys.objectDrops] = {},
         },
-        [20709] = {
+        [20709] = { -- Rumsey Rum Light
             [itemKeys.objectDrops] = {},
         },
-        [20944] = {
+        [20944] = { -- Tactical Task Briefing IX
             [itemKeys.npcDrops] = {},
         },
-        [21071] = {
+        [21071] = { -- Raw Sagefish
             [itemKeys.objectDrops] = {},
         },
-        [21106] = {
+        [21106] = { -- Draconic for Dummies
             [itemKeys.objectDrops] = {180666},
         },
-        [21107] = {
+        [21107] = { -- Draconic for Dummies
             [itemKeys.objectDrops] = {180665},
         },
-        [21109] = {
+        [21109] = { -- Draconic for Dummies
             [itemKeys.objectDrops] = {180667},
         },
-        [21113] = {
+        [21113] = { -- Watertight Trunk
             [itemKeys.objectDrops] = {},
         },
-        [21114] = {
+        [21114] = { -- Rumsey Rum Dark
             [itemKeys.objectDrops] = {},
         },
-        [21150] = {
+        [21150] = { -- Iron Bound Trunk
             [itemKeys.objectDrops] = {},
         },
-        [21151] = {
+        [21151] = { -- Rumsey Rum Black Label
             [itemKeys.objectDrops] = {},
         },
-        [21153] = {
+        [21153] = { -- Raw Greater Sagefish
             [itemKeys.objectDrops] = {},
         },
-        [21158] = {
+        [21158] = { -- Hive'Zora Scout Report
             [itemKeys.relatedQuests] = {8534},
             [itemKeys.npcDrops] = {15610},
             [itemKeys.objectDrops] = {},
         },
-        [21160] = {
+        [21160] = { -- Hive'Regal Scout Report
             [itemKeys.relatedQuests] = {8738},
             [itemKeys.npcDrops] = {15609},
             [itemKeys.objectDrops] = {},
         },
-        [21161] = {
+        [21161] = { -- Hive'Ashi Scout Report
             [itemKeys.relatedQuests] = {8739},
             [itemKeys.npcDrops] = {15611},
             [itemKeys.objectDrops] = {},
         },
-        [21228] = {
+        [21228] = { -- Mithril Bound Trunk
             [itemKeys.objectDrops] = {},
         },
-        [21314] = {
+        [21314] = { -- Metzen's Letters and Notes
             [itemKeys.npcDrops] = {},
         },
         [21232] = { -- Imperial Qiraji Armaments
@@ -1312,112 +1312,112 @@ function QuestieItemFixes:Load()
         [21237] = { -- Imperial Qiraji Regalia
             [itemKeys.npcDrops] = {15275, 15276, 15299, 15509, 15510, 15511, 15516, 15517, 15543, 15544},
         },
-        [21557] = {
+        [21557] = { -- Small Red Rocket
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21558] = {
+        [21558] = { -- Small Blue Rocket
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21559] = {
+        [21559] = { -- Small Green Rocket
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21571] = {
+        [21571] = { -- Blue Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21574] = {
+        [21574] = { -- Green Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21576] = {
+        [21576] = { -- Red Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
         },
-        [21711] = {
+        [21711] = { -- Lunar Festival Invitation
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [22094] = {
+        [22094] = { -- Bloodkelp
             [itemKeys.npcDrops] = {4364, 4366, 4368, 4370, 4371, 16072},
         },
-        [22229] = {
-            [itemKeys.npcDrops] = {7068, 7069, 7071, 7072, 7075}, -- #2344
+        [22229] = { -- Soul Ashes of the Banished (#2344)
+            [itemKeys.npcDrops] = {7068, 7069, 7071, 7072, 7075},
         },
-        [22374] = {
+        [22374] = { -- Wartorn Chain Scrap
             [itemKeys.npcDrops] = {15974, 15975, 15976, 15978, 15979, 15980, 15981, 16017, 16018, 16020, 16021, 16022, 16025, 16067, 16145, 16154, 16156, 16157, 16158, 16163, 16164, 16165, 16167, 16168, 16193, 16194, 16215, 16216, 16244, 16368, 16446, 16447, 16448, 16449, 16451, 16452, 16453},
         },
-        [22435] = {
-            [itemKeys.npcDrops] = {6551, 6554}, -- #1771
+        [22435] = { -- Gorishi Sting (#1771)
+            [itemKeys.npcDrops] = {6551, 6554},
         },
-        [22527] = {
+        [22527] = { -- Core of Elements
             [itemKeys.npcDrops] = {6520, 6521, 7031, 7032, 7132, 8519, 8520, 8521, 8522, 8909, 8910, 8911, 9017, 9025, 9026, 9816, 9878, 9879, 11480, 11483, 11484, 11744, 11745, 11746, 11747, 13279, 13280, 14399, 14400, 14455, 14458, 14460, 14462},
         },
-        [23179] = {
+        [23179] = { -- Flame of Orgrimmar
             [itemKeys.objectDrops] = {181336},
         },
-        [23180] = {
+        [23180] = { -- Flame of Thunder Bluff
             [itemKeys.objectDrops] = {181337},
         },
-        [23181] = {
+        [23181] = { -- Flame of the Undercity
             [itemKeys.objectDrops] = {181335},
         },
-        [23182] = {
+        [23182] = { -- Flame of Stormwind
             [itemKeys.objectDrops] = {181332},
         },
-        [23183] = {
+        [23183] = { -- Flame of Ironforge
             [itemKeys.objectDrops] = {181333},
         },
-        [23184] = {
+        [23184] = { -- Flame of Darnassus
             [itemKeys.objectDrops] = {181334},
         },
-        [190179] = {
+        [190179] = { -- Avelina's Heart
             [itemKeys.name] = "Avelina's Heart",
             [itemKeys.npcDrops] = {185333},
             [itemKeys.relatedQuests] = {65593},
         },
-        [190180] = {
+        [190180] = { -- Isaac's Heart
             [itemKeys.name] = "Isaac's Heart",
             [itemKeys.npcDrops] = {185334},
             [itemKeys.relatedQuests] = {65593},
         },
-        [190181] = {
+        [190181] = { -- Lovers' Hearts
             [itemKeys.name] = "Lovers' Hearts",
             [itemKeys.relatedQuests] = {65597},
         },
-        [190186] = {
+        [190186] = { -- Wooden Figurine
             [itemKeys.name] = "Wooden Figurine",
             [itemKeys.relatedQuests] = {65603},
         },
-        [190187] = {
+        [190187] = { -- Withered Scarf
             [itemKeys.name] = "Withered Scarf",
             [itemKeys.relatedQuests] = {65604},
         },
-        [190232] = {
+        [190232] = { -- Withered Scarf
             [itemKeys.name] = "Withered Scarf",
             [itemKeys.npcDrops] = {3782, 3784},
             [itemKeys.relatedQuests] = {65610},
         },
-        [190307] = {
+        [190307] = { -- Unlit Torch
             [itemKeys.name] = "Unlit Torch",
             [itemKeys.objectDrops] = {400001},
             [itemKeys.flags] = 2, -- Conjured
             [itemKeys.relatedQuests] = {65602},
         },
-        [190309] = {
+        [190309] = { -- Wooden Figurine
             [itemKeys.name] = "Wooden Figurine",
             [itemKeys.objectDrops] = {375544},
             [itemKeys.relatedQuests] = {65602},
         },
         ----------------
-        [227911] = {
+        [227911] = { -- Head of Rend Blackhand
             [itemKeys.name] = "Head of Rend Blackhand",
             [itemKeys.npcDrops] = {10429},
             [itemKeys.objectDrops] = nil,
@@ -1433,50 +1433,50 @@ function QuestieItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
-        [15882] = {
+        [15882] = { -- Half Pendant of Aquatic Endurance
             [itemKeys.objectDrops] = {177790},
         },
-        [15883] = {
+        [15883] = { -- Half Pendant of Aquatic Agility
             [itemKeys.objectDrops] = {177794},
         },
-        [3713] = {
+        [3713] = { -- Soothing Spices
             [itemKeys.relatedQuests] = {7321, 1218},
             [itemKeys.npcDrops] = {2397, 8307},
             [itemKeys.objectDrops] = {},
         },
-        [20810] = {
+        [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15612},
         },
         -- TBC
-        [25911] = {
+        [25911] = { -- Salvaged Wood
             [itemKeys.objectDrops] = {182936},
         },
-        [25912] = {
+        [25912] = { -- Salvaged Metal
             [itemKeys.objectDrops] = {182937, 182938},
         },
     }
 
     local itemFixesAlliance = {
-        [15882] = {
+        [15882] = { -- Half Pendant of Aquatic Endurance
             [itemKeys.objectDrops] = {177844},
         },
-        [15883] = {
+        [15883] = { -- Half Pendant of Aquatic Agility
             [itemKeys.objectDrops] = {177792},
         },
-        [3713] = {
+        [3713] = { -- Soothing Spices
             [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {555, 1218},
             [itemKeys.npcDrops] = {2381, 4897},
             [itemKeys.objectDrops] = {},
         },
-        [20810] = {
+        [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15440},
         },
         -- TBC
-        [25911] = {
+        [25911] = { -- Salvaged Wood
             [itemKeys.objectDrops] = {182799},
         },
-        [25912] = {
+        [25912] = { -- Salvaged Metal
             [itemKeys.objectDrops] = {182798, 182797},
         },
     }
