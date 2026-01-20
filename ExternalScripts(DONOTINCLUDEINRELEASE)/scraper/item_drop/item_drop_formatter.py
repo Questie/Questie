@@ -29,16 +29,7 @@ class ItemDropFormatter:
                                     droprate = 0
                                 else:
                                     droprate = (value[0] / value[1]) * 100 # converts droprate fraction to percent
-                                rounded = 0
-                                if droprate >= 10: # if droprate is above 10%
-                                    rounded = int(round(droprate, 0)) # round to integer
-                                elif droprate >= 2: # if droprate is above 2% (but less than 10%)
-                                    rounded = str(round(droprate, 1)) # round to 1 decimal
-                                elif droprate >= 0.01: # if droprate is above 0.01% (but less than 2%)
-                                    rounded = str(round(droprate, 2)) # round to 2 decimals
-                                else: # if droprate is below 0.01%
-                                    rounded = str(round(droprate, 3)) # round to 3 decimals (this should almost never come up in our use case but catches 0.001% drop rates which do exist)
-                                g.write("        [{npcid}] = {rate},\n".format(npcid=key,rate=rounded))
+                                g.write("        [{npcid}] = {rate},\n".format(npcid=key,rate=str(round(droprate, 4))))
                         g.write("    },\n")
                 g.write("}\n")
             except FileNotFoundError:

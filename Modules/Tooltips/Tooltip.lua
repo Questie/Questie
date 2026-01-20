@@ -133,6 +133,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
     if QuestieComms and QuestieComms.data:KeyExists(key) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
+        --DevTools_Dump(QuestieComms.data)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
@@ -309,7 +310,15 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             local dropRateText = ""
                             local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
                             if dropRate then
-                                dropRateText = " |cFF999999(" .. tostring(dropRate) .. "%)|r"
+                                if dropRate >= 10 then
+                                    dropRateText = " |cFF999999(" .. string.format("%.0f", dropRate) .. "%)|r";
+                                elseif dropRate >= 2 then
+                                    dropRateText = " |cFF999999(" .. string.format("%.1f", dropRate) .. "%)|r";
+                                elseif dropRate >= 0.01 then
+                                    dropRateText = " |cFF999999(" .. string.format("%.2f", dropRate) .. "%)|r";
+                                else
+                                    dropRateText = " |cFF999999(" .. string.format("%.3f", dropRate) .. "%)|r";
+                                end
                             end
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
@@ -333,7 +342,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     for questId, questData in pairs(tooltipData) do
         local hasObjective = false
         local tempObjectives = {}
-        for _, playerList in pairs(questData.objectivesText or {}) do
+        for x, playerList in pairs(questData.objectivesText or {}) do
             for objectivePlayerName, objectiveInfo in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(objectivePlayerName)
                 local playerColor
@@ -347,11 +356,17 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         playerType = " (" .. l10n("Nearby") .. ")"
                     end
                 end
-                if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case
+                if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    objectiveInfo.text = objectiveInfo.text .. " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
-                elseif playerColor and objectivePlayerName ~= playerName then
+                    local dropIndex = string.find(objectiveInfo.text, " |cFF999999%(")
+                    local playerString = " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
+                    if dropIndex then
+                        objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
+                    else
+                        objectiveInfo.text = objectiveInfo.text .. playerString
+                    end
+                elseif playerColor and objectivePlayerName ~= playerName then -- Add other player name to their objective
                     objectiveInfo.text = objectiveInfo.text .. " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
                 end
                 -- We want the player to be on top.
