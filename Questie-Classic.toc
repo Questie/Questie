@@ -128,7 +128,7 @@ Database\Corrections\sodObjectFixes.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
-Database\DropTables\data\tbcItemDrops.lua
+Database\DropTables\data\classicItemDrops.lua
 
 # Compiler
 Database\compiler.lua

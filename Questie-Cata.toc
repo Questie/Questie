@@ -129,6 +129,10 @@ Database\Corrections\cataNPCFixes.lua
 Database\Corrections\cataItemFixes.lua
 Database\Corrections\cataObjectFixes.lua
 
+# Item Drops
+Database\DropTables\dropDB.lua
+Database\DropTables\data\cataItemDrops.lua
+
 # Compiler
 Database\compiler.lua
 

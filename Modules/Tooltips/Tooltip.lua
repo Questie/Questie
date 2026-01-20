@@ -309,7 +309,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
                             local dropRateText = ""
                             local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
-                            if dropRate then
+                            if dropRate and Questie.db.profile.enableTooltipDroprates then
                                 if dropRate >= 10 then
                                     dropRateText = " |cFF999999(" .. string.format("%.0f", dropRate) .. "%)|r";
                                 elseif dropRate >= 2 then

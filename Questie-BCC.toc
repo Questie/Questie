@@ -104,7 +104,6 @@ Database\Corrections\Holidays\quests\WinterVeil.lua
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
 Database\Corrections\Automatic\classicQuestReputationFixes.lua
-Database\Corrections\Automatic\ItemDrops\tbcItemDrops.lua
 
 # Classic Corrections
 Database\Corrections\classicQuestFixes.lua
@@ -117,6 +116,10 @@ Database\Corrections\tbcQuestFixes.lua
 Database\Corrections\tbcNPCFixes.lua
 Database\Corrections\tbcItemFixes.lua
 Database\Corrections\tbcObjectFixes.lua
+
+# Item Drops
+Database\DropTables\dropDB.lua
+Database\DropTables\data\tbcItemDrops.lua
 
 # Compiler
 Database\compiler.lua
