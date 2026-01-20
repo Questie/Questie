@@ -1438,6 +1438,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1541
             [questKeys.preQuestGroup] = {2500,17}, -- #1541
         },
+        [2518] = {
+            [questKeys.breadcrumbs] = {2519},
+        },
+        [2519] = {
+            [questKeys.breadcrumbForQuestId] = 2518,
+        },
         [2520] = {
             [questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[zoneIDs.DARNASSUS]={{38.63,85.99}}}},
         },
