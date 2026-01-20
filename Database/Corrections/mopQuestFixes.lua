@@ -9374,6 +9374,10 @@ function MopQuestFixes.Load()
         [32596] = { -- Echoes of the Titans
             [questKeys.startedBy] = {{69782}},
         },
+        [32598] = { -- A Reckoning
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.objectives] = {{{70477,nil,Questie.ICON_TYPE_EVENT},{64822,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [32599] = { -- Securing A Future
             [questKeys.preQuestSingle] = {32681}, -- wowhead comments say available without progressing IoT
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE,8}},
