@@ -355,7 +355,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
             else
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - NPC drop data for item " .. itemID .. " OK, ignoring")
             end
-        elseif containerType == "GameObject" then -- if container is an object
+        elseif containerType == "GameObject" and containerID > 0 then -- if container is an object
             -- first check if object is even in our DB
             if not QuestieDB.QueryObjectSingle(containerID, "name") then
                 return itemTripCodes.ContainerMissingFromObjectDB
