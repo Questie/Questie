@@ -338,7 +338,7 @@ local myJourneyLocales = {
         ["zhCN"] = "笔记删除成功",
         ["zhTW"] = "筆記刪除成功",
     },
-    ["Character re-creation detected, resetting Journey data."] = {
+    ["Character re-creation detected, resetting \"My Journey\" data."] = {
         ["enUS"] = true,
         ["deDE"] = "Charakter-Neuerstellung erkannt, \"Meine Reise\"-Daten werden zurückgesetzt.",
         ["esES"] = "Recreación de personaje detectada, restableciendo los datos del viaje",
