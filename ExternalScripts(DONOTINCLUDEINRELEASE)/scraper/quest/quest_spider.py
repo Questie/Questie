@@ -69,8 +69,10 @@ class QuestSpider(scrapy.Spider):
                         result["questId"],
                         repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
                     )
-                if "reqRace" not in result:
-                    result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
+                req_race = re.search(r'"reqrace":(\d+)', script).group(1)
+                if req_race and (not "reqRace" in result or (result["reqRace"] != req_race and req_race != "0")):
+                    # we want to override eventually found fallback
+                    result["reqRace"] = req_race
             if script.lstrip().startswith('WH.markup'):
                 npc_starter = re.findall(r'Start:[^]]*?npc=(\d+)', script)
                 object_starter = re.findall(r'Start:[^]]*?object=(\d+)', script)
