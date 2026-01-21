@@ -182,11 +182,6 @@ function QuestieLib:ColorWheel()
     return colors[lastColor]
 end
 
----@return Color
-function QuestieLib:GetRandomColor()
-    return colors[math_random(numColors)]
-end
-
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
