@@ -505,7 +505,7 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     end
 
     for _, exId in pairs(exclusiveTo) do
-        if Questie.db.char.complete[exId] then
+        if Questie.db.char.complete[exId] or QuestiePlayer.currentQuestlog[exId] then
             return true
         end
     end
