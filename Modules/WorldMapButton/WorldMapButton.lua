@@ -15,9 +15,12 @@ local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
 
 local mapButton
 
+---@param self Frame
+---@return nil
 local function UpdateTooltip(self)
     local tooltip = GameTooltip
     tooltip:SetOwner(self, "ANCHOR_NONE");
+    tooltip:ClearLines()
     tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
     tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
     tooltip:AddLine(" ")
