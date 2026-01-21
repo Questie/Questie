@@ -24,8 +24,6 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieTBCItemDrops
-local QuestieTBCItemDrops = QuestieLoader:ImportModule("QuestieTBCItemDrops");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
@@ -365,9 +363,13 @@ end
 
 ---@param itemId ItemId
 ---@param npcId NpcId
----@return number
+---@return number?
 function QuestieDB.GetItemDroprate(itemId, npcId)
-    return DropDB.GetItemDroprate(itemId, npcId)
+     if not DropDB or not DropDB.GetItemDroprate then
+         Questie:Debug("ItemDrops: DropDB not available")
+         return nil
+     end
+     return DropDB.GetItemDroprate(itemId, npcId)
 end
 
 ---@param questId number
