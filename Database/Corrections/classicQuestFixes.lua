@@ -247,8 +247,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {415}, -- #567
         },
         [415] = {
-            [questKeys.breadcrumbForQuestId] = 413, -- #567
             [questKeys.nextQuestInChain] = 0,
+            [questKeys.breadcrumbForQuestId] = 413, -- #567
+            [questKeys.exclusiveTo] = {413}, -- #7360
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
