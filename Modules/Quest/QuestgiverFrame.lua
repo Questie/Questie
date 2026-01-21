@@ -123,6 +123,15 @@ local function updateGreetingFrame()
     end
 end
 
+function QuestgiverFrame.RecheckGreeting()
+    local activeTitle, _ = GetActiveTitle(1)
+    local availableTitle, _ = GetAvailableTitle(1)
+    if activeTitle or availableTitle then
+        print("Refreshing")
+        QuestgiverFrame.GreetingMark()
+    end
+end
+
 function QuestgiverFrame.GossipMark()
     if Questie.db.profile.enableQuestFrameIcons == true then
         if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
