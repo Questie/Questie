@@ -264,7 +264,9 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "itemdrop" then
-
+        -- This is a developer tool to output a list of item IDs based upon all quests' item objectives in the currently loaded DB at runtime.
+        -- It should not be documented for users.
+        -- It does perform a bruteforce operation on the DB, it's a bit laggy, and this is a hacky way of doing it... but we only do it manually.
         local function contains(table, val)
             for i=1,#table do
                 if table[i] == val then
@@ -275,35 +277,23 @@ function QuestieSlash.HandleCommands(input)
         end
 
         local data = {}
-        for i=1,13000 do
-            --print("Querying DB for Quest " .. i)
+        for i=1,35000 do -- Manually search every quest ID from 1-35000 (roughly the upper bound for MoP)
             local obj = QuestieDB.QueryQuestSingle(i, "objectives")
-            if obj then
-                if obj[3] then
-                    for x=1,10 do
-                        if obj[3][x] then
-                            local item = obj[3][x][1]
-                            if item ~= nil then
-                                if contains(data,item) == false then
-                                    --print("Adding item " .. i .. " to the list")
-                                    table.insert(data,item)
-                                else
-                                    print("Duplicate found: " .. item)
-                                end
-                            end
+            if obj and obj[3] then -- If there are itemoObjectives for that quest ID (aka if the quest is valid)
+                for x=1,10 do -- then for the first 10 objectives (don't know of any quests with more than 10)
+                    if obj[3][x] then -- If x objective is an itemObjective
+                        local item = obj[3][x][1] -- then write down the item ID from that itemObjective
+                        if item ~= nil and contains(data,item) == false then -- If there was an item ID and it isn't on our list
+                            table.insert(data,item) -- add it to the list
                         end
                     end
                 end
             end
         end
-        --DevTools_Dump(data)
         local output = ""
         for i, id in pairs(data) do
-            --if i < 10 then
-                output = output .. id .. ","
-            --end
+            output = output .. id .. "," -- generate a string list of the items, comma-separated (for json syntax)
         end
-        DevTools_Dump(output)
 
         StaticPopupDialogs["QUESTIE_ITEMDROPOUTPUT"] = {
             text = "Questie Item Drop Output",
@@ -320,11 +310,8 @@ function QuestieSlash.HandleCommands(input)
             end,
 
             OnShow = function(self)
-                --print("test1")
-                --DevTools_Dump(self)
-                local editBox = _G[self:GetName() .. "WideEditBox"] or _G[self:GetName() .. "EditBox"]
+                local editBox = _G[self:GetName() .. "WideEditBox"] or _G[self:GetName() .. "EditBox"] -- this is new as of midnight??? editBox isn't instantiated anymore for some reason
                 editBox:SetText(output);
-                --print("test2")
                 editBox:SetFocus();
                 editBox:HighlightText();
             end,
@@ -333,12 +320,7 @@ function QuestieSlash.HandleCommands(input)
             hideOnEscape = true
         }
 
-        StaticPopup_Show("QUESTIE_ITEMDROPOUTPUT")
-
-        --local data = QuestieDB.QueryQuestSingle(5544, "objectives")
-
-        --DevTools_Dump(data)
-
+        StaticPopup_Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
         return
     end
 
