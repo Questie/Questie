@@ -19,7 +19,7 @@ local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 local function determineAppropriateQuestIcon(questID, isActive)
     if questID == 0 then -- if we were fed a questID of 0, the ID bruteforce failed, abort
         if isActive == true then
-            return Questie.icons["complete"]
+            return Questie.icons["incomplete"]
         else
             return Questie.icons["available"]
         end
