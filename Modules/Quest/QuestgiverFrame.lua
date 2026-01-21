@@ -132,7 +132,7 @@ function QuestgiverFrame.RecheckGreeting()
     local activeTitle, _ = GetActiveTitle(1)
     local availableTitle, _ = GetAvailableTitle(1)
     if activeTitle or availableTitle then
-        print("Refreshing")
+        Questie:Debug("Greeting Panel Refreshing")
         QuestgiverFrame.GreetingMark()
     end
 end
