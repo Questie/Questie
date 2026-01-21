@@ -8,6 +8,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
+---@type table<number, boolean>
 Moonwell.dataClassic = {
     -- Teldrassil Moonwells
     [19549] = true, -- Shadowglen moonwell
@@ -37,6 +38,7 @@ Moonwell.dataClassic = {
     [177281] = true,
 }
 
+---@type table<number, boolean>
 Moonwell.dataTBC = {
     [400021] = true, -- Cenarion Thicket moonwell
     [400022] = true, -- Evergrove moonwell
