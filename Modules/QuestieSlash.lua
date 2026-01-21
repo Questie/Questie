@@ -290,10 +290,8 @@ function QuestieSlash.HandleCommands(input)
                 end
             end
         end
-        local output = ""
-        for i, id in pairs(data) do
-            output = output .. id .. "," -- generate a string list of the items, comma-separated (for json syntax)
-        end
+
+        local output = table.concat(data, ",") -- generate a string list of the items, comma-separated (for json syntax)
 
         StaticPopupDialogs["QUESTIE_ITEMDROPOUTPUT"] = {
             text = "Questie Item Drop Output",
