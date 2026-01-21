@@ -249,6 +249,7 @@ describe("AutoQuesting", function()
                     return "Player-0-0-0-0-0-67890"
                 end
             end)
+            _G.GetTitleText = function() return "Test Quest" end
             Questie.db.profile.autoAccept.rejectSharedInBattleground = true
 
             AutoQuesting.OnQuestDetail()
