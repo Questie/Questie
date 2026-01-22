@@ -56,6 +56,9 @@ function QuestieTBCQuestFixes:Load()
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82}}}},
         },
+        [233] = {
+            [questKeys.preQuestSingle] = {179},
+        },
         [225] = {
             [questKeys.requiredLevel] = 25,
         },
@@ -289,14 +292,48 @@ function QuestieTBCQuestFixes:Load()
         [1999] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [2205] = { -- Seek out SI: 7
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
+        [2206] = { -- Snatch and Grab
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {2205},
+            [questKeys.breadcrumbs] = {},
+        },
+        [2218] = { -- Road to Salvation
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
+        [2238] = { -- Simple Subterfugin'
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {2218},
+            [questKeys.breadcrumbs] = {},
+        },
+        [2239] = { -- Onin's Report
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
+        },
+        [2241] = { -- The Apple Falls
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
+        [2242] = { -- Destiny Calls
+            [questKeys.preQuestSingle] = {2241},
+            [questKeys.breadcrumbs] = {},
         },
         [2279] = {
             [questKeys.requiredLevel] = 40,
         },
         [2280] = {
             [questKeys.requiredLevel] = 40,
+        },
+        [2298] = { -- Kingly Shakedown
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [2299] = { -- To Hulfdan!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2381] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -486,6 +523,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047},
+        },
+        [6983] = { -- You're a Mean One...
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7484] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3624,9 +3664,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{56.38,62.42}}}, Questie.ICON_TYPE_EVENT, l10n("Smear the Fish Paste on yourself and swim to the ship wreck")}},
         },
         [11211] = {
-            [questKeys.preQuestSingle] = {11213},
             [questKeys.exclusiveTo] = {11158,11214,11215},
-            [questKeys.reputationReward] = {{369,10}},
         },
         [11214] = {
             [questKeys.exclusiveTo] = {11158,11211,11215},

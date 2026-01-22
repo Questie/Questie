@@ -180,7 +180,7 @@ function QuestieQuestFixes:Load()
         [282] = {
             [questKeys.exclusiveTo] = {287},
         },
-        [287] = {
+        [287] = { -- Frostmane Hold
             [questKeys.preQuestSingle] = {},
         },
         [297] = {
@@ -246,10 +246,8 @@ function QuestieQuestFixes:Load()
         [413] = {
             [questKeys.breadcrumbs] = {415}, -- #567
         },
-        [415] = {
-            [questKeys.nextQuestInChain] = 0,
+        [415] = { -- Rejold's New Brew
             [questKeys.breadcrumbForQuestId] = 413, -- #567
-            [questKeys.exclusiveTo] = {413}, -- #7360
         },
         [427] = {
             [questKeys.preQuestSingle] = {},
@@ -320,7 +318,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2081,2083,2151,2155},nil,nil},
         },
         [495] = {
-             [questKeys.breadcrumbForQuestId] = 518,
+            [questKeys.breadcrumbForQuestId] = 518,
         },
         [504] = {
             [questKeys.objectivesText] = {"Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
@@ -3694,7 +3692,7 @@ function QuestieQuestFixes:Load()
         [8314] = {
             [questKeys.specialFlags] = 0, -- #1870
         },
-        [8315] = {
+        [8315] = { -- The Calling
             [questKeys.extraObjectives] = {{{[zoneIDs.SILITHUS]={{47.50,54.50}}}, Questie.ICON_TYPE_EVENT, l10n("Draw the glyphs into the sand to summon the Qiraji Emissary."),}},
             [questKeys.objectivesText] = {"Geologist Larksbane at Cenarion Hold in Silithus wants you to recover the Crystal Unlocking Mechanism from the Qiraji Emissary.","","You have been instructed to take the Glyphs of Calling to the Bones of Grakkarond, south of Cenarion Hold, and draw them in the sand. Should the Qiraji Emissary appear, slay it and recover the Crystal Unlocking Mechanism. Return to Geologist Larksbane if you succeed.","","Assemble an army for this task, <Name>!"},
         },
