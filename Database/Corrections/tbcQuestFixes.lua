@@ -3626,6 +3626,7 @@ function QuestieTBCQuestFixes:Load()
         [11211] = {
             [questKeys.preQuestSingle] = {11213},
             [questKeys.exclusiveTo] = {11158,11214,11215},
+            [questKeys.reputationReward] = {{369,10}},
         },
         [11214] = {
             [questKeys.exclusiveTo] = {11158,11211,11215},
