@@ -52,6 +52,7 @@ end
 
 -- 9.0.0 API GOSSIP
 local function updateGossipFrame()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
     local availQuests = QuestieCompat.GetAvailableQuests()
@@ -86,6 +87,7 @@ end
 
 -- GREETING FRAMES (API independent)
 local function updateGreetingFrame()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
     local titleLines = {}
     local questIconTextures = {}
     local questgiver = UnitGUID("npc")
@@ -132,7 +134,7 @@ function QuestgiverFrame.RecheckGreeting()
     local activeTitle, _ = GetActiveTitle(1)
     local availableTitle, _ = GetAvailableTitle(1)
     if activeTitle or availableTitle then
-        Questie:Debug("Greeting Panel Refreshing")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Greeting Panel Refreshing. Active: " .. tostring(activeTitle) .. " Available: " .. tostring(availableTitle))
         QuestgiverFrame.GreetingMark()
     end
 end
@@ -157,6 +159,7 @@ end
 -- Boy, this code is clean... these DF Gossip APIs sure are great!
 -- What a shame that the greeting API hasn't been touched in two decades.
 if GossipAvailableQuestButtonMixin then
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 10.0+")
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
         oldAvailableSetup(self, ...)
