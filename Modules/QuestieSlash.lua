@@ -277,16 +277,23 @@ function QuestieSlash.HandleCommands(input)
         end
 
         local data = {}
-        for i=1,35000 do -- Manually search every quest ID from 1-35000 (roughly the upper bound for MoP)
+        for i=1,35000 do -- Manually search every quest ID from 1-35000 (roughly the upper bound for MoP;
+            -- if you're reading this and know if there's a way to just 'check every quest' cleanly feel free to rewrite)
             local obj = QuestieDB.QueryQuestSingle(i, "objectives")
             if obj and obj[3] then -- If there are itemoObjectives for that quest ID (aka if the quest is valid)
-                for x=1,10 do -- then for the first 10 objectives (don't know of any quests with more than 10)
+                for x=1,table.getn(obj[3]) do -- then for each objective
                     if obj[3][x] then -- If x objective is an itemObjective
                         local item = obj[3][x][1] -- then write down the item ID from that itemObjective
                         if item ~= nil and contains(data,item) == false then -- If there was an item ID and it isn't on our list
                             table.insert(data,item) -- add it to the list
                         end
                     end
+                end
+            end
+            local sourceItems = QuestieDB.QueryQuestSingle(i, "requiredSourceItems")
+            if sourceItems then
+                for x=1,table.getn(sourceItems) do
+                    table.insert(data,sourceItems[x]) -- do the same for requiredSourceItems
                 end
             end
         end

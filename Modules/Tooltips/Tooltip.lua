@@ -305,27 +305,27 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     if objective.Type == "spell" and objective.spawnList[npcId].ItemId then
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
-                    elseif objective.Needed then
-                        if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
-                            local dropRateText = ""
-                            local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
-                            if dropRate and Questie.db.profile.enableTooltipDroprates then
-                                if dropRate >= 10 then
-                                    dropRateText = " |cFF999999(" .. string.format("%.0f", dropRate) .. "%)|r";
-                                elseif dropRate >= 2 then
-                                    dropRateText = " |cFF999999(" .. string.format("%.1f", dropRate) .. "%)|r";
-                                elseif dropRate >= 0.01 then
-                                    dropRateText = " |cFF999999(" .. string.format("%.2f", dropRate) .. "%)|r";
-                                else
-                                    dropRateText = " |cFF999999(" .. string.format("%.3f", dropRate) .. "%)|r";
-                                end
+                    else
+                        local dropRateText = ""
+                        local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                        if dropRate and Questie.db.profile.enableTooltipDroprates then
+                            if dropRate >= 10 then
+                                dropRateText = " |cFF999999(" .. string.format("%.0f", dropRate) .. "%)|r";
+                            elseif dropRate >= 2 then
+                                dropRateText = " |cFF999999(" .. string.format("%.1f", dropRate) .. "%)|r";
+                            elseif dropRate >= 0.01 then
+                                dropRateText = " |cFF999999(" .. string.format("%.2f", dropRate) .. "%)|r";
+                            else
+                                dropRateText = " |cFF999999(" .. string.format("%.3f", dropRate) .. "%)|r";
                             end
+                        end
+                        if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        else
+                            text = "   " .. color .. tostring(objective.Description) .. dropRateText;
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
-                    else
-                        text = "   " .. color .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
             end
