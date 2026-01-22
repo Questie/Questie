@@ -52,7 +52,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {163} -- #1198
         },
         [11] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {76}, -- #7364
             [questKeys.breadcrumbs] = {239},
         },
         [17] = {
