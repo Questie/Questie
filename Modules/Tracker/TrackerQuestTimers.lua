@@ -46,7 +46,7 @@ function TrackerQuestTimers:HideBlizzardTimer()
 end
 
 function TrackerQuestTimers:ShowBlizzardTimer()
-    if QuestTimerFrame then
+    if QuestTimerFrame and timer then
         QuestTimerFrame:Show()
     end
 end
