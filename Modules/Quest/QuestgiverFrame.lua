@@ -159,9 +159,9 @@ end
 -- Boy, this code is clean... these DF Gossip APIs sure are great!
 -- What a shame that the greeting API hasn't been touched in two decades.
 if GossipAvailableQuestButtonMixin then
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 10.0+")
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipAvailableQuestButtonMixin frame 10.0+")
         oldAvailableSetup(self, ...)
         if (not Questie.started) then
             return
@@ -182,6 +182,7 @@ if GossipAvailableQuestButtonMixin then
 
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
     function GossipActiveQuestButtonMixin:Setup(...)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipActiveQuestButtonMixin frame 10.0+")
         oldActiveSetup(self, ...)
         if (not Questie.started) then
             return
