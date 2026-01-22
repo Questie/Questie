@@ -256,9 +256,11 @@ function CataQuestFixes.Load()
         },
         [930] = { -- The Glowing Fruit
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {},
         },
         [931] = { -- The Shimmering Frond
             [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {},
         },
         [932] = { -- Twisted Hatred
             [questKeys.preQuestSingle] = {489},
