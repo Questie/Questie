@@ -3879,6 +3879,9 @@ function QuestieTBCQuestFixes:Load()
         [11545] = {
             [questKeys.requiredMaxRep] = {1077,42000},
         },
+        [11549] = { -- A Magnanimous Benefactor
+            [questKeys.objectivesText] = {"Anchorite Kairthos wants you to donate 1000 gold to aid in Anchorite Ayuri's efforts. You will be known as <Name> of the Shattered Sun if you complete this quest."},
+        },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

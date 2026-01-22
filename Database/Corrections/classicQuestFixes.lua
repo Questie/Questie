@@ -1454,6 +1454,9 @@ function QuestieQuestFixes:Load()
         [2608] = {
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
         },
+        [2609] = { -- The Touch of Zanzil
+            [questKeys.objectivesText] = {"Bring Doc Mixilpixil one bundle of Simple Wildflowers, one Leaded Vial, one Bronze Tube, and one Spool of Light Chartreuse Silk Thread. The 'itis' doesn't cure itself, young <fella/lady>."},
+        },
         [2742] = {
             [questKeys.triggerEnd] = {"Escort Rin'ji to safety", {[zoneIDs.THE_HINTERLANDS]={{34.58,56.33}}}},
         },
@@ -2897,6 +2900,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {6135,6136}, -- #1950
         },
+        [6187] = {
+            [questKeys.objectivesText] = {"Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.","","Keep your wits about you, <Name>. The Horde will defend the ranger lord with their very lives."},
+        },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
             [questKeys.breadcrumbForQuestId] = 6383,
@@ -3244,6 +3250,7 @@ function QuestieQuestFixes:Load()
         },
         [7632] = {
             [questKeys.startedBy] = {{12018},{179703},{18703}},
+            [questKeys.objectivesText] = {"Find the owner of the Ancient Petrified Leaf. Good luck, <Name>; It's a big world."},
         },
         [7633] = {
             [questKeys.preQuestSingle] = {7632},
@@ -3681,11 +3688,15 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{15171,"Frankal Questioned",Questie.ICON_TYPE_TALK},{15170,"Rutgar Questioned",Questie.ICON_TYPE_TALK}},nil,nil,nil},
             [questKeys.requiredLevel] = 58, -- #2166
         },
+        [8306] = { -- Into The Maw of Madness
+            [questKeys.objectivesText] = {"Commander Mar'alith at Cenarion Hold in Silithus wants you to find his beloved Natalia. The information that you gathered points to Hive'Regal in the south as being the area in which you may find Mistress Natalia Mar'alith.","","Do not forget to visit the dwarves at Bronzebeard's camp before venturing into the hive. They might have some additional work and advice for you.","","And <Name>, remember the Commander's words: \"Do what you must...\""},
+        },
         [8314] = {
             [questKeys.specialFlags] = 0, -- #1870
         },
         [8315] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SILITHUS]={{47.50,54.50}}}, Questie.ICON_TYPE_EVENT, l10n("Draw the glyphs into the sand to summon the Qiraji Emissary."),}},
+            [questKeys.objectivesText] = {"Geologist Larksbane at Cenarion Hold in Silithus wants you to recover the Crystal Unlocking Mechanism from the Qiraji Emissary.","","You have been instructed to take the Glyphs of Calling to the Bones of Grakkarond, south of Cenarion Hold, and draw them in the sand. Should the Qiraji Emissary appear, slay it and recover the Crystal Unlocking Mechanism. Return to Geologist Larksbane if you succeed.","","Assemble an army for this task, <Name>!"},
         },
         [8317] = {
             [questKeys.requiredSourceItems] = {20424},
