@@ -579,6 +579,9 @@ function QuestieNPCFixes:Load()
         [3533] = { -- Moonrage Leatherworker
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{44.16,73.83}}},
         },
+        [3535] = { -- Blackmoss the Fetid
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.97,30.22},{42.43,37.84}}},
+        },
         [3537] = { -- Zixil <Merchant Supreme>
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{55.38,34.71}}},
         },
