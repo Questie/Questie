@@ -1004,6 +1004,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [8150] = "Sal de roca",
 [8152] = "Frasco de gran mojo",
 [8153] = "Atriplex salvaje",
+[8155] = "Sacrificio de Sathrah",
 [8165] = "Dragontina desgastada",
 [8170] = "Cuero basto",
 [8244] = "Esfera draenetista perfecta",
