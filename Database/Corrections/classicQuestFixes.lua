@@ -562,10 +562,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {924}, -- #2195
         },
         [930] = {
-            [questKeys.preQuestSingle] = {918}, -- #971
+            [questKeys.preQuestGroup] = {918,919}, -- #971
         },
         [931] = {
-            [questKeys.preQuestSingle] = {918},
+            [questKeys.preQuestGroup] = {918,919},
         },
         [936] = {
             [questKeys.breadcrumbForQuestId] = 3761,
