@@ -71,6 +71,9 @@ function QuestieTBCQuestFixes:Load()
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
+        [310] = { -- Bitter Rivals
+            [questKeys.childQuests] = {308},
+        },
         [349] = {
             [questKeys.objectivesText] = {"Speak with Witch Doctor Unbagwa.",},
         },
