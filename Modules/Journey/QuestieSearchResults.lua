@@ -551,8 +551,9 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         local vendorIdsWithSpawns = {}
         for _, npcId in pairs(vendors) do
             local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+            local friendlyToFaction = QuestieDB.QueryNPCSingle(npcId, "friendlyToFaction")
 
-            if spawns then
+            if spawns and QuestieDB.IsFriendlyToPlayer(friendlyToFaction) then
                 vendorIdsWithSpawns[#vendorIdsWithSpawns + 1] = npcId
             end
         end

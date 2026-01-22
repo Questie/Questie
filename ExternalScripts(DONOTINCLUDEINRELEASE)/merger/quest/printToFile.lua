@@ -77,12 +77,6 @@ QuestieDB.questKeys = {\
     ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID\
     ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.\
     ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level\
-    ['breadcrumbForQuestId'] = 27, -- int: quest ID for the quest this optional breadcrumb quest leads to\
-    ['breadcrumbs'] = 28, -- table: {questID(int), ...} quest IDs of the breadcrumbs that lead to this quest\
-    ['extraObjectives'] = 29, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems\
-    ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID\
-    ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.\
-    ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level\
 }\
 \
 QuestieDB.questData = [[return {\n")

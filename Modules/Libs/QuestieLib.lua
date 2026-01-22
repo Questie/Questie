@@ -158,6 +158,9 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
     return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
 end
 
+-- The order of these colors is important for the ColorWheel function.
+-- Taken from https://tailwindcolor.com/
+---@type Color[]
 local colors = {
     -- Light (200)         Standard (500)         -- Family
     {0.99, 0.73, 0.73},    {0.94, 0.19, 0.19},    -- Red
@@ -170,6 +173,16 @@ local colors = {
     {0.99, 0.76, 0.89},    {0.93, 0.16, 0.55},    -- Pink
 }
 
+-- Shuffle colors on startup (Fisher-Yates)
+local function shuffleTable(t)
+    for i = #t, 2, -1 do
+        local j = math_random(1, i)
+        t[i], t[j] = t[j], t[i]
+    end
+end
+
+shuffleTable(colors)
+
 local numColors = #colors
 local lastColor = math_random(numColors)
 
@@ -180,11 +193,6 @@ function QuestieLib:ColorWheel()
         lastColor = 1
     end
     return colors[lastColor]
-end
-
----@return Color
-function QuestieLib:GetRandomColor()
-    return colors[math_random(numColors)]
 end
 
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the

@@ -2027,7 +2027,7 @@ function QuestieQuestBlacklist:Load()
         [400] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [404] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [403] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [403] = Expansions.Current >= Expansions.Tbc, -- Removed with TBC
         [405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [406] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [407] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5249,7 +5249,7 @@ function QuestieQuestBlacklist:Load()
         [10497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [10529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10529] = true, -- Not in the game
         [10530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10549] = Expansions.Current >= Expansions.Cata, -- Removed with cata

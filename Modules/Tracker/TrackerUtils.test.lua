@@ -655,4 +655,44 @@ describe("TrackerUtils", function()
             assert.is_false(hasQuest)
         end)
     end)
+
+    describe("GetCompletionText", function()
+        it("should return API completion text", function()
+            _G.GetQuestLogCompletionText = function() return "Return to that NPC" end
+            _G.GetQuestLogIndexByID = function() return 1 end
+            local quest = {Id = 1}
+
+            local text = TrackerUtils:GetCompletionText(quest)
+
+            assert.is_equal("Return to that NPC", text)
+        end)
+
+        it("should return quest description when GetQuestLogCompletionText API is not available", function()
+            _G.GetQuestLogCompletionText = nil
+            local quest = {Id = 1, Description = {"Return to that other NPC"}}
+
+            local text = TrackerUtils:GetCompletionText(quest)
+
+            assert.is_equal("Return to that other NPC", text)
+        end)
+
+        it("should return quest description when API does not return a completion text", function()
+            _G.GetQuestLogCompletionText = function() return nil end
+            _G.GetQuestLogIndexByID = function() return 1 end
+            local quest = {Id = 1, Description = {"Return to that other NPC"}}
+
+            local text = TrackerUtils:GetCompletionText(quest)
+
+            assert.is_equal("Return to that other NPC", text)
+        end)
+
+        it("should return nil when API does not return a completion text and quest also has no description", function()
+            _G.GetQuestLogCompletionText = nil
+            local quest = {Id = 1}
+
+            local text = TrackerUtils:GetCompletionText(quest)
+
+            assert.is_equal(nil, text)
+        end)
+    end)
 end)

@@ -333,7 +333,7 @@ function QuestieDB:GetItem(itemId)
 
     if rawdata[QuestieDB.itemKeys.npcDrops] then
         for _, npcId in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do
-            sources[#sources+1] = {
+            sources[#sources + 1] = {
                 Id = npcId,
                 Type = "monster",
             }
@@ -342,16 +342,21 @@ function QuestieDB:GetItem(itemId)
 
     if rawdata[QuestieDB.itemKeys.vendors] then
         for _, npcId in pairs(rawdata[QuestieDB.itemKeys.vendors]) do
-            sources[#sources+1] = {
-                Id = npcId,
-                Type = "monster",
-            }
+            local friendlyToFaction = QuestieDB.QueryNPCSingle(npcId, "friendlyToFaction")
+            local isFriendlyToPlayer = QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
+            if isFriendlyToPlayer then
+                -- We don't want to show vendors from the opposite faction
+                sources[#sources + 1] = {
+                    Id = npcId,
+                    Type = "monster",
+                }
+            end
         end
     end
 
     if rawdata[QuestieDB.itemKeys.objectDrops] then
         for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do
-            sources[#sources+1] = {
+            sources[#sources + 1] = {
                 Id = v,
                 Type = "object",
             }
@@ -513,7 +518,7 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     end
 
     for _, exId in pairs(exclusiveTo) do
-        if Questie.db.char.complete[exId] then
+        if Questie.db.char.complete[exId] or QuestiePlayer.currentQuestlog[exId] then
             return true
         end
     end

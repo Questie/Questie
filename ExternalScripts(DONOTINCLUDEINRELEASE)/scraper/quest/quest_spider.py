@@ -43,9 +43,10 @@ class QuestSpider(scrapy.Spider):
         # with open('response.html', 'wb') as f:
         #     f.write(response.body)
 
-        if response.url.startswith(f'https://www.wowhead.com/{self.exp}quests?notFound='):
-            questID = re.search(rf'https://www.wowhead.com/{self.exp}quests\?notFound=(\d+)', response.url).group(1)
-            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
+        not_found_prefix = self.base_url.replace('quest={}', 'quests?notFound=')
+        if response.url.startswith(not_found_prefix):
+            quest_id = re.search(r'notFound=(\d+)', response.url).group(1)
+            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=quest_id))
             return None
 
         result = {}
@@ -67,8 +68,10 @@ class QuestSpider(scrapy.Spider):
                         result["questId"],
                         repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
                     )
-                if "reqRace" not in result:
-                    result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
+                req_race = re.search(r'"reqrace":(\d+)', script).group(1)
+                if req_race and (not "reqRace" in result or (result["reqRace"] != req_race and req_race != "0")):
+                    # we want to override eventually found fallback
+                    result["reqRace"] = req_race
             if script.lstrip().startswith('WH.markup'):
                 npc_starter = re.findall(r'Start:[^]]*?npc=(\d+)', script)
                 object_starter = re.findall(r'Start:[^]]*?object=(\d+)', script)
@@ -143,7 +146,9 @@ class QuestSpider(scrapy.Spider):
             # if we already have the same reputation reward from the same faction, ignore it
             if any(item[0] == reward[0] for item in normalized_reputations):
                 existing_reward = next(item for item in normalized_reputations if item[0] == reward[0])
-                logging.info("Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward, reward2=existing_reward))
+                logging.info(
+                    "Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward,
+                                                                                                                                               reward2=existing_reward))
             else:
                 normalized_reputations.append(reward)
 

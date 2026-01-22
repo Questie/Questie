@@ -965,9 +965,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.trackerFontSizeQuest end,
                         set = function(_, value)
                             Questie.db.profile.trackerFontSizeQuest = value
-                            if Questie.db.profile.trackerFontSizeObjective > value then
-                                Questie.db.profile.trackerFontSizeObjective = value
-                            end
                             QuestieTracker:Update()
                         end
                     },
@@ -998,11 +995,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerFontSizeObjective end,
                         set = function(_, value)
-                            if Questie.db.profile.trackerFontSizeQuest < value then
-                                Questie.db.profile.trackerFontSizeObjective = Questie.db.profile.trackerFontSizeQuest
-                            else
-                                Questie.db.profile.trackerFontSizeObjective = value
-                            end
+                            Questie.db.profile.trackerFontSizeObjective = value
                             QuestieTracker:Update()
                         end
                     },

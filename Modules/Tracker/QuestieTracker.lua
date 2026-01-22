@@ -60,7 +60,7 @@ local trackerMarginLeft = 14
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
-local durabilityInitialPosition = { DurabilityFrame:GetPoint() }
+local durabilityInitialPosition
 
 local voiceOverInitialPosition
 if VoiceOverFrame then
@@ -130,6 +130,8 @@ function QuestieTracker.Initialize()
         -- The Tracker is disabled, no need to continue
         return
     end
+
+    durabilityInitialPosition = { DurabilityFrame:GetPoint() }
 
     -- Initialize tracker frames
     trackerBaseFrame = TrackerBaseFrame.Initialize()
@@ -925,12 +927,14 @@ function QuestieTracker:Update()
                             -- Check and measure Timer text width and update tracker width
                             QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
 
-                            -- Set Timer Label and Line widthsl
-                            line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC)
+                            -- Set Timer Label and Line widths. We add 40 pixels, because timers start with "15 Minutes" and will then be "14 Minutes 59 Seconds" right after.
+                            line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC + 40)
                             line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                             -- Compare largest text Label in the tracker with current Label, then save widest width
                             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
+
+                            line:SetHeight(line.label:GetHeight() + 1)
 
                             -- Set Timer states
                             line:Show()

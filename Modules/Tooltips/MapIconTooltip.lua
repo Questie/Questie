@@ -457,6 +457,9 @@ local function _GetQuestTag(quest)
         if (QuestieEvent and QuestieEvent.activeQuests[quest.Id]) then
             return "(" .. l10n("Event") .. ")";
         elseif (questTagId == 41) then
+            if QuestieDB.IsDailyQuest(quest.Id) then
+                return "(" .. l10n("Daily PvP") .. ")";
+            end
             return "(" .. l10n("PvP") .. ")";
         elseif (questTagId == 102) then
             if QuestieDB.IsWeeklyQuest(quest.Id) then
@@ -482,8 +485,8 @@ local function _GetQuestTag(quest)
             return "(" .. (DAILY or l10n("Daily")) .. ")";
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return "(" .. l10n("Repeatable") .. ")";
+            --  Group(Elite)       Class               Raid                Dungeon             Legendary           Escort              Heroic              Raid(10)            Raid(25)            Scenario            Celestial
         elseif (questTagId == 1 or questTagId == 21 or questTagId == 62 or questTagId == 81 or questTagId == 83 or questTagId == 84 or questTagId == 85 or questTagId == 88 or questTagId == 89 or questTagId == 98 or questTagId == 294) then
-            -- Group(Elite) or Class or Raid or Dungeon or Legendary or Escort or Heroic or Raid(10) or Raid(25) or Scenario or Celestial
             return "(" .. questTagName .. ")";
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
             return "(" .. l10n("Rune") .. ")";
