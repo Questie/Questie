@@ -614,6 +614,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5189] = "Fruta resplandeciente",
 [5203] = "Garra de merodeador de las estepas",
 [5204] = "Cinturón Sangrepluma",
+[5217] = "Corazón máculo",
 [5219] = "Corteza grabada",
 [5221] = "Cabeza de Melenas",
 [5233] = "Piedra de Relu",
