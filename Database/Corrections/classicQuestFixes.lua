@@ -548,6 +548,9 @@ function QuestieQuestFixes:Load()
         [918] = {
             [questKeys.preQuestSingle] = {},
         },
+        [923] = {
+            [questKeys.nextQuestInChain] = 2498,
+        },
         [924] = {
             [questKeys.requiredSourceItems] = {4986},
         },
