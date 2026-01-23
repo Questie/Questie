@@ -1204,7 +1204,7 @@ function QuestieQuestBlacklist:Load()
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
-        [10259] = true, -- Into the Breach (TBC Pre patch event)
+        [10259] = Expansions.Current ~= Expansions.Tbc, -- Into the Breach (TBC Pre patch event)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
         [10534] = true, -- Returning Home (Unavailable Priest quest)
