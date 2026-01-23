@@ -72,8 +72,11 @@ function _MinimapIcon.OnClick(_, button)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
 
             if minimapButton and minimapButton:IsMouseOver() then
-                GameTooltip:Hide()
-                minimapButton:GetScript("OnEnter")(minimapButton)
+                local onEnter = minimapButton:GetScript("OnEnter")
+                if onEnter then
+                    GameTooltip:Hide()
+                    onEnter(minimapButton)
+                end
             end
 
             -- Close config window if it's open to avoid desyncing the Checkbox
