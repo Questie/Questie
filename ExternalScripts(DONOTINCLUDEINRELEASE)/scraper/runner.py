@@ -173,8 +173,8 @@ if __name__ == '__main__':
     parser.add_argument("--quest-translations-sod", help="Run quest spider for SoD translations", action="store_true")
 
     parser.add_argument(
-        "--expac","-ex",
-        help="Target expansion ID or name (e.g. 2 or 'tbc'). Defaults to 1 (classic era) if flag is used without value.",
+        "--expac","--expansion","-ex",
+        help="Target expansion ID or name (e.g. 2 or 'tbc'). Defaults to 1 (classic era).",
         nargs='?',             # Allow 0 or 1 argument total
         const=1,               # Value used if flag is present but NO argument is given
         default=1,             # Value used if flag is NOT present at all
