@@ -565,7 +565,7 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {2206},
         },
         [7737] = { -- Sethir's Journal
-            [itemKeys.relatedQuests] = {},
+            [itemKeys.relatedQuests] = {2242},
             [itemKeys.npcDrops] = {6909},
             [itemKeys.objectDrops] = {},
         },

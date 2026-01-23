@@ -1359,67 +1359,53 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {3375},
             [questKeys.requiredLevel] = 37, -- #2447
         },
-        [2205] = {
+        [2205] = { -- Seek out SI: 7
             [questKeys.exclusiveTo] = {}, -- #1466
-            [questKeys.breadcrumbForQuestId] = 2206,
             [questKeys.nextQuestInChain] = 2206,
         },
-        [2206] = {
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {2205},
+        [2206] = { -- Snatch and Grab
+            [questKeys.objectives] = {nil,nil,{{7675,nil,Questie.ICON_TYPE_INTERACT}}}, -- only obtainable via Pick Pocket
         },
-        [2218] = {
+        [2218] = { -- Road to Salvation
             [questKeys.exclusiveTo] = {}, -- #1466
-            [questKeys.breadcrumbForQuestId] = 2238,
         },
-        [2238] = {
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {2218},
-        },
-        [2240]  = {
+        [2240] = {
             [questKeys.triggerEnd] = { "Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
-        [2241] = {
+        [2241] = { -- The Apple Falls
             [questKeys.exclusiveTo] = {}, -- #1466
-            [questKeys.breadcrumbForQuestId] = 2242,
             [questKeys.nextQuestInChain] = 2242,
         },
-        [2242] = {
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {2241},
+        [2242] = { -- Destiny Calls
+            [questKeys.objectives] = {nil,nil,{{7737,nil,Questie.ICON_TYPE_INTERACT}}}, -- only obtainable via Pick Pocket
         },
-        [2259] = {
+        [2259] = { -- Erion Shadewhisper
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2260, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1825
+            [questKeys.exclusiveTo] = {2281}, -- #1825 -- not available after TURNING IN 2281. available until then
         },
-        [2260] = {
+        [2260] = { -- Erion's Behest
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2259}, -- #2476
-            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
-            [questKeys.nextQuestInChain] = 2281,
+            [questKeys.exclusiveTo] = {2281}, -- #1825 -- not available after TURNING IN 2281. available until then
         },
         [2278] = {
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer",Questie.ICON_TYPE_TALK}}},
         },
-        [2281] = {
-            [questKeys.preQuestSingle] = {}, -- #1825
-            [questKeys.breadcrumbs] = {2260,2298,2300},
-        },
-        [2298] = {
+        [2298] = { -- Kingly Shakedown
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2299}, -- #2476
-            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
-            [questKeys.nextQuestInChain] = 2281,
+            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
         },
-        [2299] = {
+        [2299] = { -- To Hulfdan!
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2298, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1817
+            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
         },
-        [2300] = {
+        [2300] = { -- SI:7
             [questKeys.preQuestSingle] = {}, -- #1825
-            [questKeys.breadcrumbForQuestId] = 2281, -- #2476
+            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
+            [questKeys.nextQuestInChain] = 0,
         },
         [2318] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

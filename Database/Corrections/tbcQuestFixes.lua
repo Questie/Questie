@@ -297,34 +297,21 @@ function QuestieTBCQuestFixes:Load()
         },
         [2205] = { -- Seek out SI: 7
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.breadcrumbForQuestId] = 0,
         },
         [2206] = { -- Snatch and Grab
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {2205},
-            [questKeys.breadcrumbs] = {},
         },
         [2218] = { -- Road to Salvation
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.breadcrumbForQuestId] = 0,
         },
         [2238] = { -- Simple Subterfugin'
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestSingle] = {2218},
-            [questKeys.breadcrumbs] = {},
         },
         [2239] = { -- Onin's Report
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
-        },
-        [2241] = { -- The Apple Falls
-            [questKeys.breadcrumbForQuestId] = 0,
-        },
-        [2242] = { -- Destiny Calls
-            [questKeys.preQuestSingle] = {2241},
-            [questKeys.breadcrumbs] = {},
         },
         [2279] = {
             [questKeys.requiredLevel] = 40,
