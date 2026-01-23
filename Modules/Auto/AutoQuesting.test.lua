@@ -241,6 +241,7 @@ describe("AutoQuesting", function()
 
         it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
             _G.GetQuestID = function() return 123 end
+            _G.GetTime = function() return 100 end
             _G.UnitInBattleground = spy.new(function() return true end)
             _G.UnitGUID = spy.new(function(unit)
                 if unit == "player" then
