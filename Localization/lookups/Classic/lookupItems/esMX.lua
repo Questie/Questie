@@ -36,6 +36,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [915] = "Pañuelo de seda rojo",
 [921] = "Una página de diario borrada",
 [929] = "Poción de sanación",
+[957] = "Envío de William",
 [981] = "Collar de Bernice",
 [1006] = "Collera de latón",
 [1013] = "Remache de hierro",
