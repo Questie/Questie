@@ -14,18 +14,6 @@ local minimapIconLocales = {
         ["zhCN"] = "打开主菜单",
         ["zhTW"] = "顯示/隱藏選單",
     },
-    ["Toggle Questie"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Icons aktivieren/deaktivieren",
-        ["esES"] = "Mostrar Questie",
-        ["esMX"] = "Mostrar Questie",
-        ["frFR"] = "Afficher Questie",
-        ["koKR"] = "Questie 표시",
-        ["ptBR"] = "Mostrar Questie",
-        ["ruRU"] = "Показать/скрыть значки",
-        ["zhCN"] = "启动Questie",
-        ["zhTW"] = "顯示/隱藏任務位置提示",
-    },
     ["Toggle My Journey"] = {
         ["enUS"] = true,
         ["deDE"] = "Meine Reise zeigen/verstecken",
