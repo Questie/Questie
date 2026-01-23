@@ -15,21 +15,6 @@ local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
 
 local mapButton
 
----@param self Frame
----@return nil
-local function UpdateTooltip(self)
-    local tooltip = GameTooltip
-    tooltip:SetOwner(self, "ANCHOR_NONE");
-    tooltip:ClearLines()
-    tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
-    tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
-    tooltip:AddLine(" ")
-    local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
-    tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
-    tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
-    tooltip:Show()
-end
-
 function WorldMapButton.Initialize()
     mapButton = KButtons:Add("QuestieWorldMapButtonTemplate", "BUTTON")
 
@@ -47,6 +32,21 @@ function WorldMapButton.Toggle(shouldShow)
     else
         mapButton:Hide()
     end
+end
+
+---@param self Frame
+---@return nil
+local function UpdateTooltip(self)
+    local tooltip = GameTooltip
+    tooltip:SetOwner(self, "ANCHOR_NONE");
+    tooltip:ClearLines()
+    tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
+    tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
+    tooltip:AddLine(" ")
+    local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
+    tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
+    tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
+    tooltip:Show()
 end
 
 QuestieWorldMapButtonMixin = {
