@@ -255,7 +255,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         "requiredSpell",
                         "requiredSpecialization",
                         "requiredMaxLevel",
-                        "requiredSkill"
+                        "requiredSkill",
+                        "requiredLevel"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -269,6 +270,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 local requiredSpecialization = queryResult[9]
                 local requiredMaxLevel = queryResult[10]
                 local requiredSkill = queryResult[11]
+                local requiredLevel = queryResult[12]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -288,8 +290,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                -- Required profession not learned
-                elseif (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
+                -- Required profession not learned or skill level not reached
+                elseif requiredSkill and (function()
+                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+                    return not hasProfession or not hasSkillLevel
+                end)() then
                     tinsert(zoneTree[6].children, temp)
                     unobtainableQuestIds[questId] = true
                     unobtainableCounter = unobtainableCounter + 1
@@ -323,6 +328,22 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     end
                 -- Quests which you have outleveled
                 elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Quests which you are too low level for
+                elseif requiredLevel and requiredLevel > playerlevel then
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Event quests where the event is not currently active
+                elseif QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- AQ War Effort quests (one-time world event that has ended for all realms)
+                elseif (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Scourge Invasion quests (one-time world event that has ended for all realms)
+                elseif QuestieQuestBlacklist.ScourgeInvasionQuests[questId] then
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
