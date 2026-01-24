@@ -164,6 +164,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [2797] = "Corazón de Mokk",
 [2798] = "Mena de Rethban",
 [2799] = "Colmillo de gorila",
+[2806] = "Paquete para Pico Tormenta",
 [2828] = "Restos de Nissa",
 [2829] = "Restos de Gregor",
 [2830] = "Restos de Thurman",
