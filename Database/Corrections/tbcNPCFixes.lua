@@ -278,6 +278,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {936,5927,6385,8359,63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {6384,8359,63448,63767,65284,65561,93823},
         },
+        [7009] = { -- Arantir
+            [npcKeys.questStarts] = {2358},
+        },
         [7315] = { -- Darnath Bladesinger
             [npcKeys.questStarts] = {1698,8417},
         },
