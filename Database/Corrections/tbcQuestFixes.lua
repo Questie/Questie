@@ -325,6 +325,10 @@ function QuestieTBCQuestFixes:Load()
         [2299] = { -- To Hulfdan!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2358] = { -- Horns of Nez'ra
+            [questKeys.name] = "Horns of Nez'ra",
+            [questKeys.startedBy] = {{7009}},
+        },
         [2381] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
