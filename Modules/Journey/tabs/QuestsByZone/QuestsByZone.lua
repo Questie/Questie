@@ -37,18 +37,26 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
     questId = tonumber(questId)
     local questExists = false
     local currentSelection
+    local foundSavedCategory = false
 
     for _, category in ipairs(zoneTree) do
         if category.children then
             for _, quest in ipairs(category.children) do
                 if quest.value and quest.value == questId then
                     questExists = true
-                    currentSelection = category.value .. "\001" .. questId
-                    break
+                    local selection = category.value .. "\001" .. questId
+                    if category.value == sel then
+                        currentSelection = selection
+                        foundSavedCategory = true
+                        break
+                    end
+                    if not currentSelection then
+                        currentSelection = selection
+                    end
                 end
             end
         end
-        if questExists then break end
+        if foundSavedCategory then break end
     end
 
     if questExists and currentSelection then
@@ -340,10 +348,6 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     unobtainableCounter = unobtainableCounter + 1
                 -- AQ War Effort quests (one-time world event that has ended for all realms)
                 elseif (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Scourge Invasion quests (one-time world event that has ended for all realms)
-                elseif QuestieQuestBlacklist.ScourgeInvasionQuests[questId] then
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
