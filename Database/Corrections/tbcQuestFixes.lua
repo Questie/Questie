@@ -1400,7 +1400,7 @@ function QuestieTBCQuestFixes:Load()
         [9492] = { -- Turning the Tide
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
-        [9492] = { -- Pride of the Fel Horde
+        [9493] = { -- Pride of the Fel Horde
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9494] = { -- Fel Embers
