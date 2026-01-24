@@ -1397,8 +1397,21 @@ function QuestieTBCQuestFixes:Load()
         [9491] = {
             [questKeys.preQuestSingle] = {},
         },
-        [9494] = {
+        [9492] = { -- Turning the Tide
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [9492] = { -- Pride of the Fel Horde
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [9494] = { -- Fel Embers
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Gather a Fel Ember using Grand Warlock's Amulet"), 0, {{"object", 181679}}}},
+        },
+        [9495] = { -- The Will of the Warchief
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [9496] = { -- Pride of the Fel Horde
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9498] = {
             [questKeys.preQuestSingle] = {10123},
@@ -1439,6 +1452,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9523] = {
             [questKeys.preQuestSingle] = {9506,9512},
+        },
+        [9524] = { -- Imprisoned in the Citadel
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [9525] = { -- Imprisoned in the Citadel
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9527] = { -- All That Remains
             [questKeys.preQuestSingle] = {},
@@ -1488,10 +1507,14 @@ function QuestieTBCQuestFixes:Load()
         [9570] = { -- The Kurken is Lurkin'
             [questKeys.preQuestSingle] = {9565,9573},
         },
+        [9572] = { -- Weaken the Ramparts
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
         [9573] = {
             [questKeys.preQuestSingle] = {9560,9562},
         },
-        [9575] = {
+        [9575] = { -- Weaken the Ramparts
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9576] = {
@@ -1505,6 +1528,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9588] = {
             [questKeys.startedBy] = {nil,nil,{23892}},
+        },
+        [9589] = { -- The Blood is Life
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+        },
+        [9590] = { -- The Blood is Life
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9591] = {
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {[zoneIDs.AZUREMYST_ISLE]={{20.29,64.87},{22.04,72.29},{20.57,68.9}}}},
@@ -1527,10 +1556,12 @@ function QuestieTBCQuestFixes:Load()
         [9601] = {
             [questKeys.startedBy] = {{16681,20406},nil,nil},
         },
-        [9607] = {
+        [9607] = { -- Heart of Rage
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
-        [9608] = {
+        [9608] = { -- Heart of Rage
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
         [9616] = {
@@ -2067,6 +2098,21 @@ function QuestieTBCQuestFixes:Load()
         [10085] = {
             [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [10091] = { -- The Soul Devices
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [10094] = { -- The Codex of Blood
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [10095] = { -- Into the Heart of the Labyrinth
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [10097] = { -- Brother Against Brother
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [10098] = { -- Terokk's Legacy
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
@@ -2122,6 +2168,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10172] = {
             [questKeys.objectives] = {{{18141,"Speak to Greatmother Geyah",Questie.ICON_TYPE_TALK}}},
+        },
+        [10177] = { -- Trouble at Auchindoun
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
+        [10178] = { -- Find Spy To'gun
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
         },
         [10182] = {
             [questKeys.objectives] = {nil,{{183269,"Put Dathric's Spirit to Rest"}}},
@@ -5503,10 +5555,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.BREWFEST,
         },
         [12513] = {
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.exclusiveTo] = {12515},
             [questKeys.requiredRaces] = raceIDs.GNOME + raceIDs.HUMAN + raceIDs.DWARF,
         },
         [12515] = {
+            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.exclusiveTo] = {12513},
             [questKeys.startedBy] = {{28126},nil},
             [questKeys.finishedBy] = {{28126},nil},

@@ -1382,7 +1382,7 @@ function QuestieQuestBlacklist:Load()
         [8443] = Expansions.Current >= Expansions.Tbc,
 
         -- Phase 4 Zul'Aman
-        --[11196] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----

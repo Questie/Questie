@@ -14,6 +14,9 @@ function QuestieWotlkObjectFixes:Load()
         [269] = { -- Guarded Thunder Ale Barrel
             [objectKeys.questStarts] = {403},
         },
+        [140911] = { -- Spool of Light Chartreuse Silk Thread
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{50.58,60.14}}},
+        },
         [141980] = { -- Spectral Lockbox
             [objectKeys.questEnds] = {2701},
         },
