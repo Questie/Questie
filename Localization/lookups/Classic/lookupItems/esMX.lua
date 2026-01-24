@@ -56,6 +56,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [1221] = "Escama de vientre de cría",
 [1252] = "Nota de la abuela Pedregosa",
 [1256] = "Hoja de alga de cristal",
+[1257] = "Licor de invisibilidad",
 [1260] = "Cabeza de Tharil'zun",
 [1261] = "Orbe de medianoche",
 [1262] = "Barril de cerveza Cebatruenos",
