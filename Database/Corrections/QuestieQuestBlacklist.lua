@@ -7129,39 +7129,6 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [10501] = true,
 }
 
-QuestieQuestBlacklist.ScourgeInvasionQuests = {
-    -- Classic Phase 6 Invasion quests
-    [9085] = true, -- Shadows of Doom
-    [9094] = true, -- Argent Dawn Gloves
-    [9153] = true, -- Under the Shadow
-    [9154] = true, -- Light's Hope Chapel
-    [9260] = true, -- Investigate the Scourge of Stormwind
-    [9261] = true, -- Investigate the Scourge of Ironforge
-    [9262] = true, -- Investigate the Scourge of Darnassus
-    [9263] = true, -- Investigate the Scourge of Orgrimmar
-    [9264] = true, -- Investigate the Scourge of Thunder Bluff
-    [9265] = true, -- Investigate the Scourge of the Undercity
-    [9292] = true, -- Cracked Necrotic Crystal
-    [9295] = true, -- Letter from the Front
-    [9299] = true, -- Note from the Front
-    [9300] = true, -- Page from the Front
-    [9301] = true, -- Envelope from the Front
-    [9302] = true, -- Missive from the Front
-    [9304] = true, -- Document from the Front
-    [9310] = true, -- Faint Necrotic Crystal
-    [9317] = true, -- Consecrated Sharpening Stones
-    [9318] = true, -- Blessed Wizard Oil
-    [9320] = true, -- Major Mana Potion
-    [9321] = true, -- Major Healing Potion
-    [9333] = true, -- Argent Dawn Gloves
-    [9334] = true, -- Blessed Wizard Oil
-    [9335] = true, -- Consecrated Sharpening Stones
-    [9336] = true, -- Major Healing Potion
-    [9337] = true, -- Major Mana Potion
-    [9341] = true, -- Tabard of the Argent Dawn
-    [9343] = true, -- Tabard of the Argent Dawn
-}
-
 function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     return {
         --! 1.11.1

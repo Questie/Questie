@@ -80,12 +80,17 @@ _CreateContinentDropdown = function()
         list[id] = name
     end
     local order = { "ALL_QUESTS", "_SEPARATOR" }
-    local sortedContinents = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.continents)
-    for _, key in ipairs(sortedContinents) do
+    -- Sort by numeric key (questCategoryKeys order) instead of alphabetically
+    local sortedKeys = {}
+    for id in pairs(QuestieJourney.continents) do
+        table.insert(sortedKeys, id)
+    end
+    table.sort(sortedKeys)
+    for _, key in ipairs(sortedKeys) do
         table.insert(order, key)
     end
     dropdown:SetList(list, order)
-    dropdown:SetText(l10n('Select Continent'))
+    dropdown:SetText(l10n('All Quests'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
     local currentContinentId = QuestiePlayer:GetCurrentContinentId()
