@@ -80,12 +80,13 @@ function _QuestieTooltips:AddItemDataToTooltip()
 
         if (not checkedQuestStartItems[itemId]) then
             checkedQuestStartItems[itemId] = true
-            ---@type number
             local itemIdAsNumber = tonumber(itemId)
-            local startQuestId = QuestieDB.QueryItemSingle(itemIdAsNumber, "startQuest")
-            local itemName = QuestieDB.QueryItemSingle(itemIdAsNumber, "name")
-            if startQuestId and startQuestId ~= 0 and itemName then
-                QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_"..itemId)
+            if itemIdAsNumber then
+                local startQuestId = QuestieDB.QueryItemSingle(itemIdAsNumber, "startQuest")
+                local itemName = QuestieDB.QueryItemSingle(itemIdAsNumber, "name")
+                if startQuestId and startQuestId ~= 0 and itemName then
+                    QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_"..itemId)
+                end
             end
         end
 
