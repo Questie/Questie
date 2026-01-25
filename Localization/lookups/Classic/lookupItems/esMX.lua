@@ -169,6 +169,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [2829] = "Restos de Gregor",
 [2830] = "Restos de Thurman",
 [2831] = "Restos de Devlin",
+[2832] = "Receta del estofado de los Páramos de Poniente de Verna",
 [2833] = "El libro de hechizos del Exánime",
 [2834] = "Icor embalsamante",
 [2837] = "Carta de Thurman",
