@@ -170,8 +170,6 @@ local questsByZoneLocales = {
         ["zhCN"] = "前置任务",
         ["zhTW"] = "前置任務",
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
     ["Breadcrumb Quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Brotkrumen-Quests",
@@ -183,11 +181,8 @@ local questsByZoneLocales = {
         ["ruRU"] = "Предзадания",
         ["zhCN"] = "线索任务",
         ["zhTW"] = "任務線索",
-=======
-    ["All Zones"] = {
-=======
+    },
     ["All Quests"] = {
->>>>>>> dc86b85c0 (Update QuestsByZone.lua)
         ["enUS"] = true,
         ["deDE"] = "Alle Quests",
         ["esES"] = "Todas las misiones",
@@ -198,43 +193,6 @@ local questsByZoneLocales = {
         ["ruRU"] = "Все задания",
         ["zhCN"] = "所有任务",
         ["zhTW"] = "所有任務",
-    },
-    ["Breadcrumb Quests"] = {
-        ["enUS"] = true,
-<<<<<<< HEAD
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["Select Zone Option"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
->>>>>>> 0b9c41c07 ([feature] Add new dropdown to see all quests in all zones)
-=======
-        ["deDE"] = "Brotkrumen-Quests",
-        ["esES"] = "Misiones de rastro",
-        ["esMX"] = "Misiones de migajas",
-        ["frFR"] = "Quêtes préliminaires",
-        ["koKR"] = "길잡이 퀘스트",
-        ["ptBR"] = "Missões de encaminhamento",
-        ["ruRU"] = "Предзадания",
-        ["zhCN"] = "线索任务",
-        ["zhTW"] = "任務線索",
->>>>>>> 03f988fe8 (Fix dropdown menus and remove zone scoping)
     },
 }
 
