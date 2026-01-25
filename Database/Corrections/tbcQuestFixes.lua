@@ -187,6 +187,12 @@ function QuestieTBCQuestFixes:Load()
         [1049] = { -- Not available to UNDEAD
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL + raceIDs.BLOOD_ELF,
         },
+        [1090] = { -- Gerenzo's Orders
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1092] = { -- Gerenzo's Orders
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [1103] = {
             [questKeys.preQuestSingle] = {100},
             [questKeys.parentQuest] = 0,
