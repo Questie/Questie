@@ -392,18 +392,17 @@ function QuestieMenu:Show(hideDelay)
         QuestieJourney:ToggleJourneyWindow()
     end})
 
-    if Questie.db.profile.debugEnabled then
-        tinsert(menuTable, { text= l10n('Quests by Zone'), func=function()
-            QuestieOptions:HideFrame();
-            QuestieJourney.tabGroup:SelectTab("zone");
-            QuestieJourney:ToggleJourneyWindow()
-        end})
-        tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
-            QuestieOptions:HideFrame();
-            QuestieJourney.tabGroup:SelectTab("faction");
-            QuestieJourney:ToggleJourneyWindow()
-        end})
-    end
+    tinsert(menuTable, { text= l10n('Quests by Zone'), func=function()
+        QuestieOptions:HideFrame();
+        QuestieJourney.tabGroup:SelectTab("zone");
+        QuestieJourney:ToggleJourneyWindow()
+    end})
+
+    tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
+        QuestieOptions:HideFrame();
+        QuestieJourney.tabGroup:SelectTab("faction");
+        QuestieJourney:ToggleJourneyWindow()
+    end})
 
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
         QuestieCombatQueue:Queue(function()
