@@ -84,9 +84,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5261}, -- #1726
         },
-        [36] = {
-            [questKeys.nextQuestInChain] = 0,
-        },
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
