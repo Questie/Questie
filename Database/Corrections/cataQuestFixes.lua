@@ -570,6 +570,13 @@ function CataQuestFixes.Load()
         [6324] = { -- Return to Morris
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [6341] = { -- The Bounty of Teldrassil
+            [questKeys.preQuestSingle] = {6344},
+            [questKeys.breadcrumbs] = {},
+        },
+        [6344] = { -- Nessa Shadowsong
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
         [6362] = { -- Ride to Thunder Bluff
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },

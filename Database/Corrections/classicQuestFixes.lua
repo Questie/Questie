@@ -2893,6 +2893,13 @@ function QuestieQuestFixes:Load()
         [6187] = {
             [questKeys.objectivesText] = {"Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.","","Keep your wits about you, <Name>. The Horde will defend the ranger lord with their very lives."},
         },
+        [6341] = { -- The Bounty of Teldrassil
+            [questKeys.breadcrumbs] = {6344},
+            [questKeys.preQuestSingle] = {},
+        },
+        [6344] = { -- Nessa Shadowsong
+            [questKeys.breadcrumbForQuestId] = 6341,
+        },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
             [questKeys.breadcrumbForQuestId] = 6383,
