@@ -162,6 +162,9 @@ local migrationFunctions = {
 
         Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
         Questie.db.profile.hideTrackerInInstances = previousHideInInstances
+        
+        Questie.db.profile.minimizeTrackerInDungeons = nil
+        Questie.db.profile.hideTrackerInDungeons = nil
     end
 }
 
