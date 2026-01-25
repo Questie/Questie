@@ -2768,7 +2768,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {6071,6072,6073,6721,6722},
         },
         [6064] = {
-            [questKeys.objectives] = {{{1126, nil}}},
+            [questKeys.objectives] = {{{1126,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
             [questKeys.breadcrumbs] = {6074,6075,6076},
@@ -2838,12 +2838,12 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [6084] = {
-            [questKeys.objectives] = {{{1201, nil}}},
+            [questKeys.objectives] = {{{1201,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
         [6085] = {
-            [questKeys.objectives] = {{{1196, nil}}},
+            [questKeys.objectives] = {{{1196,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
