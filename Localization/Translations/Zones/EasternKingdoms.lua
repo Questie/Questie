@@ -566,6 +566,18 @@ local easternKingdomsLocales = {
         ["zhCN"] = "达拉然巨坑",
         ["zhTW"] = "達拉然陷坑",
     },
+    ["Kharanos"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = "카라노스",
+        ["ptBR"] = true,
+        ["ruRU"] = "Каранос",
+        ["zhCN"] = "卡拉诺斯",
+        ["zhTW"] = "卡拉諾斯",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do

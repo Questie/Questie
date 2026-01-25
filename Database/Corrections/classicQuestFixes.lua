@@ -3011,11 +3011,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5116},nil,nil},
             [questKeys.exclusiveTo] = {6071,6072,6073,6722},
             [questKeys.breadcrumbForQuestId] = 6063,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [6722] = {
             [questKeys.startedBy] = {{1231},nil,nil},
             [questKeys.exclusiveTo] = {6071,6072,6073,6721},
             [questKeys.breadcrumbForQuestId] = 6063,
+            [questKeys.zoneOrSort] = zoneIDs.KHARANOS,
         },
         [6762] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,6761},
