@@ -124,9 +124,12 @@ function Townsfolk.Initialize()
         ["Innkeeper"] = townsfolkData["Innkeeper"].data,
         ["Barber"] = QuestieDB.npcFlags.BARBER and townsfolkData["Barber"].data or nil,
         ["Arcane Reforger"] = QuestieDB.npcFlags.ARCANE_REFORGER and townsfolkData["Arcane Reforger"].data or nil,
-        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil,
-        ["Weapon Master"] = {}, -- populated below
+        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil
     }
+
+    if Expansions.Current <= Expansions.Wotlk then
+        townfolk["Weapon Master"] = {} -- populated below
+    end
 
     ---@type table<ProfessionEnum, NpcId[]>
     local professionTrainers = {
