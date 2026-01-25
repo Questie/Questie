@@ -930,7 +930,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1698,1718,8417},
         },
         [5116] = { -- Olmin Burningbeard
-            [npcKeys.questStarts] = {6721,8151},
+            [npcKeys.questStarts] = {6074,6721,8151},
         },
         [5117] = { -- Regnus Thundergranite
             [npcKeys.questStarts] = {},
@@ -1002,9 +1002,6 @@ function QuestieNPCFixes:Load()
         },
         [5515] = { -- Einris Brightspear
             [npcKeys.questStarts] = {6073,6076},
-        },
-        [5516] = { -- Ulfir Ironbeard
-            [npcKeys.questStarts] = {6074,8151},
         },
         [5543] = { -- Clarice Foster
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{27.2,24.4}}},
