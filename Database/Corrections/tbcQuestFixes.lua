@@ -1385,7 +1385,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17226,"Carinda's Scroll of Retribution used",Questie.ICON_TYPE_INTERACT}}},
         },
         [9484] = {
-            [questKeys.breadcrumbs] = {9617,10530}, -- check if 10529 need to be added
+            [questKeys.breadcrumbs] = {9617,10530},
             [questKeys.objectives] = {{{15650,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9485] = {
@@ -1542,13 +1542,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9591] = {
-            [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {[zoneIDs.AZUREMYST_ISLE]={{20.29,64.87},{22.04,72.29},{20.57,68.9}}}},
+            [questKeys.objectives] = {{{17217,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9592] = {
-            [questKeys.triggerEnd] = {"Tame a Greater Timberstrider", {[zoneIDs.AZUREMYST_ISLE]={{36.46,35.49},{35.16,30.99},{40.27,37.65},{40.25,32.31}}}},
+            [questKeys.objectives] = {{{17374,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9593] = {
-            [questKeys.triggerEnd] = {"Tame a Nightstalker", {[zoneIDs.AZUREMYST_ISLE]={{36.41,40.24},{35.82,37.14}}}},
+            [questKeys.objectives] = {{{17203,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9594] = {
             [questKeys.startedBy] = {nil,nil,{23900}},

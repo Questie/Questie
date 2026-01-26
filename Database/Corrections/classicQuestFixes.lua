@@ -2757,13 +2757,13 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the bomb!"), 0, {{"object", 177668}}}},
         },
         [6061] = {
-            [questKeys.objectives] = {{{2956, nil}}},
+            [questKeys.objectives] = {{{2956,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
             [questKeys.breadcrumbs] = {6065,6066,6067},
         },
         [6062] = {
-            [questKeys.objectives] = {{{3099, nil}}},
+            [questKeys.objectives] = {{{3099,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
             [questKeys.breadcrumbs] = {6068,6069,6070},
@@ -2835,12 +2835,12 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 6064,
         },
         [6082] = {
-            [questKeys.objectives] = {{{3126, nil}}},
+            [questKeys.objectives] = {{{3126,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
         [6083] = {
-            [questKeys.objectives] = {{{3107, nil}}},
+            [questKeys.objectives] = {{{3107,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
@@ -2855,12 +2855,12 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [6087] = {
-            [questKeys.objectives] = {{{2959, nil}}},
+            [questKeys.objectives] = {{{2959,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
         [6088] = {
-            [questKeys.objectives] = {{{2970, nil}}},
+            [questKeys.objectives] = {{{2970,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
