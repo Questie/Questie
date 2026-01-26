@@ -199,7 +199,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
+                if (nextQuestInChain ~= 0 and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 -- The parent quest has been completed
