@@ -1677,6 +1677,9 @@ function QuestieQuestFixes:Load()
         [3321] = {
             [questKeys.objectives] = {{{7804,"Watch Trenton Work"}}},
         },
+        [3364] = {
+            [questKeys.nextQuestInChain] = 3365,
+        },
         [3367] = {
             [questKeys.triggerEnd] = {"Dorius Escort", {[zoneIDs.SEARING_GORGE]={{74.47,19.44}}}},
         },
