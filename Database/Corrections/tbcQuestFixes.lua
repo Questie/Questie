@@ -1542,6 +1542,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9591] = {
+            [questKeys.breadcrumbs] = {9757},
             [questKeys.objectives] = {{{17217,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9592] = {
@@ -1728,6 +1729,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9757] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
+            [questKeys.breadcrumbForQuestId] = 9591,
         },
         [9759] = {
             [questKeys.preQuestSingle] = {9756},
