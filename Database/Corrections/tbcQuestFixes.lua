@@ -1621,6 +1621,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
+        [9648] = { -- Mac'Aree Mushroom Menagerie
+            [questKeys.name] = "Maatparm Mushroom Menagerie",
+        },
         [9663] = {
             [questKeys.objectives] = {{{17440,"High Chief Stillpine Warned",Questie.ICON_TYPE_TALK},{17116,"Exarch Menelaous Warned",Questie.ICON_TYPE_TALK},{17240,"Admiral Odesyus Warned",Questie.ICON_TYPE_TALK}}},
         },
