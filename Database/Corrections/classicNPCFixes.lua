@@ -548,7 +548,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [3407] = { -- Sian'dur
-            [npcKeys.questStarts] = {6068},
+            [npcKeys.questStarts] = {6066,6068},
         },
         [3450] = { -- Defias Companion
             [npcKeys.zoneID] = zoneIDs.THE_DEADMINES,

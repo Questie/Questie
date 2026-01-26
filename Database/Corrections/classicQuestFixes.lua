@@ -2785,6 +2785,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 6061,
         },
         [6066] = {
+            [questKeys.startedBy] = {{3407}},
             [questKeys.exclusiveTo] = {6065,6067},
             [questKeys.breadcrumbForQuestId] = 6061,
         },

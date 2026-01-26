@@ -28,7 +28,6 @@ function QuestieQuestBlacklist:Load()
         [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
-        [6066] = true, -- Not in the game - #1957
         [4601] = true, -- Duplicate of 2951
         [4602] = true, -- Duplicate of 2951
         [4603] = true, -- Duplicate of 2953
@@ -4183,6 +4182,7 @@ function QuestieQuestBlacklist:Load()
         [6063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
