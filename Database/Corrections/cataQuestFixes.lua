@@ -1952,9 +1952,6 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{19935}},
             [questKeys.specialFlags] = 1,
         },
-        [11129] = { -- Kyle's Gone Missing!
-            [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
-        },
         [11131] = { -- Stop the Fires!
             [questKeys.exclusiveTo] = {12135},
             [questKeys.preQuestSingle] = {11360,11439,11440},

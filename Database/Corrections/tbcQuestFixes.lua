@@ -3652,6 +3652,9 @@ function QuestieTBCQuestFixes:Load()
         [11123] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11129] = { -- Kyle's Gone Missing!
+            [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [11131] = {
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.requiredSourceItems] = {32971},
