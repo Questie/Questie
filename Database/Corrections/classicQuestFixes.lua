@@ -2426,6 +2426,9 @@ function QuestieQuestFixes:Load()
         [5421] = {
             [questKeys.questLevel] = 25,
         },
+        [5441] = { -- Lazy Peons
+            [questKeys.objectives] = {{{10556,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [5503] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.startedBy] = {{10839},nil,nil},
