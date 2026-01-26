@@ -485,7 +485,7 @@ function QuestieNPCFixes:Load()
         },
         [3140] = { -- Lar Prowltusk
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{54.2,73.2},{54.4,74.2},{54.4,75},{54,76.2},{54.4,75},{54.4,74.2},{54.2,73.2}}}},
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.4,75}}},
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.44,74.35}}},
         },
         [3154] = { -- Jen'shan
             [npcKeys.questStarts] = {},
