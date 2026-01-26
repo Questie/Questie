@@ -303,6 +303,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [10540] = { -- Vol'jin
             [npcKeys.questStarts] = {1361},
+            [npcKeys.waypoints] = {},
         },
         [10837] = { -- High Executor Derrington
             [npcKeys.questEnds] = {105,5093,5094,5095,5096,5098,5238,5511,10374},
