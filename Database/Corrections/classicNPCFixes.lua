@@ -468,6 +468,9 @@ function QuestieNPCFixes:Load()
         [3060] = { -- Gart Mistrunner
             [npcKeys.questStarts] = {},
         },
+        [3061] = { -- Lanka Farshot
+            [npcKeys.questStarts] = {},
+        },
         [3064] = { -- Gennia Runetotem
             [npcKeys.questStarts] = {5928},
         },
