@@ -2755,6 +2755,9 @@ function QuestieTBCQuestFixes:Load()
         [10646] = {
             [questKeys.objectives] = {{{18417,"Illidan's Pupil"}}},
         },
+        [10649] = { -- The Book of Fel Names
+            [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+        },
         [10652] = {
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",20162}}}},
         },
