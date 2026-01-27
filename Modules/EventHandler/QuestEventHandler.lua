@@ -50,7 +50,6 @@ local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
     QUEST_REMOVED = "QUEST_REMOVED",
-    QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 
 local questLog = {}
@@ -370,7 +369,6 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
-        questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestLogCache.RemoveQuest(questId)
         QuestieQuest:SetObjectivesDirty(questId)
