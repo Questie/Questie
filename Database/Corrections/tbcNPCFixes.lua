@@ -784,6 +784,9 @@ function QuestieTBCNpcFixes:Load()
         [17612] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{31.8,25.4},{34.0,25.4},{34.4,22.8},{34.0,20.8},{34.6,17.6},{34.2,14.6},{35.2,12.6},{35.6,11.6}}},
         },
+        [17663] = { -- Maatparm
+            [npcKeys.name] = "Maatparm",
+        },
         [17767] = {
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HYJAL_SUMMIT,

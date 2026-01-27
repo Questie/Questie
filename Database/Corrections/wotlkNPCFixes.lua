@@ -400,9 +400,6 @@ function QuestieWotlkNpcFixes:Load()
         [17219] = { -- Sulaa
             [npcKeys.questStarts] = {9462,9500,9551,14111},
         },
-        [17663] = {
-            [npcKeys.name] = "Maatparm",
-        },
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},
         },
