@@ -109,7 +109,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
         [3407] = { -- Sian'dur
-            [npcKeys.questStarts] = {6068,9617},
+            [npcKeys.questStarts] = {6066,6068,9617},
         },
         [3516] = { -- Arch Druid Fandral Staghelm
             [npcKeys.questStarts] = {952,3764,3781,6761},
