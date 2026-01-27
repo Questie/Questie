@@ -578,6 +578,18 @@ local easternKingdomsLocales = {
         ["zhCN"] = "卡拉诺斯",
         ["zhTW"] = "卡拉諾斯",
     },
+    ["Northshire Valley"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Nordhaintal",
+        ["esES"] = "Valle de Villanorte",
+        ["esMX"] = "Valle de Villanorte",
+        ["frFR"] = "Vallée de Comté-du-Nord",
+        ["koKR"] = "북녘골 계곡",
+        ["ptBR"] = "Vale de Vila Norte",
+        ["ruRU"] = "Долина Североземья",
+        ["zhCN"] = "北郡山谷",
+        ["zhTW"] = "北郡山谷",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do
