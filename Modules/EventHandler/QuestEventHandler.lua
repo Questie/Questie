@@ -468,6 +468,11 @@ function QuestEventHandler.UnitQuestLogChanged(unitTarget)
     skipNextUQLCEvent = false
 end
 
+--- This is for debugging of #6734
+function QuestEventHandler.GetQuestLogStates()
+    return questLog
+end
+
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
 ---@param doRetryWithoutChanges boolean @If true, the function will be called again at next QUEST_LOG_UPDATE even if there were no changes

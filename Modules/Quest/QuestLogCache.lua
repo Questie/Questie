@@ -7,6 +7,10 @@ local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type Sounds
 local Sounds = QuestieLoader:ImportModule("Sounds")
+---@type QuestEventHandler
+local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
@@ -317,6 +321,31 @@ function QuestLogCache.GetQuest(questId)
     return cache[questId]
 end
 
+--- This is for debugging of #6734
+function QuestLogCache.PrintQuestLogStates()
+    -- Concat the questLogStates to the debug output to help debugging of #6734
+    local cacheStr = "QuestLogCache: "
+    for qId, _ in pairs(cache) do
+        cacheStr = cacheStr .. qId .. ", "
+    end
+
+    local questLogStates = QuestEventHandler.GetQuestLogStates()
+    local questLogStatesStr = "QuestEventHandler: "
+    for qId, entry in pairs(questLogStates) do
+        questLogStatesStr = questLogStatesStr .. qId .. "=" .. tostring(entry.state) .. " / "
+    end
+
+    local currentQuestLog = QuestiePlayer.currentQuestlog
+    local currentQuestLogStr = "CurrentQuestLog: "
+    for qId, _ in pairs(currentQuestLog) do
+        currentQuestLogStr = currentQuestLogStr .. qId .. ", "
+    end
+
+    Questie:Error(cacheStr)
+    Questie:Error(questLogStatesStr)
+    Questie:Error(currentQuestLogStr)
+end
+
 --- A wrapper function to add error check instead using exposed table directly.
 ---@param questId QuestId
 ---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>? @NEVER EVER MODIFY THE RETURNED TABLE
@@ -325,6 +354,7 @@ function QuestLogCache.GetQuestObjectives(questId)
     if (not cache[questId]) then
         Questie:Print(debugstack(1, 20, 4))
         Questie:Error("Please report this error. GetQuestObjectives: The quest doesn't exist in QuestLogCache.", questId)
+        QuestLogCache.PrintQuestLogStates()
         return
     end
     return cache[questId].objectives
