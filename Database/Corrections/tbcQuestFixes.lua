@@ -193,6 +193,9 @@ function QuestieTBCQuestFixes:Load()
         [1092] = { -- Gerenzo's Orders
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [1093] = { -- Super Reaper 6000
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [1103] = {
             [questKeys.preQuestSingle] = {100},
             [questKeys.parentQuest] = 0,
