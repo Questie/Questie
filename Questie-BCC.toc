@@ -117,6 +117,10 @@ Database\Corrections\tbcNPCFixes.lua
 Database\Corrections\tbcItemFixes.lua
 Database\Corrections\tbcObjectFixes.lua
 
+# Item Drops
+Database\DropTables\dropDB.lua
+Database\DropTables\data\tbcItemDrops.lua
+
 # Compiler
 Database\compiler.lua
 
