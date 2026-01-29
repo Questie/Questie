@@ -445,19 +445,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end
                     },
-                    minimizeInDungeons = {
+                    minimizeInInstances = {
                         type = "toggle",
                         order = 2,
                         width = 1.5,
-                        name = function() return l10n("Minimize In Dungeons") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon.") end,
+                        name = function() return l10n("Minimize In Instances") end,
+                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon, raid, or battleground.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.minimizeTrackerInDungeons end,
+                        get = function() return Questie.db.profile.minimizeTrackerInInstances end,
                         set = function(_, value)
-                            Questie.db.profile.minimizeTrackerInDungeons = value
+                            Questie.db.profile.minimizeTrackerInInstances = value
                             -- Disable the hide option when minimize is enabled
                             if value then
-                                Questie.db.profile.hideTrackerInDungeons = false
+                                Questie.db.profile.hideTrackerInInstances = false
                             end
                             if value and IsInInstance() then
                                 QuestieTracker:Collapse()
@@ -482,18 +482,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                             toggleTrackerVisibility(value, InCombatLockdown)
                         end
                     },
-                    hideInDungeons = {
+                    hideInInstances = {
                         type = "toggle",
                         order = 4,
                         width = 1.5,
-                        name = function() return l10n("Hide In Dungeons") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon.") end,
+                        name = function() return l10n("Hide In Instances") end,
+                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon, raid, or battleground.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.hideTrackerInDungeons end,
+                        get = function() return Questie.db.profile.hideTrackerInInstances end,
                         set = function(_, value)
-                            Questie.db.profile.hideTrackerInDungeons = value
+                            Questie.db.profile.hideTrackerInInstances = value
                             if value then
-                                Questie.db.profile.minimizeTrackerInDungeons = false
+                                Questie.db.profile.minimizeTrackerInInstances = false
                             end
                             toggleTrackerVisibility(value, IsInInstance)
                         end
