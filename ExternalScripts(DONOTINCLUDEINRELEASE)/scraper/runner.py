@@ -21,7 +21,9 @@ BASE_SETTINGS = {
     "LOG_LEVEL": "INFO",
     "FEED_EXPORT_ENCODING": "utf-8",
     "FEED_FORMAT": "json",
-    "CONCURRENT_REQUESTS": 32,
+    "CONCURRENT_REQUESTS": 1,
+    "DOWNLOAD_DELAY": 1,
+    "RANDOMIZE_DOWNLOAD_DELAY": True,
     "COOKIES_ENABLED": False,
     "USER_AGENT": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
 }
