@@ -41,9 +41,6 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [81] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        },
         [100] = {
             [questKeys.childQuests] = {},
         },
@@ -114,9 +111,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 15,
         },
         [748] = {
-            [questKeys.requiredRaces] = raceIDs.TAUREN,
-        },
-        [751] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
         [756] = {
@@ -416,9 +410,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
-        },
-        [3506] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [3631] = {
             [questKeys.startedBy] = {{3326}},
