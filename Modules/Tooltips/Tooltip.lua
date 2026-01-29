@@ -307,17 +307,24 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     else
                         local dropRateText = ""
-                        local dropRate = QuestieDB.GetItemDroprate(objectiveId, npcId)
-                        if dropRate and Questie.db.profile.enableTooltipDroprates then
-                            if dropRate >= 10 then
-                                dropRateText = " |cFF999999(" .. string.format("%.0f", dropRate) .. "%)|r";
-                            elseif dropRate >= 2 then
-                                dropRateText = " |cFF999999(" .. string.format("%.1f", dropRate) .. "%)|r";
-                            elseif dropRate >= 0.01 then
-                                dropRateText = " |cFF999999(" .. string.format("%.2f", dropRate) .. "%)|r";
+                        local dropIcon = ""
+                        local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                        if dropRateData and dropRateData[2] == "cmangos" then
+                            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                        elseif dropRateData and dropRateData[2] == "wowhead" then
+                            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                        end
+                        if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
+                            if dropRateData[1] >= 10 then
+                                dropRateText = string.format("%.0f", dropRateData[1])
+                            elseif dropRateData[1] >= 2 then
+                                dropRateText = string.format("%.1f", dropRateData[1])
+                            elseif dropRateData[1] >= 0.01 then
+                                dropRateText = string.format("%.2f", dropRateData[1])
                             else
-                                dropRateText = " |cFF999999(" .. string.format("%.3f", dropRate) .. "%)|r";
+                                dropRateText = string.format("%.3f", dropRateData[1])
                             end
+                            dropRateText = "  |cFF999999" .. dropIcon .. dropRateText .. "%|r";
                         end
                         if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
@@ -359,7 +366,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    local dropIndex = string.find(objectiveInfo.text, " |cFF999999%(")
+                    local dropIndex = string.find(objectiveInfo.text, "  |cFF999999")
                     local playerString = " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
                     if dropIndex then
                         objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
