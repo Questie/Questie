@@ -246,6 +246,9 @@ function QuestieWotlkQuestFixes:Load()
         [4491] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [4740] = { -- WANTED: Murkdeep!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [4763] = {
             [questKeys.objectives] = {nil,nil,{{12355}}},
         },
