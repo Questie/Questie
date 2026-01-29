@@ -284,7 +284,7 @@ function QuestieSlash.HandleCommands(input)
                 for x=1,table.getn(obj[3]) do -- then for each objective
                     if obj[3][x] then -- If x objective is an itemObjective
                         local item = obj[3][x][1] -- then write down the item ID from that itemObjective
-                        if item ~= nil and contains(data,item) == false then -- If there was an item ID and it isn't on our list
+                        if item ~= nil and tContains(data,item) == false then -- If there was an item ID and it isn't on our list
                             table.insert(data,item) -- add it to the list
                         end
                     end
@@ -293,7 +293,9 @@ function QuestieSlash.HandleCommands(input)
             local sourceItems = QuestieDB.QueryQuestSingle(i, "requiredSourceItems")
             if sourceItems then
                 for x=1,table.getn(sourceItems) do
-                    table.insert(data,sourceItems[x]) -- do the same for requiredSourceItems
+                    if tContains(data,sourceItems[x]) == false then
+                        table.insert(data,sourceItems[x]) -- do the same for requiredSourceItems
+                    end
                 end
             end
         end
