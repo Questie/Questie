@@ -350,7 +350,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o rastreador será minimizado automaticamente ao entrar em uma masmorra, raide ou campo de batalha.",
         ["ruRU"] = "Когда включено, трекер будет автоматически свернут при входе в подземелье, рейд или на поле боя",
         ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动最小化。",
-        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，追蹤器將自動最小化。",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動最小化。",
     },
     ---------------------------------------------------------
     ["Hide In Combat"] = {
@@ -424,8 +424,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 펫 배틀을 시작할 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se ativado, o rastreador será automaticamente ocultado ao entrar em uma batalha de mascotes.",
         ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрываться при входе в битву питомцев",
-        ["zhCN"] = "启用时，进入宠物对战时 Questie 追踪器会自动隐藏。",
-        ["zhTW"] = "啟用時，進入寵物對戰時，Questie 追蹤器會自動隱藏。",
+        ["zhCN"] = "启用时，进入宠物对战时，追踪器会自动隐藏。",
+        ["zhTW"] = "啟用時，進入寵物對戰時，追蹤器會自動隱藏。",
     },
     ---------------------------------------------------------
     ["Fade Min/Max Buttons"] = {
