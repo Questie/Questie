@@ -1664,6 +1664,7 @@ function QuestieQuestBlacklist:Load()
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
         [93975] = Expansions.Current >= Expansions.Wotlk, -- Ragnaros Must Die!
+        [94577] = Expansions.Current >= Expansions.Wotlk, -- Kael'thas Must Die!
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)

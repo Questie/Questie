@@ -7851,6 +7851,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [94577] = {
+            [questKeys.name] = "Kael'thas Must Die!",
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Kill Kael'thas Sunstrider in Tempest Keep."},
+            [questKeys.objectives] = {{{19622}}},
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
     }
 end
 
