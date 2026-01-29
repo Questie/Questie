@@ -425,7 +425,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o rastreador será automaticamente ocultado ao entrar em uma batalha de mascotes.",
         ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрываться при входе в битву питомцев",
         ["zhCN"] = "启用时，进入宠物对战时，追踪器会自动隐藏。",
-        ["zhTW"] = "啟用時，進入寵物對戰時，追蹤器會自動隱藏。",
+        ["zhTW"] = "啟用時，進入寵物對戰時，任務清單會自動隱藏。",
     },
     ---------------------------------------------------------
     ["Fade Min/Max Buttons"] = {
