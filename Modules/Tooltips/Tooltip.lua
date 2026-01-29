@@ -309,10 +309,14 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         local dropRateText = ""
                         local dropIcon = ""
                         local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
-                        if dropRateData and dropRateData[2] == "cmangos" then
-                            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
-                        elseif dropRateData and dropRateData[2] == "wowhead" then
-                            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                        if Questie.db.profile.debugEnabled and dropRateData then
+                            if dropRateData[2] == "cmangos" then
+                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                            elseif dropRateData[2] == "trinity" then
+                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\trinity.png:12|t "
+                            elseif dropRateData[2] == "wowhead" then
+                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                            end
                         end
                         if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
                             if dropRateData[1] >= 10 then
