@@ -514,6 +514,9 @@ function QuestieWotlkQuestFixes:Load()
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
+        [9582] = { -- Strength of One
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [9644] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Nightbane"), 0, {{"object", 194092}}}},
         },
