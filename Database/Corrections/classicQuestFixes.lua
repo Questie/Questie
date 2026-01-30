@@ -777,6 +777,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE, -- horde CAN get this quest
         },
         [1200] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1198},
         },
         [1204] = {
