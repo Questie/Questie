@@ -738,6 +738,9 @@ function QuestieQuestFixes:Load()
         [1123] = {
             [questKeys.preQuestSingle] = {1000, 1004, 1018},
         },
+        [1126] = {
+            [questKeys.requiredSourceItems] = {17345},
+        },
         [1127] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #884
             [questKeys.parentQuest] = 1119, -- #1084
