@@ -3719,6 +3719,10 @@ function QuestieTBCQuestFixes:Load()
         [11198] = {
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
         },
+        [11203] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {11200,11201},
+        },
         [11208] = {
             [questKeys.exclusiveTo] = {11158},
         },
