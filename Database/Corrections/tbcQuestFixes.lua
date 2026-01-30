@@ -1556,6 +1556,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17542,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9601] = {
+            [questKeys.requiredLevel] = 50,
             [questKeys.startedBy] = {{16681,20406},nil,nil},
         },
         [9607] = { -- Heart of Rage
