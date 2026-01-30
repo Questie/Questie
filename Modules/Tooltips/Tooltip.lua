@@ -316,6 +316,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                                 dropIcon = "|TInterface\\Addons\\Questie\\Icons\\trinity.png:12|t "
                             elseif dropRateData[2] == "wowhead" then
                                 dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                            elseif dropRateData[2] == "questie" then
+                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie.png:12|t "
                             end
                         end
                         if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
