@@ -119,7 +119,7 @@ local genericsLocales = {
         ["koKR"] = "수동",
         ["ptBR"] = true,
         ["ruRU"] = "Вручную",
-        ["zhCN"] = "手动的",
+        ["zhCN"] = "手动",
         ["zhTW"] = "手動",
     },
     ["Enabled"] = {
