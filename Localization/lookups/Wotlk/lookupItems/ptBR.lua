@@ -36748,4 +36748,5 @@ l10n.itemLookup["ptBR"] = loadstring([[return {
 [54811] = "Corcel Celestial",
 [54847] = "XTzinho",
 [54860] = "Foguete de Passeio X-53",
+[190307] = "Tocha Apagada",
 }]])

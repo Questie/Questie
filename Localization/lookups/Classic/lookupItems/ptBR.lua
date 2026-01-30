@@ -1675,4 +1675,5 @@ l10n.itemLookup["ptBR"] = loadstring([[return {
 [22734] = "Base de Atiesh",
 [22892] = "Pedra Necrótica Opaca",
 [23250] = "Concha Prismática",
+[190307] = "Tocha Apagada",
 }]])

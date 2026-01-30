@@ -211,7 +211,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {308,403},
         },
         [315] = {
-            [questKeys.nextQuestInChain] = 415,
+            [questKeys.nextQuestInChain] = 413,
         },
         [349] = {
             [questKeys.objectivesText] = {},
@@ -1184,10 +1184,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
         },
         [1716] = {
-            [questKeys.breadcrumbs] = {1717},
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0,
         },
         [1717] = {
-            [questKeys.breadcrumbForQuestId] = 1716,
+            [questKeys.exclusiveTo] = {1716},
+            [questKeys.nextQuestInChain] = 0,
         },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
@@ -5172,6 +5174,8 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{6122},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 65603,
+            [questKeys.preQuestSingle] = {1716},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},

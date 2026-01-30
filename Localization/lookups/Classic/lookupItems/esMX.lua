@@ -2272,4 +2272,5 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [23183] = "Llama de Forjaz",
 [23184] = "Llama de Darnassus",
 [23250] = "Concha centelleante",
+[190307] = "Antorcha apagada",
 }]])
