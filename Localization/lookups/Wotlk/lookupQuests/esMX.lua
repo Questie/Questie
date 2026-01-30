@@ -9298,6 +9298,7 @@ l10n.questLookup["esMX"] = loadstring([[return {
 [65561] = {"Tabardo de las llamas", nil, nil},
 [65562] = {"Tabardo de las llamas", nil, nil},
 [65593] = {"Corazón de los amantes", nil, {"Lleva el corazón de Avelina Lilly e Isaac Pearson a Carendin Halgar en el Templo de los Condenados."}},
+[65597] = {"La atadura", nil, {"Usa el corazón de los amantes, invoca y somete a un íncubo, y después devuélvele los corazones a Carendin Halgar, que está en el Barrio de la Magia de Entrañas."}},
 [65601] = {"El amor duele", nil, {"Habla con Magar en Orgrimmar."}},
 [65602] = {"¿Qué es el amor?", nil, {"Recupera la figurilla de madera y llévasela a Gakin el Presotenebra en el Barrio de los Magos de Ventormenta."}},
 [65603] = {"El sometimiento", nil, {"Usa la figurilla de madera para invocar y someter a un íncubo. Después, llévasela de regreso a Gakin el Presotenebra en El Cordero Degollado."}},

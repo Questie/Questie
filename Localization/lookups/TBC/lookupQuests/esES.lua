@@ -6539,4 +6539,11 @@ l10n.questLookup["esES"] = loadstring([[return {
 [64063] = {"El Portal Oscuro",nil, {"Busca al Señor de la Guerra Dar'toon en Las Tierras Devastadas. Espera tu llegada frente al Portal Oscuro."}},
 [64064] = {"Las Tierras de la Peste del Este",nil, {"Viaja a las Tierras de la Peste del Este y busca a Leonid Barthalomew. Te está esperando en la Capilla de la Esperanza de la Luz."}},
 [64217] = {"El Portal Oscuro",nil, {"Busca al Señor de la Guerra Dar'toon en Las Tierras Devastadas. Espera tu llegada frente al Portal Oscuro."}},
+[65593] = {"Los corazones de los amantes", nil, {"Llévale los corazones de Avelina Lilly e Isaac Pearson a Carendin Halgar, que está en el Templo de los Condenados."}},
+[65597] = {"El vínculo", nil, {"Utilizando los corazones de los amantes, invoca y domina a un íncubo, y después devuélvele los corazones de amantes a Carendin Halgar, que está en el Barrio de la Magia de Entrañas."}},
+[65601] = {"El amor duele", nil, {"Habla con Magar en Orgrimmar."}},
+[65602] = {"¿Qué es el amor?", nil, {"Recupera la figurilla de madera y llévasela a Gakin el Presotenebra en el Barrio de los Magos de Ventormenta."}},
+[65603] = {"El vínculo", nil, {"Utilizando la figurilla de madera, invoca y somete a un íncubo. Después devuelve la figurilla de madera a Gakin el Presotenebra en El Cordero Degollado."}},
+[65604] = {"El vínculo", nil, {"Usa el pañuelo deshilachado para invocar y dominar a un íncubo y después lleva el pañuelo a Gan'rul Ojosangre en Orgrimmar."}},
+[65610] = {"Ojalá estuvieras aquí", nil, {"Investiga el Lago Cielo Estrellado de Vallefresno e informa de tus hallazgos a Gan'rul Ojosangre, que está en Orgrimmar."}},
 }]])

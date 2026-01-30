@@ -6538,4 +6538,11 @@ l10n.questLookup["ptBR"] = loadstring([[return {
 [64053] = {"Talento é para quem tem",nil, {"Ative a interface de Talentos e atribua 5 Pontos de Talento."}},
 [64063] = {"Portal Negro",nil, {"Fale com o Senhor da Guerra Dar'tun na Barreira do Inferno. Ele aguarda você junto ao Portal Negro."}},
 [64064] = {"Terras Pestilentas Orientais",nil, {"Vá até as Terras Pestilentas Orientais e fale com Leonid Bartolomeu. Ele aguarda sua chegada na Capela Esperança da Luz."}},
+[65593] = {"Corações dos amantes", nil, {"Leve os corações de Avelina Lily e Isaac Pessoa para Silvério Hidalgo no Templo dos Malditos."}},
+[65597] = {"A vinculação", nil, {"Usando os Corações dos Amantes, evoque e subjugue um íncubo. Depois, devolva os Corações dos Amantes para Silvério Hidalgo no Distrito da Magia na Cidade Baixa."}},
+[65601] = {"O amor machuca", nil, {"Fale com Magar em Orgrimmar."}},
+[65602] = {"Amar é...", nil, {"Obtenha a Estatueta de Madeira e leve para Gakin, o Neromante, no Distrito dos Magos de Ventobravo."}},
+[65603] = {"A vinculação", nil, {"Usando a Estatueta de Madeira, evoque e subjugue um íncubo. Depois, devolva a Estatueta de Madeira para Gakin, o Neromante, no Cordeiro Imolado."}},
+[65604] = {"A vinculação", nil, {"Usando o Lenço Fenecido, evoque e subjugue um íncubo. Depois, devolva o Lenço Fenecido para Gan'rul Olho de Sangue em Orgrimmar."}},
+[65610] = {"A esperança é a última que morre", nil, {"Investigue o Lago Céu Caído, que fica no Vale Gris, e relate suas descobertas a Gan'rul Olho de Sangue em Orgrimmar."}},
 }]])

@@ -9297,6 +9297,7 @@ l10n.questLookup["deDE"] = loadstring([[return {
 [65561] = {"Wappenrock der Flamme", nil, nil},
 [65562] = {"Wappenrock der Flamme", nil, nil},
 [65593] = {"Herzen der Liebenden", nil, {"Bringt die Herzen von Avelina Lilly und Isaac Pearson zu Carendin Halgar im Tempel der Verdammten."}},
+[65597] = {"Die Bindung", nil, {"Beschwört mit den Herzen der Liebenden einen Inkubus, unterwerft ihn und bringt die Herzen der Liebenden dann zu Carendin Halgar im Magieviertel von Unterstadt zurück."}},
 [65601] = {"Liebe kann schmerzhaft sein", nil, {"Sprecht mit Magar in Orgrimmar."}},
 [65602] = {"Alles aus Liebe", nil, {"Beschafft die Holzstatuette und bringt sie zu Gakin dem Dunkelbinder im Magierviertel von Sturmwind."}},
 [65603] = {"Die Bindung", nil, {"Beschwört mit Hilfe der Holzstatuette einen Inkubus, unterwerft ihn und bringt dann die Holzstatuette zu Gakin dem Dunkelbinder im geschlachteten Lamm zurück."}},

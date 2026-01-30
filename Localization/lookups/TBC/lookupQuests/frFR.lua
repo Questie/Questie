@@ -6536,4 +6536,11 @@ l10n.questLookup["frFR"] = loadstring([[return {
 [64052] = {"Quel talent !",nil, {"Activez l’interface des Talents et dépensez 5 Points de talent."}},
 [64063] = {"La Porte des ténèbres",nil, {"Trouvez le Seigneur de guerre Dar’toon dans les terres Foudroyées. Il attend votre arrivée près de la Porte des ténèbres."}},
 [64064] = {"Maleterres de l’Est",nil, {"Rendez-vous dans les Maleterres de l’Est et trouvez Leonid Barthalomew. Il vous attend à la Chapelle de l’Espoir de Lumière."}},
+[65593] = {"Les cœurs des amoureux", nil, {"Apportez les Cœurs d’Avelina Lilly et d’Isaac Pearson à Carendin Halgar dans le Temple des Damnés."}},
+[65597] = {"Le lien", nil, {"Utilisez les Coeurs des amoureux pour invoquer et soumettre un incube, puis rapportez les Coeurs des amoureux à Carendin Halgar, dans le Quartier de la magie à Fossoyeuse."}},
+[65601] = {"Les affres de l’amour", nil, {"Parlez à Magar, à Orgrimmar."}},
+[65602] = {"Qu’est-ce que l’amour ?", nil, {"Récupérez la Figurine en bois et rapportez-la à Gakin le Tisse-noir, au Quartier des mages de Hurlevent."}},
+[65603] = {"Le lien", nil, {"Utilisez la Figurine en bois pour invoquer et asservir un incube, puis rapportez l’objet à Gakin le Tisse-noir à l’Agneau assassiné."}},
+[65604] = {"Le lien", nil, {"Utilisez l’Écharpe flétrie pour invoquer et asservir un Incube, puis rapportez-la à Gan’rul Œil-sanglant, à Orgrimmar."}},
+[65610] = {"Comme tu me manques", nil, {"Explorez le Lac Tombeciel en Orneval et rendez compte de vos découvertes à Gan’rul Œil-sanglant, à Orgrimmar."}},
 }]])
