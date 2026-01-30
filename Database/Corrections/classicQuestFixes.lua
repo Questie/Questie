@@ -2961,6 +2961,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1826
             [questKeys.breadcrumbs] = {6562},
         },
+        [6564] = {
+            [questKeys.preQuestSingle] = {6562},
+        },
         [6566] = {
             [questKeys.triggerEnd] = {"Thrall's Tale", {[zoneIDs.ORGRIMMAR]={{31.78,37.81}}}},
         },
