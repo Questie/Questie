@@ -2317,6 +2317,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5093,5094,5095},
         },
+        [5098] = {
+            [questKeys.objectives] = {{{10902,"Tower One marked",Questie.ICON_TYPE_EVENT},{10903,"Tower Two marked",Questie.ICON_TYPE_EVENT},{10904,"Tower Three marked",Questie.ICON_TYPE_EVENT},{10905,"Tower Four marked",Questie.ICON_TYPE_EVENT}}},
+        },
         [5103] = {
             [questKeys.requiredLevel] = 55,
             [questKeys.requiredSourceItems] = {12812},
