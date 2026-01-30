@@ -982,9 +982,9 @@ local generalOptionsLocales = {
         ["frFR"] = true,
         ["koKR"] = "저그저그",
         ["ptBR"] = true,
-        ["ruRU"] = "Зуг Зуг",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["ruRU"] = "Заг-заг",
+        ["zhCN"] = true,
+        ["zhTW"] = true,
     },
     ["Objective Complete"] = {
         ["enUS"] = true,
